@@ -2,47 +2,80 @@ import 'package:get/get.dart';
 
 import 'package:chat/app/modules/home/bindings/home_binding.dart';
 import 'package:chat/app/modules/home/views/home_view.dart';
+import 'package:chat/app/modules/main/bindings/main_binding.dart';
+import 'package:chat/app/modules/main/views/main_view.dart';
 import 'package:chat/app/modules/message/bindings/message_binding.dart';
 import 'package:chat/app/modules/message/views/message_view.dart';
 import 'package:chat/app/modules/notfound/bindings/notfound_binding.dart';
 import 'package:chat/app/modules/notfound/views/notfound_view.dart';
+import 'package:chat/app/modules/post/bindings/post_binding.dart';
+import 'package:chat/app/modules/post/views/post_view.dart';
+import 'package:chat/app/modules/root/bindings/root_binding.dart';
+import 'package:chat/app/modules/root/views/root_view.dart';
 import 'package:chat/app/modules/splash/bindings/splash_binding.dart';
 import 'package:chat/app/modules/splash/views/splash_view.dart';
-import 'package:chat/app/modules/start/bindings/start_binding.dart';
-import 'package:chat/app/modules/start/views/start_view.dart';
+import 'package:chat/app/modules/test1/bindings/test1_binding.dart';
+import 'package:chat/app/modules/test1/views/test1_view.dart';
+import 'package:chat/app/modules/test2/bindings/test2_binding.dart';
+import 'package:chat/app/modules/test2/views/test2_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.START;
+  static const INITIAL = Routes.MAIN;
   static const UNKNOWN_PAGE = Routes.NOTFOUND;
   static final routes = [
     GetPage(
-      name: _Paths.START,
-      page: () => StartView(),
-      binding: StartBinding(),
-    ),
-    GetPage(
-      name: _Paths.HOME,
-      page: () => HomeView(),
-      binding: HomeBinding(),
-    ),
-    GetPage(
-      name: _Paths.SPLASH,
-      page: () => SplashView(),
-      binding: SplashBinding(),
-    ),
-    GetPage(
-      name: _Paths.NOTFOUND,
-      page: () => NotfoundView(),
-      binding: NotfoundBinding(),
-    ),
-    GetPage(
-      name: _Paths.MESSAGE,
-      page: () => MessageView(),
-      binding: MessageBinding(),
-    ),
+        name: _Paths.ROOT,
+        participatesInRootNavigator: true,
+        preventDuplicates: true,
+        page: () => RootView(),
+        binding: RootBinding(),
+        children: [
+          GetPage(
+            name: _Paths.NOTFOUND,
+            page: () => NotfoundView(),
+            binding: NotfoundBinding(),
+          ),
+          GetPage(
+              name: _Paths.MAIN,
+              preventDuplicates: true,
+              page: () => MainView(),
+              binding: MainBinding(),
+              children: [
+                GetPage(
+                  name: _Paths.HOME,
+                  page: () => HomeView(),
+                  binding: HomeBinding(),
+                ),
+                GetPage(
+                  name: _Paths.POST,
+                  page: () => PostView(),
+                  binding: PostBinding(),
+                ),
+                GetPage(
+                  name: _Paths.MESSAGE,
+                  page: () => MessageView(),
+                  binding: MessageBinding(),
+                ),
+              ]),
+          GetPage(
+            name: _Paths.SPLASH,
+            page: () => SplashView(),
+            binding: SplashBinding(),
+          ),
+          GetPage(
+            name: _Paths.TEST1,
+            page: () => Test1View(),
+            binding: Test1Binding(),
+          ),
+          GetPage(
+            name: _Paths.TEST2,
+            page: () => Test2View(),
+            binding: Test2Binding(),
+          ),
+        ]),
   ];
 }

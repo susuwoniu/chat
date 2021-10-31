@@ -5,8 +5,16 @@ A new Flutter project.
 ## Resources
 
 - [GetX](https://github.com/jonataslaw/getx)
+- [GetCli](https://github.com/jonataslaw/get_cli)
 - [Bilibili教程](https://space.bilibili.com/404904528/channel/detail?cid=177514&ctype=0)
 
+## Tips
+
+### Create Page Module
+
+```bash
+get create page:home
+```
 ## Getting Started
 
 This project is a starting point for a Flutter application.

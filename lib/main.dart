@@ -12,15 +12,14 @@ import "global.dart";
 Future<void> main() async {
   await Global.init();
   runApp(
-    GetMaterialApp(
+    GetMaterialApp.router(
       title: "Application",
-      initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       enableLog: true,
       builder: EasyLoading.init(),
-      unknownRoute: AppPages.routes[0],
+      unknownRoute: AppPages.routes[0].children[0],
       translations: TranslationService(),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
