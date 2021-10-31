@@ -1,4 +1,4 @@
-.Phony: start deps json
+.Phony: start deps json get
 
 start:
 	flutter run
@@ -9,3 +9,5 @@ deps:
 
 json:
 	flutter pub run build_runner build 
+get: 
+    flutter pub get
