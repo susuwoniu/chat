@@ -8,6 +8,7 @@ abstract class Routes {
   static const START = _Paths.START;
   static const SPLASH = _Paths.SPLASH;
   static const NOTFOUND = _Paths.NOTFOUND;
+  static const MESSAGE = _Paths.MESSAGE;
 }
 
 abstract class _Paths {
@@ -15,4 +16,5 @@ abstract class _Paths {
   static const START = '/';
   static const SPLASH = '/splash';
   static const NOTFOUND = '/notfound';
+  static const MESSAGE = '/message';
 }

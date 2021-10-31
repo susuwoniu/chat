@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import 'package:chat/app/modules/home/bindings/home_binding.dart';
 import 'package:chat/app/modules/home/views/home_view.dart';
+import 'package:chat/app/modules/message/bindings/message_binding.dart';
+import 'package:chat/app/modules/message/views/message_view.dart';
 import 'package:chat/app/modules/notfound/bindings/notfound_binding.dart';
 import 'package:chat/app/modules/notfound/views/notfound_view.dart';
 import 'package:chat/app/modules/splash/bindings/splash_binding.dart';
@@ -36,6 +38,11 @@ class AppPages {
       name: _Paths.NOTFOUND,
       page: () => NotfoundView(),
       binding: NotfoundBinding(),
+    ),
+    GetPage(
+      name: _Paths.MESSAGE,
+      page: () => MessageView(),
+      binding: MessageBinding(),
     ),
   ];
 }
