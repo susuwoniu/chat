@@ -2,19 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:tiktoklikescroller/tiktoklikescroller.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class HomeView extends GetView<HomeController> {
-  final List<Color> _colors = <Color>[
-    Colors.red,
-    Colors.yellow,
-    Colors.green,
-    Colors.orange,
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: TikTokStyleFullPageScroller(
-        contentSize: _colors.length,
+        contentSize: controller.postIndexes.length,
         swipePositionThreshold: 0.2,
         // ^ the fraction of the screen needed to scroll
         swipeVelocityThreshold: 2000,
@@ -25,7 +20,8 @@ class HomeView extends GetView<HomeController> {
         // ^ registering our own function to listen to page changes
         builder: (BuildContext context, int index) {
           return Container(
-            color: _colors[index],
+            color: HexColor(controller
+                .postMap[controller.postIndexes[index]]!.backgroundColor),
             padding: EdgeInsets.fromLTRB(20, 80, 0, 0),
             alignment: Alignment.topLeft,
             child: Column(
@@ -70,6 +66,9 @@ class HomeView extends GetView<HomeController> {
   }
 
   void _handleCallbackEvent(ScrollEventType type, {int? currentIndex}) {
+    if (currentIndex != null && currentIndex > 0) {
+      controller.setIndex(currentIndex);
+    }
     print(
         "Scroll callback received with data: {type: $type, and index: ${currentIndex ?? 'not given'}}");
   }

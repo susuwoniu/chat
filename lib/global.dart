@@ -1,3 +1,4 @@
+import 'package:chat/app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:chat/app/services/services.dart';
@@ -16,8 +17,8 @@ class Global {
     Loading();
 
     await Get.putAsync<StorageService>(() => StorageService().init());
-
     Get.put<ConfigStore>(ConfigStore());
+    Get.put<AuthService>(AuthService());
   }
 
   static void setSystemUi() {

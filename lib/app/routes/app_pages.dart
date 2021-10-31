@@ -18,7 +18,8 @@ import 'package:chat/app/modules/test1/bindings/test1_binding.dart';
 import 'package:chat/app/modules/test1/views/test1_view.dart';
 import 'package:chat/app/modules/test2/bindings/test2_binding.dart';
 import 'package:chat/app/modules/test2/views/test2_view.dart';
-
+import 'package:chat/app/modules/login/bindings/login_binding.dart';
+import 'package:chat/app/modules/login/views/login_view.dart';
 part 'app_routes.dart';
 
 class AppPages {
@@ -38,6 +39,11 @@ class AppPages {
             name: _Paths.NOTFOUND,
             page: () => NotfoundView(),
             binding: NotfoundBinding(),
+          ),
+          GetPage(
+            name: _Paths.LOGIN,
+            page: () => LoginView(),
+            binding: LoginBinding(),
           ),
           GetPage(
               name: _Paths.MAIN,

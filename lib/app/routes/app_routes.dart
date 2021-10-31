@@ -10,10 +10,13 @@ abstract class Routes {
 
   static const MAIN = _Paths.MAIN;
   static const HOME = _Paths.MAIN + _Paths.HOME;
-  static const MESSAGE = _Paths.MAIN + _Paths.MESSAGE;
   static const POST = _Paths.MAIN + _Paths.POST;
+  static const MESSAGE = _Paths.MAIN + _Paths.MESSAGE;
   static const TEST1 = _Paths.TEST1;
   static const TEST2 = _Paths.TEST2;
+  static const LOGIN = _Paths.LOGIN;
+  static String LOGIN_THEN(String afterSuccessfulLogin) =>
+      '$_Paths.LOGIN?then=${Uri.encodeQueryComponent(afterSuccessfulLogin)}';
 }
 
 abstract class _Paths {
@@ -21,11 +24,12 @@ abstract class _Paths {
   static const START = '/start';
   static const SPLASH = '/splash';
   static const NOTFOUND = '/notfound';
+  static const HOME = '/home';
 
   static const MAIN = '/app';
-  static const HOME = '/home';
   static const POST = '/post';
   static const MESSAGE = '/message';
   static const TEST1 = '/test1';
   static const TEST2 = '/test2';
+  static const LOGIN = "/login";
 }
