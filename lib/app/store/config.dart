@@ -16,11 +16,20 @@ class ConfigStore extends GetxController {
     Locale('en', 'US'),
     Locale('zh', 'CN'),
   ];
+  final nightMode = false.obs;
 
   @override
   void onInit() {
     super.onInit();
     isFirstOpen = StorageService.to.getBool(STORAGE_DEVICE_FIRST_OPEN_KEY);
+    nightMode.value = StorageService.to.getBool(NIGHT_MODE_KEY);
+  }
+
+  toggleNightMode(bool value) {
+    nightMode.value = value;
+    Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
+
+    StorageService.to.setBool(NIGHT_MODE_KEY, nightMode.value);
   }
 
   Future<void> getPlatform() async {

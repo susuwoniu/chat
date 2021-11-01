@@ -15,6 +15,7 @@ A new Flutter project.
 - [Bilibili教程](https://space.bilibili.com/404904528/channel/detail?cid=177514&ctype=0)
 - [Dart JSON and serialization](https://flutter.dev/docs/development/data-and-backend/json#code-generation)
 - [Colors](https://coolors.co/palettes/trending)
+- [Flutter Theme Generator Online](https://zeshuaro.github.io/flutter_theme/#/)
 ## Tips
 
 ### 创建页面

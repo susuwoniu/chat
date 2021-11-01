@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import 'package:chat/app/modules/home/bindings/home_binding.dart';
 import 'package:chat/app/modules/home/views/home_view.dart';
+import 'package:chat/app/modules/login/bindings/login_binding.dart';
+import 'package:chat/app/modules/login/views/login_view.dart';
 import 'package:chat/app/modules/main/bindings/main_binding.dart';
 import 'package:chat/app/modules/main/views/main_view.dart';
 import 'package:chat/app/modules/message/bindings/message_binding.dart';
@@ -10,16 +12,19 @@ import 'package:chat/app/modules/notfound/bindings/notfound_binding.dart';
 import 'package:chat/app/modules/notfound/views/notfound_view.dart';
 import 'package:chat/app/modules/post/bindings/post_binding.dart';
 import 'package:chat/app/modules/post/views/post_view.dart';
+import 'package:chat/app/modules/room/bindings/room_binding.dart';
+import 'package:chat/app/modules/room/views/room_view.dart';
 import 'package:chat/app/modules/root/bindings/root_binding.dart';
 import 'package:chat/app/modules/root/views/root_view.dart';
+import 'package:chat/app/modules/setting/bindings/setting_binding.dart';
+import 'package:chat/app/modules/setting/views/setting_view.dart';
 import 'package:chat/app/modules/splash/bindings/splash_binding.dart';
 import 'package:chat/app/modules/splash/views/splash_view.dart';
 import 'package:chat/app/modules/test1/bindings/test1_binding.dart';
 import 'package:chat/app/modules/test1/views/test1_view.dart';
 import 'package:chat/app/modules/test2/bindings/test2_binding.dart';
 import 'package:chat/app/modules/test2/views/test2_view.dart';
-import 'package:chat/app/modules/login/bindings/login_binding.dart';
-import 'package:chat/app/modules/login/views/login_view.dart';
+
 part 'app_routes.dart';
 
 class AppPages {
@@ -71,6 +76,16 @@ class AppPages {
             name: _Paths.SPLASH,
             page: () => SplashView(),
             binding: SplashBinding(),
+          ),
+          GetPage(
+            name: _Paths.SETTING,
+            page: () => SettingView(),
+            binding: SettingBinding(),
+          ),
+          GetPage(
+            name: _Paths.ROOM,
+            page: () => RoomView(),
+            binding: RoomBinding(),
           ),
           GetPage(
             name: _Paths.TEST1,

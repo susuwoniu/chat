@@ -45,6 +45,24 @@ class DrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
+            title: Text('Settings'),
+            onTap: () {
+              Get.rootDelegate.toNamed(Routes.SETTING);
+              //to close the drawer
+
+              Navigator.of(context).pop();
+            },
+          ),
+             ListTile(
+            title: Text('Room'),
+            onTap: () {
+              Get.rootDelegate.toNamed(Routes.ROOM);
+              //to close the drawer
+
+              Navigator.of(context).pop();
+            },
+          ),
+          ListTile(
             title: Text('splash'),
             onTap: () {
               Get.rootDelegate.toNamed(Routes.SPLASH);

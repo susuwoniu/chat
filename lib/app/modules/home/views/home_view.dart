@@ -3,12 +3,12 @@ import 'package:tiktoklikescroller/tiktoklikescroller.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:chat/app/routes/app_pages.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: TikTokStyleFullPageScroller(
         contentSize: controller.postIndexes.length,
         swipePositionThreshold: 0.2,
@@ -20,58 +20,44 @@ class HomeView extends GetView<HomeController> {
         onScrollEvent: _handleCallbackEvent,
         // ^ registering our own function to listen to page changes
         builder: (BuildContext context, int index) {
-
           return Container(
             color: HexColor(controller
                 .postMap[controller.postIndexes[index]]!.backgroundColor),
             padding: EdgeInsets.fromLTRB(20, 30, 0, 0),
             alignment: Alignment.topLeft,
-
             child: GestureDetector(
                 onTap: () async {
                   print("tap");
-                  var result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ChatRoute(
-                          text: "开始聊天吧～",
-                        );
-                      },
-                    ),
-                  );
+                  Get.rootDelegate.toNamed(Routes.ROOM);
                 },
-
-                child:Column(
+                child: Column(
                   children: <Widget>[
                     Padding(
-                       child:Text(
-                        '$index'*50,
+                      child: Text(
+                        '$index' * 50,
                         key: Key('$index-text'),
-                        style: const TextStyle(fontSize: 48, color: Colors.white),
+                        style:
+                            const TextStyle(fontSize: 48, color: Colors.white),
                         textAlign: TextAlign.left,
                       ),
-                     padding: const EdgeInsets.only(right:10.0),
-
+                      padding: const EdgeInsets.only(right: 10.0),
                     ),
-                    Padding (padding: const EdgeInsets.only(bottom:10.0)),
+                    Padding(padding: const EdgeInsets.only(bottom: 10.0)),
                     Row(children: [
-                  TextButton(
-                    onPressed: () async {
-
-                    },
-                    child: CircleAvatar( radius: 30),
-                  ),
-                  Padding(padding:const EdgeInsets.only(right: 8.0)),
-                  Text(
-                    '$index',
-                    key: Key('$index-text'),
-                    style: const TextStyle(fontSize: 26, color: Colors.white),
-                  ),
-                ]),
-              ],
-            )
-          ),
+                      TextButton(
+                        onPressed: () async {},
+                        child: CircleAvatar(radius: 30),
+                      ),
+                      Padding(padding: const EdgeInsets.only(right: 8.0)),
+                      Text(
+                        '$index',
+                        key: Key('$index-text'),
+                        style:
+                            const TextStyle(fontSize: 26, color: Colors.white),
+                      ),
+                    ]),
+                  ],
+                )),
           );
         },
       ),
@@ -86,7 +72,6 @@ class HomeView extends GetView<HomeController> {
         "Scroll callback received with data: {type: $type, and index: ${currentIndex ?? 'not given'}}");
   }
 }
-
 
 class ChatRoute extends StatelessWidget {
   final String text;

@@ -17,6 +17,8 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static String LOGIN_THEN(String afterSuccessfulLogin) =>
       '$_Paths.LOGIN?then=${Uri.encodeQueryComponent(afterSuccessfulLogin)}';
+  static const SETTING = _Paths.SETTING;
+  static const ROOM = _Paths.ROOM;
 }
 
 abstract class _Paths {
@@ -32,4 +34,6 @@ abstract class _Paths {
   static const TEST1 = '/test1';
   static const TEST2 = '/test2';
   static const LOGIN = "/login";
+  static const SETTING = '/setting';
+  static const ROOM = '/room';
 }
