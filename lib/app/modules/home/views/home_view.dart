@@ -25,63 +25,75 @@ class HomeView extends GetView<HomeController> {
         // ^ registering our own function to listen to page changes
         builder: (BuildContext context, int index) {
           return Container(
-            color: HexColor(controller
-                .postMap[controller.postIndexes[index]]!.backgroundColor),
-            alignment: Alignment.topLeft,
-            child: GestureDetector(
+              color: HexColor(controller
+                  .postMap[controller.postIndexes[index]]!.backgroundColor),
+              alignment: Alignment.topLeft,
+              child: GestureDetector(
                 onTap: () async {
                   print("tap");
                   Get.rootDelegate.toNamed(Routes.ROOM);
                 },
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      child: Obx(() => Container(
-                          alignment: Alignment.topLeft,
-                          padding: EdgeInsets.fromLTRB(30, 20, 0, 0),
-                          child: Text(
-                            controller.postMap[controller.postIndexes[index]]!
-                                    .content *
-                                100,
-                            key: Key('$index-text'),
-                            textDirection: TextDirection.ltr,
-                            textAlign: TextAlign.left,
-                            style: const TextStyle(
-                                fontSize: 30,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.5,
-                                height: 1.5),
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: true,
-                            maxLines: 8,
-                          ))),
-                      padding: const EdgeInsets.only(right: 25.0),
-                    ),
-                    Padding(padding: const EdgeInsets.only(bottom: 10.0)),
-                    Container(
-                      padding: const EdgeInsets.only(left: 25.0),
-                      child: Row(children: [
-                        TextButton(
-                          onPressed: () async {},
-                          child: CircleAvatar(radius: 30),
+                child: Padding(
+                    padding: const EdgeInsets.only(bottom: 35.0),
+                    child: Stack(
+                      children: <Widget>[
+                        Column(
+                          children: [
+                            Padding(
+                              child: Obx(() => Container(
+                                  alignment: Alignment.topLeft,
+                                  padding: EdgeInsets.fromLTRB(30, 20, 0, 0),
+                                  child: Text(
+                                    controller
+                                            .postMap[
+                                                controller.postIndexes[index]]!
+                                            .content *
+                                        100,
+                                    key: Key('$index-text'),
+                                    textDirection: TextDirection.ltr,
+                                    textAlign: TextAlign.left,
+                                    style: const TextStyle(
+                                        fontSize: 30,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 1.5,
+                                        height: 1.5),
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    maxLines: 8,
+                                  ))),
+                              padding: const EdgeInsets.only(right: 25.0),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.only(bottom: 10.0)),
+                            Container(
+                              padding: const EdgeInsets.only(left: 25.0),
+                              child: Row(children: [
+                                TextButton(
+                                  onPressed: () async {},
+                                  child: CircleAvatar(radius: 30),
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.only(right: 8.0)),
+                                Text(
+                                  '$index',
+                                  key: Key('$index-text'),
+                                  style: const TextStyle(
+                                      fontSize: 26, color: Colors.white),
+                                ),
+                              ]),
+                            ),
+                          ],
                         ),
-                        Padding(padding: const EdgeInsets.only(right: 8.0)),
-                        Text(
-                          '$index',
-                          key: Key('$index-text'),
-                          style: const TextStyle(
-                              fontSize: 26, color: Colors.white),
-                        ),
-                      ]),
-                    ),
-                    Container(
-                        height:60,
-                          width: screenWidth * 0.85,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.white,
-                          ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            height: 60,
+                            width: screenWidth * 0.85,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.white,
+                            ),
                             child: Row(children: [
                               TextButton(
                                 onPressed: () async {},
@@ -96,10 +108,11 @@ class HomeView extends GetView<HomeController> {
                                     fontSize: 24, color: Colors.white),
                               ),
                             ]),
-                    )
-                  ],
-                )),
-          );
+                          ),
+                        )
+                      ],
+                    )),
+              ));
         },
       ),
     );
@@ -164,4 +177,3 @@ class ChatRoute extends StatelessWidget {
 //     );
 //   }
 // }
-
