@@ -8,7 +8,7 @@ class HomeController extends GetxController {
   final postMap = RxMap<String, PostEntity>({
     "1": PostEntity(
       id: "1",
-      content: "你好世界1",
+      content: "djsjljflsdjfl",
       backgroundColor: "#dfd333",
     ),
     "2": PostEntity(
@@ -18,7 +18,7 @@ class HomeController extends GetxController {
     ),
     "3": PostEntity(
       id: "3",
-      content: "你好世界3",
+      content: "djsjljflsdjfl",
       backgroundColor: "#e76f51",
     ),
     "4": PostEntity(
