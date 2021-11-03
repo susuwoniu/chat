@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/post_controller.dart';
-import 'package:chat/app/modules/main/controllers/bottom_navigation_bar_controller.dart';
 
 class PostView extends GetView<PostController> {
   @override

@@ -18,7 +18,7 @@ class Test2View extends GetView<Test2Controller> {
           children: [
             TextButton(
                 onPressed: () {
-                  Get.rootDelegate.toNamed(Routes.TEST3);
+                  Get.toNamed(Routes.TEST3);
                 },
                 child: Text("Test1")),
             Text(

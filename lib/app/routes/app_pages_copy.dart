@@ -27,7 +27,7 @@ import 'package:chat/app/modules/test2/views/test2_view.dart';
 import 'package:chat/app/modules/test3/bindings/test3_binding.dart';
 import 'package:chat/app/modules/test3/views/test3_view.dart';
 
-part 'app_routes.dart';
+part 'app_routes_copy.dart';
 
 class AppPages {
   AppPages._();
@@ -36,74 +36,75 @@ class AppPages {
   static const UNKNOWN_PAGE = Routes.NOTFOUND;
   static final routes = [
     GetPage(
-      name: _Paths.ROOT,
-      // participatesInRootNavigator: true,
-      // preventDuplicates: true,
-      page: () => RootView(),
-      binding: RootBinding(),
-    ),
-    GetPage(
-      name: _Paths.NOTFOUND,
-      page: () => NotfoundView(),
-      binding: NotfoundBinding(),
-    ),
-    GetPage(
-      name: _Paths.LOGIN,
-      page: () => LoginView(),
-      binding: LoginBinding(),
-    ),
-    GetPage(
-        name: _Paths.MAIN,
-        // preventDuplicates: true,
-        page: () => MainView(),
-        binding: MainBinding(),
+        name: _Paths.ROOT,
+        participatesInRootNavigator: true,
+        preventDuplicates: true,
+        page: () => RootView(),
+        binding: RootBinding(),
         children: [
           GetPage(
-            name: _Paths.HOME,
-            page: () => HomeView(),
-            binding: HomeBinding(),
+            name: _Paths.NOTFOUND,
+            page: () => NotfoundView(),
+            binding: NotfoundBinding(),
           ),
           GetPage(
-            name: _Paths.POST,
-            page: () => PostView(),
-            binding: PostBinding(),
+            name: _Paths.LOGIN,
+            page: () => LoginView(),
+            binding: LoginBinding(),
           ),
           GetPage(
-              name: _Paths.MESSAGE,
-              page: () => MessageView(),
-              binding: MessageBinding(),
+              name: _Paths.MAIN,
+              preventDuplicates: true,
+              page: () => MainView(),
+              binding: MainBinding(),
               children: [
                 GetPage(
-                  name: _Paths.TEST1,
-                  page: () => Test1View(),
-                  binding: Test1Binding(),
+                  name: _Paths.HOME,
+                  page: () => HomeView(),
+                  binding: HomeBinding(),
                 ),
+                GetPage(
+                  name: _Paths.POST,
+                  page: () => PostView(),
+                  binding: PostBinding(),
+                ),
+                GetPage(
+                    name: _Paths.MESSAGE,
+                    page: () => MessageView(),
+                    binding: MessageBinding(),
+                    children: [
+                      GetPage(
+                        name: _Paths.TEST1,
+                        page: () => Test1View(),
+                        binding: Test1Binding(),
+                      ),
+                    ]),
               ]),
+          GetPage(
+            name: _Paths.SPLASH,
+            page: () => SplashView(),
+            binding: SplashBinding(),
+          ),
+          GetPage(
+            name: _Paths.SETTING,
+            page: () => SettingView(),
+            binding: SettingBinding(),
+          ),
+          GetPage(
+            name: _Paths.ROOM,
+            page: () => RoomView(),
+            binding: RoomBinding(),
+          ),
+          GetPage(
+            name: _Paths.TEST2,
+            page: () => Test2View(),
+            binding: Test2Binding(),
+          ),
+          GetPage(
+            name: _Paths.TEST3,
+            page: () => Test3View(),
+            binding: Test3Binding(),
+          ),
         ]),
-    GetPage(
-      name: _Paths.SPLASH,
-      page: () => SplashView(),
-      binding: SplashBinding(),
-    ),
-    GetPage(
-      name: _Paths.SETTING,
-      page: () => SettingView(),
-      binding: SettingBinding(),
-    ),
-    GetPage(
-      name: _Paths.ROOM,
-      page: () => RoomView(),
-      binding: RoomBinding(),
-    ),
-    GetPage(
-      name: _Paths.TEST2,
-      page: () => Test2View(),
-      binding: Test2Binding(),
-    ),
-    GetPage(
-      name: _Paths.TEST3,
-      page: () => Test3View(),
-      binding: Test3Binding(),
-    ),
   ];
 }

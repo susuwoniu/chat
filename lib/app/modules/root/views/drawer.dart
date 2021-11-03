@@ -20,7 +20,7 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             title: Text('Home'),
             onTap: () {
-              Get.rootDelegate.toNamed(Routes.HOME);
+              Get.toNamed(Routes.HOME);
               //to close the drawer
 
               Navigator.of(context).pop();
@@ -29,7 +29,7 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             title: Text('Post'),
             onTap: () {
-              Get.rootDelegate.toNamed(Routes.POST);
+              Get.toNamed(Routes.POST);
               //to close the drawer
 
               Navigator.of(context).pop();
@@ -38,7 +38,7 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             title: Text('Message'),
             onTap: () {
-              Get.rootDelegate.toNamed(Routes.MESSAGE);
+              Get.toNamed(Routes.MESSAGE);
               //to close the drawer
 
               Navigator.of(context).pop();
@@ -47,16 +47,16 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             title: Text('Settings'),
             onTap: () {
-              Get.rootDelegate.toNamed(Routes.SETTING);
+              Get.toNamed(Routes.SETTING);
               //to close the drawer
 
               Navigator.of(context).pop();
             },
           ),
-             ListTile(
+          ListTile(
             title: Text('Room'),
             onTap: () {
-              Get.rootDelegate.toNamed(Routes.ROOM);
+              Get.toNamed(Routes.ROOM);
               //to close the drawer
 
               Navigator.of(context).pop();
@@ -65,7 +65,7 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             title: Text('splash'),
             onTap: () {
-              Get.rootDelegate.toNamed(Routes.SPLASH);
+              Get.toNamed(Routes.SPLASH);
               //to close the drawer
 
               Navigator.of(context).pop();
@@ -74,7 +74,7 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             title: Text('Test1'),
             onTap: () {
-              Get.rootDelegate.toNamed(Routes.TEST1);
+              Get.toNamed(Routes.TEST1);
               //to close the drawer
 
               Navigator.of(context).pop();
@@ -83,7 +83,7 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             title: Text('Test2'),
             onTap: () {
-              Get.rootDelegate.toNamed(Routes.TEST2);
+              Get.toNamed(Routes.TEST2);
               //to close the drawer
 
               Navigator.of(context).pop();
@@ -112,7 +112,7 @@ class DrawerWidget extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Get.rootDelegate.toNamed(Routes.LOGIN);
+                Get.toNamed(Routes.LOGIN);
                 //to close the drawer
 
                 Navigator.of(context).pop();

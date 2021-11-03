@@ -31,7 +31,7 @@ class HomeView extends GetView<HomeController> {
               child: GestureDetector(
                 onTap: () async {
                   print("tap");
-                  Get.rootDelegate.toNamed(Routes.ROOM);
+                  Get.toNamed(Routes.ROOM);
                 },
                 child: Padding(
                     padding: const EdgeInsets.only(
@@ -48,7 +48,7 @@ class HomeView extends GetView<HomeController> {
                                     color: IconTheme.of(context).color,
                                   ),
                                   onPressed: () {
-                                    Get.rootDelegate.toNamed(Routes.SETTING);
+                                    Get.toNamed(Routes.SETTING);
                                   },
                                 ),
                                 actions: <Widget>[CircleAvatar()]),

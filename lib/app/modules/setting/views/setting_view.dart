@@ -16,7 +16,7 @@ class SettingView extends GetView<SettingController> {
           //   icon: Icon(
           //     Icons.arrow_back,
           //   ),
-          //   onPressed: Get.rootDelegate.popHistory,
+          //   onPressed: Get.popHistory,
           // ),
           title: Text('SettingView'),
           centerTitle: true,

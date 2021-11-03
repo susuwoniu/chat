@@ -13,9 +13,10 @@ Future<void> main() async {
   await Global.init();
 
   runApp(
-    GetMaterialApp.router(
+    GetMaterialApp(
       title: "Application",
       getPages: AppPages.routes,
+      initialRoute: AppPages.INITIAL,
       debugShowCheckedModeBanner: false,
       theme: ChatThemeData.lightThemeData,
       // The Mandy red, dark theme.

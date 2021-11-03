@@ -6,6 +6,7 @@ import '../controllers/root_controller.dart';
 import 'drawer.dart';
 import '../../splash/views/splash_view.dart';
 import '../../test2/views/test2_view.dart';
+import '../../main/views/main_view.dart';
 
 class RootView extends GetView<RootController> {
   @override
@@ -15,23 +16,22 @@ class RootView extends GetView<RootController> {
 
       return Obx(() {
         if (controller.isInit.isFalse) {
-          return Scaffold(
-            body: SplashView(),
-          );
+          return SplashView();
         } else {
-          return Scaffold(
-              // drawer: DrawerWidget(),
-              // appBar: AppBar(
-              //   title: Text(title ?? ''),
-              //   centerTitle: true,
-              // ),
-              body: GetRouterOutlet(
-            initialRoute: Routes.TEST2,
-            anchorRoute: '/',
-            // filterPages: (afterAnchor) {
-            //   return afterAnchor.take(1);
-            // },
-          ));
+          return MainView();
+          // return Scaffold(
+          //     // drawer: DrawerWidget(),
+          //     // appBar: AppBar(
+          //     //   title: Text(title ?? ''),
+          //     //   centerTitle: true,
+          //     // ),
+          //     body: GetRouterOutlet(
+          //   initialRoute: Routes.TEST2,
+          //   anchorRoute: '/',
+          //   // filterPages: (afterAnchor) {
+          //   //   return afterAnchor.take(1);
+          //   // },
+          // ));
         }
       });
     });

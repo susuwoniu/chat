@@ -19,7 +19,7 @@ class MessageView extends GetView<MessageController> {
               color: IconTheme.of(context).color,
             ),
             onPressed: () {
-              Get.rootDelegate.toNamed(Routes.SETTING);
+              Get.toNamed(Routes.SETTING);
             },
           ),
           actions: <Widget>[
@@ -29,7 +29,7 @@ class MessageView extends GetView<MessageController> {
                 color: IconTheme.of(context).color,
               ),
               onPressed: () {
-                Get.rootDelegate.toNamed(Routes.SETTING);
+                Get.toNamed(Routes.SETTING);
               },
             )
           ]),
@@ -42,7 +42,7 @@ class MessageView extends GetView<MessageController> {
                 color: IconTheme.of(context).color,
               ),
               onPressed: () {
-                Get.rootDelegate.toNamed(Routes.TEST1);
+                Get.toNamed(Routes.TEST1);
               },
             ),
             Text(
