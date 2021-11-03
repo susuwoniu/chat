@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:chat/app/routes/app_pages.dart';
 
 import '../controllers/test2_controller.dart';
 
@@ -13,9 +14,18 @@ class Test2View extends GetView<Test2Controller> {
         centerTitle: true,
       ),
       body: Center(
-        child: Text(
-          'Test2View is working',
-          style: TextStyle(fontSize: 20),
+        child: Column(
+          children: [
+            TextButton(
+                onPressed: () {
+                  Get.rootDelegate.toNamed(Routes.TEST3);
+                },
+                child: Text("Test1")),
+            Text(
+              'Test2View is working',
+              style: TextStyle(fontSize: 20),
+            ),
+          ],
         ),
       ),
     );

@@ -6,5 +6,6 @@ const Map<String, String> zh_Hans = {
   "english": "英语",
   "simplified-chinese": "中文简体",
   "theme": "主题",
-  "night-mode": "夜间模式"
+  "night-mode": "夜间模式",
+  "message": "消息"
 };

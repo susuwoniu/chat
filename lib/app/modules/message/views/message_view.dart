@@ -1,3 +1,4 @@
+import 'package:chat/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -9,13 +10,46 @@ class MessageView extends GetView<MessageController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MessageView'),
-        centerTitle: true,
-      ),
+          centerTitle: true,
+          title:
+              Text("message".tr, style: Theme.of(context).textTheme.bodyText1),
+          leading: IconButton(
+            icon: Icon(
+              Icons.settings,
+              color: IconTheme.of(context).color,
+            ),
+            onPressed: () {
+              Get.rootDelegate.toNamed(Routes.SETTING);
+            },
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.settings,
+                color: IconTheme.of(context).color,
+              ),
+              onPressed: () {
+                Get.rootDelegate.toNamed(Routes.SETTING);
+              },
+            )
+          ]),
       body: Center(
-        child: Text(
-          'MessageView is working',
-          style: TextStyle(fontSize: 20),
+        child: Column(
+          children: [
+            IconButton(
+              icon: Icon(
+                Icons.settings,
+                color: IconTheme.of(context).color,
+              ),
+              onPressed: () {
+                Get.rootDelegate.toNamed(Routes.TEST1);
+              },
+            ),
+            Text(
+              'MessageView is working',
+              style: TextStyle(fontSize: 20),
+            ),
+          ],
         ),
       ),
     );

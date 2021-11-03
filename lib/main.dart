@@ -6,8 +6,8 @@ import 'app/routes/app_pages.dart';
 import "package:chat/langs/translation_service.dart";
 import "app/store/store.dart";
 import "global.dart";
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:chat/app/store/config.dart';
+import './theme.dart';
 
 Future<void> main() async {
   await Global.init();
@@ -17,15 +17,15 @@ Future<void> main() async {
       title: "Application",
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
-      theme: FlexColorScheme.light(scheme: FlexScheme.aquaBlue).toTheme,
+      theme: ChatThemeData.lightThemeData,
       // The Mandy red, dark theme.
-      darkTheme: FlexColorScheme.dark(scheme: FlexScheme.aquaBlue).toTheme,
+      darkTheme: ChatThemeData.darkThemeData,
       // Use dark or light theme based on system setting.
       themeMode:
           ConfigStore.to.nightMode.isTrue ? ThemeMode.dark : ThemeMode.light,
       enableLog: true,
       builder: EasyLoading.init(),
-      unknownRoute: AppPages.routes[0].children[0],
+      unknownRoute: AppPages.routes[0],
       translations: TranslationService(),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,

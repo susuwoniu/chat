@@ -24,6 +24,8 @@ import 'package:chat/app/modules/test1/bindings/test1_binding.dart';
 import 'package:chat/app/modules/test1/views/test1_view.dart';
 import 'package:chat/app/modules/test2/bindings/test2_binding.dart';
 import 'package:chat/app/modules/test2/views/test2_view.dart';
+import 'package:chat/app/modules/test3/bindings/test3_binding.dart';
+import 'package:chat/app/modules/test3/views/test3_view.dart';
 
 part 'app_routes.dart';
 
@@ -67,10 +69,16 @@ class AppPages {
                   binding: PostBinding(),
                 ),
                 GetPage(
-                  name: _Paths.MESSAGE,
-                  page: () => MessageView(),
-                  binding: MessageBinding(),
-                ),
+                    name: _Paths.MESSAGE,
+                    page: () => MessageView(),
+                    binding: MessageBinding(),
+                    children: [
+                      GetPage(
+                        name: _Paths.TEST1,
+                        page: () => Test1View(),
+                        binding: Test1Binding(),
+                      ),
+                    ]),
               ]),
           GetPage(
             name: _Paths.SPLASH,
@@ -88,14 +96,14 @@ class AppPages {
             binding: RoomBinding(),
           ),
           GetPage(
-            name: _Paths.TEST1,
-            page: () => Test1View(),
-            binding: Test1Binding(),
-          ),
-          GetPage(
             name: _Paths.TEST2,
             page: () => Test2View(),
             binding: Test2Binding(),
+          ),
+          GetPage(
+            name: _Paths.TEST3,
+            page: () => Test3View(),
+            binding: Test3Binding(),
           ),
         ]),
   ];

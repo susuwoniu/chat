@@ -11,6 +11,13 @@ class SettingView extends GetView<SettingController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: true,
+          // leading: IconButton(
+          //   icon: Icon(
+          //     Icons.arrow_back,
+          //   ),
+          //   onPressed: Get.rootDelegate.popHistory,
+          // ),
           title: Text('SettingView'),
           centerTitle: true,
         ),

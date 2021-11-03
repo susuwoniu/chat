@@ -34,15 +34,27 @@ class HomeView extends GetView<HomeController> {
                   Get.rootDelegate.toNamed(Routes.ROOM);
                 },
                 child: Padding(
-                    padding: const EdgeInsets.only(bottom: 50.0),
+                    padding: const EdgeInsets.only(
+                        bottom: 50.0, left: 16, right: 16),
                     child: Stack(
                       children: <Widget>[
                         Column(
                           children: [
+                            AppBar(
+                                leading: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  icon: Icon(
+                                    Icons.settings,
+                                    color: IconTheme.of(context).color,
+                                  ),
+                                  onPressed: () {
+                                    Get.rootDelegate.toNamed(Routes.SETTING);
+                                  },
+                                ),
+                                actions: <Widget>[CircleAvatar()]),
                             Padding(
                               child: Obx(() => Container(
                                   alignment: Alignment.topLeft,
-                                  padding: EdgeInsets.fromLTRB(30, 20, 0, 0),
                                   child: Text(
                                     controller
                                             .postMap[
@@ -52,37 +64,28 @@ class HomeView extends GetView<HomeController> {
                                     key: Key('$index-text'),
                                     textDirection: TextDirection.ltr,
                                     textAlign: TextAlign.left,
-                                    style: const TextStyle(
-                                        fontSize: 30,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 1.5,
-                                        height: 1.5),
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2,
                                     overflow: TextOverflow.ellipsis,
                                     softWrap: true,
                                     maxLines: 8,
                                   ))),
-                              padding: const EdgeInsets.only(right: 25.0),
+                              padding: const EdgeInsets.only(right: 0),
                             ),
-                            Padding(
-                                padding: const EdgeInsets.only(bottom: 10.0)),
-                            Container(
-                              padding: const EdgeInsets.only(left: 25.0),
-                              child: Row(children: [
-                                TextButton(
-                                  onPressed: () async {},
-                                  child: CircleAvatar(radius: 30),
-                                ),
-                                Padding(
-                                    padding: const EdgeInsets.only(right: 8.0)),
-                                Text(
-                                  '$index',
-                                  key: Key('$index-text'),
-                                  style: const TextStyle(
-                                      fontSize: 26, color: Colors.white),
-                                ),
-                              ]),
-                            ),
+                            Row(children: [
+                              TextButton(
+                                onPressed: () async {},
+                                child: CircleAvatar(),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.only(right: 0.0)),
+                              Text(
+                                '$index',
+                                key: Key('$index-text'),
+                                style: const TextStyle(
+                                    fontSize: 24, color: Colors.white),
+                              ),
+                            ]),
                           ],
                         ),
                         Align(
@@ -99,8 +102,6 @@ class HomeView extends GetView<HomeController> {
                                 onPressed: () async {},
                                 child: CircleAvatar(radius: 25),
                               ),
-                              Padding(
-                                  padding: const EdgeInsets.only(right: 8.0)),
                               Text(
                                 '$index',
                                 key: Key('$index-text'),
@@ -126,7 +127,3 @@ class HomeView extends GetView<HomeController> {
         "Scroll callback received with data: {type: $type, and index: ${currentIndex ?? 'not given'}}");
   }
 }
-
-
-
-

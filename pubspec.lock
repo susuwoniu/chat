@@ -197,13 +197,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  flex_color_scheme:
-    dependency: "direct main"
-    description:
-      name: flex_color_scheme
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -255,9 +248,11 @@ packages:
   get:
     dependency: "direct main"
     description:
-      name: get
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: e7c29169455896b452842cbe7dc6f98d34be6234
+      url: "git@github.com:jonataslaw/getx.git"
+    source: git
     version: "4.3.8"
   glob:
     dependency: transitive

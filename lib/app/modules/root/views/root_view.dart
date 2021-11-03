@@ -5,6 +5,7 @@ import '../../../routes/app_pages.dart';
 import '../controllers/root_controller.dart';
 import 'drawer.dart';
 import '../../splash/views/splash_view.dart';
+import '../../test2/views/test2_view.dart';
 
 class RootView extends GetView<RootController> {
   @override
@@ -19,15 +20,18 @@ class RootView extends GetView<RootController> {
           );
         } else {
           return Scaffold(
-            drawer: DrawerWidget(),
-            appBar: AppBar(
-              title: Text(title ?? ''),
-              centerTitle: true,
-            ),
-            body: GetRouterOutlet(
-              initialRoute: Routes.MAIN,
-            ),
-          );
+              // drawer: DrawerWidget(),
+              // appBar: AppBar(
+              //   title: Text(title ?? ''),
+              //   centerTitle: true,
+              // ),
+              body: GetRouterOutlet(
+            initialRoute: Routes.TEST2,
+            anchorRoute: '/',
+            // filterPages: (afterAnchor) {
+            //   return afterAnchor.take(1);
+            // },
+          ));
         }
       });
     });
