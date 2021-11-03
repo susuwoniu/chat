@@ -17,9 +17,9 @@ Future<void> main() async {
       title: "Application",
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
-      theme: FlexColorScheme.light(scheme: FlexScheme.materialHc).toTheme,
+      theme: FlexColorScheme.light(scheme: FlexScheme.aquaBlue).toTheme,
       // The Mandy red, dark theme.
-      darkTheme: FlexColorScheme.dark(scheme: FlexScheme.materialHc).toTheme,
+      darkTheme: FlexColorScheme.dark(scheme: FlexScheme.aquaBlue).toTheme,
       // Use dark or light theme based on system setting.
       themeMode:
           ConfigStore.to.nightMode.isTrue ? ThemeMode.dark : ThemeMode.light,

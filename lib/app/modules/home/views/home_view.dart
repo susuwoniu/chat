@@ -34,7 +34,7 @@ class HomeView extends GetView<HomeController> {
                   Get.rootDelegate.toNamed(Routes.ROOM);
                 },
                 child: Padding(
-                    padding: const EdgeInsets.only(bottom: 35.0),
+                    padding: const EdgeInsets.only(bottom: 50.0),
                     child: Stack(
                       children: <Widget>[
                         Column(
@@ -89,7 +89,7 @@ class HomeView extends GetView<HomeController> {
                           alignment: Alignment.bottomCenter,
                           child: Container(
                             height: 60,
-                            width: screenWidth * 0.85,
+                            width: screenWidth * 0.88,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               color: Colors.white,
@@ -127,53 +127,6 @@ class HomeView extends GetView<HomeController> {
   }
 }
 
-class ChatRoute extends StatelessWidget {
-  final String text;
 
-  ChatRoute({
-    Key? key,
-    @required this.text = " ", // 接收一个text参数
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("提示"),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(18),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Text(text),
-              TextButton(
-                onPressed: () => Navigator.pop(context, "我是返回值"),
-                child: Text("返回"),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     final List<Color> _colors = <Color>[
-//       Colors.red,
-//       Colors.yellow,
-//       Colors.green,
-//       Colors.orange,
-//     ];
-
-//     return MaterialApp(
-//       routes: {
-//         "chat_page": (context) => ChatRoute(),
-//         "/": (context) => HomeWidget(colors: _colors), //注册首页路由
-//       },
-//     );
-//   }
-// }
