@@ -72,6 +72,13 @@ class DebugView extends GetView<DebugController> {
               //to close the drawer
             },
           ),
+          ListTile(
+            title: Text('Test3'),
+            onTap: () {
+              Get.toNamed(Routes.TEST3);
+              //to close the drawer
+            },
+          ),
           if (AuthService.to.isLoggedInValue)
             ListTile(
               title: Text(

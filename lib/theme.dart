@@ -18,9 +18,6 @@ class ChatThemeData {
     return ThemeData(
         brightness: brightness,
         colorScheme: colorScheme,
-        textTheme:
-            TextTheme(bodyText2: TextStyle(color: colorScheme.onPrimary,height: 1.6,
-          fontSize: 26.0, fontWeight: FontWeight.bold,)),
         appBarTheme: AppBarTheme(
             elevation: 0,
             backgroundColor: Colors.transparent,
@@ -28,7 +25,7 @@ class ChatThemeData {
   }
 
   static const ColorScheme lightColorScheme = ColorScheme(
-    primary: Color(0xff0000ba),
+    primary: Color.fromRGBO(0, 132, 255, 1),
     primaryVariant: Color(0xff000088),
     secondary: Color(0xff66fff9),
     secondaryVariant: Color(0xff018786),

@@ -82,13 +82,17 @@ class HomeView extends GetView<HomeController> {
                                 overflow: TextOverflow.ellipsis,
                                 softWrap: true,
                                 maxLines: 7,
-                                style:Theme.of(context).textTheme.bodyText2,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  height: 1.6,
+                                  fontSize: 26.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ))),
-                          padding: EdgeInsets.fromLTRB(
-                              0, appBarHeight+3, 0, 14.0),
+                          padding:
+                              EdgeInsets.fromLTRB(0, appBarHeight + 3, 0, 14.0),
                         ),
-                        Row(
-                            children: [
+                        Row(children: [
                           TextButton(
                             onPressed: () async {},
                             child: CircleAvatar(radius: 28),
