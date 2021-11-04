@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-
 import '../controllers/room_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,15 +20,14 @@ class ChatMessage extends StatelessWidget {
       {required this.text, required this.animationController}); // MODIFIED
   final String text;
   String _name = 'Your Name';
-  final AnimationController animationController; // NEW
+  final AnimationController animationController;
 
   @override
   Widget build(BuildContext context) {
     return SizeTransition(
-      sizeFactor: // NEW
-          CurvedAnimation(
-              parent: animationController, curve: Curves.easeOut), // NEW
-      axisAlignment: 0.0, // NEW
+      sizeFactor:
+          CurvedAnimation(parent: animationController, curve: Curves.easeOut),
+      axisAlignment: 0.0,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10.0),
         child: Row(
@@ -40,15 +38,14 @@ class ChatMessage extends StatelessWidget {
               child: CircleAvatar(child: Text(_name[0])),
             ),
             Expanded(
-              // NEW
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(_name, style: Theme.of(context).textTheme.headline4),
+                  Text(_name, style: Theme.of(context).textTheme.headline5),
                   Container(
-                    margin: EdgeInsets.only(top: 5.0),
-                    child: Text(text),
-                  ),
+                      margin: EdgeInsets.only(top: 5.0),
+                      child: Text(text,
+                          style: Theme.of(context).textTheme.headline5)),
                 ],
               ),
             ),
@@ -69,32 +66,26 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   // MODIFIED
   final _textController = TextEditingController();
-  final List<ChatMessage> _messages = []; // NEW
-  final FocusNode _focusNode = FocusNode(); // NEW
-  bool _isComposing = false; // NEW
+  final List<ChatMessage> _messages = [];
+  final FocusNode _focusNode = FocusNode();
+  bool _isComposing = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('RoomView'),
-        centerTitle: true,
-      ),
+      appBar: mybar(context, 'usename'),
       body: Container(
           child: Column(
             // MODIFIED
             children: [
-              // NEW
               Flexible(
-                // NEW
                 child: ListView.builder(
-                  // NEW
-                  padding: EdgeInsets.all(8.0), // NEW
-                  reverse: true, // NEW
-                  itemBuilder: (_, int index) => _messages[index], // NEW
-                  itemCount: _messages.length, // NEW
-                ), // NEW
-              ), // NEW
+                  padding: EdgeInsets.all(8.0),
+                  reverse: true,
+                  itemBuilder: (_, int index) => _messages[index],
+                  itemCount: _messages.length,
+                ),
+              ),
               Divider(height: 1.0),
               Container(
                 decoration: BoxDecoration(color: Theme.of(context).cardColor),
@@ -102,21 +93,19 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
               ),
             ],
           ),
-          decoration: Theme.of(context).platform == TargetPlatform.iOS // NEW
+          decoration: Theme.of(context).platform == TargetPlatform.iOS
               ? BoxDecoration(
-                  // NEW
                   border: Border(
-                    // NEW
-                    top: BorderSide(color: Colors.grey[200]!), // NEW
-                  ), // NEW
-                ) // NEW
+                    top: BorderSide(color: Colors.grey[200]!),
+                  ),
+                )
               : null),
     );
   }
 
   Widget _buildTextComposer() {
     return IconTheme(
-      data: IconThemeData(color: Theme.of(context).accentColor), // NEW
+      data: IconThemeData(),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20.0),
         child: Row(
@@ -125,16 +114,14 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
               child: TextField(
                 controller: _textController,
                 onChanged: (String text) {
-                  // NEW
                   setState(() {
-                    // NEW
-                    _isComposing = text.isNotEmpty; // NEW
-                  }); // NEW
-                }, // NEW
+                    _isComposing = text.isNotEmpty;
+                  });
+                },
                 onSubmitted: _isComposing ? _handleSubmitted : null, // MODIFIED
                 decoration:
                     InputDecoration.collapsed(hintText: 'Send a message'),
-                focusNode: _focusNode, // NEW
+                focusNode: _focusNode,
               ),
             ),
             Container(
@@ -142,15 +129,12 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                 child: Theme.of(context).platform == TargetPlatform.iOS
                     ? // MODIFIED
                     CupertinoButton(
-                        // NEW
-                        child: Text('Send'), // NEW
-                        onPressed: _isComposing // NEW
-                            ? () =>
-                                _handleSubmitted(_textController.text) // NEW
+                        child: Text('Send'),
+                        onPressed: _isComposing
+                            ? () => _handleSubmitted(_textController.text)
                             : null,
                       )
-                    : // NEW
-                    IconButton(
+                    : IconButton(
                         icon: const Icon(Icons.send),
                         onPressed: _isComposing // MODIFIED
                             ? () => _handleSubmitted(
@@ -166,27 +150,21 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   void _handleSubmitted(String text) {
     _textController.clear();
     setState(() {
-      // NEW
-      _isComposing = false; // NEW
-    }); // NEW
+      _isComposing = false;
+    });
 
     ChatMessage message = ChatMessage(
-      //NEW
       text: text,
       animationController: AnimationController(
-        // NEW
-        duration: const Duration(milliseconds: 300), // NEW
-        vsync: this, // NEW
-      ), // NEW
-    ); //NEW
-    //NEW
-    setState(() {
-      //NEW
-      _messages.insert(0, message);
-      _focusNode.requestFocus(); // NEW
-      message.animationController.forward(); // NEW
+        duration: const Duration(milliseconds: 300),
+        vsync: this,
+      ),
+    );
 
-//NEW
+    setState(() {
+      _messages.insert(0, message);
+      _focusNode.requestFocus();
+      message.animationController.forward();
     });
   }
 
@@ -196,5 +174,39 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
       message.animationController.dispose();
     }
     super.dispose();
+  }
+
+  AppBar mybar(BuildContext context, String st) {
+    return AppBar(
+        centerTitle: true,
+        leadingWidth: 30,
+        title: Container(
+            padding: EdgeInsets.fromLTRB(0, 0, 15, 5),
+            child: Flex(direction: Axis.horizontal, children: <Widget>[
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    child: TextButton(
+                      onPressed: () async {},
+                      child: CircleAvatar(radius: 22),
+                    ),
+                  )),
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Text(st),
+                  )),
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                      alignment: Alignment.topRight,
+                      child: TextButton(
+                        child: Text("💗",
+                            style: Theme.of(context).textTheme.headline6),
+                        onPressed: () {},
+                      ))),
+            ])));
   }
 }

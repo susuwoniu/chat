@@ -19,7 +19,8 @@ class ChatThemeData {
         brightness: brightness,
         colorScheme: colorScheme,
         textTheme:
-            TextTheme(bodyText2: TextStyle(color: Colors.white, fontSize: 24)),
+            TextTheme(bodyText2: TextStyle(color: colorScheme.onPrimary,height: 1.6,
+          fontSize: 26.0, fontWeight: FontWeight.bold,)),
         appBarTheme: AppBarTheme(
             elevation: 0,
             backgroundColor: Colors.transparent,

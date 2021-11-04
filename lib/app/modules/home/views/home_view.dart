@@ -58,6 +58,7 @@ class HomeView extends GetView<HomeController> {
               color: HexColor(controller
                   .postMap[controller.postIndexes[index]]!.backgroundColor),
               alignment: Alignment.topLeft,
+              padding: const EdgeInsets.symmetric(horizontal: 26.0),
               child: GestureDetector(
                 onTap: () async {
                   print("tap");
@@ -78,20 +79,21 @@ class HomeView extends GetView<HomeController> {
                                 key: Key('$index-text'),
                                 textDirection: TextDirection.ltr,
                                 textAlign: TextAlign.left,
-                                style: Theme.of(context).textTheme.bodyText2,
                                 overflow: TextOverflow.ellipsis,
                                 softWrap: true,
-                                maxLines: 8,
+                                maxLines: 7,
+                                style:Theme.of(context).textTheme.bodyText2,
                               ))),
-                          padding: EdgeInsets.only(
-                              right: 16, left: 16, top: appBarHeight),
+                          padding: EdgeInsets.fromLTRB(
+                              0, appBarHeight+3, 0, 14.0),
                         ),
-                        Row(children: [
+                        Row(
+                            children: [
                           TextButton(
                             onPressed: () async {},
-                            child: CircleAvatar(),
+                            child: CircleAvatar(radius: 28),
                           ),
-                          Padding(padding: const EdgeInsets.only(right: 0.0)),
+                          Padding(padding: const EdgeInsets.only(right: 8.0)),
                           Text(
                             '$index',
                             key: Key('$index-text'),
