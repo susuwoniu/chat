@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:chat/app/routes/app_pages.dart';
+import 'package:chat/app/widges/main_bottom_navigation_bar.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -11,8 +12,34 @@ class HomeView extends GetView<HomeController> {
     final size = MediaQuery.of(context).size;
     final screenWidth = size.width;
     final screenHeight = size.height;
-
+    final appBar = AppBar(
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: Icon(
+            Icons.settings,
+            color: IconTheme.of(context).color,
+          ),
+          onPressed: () {
+            Get.toNamed(Routes.SETTING);
+          },
+        ),
+        actions: <Widget>[
+          Container(
+            margin: EdgeInsets.only(right: 16),
+            child: IconButton(
+              icon: CircleAvatar(),
+              onPressed: () {
+                Get.toNamed(Routes.SETTING);
+              },
+            ),
+          )
+        ]);
+    final appBarHeight =
+        MediaQuery.of(context).padding.top + appBar.preferredSize.height;
     return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      appBar: appBar,
       body: TikTokStyleFullPageScroller(
         contentSize: controller.postIndexes.length,
         swipePositionThreshold: 0.2,
@@ -33,86 +60,73 @@ class HomeView extends GetView<HomeController> {
                   print("tap");
                   Get.toNamed(Routes.ROOM);
                 },
-                child: Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 50.0, left: 16, right: 16),
-                    child: Stack(
-                      children: <Widget>[
-                        Column(
-                          children: [
-                            AppBar(
-                                leading: IconButton(
-                                  padding: EdgeInsets.zero,
-                                  icon: Icon(
-                                    Icons.settings,
-                                    color: IconTheme.of(context).color,
-                                  ),
-                                  onPressed: () {
-                                    Get.toNamed(Routes.SETTING);
-                                  },
-                                ),
-                                actions: <Widget>[CircleAvatar()]),
-                            Padding(
-                              child: Obx(() => Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    controller
-                                            .postMap[
-                                                controller.postIndexes[index]]!
-                                            .content *
-                                        100,
-                                    key: Key('$index-text'),
-                                    textDirection: TextDirection.ltr,
-                                    textAlign: TextAlign.left,
-                                    style:
-                                        Theme.of(context).textTheme.bodyText2,
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: true,
-                                    maxLines: 8,
-                                  ))),
-                              padding: const EdgeInsets.only(right: 0),
-                            ),
-                            Row(children: [
-                              TextButton(
-                                onPressed: () async {},
-                                child: CircleAvatar(),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.only(right: 0.0)),
-                              Text(
-                                '$index',
+                child: Stack(
+                  children: <Widget>[
+                    Column(
+                      children: [
+                        Padding(
+                          child: Obx(() => Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                controller
+                                        .postMap[controller.postIndexes[index]]!
+                                        .content *
+                                    100,
                                 key: Key('$index-text'),
-                                style: const TextStyle(
-                                    fontSize: 24, color: Colors.white),
-                              ),
-                            ]),
-                          ],
+                                textDirection: TextDirection.ltr,
+                                textAlign: TextAlign.left,
+                                style: Theme.of(context).textTheme.bodyText2,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: true,
+                                maxLines: 8,
+                              ))),
+                          padding: EdgeInsets.only(
+                              right: 16, left: 16, top: appBarHeight),
                         ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            height: 60,
-                            width: screenWidth * 0.88,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: Colors.white,
-                            ),
-                            child: Row(children: [
-                              TextButton(
-                                onPressed: () async {},
-                                child: CircleAvatar(radius: 25),
-                              ),
-                              Text(
-                                '$index',
-                                key: Key('$index-text'),
-                                style: const TextStyle(
-                                    fontSize: 24, color: Colors.white),
-                              ),
-                            ]),
+                        Row(children: [
+                          TextButton(
+                            onPressed: () async {},
+                            child: CircleAvatar(),
                           ),
-                        )
+                          Padding(padding: const EdgeInsets.only(right: 0.0)),
+                          Text(
+                            '$index',
+                            key: Key('$index-text'),
+                            style: const TextStyle(
+                                fontSize: 24, color: Colors.white),
+                          ),
+                        ]),
                       ],
-                    )),
+                    ),
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 40),
+                          child: SafeArea(
+                            child: Container(
+                              height: 60,
+                              width: screenWidth * 0.88,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.white,
+                              ),
+                              child: Row(children: [
+                                TextButton(
+                                  onPressed: () async {},
+                                  child: CircleAvatar(radius: 25),
+                                ),
+                                Text(
+                                  '$index',
+                                  key: Key('$index-text'),
+                                  style: const TextStyle(
+                                      fontSize: 24, color: Colors.white),
+                                ),
+                              ]),
+                            ),
+                          ),
+                        ))
+                  ],
+                ),
               ));
         },
       ),

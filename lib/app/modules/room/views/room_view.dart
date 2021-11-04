@@ -11,14 +11,11 @@ class RoomView extends GetView<RoomController> {
     Key? key,
   }) : super(key: key);
   @override
-
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ChatScreen(),
-    );
+    return ChatScreen();
   }
-
 }
+
 class ChatMessage extends StatelessWidget {
   ChatMessage(
       {required this.text, required this.animationController}); // MODIFIED
@@ -30,8 +27,8 @@ class ChatMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizeTransition(
       sizeFactor: // NEW
-      CurvedAnimation(
-          parent: animationController, curve: Curves.easeOut), // NEW
+          CurvedAnimation(
+              parent: animationController, curve: Curves.easeOut), // NEW
       axisAlignment: 0.0, // NEW
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10.0),
@@ -79,7 +76,10 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
+      appBar: AppBar(
+        title: Text('RoomView'),
+        centerTitle: true,
+      ),
       body: Container(
           child: Column(
             // MODIFIED
@@ -103,11 +103,13 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
             ],
           ),
           decoration: Theme.of(context).platform == TargetPlatform.iOS // NEW
-              ? BoxDecoration(                                 // NEW
-            border: Border(                              // NEW
-              top: BorderSide(color: Colors.grey[200]!), // NEW
-            ),                                           // NEW
-          )                                              // NEW
+              ? BoxDecoration(
+                  // NEW
+                  border: Border(
+                    // NEW
+                    top: BorderSide(color: Colors.grey[200]!), // NEW
+                  ), // NEW
+                ) // NEW
               : null),
     );
   }
@@ -131,24 +133,30 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                 }, // NEW
                 onSubmitted: _isComposing ? _handleSubmitted : null, // MODIFIED
                 decoration:
-                InputDecoration.collapsed(hintText: 'Send a message'),
+                    InputDecoration.collapsed(hintText: 'Send a message'),
                 focusNode: _focusNode, // NEW
               ),
             ),
             Container(
                 margin: EdgeInsets.symmetric(horizontal: 0.0),
-                child: Theme.of(context).platform == TargetPlatform.iOS ? // MODIFIED
-                CupertinoButton(                                          // NEW
-                  child: Text('Send'),                                    // NEW
-                  onPressed: _isComposing                                 // NEW
-                      ? () =>  _handleSubmitted(_textController.text)     // NEW
-                      : null,) :                                          // NEW
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: _isComposing // MODIFIED
-                      ? () => _handleSubmitted(_textController.text) // MODIFIED
-                      : null, // MODIFIED
-                ))
+                child: Theme.of(context).platform == TargetPlatform.iOS
+                    ? // MODIFIED
+                    CupertinoButton(
+                        // NEW
+                        child: Text('Send'), // NEW
+                        onPressed: _isComposing // NEW
+                            ? () =>
+                                _handleSubmitted(_textController.text) // NEW
+                            : null,
+                      )
+                    : // NEW
+                    IconButton(
+                        icon: const Icon(Icons.send),
+                        onPressed: _isComposing // MODIFIED
+                            ? () => _handleSubmitted(
+                                _textController.text) // MODIFIED
+                            : null, // MODIFIED
+                      ))
           ],
         ),
       ),

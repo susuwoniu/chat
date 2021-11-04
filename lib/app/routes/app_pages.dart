@@ -36,16 +36,16 @@ class AppPages {
   static const UNKNOWN_PAGE = Routes.NOTFOUND;
   static final routes = [
     GetPage(
+      name: _Paths.NOTFOUND,
+      page: () => NotfoundView(),
+      binding: NotfoundBinding(),
+    ),
+    GetPage(
       name: _Paths.ROOT,
       // participatesInRootNavigator: true,
       // preventDuplicates: true,
       page: () => RootView(),
       binding: RootBinding(),
-    ),
-    GetPage(
-      name: _Paths.NOTFOUND,
-      page: () => NotfoundView(),
-      binding: NotfoundBinding(),
     ),
     GetPage(
       name: _Paths.LOGIN,
