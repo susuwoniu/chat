@@ -15,15 +15,18 @@ class HomeView extends GetView<HomeController> {
     final appBar = AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon: Icon(
-            Icons.settings,
-            color: IconTheme.of(context).color,
-          ),
+          icon: Text("🤓", style: Theme.of(context).textTheme.headline5),
           onPressed: () {
             Get.toNamed(Routes.SETTING);
           },
         ),
         actions: <Widget>[
+          IconButton(
+            icon: Text("🔑"),
+            onPressed: () {
+              Get.toNamed(Routes.DEBUG);
+            },
+          ),
           Container(
             margin: EdgeInsets.only(right: 16),
             child: IconButton(

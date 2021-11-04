@@ -3,10 +3,12 @@ import 'package:chat/app/modules/main/controllers/bottom_navigation_bar_controll
 import 'package:hexcolor/hexcolor.dart';
 import 'package:get/get.dart';
 
-mainBottomNavigationBar() {
+mainBottomNavigationBar(BuildContext context) {
   return Obx(() => BottomNavigationBar(
         currentIndex: BottomNavigationBarController.to.page,
         elevation: 0,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         backgroundColor: Colors.transparent,
         // backgroundColor: (BottomNavigationBarController.to.page > 0 ||
         //         BottomNavigationBarController.to.backgroundColor.value.isEmpty)
@@ -20,17 +22,16 @@ mainBottomNavigationBar() {
         items: [
           // _Paths.Main + [Empty]
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
+              icon: Text("🔥", style: Theme.of(context).textTheme.headline5),
+              label: 'Home'),
           // _Paths.Main + Routes.POST
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_box_rounded),
+            icon: Text("✍️", style: Theme.of(context).textTheme.headline5),
             label: 'Post',
           ),
           // _Paths.HOME + _Paths.MESSAGE
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_box_rounded),
+            icon: Text("👋", style: Theme.of(context).textTheme.headline5),
             label: 'Message',
           ),
         ],

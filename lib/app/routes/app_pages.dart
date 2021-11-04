@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import 'package:chat/app/modules/debug/bindings/debug_binding.dart';
+import 'package:chat/app/modules/debug/views/debug_view.dart';
 import 'package:chat/app/modules/home/bindings/home_binding.dart';
 import 'package:chat/app/modules/home/views/home_view.dart';
 import 'package:chat/app/modules/login/bindings/login_binding.dart';
@@ -104,6 +106,11 @@ class AppPages {
       name: _Paths.TEST3,
       page: () => Test3View(),
       binding: Test3Binding(),
+    ),
+    GetPage(
+      name: _Paths.DEBUG,
+      page: () => DebugView(),
+      binding: DebugBinding(),
     ),
   ];
 }

@@ -20,6 +20,7 @@ abstract class Routes {
   static const SETTING = _Paths.SETTING;
   static const ROOM = _Paths.ROOM;
   static const TEST3 = _Paths.TEST3;
+  static const DEBUG = _Paths.DEBUG;
 }
 
 abstract class _Paths {
@@ -38,4 +39,5 @@ abstract class _Paths {
   static const SETTING = '/setting';
   static const ROOM = '/room';
   static const TEST3 = '/test3';
+  static const DEBUG = '/debug';
 }
