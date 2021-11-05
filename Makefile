@@ -8,6 +8,7 @@ deps:
 	flutter pub get
 
 json:
-	flutter pub run build_runner build 
-get: 
-    flutter pub get
+	flutter pub run build_runner build
+
+get:
+	flutter pub get

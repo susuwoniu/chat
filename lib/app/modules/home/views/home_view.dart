@@ -5,6 +5,7 @@ import '../controllers/home_controller.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/widges/main_bottom_navigation_bar.dart';
+import 'package:chat/app/widges/max_text.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -52,89 +53,92 @@ class HomeView extends GetView<HomeController> {
         animationDuration: const Duration(milliseconds: 300),
         // ^ how long the animation will take
         onScrollEvent: _handleCallbackEvent,
+
         // ^ registering our own function to listen to page changes
         builder: (BuildContext context, int index) {
           return Container(
               color: HexColor(controller
                   .postMap[controller.postIndexes[index]]!.backgroundColor),
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.symmetric(horizontal: 26.0),
               child: GestureDetector(
-                onTap: () async {
-                  print("tap");
+                onTap: () {
                   Get.toNamed(Routes.ROOM);
                 },
-                child: Stack(
-                  children: <Widget>[
-                    Column(
-                      children: [
-                        Padding(
-                          child: Obx(() => Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                controller
-                                        .postMap[controller.postIndexes[index]]!
-                                        .content *
-                                    100,
-                                key: Key('$index-text'),
-                                textDirection: TextDirection.ltr,
-                                textAlign: TextAlign.left,
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: true,
-                                maxLines: 7,
-                                style: TextStyle(
+                child: SafeArea(
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        padding:
+                            const EdgeInsets.only(top: 20, left: 16, right: 16),
+                        child: Obx(() => Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  MaxText(
+                                    controller
+                                            .postMap[
+                                                controller.postIndexes[index]]!
+                                            .content *
+                                        100,
+                                    context,
+                                    // textDirection: TextDirection.ltr,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      height: 1.6,
+                                      fontSize: 26.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                        top: 20, bottom: 120),
+                                    child: Row(children: [
+                                      TextButton(
+                                        onPressed: () async {},
+                                        child: CircleAvatar(radius: 28),
+                                      ),
+                                      Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 8.0)),
+                                      Text(
+                                        '$index',
+                                        key: Key('$index-text'),
+                                        style: const TextStyle(
+                                            fontSize: 24, color: Colors.white),
+                                      ),
+                                    ]),
+                                  ),
+                                ])),
+                      ),
+                      Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 40),
+                            child: SafeArea(
+                              child: Container(
+                                height: 60,
+                                width: screenWidth * 0.88,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
                                   color: Colors.white,
-                                  height: 1.6,
-                                  fontSize: 26.0,
-                                  fontWeight: FontWeight.bold,
                                 ),
-                              ))),
-                          padding:
-                              EdgeInsets.fromLTRB(0, appBarHeight + 3, 0, 14.0),
-                        ),
-                        Row(children: [
-                          TextButton(
-                            onPressed: () async {},
-                            child: CircleAvatar(radius: 28),
-                          ),
-                          Padding(padding: const EdgeInsets.only(right: 8.0)),
-                          Text(
-                            '$index',
-                            key: Key('$index-text'),
-                            style: const TextStyle(
-                                fontSize: 24, color: Colors.white),
-                          ),
-                        ]),
-                      ],
-                    ),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 40),
-                          child: SafeArea(
-                            child: Container(
-                              height: 60,
-                              width: screenWidth * 0.88,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: Colors.white,
+                                child: Row(children: [
+                                  TextButton(
+                                    onPressed: () async {},
+                                    child: CircleAvatar(radius: 25),
+                                  ),
+                                  Text(
+                                    '$index',
+                                    key: Key('$index-text'),
+                                    style: const TextStyle(
+                                        fontSize: 24, color: Colors.white),
+                                  ),
+                                ]),
                               ),
-                              child: Row(children: [
-                                TextButton(
-                                  onPressed: () async {},
-                                  child: CircleAvatar(radius: 25),
-                                ),
-                                Text(
-                                  '$index',
-                                  key: Key('$index-text'),
-                                  style: const TextStyle(
-                                      fontSize: 24, color: Colors.white),
-                                ),
-                              ]),
                             ),
-                          ),
-                        ))
-                  ],
+                          ))
+                    ],
+                  ),
                 ),
               ));
         },

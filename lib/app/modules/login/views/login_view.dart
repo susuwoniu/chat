@@ -9,6 +9,9 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('login_title'.tr),
+      ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -25,16 +28,11 @@ class LoginView extends GetView<LoginController> {
               },
             ),
             MaterialButton(
-              child: Text(
-                'Do LOGIN !!',
-                style: TextStyle(color: Colors.blue, fontSize: 20),
-              ),
-              onPressed: () {
-                AuthService.to.login();
-                final thenTo = Get.parameters['then'];
-                Get.offNamed(thenTo ?? Routes.HOME);
-              },
-            ),
+                child: Text(
+                  'Do LOGIN !!',
+                  style: TextStyle(color: Colors.blue, fontSize: 20),
+                ),
+                onPressed: controller.handleLogin),
           ],
         ),
       ),

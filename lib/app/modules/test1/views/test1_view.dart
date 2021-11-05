@@ -8,26 +8,19 @@ class Test1View extends GetView<Test1Controller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Test1View2'),
-          centerTitle: true,
+      appBar: AppBar(
+        title: Text('Test1View2'),
+        centerTitle: true,
+      ),
+      body: Container(
+        color: Colors.blue,
+        width: 300.0,
+        height: 200.0,
+        child: FittedBox(
+          fit: BoxFit.contain,
+          child: Text("Whee"),
         ),
-        body: Container(
-          height: 320.0,
-          width: 300.0,
-          color: Colors.red,
-          child: Stack(
-            children: [
-              Text("left text"),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Text("bottom")],
-                ),
-              )
-            ],
-          ),
-        ));
+      ),
+    );
   }
 }
