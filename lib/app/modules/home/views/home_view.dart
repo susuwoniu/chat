@@ -86,7 +86,7 @@ class HomeView extends GetView<HomeController> {
                                       color: Colors.white,
                                       height: 1.6,
                                       fontSize: 26.0,
-                                      fontWeight: FontWeight.bold,
+                                      // fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Container(

@@ -4,7 +4,7 @@ import 'package:chat/app/modules/main/controllers/bottom_navigation_bar_controll
 
 class HomeController extends GetxController {
   final currentIndex = RxInt(-1);
-  final postIndexes = RxList<String>(["1", "2", "3", "4"]);
+  final postIndexes = RxList<String>(["1", "2", "3", "4", "5", "6"]);
   final postMap = RxMap<String, PostEntity>({
     "1": PostEntity(
       id: "1",
@@ -24,6 +24,16 @@ class HomeController extends GetxController {
     "4": PostEntity(
       id: "4",
       content: "你好世界4",
+      backgroundColor: "#ddbea9",
+    ),
+    "5": PostEntity(
+      id: "5",
+      content: "你好世界,",
+      backgroundColor: "#ddbea9",
+    ),
+    "6": PostEntity(
+      id: "6",
+      content: "我今天买了块表，",
       backgroundColor: "#ddbea9",
     )
   });

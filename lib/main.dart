@@ -8,6 +8,7 @@ import "app/store/store.dart";
 import "global.dart";
 import 'package:chat/app/store/config.dart';
 import './theme.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 Future<void> main() async {
   await Global.init();
@@ -25,7 +26,20 @@ Future<void> main() async {
       themeMode:
           ConfigStore.to.nightMode.isTrue ? ThemeMode.dark : ThemeMode.light,
       enableLog: true,
-      builder: EasyLoading.init(),
+      builder: EasyLoading.init(
+          builder: (context, widget) => ResponsiveWrapper.builder(
+                widget,
+                maxWidth: 1024,
+                minWidth: 390,
+                defaultScale: true,
+                breakpoints: [
+                  ResponsiveBreakpoint.resize(390, name: MOBILE),
+                  ResponsiveBreakpoint.autoScale(480, name: MOBILE),
+                  ResponsiveBreakpoint.autoScale(768, name: TABLET),
+                  ResponsiveBreakpoint.resize(1024, name: DESKTOP),
+                ],
+              )),
+      // builder: EasyLoading.init(builder:),
       unknownRoute: AppPages.routes[0],
       translations: TranslationService(),
       localizationsDelegates: [
