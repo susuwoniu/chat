@@ -4,9 +4,8 @@ import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app/routes/app_pages.dart';
 import "package:chat/langs/translation_service.dart";
-import "app/store/store.dart";
 import "global.dart";
-import 'package:chat/app/store/config.dart';
+import 'package:chat/app/services/services.dart';
 import './theme.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -24,7 +23,7 @@ Future<void> main() async {
       darkTheme: ChatThemeData.darkThemeData,
       // Use dark or light theme based on system setting.
       themeMode:
-          ConfigStore.to.nightMode.isTrue ? ThemeMode.dark : ThemeMode.light,
+          ConfigService.to.nightMode.isTrue ? ThemeMode.dark : ThemeMode.light,
       enableLog: true,
       builder: EasyLoading.init(
           builder: (context, widget) => ResponsiveWrapper.builder(
@@ -47,8 +46,8 @@ Future<void> main() async {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: ConfigStore.to.languages,
-      locale: ConfigStore.to.locale,
+      supportedLocales: ConfigService.to.languages,
+      locale: ConfigService.to.locale,
       fallbackLocale: TranslationService.fallbackLocale,
     ),
   );

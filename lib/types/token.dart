@@ -13,6 +13,15 @@ class TokenEntity {
       required this.account_id,
       required this.expires_at,
       required this.refresh_token_expires_at});
+  static TokenEntity getDefault() {
+    return TokenEntity(
+      access_token: "",
+      refresh_token: "",
+      account_id: "",
+      expires_at: DateTime.now(),
+      refresh_token_expires_at: DateTime.now(),
+    );
+  }
 
   /// Connect the generated [_$TokenEntityFromJson] function to the `fromJson`
   /// factory.

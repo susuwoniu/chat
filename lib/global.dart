@@ -1,9 +1,8 @@
-import 'package:chat/app/services/auth_service.dart';
+import 'package:chat/app/services/auth.dart';
+import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:chat/app/services/services.dart';
-import 'package:chat/app/store/store.dart';
-import 'package:chat/utils/utils.dart';
 import 'package:get/get.dart';
 
 /// 全局静态数据
@@ -14,10 +13,11 @@ class Global {
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     setSystemUi();
-    Loading();
+    // 初始化全局ui工具
+    UIUtils();
 
-    await Get.putAsync<StorageService>(() => StorageService().init());
-    Get.put<ConfigStore>(ConfigStore());
+    await Get.putAsync<KVService>(() => KVService().init());
+    Get.put<ConfigService>(ConfigService());
     Get.put<AuthService>(AuthService());
   }
 

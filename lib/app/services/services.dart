@@ -1,3 +1,5 @@
 library services;
 
-export './storage.dart';
+export './kv.dart';
+export './config.dart';
+export 'auth.dart';

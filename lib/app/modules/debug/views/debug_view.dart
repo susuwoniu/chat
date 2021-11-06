@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chat/app/routes/app_pages.dart';
-import '../../../services/auth_service.dart';
+import '../../../services/auth.dart';
 
 import 'package:get/get.dart';
 
@@ -79,7 +79,7 @@ class DebugView extends GetView<DebugController> {
               //to close the drawer
             },
           ),
-          if (AuthService.to.isLoggedInValue)
+          if (AuthService.to.isLogin)
             ListTile(
               title: Text(
                 'Logout',
@@ -91,7 +91,7 @@ class DebugView extends GetView<DebugController> {
                 AuthService.to.logout();
               },
             ),
-          if (!AuthService.to.isLoggedInValue)
+          if (!AuthService.to.isLogin)
             ListTile(
               title: Text(
                 'Login',

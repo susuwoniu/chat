@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:chat/app/providers/providers.dart';
+import 'package:chat/app/services/services.dart';
 import 'package:chat/errors/errors.dart';
 
 class LoginController extends GetxController {
@@ -13,16 +13,11 @@ class LoginController extends GetxController {
     //   toastInfo(msg: '密码不能小于6位');
     //   return;
     // }
-    final _apiProvider = ApiProvider();
-    try {
-      final token = await _apiProvider.loginWithPhone();
-      print(token);
-    } on ServiceException catch (e) {
-      Get.snackbar(e.title, e.detail);
-    } catch (e) {
-      print(e);
-      Get.snackbar("", e.toString());
-    }
+    await AuthService.to.login();
+
+    // final token = await _apiProvider.loginWithPhone();
+    // print(token);
+
     // Get.offAndToNamed(AppRoutes.Application);
   }
 }
