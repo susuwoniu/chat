@@ -14,6 +14,16 @@ class RoomController extends GetxController {
       text: "中文测试中文测试",
       name: "#dfd333",
     ),
+    "2": MessageEntity(
+      id: "2",
+      text: "中文测试中文测试",
+      name: "#dfd333",
+    ),
+    "3": MessageEntity(
+      id: "3",
+      text: "中文测试中文测试",
+      name: "#dfd333",
+    ),
   };
 
   final count = 0.obs;
