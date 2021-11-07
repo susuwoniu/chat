@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:chat/common.dart';
 
 class DebugController extends GetxController {
   //TODO: Implement DebugController
