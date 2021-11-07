@@ -1,6 +1,9 @@
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/material.dart';
+import 'package:chat/errors/errors.dart';
+import 'package:chat/utils/log.dart';
+import 'package:chat/app/routes/app_pages.dart';
 
 class UIUtils {
   UIUtils() {
@@ -18,6 +21,29 @@ class UIUtils {
       ..maskColor = Colors.black.withOpacity(0.6)
       ..userInteractions = true
       ..dismissOnTap = false;
+  }
+  static showError(e) async {
+    // log
+    Log.error(e);
+    if (e is ServiceException) {
+      // 如果是登录错误的话，跳转到登陆页
+      if (e.code == 'unauthorized_error' || e.status == 401) {
+        // get current route
+        final currentRoute = Get.currentRoute;
+        Log.debug("currentRoute: $currentRoute");
+        Get.toNamed(Routes.LOGIN);
+        return;
+      }
+      return snackbar(
+        e.title,
+        e.detail,
+      );
+    } else {
+      return snackbar(
+        "",
+        e.toString(),
+      );
+    }
   }
 
   static snackbar(String title, String message) async {

@@ -1,9 +1,9 @@
+import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../services/auth.dart';
-import '../../../routes/app_pages.dart';
+import 'package:chat/app/providers/providers.dart';
 import '../controllers/login_controller.dart';
+import 'package:chat/common.dart';
 
 class LoginView extends GetView<LoginController> {
   @override
@@ -18,10 +18,10 @@ class LoginView extends GetView<LoginController> {
           children: [
             Obx(
               () {
-                final isLoggedIn = AuthService.to.isLogin;
+                final isLoggedIn = AuthProvider.to.isLogin;
                 return Text(
-                  'You are currently:'
-                  ' ${isLoggedIn ? "Logged In" : "Not Logged In"}'
+                  '当前登录状态'
+                  ' ${isLoggedIn ? "已登陆" : "未登录"}'
                   "\nIt's impossible to enter this "
                   "route when you are logged in!",
                 );
@@ -29,13 +29,40 @@ class LoginView extends GetView<LoginController> {
             ),
             MaterialButton(
                 child: Text(
-                  'Do LOGIN !!',
+                  '发送验证码',
+                  style: TextStyle(color: Colors.blue, fontSize: 20),
+                ),
+                onPressed: () async {
+                  try {
+                    await controller.handleSendCode();
+                    UIUtils.toast('验证码发送成功');
+                  } catch (e) {}
+                }),
+            MaterialButton(
+                child: Text(
+                  '点击登录 !!',
                   style: TextStyle(color: Colors.blue, fontSize: 20),
                 ),
                 onPressed: () async {
                   try {
                     await controller.handleLogin();
-                  } catch (_) {}
+                    UIUtils.toast('登录成功');
+                  } catch (e) {
+                    UIUtils.showError(e);
+                  }
+                }),
+            MaterialButton(
+                child: Text(
+                  '测试请求 !!',
+                  style: TextStyle(color: Colors.blue, fontSize: 20),
+                ),
+                onPressed: () async {
+                  try {
+                    await controller.getMe();
+                    UIUtils.toast('成功请求');
+                  } catch (e) {
+                    UIUtils.showError(e);
+                  }
                 }),
           ],
         ),

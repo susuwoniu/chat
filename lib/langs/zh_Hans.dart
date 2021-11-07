@@ -21,5 +21,7 @@ const Map<String, String> zh_Hans = {
   "method_not_allowed_error": "没有找到该资源",
   "server_internal_error": "服务器开小差了",
   "too_many_requests_error": "请求太快了",
-  "too_many_requests_detail": "喝杯水再试"
+  "too_many_requests_detail": "喝杯水再试",
+  "client_network_error": "网络错误",
+  "response_data_invalid": "服务器返回数据不合法"
 };

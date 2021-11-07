@@ -2,11 +2,11 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chat/constants/constants.dart';
 
-class KVService extends GetxService {
-  static KVService get to => Get.find();
+class KVProvider extends GetxService {
+  static KVProvider get to => Get.find();
   late final SharedPreferences _prefs;
 
-  Future<KVService> init() async {
+  Future<KVProvider> init() async {
     _prefs = await SharedPreferences.getInstance();
     return this;
   }

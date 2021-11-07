@@ -5,23 +5,22 @@ part 'token.g.dart';
 @JsonSerializable()
 class TokenEntity {
   /// The generated code assumes these values exist in JSON.
-  final String access_token, refresh_token, account_id;
-  final DateTime expires_at, refresh_token_expires_at;
+  @JsonKey(name: 'access_token')
+  final String accessToken;
+  @JsonKey(name: 'refresh_token')
+  final String refreshToken;
+  @JsonKey(name: 'account_id')
+  final String accountId;
+  @JsonKey(name: 'access_token_expires_at')
+  final DateTime accessTokenExpiresAt;
+  @JsonKey(name: 'refresh_token_expires_at')
+  final DateTime refreshTokenExpiresAt;
   TokenEntity(
-      {required this.access_token,
-      required this.refresh_token,
-      required this.account_id,
-      required this.expires_at,
-      required this.refresh_token_expires_at});
-  static TokenEntity getDefault() {
-    return TokenEntity(
-      access_token: "",
-      refresh_token: "",
-      account_id: "",
-      expires_at: DateTime.now(),
-      refresh_token_expires_at: DateTime.now(),
-    );
-  }
+      {required this.accessToken,
+      required this.refreshToken,
+      required this.accountId,
+      required this.accessTokenExpiresAt,
+      required this.refreshTokenExpiresAt});
 
   /// Connect the generated [_$TokenEntityFromJson] function to the `fromJson`
   /// factory.

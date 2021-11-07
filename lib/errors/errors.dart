@@ -4,17 +4,21 @@ class ServiceException implements Exception {
   final String detail;
   final String title;
   final String code;
+  final int status;
   const ServiceException(this.title,
-      {this.code = "unknow_service_exception", this.detail = ""});
+      {this.code = "unknow_service_exception",
+      this.detail = "",
+      this.status = 999});
   static ServiceException withCode(String title,
-      {String code = "unknow_service_exception", detail = ""}) {
+      {String code = "unknow_service_exception", detail = "", status = 999}) {
     var finalDetail = detail;
     if (detail.isEmpty) {
       finalDetail = "请稍后再试！ [错误码: $code]";
     } else {
       finalDetail = "$detail [错误码: $code]";
     }
-    return ServiceException(title, code: code, detail: finalDetail);
+    return ServiceException(title,
+        code: code, detail: finalDetail, status: status);
   }
 
   static ServiceException unknow() {

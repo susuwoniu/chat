@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 import '../controllers/setting_controller.dart';
-import 'package:chat/app/services/services.dart';
+import 'package:chat/app/providers/providers.dart';
 
 class SettingView extends GetView<SettingController> {
   @override
@@ -52,10 +52,10 @@ class SettingView extends GetView<SettingController> {
                     SettingsTile.switchTile(
                       title: 'night-mode'.tr,
                       leading: Icon(Icons.mode_night),
-                      switchValue: ConfigService.to.nightMode.value,
+                      switchValue: ConfigProvider.to.nightMode.value,
                       onToggle: (bool value) {
                         print("value $value");
-                        ConfigService.to.toggleNightMode(value);
+                        ConfigProvider.to.toggleNightMode(value);
                       },
                     ),
                   ],

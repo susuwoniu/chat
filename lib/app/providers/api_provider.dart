@@ -1,13 +1,29 @@
 import 'dart:async';
 import 'package:get/get.dart' hide FormData;
-import 'package:chat/constants/constants.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:chat/errors/errors.dart';
+import 'package:chat/config/config.dart';
+import 'package:chat/utils/security.dart';
+import 'package:chat/utils/log.dart';
+import 'auth_provider.dart';
+import 'package:chat/types/types.dart';
+
+// import 'package'
+class ApiOptions {
+  bool withSignature = false;
+  bool withAuthorization = true;
+  bool withDefaultHeaders = true;
+  bool? checkDataAttributes;
+  ApiOptions(
+      {this.withSignature = false,
+      this.withAuthorization = true,
+      this.withDefaultHeaders = true,
+      this.checkDataAttributes});
+}
 
 class GetClient extends GetConnect {
   @override
   GetHttpClient get httpClient {
-    final baseUrl = API_PREFIX;
     final client = GetHttpClient(
       userAgent: userAgent,
       sendUserAgent: sendUserAgent,
@@ -16,7 +32,6 @@ class GetClient extends GetConnect {
       maxRedirects: maxRedirects,
       maxAuthRetries: maxAuthRetries,
       allowAutoSignedCert: allowAutoSignedCert,
-      baseUrl: baseUrl,
       trustedCertificates: trustedCertificates,
       withCredentials: withCredentials,
     );
@@ -36,15 +51,6 @@ class APIProvider {
     client = GetClient();
   }
 
-  /// 读取本地配置
-  Map<String, String>? getAuthorizationHeader() {
-    var headers = <String, String>{};
-    // if (Get.isRegistered<UserStore>() && UserStore.to.hasToken == true) {
-    //   headers['Authorization'] = 'Bearer ${UserStore.to.token}';
-    // }
-    return headers;
-  }
-
   /// restful post 操作
   Future raw_request(
     String path,
@@ -53,12 +59,13 @@ class APIProvider {
     Map<String, dynamic>? query,
     Map<String, String>? headers,
   }) async {
+    Log.debug("request start: $method $path $headers");
     final response = await client.request(path, method,
         body: body, query: query, headers: headers);
-
     if (response.hasError) {
       throw formatError(response);
     } else {
+      // Log.debug("response: $response.body");
       return response;
     }
   }
@@ -70,19 +77,71 @@ class APIProvider {
     dynamic body,
     Map<String, dynamic>? query,
     Map<String, String>? headers,
+    ApiOptions? options,
   }) async {
     headers = headers ?? {};
-    Map<String, String>? authorization = getAuthorizationHeader();
-    if (authorization != null) {
-      headers.addAll(authorization);
+    options = options ?? ApiOptions();
+    final config = AppConfig().config;
+    final baseUrl = config.apiHost + config.apiPathPrefix;
+    final fullUrl = baseUrl + path;
+    String now = DateTime.now().toUtc().toIso8601String();
+    if (options.withDefaultHeaders) {
+      headers['x-client-date'] = now;
+      headers['x-client-id'] = config.clientId;
     }
+    if (options.withSignature) {
+      String queryString = Uri(queryParameters: query).query;
+      headers['x-client-signature'] = getSignature(
+          now: now,
+          clientId: config.clientId,
+          clientSecret: config.clientSecret,
+          path: config.apiPathPrefix + path,
+          method: method,
+          query: queryString);
+    }
+    if (options.withAuthorization) {
+      final authProvider = AuthProvider.to;
+      final accessToken =
+          authProvider.hasAccessToken ? authProvider.accessToken : null;
+      if (accessToken != null) {
+        headers['Authorization'] = "Bearer $accessToken";
+      } else {
+        // check refresh token if null
+        if (authProvider.refreshToken != null) {
+          // 续期token
+          // /account/access-tokens
+          final tokenBody = await post("/account/access-tokens",
+              headers: {'Authorization': "Bearer ${authProvider.refreshToken}"},
+              options: ApiOptions(
+                  withAuthorization: false,
+                  withSignature: true,
+                  checkDataAttributes: true));
+          final token = TokenEntity.fromJson(tokenBody["data"]["attributes"]);
+          // save token
+          await AuthProvider.to.saveToken(token);
+          // continue request
+          headers['Authorization'] = "Bearer ${token.accessToken}";
+        }
+      }
+    }
+
     try {
-      final response = await raw_request(path, method,
+      final response = await raw_request(fullUrl, method,
           body: body, query: query, headers: headers);
-      return response.body;
-    } on ServiceException catch (e) {
+      final responseBody = response.body;
+      if (options.checkDataAttributes == true) {
+        if (responseBody['data'] == null) {
+          throw ServiceException.withCode("response_data_invalid".tr,
+              code: "response_data_without_data");
+        } else if (responseBody['data']['attributes'] == null) {
+          throw ServiceException.withCode("response_data_invalid".tr,
+              code: "response_data_without_data_attributes");
+        }
+      }
+      return responseBody;
+    } on ServiceException catch (_) {
       UIUtils.hideLoading();
-      await UIUtils.snackbar(e.title, e.detail);
+      // await UIUtils.snackbar(e.title, e.detail);
       rethrow;
     }
   }
@@ -97,13 +156,14 @@ class APIProvider {
     String path, {
     Map<String, dynamic>? query,
     Map<String, String>? headers,
+    ApiOptions? options,
   }) async {
-    var response = await request(
-      path,
-      "GET",
-      query: query,
-      headers: headers,
-    );
+    options = options ?? ApiOptions();
+    // get default check data attributes
+    options.checkDataAttributes = options.checkDataAttributes ?? true;
+
+    var response = await request(path, "GET",
+        query: query, headers: headers, options: options);
     return response;
   }
 
@@ -113,14 +173,10 @@ class APIProvider {
     dynamic body,
     Map<String, dynamic>? query,
     Map<String, String>? headers,
+    ApiOptions? options,
   }) async {
-    var response = await request(
-      path,
-      "POST",
-      body: body,
-      query: query,
-      headers: headers,
-    );
+    var response = await request(path, "POST",
+        body: body, query: query, headers: headers, options: options);
     return response;
   }
 
@@ -129,14 +185,10 @@ class APIProvider {
     dynamic body,
     Map<String, dynamic>? query,
     Map<String, String>? headers,
+    ApiOptions? options,
   }) async {
-    var response = await request(
-      path,
-      "PUT",
-      body: body,
-      query: query,
-      headers: headers,
-    );
+    var response = await request(path, "PUT",
+        body: body, query: query, headers: headers, options: options);
     return response;
   }
 
@@ -145,14 +197,10 @@ class APIProvider {
     dynamic body,
     Map<String, dynamic>? query,
     Map<String, String>? headers,
+    ApiOptions? options,
   }) async {
-    var response = await request(
-      path,
-      "PATCH",
-      body: body,
-      query: query,
-      headers: headers,
-    );
+    var response = await request(path, "PATCH",
+        body: body, query: query, headers: headers, options: options);
     return response;
   }
 
@@ -162,14 +210,10 @@ class APIProvider {
     dynamic body,
     Map<String, dynamic>? query,
     Map<String, String>? headers,
+    ApiOptions? options,
   }) async {
-    var response = await request(
-      path,
-      "DELETE",
-      body: body,
-      query: query,
-      headers: headers,
-    );
+    var response = await request(path, "DELETE",
+        body: body, query: query, headers: headers, options: options);
     return response;
   }
 }
@@ -191,42 +235,47 @@ formatError(Response response) {
       detail = response.statusText ?? '';
     }
 
-    return ServiceException(title, code: code, detail: detail);
+    return ServiceException(title,
+        code: code, detail: detail, status: statusCode);
   } else if (response.statusCode != null) {
     final statusCode = response.statusCode!;
     switch (statusCode) {
       case 400:
         return ServiceException.withCode("bad_request_error".tr,
-            code: "bad_request");
+            code: "bad_request", status: statusCode);
       case 401:
         return ServiceException.withCode("unauthorized_error".tr,
-            code: "unauthorized_error");
+            code: "unauthorized_error", status: statusCode);
       case 403:
         return ServiceException.withCode("forbidden_error".tr,
-            code: "forbidden_error");
+            code: "forbidden_error", status: statusCode);
       case 404:
         return ServiceException.withCode("not_found_error".tr,
-            code: "not_found_error");
+            code: "not_found_error", status: statusCode);
       case 405:
         return ServiceException.withCode("method_not_allowed_error".tr,
-            code: "method_not_allowed_error");
+            code: "method_not_allowed_error", status: statusCode);
       case 500:
         return ServiceException.withCode("server_internal_error".tr,
-            code: "server_internal_error_500");
+            code: "server_internal_error_500", status: statusCode);
       case 502:
         return ServiceException.withCode("server_internal_error".tr,
-            code: "server_internal_error_502");
+            code: "server_internal_error_502", status: statusCode);
       case 503:
         return ServiceException.withCode("server_internal_error".tr,
-            code: "server_internal_error_503");
+            code: "server_internal_error_503", status: statusCode);
       case 505:
         return ServiceException.withCode("server_internal_error".tr,
-            code: "server_internal_error_505");
+            code: "server_internal_error_505", status: statusCode);
       default:
         {
           return ServiceException.withCode("server_internal_error".tr,
-              code: "server_internal_error_" + statusCode.toString());
+              code: "server_internal_error_" + statusCode.toString(),
+              status: statusCode);
         }
     }
+  } else {
+    return ServiceException.withCode("client_network_error".tr,
+        code: "client_network_error", detail: response.statusText);
   }
 }
