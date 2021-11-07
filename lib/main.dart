@@ -8,13 +8,34 @@ import "global.dart";
 import './theme.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:chat/app/providers/providers.dart';
+import 'package:chat/config/config.dart';
+import 'package:chat/common.dart';
 
 Future<void> main() async {
   await Global.init();
-
+  const String env = String.fromEnvironment(
+    'env',
+    defaultValue: AppConfig.DEV,
+  );
   runApp(
     GetMaterialApp(
       title: "Application",
+      routingCallback: (routing) async {
+        Log.debug("previouse ${routing?.previous}");
+        Log.debug(routing?.current);
+        // if (routing?.current != null) {
+        //   final uri = Uri.parse((routing!.current));
+        //   if (Routes.ENSURE_AUTH_PAGES.contains(uri.path)) {
+        //     if (!AuthProvider.to.isLogin) {
+        //       // to login page
+        //       await Get.offNamed(Routes.LOGIN,
+        //           parameters: {"next": routing.current});
+        //       // return;
+        //     }
+        //   }
+        //   Log.debug(uri.path);
+        // }
+      },
       getPages: AppPages.routes,
       initialRoute: AppPages.INITIAL,
       debugShowCheckedModeBanner: false,
@@ -24,7 +45,7 @@ Future<void> main() async {
       // Use dark or light theme based on system setting.
       themeMode:
           ConfigProvider.to.nightMode.isTrue ? ThemeMode.dark : ThemeMode.light,
-      enableLog: true,
+      enableLog: env == "prod" ? false : true,
       builder: EasyLoading.init(
           builder: (context, widget) => ResponsiveWrapper.builder(
                 widget,
@@ -46,6 +67,7 @@ Future<void> main() async {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      navigatorObservers: [AppPages.observer],
       supportedLocales: ConfigProvider.to.languages,
       locale: ConfigProvider.to.locale,
       fallbackLocale: TranslationService.fallbackLocale,

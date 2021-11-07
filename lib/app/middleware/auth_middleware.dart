@@ -1,32 +1,29 @@
 import 'package:get/get.dart';
 import '../routes/app_pages.dart';
 import 'package:chat/app/providers/providers.dart';
+import 'package:flutter/material.dart';
 
 class EnsureAuthMiddleware extends GetMiddleware {
   @override
-  Future<GetNavConfig?> redirectDelegate(GetNavConfig route) async {
-    // you can do whatever you want here
-    // but it's preferable to make this method fast
-    // await Future.delayed(Duration(milliseconds: 500));
-
-    if (!AuthProvider.to.isLogin) {
-      final newRoute = Routes.LOGIN_THEN(route.location!);
-      return GetNavConfig.fromRoute(newRoute);
+  RouteSettings? redirect(String? route) {
+    // parse route
+    if (AuthProvider.to.isLogin ||
+        route == Routes.LOGIN ||
+        route == AppPages.INITIAL) {
+      return null;
+    } else {
+      return RouteSettings(name: Routes.LOGIN, arguments: {"next": route});
     }
-    return await super.redirectDelegate(route);
   }
 }
 
 class EnsureNotAuthedMiddleware extends GetMiddleware {
   @override
-  Future<GetNavConfig?> redirectDelegate(GetNavConfig route) async {
+  RouteSettings? redirect(String? route) {
     if (AuthProvider.to.isLogin) {
-      //NEVER navigate to auth screen, when user is already authed
       return null;
-
-      //OR redirect user to another screen
-      //return GetNavConfig.fromRoute(Routes.PROFILE);
+    } else {
+      return RouteSettings(name: route);
     }
-    return await super.redirectDelegate(route);
   }
 }

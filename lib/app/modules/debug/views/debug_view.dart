@@ -21,21 +21,21 @@ class DebugView extends GetView<DebugController> {
               ListTile(
                 title: Text('Home'),
                 onTap: () {
-                  Get.toNamed(Routes.HOME);
+                  Get.offAllNamed(Routes.MAIN);
                   //to close the drawer
                 },
               ),
               ListTile(
                 title: Text('Post'),
                 onTap: () {
-                  Get.toNamed(Routes.POST);
+                  Get.offAllNamed(Routes.MAIN, arguments: {'tab': 'post'});
                   //to close the drawer
                 },
               ),
               ListTile(
                 title: Text('Message'),
                 onTap: () {
-                  Get.toNamed(Routes.MESSAGE);
+                  Get.offAllNamed(Routes.MAIN, arguments: {'tab': 'message'});
                   //to close the drawer
                 },
               ),
@@ -77,7 +77,7 @@ class DebugView extends GetView<DebugController> {
               ListTile(
                 title: Text('Test3'),
                 onTap: () {
-                  Get.toNamed(Routes.TEST3);
+                  Get.toNamed(Routes.TEST3, parameters: {'id': '1'});
                   //to close the drawer
                 },
               ),

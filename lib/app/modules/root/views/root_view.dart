@@ -7,14 +7,12 @@ import '../../main/views/main_view.dart';
 class RootView extends GetView<RootController> {
   @override
   Widget build(BuildContext context) {
-    return GetRouterOutlet.builder(builder: (context, delegate, current) {
-      return Obx(() {
-        if (controller.isInit.isFalse) {
-          return SplashView();
-        } else {
-          return MainView();
-        }
-      });
+    return Obx(() {
+      if (controller.isInit.isFalse) {
+        return SplashView();
+      } else {
+        return MainView();
+      }
     });
   }
 }

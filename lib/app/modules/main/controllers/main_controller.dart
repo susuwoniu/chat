@@ -1,11 +1,10 @@
 import 'package:get/get.dart';
+import 'package:flutter/foundation.dart';
 
 class MainController extends GetxController {
   MainController();
 
   /// 成员变量
-
-  /// 事件
 
   /// 生命周期
 

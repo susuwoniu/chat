@@ -31,7 +31,7 @@ class UIUtils {
         // get current route
         final currentRoute = Get.currentRoute;
         Log.debug("currentRoute: $currentRoute");
-        Get.toNamed(Routes.LOGIN);
+        Get.offNamed(Routes.LOGIN, parameters: {"next": currentRoute});
         return;
       }
       return snackbar(
@@ -46,9 +46,10 @@ class UIUtils {
     }
   }
 
-  static snackbar(String title, String message) async {
+  static snackbar(String title, String message,
+      {SnackPosition snackPosition = SnackPosition.BOTTOM}) async {
     return Get.snackbar(title, message,
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: snackPosition,
         isDismissible: true,
         backgroundColor: Get.context?.theme.secondaryHeaderColor);
   }

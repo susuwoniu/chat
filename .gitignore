@@ -1,5 +1,7 @@
 .env
 .env.prod
+# id不同，暂时忽略
+ios/Runner.xcodeproj/project.pbxproj
 # Miscellaneous
 *.class
 *.log

@@ -25,7 +25,9 @@ class HomeView extends GetView<HomeController> {
           IconButton(
             icon: Text("🔑"),
             onPressed: () {
-              Get.toNamed(Routes.DEBUG, parameters: {"foo": "bar"});
+              Get.toNamed(
+                Routes.DEBUG,
+              );
             },
           ),
           Container(

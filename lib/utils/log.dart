@@ -18,20 +18,11 @@ class Log {
     _instance = Logger();
   }
 
-  static void info(msg) {
-    _instance.i(msg);
-  }
+  static var info = _instance.i;
 
-  static void debug(msg) {
-    _instance.d(msg);
-  }
+  static var debug = _instance.d;
 
-  static void warn(msg) {
-    _instance.w(msg);
-  }
+  static var warn = _instance.w;
 
-  static void error(e) {
-    // TODO report error
-    _instance.e(e);
-  }
+  static var error = _instance.e;
 }

@@ -7,13 +7,15 @@ import '../../post/bindings/post_binding.dart';
 import '../../home/bindings/home_binding.dart';
 
 class MainBinding extends Bindings {
+  static MainBinding get to => Get.find(); // add this line
+
   @override
   void dependencies() {
     Get.lazyPut<MainController>(
       () => MainController(),
     );
-    Get.lazyPut<BottomNavigationBarController>(
-      () => BottomNavigationBarController(),
+    Get.put<BottomNavigationBarController>(
+      BottomNavigationBarController(),
     );
     HomeBinding().dependencies();
     PostBinding().dependencies();
