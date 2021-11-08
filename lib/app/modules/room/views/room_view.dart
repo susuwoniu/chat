@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../controllers/room_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'chat_message.dart';
+import 'room_app_bar.dart';
 
 class RoomView extends GetView<RoomController> {
   const RoomView({
@@ -29,7 +30,7 @@ class ChatScreen extends StatelessWidget {
     // _focusNode.requestFocus();
 
     return Scaffold(
-      appBar: mybar(context, 'usename'),
+      appBar: roomAppBar(context, 'usename'),
       body: Container(
           child: Column(
             // MODIFIED
@@ -122,46 +123,11 @@ class ChatScreen extends StatelessWidget {
   void _handleSubmitted(String text) {
     _textController.clear();
     controller.postMessage(text, "your name", true);
-    _scrollToEnd();
   }
 
   void _scrollToEnd() {
     final offset = _scrollController.position.maxScrollExtent + 50;
     _scrollController.animateTo(offset,
         duration: Duration(milliseconds: 250), curve: Curves.easeInOut);
-  }
-
-  AppBar mybar(BuildContext context, String st) {
-    return AppBar(
-        centerTitle: true,
-        leadingWidth: 30,
-        title: Container(
-            padding: EdgeInsets.fromLTRB(0, 0, 15, 5),
-            child: Flex(direction: Axis.horizontal, children: <Widget>[
-              Expanded(
-                  flex: 1,
-                  child: Container(
-                    alignment: Alignment.topLeft,
-                    child: TextButton(
-                      onPressed: () async {},
-                      child: CircleAvatar(radius: 22),
-                    ),
-                  )),
-              Expanded(
-                  flex: 1,
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: Text(st),
-                  )),
-              Expanded(
-                  flex: 1,
-                  child: Container(
-                      alignment: Alignment.topRight,
-                      child: TextButton(
-                        child: Text("💗",
-                            style: Theme.of(context).textTheme.headline6),
-                        onPressed: () {},
-                      ))),
-            ])));
   }
 }
