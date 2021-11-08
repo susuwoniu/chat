@@ -6,12 +6,13 @@ part 'message.g.dart';
 class MessageEntity {
   /// The generated code assumes these values exist in JSON.
   final String id, text, name;
+  final bool isMe;
 
-  MessageEntity({
-    required this.id,
-    required this.text,
-    required this.name,
-  });
+  MessageEntity(
+      {required this.id,
+      required this.text,
+      required this.name,
+      required this.isMe});
 
   /// Connect the generated [_$MessageEntityFromJson] function to the `fromJson`
   /// factory.

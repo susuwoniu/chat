@@ -22,9 +22,11 @@ class ChatScreen extends StatelessWidget {
   final FocusNode _focusNode = FocusNode();
   final FocusNode _blankNode = FocusNode();
   final controller = RoomController.to;
+  final _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
-    _focusNode.requestFocus();
+    // _focusNode.requestFocus();
 
     return Scaffold(
       appBar: mybar(context, 'usename'),
@@ -35,12 +37,16 @@ class ChatScreen extends StatelessWidget {
               Flexible(
                   child: Obx(
                 () => ListView.builder(
+                  controller: _scrollController,
                   padding: EdgeInsets.all(8.0),
                   reverse: false,
                   itemBuilder: (_, int index) {
                     final id = controller.indexes[index];
                     final message = controller.entities[id]!;
-                    return ChatMessage(text: message.text, name: message.name);
+                    return ChatMessage(
+                        text: message.text,
+                        name: message.name,
+                        isMe: message.isMe);
                   },
                   itemCount: controller.indexes.length,
                 ),
@@ -73,19 +79,25 @@ class ChatScreen extends StatelessWidget {
               children: [
                 Flexible(
                   child: TextField(
+                    keyboardType: TextInputType.multiline,
+                    minLines: 1,
+                    maxLines: 8,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      height: 1.5,
+                    ),
                     controller: _textController,
                     onChanged: (String text) {
                       controller.setIsComposing(text.trim().isNotEmpty);
                     },
                     onSubmitted:
                         _isComposing ? _handleSubmitted : null, // MODIFIED
-                    decoration:
-                        InputDecoration.collapsed(hintText: 'Send a message'),
+                    decoration: InputDecoration(hintText: 'Send a message'),
+
                     focusNode: _focusNode,
                   ),
                 ),
                 Container(
-                    margin: EdgeInsets.symmetric(horizontal: 0.0),
                     child: Theme.of(context).platform == TargetPlatform.iOS
                         ? // MODIFIED
                         TextButton(
@@ -109,7 +121,14 @@ class ChatScreen extends StatelessWidget {
 
   void _handleSubmitted(String text) {
     _textController.clear();
-    controller.postMessage(text, "your name");
+    controller.postMessage(text, "your name", true);
+    _scrollToEnd();
+  }
+
+  void _scrollToEnd() {
+    final offset = _scrollController.position.maxScrollExtent + 50;
+    _scrollController.animateTo(offset,
+        duration: Duration(milliseconds: 250), curve: Curves.easeInOut);
   }
 
   AppBar mybar(BuildContext context, String st) {

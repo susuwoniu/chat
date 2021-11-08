@@ -11,6 +11,7 @@ MessageEntity _$MessageEntityFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       text: json['text'] as String,
       name: json['name'] as String,
+      isMe: json['isMe'] as bool,
     );
 
 Map<String, dynamic> _$MessageEntityToJson(MessageEntity instance) =>
