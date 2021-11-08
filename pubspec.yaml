@@ -10,7 +10,6 @@ dependencies:
   tiktoklikescroller: ^0.1.8
   get: ^4.3.8
   package_info: ^2.0.2
-  uni_links: ^0.5.1
   crypto: ^3.0.1
   hexcolor: ^2.0.5
   logger: ^1.1.0
@@ -21,6 +20,7 @@ dependencies:
   shared_preferences: ^2.0.8
   settings_ui: ^1.0.0
   responsive_framework: ^0.1.5
+  scrollable_positioned_list: ^0.2.2
   flutter:
     sdk: flutter
   flutter_localizations:
