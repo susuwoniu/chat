@@ -4,6 +4,14 @@ PODS:
     - Flutter
   - hexcolor (0.0.1):
     - Flutter
+  - libphonenumber (0.0.1):
+    - Flutter
+    - libPhoneNumber-iOS
+  - libPhoneNumber-iOS (0.9.15)
+  - libphonenumber_plugin (0.0.1):
+    - Flutter
+    - libphonenumber
+    - libPhoneNumber-iOS
   - package_info (0.0.1):
     - Flutter
   - shared_preferences (0.0.1):
@@ -13,8 +21,14 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - hexcolor (from `.symlinks/plugins/hexcolor/ios`)
+  - libphonenumber (from `.symlinks/plugins/libphonenumber/ios`)
+  - libphonenumber_plugin (from `.symlinks/plugins/libphonenumber_plugin/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+
+SPEC REPOS:
+  trunk:
+    - libPhoneNumber-iOS
 
 EXTERNAL SOURCES:
   Flutter:
@@ -23,6 +37,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   hexcolor:
     :path: ".symlinks/plugins/hexcolor/ios"
+  libphonenumber:
+    :path: ".symlinks/plugins/libphonenumber/ios"
+  libphonenumber_plugin:
+    :path: ".symlinks/plugins/libphonenumber_plugin/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
   shared_preferences:
@@ -32,6 +50,9 @@ SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   hexcolor: fdfb9c4258ad96e949c2dbcdf790a62194b8aa89
+  libphonenumber: bd14d5abfc5939ab0b0767234e2d8e2593af258e
+  libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
+  libphonenumber_plugin: 7cf755ad1656145935d6c208173a476bd3f12898
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   shared_preferences: 5033afbb22d372e15aff8ff766df9021b845f273
 

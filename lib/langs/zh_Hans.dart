@@ -23,5 +23,13 @@ const Map<String, String> zh_Hans = {
   "too_many_requests_error": "请求太快了",
   "too_many_requests_detail": "喝杯水再试",
   "client_network_error": "网络错误",
-  "response_data_invalid": "服务器返回数据不合法"
+  "response_data_invalid": "服务器返回数据不合法",
+  "please_fill_up_all_the_cells_properly": "请输入短信验证码",
+  "we_have_sent_the_code_to_your_phone": "我们已发送验证码到你的手机：",
+  "didn_t_receive_the_code": "没有收到验证码?",
+  "resend": "重新发送",
+  "submit": "提交",
+  "phone_number": "手机号",
+  "what_s_your_phone_number": "请输入手机号",
+  "next": "下一步"
 };

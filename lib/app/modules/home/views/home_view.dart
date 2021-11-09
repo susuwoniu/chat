@@ -12,7 +12,6 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final screenWidth = size.width;
-    final screenHeight = size.height;
     final appBar = AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
@@ -30,6 +29,14 @@ class HomeView extends GetView<HomeController> {
               );
             },
           ),
+          IconButton(
+            icon: Text("🐻"),
+            onPressed: () {
+              Get.toNamed(
+                Routes.LOGIN,
+              );
+            },
+          ),
           Container(
             margin: EdgeInsets.only(right: 16),
             child: IconButton(
@@ -40,8 +47,8 @@ class HomeView extends GetView<HomeController> {
             ),
           )
         ]);
-    final appBarHeight =
-        MediaQuery.of(context).padding.top + appBar.preferredSize.height;
+    // final appBarHeight =
+    //     MediaQuery.of(context).padding.top + appBar.preferredSize.height;
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,

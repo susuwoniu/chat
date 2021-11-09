@@ -1,5 +1,8 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+
+import 'package:chat/app/middleware/auth_middleware.dart';
 import 'package:chat/app/modules/debug/bindings/debug_binding.dart';
 import 'package:chat/app/modules/debug/views/debug_view.dart';
 import 'package:chat/app/modules/home/bindings/home_binding.dart';
@@ -28,8 +31,11 @@ import 'package:chat/app/modules/test2/bindings/test2_binding.dart';
 import 'package:chat/app/modules/test2/views/test2_view.dart';
 import 'package:chat/app/modules/test3/bindings/test3_binding.dart';
 import 'package:chat/app/modules/test3/views/test3_view.dart';
-import 'package:chat/app/middleware/auth_middleware.dart';
+import 'package:chat/app/modules/verification/bindings/verification_binding.dart';
+import 'package:chat/app/modules/verification/views/verification_view.dart';
+
 import 'observers.dart';
+
 part 'app_routes.dart';
 
 class AppPages {
@@ -126,6 +132,11 @@ class AppPages {
       name: _Paths.DEBUG,
       page: () => DebugView(),
       binding: DebugBinding(),
+    ),
+    GetPage(
+      name: _Paths.VERIFICATION,
+      page: () => VerificationView(),
+      binding: VerificationBinding(),
     ),
   ];
 }

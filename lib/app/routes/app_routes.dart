@@ -14,14 +14,17 @@ abstract class Routes {
   static const TEST1 = _Paths.MAIN + _Paths.MESSAGE + _Paths.TEST1;
   static const TEST2 = _Paths.TEST2;
   static const LOGIN = _Paths.LOGIN;
+
   static String LOGIN_NEXT(String? afterSuccessfulLogin,
           [String? redirectAction]) =>
       '$_Paths.LOGIN?next=${Uri.encodeQueryComponent(afterSuccessfulLogin ?? "/app")}&action=${redirectAction == '/app' ? "offAll" : "off"}';
   static const SETTING = _Paths.SETTING;
   static const ROOM = _Paths.ROOM;
+
   static const TEST3 = _Paths.TEST3;
   static const DEBUG = _Paths.DEBUG;
   static const ENSURE_AUTH_PAGES = [TEST3];
+  static const VERIFICATION = _Paths.VERIFICATION;
 }
 
 abstract class _Paths {
@@ -40,4 +43,5 @@ abstract class _Paths {
   static const ROOM = '/room';
   static const TEST3 = '/test3';
   static const DEBUG = '/debug';
+  static const VERIFICATION = '/verification';
 }

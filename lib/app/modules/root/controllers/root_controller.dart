@@ -23,7 +23,7 @@ class RootController extends GetxController {
 
   // 初始化数据
   Future initData() async {
-    await Future.delayed(Duration(milliseconds: 1000), () {
+    await Future.delayed(Duration(milliseconds: 1), () {
       isInit.value = true;
     });
   }
