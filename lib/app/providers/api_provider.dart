@@ -222,6 +222,13 @@ class APIProvider {
 // 错误信息
 formatError(Response response) {
   if (response.body != null) {
+    // if string
+    if (response.body is String) {
+      return ServiceException.withCode("error_occured".tr,
+          code: response.statusCode.toString(),
+          detail: response.body,
+          status: response.statusCode);
+    }
     final data = response.body!;
     final statusCode = response.statusCode!;
     String title, code, detail;

@@ -31,5 +31,6 @@ const Map<String, String> zh_Hans = {
   "submit": "提交",
   "phone_number": "手机号",
   "what_s_your_phone_number": "请输入手机号",
-  "next": "下一步"
+  "next": "下一步",
+  "error_occured": "发生错误"
 };

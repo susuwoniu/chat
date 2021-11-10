@@ -28,6 +28,52 @@ class DebugView extends GetView<DebugController> {
                     //to close the drawer
                   },
                 ),
+                if (AuthProvider.to.isLogin)
+                  ListTile(
+                    title: Text(
+                      '退出登录',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                    onTap: () async {
+                      try {
+                        await LoginController.to.handleLogout();
+                        UIUtils.toast("退出成功");
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
+                    },
+                  ),
+                ListTile(
+                  title: Text(
+                    '删除access_token',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                  onTap: () async {
+                    try {
+                      await LoginController.to.handleCleanAccessToken();
+                      UIUtils.toast("删除成功");
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  },
+                ),
+                if (!AuthProvider.to.isLogin)
+                  ListTile(
+                    title: Text(
+                      '登录',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                    onTap: () {
+                      Get.toNamed(Routes.LOGIN);
+                      //to close the drawer
+                    },
+                  ),
                 ListTile(
                   title: Text('Post'),
                   onTap: () {
@@ -115,52 +161,21 @@ class DebugView extends GetView<DebugController> {
                     }
                   },
                 ),
-                if (AuthProvider.to.isLogin)
-                  ListTile(
-                    title: Text(
-                      '退出登录',
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                    ),
-                    onTap: () async {
-                      try {
-                        await LoginController.to.handleLogout();
-                        UIUtils.toast("退出成功");
-                      } catch (e) {
-                        UIUtils.showError(e);
-                      }
-                    },
-                  ),
                 ListTile(
                   title: Text(
-                    '删除access_token',
-                    style: TextStyle(
-                      color: Colors.red,
-                    ),
+                    '测试错误请求',
                   ),
                   onTap: () async {
                     try {
-                      await LoginController.to.handleCleanAccessToken();
-                      UIUtils.toast("删除成功");
+                      final response = await APIProvider.instance
+                          .post("/post/post-templates");
+                      // UIUtils.toast(response.bodyString);
+
                     } catch (e) {
                       UIUtils.showError(e);
                     }
                   },
                 ),
-                if (!AuthProvider.to.isLogin)
-                  ListTile(
-                    title: Text(
-                      '登录',
-                      style: TextStyle(
-                        color: Colors.blue,
-                      ),
-                    ),
-                    onTap: () {
-                      Get.toNamed(Routes.LOGIN);
-                      //to close the drawer
-                    },
-                  ),
               ],
             ),
           )),
