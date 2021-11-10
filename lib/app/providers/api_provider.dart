@@ -15,7 +15,7 @@ class ApiOptions {
   bool withDefaultHeaders = true;
   bool? checkDataAttributes;
   ApiOptions(
-      {this.withSignature = false,
+      {this.withSignature = true,
       this.withAuthorization = true,
       this.withDefaultHeaders = true,
       this.checkDataAttributes});
@@ -88,6 +88,7 @@ class APIProvider {
     if (options.withDefaultHeaders) {
       headers['x-client-date'] = now;
       headers['x-client-id'] = config.clientId;
+      headers['x-client-version'] = config.version;
     }
     if (options.withSignature) {
       String queryString = Uri(queryParameters: query).query;
