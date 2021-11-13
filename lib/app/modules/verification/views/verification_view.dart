@@ -20,7 +20,7 @@ class VerificationView extends GetView<VerificationController> {
   @override
   Widget build(BuildContext context) {
     return PinCodeVerificationScreen(
-        "+8801376221100"); // a random number, please don't call xD
+        ""); // a random number, please don't call xD
   }
 }
 
@@ -56,16 +56,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   void dispose() {
     errorController!.close();
     super.dispose();
-  }
-
-  // snackBar Widget
-  snackBar(String? message) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message!),
-        duration: Duration(seconds: 2),
-      ),
-    );
   }
 
   @override
@@ -224,7 +214,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     onPressed: () async {
                       formKey.currentState!.validate();
                       // conditions for validating
-                      if (currentText.length != 6 || currentText != "123456") {
+                      if (currentText.length != 6) {
                         errorController!.add(ErrorAnimationType
                             .shake); // Triggering error shake animation
                         setState(() => hasError = true);
@@ -232,7 +222,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         setState(
                           () {
                             hasError = false;
-                            snackBar("OTP Verified!!");
+                            _controller.setVerificationCode(currentText);
                           },
                         );
                       }

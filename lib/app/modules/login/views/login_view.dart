@@ -127,8 +127,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               InternationalPhoneNumberInput(
                                 inputKey: _fieldKey,
                                 onInputChanged: (PhoneNumber number) {
-                                  print(number.phoneNumber);
-
                                   _controller.setPhoneNumber(
                                       number.phoneNumber ?? '',
                                       number.dialCode ?? '');
@@ -176,6 +174,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                           color: Colors.white,
                                         )),
                                     onPressed: () async {
+                                      if (!_controller.isNumberValid.value) {
+                                        UIUtils.toast(
+                                            "please_enter_correct_phone_number"
+                                                .tr);
+
+                                        return;
+                                      }
                                       try {
                                         await _controller.handleSendCode();
                                         UIUtils.toast('验证码发送成功');
@@ -198,15 +203,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
-  }
-
-  void getPhoneNumber(String phoneNumber) async {
-    PhoneNumber number =
-        await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
-
-    setState(() {
-      this.number = number;
-    });
   }
 
   @override

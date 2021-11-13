@@ -24,6 +24,7 @@ const Map<String, String> zh_Hans = {
   "too_many_requests_detail": "喝杯水再试",
   "client_network_error": "网络错误",
   "response_data_invalid": "服务器返回数据不合法",
+  "please_enter_correct_phone_number": "请输入正确的手机号",
   "please_fill_up_all_the_cells_properly": "请输入短信验证码",
   "we_have_sent_the_code_to_your_phone": "我们已发送验证码到你的手机：",
   "didn_t_receive_the_code": "没有收到验证码?",
