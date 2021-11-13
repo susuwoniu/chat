@@ -10,7 +10,10 @@ dependencies:
   flare_flutter: ^3.0.2
   tiktoklikescroller: ^0.1.8
   pin_code_fields: ^7.3.0
-  intl_phone_number_input: ^0.7.0+2
+  intl_phone_number_input:
+    git:
+      url: git@github.com:susuwoniu/intl_phone_number_input.git
+      ref: b694b94cc3a6484fe4699d7d41a133a6f8fd80ad
   get: ^4.3.8
   package_info: ^2.0.2
   crypto: ^3.0.1

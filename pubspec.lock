@@ -360,9 +360,11 @@ packages:
   intl_phone_number_input:
     dependency: "direct main"
     description:
-      name: intl_phone_number_input
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: b694b94cc3a6484fe4699d7d41a133a6f8fd80ad
+      resolved-ref: b694b94cc3a6484fe4699d7d41a133a6f8fd80ad
+      url: "git@github.com:susuwoniu/intl_phone_number_input.git"
+    source: git
     version: "0.7.0+2"
   io:
     dependency: transitive

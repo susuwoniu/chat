@@ -2,6 +2,8 @@ import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
+import '../../login/controllers/login_controller.dart';
+
 import '../controllers/verification_controller.dart';
 import 'package:chat/common.dart';
 import 'package:chat/app/routes/app_pages.dart';
@@ -44,7 +46,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   bool hasError = false;
   String currentText = "";
   final formKey = GlobalKey<FormState>();
-
+  final _controller = LoginController.to;
   @override
   void initState() {
     _bear_log_inController = bear_log_in_Controller();
@@ -165,6 +167,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       // },
                       onChanged: (value) {
                         print(value);
+                        if (value.isNotEmpty) {
+                          _bear_log_inController.coverEyes(true);
+                        } else {
+                          _bear_log_inController.coverEyes(false);
+                        }
                         setState(() {
                           currentText = value;
                         });
@@ -214,7 +221,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 child: ButtonTheme(
                   height: 50,
                   child: TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       formKey.currentState!.validate();
                       // conditions for validating
                       if (currentText.length != 6 || currentText != "123456") {
@@ -228,6 +235,26 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                             snackBar("OTP Verified!!");
                           },
                         );
+                      }
+                      try {
+                        await _controller.handleLogin();
+                        UIUtils.toast('登录成功');
+                        // 检测 next 参数，如果有，则跳转到next参数页面，没有则跳转到首页
+                        final next = Get.parameters['next'] ??
+                            Get.arguments?['next'] ??
+                            Routes.MAIN;
+                        final defaultAction =
+                            next.startsWith(Routes.MAIN) ? "offAll" : "off";
+                        final action = Get.parameters['action'] ??
+                            Get.arguments?['action'] ??
+                            defaultAction;
+                        if (action == 'offAll') {
+                          Get.offAllNamed(next);
+                        } else {
+                          Get.offNamed(next);
+                        }
+                      } catch (e) {
+                        UIUtils.showError(e);
                       }
                     },
                     child: Center(
@@ -254,30 +281,19 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           blurRadius: 5)
                     ]),
               ),
-              SizedBox(
-                height: 16,
-              ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: <Widget>[
-              //     Flexible(
-              //         child: TextButton(
-              //       child: Text("清空"),
-              //       onPressed: () {
-              //         textEditingController.clear();
-              //       },
-              //     )),
-              //     Flexible(
-              //         child: TextButton(
-              //       child: Text("Set Text"),
-              //       onPressed: () {
-              //         setState(() {
-              //           textEditingController.text = "123456";
-              //         });
-              //       },
-              //     )),
-              //   ],
-              // )
+              MaterialButton(
+                  child: Text(
+                    '测试请求 !!',
+                    style: TextStyle(color: Colors.blue, fontSize: 20),
+                  ),
+                  onPressed: () async {
+                    try {
+                      await _controller.getMe();
+                      UIUtils.toast('成功请求');
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  }),
             ],
           ),
         ),
@@ -285,76 +301,3 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
     );
   }
 }
-
-
-
-// class VerificationView extends GetView<LoginController> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('login_title'.tr),
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             MaterialButton(
-//                 child: Text(
-//                   '发送验证码',
-//                   style: TextStyle(color: Colors.blue, fontSize: 20),
-//                 ),
-//                 onPressed: () async {
-//                   try {
-//                     await controller.handleSendCode();
-//                     UIUtils.toast('验证码发送成功');
-//                   } catch (e) {
-//                     UIUtils.showError(e);
-//                   }
-//                 }),
-//             MaterialButton(
-//                 child: Text(
-//                   '点击登录 !!',
-//                   style: TextStyle(color: Colors.blue, fontSize: 20),
-//                 ),
-//                 onPressed: () async {
-//                   try {
-//                     await controller.handleLogin();
-//                     UIUtils.toast('登录成功');
-//                     // 检测 next 参数，如果有，则跳转到next参数页面，没有则跳转到首页
-//                     final next = Get.parameters['next'] ??
-//                         Get.arguments?['next'] ??
-//                         Routes.MAIN;
-//                     final defaultAction =
-//                         next.startsWith(Routes.MAIN) ? "offAll" : "off";
-//                     final action = Get.parameters['action'] ??
-//                         Get.arguments?['action'] ??
-//                         defaultAction;
-//                     if (action == 'offAll') {
-//                       Get.offAllNamed(next);
-//                     } else {
-//                       Get.offNamed(next);
-//                     }
-//                   } catch (e) {
-//                     UIUtils.showError(e);
-//                   }
-//                 }),
-//             MaterialButton(
-//                 child: Text(
-//                   '测试请求 !!',
-//                   style: TextStyle(color: Colors.blue, fontSize: 20),
-//                 ),
-//                 onPressed: () async {
-//                   try {
-//                     await controller.getMe();
-//                     UIUtils.toast('成功请求');
-//                   } catch (e) {
-//                     UIUtils.showError(e);
-//                   }
-//                 }),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

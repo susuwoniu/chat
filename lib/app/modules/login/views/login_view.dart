@@ -5,7 +5,7 @@ import 'package:chat/app/providers/providers.dart';
 import '../controllers/login_controller.dart';
 import 'package:chat/common.dart';
 import 'package:chat/app/routes/app_pages.dart';
-import 'package:flutter/services.dart';
+import 'dart:async';
 
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/rendering.dart';
@@ -13,6 +13,9 @@ import 'signin_button.dart';
 import 'bear_log_in_controller.dart';
 import 'tracking_text_input.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:flutter/services.dart';
+
+import 'input_helper.dart';
 
 class LoginView extends GetView<LoginController> {
   @override
@@ -32,13 +35,32 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey _fieldKey = GlobalKey();
 
+  Timer? _debounceTimer;
   final TextEditingController controller = TextEditingController();
   String initialCountry = 'CN';
   PhoneNumber number = PhoneNumber(isoCode: 'CN');
   late bear_log_in_Controller _bear_log_inController;
   @override
   initState() {
+    controller.addListener(() {
+      // We debounce the listener as sometimes the caret position is updated after the listener
+      // this assures us we get an accurate caret position.
+      if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
+      _debounceTimer = Timer(const Duration(milliseconds: 100), () {
+        if (_fieldKey.currentContext != null) {
+          // Find the render editable in the field.
+          final RenderObject? fieldBox =
+              _fieldKey.currentContext?.findRenderObject();
+          var caretPosition =
+              fieldBox is RenderBox ? getCaretPosition(fieldBox) : null;
+
+          _bear_log_inController.lookAt(caretPosition);
+        }
+      });
+    });
+
     _bear_log_inController = bear_log_in_Controller();
     super.initState();
   }
@@ -103,9 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               InternationalPhoneNumberInput(
-                                // onCaretMoved: (Offset? caret) {
-                                //   _bear_log_inController.lookAt(caret);
-                                // },
+                                inputKey: _fieldKey,
                                 onInputChanged: (PhoneNumber number) {
                                   print(number.phoneNumber);
                                 },
@@ -132,26 +152,25 @@ class _MyHomePageState extends State<MyHomePage> {
                                   print('On Saved: $number');
                                 },
                               ),
-                              // TrackingTextInput(
-                              //   label: "phone_number".tr,
-                              //   hint: "what_s_your_phone_number".tr,
-                              //   onCaretMoved: (Offset? caret) {
-                              //     _bear_log_inController.lookAt(caret);
-                              //   },
-                              // ),
                               Container(
-                                  // margin: EdgeInsets.only(top: 35),
+                                  margin: EdgeInsets.only(top: 35),
                                   child: SigninButton(
-                                child: Text("next".tr,
-                                    style: TextStyle(
-                                      fontFamily: "RobotoMedium",
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                    )),
-                                onPressed: () {
-                                  Get.toNamed(Routes.VERIFICATION);
-                                },
-                              )),
+                                    child: Text("next".tr,
+                                        style: TextStyle(
+                                          fontFamily: "RobotoMedium",
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                        )),
+                                    onPressed: () async {
+                                      try {
+                                        await _controller.handleSendCode();
+                                        UIUtils.toast('验证码发送成功');
+                                      } catch (e) {
+                                        UIUtils.showError(e);
+                                      }
+                                      Get.toNamed(Routes.VERIFICATION);
+                                    },
+                                  )),
                             ],
                           ),
                         ),
