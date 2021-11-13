@@ -15,6 +15,7 @@ dependencies:
       url: git@github.com:susuwoniu/intl_phone_number_input.git
       ref: b694b94cc3a6484fe4699d7d41a133a6f8fd80ad
   get: ^4.3.8
+  timer_count_down: ^2.2.0
   package_info: ^2.0.2
   crypto: ^3.0.1
   hexcolor: ^2.0.5

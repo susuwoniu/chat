@@ -128,6 +128,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                 inputKey: _fieldKey,
                                 onInputChanged: (PhoneNumber number) {
                                   print(number.phoneNumber);
+
+                                  _controller.setPhoneNumber(
+                                      number.phoneNumber ?? '',
+                                      number.dialCode ?? '');
+                                  _controller
+                                      .setCountryCode(number.dialCode ?? '');
                                 },
                                 onInputValidated: (bool value) {
                                   print(value);
@@ -135,14 +141,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                 selectorConfig: SelectorConfig(
                                   selectorType: PhoneInputSelectorType.DIALOG,
                                   useEmoji: true,
+                                  trailingSpace: false,
                                 ),
                                 ignoreBlank: false,
                                 autoValidateMode: AutovalidateMode.disabled,
-                                selectorTextStyle:
-                                    TextStyle(color: Colors.black),
+                                selectorTextStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
                                 initialValue: number,
                                 textFieldController: controller,
                                 formatInput: false,
+                                textAlignVertical: TextAlignVertical.top,
+                                textStyle: (TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                )),
                                 keyboardType: TextInputType.numberWithOptions(
                                     signed: true, decimal: true),
                                 inputBorder: null,

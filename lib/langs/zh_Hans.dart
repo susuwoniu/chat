@@ -27,10 +27,11 @@ const Map<String, String> zh_Hans = {
   "please_fill_up_all_the_cells_properly": "请输入短信验证码",
   "we_have_sent_the_code_to_your_phone": "我们已发送验证码到你的手机：",
   "didn_t_receive_the_code": "没有收到验证码?",
-  "resend": "重新发送",
+  "secends": "秒后",
+  "resend": "重新获取验证码",
   "submit": "提交",
   "phone_number": "手机号",
   "what_s_your_phone_number": "请输入手机号",
-  "next": "下一步",
+  "next": "获取短信验证码",
   "error_occured": "发生错误"
 };

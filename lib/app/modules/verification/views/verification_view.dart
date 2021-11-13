@@ -14,9 +14,7 @@ import '../../login/views/bear_log_in_controller.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/services.dart';
 
-// const List<TextInputFormatter> limit = <TextInputFormatter>[
-//   FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-// ];
+import 'package:timer_count_down/timer_count_down.dart';
 
 class VerificationView extends GetView<VerificationController> {
   @override
@@ -42,11 +40,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   late bear_log_in_Controller _bear_log_inController;
   // ignore: close_sinks
   StreamController<ErrorAnimationType>? errorController;
-
   bool hasError = false;
   String currentText = "";
   final formKey = GlobalKey<FormState>();
   final _controller = LoginController.to;
+
   @override
   void initState() {
     _bear_log_inController = bear_log_in_Controller();
@@ -80,7 +78,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
           child: ListView(
             children: <Widget>[
               Container(
-                  height: MediaQuery.of(context).size.height / 3,
+                  height: MediaQuery.of(context).size.height / 4,
                   child: Container(
                       height: 200,
                       padding: const EdgeInsets.only(left: 30.0, right: 30.0),
@@ -92,38 +90,29 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         controller: _bear_log_inController,
                       ))),
               Padding(
-                padding: const EdgeInsets.only(top: 40.0),
-                child: Text(
-                  "please_fill_up_all_the_cells_properly".tr,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
-                child: RichText(
-                  text: TextSpan(
-                      text: "we_have_sent_the_code_to_your_phone".tr,
-                      children: [
-                        TextSpan(
-                            text: "${widget.phoneNumber}",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15)),
-                      ],
-                      style: TextStyle(color: Colors.black54, fontSize: 15)),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+                  padding: EdgeInsets.fromLTRB(30, 30, 30, 5),
+                  child: Container(
+                    child: Column(children: [
+                      Text(
+                        "we_have_sent_the_code_to_your_phone".tr,
+                      ),
+                      Text(
+                        "${_controller.countryCode}${_controller.phoneNumber}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Colors.black,
+                            height: 1.8),
+                      ),
+                    ]),
+                  )),
               SizedBox(
                 height: 15,
               ),
               Form(
                 key: formKey,
                 child: Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
+                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                     child: PinCodeTextField(
                       appContext: context,
                       pastedTextStyle: TextStyle(
@@ -184,36 +173,47 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       },
                     )),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                child: Text(
-                  hasError ? "*Please fill up all the cells properly" : "",
-                  style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "didn_t_receive_the_code".tr,
-                    style: TextStyle(color: Colors.black54, fontSize: 15),
+              Container(
+                padding: const EdgeInsets.only(left: 23),
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  Countdown(
+                    seconds: 5,
+                    build: (BuildContext context, double time) {
+                      if (time > 0) {
+                        return TextButton(
+                          style: ButtonStyle(),
+                          onPressed: null,
+                          child: Text(
+                              time.round().toString() +
+                                  "secends".tr +
+                                  "resend".tr,
+                              style: TextStyle(
+                                color: Colors.blue.shade300,
+                                fontSize: 15,
+                              )),
+                        );
+                      } else {
+                        return TextButton(
+                          onPressed: () => {},
+                          child: Text(
+                            "resend".tr,
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                    interval: Duration(milliseconds: 1000),
+                    onFinished: () {
+                      print('Timer is done!');
+                    },
                   ),
-                  TextButton(
-                      onPressed: () => snackBar("OTP resend!!"),
-                      child: Text(
-                        "resend".tr,
-                        style: TextStyle(
-                            color: Color(0xFF91D3B3),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ))
-                ],
+                ]),
               ),
               SizedBox(
-                height: 14,
+                height: 10,
               ),
               Container(
                 margin:
