@@ -1,5 +1,6 @@
 const Map<String, String> zh_Hans = {
   'title': '这是标题',
+  'verification_title': '验证手机号',
   'login': '登录用户 @name，邮箱账号 @email',
   "general": "通用",
   "language": "语言",

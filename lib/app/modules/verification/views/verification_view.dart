@@ -61,6 +61,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("verification_title".tr),
+        centerTitle: true,
+      ),
       body: GestureDetector(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -271,19 +275,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           blurRadius: 5)
                     ]),
               ),
-              MaterialButton(
-                  child: Text(
-                    '测试请求 !!',
-                    style: TextStyle(color: Colors.blue, fontSize: 20),
-                  ),
-                  onPressed: () async {
-                    try {
-                      await _controller.getMe();
-                      UIUtils.toast('成功请求');
-                    } catch (e) {
-                      UIUtils.showError(e);
-                    }
-                  }),
             ],
           ),
         ),

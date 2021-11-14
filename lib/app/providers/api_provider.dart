@@ -161,7 +161,7 @@ class APIProvider {
   }) async {
     options = options ?? ApiOptions();
     // get default check data attributes
-    options.checkDataAttributes = options.checkDataAttributes ?? true;
+    options.checkDataAttributes = options.checkDataAttributes ?? false;
 
     var response = await request(path, "GET",
         query: query, headers: headers, options: options);
