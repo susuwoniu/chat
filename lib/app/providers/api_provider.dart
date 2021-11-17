@@ -7,6 +7,7 @@ import 'package:chat/utils/security.dart';
 import 'package:chat/utils/log.dart';
 import 'auth_provider.dart';
 import 'package:chat/types/types.dart';
+import 'dart:io' show Platform;
 
 // import 'package'
 class ApiOptions {
@@ -89,6 +90,7 @@ class APIProvider {
       headers['x-client-date'] = now;
       headers['x-client-id'] = config.clientId;
       headers['x-client-version'] = config.version;
+      headers['x-client-platform'] = Platform.isIOS ? 'iOS' : 'Android';
     }
     if (options.withSignature) {
       String queryString = Uri(queryParameters: query).query;
