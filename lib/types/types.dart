@@ -1,6 +1,7 @@
 library types;
 
 export 'post.dart';
+export 'postTemplates.dart';
 export 'token.dart';
 export 'account.dart';
 export 'error.dart';

@@ -19,4 +19,5 @@ Map<String, dynamic> _$MessageEntityToJson(MessageEntity instance) =>
       'id': instance.id,
       'text': instance.text,
       'name': instance.name,
+      'isMe': instance.isMe,
     };
