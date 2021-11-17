@@ -1,7 +1,6 @@
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:chat/app/providers/providers.dart';
 import '../controllers/login_controller.dart';
 import 'package:chat/common.dart';
 import 'package:chat/app/routes/app_pages.dart';
@@ -11,7 +10,6 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/rendering.dart';
 import 'signin_button.dart';
 import 'bear_log_in_controller.dart';
-import 'tracking_text_input.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:flutter/services.dart';
 
