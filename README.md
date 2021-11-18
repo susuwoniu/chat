@@ -16,6 +16,7 @@ A new Flutter project.
 - [Dart JSON and serialization](https://flutter.dev/docs/development/data-and-backend/json#code-generation)
 - [Colors](https://coolors.co/palettes/trending)
 - [Flutter Theme Generator Online](https://zeshuaro.github.io/flutter_theme/#/)
+- [Open IM SDK](https://github.com/OpenIMSDK/Open-IM-SDK-Flutter)
 ## Tips
 
 ### 创建页面
