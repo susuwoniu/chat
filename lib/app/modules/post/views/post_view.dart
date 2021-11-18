@@ -1,9 +1,7 @@
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-
+import 'package:chat/app/routes/app_pages.dart';
 import 'package:get/get.dart';
-
 import '../controllers/post_controller.dart';
 import 'package:tcard/tcard.dart';
 
@@ -41,30 +39,38 @@ class _TCardPageState extends State<PostCard> {
                       cards: List.generate(
                         _postController.postTemplatesIndexes.length,
                         (int index) {
-                          return Container(
-                            alignment: Alignment.topLeft,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: const Radius.circular(10),
-                                  topRight: const Radius.circular(10),
-                                  bottomLeft: const Radius.circular(10),
-                                  bottomRight: const Radius.circular(10)),
-                              color: HexColor(_postController
-                                  .postTemplatesMap[_postController
-                                      .postTemplatesIndexes[index]]!
-                                  .backgroundColor),
-                            ),
-                            child: Container(
-                                padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
-                                child: Text(
-                                  _postController
-                                      .postTemplatesMap[_postController
-                                          .postTemplatesIndexes[index]]!
-                                      .content,
-                                  style: TextStyle(
-                                      fontSize: 26.0, color: Colors.white),
-                                )),
-                          );
+                          return GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.ANSWER, arguments: {
+                                  "id": _postController
+                                      .postTemplatesIndexes[index]
+                                });
+                              },
+                              child: Container(
+                                  alignment: Alignment.topLeft,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: const Radius.circular(10),
+                                        topRight: const Radius.circular(10),
+                                        bottomLeft: const Radius.circular(10),
+                                        bottomRight: const Radius.circular(10)),
+                                    color: HexColor(_postController
+                                        .postTemplatesMap[_postController
+                                            .postTemplatesIndexes[index]]!
+                                        .backgroundColor),
+                                  ),
+                                  child: Container(
+                                      padding:
+                                          EdgeInsets.fromLTRB(20, 20, 0, 0),
+                                      child: Text(
+                                        _postController
+                                            .postTemplatesMap[_postController
+                                                .postTemplatesIndexes[index]]!
+                                            .content,
+                                        style: TextStyle(
+                                            fontSize: 26.0,
+                                            color: Colors.white),
+                                      ))));
                         },
                       ),
                       controller: _controller,

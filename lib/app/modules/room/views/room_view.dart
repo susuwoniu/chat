@@ -92,7 +92,7 @@ class RoomView extends GetView<RoomController> {
                     child: Theme.of(context).platform == TargetPlatform.iOS
                         ? // MODIFIED
                         TextButton(
-                            child: Text('Send'),
+                            child: Text('Send'.tr),
                             onPressed: _isComposing
                                 ? () => _handleSubmitted(_textController.text)
                                 : null,
