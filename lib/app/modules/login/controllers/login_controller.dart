@@ -27,6 +27,10 @@ class LoginController extends GetxController {
             checkDataAttributes: true,
             withAuthorization: false));
     final token = TokenEntity.fromJson(body["data"]["attributes"]);
+    // login im service
+
+    final imProvider = ImProvider.to;
+    await imProvider.login(token.accountId, token.imAccessToken);
     await AuthProvider.to.saveToken(token);
     // Get.offAndToNamed(AppRoutes.Application);
   }
@@ -65,6 +69,7 @@ class LoginController extends GetxController {
   handleLogout() async {
     await APIProvider().delete("/account/sessions");
     await AuthProvider.to.cleanToken();
+    await ImProvider.to.logout();
   }
 
   handleCleanAccessToken() async {

@@ -1,7 +1,6 @@
 import 'base_config.dart';
 import 'dart:io' show Platform;
 import 'package:chat/constants/constants.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'default_config.dart';
 
 class ProdConfig with DefaultConfig implements BaseConfig {

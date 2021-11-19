@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:get/get.dart' hide FormData;
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:chat/errors/errors.dart';
@@ -50,6 +51,50 @@ class APIProvider {
     // BaseOptions、Options、RequestOptions 都可以配置参数，优先级别依次递增，且可以根据优先级别覆盖参数
 
     client = GetClient();
+  }
+
+  Future<void> init() async {
+    // refresh token
+    if (await AuthProvider.to.isNeedRenewToken() &&
+        AuthProvider.to.hasRefreshToken) {
+      try {
+        await renewToken();
+      } catch (e) {
+        // ignore
+        print("renew token failed, $e");
+      }
+    }
+  }
+
+  Future<TokenEntity> renewToken() async {
+    // refresh token
+    if (await AuthProvider.to.isNeedRenewToken() &&
+        AuthProvider.to.hasRefreshToken) {
+      // 续期token
+      // /account/access-tokens
+      try {
+        final tokenBody = await post("/account/access-tokens",
+            headers: {
+              'Authorization': "Bearer ${AuthProvider.to.refreshToken}"
+            },
+            options: ApiOptions(
+                withAuthorization: false,
+                withSignature: true,
+                checkDataAttributes: true));
+        final token = TokenEntity.fromJson(tokenBody["data"]["attributes"]);
+        // save token
+        await AuthProvider.to.saveToken(token);
+        // continue request
+        return token;
+      } catch (e) {
+        await AuthProvider.to.cleanToken();
+        rethrow;
+      }
+    } else {
+      // remove refreshToken
+      throw ServiceException.withCode("renew_token_failed".tr,
+          code: "renew_token_failed");
+    }
   }
 
   /// restful post 操作
@@ -112,16 +157,7 @@ class APIProvider {
         // check refresh token if null
         if (authProvider.refreshToken != null) {
           // 续期token
-          // /account/access-tokens
-          final tokenBody = await post("/account/access-tokens",
-              headers: {'Authorization': "Bearer ${authProvider.refreshToken}"},
-              options: ApiOptions(
-                  withAuthorization: false,
-                  withSignature: true,
-                  checkDataAttributes: true));
-          final token = TokenEntity.fromJson(tokenBody["data"]["attributes"]);
-          // save token
-          await AuthProvider.to.saveToken(token);
+          final token = await renewToken();
           // continue request
           headers['Authorization'] = "Bearer ${token.accessToken}";
         }

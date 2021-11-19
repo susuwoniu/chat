@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:chat/app/middleware/auth_middleware.dart';
 import 'package:chat/app/modules/answer/bindings/answer_binding.dart';
 import 'package:chat/app/modules/answer/views/answer_view.dart';
+import 'package:chat/app/modules/chat/bindings/chat_binding.dart';
+import 'package:chat/app/modules/chat/views/chat_view.dart';
 import 'package:chat/app/modules/debug/bindings/debug_binding.dart';
 import 'package:chat/app/modules/debug/views/debug_view.dart';
 import 'package:chat/app/modules/home/bindings/home_binding.dart';
@@ -144,6 +146,11 @@ class AppPages {
       name: _Paths.ANSWER,
       page: () => AnswerView(),
       binding: AnswerBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHAT,
+      page: () => ChatView(),
+      binding: ChatBinding(),
     ),
   ];
 }

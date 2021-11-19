@@ -1,5 +1,7 @@
 PODS:
   - Flutter (1.0.0)
+  - flutter_openim_sdk (0.0.1):
+    - Flutter
   - flutter_secure_storage (3.3.1):
     - Flutter
   - hexcolor (0.0.1):
@@ -14,17 +16,27 @@ PODS:
     - libPhoneNumber-iOS
   - package_info (0.0.1):
     - Flutter
+  - path_provider_ios (0.0.1):
+    - Flutter
+  - "permission_handler (5.1.0+2)":
+    - Flutter
   - shared_preferences (0.0.1):
+    - Flutter
+  - url_launcher (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - flutter_openim_sdk (from `.symlinks/plugins/flutter_openim_sdk/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - hexcolor (from `.symlinks/plugins/hexcolor/ios`)
   - libphonenumber (from `.symlinks/plugins/libphonenumber/ios`)
   - libphonenumber_plugin (from `.symlinks/plugins/libphonenumber_plugin/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
+  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
+  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
   trunk:
@@ -33,6 +45,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  flutter_openim_sdk:
+    :path: ".symlinks/plugins/flutter_openim_sdk/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   hexcolor:
@@ -43,18 +57,28 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/libphonenumber_plugin/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
+  path_provider_ios:
+    :path: ".symlinks/plugins/path_provider_ios/ios"
+  permission_handler:
+    :path: ".symlinks/plugins/permission_handler/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+  url_launcher:
+    :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  flutter_openim_sdk: fb45777c3d642ea4921f6687c8a4fac41c025eda
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   hexcolor: fdfb9c4258ad96e949c2dbcdf790a62194b8aa89
   libphonenumber: bd14d5abfc5939ab0b0767234e2d8e2593af258e
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
   libphonenumber_plugin: 7cf755ad1656145935d6c208173a476bd3f12898
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
+  path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
+  permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   shared_preferences: 5033afbb22d372e15aff8ff766df9021b845f273
+  url_launcher: b6e016d912f04be9f5bf6e8e82dc599b7ba59649
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

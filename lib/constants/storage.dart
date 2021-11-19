@@ -5,6 +5,8 @@ const String STORAGE_ACCOUNT_TOKEN_INFO_KEY = 'account_token_info';
 const String STORAGE_ACCOUNT_ACCESS_TOKEN_KEY = 'account_access_token';
 
 const String STORAGE_ACCOUNT_REFRESH_TOKEN_KEY = 'account_refresh_token';
+const String STORAGE_ACCOUNT_IM_ACCESS_TOKEN_KEY = 'account_im_access_token';
+const String STORAGE_ACCOUNT_ID_KEY = 'current_account_id';
 
 /// 设备是否第一次打开
 const String STORAGE_DEVICE_FIRST_OPEN_KEY = 'device_first_open';

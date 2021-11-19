@@ -26,6 +26,7 @@ abstract class Routes {
   static const ENSURE_AUTH_PAGES = [TEST3];
   static const VERIFICATION = _Paths.VERIFICATION;
   static const ANSWER = _Paths.ANSWER;
+  static const CHAT = _Paths.CHAT;
 }
 
 abstract class _Paths {
@@ -46,4 +47,5 @@ abstract class _Paths {
   static const DEBUG = '/debug';
   static const VERIFICATION = '/verification';
   static const ANSWER = '/answer';
+  static const CHAT = '/chat';
 }

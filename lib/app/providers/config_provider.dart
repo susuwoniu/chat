@@ -20,9 +20,9 @@ class ConfigProvider extends GetxService {
 
   @override
   void onInit() {
-    super.onInit();
     isFirstOpen = KVProvider.to.getBool(STORAGE_DEVICE_FIRST_OPEN_KEY);
     nightMode.value = KVProvider.to.getBool(NIGHT_MODE_KEY);
+    super.onInit();
   }
 
   toggleNightMode(bool value) {
@@ -43,7 +43,7 @@ class ConfigProvider extends GetxService {
 
   void onInitLocale() {
     var langCode = KVProvider.to.getString(STORAGE_LANGUAGE_CODE);
-    if (langCode.isEmpty) return;
+    if (langCode == null) return;
     var index = languages.indexWhere((element) {
       return element.languageCode == langCode;
     });

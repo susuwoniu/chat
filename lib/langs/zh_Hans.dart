@@ -37,5 +37,6 @@ const Map<String, String> zh_Hans = {
   "phone_number": "手机号",
   "what_s_your_phone_number": "请输入手机号",
   "next": "获取短信验证码",
-  "error_occured": "发生错误"
+  "error_occured": "发生错误",
+  "renew_token_failed": "登录失败"
 };

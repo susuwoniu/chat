@@ -17,6 +17,7 @@ A new Flutter project.
 - [Colors](https://coolors.co/palettes/trending)
 - [Flutter Theme Generator Online](https://zeshuaro.github.io/flutter_theme/#/)
 - [Open IM SDK](https://github.com/OpenIMSDK/Open-IM-SDK-Flutter)
+- [flutter chat ui docs](https://docs.flyer.chat/flutter/chat-ui/advanced-usage)
 ## Tips
 
 ### 创建页面

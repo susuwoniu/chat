@@ -4,40 +4,26 @@ import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app/routes/app_pages.dart';
 import "package:chat/langs/translation_service.dart";
-import "global.dart";
 import './theme.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/config/config.dart';
 import 'package:chat/common.dart';
+import 'global.dart';
 
 Future<void> main() async {
-  await Global.init();
   const String env = String.fromEnvironment(
     'env',
     defaultValue: AppConfig.DEV,
   );
+  await Global.init();
+
   runApp(
     GetMaterialApp(
       title: "Application",
-      routingCallback: (routing) async {
-        Log.debug("previouse ${routing?.previous}");
-        Log.debug(routing?.current);
-        // if (routing?.current != null) {
-        //   final uri = Uri.parse((routing!.current));
-        //   if (Routes.ENSURE_AUTH_PAGES.contains(uri.path)) {
-        //     if (!AuthProvider.to.isLogin) {
-        //       // to login page
-        //       await Get.offNamed(Routes.LOGIN,
-        //           parameters: {"next": routing.current});
-        //       // return;
-        //     }
-        //   }
-        //   Log.debug(uri.path);
-        // }
-      },
       getPages: AppPages.routes,
       initialRoute: AppPages.INITIAL,
+      showPerformanceOverlay: false,
       debugShowCheckedModeBanner: false,
       theme: ChatThemeData.lightThemeData,
       // The Mandy red, dark theme.

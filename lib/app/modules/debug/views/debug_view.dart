@@ -3,7 +3,7 @@ import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/config/config.dart';
 import 'dart:convert';
-
+import 'package:clipboard/clipboard.dart';
 import 'package:get/get.dart';
 
 import '../controllers/debug_controller.dart';
@@ -31,6 +31,18 @@ class DebugView extends GetView<DebugController> {
                 if (AuthProvider.to.isLogin)
                   ListTile(
                     title: Text(
+                      'Account ID: ${AuthProvider.to.accountId}',
+                    ),
+                    onTap: () async {
+                      // copy
+                      await FlutterClipboard.copy(
+                          AuthProvider.to.accountId ?? "");
+                      UIUtils.toast("已复制");
+                    },
+                  ),
+                if (AuthProvider.to.isLogin)
+                  ListTile(
+                    title: Text(
                       '退出登录',
                       style: TextStyle(
                         color: Colors.red,
@@ -45,22 +57,23 @@ class DebugView extends GetView<DebugController> {
                       }
                     },
                   ),
-                ListTile(
-                  title: Text(
-                    '删除access_token',
-                    style: TextStyle(
-                      color: Colors.red,
+                if (AuthProvider.to.isLogin)
+                  ListTile(
+                    title: Text(
+                      '删除access_token',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
                     ),
+                    onTap: () async {
+                      try {
+                        await LoginController.to.handleCleanAccessToken();
+                        UIUtils.toast("删除成功");
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
+                    },
                   ),
-                  onTap: () async {
-                    try {
-                      await LoginController.to.handleCleanAccessToken();
-                      UIUtils.toast("删除成功");
-                    } catch (e) {
-                      UIUtils.showError(e);
-                    }
-                  },
-                ),
                 if (!AuthProvider.to.isLogin)
                   ListTile(
                     title: Text(

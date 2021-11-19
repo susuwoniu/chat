@@ -7,11 +7,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:chat/config/config.dart';
 import 'package:chat/utils/log.dart';
 import 'package:chat/app/modules/login/controllers/login_controller.dart';
+import 'dart:developer';
 
 /// 全局静态数据
 class Global {
   /// 初始化
   static Future init() async {
+    Timeline.startSync('global init function');
+
     WidgetsFlutterBinding.ensureInitialized();
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
@@ -41,6 +44,9 @@ class Global {
     Get.put<LoginController>(LoginController());
     Get.put<ConfigProvider>(ConfigProvider());
     Get.put<AuthProvider>(AuthProvider());
+    Get.put<ImProvider>(ImProvider());
+    Timeline.finishSync();
+    print('global init finish');
   }
 
   static void setSystemUi() {
