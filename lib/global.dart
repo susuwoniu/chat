@@ -44,7 +44,7 @@ class Global {
     Get.put<LoginController>(LoginController());
     Get.put<ConfigProvider>(ConfigProvider());
     Get.put<AuthProvider>(AuthProvider());
-    Get.put<ImProvider>(ImProvider());
+    // Get.put<ImProvider>(ImProvider());
     Timeline.finishSync();
     print('global init finish');
   }

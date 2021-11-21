@@ -10,6 +10,13 @@ import './conversation_item.dart';
 class MessageView extends GetView<MessageController> {
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("message"),
+        centerTitle: true,
+      ),
+      body: Container(child: Text("test")),
+    );
     return Obx(
       () => TouchCloseSoftKeyboard(
         child: Scaffold(
@@ -22,23 +29,24 @@ class MessageView extends GetView<MessageController> {
           body: CustomScrollView(
             slivers: [
               SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => GestureDetector(
-                      onTap: () => controller.toChat(index),
-                      behavior: HitTestBehavior.translucent,
-                      child: conversationItemView(
-                        onTap: (index) {
-                          controller.toChat(index);
-                        },
-                        context: context,
-                        index: index,
-                        title: controller.getShowName(index),
-                        lastMessage: controller.getMsgContent(index),
-                        updatedAtStr: controller.getTime(index),
-                        unreadCount: controller.getUnreadCount(index),
-                      )),
-                  childCount: controller.list.length,
-                ),
+                delegate: SliverChildBuilderDelegate((context, index) =>
+                    GestureDetector(
+                        onTap: () => controller.toChat(index),
+                        behavior: HitTestBehavior.translucent,
+                        child: Text("xx")
+                        // child: conversationItemView(
+                        //   onTap: (index) {
+                        //     controller.toChat(index);
+                        //   },
+                        //   context: context,
+                        //   index: index,
+                        //   title: controller.getShowName(index),
+                        //   lastMessage: controller.getMsgContent(index),
+                        //   updatedAtStr: controller.getTime(index),
+                        //   unreadCount: controller.getUnreadCount(index),
+                        // )),
+                        // childCount: controller.list.length,
+                        )),
               ),
             ],
           ),

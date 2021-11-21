@@ -20,7 +20,7 @@ class ChatView extends GetView<ChatController> {
             messages: controller.indexes.reversed.map((id) {
               return controller.entities[id]!;
             }).toList(),
-            onSendPressed: controller.handleSendPressed,
+            onSendPressed: (_) {},
             user: controller.user!,
           ),
         ));
