@@ -32,6 +32,7 @@ const Map<String, String> zh_Hans = {
   "didn_t_receive_the_code": "没有收到验证码?",
   "secends": "秒后",
   "Send": "发送",
+  "send_successfully": "发送成功!",
   "resend": "重新获取验证码",
   "submit": "提交",
   "phone_number": "手机号",

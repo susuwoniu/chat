@@ -84,7 +84,6 @@ class RoomView extends GetView<RoomController> {
                     onSubmitted:
                         _isComposing ? _handleSubmitted : null, // MODIFIED
                     decoration: InputDecoration(hintText: 'Send a message'),
-
                     focusNode: _focusNode,
                   ),
                 ),

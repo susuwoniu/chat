@@ -5,7 +5,6 @@ import 'package:chat/config/config.dart';
 import 'dart:convert';
 import 'package:clipboard/clipboard.dart';
 import 'package:get/get.dart';
-
 import '../controllers/debug_controller.dart';
 import 'package:chat/app/modules/login/controllers/login_controller.dart';
 import 'package:chat/common.dart';
