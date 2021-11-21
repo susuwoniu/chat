@@ -37,7 +37,7 @@ class AuthProvider extends GetxService {
     if (_accessToken != null && _imAccessToken != null && _accountId != null) {
       // init im login
 
-      await ImProvider.to.login(_accountId!, _imAccessToken!);
+      // await ImProvider.to.login(_accountId!, _imAccessToken!);
       _isLogin.value = true;
     } else {
       _isLogin.value = false;

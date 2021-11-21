@@ -13,19 +13,19 @@ class MessageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    imLogic.conversationAddedSubject.listen((newList) {
-      // getAllConversationList();
-      // list.addAll(newList);
-      list.insertAll(0, newList);
-    });
-    imLogic.conversationChangedSubject.listen((newList) {
-      list.assignAll(newList);
-    });
+    // imLogic.conversationAddedSubject.listen((newList) {
+    //   // getAllConversationList();
+    //   // list.addAll(newList);
+    //   list.insertAll(0, newList);
+    // });
+    // imLogic.conversationChangedSubject.listen((newList) {
+    //   list.assignAll(newList);
+    // });
   }
 
   @override
   void onReady() {
-    getAllConversationList();
+    // getAllConversationList();
     super.onReady();
   }
 

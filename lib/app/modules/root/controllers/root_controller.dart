@@ -21,7 +21,7 @@ class RootController extends GetxController {
       Permission.speech,
       Permission.location,
     ]);
-    await ImProvider.to.init();
+    // await ImProvider.to.init();
 
     await AuthProvider.to.init();
     await APIProvider().init();
