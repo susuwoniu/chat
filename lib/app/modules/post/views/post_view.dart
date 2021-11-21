@@ -1,9 +1,11 @@
+import 'package:chat/app/modules/post/views/templates.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import '../controllers/post_controller.dart';
 import 'package:tcard/tcard.dart';
+import './templates.dart';
 
 class PostCard extends StatefulWidget {
   @override
@@ -16,6 +18,8 @@ class _TCardPageState extends State<PostCard> {
   final TCardController _controller = TCardController();
   int _index = 0;
   final _postController = PostController.to;
+  final _indexList = PostController.to.postTemplatesIndexes;
+  final _map = PostController.to.postTemplatesMap;
 
   @override
   Widget build(BuildContext context) {
@@ -37,40 +41,27 @@ class _TCardPageState extends State<PostCard> {
                       size: Size(MediaQuery.of(context).size.width * 0.95,
                           MediaQuery.of(context).size.height * 0.7),
                       cards: List.generate(
-                        _postController.postTemplatesIndexes.length,
+                        _indexList.length,
                         (int index) {
+                          final _item = _map[_indexList[index]];
+
                           return GestureDetector(
                               onTap: () {
-                                Get.toNamed(Routes.ANSWER, arguments: {
-                                  "id": _postController
-                                      .postTemplatesIndexes[index]
-                                });
+                                Get.toNamed(Routes.ANSWER,
+                                    arguments: {"id": _indexList[index]});
                               },
                               child: Container(
-                                  alignment: Alignment.topLeft,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(10),
-                                        topRight: const Radius.circular(10),
-                                        bottomLeft: const Radius.circular(10),
-                                        bottomRight: const Radius.circular(10)),
-                                    color: HexColor(_postController
-                                        .postTemplatesMap[_postController
-                                            .postTemplatesIndexes[index]]!
-                                        .backgroundColor),
-                                  ),
-                                  child: Container(
-                                      padding:
-                                          EdgeInsets.fromLTRB(20, 20, 0, 0),
-                                      child: Text(
-                                        _postController
-                                            .postTemplatesMap[_postController
-                                                .postTemplatesIndexes[index]]!
-                                            .content,
-                                        style: TextStyle(
-                                            fontSize: 26.0,
-                                            color: Colors.white),
-                                      ))));
+                                alignment: Alignment.topLeft,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      const Radius.circular(10)),
+                                  color: HexColor(_item!.backgroundColor),
+                                ),
+                                child: Templates(
+                                    question: _item.content,
+                                    enabled: false,
+                                    id: _indexList[index]),
+                              ));
                         },
                       ),
                       controller: _controller,

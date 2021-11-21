@@ -1,12 +1,11 @@
 import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
-import 'package:chat/types/types.dart';
 
 class AnswerController extends GetxController {
   static AnswerController get to => Get.find();
 
   final count = 0.obs;
-  final content = ''.obs;
+  final answer = ''.obs;
   final isComposing = false.obs;
 
   @override
@@ -22,14 +21,14 @@ class AnswerController extends GetxController {
   @override
   void onClose() {}
   void increment() => count.value++;
-  postInputContent(String content, String id) async {
-    await APIProvider().post("/post/posts",
-        body: {"content": content, "post_template_id": id});
+  postAnswer(String answer, String id) async {
+    await APIProvider()
+        .post("/post/posts", body: {"content": answer, "post_template_id": id});
     setIsComposing(false);
   }
 
-  void setContent(String input) {
-    content.value = input;
+  void setAnswer(String input) {
+    answer.value = input;
   }
 
   void setIsComposing(bool value) => isComposing.value = value;
