@@ -86,6 +86,47 @@ class DebugView extends GetView<DebugController> {
                       //to close the drawer
                     },
                   ),
+                if (!AuthProvider.to.isLogin)
+                  ListTile(
+                    title: Text(
+                      '快捷获取验证码',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                    onTap: () async {
+                      LoginController.to.setCountryCode("+86");
+                      LoginController.to
+                          .setPhoneNumber("+8615578875692", "+86");
+                      try {
+                        await LoginController.to.handleSendCode();
+                        UIUtils.toast("发送成功");
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
+                      // Get.toNamed(Routes.LOGIN);
+                      //to close the drawer
+                    },
+                  ),
+                if (!AuthProvider.to.isLogin)
+                  ListTile(
+                    title: Text(
+                      '快捷登录测试号',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                    onTap: () async {
+                      try {
+                        LoginController.to.setVerificationCode("123456");
+                        await LoginController.to.handleLogin();
+                        UIUtils.toast("登录成功");
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
+                      //to close the drawer
+                    },
+                  ),
                 ListTile(
                   title: Text('Post'),
                   onTap: () {
