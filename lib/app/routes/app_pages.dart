@@ -15,6 +15,8 @@ import 'package:chat/app/modules/login/bindings/login_binding.dart';
 import 'package:chat/app/modules/login/views/login_view.dart';
 import 'package:chat/app/modules/main/bindings/main_binding.dart';
 import 'package:chat/app/modules/main/views/main_view.dart';
+import 'package:chat/app/modules/me/bindings/me_binding.dart';
+import 'package:chat/app/modules/me/views/me_view.dart';
 import 'package:chat/app/modules/message/bindings/message_binding.dart';
 import 'package:chat/app/modules/message/views/message_view.dart';
 import 'package:chat/app/modules/notfound/bindings/notfound_binding.dart';
@@ -151,6 +153,11 @@ class AppPages {
       name: _Paths.CHAT,
       page: () => ChatView(),
       binding: ChatBinding(),
+    ),
+    GetPage(
+      name: _Paths.ME,
+      page: () => MeView(),
+      binding: MeBinding(),
     ),
   ];
 }

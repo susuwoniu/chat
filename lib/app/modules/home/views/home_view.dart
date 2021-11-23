@@ -42,7 +42,7 @@ class HomeView extends GetView<HomeController> {
             child: IconButton(
               icon: CircleAvatar(),
               onPressed: () {
-                Get.toNamed(Routes.SETTING);
+                Get.toNamed(Routes.ME);
               },
             ),
           )
