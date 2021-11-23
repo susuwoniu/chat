@@ -14,7 +14,5 @@ class Test2Controller extends GetxController {
     super.onReady();
   }
 
-  @override
-  void onClose() {}
   void increment() => count.value++;
 }

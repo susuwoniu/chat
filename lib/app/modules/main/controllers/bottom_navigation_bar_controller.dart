@@ -74,8 +74,6 @@ class BottomNavigationBarController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {}
   void changeBackgroundColor(String value) {
     if (value.isNotEmpty) {
       backgroundColor.value = value;

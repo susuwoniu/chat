@@ -28,8 +28,6 @@ class RoomController extends GetxController {
     super.onReady();
   }
 
-  @override
-  void onClose() {}
   void increment() => count.value++;
   void postMessage(String text, String name, bool isMe) {
     final id = DateTime.now().millisecondsSinceEpoch.toString();

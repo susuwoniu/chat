@@ -48,8 +48,6 @@ class HomeController extends GetxController {
 
   insertEntity() async {}
 
-  @override
-  void onClose() {}
   void loadingNext() async {
     try {
       getPosts(after: currentEndCursor.value);

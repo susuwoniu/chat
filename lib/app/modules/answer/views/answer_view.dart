@@ -8,7 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import '../../post/views/templates.dart';
 
-class AnswerView extends GetView<PostController> {
+class AnswerView extends GetView<AnswerController> {
   final _answerController = AnswerController.to;
   final _id = Get.arguments['id'];
 
@@ -34,14 +34,13 @@ class AnswerView extends GetView<PostController> {
 
           final isCanSend = _isComposing && !_isSubmitting;
           final question = _item.content;
-          final _backgroundColor =
-              controller.postTemplatesMap[_id]!.backgroundColor;
+          final _backgroundColor = _item.backgroundColor;
 
           return Center(
               child: GestureDetector(
                   onTap: () {
                     FocusScope.of(context).unfocus();
-                    Get.offNamed(Routes.ROOT);
+                    // Get.offAllNamed(Routes.ROOT);
                   },
                   child: Container(
                     width: _width,
@@ -107,7 +106,7 @@ class AnswerView extends GetView<PostController> {
 
       UIUtils.hideLoading();
       UIUtils.toast("send_successfully".tr);
-      Get.offNamed(Routes.MAIN);
+      Get.offAllNamed(Routes.ROOT);
     } catch (e) {
       UIUtils.hideLoading();
       UIUtils.showError(e);

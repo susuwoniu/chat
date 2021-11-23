@@ -21,8 +21,6 @@ class AnswerController extends GetxController {
     super.onReady();
   }
 
-  @override
-  void onClose() {}
   void increment() => count.value++;
   postAnswer(String answer, String id) async {
     await APIProvider()
