@@ -21,6 +21,11 @@ class Test2View extends GetView<Test2Controller> {
                   Get.toNamed(Routes.TEST3);
                 },
                 child: Text("Test1")),
+            TextButton(
+                onPressed: () {
+                  Get.offAllNamed(Routes.MAIN);
+                },
+                child: Text("Main")),
             Text(
               'Test2View is working',
               style: TextStyle(fontSize: 20),

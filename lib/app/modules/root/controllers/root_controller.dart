@@ -31,7 +31,4 @@ class RootController extends GetxController {
     Get.offNamed(Routes.MAIN);
     super.onReady();
   }
-
-  @override
-  void onClose() {}
 }

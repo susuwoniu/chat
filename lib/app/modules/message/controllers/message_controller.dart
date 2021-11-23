@@ -40,11 +40,6 @@ class MessageController extends GetxController {
     super.onReady();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
   void toChat(int index) async {
     // var info = list.elementAt(index);
     // var draftText = await AppNavigator.startChat(

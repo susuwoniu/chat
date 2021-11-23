@@ -6,7 +6,10 @@ class AnswerController extends GetxController {
 
   final count = 0.obs;
   final answer = ''.obs;
-  final isComposing = false.obs;
+  final _isComposing = false.obs;
+  final _isSubmitting = false.obs;
+  bool get isComposing => _isComposing.value;
+  bool get isSubmitting => _isSubmitting.value;
 
   @override
   void onInit() {
@@ -18,18 +21,21 @@ class AnswerController extends GetxController {
     super.onReady();
   }
 
-  @override
-  void onClose() {}
   void increment() => count.value++;
   postAnswer(String answer, String id) async {
     await APIProvider()
         .post("/post/posts", body: {"content": answer, "post_template_id": id});
-    setIsComposing(false);
   }
 
   void setAnswer(String input) {
     answer.value = input;
   }
 
-  void setIsComposing(bool value) => isComposing.value = value;
+  void setIsComposing(bool value) {
+    _isComposing.value = value;
+  }
+
+  void setIsSubmitting(bool value) {
+    _isSubmitting.value = value;
+  }
 }

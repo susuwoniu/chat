@@ -25,16 +25,14 @@ class PostController extends GetxController {
 
   @override
   void onReady() async {
-    super.onReady();
     try {
       await getPosts();
     } catch (e) {
       UIUtils.showError(e);
     }
+    super.onReady();
   }
 
-  @override
-  void onClose() {}
   void increment() => count.value++;
   void setIndex(int i) {
     index.value = i;

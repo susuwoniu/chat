@@ -24,7 +24,6 @@ class BottomNavigationBarController extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
     print("onInit main");
     // handleInitialUri();
     // handleIncomingLinks();
@@ -46,6 +45,7 @@ class BottomNavigationBarController extends GetxController {
       });
     }
     pageController = PageController(initialPage: _page.value);
+    super.onInit();
   }
 
   final isInit = false.obs;
@@ -74,8 +74,6 @@ class BottomNavigationBarController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {}
   void changeBackgroundColor(String value) {
     if (value.isNotEmpty) {
       backgroundColor.value = value;

@@ -15,12 +15,12 @@ class HomeController extends GetxController {
 
   @override
   void onReady() async {
-    super.onReady();
     try {
-      await getPosts();
+      // await getPosts();
     } catch (e) {
       UIUtils.showError(e);
     }
+    super.onReady();
   }
 
   getPosts({String? after}) async {
@@ -48,8 +48,6 @@ class HomeController extends GetxController {
 
   insertEntity() async {}
 
-  @override
-  void onClose() {}
   void loadingNext() async {
     try {
       getPosts(after: currentEndCursor.value);

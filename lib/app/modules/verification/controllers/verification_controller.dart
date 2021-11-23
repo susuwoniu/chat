@@ -14,7 +14,5 @@ class VerificationController extends GetxController {
     super.onReady();
   }
 
-  @override
-  void onClose() {}
   void increment() => count.value++;
 }
