@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AgeWidget extends StatelessWidget {
-  final String age;
+  final String text;
   final IconData iconName;
   final double borderRadius;
   final double paddingLeft;
   final double paddingRight;
   final double paddingTop;
-  final double paddingBottom;
   final double iconSize;
   final double fontSize;
   final Color backgroundColor;
@@ -15,13 +14,12 @@ class AgeWidget extends StatelessWidget {
 
   AgeWidget({
     Key? key,
-    required this.age,
+    required this.text,
     required this.iconName,
     required this.borderRadius,
     required this.paddingLeft,
     required this.paddingRight,
     required this.paddingTop,
-    required this.paddingBottom,
     required this.fontSize,
     required this.iconSize,
     required this.backgroundColor,
@@ -31,7 +29,7 @@ class AgeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.fromLTRB(
-            paddingLeft, paddingTop, paddingRight, paddingBottom),
+            paddingLeft, paddingTop, paddingRight, paddingTop),
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.circular(borderRadius),
@@ -41,7 +39,7 @@ class AgeWidget extends StatelessWidget {
             padding: EdgeInsets.only(right: 3),
             child: Icon(iconName, color: iconColor, size: iconSize),
           ),
-          Text(age,
+          Text(text,
               style: TextStyle(
                 fontSize: fontSize,
                 color: Colors.white,
