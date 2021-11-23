@@ -31,6 +31,7 @@ dependencies:
   responsive_framework: ^0.1.5
   scrollable_positioned_list: ^0.2.2
   permission_handler: ^8.3.0
+  platform_device_id: ^1.0.1
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -39,6 +40,9 @@ dependencies:
   clipboard: ^0.1.3
   flutter_chat_ui: ^1.5.1
   sprintf: ^6.0.0
+  # xmpp_stone: ^0.4.2-dev.1
+  xmpp_stone:
+    path: ../../inbox/xmpp_dart
 dev_dependencies:
   flutter_lints: ^1.0.0
   lints: ^1.0.1

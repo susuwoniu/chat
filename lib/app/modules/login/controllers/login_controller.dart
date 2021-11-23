@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/types/types.dart';
+import 'package:chat/common.dart';
 
 class LoginController extends GetxController {
   static LoginController get to => Get.find();
@@ -27,11 +28,10 @@ class LoginController extends GetxController {
             checkDataAttributes: true,
             withAuthorization: false));
     final token = TokenEntity.fromJson(body["data"]["attributes"]);
-    // login im service
 
-    // final imProvider = ImProvider.to;
-    // await imProvider.login(token.accountId, token.imAccessToken);
     await AuthProvider.to.saveToken(token);
+    await AuthProvider.to.init();
+
     // Get.offAndToNamed(AppRoutes.Application);
   }
 

@@ -117,11 +117,15 @@ class DebugView extends GetView<DebugController> {
                       ),
                     ),
                     onTap: () async {
+                      UIUtils.showLoading();
                       try {
                         LoginController.to.setVerificationCode("123456");
                         await LoginController.to.handleLogin();
+                        UIUtils.hideLoading();
+
                         UIUtils.toast("登录成功");
                       } catch (e) {
+                        UIUtils.hideLoading();
                         UIUtils.showError(e);
                       }
                       //to close the drawer

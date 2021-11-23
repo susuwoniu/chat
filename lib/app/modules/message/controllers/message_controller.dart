@@ -9,7 +9,7 @@ import 'package:chat/common.dart';
 class MessageController extends GetxController {
   // var list = <ConversationInfo>[].obs;
   // var imLogic = Get.find<ImProvider>();
-
+  var list = [].obs;
   @override
   void onInit() {
     super.onInit();
@@ -26,6 +26,17 @@ class MessageController extends GetxController {
   @override
   void onReady() {
     // getAllConversationList();
+
+    if (ChatProvider.to.messageArchiveManager != null) {
+      final startTime = DateTime.now().subtract(Duration(days: 7));
+      ChatProvider.to.messageArchiveManager!.queryByTime(start: startTime);
+    }
+
+    // if (ChatProvider.to.chatManager != null) {
+    //   ChatProvider.to.chatManager!.chatListStream.listen((event) {
+    //     print("event: $event");
+    //   });
+    // }
     super.onReady();
   }
 

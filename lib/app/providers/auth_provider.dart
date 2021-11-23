@@ -3,7 +3,7 @@ import 'package:chat/constants/constants.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/providers/kv_provider.dart';
 import 'package:chat/common.dart';
-import 'im_provider.dart';
+import './chat_provider/chat_provider.dart';
 
 class AuthProvider extends GetxService {
   static AuthProvider get to => Get.find();
@@ -36,6 +36,12 @@ class AuthProvider extends GetxService {
     //todo refresh token to access token
     if (_accessToken != null && _imAccessToken != null && _accountId != null) {
       // init im login
+      try {
+        await ChatProvider.to
+            .login("user3", "xmpp.scuinfo.com", "123456", "flutter");
+      } catch (e) {
+        print(e);
+      }
 
       // await ImProvider.to.login(_accountId!, _imAccessToken!);
       _isLogin.value = true;
@@ -74,7 +80,6 @@ class AuthProvider extends GetxService {
     await KVProvider.to.setExpiredString(STORAGE_ACCOUNT_REFRESH_TOKEN_KEY,
         _accessToken!, token.refreshTokenExpiresAt);
     await KVProvider.to.setString(STORAGE_ACCOUNT_ID_KEY, token.accountId);
-    _isLogin.value = true;
   }
 
   // 注销

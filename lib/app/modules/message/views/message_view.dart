@@ -6,50 +6,56 @@ import 'package:chat/app/res/strings.dart';
 import '../controllers/message_controller.dart';
 import 'package:chat/app/widges/touch_close_keyboard.dart';
 import './conversation_item.dart';
+import 'package:chat/app/providers/providers.dart';
 
 class MessageView extends GetView<MessageController> {
   @override
   Widget build(BuildContext context) {
+    final _chatProvider = ChatProvider.to;
     return Scaffold(
+      // resizeToAvoidBottomInset: false,
+      // appBar: AppBar(),
       appBar: AppBar(
-        title: Text("message"),
+        title: Text('Message'),
         centerTitle: true,
       ),
-      body: Container(child: Text("test")),
-    );
-    return Obx(
-      () => TouchCloseSoftKeyboard(
-        child: Scaffold(
-          // resizeToAvoidBottomInset: false,
-          // appBar: AppBar(),
-          appBar: AppBar(
-            title: Text('Message'),
-            centerTitle: true,
-          ),
-          body: CustomScrollView(
-            slivers: [
-              SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) =>
-                    GestureDetector(
+      body: Obx(
+        () => Column(
+          children: [
+            Container(
+              child: Text(
+                _chatProvider.isLoading ? "Connecting..." : "Connected",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Expanded(
+              child: CustomScrollView(
+                slivers: [
+                  SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                    (context, index) => GestureDetector(
                         onTap: () => controller.toChat(index),
                         behavior: HitTestBehavior.translucent,
-                        child: Text("xx")
-                        // child: conversationItemView(
-                        //   onTap: (index) {
-                        //     controller.toChat(index);
-                        //   },
-                        //   context: context,
-                        //   index: index,
-                        //   title: controller.getShowName(index),
-                        //   lastMessage: controller.getMsgContent(index),
-                        //   updatedAtStr: controller.getTime(index),
-                        //   unreadCount: controller.getUnreadCount(index),
-                        // )),
-                        // childCount: controller.list.length,
+                        child: conversationItemView(
+                          onTap: (index) {
+                            controller.toChat(index);
+                          },
+                          context: context,
+                          index: index,
+                          title: "user1",
+                          lastMessage: "lastMessage",
+                          updatedAtStr: "updated at",
+                          unreadCount: 1,
                         )),
+                    childCount: 1,
+                  )),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
