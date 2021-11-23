@@ -72,10 +72,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
           child: ListView(
             children: <Widget>[
               Container(
-                  height: MediaQuery.of(context).size.height / 4,
+                  height: MediaQuery.of(context).size.height / 5.5,
                   child: Container(
                       height: 200,
-                      padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+                      padding: EdgeInsets.symmetric(horizontal: 30),
                       child: FlareActor(
                         "assets/Teddy.flr",
                         shouldClip: false,
@@ -106,7 +106,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               Form(
                 key: formKey,
                 child: Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                    padding: EdgeInsets.symmetric(horizontal: 30),
                     child: PinCodeTextField(
                       appContext: context,
                       pastedTextStyle: TextStyle(
@@ -129,6 +129,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       animationDuration: Duration(milliseconds: 300),
                       enableActiveFill: true,
                       autoDisposeControllers: false,
+                      autoFocus: true,
                       errorAnimationController: errorController,
                       controller: textEditingController,
                       keyboardType: TextInputType.number,
