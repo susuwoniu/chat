@@ -15,12 +15,12 @@ class HomeController extends GetxController {
 
   @override
   void onReady() async {
-    super.onReady();
     try {
-      await getPosts();
+      // await getPosts();
     } catch (e) {
       UIUtils.showError(e);
     }
+    super.onReady();
   }
 
   getPosts({String? after}) async {
