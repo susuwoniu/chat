@@ -16,7 +16,7 @@ class HomeController extends GetxController {
   @override
   void onReady() async {
     try {
-      // await getPosts();
+      await getPosts();
     } catch (e) {
       UIUtils.showError(e);
     }

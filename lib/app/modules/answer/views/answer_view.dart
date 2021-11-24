@@ -40,7 +40,6 @@ class AnswerView extends GetView<AnswerController> {
               child: GestureDetector(
                   onTap: () {
                     FocusScope.of(context).unfocus();
-                    // Get.offAllNamed(Routes.ROOT);
                   },
                   child: Container(
                     width: _width,
