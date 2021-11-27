@@ -37,8 +37,11 @@ class AuthProvider extends GetxService {
     if (_accessToken != null && _imAccessToken != null && _accountId != null) {
       // init im login
       try {
-        await ChatProvider.to
-            .login("user3", "xmpp.scuinfo.com", "123456", "flutter");
+        await ChatProvider.to.login(
+            "user3",
+            "xmpp.scuinfo.com",
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyMyIsIm5hbWUiOiJKb2huIERvZSIsImFkbWluIjp0cnVlLCJuYmYiOjE2Mzc2OTIzNDQsImlhdCI6MTYzNzY5MjM0NCwiZXhwIjoxNzk5Njk1OTQ0fQ.OvsgTeNtjMZCiwaJUDW5uorukHVVIhsieLg_e5X5HQ86VA7MH-On-s-y81VuBKJFiJ6JiDyBr9zbABnseCVJyuRfgBwAacZAqpqHrqGkGdLpz6h1GPEC7Myh4_f-cdhGuzssSD3d2fAVkbM6B5a7b5NQzCPr_e_dwqP1Pe2g_kcsw9iBu9kjqes5tDX7Fx5zDrcBPhOPoBQobLPUPtTVSm6K_IINFiLWhIZg9SVN9SgQFciEiY7y7b5m5laYgZaxEjWyU34vsr8QNCeMbWUd73B0-g7j_x3lQzd-YJXltnpVTNVEMYsmVC_jI7lCPlLt-ILwTvT-vG8SI_IrKzktLg",
+            "flutter");
       } catch (e) {
         print(e);
       }

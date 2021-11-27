@@ -18,6 +18,10 @@ A new Flutter project.
 - [Flutter Theme Generator Online](https://zeshuaro.github.io/flutter_theme/#/)
 - [Open IM SDK](https://github.com/OpenIMSDK/Open-IM-SDK-Flutter)
 - [flutter chat ui docs](https://docs.flyer.chat/flutter/chat-ui/advanced-usage)
+- XMPP
+  - <https://xmpp.org/extensions/xep-0430.html>
+  - https://www.process-one.net/en/ejabberd/protocols/
+  - https://mongooseim.readthedocs.io/en/4.0.1/user-guide/Features-and-supported-standards/
 ## Tips
 
 ### 创建页面

@@ -1081,7 +1081,7 @@ packages:
   xmpp_stone:
     dependency: "direct main"
     description:
-      path: "../../inbox/xmpp_dart"
+      path: "../xmpp_client"
       relative: true
     source: path
     version: "0.3.3"

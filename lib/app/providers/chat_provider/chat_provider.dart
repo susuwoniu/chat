@@ -16,6 +16,8 @@ class ChatProvider extends GetxService {
   bool get isLoading => _isLoading.value;
   xmpp.Connection? _connection;
   xmpp.ChatManager? _chatManager;
+  xmpp.InboxManager? _inboxManager;
+  xmpp.InboxManager? get inboxManager => _inboxManager;
   xmpp.MessageArchiveManager? _messageArchiveManager;
   xmpp.ChatManager? get chatManager => _chatManager;
   xmpp.MessageArchiveManager? get messageArchiveManager =>
@@ -48,7 +50,7 @@ class ChatProvider extends GetxService {
 
     Completer<void> completer = Completer();
 
-    xmpp.Log.logXmpp = false; // todo
+    xmpp.Log.logXmpp = true; // todo
 
     if (_connectionStateSubscription != null) {
       _connectionStateSubscription!.cancel();
@@ -124,11 +126,16 @@ class ChatProvider extends GetxService {
         Log.debug("Chat connection Ready");
 
         _chatManager = xmpp.ChatManager.getInstance(_connection!);
+        _inboxManager = xmpp.InboxManager.getInstance(_connection!);
+        _inboxManager!.queryAll();
         _messageArchiveManager = _connection!.getMamModule();
         xmpp.MessagesListener messageStream = MessagesStream();
 
         final messageHandler = xmpp.MessageHandler.getInstance(_connection!);
-        // var rosterManager = xmpp.RosterManager.getInstance(_connection!);
+        var rosterManager = xmpp.RosterManager.getInstance(_connection!);
+        rosterManager.rosterStream.listen((event) {
+          print("roster, $event");
+        });
         messageHandler.messagesStream.listen(messageStream.onNewMessage);
         _isLoading.value = false;
 
