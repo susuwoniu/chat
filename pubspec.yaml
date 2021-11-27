@@ -7,6 +7,8 @@ environment:
 
 dependencies:
   carousel_slider: ^4.0.0
+  image_picker: ^0.8.4+4
+  dotted_border: ^2.0.0+1
   cupertino_icons: ^1.0.2
   flare_flutter: ^3.0.2
   tiktoklikescroller: ^0.1.8

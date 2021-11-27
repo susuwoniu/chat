@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 
-class EditWidget extends StatelessWidget {
+class EditRow extends StatelessWidget {
   final String title;
   final String content;
 
   // final void Function() onPressed;
 
-  EditWidget({
+  EditRow({
     Key? key,
     required this.title,
     required this.content,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _width = MediaQuery.of(context).size.width;
-
     return Container(
         padding: EdgeInsets.fromLTRB(22, 12, 18, 12),
+        color: Colors.white,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           verticalDirection: VerticalDirection.up,

@@ -7,6 +7,8 @@ class CircleWidget extends StatelessWidget {
   final double? borderRadius;
   final double? iconSize;
   final Color? backgroundColor;
+  final Color? iconColor;
+
   final void Function() onPressed;
 
   CircleWidget({
@@ -18,6 +20,7 @@ class CircleWidget extends StatelessWidget {
     this.width = 40,
     this.iconSize = 22,
     this.backgroundColor = Colors.black26,
+    this.iconColor = Colors.white,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,7 @@ class CircleWidget extends StatelessWidget {
       ),
       child: IconButton(
         icon: icon,
+        color: iconColor,
         padding: EdgeInsets.all(0),
         iconSize: iconSize!,
         onPressed: onPressed,
