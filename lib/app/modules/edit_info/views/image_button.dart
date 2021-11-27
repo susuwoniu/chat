@@ -3,10 +3,12 @@ import '../../me/views/circle_widget.dart';
 
 class ImageButton extends StatelessWidget {
   final bool isAdd;
+  final void Function() onPressed;
 
   ImageButton({
     Key? key,
     required this.isAdd,
+    required this.onPressed,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class ImageButton extends StatelessWidget {
       iconColor: Colors.blue,
       height: 32,
       width: 32,
-      onPressed: () {},
+      onPressed: onPressed,
     ));
   }
 }

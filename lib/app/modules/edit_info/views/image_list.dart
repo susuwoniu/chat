@@ -1,17 +1,17 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'single_image.dart';
 import 'blank_image.dart';
 import 'image_button.dart';
-import 'package:dotted_border/dotted_border.dart';
 
 class ImageList extends StatelessWidget {
-  final List<String> imgList;
-
-  // final void Function() onPressed;
+  final RxList<String> imgList;
+  final Function(int i) onDeleteImg;
 
   ImageList({
     Key? key,
     required this.imgList,
+    required this.onDeleteImg,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -20,19 +20,15 @@ class ImageList extends StatelessWidget {
     final _paddingLeft = _width * 0.095 - _margin * 2;
     final _paddingRight = _paddingLeft - _margin;
 
-    final List<String> imgList = [
-      "https://img9.doubanio.com/icon/ul43630113-26.jpg",
-      "https://i.loli.net/2021/11/24/If5SQkMWKl2rNvX.png",
-      'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-      "https://img9.doubanio.com/icon/ul43630113-26.jpg",
-      "https://img9.doubanio.com/icon/ul43630113-26.jpg",
-    ];
     final _blankList = <Widget>[];
     for (var i = 0; i < 9 - imgList.length; i++) {
       _blankList.add(Stack(
         children: [
           Wrap(direction: Axis.horizontal, children: [BlankImage()]),
-          Positioned(bottom: 7, right: 7, child: ImageButton(isAdd: true)),
+          Positioned(
+              bottom: 7,
+              right: 7,
+              child: ImageButton(isAdd: true, onPressed: addImage)),
         ],
       ));
       print(_blankList);
@@ -43,7 +39,10 @@ class ImageList extends StatelessWidget {
         Stack(
           children: [
             SingleImage(img: imgList[i]),
-            Positioned(bottom: 7, right: 7, child: ImageButton(isAdd: false)),
+            Positioned(
+                bottom: 7,
+                right: 7,
+                child: ImageButton(isAdd: false, onPressed: deleteImage(i))),
           ],
         ),
       );
@@ -61,4 +60,14 @@ class ImageList extends StatelessWidget {
           ),
         ]));
   }
+
+  void addImage() {}
+
+  DeleteImageFn deleteImage(int i) {
+    return () {
+      onDeleteImg(i);
+    };
+  }
 }
+
+typedef DeleteImageFn = void Function();
