@@ -9,6 +9,8 @@ import 'package:chat/app/modules/chat/bindings/chat_binding.dart';
 import 'package:chat/app/modules/chat/views/chat_view.dart';
 import 'package:chat/app/modules/debug/bindings/debug_binding.dart';
 import 'package:chat/app/modules/debug/views/debug_view.dart';
+import 'package:chat/app/modules/edit_info/bindings/edit_info_binding.dart';
+import 'package:chat/app/modules/edit_info/views/edit_info_view.dart';
 import 'package:chat/app/modules/home/bindings/home_binding.dart';
 import 'package:chat/app/modules/home/views/home_view.dart';
 import 'package:chat/app/modules/login/bindings/login_binding.dart';
@@ -158,6 +160,11 @@ class AppPages {
       name: _Paths.ME,
       page: () => MeView(),
       binding: MeBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_INFO,
+      page: () => EditInfoView(),
+      binding: EditInfoBinding(),
     ),
   ];
 }

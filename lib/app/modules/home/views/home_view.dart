@@ -47,8 +47,7 @@ class HomeView extends GetView<HomeController> {
             ),
           )
         ]);
-    // final appBarHeight =
-    //     MediaQuery.of(context).padding.top + appBar.preferredSize.height;
+
     return Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
@@ -57,14 +56,9 @@ class HomeView extends GetView<HomeController> {
           () => TikTokStyleFullPageScroller(
             contentSize: controller.postIndexes.length + 1,
             swipePositionThreshold: 0.2,
-            // ^ the fraction of the screen needed to scroll
             swipeVelocityThreshold: 2000,
-            // ^ the velocity threshold for smaller scrolls
             animationDuration: const Duration(milliseconds: 300),
-            // ^ how long the animation will take
             onScrollEvent: _handleCallbackEvent,
-
-            // ^ registering our own function to listen to page changes
             builder: (BuildContext context, int index) {
               return Container(
                   color: index < controller.postIndexes.length

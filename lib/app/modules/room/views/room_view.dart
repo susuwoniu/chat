@@ -12,7 +12,7 @@ class RoomView extends GetView<RoomController> {
   final _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final FocusNode _blankNode = FocusNode();
-  final controller = RoomController.to;
+  final _controller = RoomController.to;
   final ItemScrollController _scrollController = ItemScrollController();
 
   @override
@@ -27,13 +27,13 @@ class RoomView extends GetView<RoomController> {
                 Flexible(
                     child: Obx(() => ScrollablePositionedList.builder(
                           padding: EdgeInsets.all(8),
-                          itemCount: controller.indexes.length,
-                          initialScrollIndex: controller.indexes.isNotEmpty
-                              ? controller.indexes.length - 1
+                          itemCount: _controller.indexes.length,
+                          initialScrollIndex: _controller.indexes.isNotEmpty
+                              ? _controller.indexes.length - 1
                               : 0,
                           itemBuilder: (context, index) {
-                            final id = controller.indexes[index];
-                            final message = controller.entities[id]!;
+                            final id = _controller.indexes[index];
+                            final message = _controller.entities[id]!;
                             return ChatMessage(
                                 text: message.text,
                                 name: message.name,
@@ -65,7 +65,7 @@ class RoomView extends GetView<RoomController> {
       child: Container(
           margin: EdgeInsets.symmetric(horizontal: 20.0),
           child: Obx(() {
-            final _isComposing = controller.isComposing.value;
+            final _isComposing = _controller.isComposing.value;
             return Row(
               children: [
                 Flexible(
@@ -79,7 +79,7 @@ class RoomView extends GetView<RoomController> {
                     ),
                     controller: _textController,
                     onChanged: (String text) {
-                      controller.setIsComposing(text.trim().isNotEmpty);
+                      _controller.setIsComposing(text.trim().isNotEmpty);
                     },
                     onSubmitted:
                         _isComposing ? _handleSubmitted : null, // MODIFIED
@@ -112,10 +112,10 @@ class RoomView extends GetView<RoomController> {
   void _handleSubmitted(String text) {
     _scrollController.scrollTo(
         index:
-            controller.indexes.isNotEmpty ? controller.indexes.length - 1 : 0,
+            _controller.indexes.isNotEmpty ? _controller.indexes.length - 1 : 0,
         duration: Duration(milliseconds: 300),
         curve: Curves.easeInOutCubic);
     _textController.clear();
-    controller.postMessage(text, "your name", true);
+    _controller.postMessage(text, "your name", true);
   }
 }

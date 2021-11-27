@@ -9,7 +9,7 @@ class ProfileText extends StatelessWidget {
     required this.text,
     required this.iconName,
   }) : super(key: key);
-
+  @override
   Widget build(BuildContext context) {
     return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Icon(

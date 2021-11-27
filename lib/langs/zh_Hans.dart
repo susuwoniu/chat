@@ -1,3 +1,5 @@
+import 'package:chat/common.dart';
+
 const Map<String, String> zh_Hans = {
   'title': '这是标题',
   "Select_a_question": '请选择一个问题：',
@@ -39,5 +41,11 @@ const Map<String, String> zh_Hans = {
   "what_s_your_phone_number": "请输入手机号",
   "next": "获取短信验证码",
   "error_occured": "发生错误",
-  "renew_token_failed": "登录失败"
+  "renew_token_failed": "登录失败",
+  "nickname": "昵称",
+  "gender": "性别",
+  "bio": "签名",
+  "location": "地区",
+  "tags": "兴趣",
+  "birth": "生日",
 };
