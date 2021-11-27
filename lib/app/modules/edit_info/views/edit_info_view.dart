@@ -29,11 +29,7 @@ class EditInfoView extends GetView<EditInfoController> {
               color: HexColor("#f0eff4"),
               child: Column(
                 children: [
-                  Obx(
-                    () => ImageList(
-                        imgList: controller.imgList,
-                        onDeleteImg: controller.deleteImg),
-                  ),
+                  ImageList(),
                   Container(height: 0.3, color: Colors.black26),
                   EditRow(title: 'nickname'.tr, content: 'name'),
                   EditRow(title: 'gender'.tr, content: 'female'),
