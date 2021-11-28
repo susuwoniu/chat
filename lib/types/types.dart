@@ -7,3 +7,4 @@ export 'account.dart';
 export 'error.dart';
 export 'message.dart';
 export 'client.dart';
+export 'room.dart';

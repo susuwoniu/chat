@@ -20,43 +20,53 @@ class MessageView extends GetView<MessageController> {
         centerTitle: true,
       ),
       body: Obx(
-        () => Column(
-          children: [
-            Container(
-              child: Text(
-                _chatProvider.isLoading ? "Connecting..." : "Connected",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+        () {
+          return Column(
+            children: [
+              Container(
+                child: Text(
+                  _chatProvider.isLoading ? "Connecting..." : "Connected",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                    (context, index) => GestureDetector(
-                        onTap: () => controller.toChat(index),
-                        behavior: HitTestBehavior.translucent,
-                        child: conversationItemView(
-                          onTap: (index) {
-                            controller.toChat(index);
-                          },
-                          context: context,
-                          index: index,
-                          title: "user1",
-                          lastMessage: "lastMessage",
-                          updatedAtStr: "updated at",
-                          unreadCount: 1,
-                        )),
-                    childCount: 1,
-                  )),
-                ],
+              Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final room =
+                            controller.entities[controller.indexes[index]]!;
+                        print(
+                            "xxroom: ${controller.indexes[index]},${room.unreadCount}");
+                        return GestureDetector(
+                            onTap: () async {
+                              await controller.toChat(index);
+                            },
+                            behavior: HitTestBehavior.translucent,
+                            child: conversationItemView(
+                              onTap: (index) {
+                                controller.toChat(index);
+                              },
+                              context: context,
+                              index: index,
+                              title: room.id,
+                              preview: room.preview,
+                              updatedAt: room.updatedAt,
+                              unreadCount: room.unreadCount,
+                            ));
+                      },
+                      childCount: controller.indexes.length,
+                    )),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        },
       ),
     );
   }

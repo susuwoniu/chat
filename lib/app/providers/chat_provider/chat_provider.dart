@@ -15,11 +15,13 @@ class ChatProvider extends GetxService {
   final _isLoading = true.obs;
   bool get isLoading => _isLoading.value;
   xmpp.Connection? _connection;
-  xmpp.ChatManager? _chatManager;
+  xmpp.Jid? _currentAccount;
+  xmpp.Jid? get currentAccount => _currentAccount;
+  xmpp.RoomManager? _roomManager;
   xmpp.InboxManager? _inboxManager;
   xmpp.InboxManager? get inboxManager => _inboxManager;
   xmpp.MessageArchiveManager? _messageArchiveManager;
-  xmpp.ChatManager? get chatManager => _chatManager;
+  xmpp.RoomManager? get roomManager => _roomManager;
   xmpp.MessageArchiveManager? get messageArchiveManager =>
       _messageArchiveManager;
   StreamSubscription<xmpp.XmppConnectionState>? _connectionStateSubscription;
@@ -124,19 +126,16 @@ class ChatProvider extends GetxService {
         break;
       case xmpp.XmppConnectionState.Ready:
         Log.debug("Chat connection Ready");
-
-        _chatManager = xmpp.ChatManager.getInstance(_connection!);
+        _currentAccount = _connection!.fullJid;
+        _roomManager = xmpp.RoomManager.getInstance(_connection!);
         _inboxManager = xmpp.InboxManager.getInstance(_connection!);
-        _inboxManager!.queryAll();
         _messageArchiveManager = _connection!.getMamModule();
         xmpp.MessagesListener messageStream = MessagesStream();
 
         final messageHandler = xmpp.MessageHandler.getInstance(_connection!);
-        var rosterManager = xmpp.RosterManager.getInstance(_connection!);
-        rosterManager.rosterStream.listen((event) {
-          print("roster, $event");
-        });
+
         messageHandler.messagesStream.listen(messageStream.onNewMessage);
+
         _isLoading.value = false;
 
         if (!completer.isCompleted) {

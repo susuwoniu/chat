@@ -1,15 +1,60 @@
 import 'package:get/get.dart';
 import 'dart:convert';
+import 'dart:async';
 import 'package:chat/app/providers/providers.dart';
 // import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:chat/utils/date_util.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/common.dart';
+import 'package:xmpp_stone/xmpp_stone.dart' as xmpp;
+import 'package:chat/types/types.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+
+class Room extends xmpp.Room {
+  bool isLoading = false;
+  bool isInitMessages = false;
+  static fromXmppRoom(xmpp.Room xmppRoom) {
+    return Room(xmppRoom.id,
+        name: xmppRoom.name,
+        updatedAt: xmppRoom.updatedAt,
+        preview: xmppRoom.preview,
+        unreadCount: xmppRoom.unreadCount);
+  }
+
+  Room(
+    String id, {
+    required DateTime updatedAt,
+    required String name,
+    required String preview,
+    required int unreadCount,
+  }) : super(id,
+            updatedAt: updatedAt,
+            name: name,
+            preview: preview,
+            unreadCount: unreadCount);
+}
 
 class MessageController extends GetxController {
+  static MessageController get to => Get.find();
+  static types.Message formatMessage(xmpp.Message message) {
+    return types.TextMessage(
+      author: types.User(id: message.from.userAtDomain),
+      createdAt: message.updatedAt.millisecondsSinceEpoch,
+      id: message.messageId!,
+      text: message.text,
+    );
+  }
+
   // var list = <ConversationInfo>[].obs;
   // var imLogic = Get.find<ImProvider>();
-  var list = [].obs;
+  final RxList<String> indexes = RxList<String>();
+  final RxMap<String, Room> entities = RxMap<String, Room>({});
+  final RxMap<String, types.Message> messageEntities =
+      RxMap<String, types.Message>({});
+  final RxMap<String, List<String>> roomMessageIndexesMap =
+      RxMap<String, List<String>>({});
+  final _currentRoomId = "".obs;
+  String get currentRoomId => _currentRoomId.value;
   @override
   void onInit() {
     super.onInit();
@@ -24,260 +69,169 @@ class MessageController extends GetxController {
   }
 
   @override
-  void onReady() {
+  Future<void> onReady() async {
     // getAllConversationList();
 
-    if (ChatProvider.to.messageArchiveManager != null) {
-      final startTime = DateTime.now().subtract(Duration(days: 7));
-      ChatProvider.to.messageArchiveManager!.queryByTime(start: startTime);
-    }
-
-    // if (ChatProvider.to.chatManager != null) {
-    //   ChatProvider.to.chatManager!.chatListStream.listen((event) {
-    //     print("event: $event");
-    //   });
+    // if (ChatProvider.to.messageArchiveManager != null) {
+    //   final startTime = DateTime.now().subtract(Duration(days: 7));
+    //   ChatProvider.to.messageArchiveManager!.queryByTime(start: startTime);
     // }
+
+    if (ChatProvider.to.roomManager != null) {
+      await ChatProvider.to.roomManager!.initRooms();
+      ChatProvider.to.roomManager!.entities.forEach((k, v) {
+        entities[k] = Room.fromXmppRoom(v);
+        roomMessageIndexesMap[k] = [];
+      });
+      for (var chatId in ChatProvider.to.roomManager!.indexes) {
+        indexes.add(chatId);
+      }
+
+      ChatProvider.to.roomManager!.roomAddedStreamController.listen((event) {
+        // print("event: $event");
+        addRoom(event);
+        // updateChat(event);
+      });
+      ChatProvider.to.roomManager!.roomLastMessageUpdatedStreamController
+          .listen((event) {
+        // update message
+        final message = event.data;
+        messageEntities[event.data.id] = types.TextMessage(
+            id: message.id,
+            text: message.text,
+            author: types.User(id: message.fromId));
+
+        // print("event: $event");
+        updateRoomMessage(event);
+        updateRoomPreview(event);
+        // messageEntities[event.data.id] = event.message;
+      });
+      ChatProvider.to.roomManager!.roomUnreadCountUpdatedStreamController
+          .listen((event) {
+        // print("event: $event");
+        if (event.id != currentRoomId) {
+          updateRoomUnreadCount(event);
+        }
+      });
+    }
     super.onReady();
   }
 
-  void toChat(int index) async {
-    // var info = list.elementAt(index);
-    // var draftText = await AppNavigator.startChat(
-    //     uid: info.userID,
-    //     gid: info.groupID,
-    //     name: info.showName,
-    //     icon: info.faceUrl,
-    //     draftText: info.draftText);
-
-    // markMessageHasRead(index);
-    // Get.toNamed(Routes.CHAT, arguments: {
-    //   'id': info.userID != null && info.userID!.isNotEmpty
-    //       ? info.userID
-    //       : info.groupID,
-    //   'type': info.userID != null && info.userID!.isNotEmpty
-    //       ? PRIVATE_CHAT
-    //       : GROUP_CHAT,
-    //   'title': info.showName,
-    //   'avatar': info.faceUrl
-    // });
-
-    // print('draftText:$draftText');
-    // setConversationDraft(
-    //   cid: info.conversationID,
-    //   draftText: draftText,
-    // );
+  /// 获取历史聊天记录
+  Future<void> initRoomMessage(String roomId) async {
+    final roomManager = ChatProvider.to.roomManager!;
+    final room = entities[roomId];
+    if (room != null) {
+      room.isLoading = true;
+      entities[roomId] = room;
+      try {
+        final messages = await roomManager.getMessages(roomId);
+        room.isLoading = false;
+        room.isInitMessages = true;
+        Map<String, types.Message> newEntities = {};
+        List<String> newIndexes = [];
+        for (var i = 0; i < messages.length; i++) {
+          final message = messages[i];
+          newEntities[message.id] = formatMessage(message);
+          newIndexes.add(message.id);
+        }
+        messageEntities.addAll(newEntities);
+        final currentRoomMessageIndexes = roomMessageIndexesMap[roomId];
+        currentRoomMessageIndexes!.addAll(newIndexes);
+        roomMessageIndexesMap[roomId] = currentRoomMessageIndexes;
+        entities[roomId] = room;
+      } catch (e) {
+        room.isLoading = false;
+        entities[roomId] = room;
+        UIUtils.showError(e);
+      }
+    }
   }
 
-  /// 获取会话
-  // void getAllConversationList() {
-  //   OpenIM.iMManager.conversationManager
-  //       .getAllConversationList()
-  //       .then((value) => list
-  //         ..clear()
-  //         ..addAll(value))
-  //       .catchError((e) => print(e));
-  // }
+  void markRoomAsRead(String roomId) {
+    var room = entities[roomId];
+    if (room != null) {
+      room.unreadCount = 0;
+      entities.addAll({roomId: room});
+      // entities[roomId] = Room(room.id,
+      //     name: room.name,
+      //     updatedAt: room.updatedAt,
+      //     preview: room.preview,
+      //     unreadCount: room.unreadCount);
+    }
+  }
 
-  // /// 标记会话已读
-  // void markMessageHasRead(int index) {
-  //   var info = list.elementAt(index);
-  //   if (info.userID != null && info.userID.isBlank == false) {
-  //     OpenIM.iMManager.conversationManager.markSingleMessageHasRead(
-  //       userID: info.userID!,
-  //     );
-  //   } else {
-  //     OpenIM.iMManager.conversationManager.markGroupMessageHasRead(
-  //       groupID: info.groupID!,
-  //     );
-  //   }
-  // }
+  Room? getCurrentRoom() {
+    if (currentRoomId.isNotEmpty) {
+      return entities[currentRoomId]!;
+    } else {
+      return null;
+    }
+  }
 
-  // /// 置顶会话
-  // void pinConversation(int index) {
-  //   var info = list.elementAt(index);
-  //   OpenIM.iMManager.conversationManager.pinConversation(
-  //     conversationID: info.conversationID,
-  //     isPinned: !(info.isPinned == 1),
-  //   );
-  // }
+  Room? getRoom(String roomId) {
+    return entities[roomId];
+  }
 
-  // /// 删除会话
-  // void deleteConversation(int index) {
-  //   var info = list.elementAt(index);
-  //   OpenIM.iMManager.conversationManager.deleteConversation(
-  //     conversationID: info.conversationID,
-  //   );
-  // }
+  void setCurrentRoomId(String? id) {
+    _currentRoomId.value = id ?? "";
+  }
 
-  // /// 设置草稿
-  // void setConversationDraft({required String cid, required String draftText}) {
-  //   OpenIM.iMManager.conversationManager.setConversationDraft(
-  //     conversationID: cid,
-  //     draftText: draftText,
-  //   );
-  // }
+  void addRoom(xmpp.Event<xmpp.Room> event) {
+    entities[event.id] = Room.fromXmppRoom(event.data);
+    if (indexes.contains(event.id)) {
+      indexes.remove(event.id);
+    }
+    indexes.insert(0, event.id);
+  }
 
-  // /// 解析草稿
-  // String? getPrefixText(int index) {
-  //   var info = list.elementAt(index);
-  //   String? prefix;
-  //   if (null != info.draftText && '' != info.draftText) {
-  //     var map = json.decode(info.draftText!);
-  //     String text = map['text'];
-  //     if (text.isNotEmpty) {
-  //       prefix = '[draft text]';
-  //     }
-  //   } else if (info.latestMsg?.contentType == MessageType.at_text) {
-  //     try {
-  //       Map map = json.decode(info.latestMsg!.content!);
-  //       String text = map['text'];
-  //       // bool isAtSelf = map['isAtSelf'];
-  //       bool isAtSelf = text.contains('@${OpenIM.iMManager.uid} ');
-  //       if (isAtSelf == true) {
-  //         prefix = '[@you}]';
-  //       }
-  //     } catch (e) {}
-  //   }
-  //   return prefix;
-  // }
+  static String getPreview(xmpp.Message message) {
+    return message.text;
+  }
 
-  // Map<String, String> getAtUserMap(int index) {
-  //   var info = list.elementAt(index);
-  //   // if (info.isGroupChat) {
-  //   //   Map<String, String> map =
-  //   //       DataPersistence.getAtUserMap(info.groupID!)?.cast() ?? {};
-  //   //   return map;
-  //   // }
-  //   return {};
-  // }
+  void updateRoomMessage(xmpp.Event<xmpp.Message> event) {
+    final roomMessageIndexes = roomMessageIndexesMap[event.id];
+    roomMessageIndexes!.add(event.data.id);
+    roomMessageIndexesMap[event.id] = roomMessageIndexes;
+  }
 
-  // /// 解析消息内容
-  // String getMsgContent(int index) {
-  //   var info = list.elementAt(index);
-  //   if (null != info.draftText && '' != info.draftText) {
-  //     var map = json.decode(info.draftText!);
-  //     String text = map['text'];
-  //     if (text.isNotEmpty) {
-  //       // Map<String, dynamic> atMap = map['at'];
-  //       // print('text:$text  atMap:$atMap');
-  //       // atMap.forEach((uid, uname) {
-  //       //   text = text.replaceAll(uid, uname);
-  //       // });
-  //       return text;
-  //     }
-  //   }
-  //   if (info.latestMsg?.contentType == MessageType.picture) {
-  //     return '[picture]';
-  //   } else if (info.latestMsg?.contentType == MessageType.video) {
-  //     return '[video]';
-  //   } else if (info.latestMsg?.contentType == MessageType.voice) {
-  //     return '[void]';
-  //   } else if (info.latestMsg?.contentType == MessageType.file) {
-  //     return '[file]';
-  //   } else if (info.latestMsg?.contentType == MessageType.location) {
-  //     return '[location]';
-  //   } else if (info.latestMsg?.contentType == MessageType.merger) {
-  //     return '[record]';
-  //   } else if (info.latestMsg?.contentType == MessageType.card) {
-  //     return '[card]';
-  //   } else if (info.latestMsg?.contentType == MessageType.revoke) {
-  //     if (info.latestMsg?.sendID == OpenIM.iMManager.uid) {
-  //       return '[you recall message]';
-  //     } else {
-  //       return '"[${info.latestMsg!.senderNickName}"recall]';
-  //     }
-  //   } else if (info.latestMsg?.contentType == MessageType.at_text) {
-  //     String text = info.latestMsg!.content!;
-  //     try {
-  //       Map map = json.decode(text);
-  //       text = map['text'];
-  //       // text = text.replaceAll('@${OpenIM.iMManager.uid} ', '');
-  //       return text;
-  //     } catch (e) {}
-  //     return text;
-  //   } else if (info.latestMsg?.contentType == MessageType.quote) {
-  //     return info.latestMsg?.quoteElem?.text ?? "";
-  //   } else if (info.latestMsg?.contentType == MessageType.text) {
-  //     return info.latestMsg?.content?.trim() ?? '';
-  //   } else {
-  //     var text;
-  //     try {
-  //       var content = json.decode(info.latestMsg!.content!);
-  //       text = content['defaultTips'];
-  //     } catch (e) {
-  //       text = json.encode(info.latestMsg);
-  //     }
-  //     return text;
-  //   }
-  // }
+  void updateRoomPreview(xmpp.Event<xmpp.Message> event) {
+    entities[event.id]!.preview = getPreview(event.data);
+    entities[event.id]!.updatedAt = event.data.updatedAt;
 
-  // // String text = info.latestMsg?.content?.trim() ?? '';
-  // // if (text.contains("\"defaultTips\":")) {
-  // //   try {
-  // //     Map map = json.decode(text);
-  // //     return map['defaultTips'];
-  // //   } catch (e) {}
-  // // }
+    sortRooms();
+  }
 
-  // /// 头像
-  // String? getAvatar(int index) {
-  //   var info = list.elementAt(index);
-  //   return info.faceUrl;
-  // }
+  void updateRoomUnreadCount(xmpp.Event<int> event) {
+    final room = entities[event.id]!;
+    room.unreadCount = event.data + entities[event.id]!.unreadCount;
+    entities[event.id] = room;
+  }
 
-  // bool isGroupChat(int index) {
-  //   var info = list.elementAt(index);
-  //   return info.isGroupChat;
-  // }
+  void sortRooms() {
+    indexes.sort((a, b) {
+      final aRoom = entities[a];
+      final bRoom = entities[b];
+      if (aRoom != null && bRoom != null) {
+        return bRoom.updatedAt.compareTo(aRoom.updatedAt);
+      }
+      return 0;
+    });
+  }
 
-  // /// 显示名
-  // String getShowName(int index) {
-  //   var info = list.elementAt(index);
-  //   if (info.showName == null || info.showName.isBlank!) {
-  //     return info.userID!;
-  //   }
-  //   return info.showName!;
-  // }
-
-  // /// 时间
-  // String getTime(int index) {
-  //   var info = list.elementAt(index);
-  //   return DateUtil.getChatTime(info.latestMsgSendTime!);
-  // }
-
-  // /// 未读数
-  // int getUnreadCount(int index) {
-  //   var info = list.elementAt(index);
-  //   return info.unreadCount ?? 0;
-  // }
-
-  // bool existUnreadMsg(int index) {
-  //   return getUnreadCount(index) > 0;
-  // }
-
-  // /// 判断置顶
-  // bool isPinned(int index) {
-  //   var info = list.elementAt(index);
-  //   return info.isPinned == 1;
-  // }
-
-  // void toAddFriend() {
-  //   // AppNavigator.startAddFriend();
-  //   // Get.toNamed(AppRoutes.ADD_FRIEND);
-  // }
-
-  // void createGroup() {
-  //   // AppNavigator.startSelectContacts(
-  //   //   action: SelAction.CRATE_GROUP,
-  //   //   defaultCheckedUidList: [OpenIM.iMManager.uid],
-  //   // );
-  // }
-
-  // void toScanQrcode() {
-  //   // AppNavigator.startScanQrcode();
-  // }
-
-  // void toViewCallRecords() {
-  //   // AppNavigator.startCallRecords();
-  // }
+  Future<void> toChat(int index) async {
+    var roomId = indexes[index];
+    // var room = entities[roomId];
+    // if (room != null) {
+    //   room.unreadCount = 0;
+    //   room.preview = "你好";
+    //   entities[roomId] = room;
+    // }
+    UIUtils.toast("test");
+    markRoomAsRead(roomId);
+    // await Get.toNamed(Routes.CHAT, arguments: {
+    //   'id': roomId,
+    // });
+    // setCurrentRoomId(null);
+  }
 }

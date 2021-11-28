@@ -5,6 +5,7 @@ import 'package:chat/config/config.dart';
 import 'dart:convert';
 import 'package:clipboard/clipboard.dart';
 import 'package:get/get.dart';
+import 'package:xmpp_stone/xmpp_stone.dart';
 import '../controllers/debug_controller.dart';
 import 'package:chat/app/modules/login/controllers/login_controller.dart';
 import 'package:chat/common.dart';
@@ -68,6 +69,24 @@ class DebugView extends GetView<DebugController> {
                       try {
                         await LoginController.to.handleCleanAccessToken();
                         UIUtils.toast("删除成功");
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
+                    },
+                  ),
+                if (AuthProvider.to.isLogin)
+                  ListTile(
+                    title: Text(
+                      '获取聊天收件箱',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                    onTap: () async {
+                      try {
+                        final inboxManager = ChatProvider.to.inboxManager;
+                        await inboxManager!.queryAll();
+                        UIUtils.toast("发送请求成功");
                       } catch (e) {
                         UIUtils.showError(e);
                       }

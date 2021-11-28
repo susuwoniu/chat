@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 Widget conversationItemView(
     {required BuildContext context,
     required String title,
-    required String? lastMessage,
-    required String? updatedAtStr,
+    required String preview,
+    required DateTime updatedAt,
     required int unreadCount,
     required int index,
     void Function(int index)? onTap}) {
-  var subtitle = lastMessage ?? '';
-
   return GestureDetector(
     onTap: () {
       if (onTap != null) onTap(index);
@@ -47,13 +45,13 @@ Widget conversationItemView(
                 child: Row(
                   children: [
                     Expanded(
-                      child: Text(subtitle,
+                      child: Text(preview,
                           style: TextStyle(
                               fontSize: 14,
                               overflow: TextOverflow.ellipsis,
                               color: Theme.of(context).hintColor)),
                     ),
-                    Text(updatedAtStr.toString(),
+                    Text(updatedAt.toString(),
                         style: TextStyle(
                             fontSize: 14, color: Theme.of(context).hintColor)),
                   ],
