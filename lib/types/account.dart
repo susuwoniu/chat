@@ -5,10 +5,25 @@ part 'account.g.dart';
 @JsonSerializable()
 class AccountEntity {
   /// The generated code assumes these values exist in JSON.
-  final String id, name;
+  final String name;
+  final String gender;
   final int? age;
+  final String? bio;
+  final String? location;
+  final String? birthday;
+  @JsonKey(name: 'like_count')
+  final int likeCount;
+  final bool vip;
 
-  AccountEntity({required this.id, required this.name, this.age});
+  AccountEntity(
+      {required this.name,
+      required this.gender,
+      this.bio,
+      this.location,
+      this.birthday,
+      this.age,
+      required this.vip,
+      required this.likeCount});
 
   /// Connect the generated [_$AccountEntityFromJson] function to the `fromJson`
   /// factory.

@@ -93,7 +93,7 @@ class KVProvider extends GetxService {
   }
 
   /// put object.
-  Future<bool?> putObject(String key, Object? value) async {
+  Future<bool?> putObject(String key, Map<String, dynamic> value) async {
     return _prefs.setString(key, value == null ? "" : json.encode(value));
   }
 
@@ -104,7 +104,7 @@ class KVProvider extends GetxService {
   }
 
   /// get object.
-  Map? getObject(String key) {
+  Map<String, dynamic>? getObject(String key) {
     String? _data = _prefs.getString(key);
     return (_data == null || _data.isEmpty) ? null : json.decode(_data);
   }

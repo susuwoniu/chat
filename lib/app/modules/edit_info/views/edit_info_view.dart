@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import '../controllers/edit_info_controller.dart';
+import 'package:chat/app/providers/auth_provider.dart';
 import 'image_list.dart';
 import './edit_row.dart';
 import 'dart:async';
@@ -9,6 +10,8 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 class EditInfoView extends GetView<EditInfoController> {
+  final _account = AuthProvider.to.account;
+
   //  final ImagePicker _picker = ImagePicker();
   // // Pick an image
   // final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
@@ -19,6 +22,9 @@ class EditInfoView extends GetView<EditInfoController> {
   // final List<XFile>? images = await _picker.pickMultiImage();
   @override
   Widget build(BuildContext context) {
+    final _bio = _account!.bio ?? 'nothing';
+    final _location = _account!.location ?? 'unknown place';
+    final _birth = _account!.birthday ?? 'xxxx-xx-xx';
     return Scaffold(
         appBar: AppBar(
           title: Text('EditInfoView'),
@@ -31,12 +37,11 @@ class EditInfoView extends GetView<EditInfoController> {
                 children: [
                   ImageList(),
                   Container(height: 0.3, color: Colors.black26),
-                  EditRow(title: 'nickname'.tr, content: 'name'),
-                  EditRow(title: 'gender'.tr, content: 'female'),
-                  EditRow(title: 'bio'.tr, content: 'fjdksjfkdsjfk'),
-                  EditRow(title: 'location'.tr, content: 'china'),
-                  EditRow(title: 'birth'.tr, content: '1999'),
-                  EditRow(title: 'tags'.tr, content: 'null'),
+                  EditRow(title: 'nickname'.tr, content: _account!.name),
+                  EditRow(title: 'gender'.tr, content: _account!.gender),
+                  EditRow(title: 'bio'.tr, content: _bio),
+                  EditRow(title: 'location'.tr, content: _location),
+                  EditRow(title: 'birth'.tr, content: _birth),
                 ],
               )),
         ));

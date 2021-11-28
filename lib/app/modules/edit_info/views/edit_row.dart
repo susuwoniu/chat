@@ -32,8 +32,7 @@ class EditRow extends StatelessWidget {
                     margin: EdgeInsets.only(left: 20),
                     child: Text(
                       content,
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 17),
                     ),
                   )
                 ],

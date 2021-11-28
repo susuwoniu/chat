@@ -25,6 +25,10 @@ class AuthProvider extends GetxService {
   bool get hasRefreshToken => _refreshToken != null;
   String? get accessToken => _accessToken;
   String? get refreshToken => _refreshToken;
+
+  AccountEntity? _account;
+  AccountEntity? get account => _account;
+
   Future<void> init() async {
     _accessToken =
         await KVProvider.to.getExpiredString(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
@@ -33,6 +37,10 @@ class AuthProvider extends GetxService {
     _refreshToken =
         await KVProvider.to.getExpiredString(STORAGE_ACCOUNT_REFRESH_TOKEN_KEY);
     _accountId = KVProvider.to.getString(STORAGE_ACCOUNT_ID_KEY);
+    final _accountObj = KVProvider.to.getObject(STORAGE_ACCOUNT_KEY);
+    if (_accountObj != null) {
+      _account = AccountEntity.fromJson(_accountObj);
+    }
     //todo refresh token to access token
     if (_accessToken != null && _imAccessToken != null && _accountId != null) {
       // init im login
@@ -90,6 +98,7 @@ class AuthProvider extends GetxService {
 
     await KVProvider.to.removeExpiredString(STORAGE_ACCOUNT_REFRESH_TOKEN_KEY);
     await KVProvider.to.remove(STORAGE_ACCOUNT_ID_KEY);
+    await KVProvider.to.remove(STORAGE_ACCOUNT_KEY);
   }
 
   // 清楚access token test ,not use production
@@ -97,5 +106,10 @@ class AuthProvider extends GetxService {
     _accessToken = null;
     _isLogin.value = false;
     await KVProvider.to.removeExpiredString(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
+  }
+
+  Future<void> saveAccount(AccountEntity account) async {
+    _account = account;
+    await KVProvider.to.putObject(STORAGE_ACCOUNT_KEY, account.toJson());
   }
 }

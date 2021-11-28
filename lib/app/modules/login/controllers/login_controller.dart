@@ -27,11 +27,13 @@ class LoginController extends GetxController {
             checkDataAttributes: true,
             withAuthorization: false));
     final token = TokenEntity.fromJson(body["data"]["attributes"]);
+    final account = AccountEntity.fromJson(body["included"][0]["attributes"]);
     // login im service
 
     // final imProvider = ImProvider.to;
     // await imProvider.login(token.accountId, token.imAccessToken);
     await AuthProvider.to.saveToken(token);
+    await AuthProvider.to.saveAccount(account);
     // Get.offAndToNamed(AppRoutes.Application);
   }
 

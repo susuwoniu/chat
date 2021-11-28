@@ -31,4 +31,8 @@ class RootController extends GetxController {
     Get.offNamed(Routes.MAIN);
     super.onReady();
   }
+
+  void clearAll() {
+    KVProvider.to.clear();
+  }
 }

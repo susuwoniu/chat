@@ -13,6 +13,13 @@ class EditInfoController extends GetxController {
     'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
   ]);
   RxList<String> get imgList => _imgList;
+  final isChangedName = false.obs;
+  final isChangedGender = false.obs;
+  final isChangedBio = false.obs;
+  final isChangedLocation = false.obs;
+  final isChangedBirth = false.obs;
+  final isChangedTags = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -37,4 +44,11 @@ class EditInfoController extends GetxController {
   void deleteImg(int i) {
     imgList.removeAt(i);
   }
+
+  void changeName(int i) {}
+  void changeGender(int i) {}
+  void changeBio(int i) {}
+  void changeLocation(int i) {}
+  void changeBirth(int i) {}
+  void changeTags(int i) {}
 }

@@ -157,6 +157,10 @@ class AppPages {
       binding: ChatBinding(),
     ),
     GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
       name: _Paths.ME,
       page: () => MeView(),
       binding: MeBinding(),
