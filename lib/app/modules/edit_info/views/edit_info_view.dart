@@ -22,7 +22,7 @@ class EditInfoView extends GetView<EditInfoController> {
   // final List<XFile>? images = await _picker.pickMultiImage();
   @override
   Widget build(BuildContext context) {
-    final _bio = _account!.bio ?? 'nothing';
+    final _bio = _account!.bio == '' ? 'nothing' : _account!.bio;
     final _location = _account!.location ?? 'unknown place';
     final _birth = _account!.birthday ?? 'xxxx-xx-xx';
     return Scaffold(
@@ -39,7 +39,7 @@ class EditInfoView extends GetView<EditInfoController> {
                   Container(height: 0.3, color: Colors.black26),
                   EditRow(title: 'nickname'.tr, content: _account!.name),
                   EditRow(title: 'gender'.tr, content: _account!.gender),
-                  EditRow(title: 'bio'.tr, content: _bio),
+                  EditRow(title: 'bio'.tr, content: _bio!),
                   EditRow(title: 'location'.tr, content: _location),
                   EditRow(title: 'birth'.tr, content: _birth),
                 ],

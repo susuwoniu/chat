@@ -2,6 +2,9 @@ import 'package:get/get.dart';
 
 class MeController extends GetxController {
   final count = 0.obs;
+  final _current = 0.obs;
+  int get current => _current.value;
+
   @override
   void onInit() {
     super.onInit();
@@ -18,4 +21,7 @@ class MeController extends GetxController {
   }
 
   void increment() => count.value++;
+  void setCurrent(i) {
+    _current.value = i;
+  }
 }
