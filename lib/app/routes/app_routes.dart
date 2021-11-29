@@ -27,6 +27,7 @@ abstract class Routes {
   static const ANSWER = _Paths.ANSWER;
   static const CHAT = _Paths.CHAT;
   static const EDIT_INFO = _Paths.EDIT_INFO;
+  static const EDIT_INPUT = _Paths.EDIT_INPUT;
 }
 
 abstract class _Paths {
@@ -49,4 +50,5 @@ abstract class _Paths {
   static const CHAT = '/chat';
   static const ME = '/me';
   static const EDIT_INFO = '/edit-info';
+  static const EDIT_INPUT = '/edit-input';
 }

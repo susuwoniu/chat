@@ -1,7 +1,6 @@
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:chat/app/providers/providers.dart';
 import '../../login/controllers/login_controller.dart';
 
 import '../controllers/verification_controller.dart';

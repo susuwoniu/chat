@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:chat/app/routes/app_pages.dart';
 import 'package:hexcolor/hexcolor.dart';
 import '../controllers/edit_info_controller.dart';
 import 'package:chat/app/providers/auth_provider.dart';
@@ -37,11 +38,51 @@ class EditInfoView extends GetView<EditInfoController> {
                 children: [
                   ImageList(),
                   Container(height: 0.3, color: Colors.black26),
-                  EditRow(title: 'nickname'.tr, content: _account!.name),
-                  EditRow(title: 'gender'.tr, content: _account!.gender),
-                  EditRow(title: 'bio'.tr, content: _bio!),
-                  EditRow(title: 'location'.tr, content: _location),
-                  EditRow(title: 'birth'.tr, content: _birth),
+                  EditRow(
+                    title: "nickname".tr,
+                    content: _account!.name,
+                    onPressed: () => {
+                      Get.toNamed(Routes.EDIT_INPUT, arguments: {
+                        "title": "nickname".tr,
+                        "content": _account!.name
+                      })
+                    },
+                  ),
+                  EditRow(
+                    title: "gender".tr,
+                    content: _account!.gender,
+                    onPressed: () => {
+                      Get.toNamed(Routes.EDIT_INPUT,
+                          arguments: {"title": "gender".tr})
+                    },
+                  ),
+                  EditRow(
+                    title: "bio".tr,
+                    content: _bio!,
+                    onPressed: () => {
+                      Get.toNamed(Routes.EDIT_INPUT, arguments: {
+                        "title": "bio".tr,
+                        "maxLines": 3,
+                        "maxLength": 50
+                      })
+                    },
+                  ),
+                  EditRow(
+                    title: "location".tr,
+                    content: _location,
+                    onPressed: () => {
+                      Get.toNamed(Routes.EDIT_INPUT,
+                          arguments: {"title": "location".tr})
+                    },
+                  ),
+                  EditRow(
+                    title: "birth".tr,
+                    content: _birth,
+                    onPressed: () => {
+                      Get.toNamed(Routes.EDIT_INPUT,
+                          arguments: {"title": "birth".tr})
+                    },
+                  ),
                 ],
               )),
         ));

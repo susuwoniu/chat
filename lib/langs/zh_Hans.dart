@@ -48,4 +48,5 @@ const Map<String, String> zh_Hans = {
   "location": "地区",
   "tags": "兴趣",
   "birth": "生日",
+  "save": "保存",
 };

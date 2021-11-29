@@ -20,9 +20,10 @@ class _TCardPageState extends State<PostCard> {
   final _postController = PostController.to;
   final _indexList = PostController.to.postTemplatesIndexes;
   final _map = PostController.to.postTemplatesMap;
-
   @override
   Widget build(BuildContext context) {
+    final _width = MediaQuery.of(context).size.width;
+
     return Obx(() => Center(
           child: _postController.isLoading.value
               ? Text("loading")
@@ -31,14 +32,13 @@ class _TCardPageState extends State<PostCard> {
                     SizedBox(height: 5),
                     Container(
                       alignment: Alignment.topLeft,
-                      padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.075),
+                      padding: EdgeInsets.only(left: _width * 0.075),
                       child: Text("Select_a_question".tr,
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                     ),
                     TCard(
-                      size: Size(MediaQuery.of(context).size.width * 0.95,
+                      size: Size(_width * 0.95,
                           MediaQuery.of(context).size.height * 0.7),
                       cards: List.generate(
                         _indexList.length,
