@@ -208,6 +208,12 @@ class DebugView extends GetView<DebugController> {
                   },
                 ),
                 ListTile(
+                  title: Text('clear'),
+                  onTap: () {
+                    KVProvider.to.clear();
+                  },
+                ),
+                ListTile(
                   title: Text(
                     '测试服务器版本',
                   ),

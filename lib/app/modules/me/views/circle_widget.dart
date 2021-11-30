@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 class CircleWidget extends StatelessWidget {
   final Widget icon;
   final double? height;
-  final double? width;
-  final double? borderRadius;
   final double? iconSize;
   final Color? backgroundColor;
   final Color? iconColor;
@@ -15,9 +13,7 @@ class CircleWidget extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.onPressed,
-    this.borderRadius = 20,
     this.height = 40,
-    this.width = 40,
     this.iconSize = 22,
     this.backgroundColor = Colors.black26,
     this.iconColor = Colors.white,
@@ -25,11 +21,11 @@ class CircleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width,
+      width: height,
       height: height,
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(borderRadius!),
+        borderRadius: BorderRadius.circular(height! / 2),
       ),
       child: IconButton(
         icon: icon,

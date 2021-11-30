@@ -21,3 +21,5 @@ const String STORAGE_LANGUAGE_CODE = 'language_code';
 const String STORAGE_EXPIRING_PREFIX_KEY = 'expiring_key/';
 
 const String STORAGE_CLIENT_SECRET_KEY = 'api_client_secret';
+
+const String STORAGE_ACCOUNT_KEY = 'current_account';

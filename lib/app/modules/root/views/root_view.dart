@@ -12,12 +12,17 @@ class RootView extends GetView<RootController> {
         title: Text('Root'),
         centerTitle: true,
       ),
-      body: Center(
-        child: Text(
+      body: Column(children: [
+        Text(
           'RootView is working1',
           style: TextStyle(fontSize: 20),
         ),
-      ),
+        TextButton(
+            onPressed: () {
+              controller.clearAll();
+            },
+            child: Text("clear all"))
+      ]),
     );
   }
 }
