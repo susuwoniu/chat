@@ -40,9 +40,9 @@ class ChatController extends GetxController {
   void onReady() async {
     final messageController = MessageController.to;
     final room = messageController.getCurrentRoom()!;
-    if (!room.isInitMessages) {
+    if (!room.isInitServerMessages) {
       try {
-        await MessageController.to.initRoomMessage(_roomId);
+        await MessageController.to.getRoomServerEarlierMessage(_roomId);
         update();
       } catch (e) {
         print(e);
@@ -50,6 +50,11 @@ class ChatController extends GetxController {
     }
 
     super.onReady();
+  }
+
+  Future<void> handleEndReached() async {
+    final messageController = MessageController.to;
+    await messageController.getRoomServerEarlierMessage(_roomId);
   }
 
   Future<void> handleSendPressed(types.PartialText message) async {

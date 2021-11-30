@@ -29,6 +29,7 @@ class ChatView extends GetView<ChatController> {
               return message;
             }).toList(),
             onSendPressed: controller.handleSendPressed,
+            onEndReached: controller.handleEndReached,
             user: controller.user!,
           )),
     );

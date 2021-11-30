@@ -6,3 +6,6 @@
 - [ ]  验证码返回上一页，无法删除手机号
 - [ ]  登录页没有导航 
 - [ ]  xmpp 增加query all超时判断，错误判断
+- [ ]  send message id use uuid
+- [ ]  默认信息条数20/50
+- [ ]  user3的问题
