@@ -3,7 +3,7 @@ import 'package:chat/constants/constants.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/providers/kv_provider.dart';
 import 'package:chat/common.dart';
-import './chat_provider/chat_provider.dart';
+import 'dart:async';
 
 class AuthProvider extends GetxService {
   static AuthProvider get to => Get.find();
@@ -25,7 +25,9 @@ class AuthProvider extends GetxService {
   bool get hasRefreshToken => _refreshToken != null;
   String? get accessToken => _accessToken;
   String? get refreshToken => _refreshToken;
-
+  Stream<AuthStatus> get authUpdated => _authUpdatedStreamController.stream;
+  final StreamController<AuthStatus> _authUpdatedStreamController =
+      StreamController.broadcast();
   AccountEntity? _account;
   AccountEntity? get account => _account;
 
@@ -43,19 +45,9 @@ class AuthProvider extends GetxService {
     }
     //todo refresh token to access token
     if (_accessToken != null && _imAccessToken != null && _accountId != null) {
-      // init im login
-      try {
-        await ChatProvider.to.login(
-            "user3",
-            "xmpp.scuinfo.com",
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyMyIsIm5hbWUiOiJKb2huIERvZSIsImFkbWluIjp0cnVlLCJuYmYiOjE2Mzc2OTIzNDQsImlhdCI6MTYzNzY5MjM0NCwiZXhwIjoxNzk5Njk1OTQ0fQ.OvsgTeNtjMZCiwaJUDW5uorukHVVIhsieLg_e5X5HQ86VA7MH-On-s-y81VuBKJFiJ6JiDyBr9zbABnseCVJyuRfgBwAacZAqpqHrqGkGdLpz6h1GPEC7Myh4_f-cdhGuzssSD3d2fAVkbM6B5a7b5NQzCPr_e_dwqP1Pe2g_kcsw9iBu9kjqes5tDX7Fx5zDrcBPhOPoBQobLPUPtTVSm6K_IINFiLWhIZg9SVN9SgQFciEiY7y7b5m5laYgZaxEjWyU34vsr8QNCeMbWUd73B0-g7j_x3lQzd-YJXltnpVTNVEMYsmVC_jI7lCPlLt-ILwTvT-vG8SI_IrKzktLg",
-            "flutter");
-      } catch (e) {
-        print(e);
-      }
-
       // await ImProvider.to.login(_accountId!, _imAccessToken!);
       _isLogin.value = true;
+      _authUpdatedStreamController.add(AuthStatus.loginSuccess);
     } else {
       _isLogin.value = false;
     }
@@ -107,6 +99,7 @@ class AuthProvider extends GetxService {
     await KVProvider.to.removeExpiredString(STORAGE_ACCOUNT_REFRESH_TOKEN_KEY);
     await KVProvider.to.remove(STORAGE_ACCOUNT_ID_KEY);
     await KVProvider.to.remove(STORAGE_ACCOUNT_KEY);
+    _authUpdatedStreamController.add(AuthStatus.logoutSuccess);
   }
 
   // 清楚access token test ,not use production
@@ -120,4 +113,11 @@ class AuthProvider extends GetxService {
     _account = account;
     await KVProvider.to.putObject(STORAGE_ACCOUNT_KEY, account.toJson());
   }
+}
+
+enum AuthStatus {
+  // 登录成功
+  loginSuccess,
+  // 退出成功
+  logoutSuccess,
 }

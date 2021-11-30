@@ -19,7 +19,6 @@ class BottomNavigationBarController extends GetxController {
 
   /// 响应式成员变量
   final _page = 0.obs;
-  set page(value) => _page.value = value;
   get page => _page.value;
 
   @override
@@ -66,11 +65,13 @@ class BottomNavigationBarController extends GetxController {
       final allParam = {"tab": tab};
       allParam.addAll(Get.arguments ?? {});
       final query = Uri(queryParameters: allParam).query;
-      Get.offNamed(Routes.LOGIN, parameters: {
+      Get.toNamed(Routes.LOGIN, parameters: {
         "next": "${Routes.MAIN}${query.isNotEmpty ? '?' + query : ''}"
       });
     } else {
       _page.value = page;
+      BottomNavigationBarController.to.pageController.animateToPage(page,
+          duration: const Duration(milliseconds: 200), curve: Curves.ease);
     }
   }
 

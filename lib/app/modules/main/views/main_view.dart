@@ -24,7 +24,6 @@ class MainView extends GetView<MainController> {
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[HomeView(), PostView(), MessageView()],
       controller: BottomNavigationBarController.to.pageController,
-      onPageChanged: BottomNavigationBarController.to.handlePageChanged,
     );
   }
 }

@@ -58,28 +58,50 @@ class MessageController extends GetxController {
       RxMap<String, List<String>>({});
   final _currentRoomId = "".obs;
   String get currentRoomId => _currentRoomId.value;
-
+  StreamSubscription<ConnectionState>? _chatConnectionUpdatedSubscription;
+  StreamSubscription<xmpp.Event<xmpp.Message>>? _roomMessageUpdatedSubscription;
   @override
   Future<void> onReady() async {
-    await init();
+    _chatConnectionUpdatedSubscription =
+        ChatProvider.to.connectionUpdated.listen((event) {
+      if (event == ConnectionState.connected) {
+        // 初始化房间列表
+        init().catchError((e) {
+          print(e);
+          UIUtils.showError(e);
+        });
+      }
+    });
+
     super.onReady();
   }
 
   Future<void> init() async {
-    if (ChatProvider.to.roomManager != null &&
-        ChatProvider.to.isOpened == false) {
-      ChatProvider.to.roomManager!.roomMessageUpdated.listen((event) {
+    if (ChatProvider.to.roomManager != null) {
+      _roomMessageUpdatedSubscription =
+          ChatProvider.to.roomManager!.roomMessageUpdated.listen((event) {
         updateRoomMessage(event);
       });
+      await initRooms();
+    }
+  }
+
+  Future<List<Room>?> initRooms() async {
+    if (ChatProvider.to.roomManager != null) {
       final rooms = await ChatProvider.to.roomManager!.getAllRooms();
       for (var room in rooms) {
         entities[room.id] = Room.fromXmppRoom(room);
-        roomMessageIndexesMap[room.id] = [];
+        if (roomMessageIndexesMap[room.id] == null) {
+          roomMessageIndexesMap[room.id] = [];
+        }
         // duduplicate
         if (!indexes.contains(room.id)) {
           indexes.add(room.id);
         }
       }
+      return rooms.map<Room>((room) => Room.fromXmppRoom(room)).toList();
+    } else {
+      return null;
     }
   }
 
@@ -258,5 +280,16 @@ class MessageController extends GetxController {
       'id': roomId,
     });
     setCurrentRoomId(null);
+  }
+
+  @override
+  void onClose() {
+    if (_chatConnectionUpdatedSubscription != null) {
+      _chatConnectionUpdatedSubscription!.cancel();
+    }
+    if (_roomMessageUpdatedSubscription != null) {
+      _roomMessageUpdatedSubscription!.cancel();
+    }
+    super.onClose();
   }
 }

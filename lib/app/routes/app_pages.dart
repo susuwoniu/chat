@@ -68,51 +68,36 @@ class AppPages {
       binding: RootBinding(),
     ),
     GetPage(
-      middlewares: [
-        //only enter this route when authed
-        // EnsureNotAuthedMiddleware(),
-      ],
-      name: _Paths.LOGIN,
-      page: () => LoginView(),
-      binding: LoginBinding(),
-    ),
-    GetPage(
         name: _Paths.MAIN,
         preventDuplicates: true,
         page: () => MainView(),
         binding: MainBinding(),
         children: [
-          GetPage(
-            name: _Paths.HOME,
-            page: () => HomeView(),
-            binding: HomeBinding(),
-          ),
-          GetPage(
-            middlewares: [
-              //only enter this route when authed
-              // not working
-              // EnsureAuthMiddleware(),
-            ],
-            name: _Paths.POST,
-            page: () => PostView(),
-            binding: PostBinding(),
-          ),
-          GetPage(
-              name: _Paths.MESSAGE,
-              page: () => MessageView(),
-              binding: MessageBinding(),
-              children: [
-                GetPage(
-                  name: _Paths.TEST1,
-                  page: () => Test1View(),
-                  binding: Test1Binding(),
-                ),
-              ]),
+          // GetPage(
+          //   name: _Paths.HOME,
+          //   page: () => HomeView(),
+          //   binding: HomeBinding(),
+          // ),
+          // GetPage(
+          //   name: _Paths.POST,
+          //   page: () => PostView(),
+          //   binding: PostBinding(),
+          // ),
+          // GetPage(
+          //   name: _Paths.MESSAGE,
+          //   page: () => MessageView(),
+          //   binding: MessageBinding(),
+          // )
         ]),
     GetPage(
-      name: _Paths.SPLASH,
-      page: () => SplashView(),
-      binding: SplashBinding(),
+      middlewares: [
+        //only enter this route when authed
+        // bug
+        // EnsureNotAuthedMiddleware(),
+      ],
+      name: _Paths.LOGIN,
+      page: () => LoginView(),
+      binding: LoginBinding(),
     ),
     GetPage(
       name: _Paths.SETTING,
@@ -123,6 +108,11 @@ class AppPages {
       name: _Paths.ROOM,
       page: () => RoomView(),
       binding: RoomBinding(),
+    ),
+    GetPage(
+      name: _Paths.TEST1,
+      page: () => Test1View(),
+      binding: Test1Binding(),
     ),
     GetPage(
       name: _Paths.TEST2,

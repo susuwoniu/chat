@@ -5,9 +5,10 @@ import 'package:chat/config/config.dart';
 import 'dart:convert';
 import 'package:clipboard/clipboard.dart';
 import 'package:get/get.dart';
-import 'package:xmpp_stone/xmpp_stone.dart';
 import '../controllers/debug_controller.dart';
 import 'package:chat/app/modules/login/controllers/login_controller.dart';
+import 'package:chat/app/modules/message/controllers/message_controller.dart';
+
 import 'package:chat/common.dart';
 
 class DebugView extends GetView<DebugController> {
@@ -84,8 +85,7 @@ class DebugView extends GetView<DebugController> {
                     ),
                     onTap: () async {
                       try {
-                        final inboxManager = ChatProvider.to.inboxManager;
-                        final rooms = await inboxManager!.queryAll();
+                        final rooms = MessageController.to.initRooms();
                         print("rooms $rooms");
                         UIUtils.toast("发送请求成功");
                       } catch (e) {

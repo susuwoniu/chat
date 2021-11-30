@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:chat/app/modules/main/controllers/bottom_navigation_bar_controller.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:get/get.dart';
 
 mainBottomNavigationBar(BuildContext context) {
@@ -15,9 +14,7 @@ mainBottomNavigationBar(BuildContext context) {
         //     ? Colors.transparent
         //     : Colors.transparent,
         onTap: (index) {
-          BottomNavigationBarController.to.page = index;
-          BottomNavigationBarController.to.pageController.animateToPage(index,
-              duration: const Duration(milliseconds: 200), curve: Curves.ease);
+          BottomNavigationBarController.to.handlePageChanged(index);
         },
         items: [
           // _Paths.Main + [Empty]
