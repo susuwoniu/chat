@@ -15,40 +15,10 @@ String randomString() {
 }
 
 class ChatController extends GetxController {
-  static types.Message formatMessage(xmpp.Message message) {
-    if (message.text != null) {
-      return types.TextMessage(
-        author: types.User(id: message.from.userAtDomain),
-        createdAt: message.updatedAt.millisecondsSinceEpoch,
-        id: message.messageId!,
-        text: message.text,
-      );
-    } else {
-      return types.UnsupportedMessage(
-          id: message.messageId!,
-          author: types.User(id: message.from.userAtDomain));
-    }
-  }
-
-  final isLoading = true.obs;
-  final currentEndCursor = ''.obs;
-  final isDataEmpty = false.obs;
   types.User? _user;
   types.User? get user => _user;
   late String _roomId;
   String get roomId => _roomId;
-  late String _roomType;
-  final count = 0.obs;
-  // bool isCurrentChat(Message message) {
-  //   var senderId = message.sendID;
-  //   var groupId = message.groupID;
-  //   var sessionType = message.sessionType;
-  //   var isCurSingleChat =
-  //       sessionType == 1 && _roomType == PRIVATE_CHAT && senderId == _roomId;
-  //   var isCurGroupChat =
-  //       sessionType == 2 && _roomType == GROUP_CHAT && _roomId == groupId;
-  //   return isCurSingleChat || isCurGroupChat;
-  // }
 
   @override
   void onInit() {
@@ -83,17 +53,7 @@ class ChatController extends GetxController {
   }
 
   Future<void> handleSendPressed(types.PartialText message) async {
-    // final roomManager = ChatProvider.to.roomManager!;
-    // final room = roomManager.getChat(
-    //   _roomId,
-    // )!;
-    // room.sendMessage(message.text);
-
-    // addMessage(textMessage);
-
-    // _addMessage(textMessage);
-    // entities[textMessage.id!] = textMessage;
+    final messageController = MessageController.to;
+    messageController.sendMessage(_roomId, message.text);
   }
-
-  void increment() => count.value++;
 }

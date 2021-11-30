@@ -6,3 +6,4 @@ export 'api.dart';
 
 const PRIVATE_CHAT = "private";
 const GROUP_CHAT = "group";
+const ROOM_INIT_MESSAGE_COUNT = 50;

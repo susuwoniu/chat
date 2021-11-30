@@ -19,54 +19,52 @@ class MessageView extends GetView<MessageController> {
         title: Text('Message'),
         centerTitle: true,
       ),
-      body: Obx(
-        () {
-          return Column(
-            children: [
-              Container(
-                child: Text(
+      body: Column(
+        children: [
+          Container(
+            child: Obx(() => Text(
                   _chatProvider.isLoading ? "Connecting..." : "Connected",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
-                ),
-              ),
-              Expanded(
-                child: CustomScrollView(
-                  slivers: [
-                    SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final room =
-                            controller.entities[controller.indexes[index]]!;
-                        print(
-                            "xxroom: ${controller.indexes[index]},${room.unreadCount}");
-                        return GestureDetector(
-                            onTap: () async {
-                              await controller.toChat(index);
+                )),
+          ),
+          Expanded(
+            child: CustomScrollView(
+              slivers: [
+                SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return GestureDetector(
+                        onTap: () async {
+                          await controller.toChat(index);
+                        },
+                        behavior: HitTestBehavior.translucent,
+                        child: Obx(() {
+                          final room =
+                              controller.entities[controller.indexes[index]]!;
+                          print(
+                              "xxroom: ${controller.indexes[index]},${room.unreadCount}");
+                          return conversationItemView(
+                            onTap: (index) {
+                              controller.toChat(index);
                             },
-                            behavior: HitTestBehavior.translucent,
-                            child: conversationItemView(
-                              onTap: (index) {
-                                controller.toChat(index);
-                              },
-                              context: context,
-                              index: index,
-                              title: room.id,
-                              preview: room.preview,
-                              updatedAt: room.updatedAt,
-                              unreadCount: room.unreadCount,
-                            ));
-                      },
-                      childCount: controller.indexes.length,
-                    )),
-                  ],
-                ),
-              ),
-            ],
-          );
-        },
+                            context: context,
+                            index: index,
+                            title: room.id,
+                            preview: room.preview,
+                            updatedAt: room.updatedAt,
+                            unreadCount: room.unreadCount,
+                          );
+                        }));
+                  },
+                  childCount: controller.indexes.length,
+                )),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

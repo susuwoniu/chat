@@ -10,30 +10,27 @@ import 'package:chat/app/modules/message/controllers/message_controller.dart';
 class ChatView extends GetView<ChatController> {
   @override
   Widget build(BuildContext context) {
-    final roomId = controller.roomId;
     final messageController = MessageController.to;
+    final roomId = controller.roomId;
 
-    return Obx(() {
-      final room = messageController.entities[roomId]!;
-      return Scaffold(
-        appBar: AppBar(
-          title: room.isLoading ? Text("loading") : Text('ChatView'),
-          centerTitle: true,
-        ),
-        body: Chat(
-          // messages: controller.indexes.reversed.map((id) {
-          //   return controller.entities[id]!;
-          // }).toList(),
-          messages: messageController.roomMessageIndexesMap[roomId]!.reversed
-              .map((id) {
-            final types.Message message =
-                messageController.messageEntities[id]!;
-            return message;
-          }).toList(),
-          onSendPressed: controller.handleSendPressed,
-          user: controller.user!,
-        ),
-      );
-    });
+    return Scaffold(
+      appBar: AppBar(
+        title: Obx(() {
+          final room = messageController.entities[roomId];
+          return room!.isLoading ? Text("loading") : Text('ChatView');
+        }),
+        centerTitle: true,
+      ),
+      body: Obx(() => Chat(
+            messages:
+                messageController.roomMessageIndexesMap[roomId]!.map((id) {
+              final types.Message message =
+                  messageController.messageEntities[id]!;
+              return message;
+            }).toList(),
+            onSendPressed: controller.handleSendPressed,
+            user: controller.user!,
+          )),
+    );
   }
 }

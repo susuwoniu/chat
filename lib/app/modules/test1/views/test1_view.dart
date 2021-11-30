@@ -9,18 +9,43 @@ class Test1View extends GetView<Test1Controller> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Test1View2'),
+        title: Text('Title'),
         centerTitle: true,
       ),
-      body: Container(
-        color: Colors.blue,
-        width: 300.0,
-        height: 200.0,
-        child: FittedBox(
-          fit: BoxFit.contain,
-          child: Text("Whee"),
+      body: SafeArea(
+          child: Container(
+        child: Column(
+          children: [
+            Expanded(
+                child: ListView.builder(
+                    itemCount: controller.indexes.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Obx(() {
+                        final entity =
+                            controller.entities[controller.indexes[index]];
+
+                        return ListTile(
+                            title: Text(entity != null
+                                ? entity.count.toString()
+                                : "empty"));
+                      });
+                    })),
+            // Text(controller.entities["1"]!.count.toString()),
+            TextButton(
+              onPressed: () {
+                controller.increment();
+              },
+              child: Text('add'),
+            ),
+            TextButton(
+              onPressed: () {
+                controller.sort();
+              },
+              child: Text('随机'),
+            ),
+          ],
         ),
-      ),
+      )),
     );
   }
 }

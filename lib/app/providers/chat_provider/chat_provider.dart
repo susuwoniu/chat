@@ -25,7 +25,7 @@ class ChatProvider extends GetxService {
   xmpp.MessageArchiveManager? get messageArchiveManager =>
       _messageArchiveManager;
   StreamSubscription<xmpp.XmppConnectionState>? _connectionStateSubscription;
-  bool isOpened() {
+  bool get isOpened {
     if (_connection != null) {
       return _connection!.isOpened();
     } else {
@@ -130,14 +130,7 @@ class ChatProvider extends GetxService {
         _roomManager = xmpp.RoomManager.getInstance(_connection!);
         _inboxManager = xmpp.InboxManager.getInstance(_connection!);
         _messageArchiveManager = _connection!.getMamModule();
-        xmpp.MessagesListener messageStream = MessagesStream();
-
-        final messageHandler = xmpp.MessageHandler.getInstance(_connection!);
-
-        messageHandler.messagesStream.listen(messageStream.onNewMessage);
-
         _isLoading.value = false;
-
         if (!completer.isCompleted) {
           completer.complete();
         }

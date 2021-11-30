@@ -85,7 +85,8 @@ class DebugView extends GetView<DebugController> {
                     onTap: () async {
                       try {
                         final inboxManager = ChatProvider.to.inboxManager;
-                        await inboxManager!.queryAll();
+                        final rooms = await inboxManager!.queryAll();
+                        print("rooms $rooms");
                         UIUtils.toast("发送请求成功");
                       } catch (e) {
                         UIUtils.showError(e);
