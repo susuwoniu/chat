@@ -21,17 +21,20 @@ class ChatView extends GetView<ChatController> {
         }),
         centerTitle: true,
       ),
-      body: Obx(() => Chat(
-            messages:
-                messageController.roomMessageIndexesMap[roomId]!.map((id) {
-              final types.Message message =
-                  messageController.messageEntities[id]!;
-              return message;
-            }).toList(),
-            onSendPressed: controller.handleSendPressed,
-            onEndReached: controller.handleEndReached,
-            user: controller.user!,
-          )),
+      body: Obx(() {
+        final room = messageController.entities[roomId];
+        return Chat(
+          messages: messageController.roomMessageIndexesMap[roomId]!
+              .map<types.Message>(
+                  (id) => messageController.messageEntities[id]!)
+              .toList(),
+          emptyState:
+              room!.isLoading ? Text("isLoading") : Text("No message yet"),
+          onSendPressed: controller.handleSendPressed,
+          onEndReached: controller.handleEndReached,
+          user: controller.user!,
+        );
+      }),
     );
   }
 }

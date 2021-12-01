@@ -43,7 +43,6 @@ class ChatController extends GetxController {
     if (!room.isInitServerMessages) {
       try {
         await MessageController.to.getRoomServerEarlierMessage(_roomId);
-        update();
       } catch (e) {
         print(e);
       }

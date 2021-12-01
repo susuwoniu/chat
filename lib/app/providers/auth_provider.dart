@@ -22,6 +22,7 @@ class AuthProvider extends GetxService {
   bool get isLogin => _isLogin.value;
   bool get hasAccessToken => _accessToken != null;
   bool get hasImAccessToken => _imAccessToken != null;
+  String? get imAccessToken => _imAccessToken;
   bool get hasRefreshToken => _refreshToken != null;
   String? get accessToken => _accessToken;
   String? get refreshToken => _refreshToken;

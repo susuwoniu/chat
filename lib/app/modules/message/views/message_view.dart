@@ -23,7 +23,11 @@ class MessageView extends GetView<MessageController> {
         children: [
           Container(
             child: Obx(() => Text(
-                  _chatProvider.isLoading ? "Connecting..." : "Connected",
+                  _chatProvider.isLoading
+                      ? "Connecting..."
+                      : _chatProvider.isConnected
+                          ? "Connected"
+                          : "连接失败",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -44,8 +48,6 @@ class MessageView extends GetView<MessageController> {
                         child: Obx(() {
                           final room =
                               controller.entities[controller.indexes[index]]!;
-                          print(
-                              "xxroom: ${controller.indexes[index]},${room.unreadCount}");
                           return conversationItemView(
                             onTap: (index) {
                               controller.toChat(index);
@@ -55,7 +57,7 @@ class MessageView extends GetView<MessageController> {
                             title: room.id,
                             preview: room.preview,
                             updatedAt: room.updatedAt,
-                            unreadCount: room.unreadCount,
+                            unreadCount: room.clientUnreadCount,
                           );
                         }));
                   },

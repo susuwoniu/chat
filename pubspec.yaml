@@ -43,9 +43,12 @@ dependencies:
   clipboard: ^0.1.3
   flutter_chat_ui: ^1.5.1
   sprintf: ^6.0.0
-  # xmpp_stone: ^0.4.2-dev.1
   xmpp_stone:
-    path: ../xmpp_client
+    git:
+      url: git@github.com:theowenyoung/xmpp_client.git
+      ref: main
+  # xmpp_stone:
+  #   path: ../xmpp_client
 dev_dependencies:
   flutter_lints: ^1.0.0
   lints: ^1.0.1

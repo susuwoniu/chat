@@ -1137,9 +1137,11 @@ packages:
   xmpp_stone:
     dependency: "direct main"
     description:
-      path: "../xmpp_client"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: "60deb2c5ad7f08115ba886ba71f0c2da247df75d"
+      url: "git@github.com:theowenyoung/xmpp_client.git"
+    source: git
     version: "0.3.3"
   yaml:
     dependency: transitive

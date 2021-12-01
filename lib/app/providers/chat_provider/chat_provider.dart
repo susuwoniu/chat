@@ -12,6 +12,8 @@ import '../auth_provider.dart';
 class ChatProvider extends GetxService {
   static ChatProvider get to => Get.find();
   final _isLoading = true.obs;
+  final _isConnected = false.obs;
+  bool get isConnected => _isConnected.value;
   bool get isLoading => _isLoading.value;
   xmpp.Connection? _connection;
   xmpp.Jid? _currentAccount;
@@ -24,6 +26,7 @@ class ChatProvider extends GetxService {
   final StreamController<ConnectionState> _connectionUpdatedStreamController =
       StreamController.broadcast();
   StreamSubscription<xmpp.XmppConnectionState>? _connectionStateSubscription;
+
   bool get isOpened {
     if (_connection != null) {
       return _connection!.isOpened();
@@ -52,14 +55,14 @@ class ChatProvider extends GetxService {
 
   Future<void> connect() async {
     // init im login
-    try {
-      await ChatProvider.to.login(
-          "user3",
-          "xmpp.scuinfo.com",
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyMyIsIm5hbWUiOiJKb2huIERvZSIsImFkbWluIjp0cnVlLCJuYmYiOjE2Mzc2OTIzNDQsImlhdCI6MTYzNzY5MjM0NCwiZXhwIjoxNzk5Njk1OTQ0fQ.OvsgTeNtjMZCiwaJUDW5uorukHVVIhsieLg_e5X5HQ86VA7MH-On-s-y81VuBKJFiJ6JiDyBr9zbABnseCVJyuRfgBwAacZAqpqHrqGkGdLpz6h1GPEC7Myh4_f-cdhGuzssSD3d2fAVkbM6B5a7b5NQzCPr_e_dwqP1Pe2g_kcsw9iBu9kjqes5tDX7Fx5zDrcBPhOPoBQobLPUPtTVSm6K_IINFiLWhIZg9SVN9SgQFciEiY7y7b5m5laYgZaxEjWyU34vsr8QNCeMbWUd73B0-g7j_x3lQzd-YJXltnpVTNVEMYsmVC_jI7lCPlLt-ILwTvT-vG8SI_IrKzktLg",
-          "flutter");
-    } catch (e) {
-      print(e);
+    if (AuthProvider.to.isLogin) {
+      final username = "im${AuthProvider.to.accountId}";
+      try {
+        await ChatProvider.to.login(username, "xmpp.scuinfo.com",
+            AuthProvider.to.imAccessToken!, "flutter");
+      } catch (e) {
+        print(e);
+      }
     }
   }
 
@@ -110,6 +113,7 @@ class ChatProvider extends GetxService {
 
   void _throwExceptiohn(Completer completer, ServiceException exception) {
     _isLoading.value = false;
+    _isConnected.value = false;
     if (!completer.isCompleted) {
       completer.completeError(exception);
     }
@@ -171,6 +175,7 @@ class ChatProvider extends GetxService {
         if (!completer.isCompleted) {
           completer.complete();
         }
+        _isConnected.value = true;
         _connectionUpdatedStreamController.add(ConnectionState.connected);
 
         break;

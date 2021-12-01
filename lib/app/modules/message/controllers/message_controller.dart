@@ -15,12 +15,17 @@ class Room extends xmpp.Room {
   bool isLoadingServerMessage = false;
   bool isInitClientMessages = false;
   bool isInitServerMessages = false;
+  // 客户端未读数，由于客户端的未读/已读状态是本地的，服务端未必及时同步，所以这里单独设置一个客户端的维度数，用于在客户端显示，优化用户体验，
+  // unreadCount为服务端未读数量，应尽量保持及时把客户端的未读数量同步到服务端，但注意频率，不要无谓的发送
+  int clientUnreadCount = 0;
   static fromXmppRoom(xmpp.Room xmppRoom) {
-    return Room(xmppRoom.id,
+    final newRoom = Room(xmppRoom.id,
         name: xmppRoom.name,
         updatedAt: xmppRoom.updatedAt,
         preview: xmppRoom.preview,
-        unreadCount: xmppRoom.unreadCount);
+        unreadCount: xmppRoom.unreadCount,
+        clientUnreadCount: xmppRoom.unreadCount);
+    return newRoom;
   }
 
   Room(
@@ -29,9 +34,10 @@ class Room extends xmpp.Room {
     required String name,
     required String preview,
     required int unreadCount,
-    bool isLoading = false,
-    bool isInitClientMessages = false,
-    bool isInitServerMessages = false,
+    this.clientUnreadCount = 0,
+    this.isLoading = false,
+    this.isInitClientMessages = false,
+    this.isInitServerMessages = false,
   }) : super(id,
             updatedAt: updatedAt,
             name: name,
@@ -42,11 +48,12 @@ class Room extends xmpp.Room {
 class MessageController extends GetxController {
   static MessageController get to => Get.find();
   static types.Message formatMessage(xmpp.Message message) {
+    // todo 不支持的消息类型
     return types.TextMessage(
       author: types.User(id: message.from.userAtDomain),
       createdAt: message.createdAt.millisecondsSinceEpoch,
       id: message.id,
-      text: message.text,
+      text: message.text.isNotEmpty ? message.text : "not support message",
     );
   }
 
@@ -189,17 +196,26 @@ class MessageController extends GetxController {
   void markRoomAsRead(String roomId) {
     var room = entities[roomId];
     if (room != null) {
-      entities.update(roomId, (value) {
-        value.unreadCount = 0;
-        return value;
-      });
+      if (room.clientUnreadCount > 0) {
+        // only改变才改变
+        entities.update(roomId, (value) {
+          value.clientUnreadCount = 0;
+          return value;
+        });
+      }
+
+      // mark server room read
+      // 保护 xx秒发一次
+      // 只要服务端的unreadCount >0 才需要发送请求
+      if (room.unreadCount > 0) {
+        ChatProvider.to.roomManager!.markAsRead(roomId).catchError((e) {
+          print("markas read error, $e");
+        }).then((e) {
+          // 成功才修改服务端的未读数量
+          room.unreadCount = 0;
+        });
+      }
     }
-    // mark server room read
-    // 保护 xx秒发一次
-    // TODO
-    ChatProvider.to.roomManager!.markAsRead(roomId).catchError((e) {
-      print("markas read error, $e");
-    });
   }
 
   Room? getCurrentRoom() {
@@ -279,8 +295,20 @@ class MessageController extends GetxController {
     if (roomId != currentRoomId &&
         message.fromId != ChatProvider.to.currentAccount!.userAtDomain) {
       // 添加unreadCount
-      room.unreadCount++;
+      room.clientUnreadCount++;
       roomChanged = true;
+    }
+    // 服务端未读数量，如果是对方发送的信息，每次都应该+1
+    if (message.fromId != ChatProvider.to.currentAccount!.userAtDomain) {
+      room.unreadCount++;
+      if (roomId == currentRoomId) {
+        // 设置服务器未读数量为0
+        // TODO 是否需要节流，防止频繁请求
+        markRoomAsRead(roomId);
+      }
+
+      // 服务端未读数量不影响客户端展示,所以不需要更新rx map
+      // dart是引用类型，所以这里对room的改变就已经变了
     }
 
     if (roomChanged) {
@@ -295,12 +323,6 @@ class MessageController extends GetxController {
     entities[event.id]!.updatedAt = event.data.createdAt;
 
     sortRooms();
-  }
-
-  void updateRoomUnreadCount(xmpp.Event<int> event) {
-    final room = entities[event.id]!;
-    room.unreadCount = event.data + entities[event.id]!.unreadCount;
-    entities[event.id] = room;
   }
 
   void sortRooms() {
@@ -319,17 +341,26 @@ class MessageController extends GetxController {
     // 是否有未读消息，有的话，mark为已读
     final room = entities[roomId];
     if (room != null) {
-      if (room.unreadCount > 0) {
+      if (room.unreadCount > 0 || room.clientUnreadCount > 0) {
         markRoomAsRead(roomId);
       }
+      // 进入活动态
+      // 暂时不实现，因为需要先进行协商才行，不能不分青红皂白就给对方发一个自己的状态，暂时不重要，后续再优化
+      // ChatProvider.to.roomManager!.setChatState(roomId, xmpp.ChatState.active);
+      await Get.toNamed(Routes.CHAT, arguments: {
+        'id': roomId,
+      });
+
+      // 再次设为已读
+      if (room.unreadCount > 0 || room.clientUnreadCount > 0) {
+        markRoomAsRead(roomId);
+      }
+
+      setCurrentRoomId(null);
+
+      // 取消活动态
+      // ChatProvider.to.roomManager!.setChatState(roomId, xmpp.ChatState.inactive);
     }
-    // 进入活动态
-    ChatProvider.to.roomManager!.setChatState(roomId, xmpp.ChatState.active);
-    await Get.toNamed(Routes.CHAT, arguments: {
-      'id': roomId,
-    });
-    ChatProvider.to.roomManager!.setChatState(roomId, xmpp.ChatState.inactive);
-    setCurrentRoomId(null);
   }
 
   @override
