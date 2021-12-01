@@ -26,8 +26,8 @@ class AuthProvider extends GetxService {
   String? get accessToken => _accessToken;
   String? get refreshToken => _refreshToken;
 
-  AccountEntity? _account;
-  AccountEntity? get account => _account;
+  Rx<AccountEntity>? _account;
+  Rx<AccountEntity>? get account => _account;
 
   Future<void> init() async {
     _accessToken =
@@ -39,7 +39,7 @@ class AuthProvider extends GetxService {
     _accountId = KVProvider.to.getString(STORAGE_ACCOUNT_ID_KEY);
     final _accountObj = KVProvider.to.getObject(STORAGE_ACCOUNT_KEY);
     if (_accountObj != null) {
-      _account = AccountEntity.fromJson(_accountObj);
+      _account = AccountEntity.fromJson(_accountObj).obs;
     }
     //todo refresh token to access token
     if (_accessToken != null && _imAccessToken != null && _accountId != null) {
@@ -108,7 +108,7 @@ class AuthProvider extends GetxService {
     await KVProvider.to.removeExpiredString(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
   }
 
-  Future<void> saveAccount(AccountEntity account) async {
+  Future<void> saveAccount(Rx<AccountEntity> account) async {
     _account = account;
     await KVProvider.to.putObject(STORAGE_ACCOUNT_KEY, account.toJson());
   }

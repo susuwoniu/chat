@@ -64,7 +64,7 @@ class EditInputController extends GetxController {
   Future<void> postChange(String title, String content) async {
     final body =
         await APIProvider().patch("/account/me", body: {title: content});
-    final account = AccountEntity.fromJson(body["data"]["attributes"]);
+    final account = AccountEntity.fromJson(body["data"]["attributes"]).obs;
     await AuthProvider.to.saveAccount(account);
   }
 }
