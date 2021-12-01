@@ -42,7 +42,7 @@ const Map<String, String> zh_Hans = {
   "next": "获取短信验证码",
   "error_occured": "发生错误",
   "renew_token_failed": "登录失败",
-  "nickname": "昵称",
+  "name": "昵称",
   "gender": "性别",
   "bio": "签名",
   "location": "地区",

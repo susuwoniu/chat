@@ -23,9 +23,6 @@ class EditInfoView extends GetView<EditInfoController> {
   // final List<XFile>? images = await _picker.pickMultiImage();
   @override
   Widget build(BuildContext context) {
-    final _bio = _account!.bio == '' ? 'nothing' : _account!.bio;
-    final _location = _account!.location ?? 'unknown place';
-    final _birth = _account!.birthday ?? 'xxxx-xx-xx';
     return Scaffold(
         appBar: AppBar(
           title: Text('EditInfoView'),
@@ -34,57 +31,63 @@ class EditInfoView extends GetView<EditInfoController> {
         body: SingleChildScrollView(
           child: Container(
               color: HexColor("#f0eff4"),
-              child: Column(
-                children: [
-                  ImageList(),
-                  Container(height: 0.3, color: Colors.black26),
-                  EditRow(
-                    title: "nickname".tr,
-                    content: _account!.name,
-                    onPressed: () => {
-                      Get.toNamed(Routes.EDIT_INPUT, arguments: {
-                        "title": "nickname".tr,
-                        "content": _account!.name
-                      })
-                    },
-                  ),
-                  EditRow(
-                    title: "gender".tr,
-                    content: _account!.gender,
-                    onPressed: () => {
-                      Get.toNamed(Routes.EDIT_INPUT,
-                          arguments: {"title": "gender".tr})
-                    },
-                  ),
-                  EditRow(
-                    title: "bio".tr,
-                    content: _bio!,
-                    onPressed: () => {
-                      Get.toNamed(Routes.EDIT_INPUT, arguments: {
-                        "title": "bio".tr,
-                        "maxLines": 3,
-                        "maxLength": 50
-                      })
-                    },
-                  ),
-                  EditRow(
-                    title: "location".tr,
-                    content: _location,
-                    onPressed: () => {
-                      Get.toNamed(Routes.EDIT_INPUT,
-                          arguments: {"title": "location".tr})
-                    },
-                  ),
-                  EditRow(
-                    title: "birth".tr,
-                    content: _birth,
-                    onPressed: () => {
-                      Get.toNamed(Routes.EDIT_INPUT,
-                          arguments: {"title": "birth".tr})
-                    },
-                  ),
-                ],
-              )),
+              child: Obx(() {
+                final _account = AuthProvider.to.account.value;
+                final _bio = _account.bio == '' ? 'nothing' : _account.bio;
+                final _location = _account.location ?? 'unknown place';
+                final _birth = _account.birthday ?? 'xxxx-xx-xx';
+                return Column(
+                  children: [
+                    ImageList(),
+                    Container(height: 0.3, color: Colors.black26),
+                    EditRow(
+                      title: "name".tr,
+                      content: _account.name,
+                      onPressed: () => {
+                        Get.toNamed(Routes.EDIT_INPUT, arguments: {
+                          "title": "name",
+                          "content": _account.name
+                        })
+                      },
+                    ),
+                    EditRow(
+                      title: "gender".tr,
+                      content: _account.gender,
+                      onPressed: () => {
+                        Get.toNamed(Routes.EDIT_INPUT,
+                            arguments: {"title": "gender"})
+                      },
+                    ),
+                    EditRow(
+                      title: "bio".tr,
+                      content: _bio!,
+                      onPressed: () => {
+                        Get.toNamed(Routes.EDIT_INPUT, arguments: {
+                          "title": "bio",
+                          "maxLines": 3,
+                          "maxLength": 50
+                        })
+                      },
+                    ),
+                    EditRow(
+                      title: "location".tr,
+                      content: _location,
+                      onPressed: () => {
+                        Get.toNamed(Routes.EDIT_INPUT,
+                            arguments: {"title": "location"})
+                      },
+                    ),
+                    EditRow(
+                      title: "birth".tr,
+                      content: _birth,
+                      onPressed: () => {
+                        Get.toNamed(Routes.EDIT_INPUT,
+                            arguments: {"title": "birth"})
+                      },
+                    ),
+                  ],
+                );
+              })),
         ));
   }
 }

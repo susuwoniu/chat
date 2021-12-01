@@ -2,17 +2,24 @@ import 'package:flutter/material.dart';
 
 class AppBarSave extends StatelessWidget {
   final bool isActived;
+  final Function onPressed;
 
   AppBarSave({
     Key? key,
     required this.isActived,
+    required this.onPressed,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
 
     return TextButton(
-        onPressed: () {},
+        onPressed: () {
+          onPressed();
+        },
+        style: ButtonStyle(
+          overlayColor: MaterialStateProperty.all(Colors.transparent),
+        ),
         child: Container(
           child: Text("save",
               style: TextStyle(

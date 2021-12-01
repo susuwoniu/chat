@@ -24,6 +24,10 @@ class AccountEntity {
       this.age,
       required this.vip,
       required this.likeCount});
+  static AccountEntity empty() {
+    return AccountEntity(
+        name: "-", gender: "unknown", vip: false, likeCount: 0);
+  }
 
   /// Connect the generated [_$AccountEntityFromJson] function to the `fromJson`
   /// factory.
