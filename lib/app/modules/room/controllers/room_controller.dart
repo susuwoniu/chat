@@ -1,40 +1,63 @@
 import 'package:get/get.dart';
-import 'package:chat/types/types.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'dart:convert';
+import 'dart:math';
+import 'package:chat/app/providers/providers.dart';
+// import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
+import 'package:chat/common.dart';
+import 'package:xmpp_stone/xmpp_stone.dart' as xmpp;
+import 'package:chat/app/modules/message/controllers/message_controller.dart';
+
+String randomString() {
+  final random = Random.secure();
+  final values = List<int>.generate(16, (i) => random.nextInt(255));
+  return base64UrlEncode(values);
+}
 
 class RoomController extends GetxController {
-  static RoomController get to => Get.find();
+  types.User? _user;
+  types.User? get user => _user;
+  late String _roomId;
+  String get roomId => _roomId;
 
-  //TODO: Implement RoomController
-
-  final isComposing = false.obs;
-  final indexes = RxList<String>(["1", "2", "3"]);
-  final entities = <String, MessageEntity>{
-    "1": MessageEntity(
-        id: "1", text: "中文测试111中文测试" * 50, name: "#dfd333", isMe: false),
-    "2": MessageEntity(
-        id: "2", text: "中文测试222中文测试", name: "#dfd333", isMe: false),
-    "3": MessageEntity(
-        id: "3", text: "中文测试333中文测试", name: "#dfd333", isMe: false),
-  };
-
-  final count = 0.obs;
   @override
   void onInit() {
+    if (ChatProvider.to.currentAccount != null) {
+      _user = types.User(id: ChatProvider.to.currentAccount!.userAtDomain);
+    }
+    final pageArguments = Get.arguments;
+    if (pageArguments["id"] != null && pageArguments["id"] is String) {
+      _roomId = pageArguments["id"];
+    }
+    final messageController = MessageController.to;
+
+    messageController.setCurrentRoomId(_roomId);
+
     super.onInit();
   }
 
   @override
-  void onReady() {
+  void onReady() async {
+    final messageController = MessageController.to;
+    final room = messageController.getCurrentRoom()!;
+    if (!room.isInitServerMessages) {
+      try {
+        await MessageController.to.getRoomServerEarlierMessage(_roomId);
+      } catch (e) {
+        print(e);
+      }
+    }
+
     super.onReady();
   }
 
-  void increment() => count.value++;
-  void postMessage(String text, String name, bool isMe) {
-    final id = DateTime.now().millisecondsSinceEpoch.toString();
-    entities[id] = MessageEntity(id: id, text: text, name: name, isMe: isMe);
-    indexes.add(id);
-    setIsComposing(false);
+  Future<void> handleEndReached() async {
+    final messageController = MessageController.to;
+    await messageController.getRoomServerEarlierMessage(_roomId);
   }
 
-  void setIsComposing(bool value) => isComposing.value = value;
+  Future<void> handleSendPressed(types.PartialText message) async {
+    final messageController = MessageController.to;
+    messageController.sendMessage(_roomId, message.text);
+  }
 }

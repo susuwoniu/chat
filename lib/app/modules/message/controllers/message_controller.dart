@@ -347,7 +347,7 @@ class MessageController extends GetxController {
       // 进入活动态
       // 暂时不实现，因为需要先进行协商才行，不能不分青红皂白就给对方发一个自己的状态，暂时不重要，后续再优化
       // ChatProvider.to.roomManager!.setChatState(roomId, xmpp.ChatState.active);
-      await Get.toNamed(Routes.CHAT, arguments: {
+      await Get.toNamed(Routes.ROOM, arguments: {
         'id': roomId,
       });
 

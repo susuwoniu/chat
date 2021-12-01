@@ -1,9 +1,5 @@
 import 'package:xmpp_stone/xmpp_stone.dart' as xmpp;
-import 'dart:io';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:platform_device_id/platform_device_id.dart';
-import 'dart:io';
 import 'dart:async';
 import 'package:chat/common.dart';
 import 'package:chat/errors/errors.dart';
@@ -46,7 +42,7 @@ class ChatProvider extends GetxService {
           _isLoading.value = false;
         });
       } else if (event == AuthStatus.logoutSuccess) {
-        onClose();
+        dipose();
       }
     });
 
@@ -66,8 +62,7 @@ class ChatProvider extends GetxService {
     }
   }
 
-  @override
-  onClose() {
+  dipose() {
     if (_connectionStateSubscription != null) {
       _connectionStateSubscription!.cancel();
     }
@@ -76,6 +71,11 @@ class ChatProvider extends GetxService {
     _connection = null;
     _currentAccount = null;
     _roomManager = null;
+  }
+
+  @override
+  onClose() {
+    _authStatusSubscription?.cancel();
     super.onClose();
   }
 
