@@ -1,3 +1,4 @@
+import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -20,7 +21,18 @@ class EditInputView extends GetView<EditInputController> {
         actions: [
           Obx(() {
             final _isActived = controller.isActived.value;
-            return AppBarSave(isActived: _isActived);
+            return AppBarSave(
+                isActived: _isActived,
+                onPressed: () async {
+                  try {
+                    await controller.postChange(
+                        _title, controller.textController.text.trim());
+                    UIUtils.toast("ok");
+                    Get.back();
+                  } catch (e) {
+                    UIUtils.showError(e);
+                  }
+                });
           }),
         ],
         centerTitle: true,

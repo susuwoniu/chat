@@ -39,11 +39,11 @@ class EditInfoView extends GetView<EditInfoController> {
                   ImageList(),
                   Container(height: 0.3, color: Colors.black26),
                   EditRow(
-                    title: "nickname".tr,
+                    title: "name".tr,
                     content: _account!.name,
                     onPressed: () => {
                       Get.toNamed(Routes.EDIT_INPUT, arguments: {
-                        "title": "nickname".tr,
+                        "title": "name",
                         "content": _account!.name
                       })
                     },
@@ -53,7 +53,7 @@ class EditInfoView extends GetView<EditInfoController> {
                     content: _account!.gender,
                     onPressed: () => {
                       Get.toNamed(Routes.EDIT_INPUT,
-                          arguments: {"title": "gender".tr})
+                          arguments: {"title": "gender"})
                     },
                   ),
                   EditRow(
@@ -61,7 +61,7 @@ class EditInfoView extends GetView<EditInfoController> {
                     content: _bio!,
                     onPressed: () => {
                       Get.toNamed(Routes.EDIT_INPUT, arguments: {
-                        "title": "bio".tr,
+                        "title": "bio",
                         "maxLines": 3,
                         "maxLength": 50
                       })
@@ -72,7 +72,7 @@ class EditInfoView extends GetView<EditInfoController> {
                     content: _location,
                     onPressed: () => {
                       Get.toNamed(Routes.EDIT_INPUT,
-                          arguments: {"title": "location".tr})
+                          arguments: {"title": "location"})
                     },
                   ),
                   EditRow(
@@ -80,7 +80,7 @@ class EditInfoView extends GetView<EditInfoController> {
                     content: _birth,
                     onPressed: () => {
                       Get.toNamed(Routes.EDIT_INPUT,
-                          arguments: {"title": "birth".tr})
+                          arguments: {"title": "birth"})
                     },
                   ),
                 ],
