@@ -17,19 +17,24 @@ class RoomView extends GetView<RoomController> {
       appBar: AppBar(
         title: Obx(() {
           final room = messageController.entities[roomId];
-          return room!.isLoading ? Text("loading") : Text('ChatView');
+          return room != null && room.isLoading
+              ? Text("loading")
+              : Text('ChatView');
         }),
         centerTitle: true,
       ),
       body: Obx(() {
         final room = messageController.entities[roomId];
         return Chat(
-          messages: messageController.roomMessageIndexesMap[roomId]!
-              .map<types.Message>(
-                  (id) => messageController.messageEntities[id]!)
-              .toList(),
-          emptyState:
-              room!.isLoading ? Text("isLoading") : Text("No message yet"),
+          messages: messageController.roomMessageIndexesMap[roomId] != null
+              ? messageController.roomMessageIndexesMap[roomId]!
+                  .map<types.Message>(
+                      (id) => messageController.messageEntities[id]!)
+                  .toList()
+              : [],
+          emptyState: room != null && room.isLoading
+              ? Text("isLoading")
+              : Text("No message yet"),
           onSendPressed: controller.handleSendPressed,
           onEndReached: controller.handleEndReached,
           user: controller.user!,

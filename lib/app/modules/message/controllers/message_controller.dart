@@ -231,7 +231,9 @@ class MessageController extends GetxController {
   }
 
   void setCurrentRoomId(String? id) {
-    _currentRoomId.value = id ?? "";
+    if (id != null && entities[id] != null) {
+      _currentRoomId.value = id;
+    }
   }
 
   void addRoom(xmpp.Event<xmpp.Room> event) {
@@ -336,31 +338,11 @@ class MessageController extends GetxController {
     });
   }
 
-  Future<void> toChat(int index) async {
+  Future<void> toRoom(int index) async {
     final roomId = indexes[index];
-    // 是否有未读消息，有的话，mark为已读
-    final room = entities[roomId];
-    if (room != null) {
-      if (room.unreadCount > 0 || room.clientUnreadCount > 0) {
-        markRoomAsRead(roomId);
-      }
-      // 进入活动态
-      // 暂时不实现，因为需要先进行协商才行，不能不分青红皂白就给对方发一个自己的状态，暂时不重要，后续再优化
-      // ChatProvider.to.roomManager!.setChatState(roomId, xmpp.ChatState.active);
-      await Get.toNamed(Routes.ROOM, arguments: {
-        'id': roomId,
-      });
-
-      // 再次设为已读
-      if (room.unreadCount > 0 || room.clientUnreadCount > 0) {
-        markRoomAsRead(roomId);
-      }
-
-      setCurrentRoomId(null);
-
-      // 取消活动态
-      // ChatProvider.to.roomManager!.setChatState(roomId, xmpp.ChatState.inactive);
-    }
+    Get.toNamed(Routes.ROOM, arguments: {
+      'id': roomId,
+    });
   }
 
   @override

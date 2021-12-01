@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:chat/common.dart';
 import 'package:chat/errors/errors.dart';
 import '../auth_provider.dart';
+import 'package:chat/config/config.dart';
 
 class ChatProvider extends GetxService {
   static ChatProvider get to => Get.find();
@@ -54,7 +55,7 @@ class ChatProvider extends GetxService {
     if (AuthProvider.to.isLogin) {
       final username = "im${AuthProvider.to.accountId}";
       try {
-        await ChatProvider.to.login(username, "xmpp.scuinfo.com",
+        await ChatProvider.to.login(username, AppConfig().config.imDomain,
             AuthProvider.to.imAccessToken!, "flutter");
       } catch (e) {
         print(e);

@@ -5,13 +5,16 @@ part 'post.g.dart';
 @JsonSerializable()
 class PostEntity {
   /// The generated code assumes these values exist in JSON.
-  final String id, content, backgroundColor;
-
-  PostEntity(
-      {required this.id,
-      required this.content,
-      required this.backgroundColor,
-      create});
+  final String content;
+  @JsonKey(name: 'background_color')
+  final String backgroundColor;
+  @JsonKey(name: 'account_id')
+  final String accountId;
+  PostEntity({
+    required this.content,
+    required this.backgroundColor,
+    required this.accountId,
+  });
 
   /// Connect the generated [_$PostEntityFromJson] function to the `fromJson`
   /// factory.

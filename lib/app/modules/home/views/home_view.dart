@@ -6,12 +6,14 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/widges/main_bottom_navigation_bar.dart';
 import 'package:chat/app/widges/max_text.dart';
+import 'package:chat/config/config.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final screenWidth = size.width;
+    final imDomain = AppConfig().config.imDomain;
     final appBar = AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
@@ -69,7 +71,10 @@ class HomeView extends GetView<HomeController> {
                   alignment: Alignment.topLeft,
                   child: GestureDetector(
                     onTap: () {
-                      Get.toNamed(Routes.ROOM);
+                      Get.toNamed(Routes.ROOM, arguments: {
+                        "id":
+                            "im${controller.postMap[controller.postIndexes[index]]!.accountId}@$imDomain"
+                      });
                     },
                     child: SafeArea(
                       child: index == controller.postIndexes.length &&

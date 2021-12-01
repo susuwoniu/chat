@@ -34,10 +34,7 @@ class HomeController extends GetxController {
     }
     for (var i = 0; i < body["data"].length; i++) {
       final item = body["data"][i];
-      postMap[item["id"]] = PostEntity(
-          id: item["id"],
-          content: item["attributes"]["content"],
-          backgroundColor: item["attributes"]["background_color"]);
+      postMap[item["id"]] = PostEntity.fromJson(item["attributes"]);
       postIndexes.add(item["id"]);
     }
     if (body["meta"]["page_info"]["end"] != null) {

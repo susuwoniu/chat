@@ -7,6 +7,8 @@ class ProdConfig with DefaultConfig implements BaseConfig {
   @override
   String get apiHost => PROD_API_HOST;
   @override
+  String get imDomain => PROD_IM_DOMAIN;
+  @override
   String get clientId {
     var clientId = PROD_ANDROID_CLIENT_ID;
     if (Platform.isIOS) {

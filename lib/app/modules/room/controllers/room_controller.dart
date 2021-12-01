@@ -1,18 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'dart:convert';
-import 'dart:math';
 import 'package:chat/app/providers/providers.dart';
-// import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
-import 'package:chat/common.dart';
-import 'package:xmpp_stone/xmpp_stone.dart' as xmpp;
 import 'package:chat/app/modules/message/controllers/message_controller.dart';
-
-String randomString() {
-  final random = Random.secure();
-  final values = List<int>.generate(16, (i) => random.nextInt(255));
-  return base64UrlEncode(values);
-}
 
 class RoomController extends GetxController {
   types.User? _user;
@@ -39,8 +28,9 @@ class RoomController extends GetxController {
   @override
   void onReady() async {
     final messageController = MessageController.to;
-    final room = messageController.getCurrentRoom()!;
-    if (!room.isInitServerMessages) {
+    messageController.markRoomAsRead(_roomId);
+    final room = messageController.getCurrentRoom();
+    if (room != null && !room.isInitServerMessages) {
       try {
         await MessageController.to.getRoomServerEarlierMessage(_roomId);
       } catch (e) {
@@ -49,6 +39,13 @@ class RoomController extends GetxController {
     }
 
     super.onReady();
+  }
+
+  @override
+  void onClose() async {
+    final messageController = MessageController.to;
+    messageController.setCurrentRoomId(null);
+    super.onClose();
   }
 
   Future<void> handleEndReached() async {

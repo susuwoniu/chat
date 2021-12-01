@@ -9,3 +9,4 @@
 - [ ]  send message id use uuid
 - [ ]  默认信息条数20/50
 - [ ]  user3的问题
+- [ ]  消息发送成功与否的标识

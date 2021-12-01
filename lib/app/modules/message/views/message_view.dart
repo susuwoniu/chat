@@ -42,7 +42,7 @@ class MessageView extends GetView<MessageController> {
                   (context, index) {
                     return GestureDetector(
                         onTap: () async {
-                          await controller.toChat(index);
+                          await controller.toRoom(index);
                         },
                         behavior: HitTestBehavior.translucent,
                         child: Obx(() {
@@ -50,7 +50,7 @@ class MessageView extends GetView<MessageController> {
                               controller.entities[controller.indexes[index]]!;
                           return conversationItemView(
                             onTap: (index) {
-                              controller.toChat(index);
+                              controller.toRoom(index);
                             },
                             context: context,
                             index: index,

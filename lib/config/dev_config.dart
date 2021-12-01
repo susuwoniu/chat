@@ -8,6 +8,8 @@ class DevConfig with DefaultConfig implements BaseConfig {
   @override
   String get apiHost => DEV_API_HOST;
   @override
+  String get imDomain => DEV_IM_DOMAIN;
+  @override
   String get clientId {
     if (Platform.isIOS) {
       return DEV_IOS_CLIENT_ID;
