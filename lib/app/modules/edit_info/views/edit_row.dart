@@ -16,7 +16,7 @@ class EditRow extends StatelessWidget {
     return GestureDetector(
         onTap: onPressed,
         child: Container(
-            padding: EdgeInsets.fromLTRB(22, 12, 18, 12),
+            padding: EdgeInsets.fromLTRB(22, 0, 18, 15),
             color: Colors.white,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,

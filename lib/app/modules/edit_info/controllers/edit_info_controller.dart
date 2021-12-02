@@ -7,6 +7,10 @@ class EditInfoController extends GetxController {
 
   final count = 0.obs;
   final isAddImg = false.obs;
+  final isShowDatePicked = false.obs;
+  final _datePicked = DateTime.now().obs;
+  DateTime get datePicked => _datePicked.value;
+
   final _imgList = RxList<String>([
     "https://img9.doubanio.com/icon/ul43630113-26.jpg",
     "https://i.loli.net/2021/11/24/If5SQkMWKl2rNvX.png",
@@ -51,4 +55,11 @@ class EditInfoController extends GetxController {
   void changeLocation(int i) {}
   void changeBirth(int i) {}
   void changeTags(int i) {}
+  void setDatePicked(DateTime picked) {
+    _datePicked.value = picked;
+  }
+
+  void setIsShowDatePicked(bool value) {
+    isShowDatePicked.value = value;
+  }
 }

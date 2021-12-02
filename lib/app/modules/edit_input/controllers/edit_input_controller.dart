@@ -9,8 +9,7 @@ class EditInputController extends GetxController {
   final isActived = false.obs;
   final initialContent = Get.arguments['content'];
 
-  final textController =
-      TextEditingController(text: Get.arguments['content'] ?? 'null');
+  final textController = TextEditingController(text: Get.arguments['content']);
 
   final count = 0.obs;
   @override
