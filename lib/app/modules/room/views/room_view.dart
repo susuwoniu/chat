@@ -25,13 +25,20 @@ class RoomView extends GetView<RoomController> {
       ),
       body: Obx(() {
         final room = messageController.entities[roomId];
+        final roomMessageIndexes =
+            messageController.roomMessageIndexesMap[roomId];
+        final messages = roomMessageIndexes != null
+            ? roomMessageIndexes
+                .map<types.Message>(
+                    (id) => messageController.messageEntities[id]!)
+                .toList()
+            : [] as List<types.Message>;
+        // add preview
+        if (controller.previewMessage != null) {
+          messages.insert(0, controller.previewMessage!);
+        }
         return Chat(
-          messages: messageController.roomMessageIndexesMap[roomId] != null
-              ? messageController.roomMessageIndexesMap[roomId]!
-                  .map<types.Message>(
-                      (id) => messageController.messageEntities[id]!)
-                  .toList()
-              : [],
+          messages: messages,
           emptyState: room != null && room.isLoading
               ? Text("isLoading")
               : Text("No message yet"),

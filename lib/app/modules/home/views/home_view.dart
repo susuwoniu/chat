@@ -73,7 +73,8 @@ class HomeView extends GetView<HomeController> {
                     onTap: () {
                       Get.toNamed(Routes.ROOM, arguments: {
                         "id":
-                            "im${controller.postMap[controller.postIndexes[index]]!.accountId}@$imDomain"
+                            "im${controller.postMap[controller.postIndexes[index]]!.accountId}@$imDomain",
+                        "post_id": controller.postIndexes[index]
                       });
                     },
                     child: SafeArea(

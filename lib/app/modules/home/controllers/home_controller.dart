@@ -5,6 +5,8 @@ import 'package:chat/app/providers/providers.dart';
 import 'package:chat/common.dart';
 
 class HomeController extends GetxController {
+  static HomeController get to => Get.find();
+
   final currentIndex = RxInt(0);
   final postIndexes = RxList<String>([]);
   final isLoading = true.obs;

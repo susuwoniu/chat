@@ -118,9 +118,9 @@ class MessageController extends GetxController {
     }
   }
 
-  Future<void> sendMessage(String roomId, String text) async {
+  Future<void> sendMessage(String roomId, types.PartialText message) async {
     final roomManager = ChatProvider.to.roomManager!;
-    roomManager.sendMessage(roomId, text);
+    roomManager.sendMessage(roomId, message.text);
   }
 
   // 获取更早的服务器archive信息
