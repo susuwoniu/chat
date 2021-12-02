@@ -1,10 +1,9 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:chat/app/providers/providers.dart';
-import 'package:chat/types/types.dart';
 
 class EditInputController extends GetxController {
   static EditInputController get to => Get.find();
+
   final isShowClear = true.obs;
   final isActived = false.obs;
   final initialContent = Get.arguments['content'];
@@ -58,12 +57,5 @@ class EditInputController extends GetxController {
 
   void setIsActived(bool value) {
     isActived.value = value;
-  }
-
-  Future<void> postChange(String title, String content) async {
-    final body =
-        await APIProvider().patch("/account/me", body: {title: content});
-    final account = AccountEntity.fromJson(body["data"]["attributes"]);
-    await AuthProvider.to.saveAccount(account);
   }
 }

@@ -6,11 +6,13 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../controllers/edit_input_controller.dart';
 import 'appbar_save.dart';
+import '../../edit_info/controllers/edit_info_controller.dart';
 
 class EditInputView extends GetView<EditInputController> {
   final _title = Get.arguments['title'];
   final int _maxLines = Get.arguments['maxLines'] ?? 1;
   final _maxLength = Get.arguments['maxLength'] ?? 15;
+  final _editInfoController = EditInfoController.to;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class EditInputView extends GetView<EditInputController> {
                 isActived: _isActived,
                 onPressed: () async {
                   try {
-                    await controller.postChange(
+                    await _editInfoController.postChange(
                         _title, controller.textController.text.trim());
                     UIUtils.toast("ok");
                     Get.back();

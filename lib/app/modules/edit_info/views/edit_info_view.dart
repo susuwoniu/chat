@@ -5,7 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import '../controllers/edit_info_controller.dart';
 import 'package:chat/app/providers/auth_provider.dart';
-
+import 'package:chat/app/providers/providers.dart';
 import 'image_list.dart';
 import 'edit_row.dart';
 import 'date_picker.dart';
@@ -27,7 +27,8 @@ class EditInfoView extends GetView<EditInfoController> {
                 final _account = AuthProvider.to.account.value;
                 final _bio = _account.bio == '' ? 'nothing' : _account.bio;
                 final _location = _account.location ?? 'unknown place';
-                final _birth = _account.birthday ?? 'xxxx-xx-xx';
+                final _birthday = _account.birthday ?? 'xxxx-xx-xx';
+
                 return Column(children: [
                   ImageList(),
                   Container(height: 0.3, color: Colors.black26),
@@ -74,18 +75,19 @@ class EditInfoView extends GetView<EditInfoController> {
                       ),
                       EditRow(
                         title: "birth".tr,
-                        content: _birth,
+                        content: _birthday,
                         onPressed: () {
                           controller.setIsShowDatePicked(true);
                           showCupertinoModalPopup<void>(
                               context: context,
                               builder: (BuildContext context) {
                                 return DatePicker(
+                                    onChangeNewDate: controller.setNewDate,
                                     isShowDatePicker:
                                         controller.isShowDatePicked.value);
                               });
                         },
-                      )
+                      ),
                     ]),
                   ),
                 ]);

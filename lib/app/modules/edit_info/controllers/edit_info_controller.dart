@@ -4,12 +4,12 @@ import 'package:chat/types/types.dart';
 
 class EditInfoController extends GetxController {
   static EditInfoController get to => Get.find();
-
+  final birthday = ''.obs;
   final count = 0.obs;
   final isAddImg = false.obs;
   final isShowDatePicked = false.obs;
-  final _datePicked = DateTime.now().obs;
-  DateTime get datePicked => _datePicked.value;
+  final _datePicked = DateTime.now().toString().obs;
+  String get datePicked => _datePicked.value;
 
   final _imgList = RxList<String>([
     "https://img9.doubanio.com/icon/ul43630113-26.jpg",
@@ -53,13 +53,24 @@ class EditInfoController extends GetxController {
   void changeGender(int i) {}
   void changeBio(int i) {}
   void changeLocation(int i) {}
-  void changeBirth(int i) {}
+  void changeBirth(String value) {
+    birthday.value = value;
+  }
+
   void changeTags(int i) {}
-  void setDatePicked(DateTime picked) {
-    _datePicked.value = picked;
+  void setNewDate(DateTime picked) {
+    final _picked = picked.toString().substring(0, 10);
+    _datePicked.value = _picked;
   }
 
   void setIsShowDatePicked(bool value) {
     isShowDatePicked.value = value;
+  }
+
+  Future<void> postChange(String title, String content) async {
+    final body =
+        await APIProvider().patch("/account/me", body: {title: content});
+    final account = AccountEntity.fromJson(body["data"]["attributes"]);
+    await AuthProvider.to.saveAccount(account);
   }
 }
