@@ -27,12 +27,13 @@ class RoomView extends GetView<RoomController> {
         final room = messageController.entities[roomId];
         final roomMessageIndexes =
             messageController.roomMessageIndexesMap[roomId];
+        final List<types.Message> emptyMessages = [];
         final messages = roomMessageIndexes != null
             ? roomMessageIndexes
                 .map<types.Message>(
                     (id) => messageController.messageEntities[id]!)
                 .toList()
-            : [] as List<types.Message>;
+            : emptyMessages;
         // add preview
         if (controller.previewMessage != null) {
           messages.insert(0, controller.previewMessage!);

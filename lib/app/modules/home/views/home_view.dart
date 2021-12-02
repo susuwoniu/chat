@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:chat/app/routes/app_pages.dart';
-import 'package:chat/app/widges/main_bottom_navigation_bar.dart';
 import 'package:chat/app/widges/max_text.dart';
 import 'package:chat/config/config.dart';
 
@@ -95,10 +94,9 @@ class HomeView extends GetView<HomeController> {
                                           children: [
                                             MaxText(
                                               controller
-                                                      .postMap[controller
-                                                          .postIndexes[index]]!
-                                                      .content *
-                                                  100,
+                                                  .postMap[controller
+                                                      .postIndexes[index]]!
+                                                  .content,
                                               context,
                                               // textDirection: TextDirection.ltr,
                                               textAlign: TextAlign.left,
