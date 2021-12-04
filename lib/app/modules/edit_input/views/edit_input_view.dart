@@ -28,7 +28,7 @@ class EditInputView extends GetView<EditInputController> {
                 onPressed: () async {
                   try {
                     await _editInfoController.postChange(
-                        _title, controller.textController.text.trim());
+                        {_title: controller.textController.text.trim()});
                     UIUtils.toast("ok");
                     Get.back();
                   } catch (e) {

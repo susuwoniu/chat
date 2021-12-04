@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 
-class GenderViewController extends GetxController {
-  //TODO: Implement GenderViewController
+class GenderSelectController extends GetxController {
+  //TODO: Implement GenderSelectController
 
   final selectedGender = ''.obs;
+  final birthYear = ''.obs;
 
   final count = 0.obs;
   @override
@@ -20,7 +21,11 @@ class GenderViewController extends GetxController {
   void onClose() {}
   void increment() => count.value++;
 
-  setGender(String gender) {
+  void setGender(String gender) {
     selectedGender.value = gender;
+  }
+
+  void setBirthYear(String year) {
+    birthYear.value = year;
   }
 }

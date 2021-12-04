@@ -54,5 +54,6 @@ const Map<String, String> zh_Hans = {
   "I_was_born_in": "我的生日是：",
   "female": "女性",
   "male": "男性",
-  "other": "其他"
+  "other": "其他",
+  "Find_Friends": "完成"
 };

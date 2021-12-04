@@ -11,8 +11,8 @@ import 'package:chat/app/modules/edit_info/bindings/edit_info_binding.dart';
 import 'package:chat/app/modules/edit_info/views/edit_info_view.dart';
 import 'package:chat/app/modules/edit_input/bindings/edit_input_binding.dart';
 import 'package:chat/app/modules/edit_input/views/edit_input_view.dart';
-import 'package:chat/app/modules/gender_view/bindings/gender_view_binding.dart';
-import 'package:chat/app/modules/gender_view/views/gender_view_view.dart';
+import 'package:chat/app/modules/gender_select/bindings/gender_select_binding.dart';
+import 'package:chat/app/modules/gender_select/views/gender_select_view.dart';
 import 'package:chat/app/modules/login/bindings/login_binding.dart';
 import 'package:chat/app/modules/login/views/login_view.dart';
 import 'package:chat/app/modules/main/bindings/main_binding.dart';
@@ -139,9 +139,9 @@ class AppPages {
       binding: EditInputBinding(),
     ),
     GetPage(
-      name: _Paths.GENDER_VIEW,
-      page: () => GenderViewView(),
-      binding: GenderViewBinding(),
+      name: _Paths.GENDER_SELECT,
+      page: () => GenderSelectView(),
+      binding: GenderSelectBinding(),
     ),
   ];
 }

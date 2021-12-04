@@ -24,12 +24,12 @@ class GenderPicker extends StatelessWidget {
               setGender(gender);
             },
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 25, vertical: 30),
+              margin: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
               padding: EdgeInsets.only(bottom: 15),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   border: Border.all(
-                      width: 2,
+                      width: 4,
                       color: selectedGender == gender
                           ? Colors.lightBlue
                           : Colors.black12)),
@@ -38,7 +38,13 @@ class GenderPicker extends StatelessWidget {
                   gender == "female" ? "👩" : "👨",
                   style: TextStyle(fontSize: 60),
                 ),
-                Text(gender)
+                Text(gender == 'female' ? 'female'.tr : 'male'.tr,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: selectedGender == gender
+                            ? Colors.lightBlue
+                            : Colors.black54))
               ]),
             )));
   }

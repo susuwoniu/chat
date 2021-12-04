@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide YearPicker;
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/providers/providers.dart';
-
 import '../controllers/edit_info_controller.dart';
+import 'package:chat/app/ui_utils/ui_utils.dart';
+
 import 'image_list.dart';
 import 'edit_row.dart';
-import 'date_picker.dart';
+import 'year_picker.dart';
 
 class EditInfoView extends GetView<EditInfoController> {
   @override
@@ -50,7 +51,7 @@ class EditInfoView extends GetView<EditInfoController> {
                       EditRow(
                         title: "gender".tr,
                         content: _account.gender,
-                        onPressed: () => {Get.toNamed(Routes.GENDER_VIEW)},
+                        onPressed: () => {Get.toNamed(Routes.GENDER_SELECT)},
                       ),
                       EditRow(
                         title: "bio".tr,
@@ -70,16 +71,27 @@ class EditInfoView extends GetView<EditInfoController> {
                       ),
                       EditRow(
                         title: "birth".tr,
-                        content: _birthday,
+                        content: _birthday.substring(0, 4),
                         onPressed: () {
-                          controller.setIsShowDatePicked(true);
+                          controller.setIsShowYearPicked(true);
                           showCupertinoModalPopup<void>(
                               context: context,
                               builder: (BuildContext context) {
-                                return DatePicker(
-                                    onChangeNewDate: controller.setNewDate,
-                                    isShowDatePicker:
-                                        controller.isShowDatePicked.value);
+                                return YearPicker(
+                                  onSelect: (year) async {
+                                    try {
+                                      await controller.postChange({
+                                        "birthday": year.toString() + "-01-01"
+                                      });
+                                      Navigator.pop(context);
+                                      UIUtils.toast('ok');
+                                    } catch (e) {
+                                      Navigator.pop(context);
+                                      UIUtils.showError(e);
+                                    }
+                                  },
+                                  isShowBar: true,
+                                );
                               });
                         },
                       ),
