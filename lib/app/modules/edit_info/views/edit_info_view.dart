@@ -3,9 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:chat/app/routes/app_pages.dart';
-import '../controllers/edit_info_controller.dart';
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/providers/providers.dart';
+
+import '../controllers/edit_info_controller.dart';
 import 'image_list.dart';
 import 'edit_row.dart';
 import 'date_picker.dart';
@@ -49,10 +50,7 @@ class EditInfoView extends GetView<EditInfoController> {
                       EditRow(
                         title: "gender".tr,
                         content: _account.gender,
-                        onPressed: () => {
-                          Get.toNamed(Routes.EDIT_INPUT,
-                              arguments: {"title": "gender"})
-                        },
+                        onPressed: () => {Get.toNamed(Routes.GENDER_VIEW)},
                       ),
                       EditRow(
                         title: "bio".tr,
@@ -68,10 +66,7 @@ class EditInfoView extends GetView<EditInfoController> {
                       EditRow(
                         title: "location".tr,
                         content: _location,
-                        onPressed: () => {
-                          Get.toNamed(Routes.EDIT_INPUT,
-                              arguments: {"title": "location"})
-                        },
+                        onPressed: () => {},
                       ),
                       EditRow(
                         title: "birth".tr,

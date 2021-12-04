@@ -49,4 +49,10 @@ const Map<String, String> zh_Hans = {
   "tags": "兴趣",
   "birth": "生日",
   "save": "保存",
+  "Please_choose_your_gender_and_age": "请设置你的性别和年龄",
+  "I_am": "我的生理性别是：",
+  "I_was_born_in": "我的生日是：",
+  "female": "女性",
+  "male": "男性",
+  "other": "其他"
 };
