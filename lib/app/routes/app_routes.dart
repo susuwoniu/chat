@@ -25,6 +25,7 @@ abstract class Routes {
   static const EDIT_INFO = _Paths.EDIT_INFO;
   static const EDIT_INPUT = _Paths.EDIT_INPUT;
   static const GENDER_SELECT = _Paths.GENDER_SELECT;
+  static const MY_SINGLE_POST = _Paths.MY_SINGLE_POST;
 }
 
 abstract class _Paths {
@@ -45,4 +46,5 @@ abstract class _Paths {
   static const EDIT_INFO = '/edit-info';
   static const EDIT_INPUT = '/edit-input';
   static const GENDER_SELECT = '/gender-view';
+  static const MY_SINGLE_POST = '/my-single-post';
 }

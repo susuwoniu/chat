@@ -19,6 +19,8 @@ import 'package:chat/app/modules/main/bindings/main_binding.dart';
 import 'package:chat/app/modules/main/views/main_view.dart';
 import 'package:chat/app/modules/me/bindings/me_binding.dart';
 import 'package:chat/app/modules/me/views/me_view.dart';
+import 'package:chat/app/modules/my_single_post/bindings/my_single_post_binding.dart';
+import 'package:chat/app/modules/my_single_post/views/my_single_post_view.dart';
 import 'package:chat/app/modules/notfound/bindings/notfound_binding.dart';
 import 'package:chat/app/modules/notfound/views/notfound_view.dart';
 import 'package:chat/app/modules/room/bindings/room_binding.dart';
@@ -142,6 +144,11 @@ class AppPages {
       name: _Paths.GENDER_SELECT,
       page: () => GenderSelectView(),
       binding: GenderSelectBinding(),
+    ),
+    GetPage(
+      name: _Paths.MY_SINGLE_POST,
+      page: () => MySinglePostView(),
+      binding: MySinglePostBinding(),
     ),
   ];
 }
