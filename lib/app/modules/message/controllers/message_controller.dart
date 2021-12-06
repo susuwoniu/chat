@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'dart:async';
+import 'package:flutter/material.dart' hide ConnectionState;
 import 'package:chat/app/providers/providers.dart';
 // import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:chat/utils/date_util.dart';
@@ -9,6 +10,9 @@ import 'package:chat/common.dart';
 import 'package:xmpp_stone/xmpp_stone.dart' as xmpp;
 import 'package:chat/types/types.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:image_picker/image_picker.dart';
+import 'package:mime_type/mime_type.dart';
+import 'package:file_picker/file_picker.dart';
 
 class Room extends xmpp.Room {
   bool isLoading = false;
@@ -49,11 +53,56 @@ class MessageController extends GetxController {
   static MessageController get to => Get.find();
   static types.Message formatMessage(xmpp.Message message) {
     // todo 不支持的消息类型
+    // is images
+    types.Status? status;
+    switch (message.status) {
+      case xmpp.MessageStatus.sending:
+        status = types.Status.sending;
+        break;
+      case xmpp.MessageStatus.sent:
+        status = types.Status.sent;
+        break;
+      case xmpp.MessageStatus.delivered:
+        status = types.Status.delivered;
+        break;
+      case xmpp.MessageStatus.seen:
+        status = types.Status.seen;
+        break;
+      case xmpp.MessageStatus.error:
+        status = types.Status.error;
+        break;
+      default:
+        status = types.Status.sending;
+        break;
+    }
+    if (message.images != null && message.images!.isNotEmpty) {
+      return types.ImageMessage(
+          author: types.User(id: message.from.userAtDomain),
+          createdAt: message.createdAt.millisecondsSinceEpoch,
+          id: message.id,
+          uri: message.images![0].url,
+          name: message.images![0].name,
+          status: status,
+          height: message.images![0].height,
+          width: message.images![0].width,
+          size: message.images![0].size);
+    } else if (message.files != null && message.files!.isNotEmpty) {
+      return types.FileMessage(
+          author: types.User(id: message.from.userAtDomain),
+          createdAt: message.createdAt.millisecondsSinceEpoch,
+          id: message.id,
+          uri: message.files![0].url,
+          name: message.files![0].name,
+          status: status,
+          size: message.files![0].size);
+    }
+
     return types.TextMessage(
       author: types.User(id: message.from.userAtDomain),
       createdAt: message.createdAt.millisecondsSinceEpoch,
       id: message.id,
-      text: message.text.isNotEmpty ? message.text : "not support message",
+      status: status,
+      text: message.text.isNotEmpty ? message.text : "empty message",
     );
   }
 
@@ -83,6 +132,9 @@ class MessageController extends GetxController {
           print(e);
           UIUtils.showError(e);
         });
+      } else if (event == ConnectionState.disconnected) {
+        // 断开连接，清空房间列表
+        dipose();
       }
     });
 
@@ -94,6 +146,14 @@ class MessageController extends GetxController {
       _roomMessageUpdatedSubscription =
           ChatProvider.to.roomManager!.roomMessageUpdated.listen((event) {
         updateRoomMessage(event);
+      });
+      // stream listener
+      ChatProvider.to.streamManager!.deliveredStanzasStream
+          .listen((xmpp.AbstractStanza event) {
+        print('deliver event: $event');
+        if (event.id != null) {
+          updateMessageStatusAsDelivered(event.id!);
+        }
       });
       await initRooms();
     }
@@ -118,9 +178,75 @@ class MessageController extends GetxController {
     }
   }
 
-  Future<void> sendMessage(String roomId, types.PartialText message) async {
+  void addMessage(String roomId, xmpp.Message message) {
+    // add to messageEntities
+    messageEntities[message.id] = formatMessage(message);
+    if (roomMessageIndexesMap[roomId] == null) {
+      roomMessageIndexesMap[roomId] = [];
+    }
+    roomMessageIndexesMap[roomId]!.insert(0, message.id);
+  }
+
+  Future<void> sendTextMessage(
+      String roomId, types.PartialText _message) async {
     final roomManager = ChatProvider.to.roomManager!;
-    roomManager.sendMessage(roomId, message.text);
+    final message = roomManager.createTextMessage(roomId, _message.text);
+    addMessage(roomId, message);
+    final connectStatus = ChatProvider.to.isConnected;
+    print("connect status: $connectStatus");
+    try {
+      roomManager.sendMessage(roomId, message);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> sendFileMessage(String roomId, FilePickerResult result) async {
+    var mimeType = mime(result.files.single.path!);
+    final roomManager = ChatProvider.to.roomManager!;
+
+    // create message
+    final message = roomManager.createFileMessage(
+      roomId,
+      size: result.files.single.size,
+      fileName: result.files.single.name,
+      filePath: result.files.single.path!,
+      mimeType: mimeType!,
+    );
+    addMessage(roomId, message);
+
+    await roomManager.sendFileMessage(roomId, message);
+  }
+
+  Future<void> sendImageMessage(String roomId, XFile result) async {
+    var mimeType = result.mimeType;
+    if (result.mimeType == null) {
+      mimeType = mime(result.path);
+    }
+    // TODO 判断图片类型
+    final roomManager = ChatProvider.to.roomManager!;
+    final bytes = await result.readAsBytes();
+    final image = await decodeImageFromList(bytes);
+
+    // create message
+    final message = roomManager.createImageMessage(roomId,
+        size: bytes.length,
+        fileName: result.name,
+        filePath: result.path,
+        mimeType: mimeType!,
+        height: image.height.toDouble(),
+        width: image.width.toDouble());
+    addMessage(roomId, message);
+
+    await roomManager.sendFileMessage(roomId, message);
+  }
+
+  handlePreviewDataFetched(String messageId, types.PreviewData previewData) {
+    var message = messageEntities[messageId];
+    if (message != null) {
+      message = message.copyWith(previewData: previewData);
+      messageEntities[messageId] = message;
+    }
   }
 
   // 获取更早的服务器archive信息
@@ -248,6 +374,14 @@ class MessageController extends GetxController {
     return message.text;
   }
 
+  void updateMessageStatusAsDelivered(String messageId) {
+    var message = messageEntities[messageId];
+    if (message != null) {
+      message = message.copyWith(status: types.Status.delivered);
+      messageEntities[messageId] = message;
+    }
+  }
+
   void updateRoomMessage(xmpp.Event<xmpp.Message> event) {
     final roomId = event.id;
     final message = event.data;
@@ -347,12 +481,16 @@ class MessageController extends GetxController {
 
   @override
   void onClose() {
+    dipose();
+    super.onClose();
+  }
+
+  void dipose() {
     if (_chatConnectionUpdatedSubscription != null) {
       _chatConnectionUpdatedSubscription!.cancel();
     }
     if (_roomMessageUpdatedSubscription != null) {
       _roomMessageUpdatedSubscription!.cancel();
     }
-    super.onClose();
   }
 }

@@ -21,6 +21,8 @@ class RootController extends GetxController {
       Permission.speech,
       Permission.location,
     ]);
+    // TODO reminder user
+    print("permission statuses: $statuses");
     // await ImProvider.to.init();
 
     await AuthProvider.to.init();

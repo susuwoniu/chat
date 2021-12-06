@@ -17,6 +17,7 @@ class ChatProvider extends GetxService {
   xmpp.Jid? get currentAccount => _currentAccount;
   xmpp.RoomManager? _roomManager;
   xmpp.RoomManager? get roomManager => _roomManager;
+  xmpp.StreamManagementModule? streamManager;
   StreamSubscription<AuthStatus>? _authStatusSubscription;
   Stream<ConnectionState> get connectionUpdated =>
       _connectionUpdatedStreamController.stream;
@@ -53,12 +54,15 @@ class ChatProvider extends GetxService {
   Future<void> connect() async {
     // init im login
     if (AuthProvider.to.isLogin) {
+      // disable current
+      dipose();
       final username = "im${AuthProvider.to.accountId}";
       try {
         await ChatProvider.to.login(username, AppConfig().config.imDomain,
             AuthProvider.to.imAccessToken!, "flutter");
       } catch (e) {
         print(e);
+        rethrow;
       }
     }
   }
@@ -113,12 +117,19 @@ class ChatProvider extends GetxService {
   }
 
   void _throwExceptiohn(Completer completer, ServiceException exception) {
-    _isLoading.value = false;
     _isConnected.value = false;
     if (!completer.isCompleted) {
       completer.completeError(exception);
     }
-    _connectionUpdatedStreamController.add(ConnectionState.disconnected);
+    if ((_connection != null &&
+            _connection!.state == xmpp.XmppConnectionState.ForcefullyClosed) ||
+        _connection == null) {
+      _isLoading.value = false;
+      _connectionUpdatedStreamController.add(ConnectionState.disconnected);
+    } else {
+      _isLoading.value = true;
+      _connectionUpdatedStreamController.add(ConnectionState.connecting);
+    }
   }
 
   void _onConnectionStateChangedInternal(
@@ -171,7 +182,7 @@ class ChatProvider extends GetxService {
         Log.debug("Chat connection Ready");
         _currentAccount = _connection!.fullJid;
         _roomManager = xmpp.RoomManager.getInstance(_connection!);
-
+        streamManager = _connection!.streamManagementModule;
         _isLoading.value = false;
         if (!completer.isCompleted) {
           completer.complete();

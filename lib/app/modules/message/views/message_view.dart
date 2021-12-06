@@ -22,16 +22,29 @@ class MessageView extends GetView<MessageController> {
       body: Column(
         children: [
           Container(
-            child: Obx(() => Text(
-                  _chatProvider.isLoading
-                      ? "Connecting..."
-                      : _chatProvider.isConnected
-                          ? "Connected"
-                          : "连接失败",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+            child: Obx(() => Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      _chatProvider.isLoading
+                          ? "Connecting..."
+                          : _chatProvider.isConnected
+                              ? "Connected"
+                              : "连接失败",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    !_chatProvider.isConnected && !_chatProvider.isLoading
+                        ? IconButton(
+                            icon: Text("🔄"),
+                            onPressed: () async {
+                              await _chatProvider.connect();
+                            },
+                          )
+                        : Container(),
+                  ],
                 )),
           ),
           Expanded(

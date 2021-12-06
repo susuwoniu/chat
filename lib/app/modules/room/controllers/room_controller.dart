@@ -3,6 +3,17 @@ import 'package:get/get.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/app/modules/message/controllers/message_controller.dart';
+import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:math';
+import 'package:image_picker/image_picker.dart';
+
+// For the testing purposes, you should probably use https://pub.dev/packages/uuid
+String randomString() {
+  var random = Random.secure();
+  var values = List<int>.generate(16, (i) => random.nextInt(255));
+  return base64UrlEncode(values);
+}
 
 class RoomController extends GetxController {
   types.User? _user;
@@ -70,19 +81,40 @@ class RoomController extends GetxController {
     await messageController.getRoomServerEarlierMessage(_roomId);
   }
 
+  Future<void> handleSendImageMessage(XFile result) async {
+    final bytes = await result.readAsBytes();
+    final image = await decodeImageFromList(bytes);
+    // final message = types.ImageMessage(
+    //   author: _user!,
+    //   createdAt: DateTime.now().millisecondsSinceEpoch,
+    //   height: image.height.toDouble(),
+    //   id: randomString(),
+    //   name: result.name,
+    //   size: bytes.length,
+    //   uri: result.path,
+    //   width: image.width.toDouble(),
+    // );
+    // print("message: $message");
+    // _addMessage(message);
+  }
+
   Future<void> handleSendPressed(types.PartialText message) async {
     final messageController = MessageController.to;
     // check is has preview message
-    if (_previewMessage != null) {
-      messageController.sendMessage(
-          _roomId,
-          types.PartialText(
-            text: _previewMessage!.text,
-          ));
-      _previewMessage = null;
-      messageController.sendMessage(_roomId, message);
-    } else {
-      messageController.sendMessage(_roomId, message);
+    try {
+      if (_previewMessage != null) {
+        messageController.sendTextMessage(
+            _roomId,
+            types.PartialText(
+              text: _previewMessage!.text,
+            ));
+        _previewMessage = null;
+        messageController.sendTextMessage(_roomId, message);
+      } else {
+        messageController.sendTextMessage(_roomId, message);
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 }
