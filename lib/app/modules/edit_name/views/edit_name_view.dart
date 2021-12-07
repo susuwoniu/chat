@@ -27,7 +27,7 @@ class EditNameView extends GetView<EditNameController> {
                 onPressed: () async {
                   try {
                     await _loginController.postAccountInfoChange(
-                        {"name": controller.textController.text.trim()});
+                        {"name": controller.currentName.value});
                   } catch (e) {
                     UIUtils.showError(e);
                   }
@@ -43,7 +43,7 @@ class EditNameView extends GetView<EditNameController> {
               maxLength: 15,
               maxLines: 1,
               initialContent: controller.initialContent,
-              isShowClear: controller.isShowClear.value);
+              onChange: controller.onChangeTextValue);
         }),
       ),
     );

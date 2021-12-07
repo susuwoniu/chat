@@ -151,7 +151,7 @@ class AuthProvider extends GetxService {
               ? "offAll"
               : "off"
           : null;
-      final action = _nextPageAction ?? defaultAction;
+      final action = currentNextPageAction ?? defaultAction;
       if (action == 'offAll' && next != null) {
         Get.offAllNamed(next);
       } else if (action == 'back') {

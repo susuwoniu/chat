@@ -26,7 +26,7 @@ class EditBioView extends GetView<EditBioController> {
                 onPressed: () async {
                   try {
                     await _loginController.postAccountInfoChange(
-                        {"bio": controller.textController.text.trim()});
+                        {"bio": controller.currentBio.value});
                   } catch (e) {
                     UIUtils.showError(e);
                   }
@@ -42,7 +42,7 @@ class EditBioView extends GetView<EditBioController> {
               maxLength: 50,
               maxLines: 5,
               initialContent: controller.initialContent,
-              isShowClear: controller.isShowClear.value);
+              onChange: controller.onChangeTextValue);
         }),
       ),
     );

@@ -1,35 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class InputWidget extends StatefulWidget {
   final int maxLines;
   final int maxLength;
   final String initialContent;
-  final bool isShowClear;
+  final Function(String value) onChange;
 
   const InputWidget(
       {Key? key,
       required this.maxLines,
       required this.maxLength,
       required this.initialContent,
-      required this.isShowClear});
+      required this.onChange});
 
   @override
   _InputWidgetState createState() => _InputWidgetState();
 }
 
 class _InputWidgetState extends State<InputWidget> {
+  final textController = TextEditingController(text: '');
+  bool isShowClear = false;
   @override
   void initState() {
     super.initState();
     //初始化状态
     print("initState");
+    textController.text = widget.initialContent;
+    textController.addListener(() {
+      final text = textController.text;
+      if (isShowClear) {
+        if (text.isEmpty) {
+          isShowClear = true;
+        }
+      } else {
+        if (text.isNotEmpty) {
+          isShowClear = true;
+        }
+      }
+      widget.onChange(text);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    textController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final textController = TextEditingController(text: widget.initialContent);
-
     return TextFormField(
       controller: textController,
       maxLines: widget.maxLines,
@@ -41,7 +60,7 @@ class _InputWidgetState extends State<InputWidget> {
         height: 1.5,
       ),
       decoration: InputDecoration(
-        suffixIcon: widget.isShowClear
+        suffixIcon: isShowClear
             ? IconButton(
                 onPressed: () => {textController.clear()},
                 icon: Icon(Icons.clear),
