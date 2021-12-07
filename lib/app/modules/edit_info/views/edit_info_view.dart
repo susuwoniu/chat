@@ -62,7 +62,7 @@ class EditInfoView extends GetView<EditInfoController> {
                         content: _bio!,
                         onPressed: () {
                           AuthProvider.to.setNextPageAction('back');
-                          Get.toNamed(Routes.EDIT_NAME,
+                          Get.toNamed(Routes.EDIT_BIO,
                               arguments: {"action": 'add_account_bio'});
                         },
                       ),
