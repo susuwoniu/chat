@@ -139,7 +139,7 @@ class DebugView extends GetView<DebugController> {
                     onTap: () async {
                       UIUtils.showLoading();
                       try {
-                        AuthProvider.to.setNextPage(Routes.DEBUG);
+                        // AuthProvider.to.setNextPageAction('back');
                         LoginController.to.setVerificationCode("123456");
                         await LoginController.to.handleLogin();
                         UIUtils.hideLoading();
