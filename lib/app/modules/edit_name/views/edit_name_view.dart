@@ -31,7 +31,6 @@ class EditNameView extends GetView<EditNameController> {
                       controller.title: controller.textController.text.trim()
                     });
                     UIUtils.toast("ok");
-                    Get.back();
                   } catch (e) {
                     UIUtils.showError(e);
                   }
