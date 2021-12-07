@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../controllers/edit_name_controller.dart';
+import 'package:get/get.dart';
 
 class InputWidget extends StatefulWidget {
   final int maxLines;
@@ -24,30 +25,30 @@ class _InputWidgetState extends State<InputWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: _controller.textController,
-      maxLines: widget.maxLines,
-      keyboardType: TextInputType.multiline,
-      minLines: 1,
-      autofocus: true,
-      style: TextStyle(
-        fontSize: 17,
-        height: 1.5,
-      ),
-      decoration: InputDecoration(
-        suffixIcon: _controller.isShowClear.value
-            ? IconButton(
-                onPressed: () => {_controller.textController.clear()},
-                icon: Icon(Icons.clear),
-                splashColor: Colors.transparent,
-              )
-            : null,
-        filled: true,
-        fillColor: Colors.white,
-        border: InputBorder.none,
-        contentPadding: EdgeInsets.all(17),
-      ),
-      maxLength: widget.maxLength,
-    );
+    return Obx(() => TextFormField(
+          controller: _controller.textController,
+          maxLines: widget.maxLines,
+          keyboardType: TextInputType.multiline,
+          minLines: 1,
+          autofocus: true,
+          style: TextStyle(
+            fontSize: 17,
+            height: 1.5,
+          ),
+          decoration: InputDecoration(
+            suffixIcon: _controller.isShowClear.value
+                ? IconButton(
+                    onPressed: () => {_controller.textController.clear()},
+                    icon: Icon(Icons.clear),
+                    splashColor: Colors.transparent,
+                  )
+                : null,
+            filled: true,
+            fillColor: Colors.white,
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.all(17),
+          ),
+          maxLength: widget.maxLength,
+        ));
   }
 }

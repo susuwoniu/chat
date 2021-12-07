@@ -8,6 +8,7 @@ import 'package:hexcolor/hexcolor.dart';
 import '../../edit_name/views/appbar_save.dart';
 import '../../login/controllers/login_controller.dart';
 import '../controllers/edit_bio_controller.dart';
+import '../../edit_name/views/input_widget.dart';
 
 class EditBioView extends GetView<EditBioController> {
   final _loginController = LoginController.to;

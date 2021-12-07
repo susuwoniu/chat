@@ -29,7 +29,6 @@ class EditNameView extends GetView<EditNameController> {
                   try {
                     await _loginController.postAccountInfoChange(
                         {"name": controller.textController.text.trim()});
-                    UIUtils.toast("ok");
                   } catch (e) {
                     UIUtils.showError(e);
                   }
@@ -40,9 +39,7 @@ class EditNameView extends GetView<EditNameController> {
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 15),
-        child: Obx(() {
-          return InputWidget(maxLength: 15, maxLines: 1);
-        }),
+        child: InputWidget(maxLength: 15, maxLines: 1),
       ),
     );
   }
