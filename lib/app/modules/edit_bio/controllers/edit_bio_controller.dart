@@ -7,22 +7,13 @@ class EditBioController extends GetxController {
 
   final isShowClear = true.obs;
   final isActived = false.obs;
-  late String initialContent;
-  final currentTitle = Get.arguments["action"];
+  final String initialContent = AuthProvider.to.account.value.bio ?? '';
 
   final textController = TextEditingController(text: '');
-
-  late String bio;
 
   final count = 0.obs;
   @override
   void onInit() {
-    if (currentTitle == 'add_account_bio') {
-      initialContent = AuthProvider.to.account.value.bio ?? '';
-    } else {
-      // TODO
-      initialContent = '';
-    }
     textController.text = initialContent;
 
     super.onInit();

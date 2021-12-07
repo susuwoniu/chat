@@ -18,7 +18,7 @@ class EditBioView extends GetView<EditBioController> {
     return Scaffold(
       backgroundColor: HexColor("#f0eff4"),
       appBar: AppBar(
-        title: Text("bio"),
+        title: Text(_authAccount.account.value.actions[0].type),
         actions: [
           Obx(() {
             final _isActived = controller.isActived.value;
@@ -28,7 +28,6 @@ class EditBioView extends GetView<EditBioController> {
                   try {
                     await _loginController.postAccountInfoChange(
                         {"bio": controller.textController.text.trim()});
-                    Get.back();
                   } catch (e) {
                     UIUtils.showError(e);
                   }

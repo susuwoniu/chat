@@ -12,7 +12,7 @@ import 'package:chat/app/modules/message/controllers/message_controller.dart';
 import 'package:chat/common.dart';
 
 class DebugView extends GetView<DebugController> {
-  final String phone = "+8615683431471";
+  final String phone = "+8615683478471";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

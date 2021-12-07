@@ -7,26 +7,14 @@ class EditNameController extends GetxController {
 
   final isShowClear = true.obs;
   final isActived = false.obs;
-  late String initialContent;
+  final String initialContent = AuthProvider.to.account.value.name;
   final currentTitle = Get.arguments["action"];
 
   final textController = TextEditingController(text: '');
 
-  late String title;
-
   final count = 0.obs;
   @override
   void onInit() {
-    if (currentTitle == 'add_account_name') {
-      initialContent = AuthProvider.to.account.value.name;
-      title = "name";
-    } else if (currentTitle == 'add_account_bio') {
-      initialContent = AuthProvider.to.account.value.bio ?? '';
-      title = "bio";
-    } else {
-      // TODO
-      initialContent = '';
-    }
     textController.text = initialContent;
 
     super.onInit();
