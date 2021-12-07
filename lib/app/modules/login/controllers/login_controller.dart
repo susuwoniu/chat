@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/types/types.dart';
-import 'package:chat/common.dart';
+import 'package:chat/app/routes/app_pages.dart';
 
 class LoginController extends GetxController {
   static LoginController get to => Get.find();
@@ -12,8 +12,7 @@ class LoginController extends GetxController {
 
   // 发送验证码
   handleSendCode() async {
-    await APIProvider().post(
-        "/account/phone-codes/${countryCode}/${phoneNumber}",
+    await APIProvider().post("/account/phone-codes/$countryCode/$phoneNumber",
         body: {"timezone_in_seconds": 28800, "device_id": "ttttt"},
         options: ApiOptions(withSignature: true, withAuthorization: false));
   }
@@ -21,7 +20,7 @@ class LoginController extends GetxController {
   // 执行登录操作
   handleLogin() async {
     final body = await APIProvider().post(
-        "/account/phone-sessions/${countryCode}/${phoneNumber}/${verificationCode.value}",
+        "/account/phone-sessions/$countryCode/$phoneNumber/${verificationCode.value}",
         body: {"timezone_in_seconds": 28800, "device_id": "ttttt"},
         options: ApiOptions(
             withSignature: true,
@@ -35,6 +34,7 @@ class LoginController extends GetxController {
     await AuthProvider.to.init();
 
     await AuthProvider.to.saveAccount(account);
+
     // Get.offAndToNamed(AppRoutes.Application);
   }
 
@@ -77,5 +77,11 @@ class LoginController extends GetxController {
 
   handleCleanAccessToken() async {
     await AuthProvider.to.cleanAccessToken();
+  }
+
+  Future<void> postAccountInfoChange(Map<String, dynamic> data) async {
+    final body = await APIProvider().patch("/account/me", body: data);
+    final account = AccountEntity.fromJson(body["data"]["attributes"]);
+    await AuthProvider.to.saveAccount(account);
   }
 }

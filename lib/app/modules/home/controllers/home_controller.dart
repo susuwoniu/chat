@@ -35,6 +35,8 @@ class HomeController extends GetxController {
   final postTemplatesIndexes = RxList<String>([]);
   final postTemplatesMap = RxMap<String, PostTemplatesEntity>({});
 
+  List screenSize = [];
+
   @override
   void onReady() async {
     try {
@@ -109,5 +111,9 @@ class HomeController extends GetxController {
         getHomePosts(after: currentEndCursor.value);
       }
     }
+  }
+
+  void setScreenSize(int w, int h) {
+    screenSize = [w, h];
   }
 }

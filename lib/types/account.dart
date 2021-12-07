@@ -3,6 +3,19 @@ import 'package:json_annotation/json_annotation.dart';
 part 'account.g.dart';
 
 @JsonSerializable()
+class ActionEntity {
+  final String type;
+  final bool required;
+  ActionEntity({
+    required this.type,
+    required this.required,
+  });
+  factory ActionEntity.fromJson(Map<String, dynamic> json) =>
+      _$ActionEntityFromJson(json);
+  Map<String, dynamic> toJson() => _$ActionEntityToJson(this);
+}
+
+@JsonSerializable()
 class AccountEntity {
   /// The generated code assumes these values exist in JSON.
   final String name;
@@ -14,6 +27,7 @@ class AccountEntity {
   @JsonKey(name: 'like_count')
   final int likeCount;
   final bool vip;
+  final List<ActionEntity> actions;
 
   AccountEntity(
       {required this.name,
@@ -22,6 +36,7 @@ class AccountEntity {
       this.location,
       this.birthday,
       this.age,
+      this.actions = const [],
       required this.vip,
       required this.likeCount});
   static AccountEntity empty() {
@@ -35,6 +50,8 @@ class AccountEntity {
 
   /// Connect the generated [_$AccountEntityFromJson] function to the `fromJson`
   /// factory.
+  ///
+
   factory AccountEntity.fromJson(Map<String, dynamic> json) =>
       _$AccountEntityFromJson(json);
 

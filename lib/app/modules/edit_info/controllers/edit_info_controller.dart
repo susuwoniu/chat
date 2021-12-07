@@ -66,10 +66,4 @@ class EditInfoController extends GetxController {
   void setIsShowYearPicked(bool value) {
     isShowDatePicked.value = value;
   }
-
-  Future<void> postChange(Map<String, dynamic> data) async {
-    final body = await APIProvider().patch("/account/me", body: data);
-    final account = AccountEntity.fromJson(body["data"]["attributes"]);
-    await AuthProvider.to.saveAccount(account);
-  }
 }

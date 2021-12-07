@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart' hide YearPicker;
+import 'package:flutter/material.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:get/get.dart';
-import '../../edit_info/controllers/edit_info_controller.dart';
+import '../../login/controllers/login_controller.dart';
 import '../controllers/gender_select_controller.dart';
 import 'gender_picker.dart';
-import '../../edit_info/views/year_picker.dart';
+import '../../age_picker/views/next_button.dart';
 
 class GenderSelectView extends GetView<GenderSelectController> {
-  final _editInfoController = EditInfoController.to;
+  final _loginController = LoginController.to;
 
   @override
   Widget build(BuildContext context) {
@@ -42,51 +42,17 @@ class GenderSelectView extends GetView<GenderSelectController> {
                       ],
                     ),
                   ),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Text(
-                            'I_was_born_in'.tr,
-                            style: TextStyle(
-                                color: Colors.black54, fontSize: 17.0),
-                          ),
-                        ),
-                        YearPicker(
-                            isShowBar: false,
-                            onChanged: (year) {
-                              controller.setBirthYear(year.toString());
-                            })
-                      ]),
                 ]),
-                GestureDetector(
-                  onTap: () async {
-                    try {
-                      await _editInfoController.postChange({
-                        "birthday": controller.birthYear.value + "-01-01",
-                        "gender": controller.selectedGender.value
-                      });
-                      UIUtils.toast('ok');
-                    } catch (e) {
-                      UIUtils.showError(e);
-                    }
-                  },
-                  child: Container(
-                    height: _height * 0.07,
-                    width: _width * 0.95,
-                    margin: EdgeInsets.only(bottom: _height * 0.06),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blue,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text('Find_Friends'.tr,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22,
-                            color: Colors.white)),
-                  ),
-                )
+                NextButton(
+                    action: 'gender',
+                    onPressed: () async {
+                      try {
+                        await _loginController.postAccountInfoChange(
+                            {"gender": controller.selectedGender.value});
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
+                    })
               ],
             ),
           ),

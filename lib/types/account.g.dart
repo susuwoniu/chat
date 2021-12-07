@@ -6,6 +6,17 @@ part of 'account.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+ActionEntity _$ActionEntityFromJson(Map<String, dynamic> json) => ActionEntity(
+      type: json['type'] as String,
+      required: json['required'] as bool,
+    );
+
+Map<String, dynamic> _$ActionEntityToJson(ActionEntity instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'required': instance.required,
+    };
+
 AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
     AccountEntity(
       name: json['name'] as String,
@@ -14,6 +25,10 @@ AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
       location: json['location'] as String?,
       birthday: json['birthday'] as String?,
       age: json['age'] as int?,
+      actions: (json['actions'] as List<dynamic>?)
+              ?.map((e) => ActionEntity.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       vip: json['vip'] as bool,
       likeCount: json['like_count'] as int,
     );
@@ -28,4 +43,5 @@ Map<String, dynamic> _$AccountEntityToJson(AccountEntity instance) =>
       'birthday': instance.birthday,
       'like_count': instance.likeCount,
       'vip': instance.vip,
+      'actions': instance.actions,
     };

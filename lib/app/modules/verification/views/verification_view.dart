@@ -233,20 +233,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       try {
                         await _controller.handleLogin();
                         UIUtils.toast('登录成功');
-                        // 检测 next 参数，如果有，则跳转到next参数页面，没有则跳转到首页
-                        final next = Get.parameters['next'] ??
-                            Get.arguments?['next'] ??
-                            Routes.MAIN;
-                        final defaultAction =
-                            next.startsWith(Routes.MAIN) ? "offAll" : "off";
-                        final action = Get.parameters['action'] ??
-                            Get.arguments?['action'] ??
-                            defaultAction;
-                        if (action == 'offAll') {
-                          Get.offAllNamed(next);
-                        } else {
-                          Get.offNamed(next);
-                        }
                       } catch (e) {
                         UIUtils.showError(e);
                       }

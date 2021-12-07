@@ -1,9 +1,7 @@
 import 'package:get/get.dart';
 
-class GenderSelectController extends GetxController {
-  //TODO: Implement GenderSelectController
-
-  final selectedGender = ''.obs;
+class AddProfileImageController extends GetxController {
+  //TODO: Implement AddProfileImageController
 
   final count = 0.obs;
   @override
@@ -17,9 +15,6 @@ class GenderSelectController extends GetxController {
   }
 
   @override
+  void onClose() {}
   void increment() => count.value++;
-
-  void setGender(String gender) {
-    selectedGender.value = gender;
-  }
 }
