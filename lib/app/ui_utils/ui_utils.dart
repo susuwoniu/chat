@@ -1,3 +1,4 @@
+import 'package:chat/app/providers/auth_provider.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,8 @@ class UIUtils {
         // get current route
         final currentRoute = Get.currentRoute;
         Log.debug("currentRoute: $currentRoute");
-        Get.offNamed(Routes.LOGIN, parameters: {"next": currentRoute});
+        AuthProvider.to.setNextPage(currentRoute);
+        Get.offNamed(Routes.LOGIN);
         return;
       }
       return snackbar(

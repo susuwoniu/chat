@@ -18,7 +18,7 @@ class LoginController extends GetxController {
   }
 
   // 执行登录操作
-  handleLogin() async {
+  handleLogin({int? closePageCount}) async {
     final body = await APIProvider().post(
         "/account/phone-sessions/$countryCode/$phoneNumber/${verificationCode.value}",
         body: {"timezone_in_seconds": 28800, "device_id": "ttttt"},
@@ -32,7 +32,9 @@ class LoginController extends GetxController {
 
     await AuthProvider.to.saveToken(token);
     await AuthProvider.to.init();
-
+    if (closePageCount != null && closePageCount > 0) {
+      Get.close(closePageCount);
+    }
     await AuthProvider.to.saveAccount(account);
 
     // Get.offAndToNamed(AppRoutes.Application);

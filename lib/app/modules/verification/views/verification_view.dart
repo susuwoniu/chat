@@ -231,7 +231,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         );
                       }
                       try {
-                        await _controller.handleLogin();
+                        await _controller.handleLogin(closePageCount: 2);
                         UIUtils.toast('登录成功');
                       } catch (e) {
                         UIUtils.showError(e);
