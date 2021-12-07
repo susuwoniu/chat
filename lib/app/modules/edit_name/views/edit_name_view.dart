@@ -12,14 +12,13 @@ import '../../login/controllers/login_controller.dart';
 
 class EditNameView extends GetView<EditNameController> {
   final _loginController = LoginController.to;
-  final _authAccount = AuthProvider.to;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HexColor("#f0eff4"),
       appBar: AppBar(
-        title: Text(_authAccount.account.value.actions[0].type),
+        title: Text("name"),
         actions: [
           Obx(() {
             final _isActived = controller.isActived.value;
@@ -39,7 +38,13 @@ class EditNameView extends GetView<EditNameController> {
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 15),
-        child: InputWidget(maxLength: 15, maxLines: 1),
+        child: Obx(() {
+          return InputWidget(
+              maxLength: 15,
+              maxLines: 1,
+              initialContent: controller.initialContent,
+              isShowClear: controller.isShowClear.value);
+        }),
       ),
     );
   }
