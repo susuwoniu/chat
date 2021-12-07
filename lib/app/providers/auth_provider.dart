@@ -4,12 +4,15 @@ import 'package:get/get.dart';
 import 'package:chat/app/providers/kv_provider.dart';
 import 'package:chat/common.dart';
 import 'dart:async';
+import 'package:chat/app/routes/app_pages.dart';
 
 class AuthProvider extends GetxService {
   static AuthProvider get to => Get.find();
 
   // 是否登录
   final _isLogin = false.obs;
+  String? _nextPage;
+  String? _nextPageAction;
   // 令牌 token
   String? _accessToken;
   // refresh token
@@ -113,6 +116,58 @@ class AuthProvider extends GetxService {
   Future<void> saveAccount(AccountEntity accountEntity) async {
     account(accountEntity);
     await KVProvider.to.putObject(STORAGE_ACCOUNT_KEY, account.toJson());
+    if (accountEntity.actions.isNotEmpty) {
+      final actionType = accountEntity.actions[0].type;
+      if (actionType == 'add_account_birthday') {
+        Get.toNamed(Routes.AGE_PICKER);
+      } else if (actionType == 'add_account_gender') {
+        Get.toNamed(Routes.GENDER_SELECT);
+      } else if (actionType == 'add_account_name') {
+        Get.toNamed(Routes.EDIT_NAME, arguments: {'action': actionType});
+      } else if (actionType == 'add_account_bio') {
+        Get.toNamed(Routes.EDIT_BIO, arguments: {'action': actionType});
+      } else if (actionType == 'add_account_profile_image') {
+        Get.toNamed(Routes.ADD_PROFILE_IMAGE,
+            arguments: {'action': actionType});
+      } else {
+        toNextPage();
+      }
+
+      // TODO
+    } else {
+      toNextPage();
+    }
+  }
+
+  void toNextPage() {
+    // 检测 next 参数，如果有，则跳转到next参数页面，没有则跳转到首页
+    final next = _nextPage;
+    final currentNextPageAction = _nextPageAction;
+    if (_nextPageAction != null || next != null) {
+      setNextPage(null);
+      setNextPageAction(null);
+      final defaultAction = next != null
+          ? next.startsWith(Routes.ROOT)
+              ? "offAll"
+              : "off"
+          : null;
+      final action = _nextPageAction ?? defaultAction;
+      if (action == 'offAll' && next != null) {
+        Get.offAllNamed(next);
+      } else if (action == 'back') {
+        Get.back();
+      } else if (next != null && action == 'off') {
+        Get.offNamed(next);
+      }
+    }
+  }
+
+  void setNextPage(String? nextPage) {
+    _nextPage = nextPage;
+  }
+
+  void setNextPageAction(String? nextPageAction) {
+    _nextPageAction = nextPageAction;
   }
 }
 

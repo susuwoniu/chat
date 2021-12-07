@@ -12,6 +12,7 @@ import 'package:chat/app/modules/message/controllers/message_controller.dart';
 import 'package:chat/common.dart';
 
 class DebugView extends GetView<DebugController> {
+  final String phone = "+8615683438489";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,8 +117,7 @@ class DebugView extends GetView<DebugController> {
                     ),
                     onTap: () async {
                       LoginController.to.setCountryCode("+86");
-                      LoginController.to
-                          .setPhoneNumber("+8615578875692", "+86");
+                      LoginController.to.setPhoneNumber(phone, "+86");
                       try {
                         await LoginController.to.handleSendCode();
                         UIUtils.toast("发送成功");
@@ -139,6 +139,7 @@ class DebugView extends GetView<DebugController> {
                     onTap: () async {
                       UIUtils.showLoading();
                       try {
+                        AuthProvider.to.setNextPage(Routes.DEBUG);
                         LoginController.to.setVerificationCode("123456");
                         await LoginController.to.handleLogin();
                         UIUtils.hideLoading();

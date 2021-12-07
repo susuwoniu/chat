@@ -10,6 +10,7 @@ import './age_widget.dart';
 import './circle_widget.dart';
 import 'nickname_widget.dart';
 import './dot_widget.dart';
+import 'my_posts.dart';
 
 final List<String> imgList = [
   "https://img9.doubanio.com/icon/ul43630113-26.jpg",
@@ -53,7 +54,8 @@ class MeView extends GetView<MeController> {
       final _bio = _account.bio == '' ? 'nothing' : _account.bio;
       final _location = _account.location ?? 'unknown place';
       final _birth = _account.birthday ?? 'xxxx-xx-xx';
-      return Column(
+      return SingleChildScrollView(
+          child: Column(
         children: [
           Stack(children: [
             CarouselSlider(
@@ -148,9 +150,10 @@ class MeView extends GetView<MeController> {
                     iconName: IconData(61505, fontFamily: 'MaterialIcons')),
               ],
             ),
-          )
+          ),
+          MyPosts(),
         ],
-      );
+      ));
     }));
   }
 }

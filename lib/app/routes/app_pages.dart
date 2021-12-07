@@ -3,33 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:chat/app/middleware/auth_middleware.dart';
+import 'package:chat/app/modules/add_profile_image/bindings/add_profile_image_binding.dart';
+import 'package:chat/app/modules/add_profile_image/views/add_profile_image_view.dart';
+import 'package:chat/app/modules/age_picker/bindings/age_picker_binding.dart';
+import 'package:chat/app/modules/age_picker/views/age_picker_view.dart';
 import 'package:chat/app/modules/answer/bindings/answer_binding.dart';
 import 'package:chat/app/modules/answer/views/answer_view.dart';
-
 import 'package:chat/app/modules/debug/bindings/debug_binding.dart';
 import 'package:chat/app/modules/debug/views/debug_view.dart';
+import 'package:chat/app/modules/edit_bio/bindings/edit_bio_binding.dart';
+import 'package:chat/app/modules/edit_bio/views/edit_bio_view.dart';
 import 'package:chat/app/modules/edit_info/bindings/edit_info_binding.dart';
 import 'package:chat/app/modules/edit_info/views/edit_info_view.dart';
-import 'package:chat/app/modules/edit_input/bindings/edit_input_binding.dart';
-import 'package:chat/app/modules/edit_input/views/edit_input_view.dart';
-
+import 'package:chat/app/modules/edit_name/bindings/edit_name_binding.dart';
+import 'package:chat/app/modules/edit_name/views/edit_name_view.dart';
+import 'package:chat/app/modules/gender_select/bindings/gender_select_binding.dart';
+import 'package:chat/app/modules/gender_select/views/gender_select_view.dart';
 import 'package:chat/app/modules/login/bindings/login_binding.dart';
 import 'package:chat/app/modules/login/views/login_view.dart';
 import 'package:chat/app/modules/main/bindings/main_binding.dart';
 import 'package:chat/app/modules/main/views/main_view.dart';
 import 'package:chat/app/modules/me/bindings/me_binding.dart';
 import 'package:chat/app/modules/me/views/me_view.dart';
-
+import 'package:chat/app/modules/my_single_post/bindings/my_single_post_binding.dart';
+import 'package:chat/app/modules/my_single_post/views/my_single_post_view.dart';
 import 'package:chat/app/modules/notfound/bindings/notfound_binding.dart';
 import 'package:chat/app/modules/notfound/views/notfound_view.dart';
-
 import 'package:chat/app/modules/room/bindings/room_binding.dart';
 import 'package:chat/app/modules/room/views/room_view.dart';
 import 'package:chat/app/modules/root/bindings/root_binding.dart';
 import 'package:chat/app/modules/root/views/root_view.dart';
 import 'package:chat/app/modules/setting/bindings/setting_binding.dart';
 import 'package:chat/app/modules/setting/views/setting_view.dart';
-
 import 'package:chat/app/modules/test1/bindings/test1_binding.dart';
 import 'package:chat/app/modules/test1/views/test1_view.dart';
 import 'package:chat/app/modules/test2/bindings/test2_binding.dart';
@@ -137,9 +142,34 @@ class AppPages {
       binding: EditInfoBinding(),
     ),
     GetPage(
-      name: _Paths.EDIT_INPUT,
-      page: () => EditInputView(),
-      binding: EditInputBinding(),
+      name: _Paths.EDIT_NAME,
+      page: () => EditNameView(),
+      binding: EditNameBinding(),
+    ),
+    GetPage(
+      name: _Paths.GENDER_SELECT,
+      page: () => GenderSelectView(),
+      binding: GenderSelectBinding(),
+    ),
+    GetPage(
+      name: _Paths.MY_SINGLE_POST,
+      page: () => MySinglePostView(),
+      binding: MySinglePostBinding(),
+    ),
+    GetPage(
+      name: _Paths.AGE_PICKER,
+      page: () => AgePickerView(),
+      binding: AgePickerBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_PROFILE_IMAGE,
+      page: () => AddProfileImageView(),
+      binding: AddProfileImageBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_BIO,
+      page: () => EditBioView(),
+      binding: EditBioBinding(),
     ),
   ];
 }

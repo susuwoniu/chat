@@ -23,7 +23,12 @@ abstract class Routes {
   static const VERIFICATION = _Paths.VERIFICATION;
   static const ANSWER = _Paths.ANSWER;
   static const EDIT_INFO = _Paths.EDIT_INFO;
-  static const EDIT_INPUT = _Paths.EDIT_INPUT;
+  static const EDIT_NAME = _Paths.EDIT_NAME;
+  static const GENDER_SELECT = _Paths.GENDER_SELECT;
+  static const MY_SINGLE_POST = _Paths.MY_SINGLE_POST;
+  static const AGE_PICKER = _Paths.AGE_PICKER;
+  static const ADD_PROFILE_IMAGE = _Paths.ADD_PROFILE_IMAGE;
+  static const EDIT_BIO = _Paths.EDIT_BIO;
 }
 
 abstract class _Paths {
@@ -42,5 +47,10 @@ abstract class _Paths {
   static const ANSWER = '/answer';
   static const ME = '/me';
   static const EDIT_INFO = '/edit-info';
-  static const EDIT_INPUT = '/edit-input';
+  static const EDIT_NAME = '/edit-input';
+  static const GENDER_SELECT = '/gender-view';
+  static const MY_SINGLE_POST = '/my-single-post';
+  static const AGE_PICKER = '/age-picker';
+  static const ADD_PROFILE_IMAGE = '/add-profile-image';
+  static const EDIT_BIO = '/edit-bio';
 }

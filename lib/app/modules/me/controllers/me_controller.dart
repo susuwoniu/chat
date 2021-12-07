@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
+import '../../home/controllers/home_controller.dart';
 
 class MeController extends GetxController {
   final count = 0.obs;
   final _current = 0.obs;
   int get current => _current.value;
+  final _homeController = HomeController.to;
 
   @override
   void onInit() {
@@ -12,6 +14,9 @@ class MeController extends GetxController {
 
   @override
   void onReady() {
+    if (_homeController.isMeInitial.value == false) {
+      _homeController.getMePosts();
+    }
     super.onReady();
   }
 

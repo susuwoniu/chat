@@ -1,18 +1,30 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:chat/app/providers/auth_provider.dart';
 
-class EditInputController extends GetxController {
-  static EditInputController get to => Get.find();
+class EditBioController extends GetxController {
+  static EditBioController get to => Get.find();
 
   final isShowClear = true.obs;
   final isActived = false.obs;
-  final initialContent = Get.arguments['content'];
+  late String initialContent;
+  final currentTitle = Get.arguments["action"];
 
-  final textController = TextEditingController(text: Get.arguments['content']);
+  final textController = TextEditingController(text: '');
+
+  late String bio;
 
   final count = 0.obs;
   @override
   void onInit() {
+    if (currentTitle == 'add_account_bio') {
+      initialContent = AuthProvider.to.account.value.bio ?? '';
+    } else {
+      // TODO
+      initialContent = '';
+    }
+    textController.text = initialContent;
+
     super.onInit();
   }
 
