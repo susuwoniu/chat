@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:chat/app/routes/app_pages.dart';
 
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:io';
 
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -39,7 +39,7 @@ class _MyHomePageState extends State<Test2View> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("dewew"),
+        title: Text('test2'),
       ),
       body: Center(
         child: imageFile != null ? Image.file(imageFile!) : Container(),
@@ -71,7 +71,7 @@ class _MyHomePageState extends State<Test2View> {
 
   Future<Null> _pickImage() async {
     final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+        await ImagePicker().getImage(source: ImageSource.gallery);
     imageFile = pickedImage != null ? File(pickedImage.path) : null;
     if (imageFile != null) {
       setState(() {
@@ -83,35 +83,22 @@ class _MyHomePageState extends State<Test2View> {
   Future<Null> _cropImage() async {
     File? croppedFile = await ImageCropper.cropImage(
         sourcePath: imageFile!.path,
-        aspectRatioPresets: Platform.isAndroid
-            ? [
-                CropAspectRatioPreset.square,
-                CropAspectRatioPreset.ratio3x2,
-                CropAspectRatioPreset.original,
-                CropAspectRatioPreset.ratio4x3,
-                CropAspectRatioPreset.ratio16x9
-              ]
-            : [
-                CropAspectRatioPreset.original,
-                CropAspectRatioPreset.square,
-                CropAspectRatioPreset.ratio3x2,
-                CropAspectRatioPreset.ratio4x3,
-                CropAspectRatioPreset.ratio5x3,
-                CropAspectRatioPreset.ratio5x4,
-                CropAspectRatioPreset.ratio7x5,
-                CropAspectRatioPreset.ratio16x9
-              ],
+        aspectRatio: CropAspectRatio(ratioX: 4, ratioY: 5),
         androidUiSettings: AndroidUiSettings(
             toolbarTitle: 'Cropper',
             toolbarColor: Colors.deepOrange,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        iosUiSettings: IOSUiSettings(
-          title: 'Cropper',
-        ));
+            lockAspectRatio: true),
+        iosUiSettings:
+            IOSUiSettings(title: 'Cropper', aspectRatioLockEnabled: true));
     if (croppedFile != null) {
       imageFile = croppedFile;
+      final bytes = await imageFile!.readAsBytes();
+      var decodedImage = await decodeImageFromList(bytes);
+      final width = decodedImage.width;
+      final height = decodedImage.height;
+      final size = bytes.length;
       setState(() {
         state = AppState.cropped;
       });
