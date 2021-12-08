@@ -14,7 +14,7 @@ class MyPosts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final _width = _controller.screenSize[0];
+      final _width = MediaQuery.of(context).size.width;
 
       final _myPostsList = <Widget>[];
       for (var id in _controller.myPostsIndexes) {
