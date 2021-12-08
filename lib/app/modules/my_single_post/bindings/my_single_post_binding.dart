@@ -5,8 +5,8 @@ import '../controllers/my_single_post_controller.dart';
 class MySinglePostBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<MySinglePostController>(
-      () => MySinglePostController(),
+    Get.put<MySinglePostController>(
+      MySinglePostController(),
     );
   }
 }

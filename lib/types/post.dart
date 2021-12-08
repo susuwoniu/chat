@@ -10,10 +10,12 @@ class PostEntity {
   final String backgroundColor;
   @JsonKey(name: 'account_id')
   final String accountId;
+  List<String>? views;
   PostEntity({
     required this.content,
     required this.backgroundColor,
     required this.accountId,
+    this.views,
   });
 
   /// Connect the generated [_$PostEntityFromJson] function to the `fromJson`

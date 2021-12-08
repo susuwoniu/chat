@@ -32,10 +32,9 @@ class HomeController extends GetxController {
   final isDataEmpty = false.obs;
 
   final postMap = RxMap<String, PostEntity>({});
+
   final postTemplatesIndexes = RxList<String>([]);
   final postTemplatesMap = RxMap<String, PostTemplatesEntity>({});
-
-  List screenSize = [];
 
   @override
   void onReady() async {
@@ -81,6 +80,7 @@ class HomeController extends GetxController {
     if (isHomeInitial.value == false) {
       isHomeInitial.value = true;
     }
+    PatchPostCountView(result.indexes[0]);
   }
 
   getMePosts({String? after}) async {
@@ -113,7 +113,46 @@ class HomeController extends GetxController {
     }
   }
 
-  void setScreenSize(int w, int h) {
-    screenSize = [w, h];
+  void PatchPostCountView(postId) async {
+    if (AuthProvider.to.account.value.accountId == postMap[postId]!.accountId) {
+      await APIProvider().patch("/post/posts/$postId",
+          body: {"viewed_count_action": "increase_one"});
+    }
+  }
+
+  Future<void> getRawVisitorList(String postId, {String? after}) async {
+    Map<String, dynamic> query = {};
+    if (after != null) {
+      query["after"] = after;
+    }
+    final body =
+        await APIProvider().get("/post/posts/$postId/views", query: query);
+    if (body["data"].length == 0) {
+      return;
+    }
+    final Map<String, SimpleAccountEntity> newAccountMap = {};
+    final List<String> newIndexes = [];
+
+    // String? newEndCursor;
+    for (var i = 0; i < body["data"].length; i++) {
+      final item = body["data"][i];
+      final viewerId = item["attributes"]["viewed_by"];
+
+      newAccountMap[item["id"]] =
+          SimpleAccountEntity(accountId: viewerId, avatar: '', name: 'xxxxjkj');
+      newIndexes.add(viewerId);
+    }
+    AuthProvider.to.simpleAccountMap.addAll(newAccountMap);
+
+    var post = postMap[postId];
+    if (post != null) {
+      post.views = newIndexes;
+      postMap[postId] = post;
+    }
+    // if (body["meta"]["page_info"]["end"] != null) {
+    //   newEndCursor = body["meta"]["page_info"]["end"];
+    // }
+    // return PostsResult(
+    //     postMap: newPostMap, indexes: newIndexes, endCursor: newEndCursor);
   }
 }

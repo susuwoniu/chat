@@ -21,6 +21,7 @@ AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
     AccountEntity(
       name: json['name'] as String,
       gender: json['gender'] as String,
+      accountId: json['accountId'] as String?,
       bio: json['bio'] as String?,
       location: json['location'] as String?,
       birthday: json['birthday'] as String?,
@@ -43,5 +44,6 @@ Map<String, dynamic> _$AccountEntityToJson(AccountEntity instance) =>
       'birthday': instance.birthday,
       'like_count': instance.likeCount,
       'vip': instance.vip,
+      'accountId': instance.accountId,
       'actions': instance.actions,
     };

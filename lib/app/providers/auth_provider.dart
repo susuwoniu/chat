@@ -8,7 +8,7 @@ import 'package:chat/app/routes/app_pages.dart';
 
 class AuthProvider extends GetxService {
   static AuthProvider get to => Get.find();
-
+  final simpleAccountMap = RxMap<String, SimpleAccountEntity>({});
   // 是否登录
   final _isLogin = false.obs;
   String? _nextPage;

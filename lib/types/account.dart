@@ -27,11 +27,13 @@ class AccountEntity {
   @JsonKey(name: 'like_count')
   final int likeCount;
   final bool vip;
+  final String? accountId;
   final List<ActionEntity> actions;
 
   AccountEntity(
       {required this.name,
       required this.gender,
+      this.accountId,
       this.bio,
       this.location,
       this.birthday,

@@ -174,6 +174,7 @@ class HomeView extends GetView<HomeController> {
   void _handleCallbackEvent(ScrollEventType type, {int? currentIndex}) {
     if (currentIndex != null && currentIndex > 0) {
       controller.setIndex(currentIndex);
+      controller.PatchPostCountView(controller.postIndexes[currentIndex]);
     }
     print(
         "Scroll callback received with data: {type: $type, and index: ${currentIndex ?? 'not given'}}");
