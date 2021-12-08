@@ -62,7 +62,7 @@ class MeView extends GetView<MeController> {
               items: imageSliders,
               carouselController: buttonCarouselController,
               options: CarouselOptions(
-                  height: height / 2,
+                  height: width,
                   viewportFraction: 1.0,
                   enableInfiniteScroll: false,
                   onPageChanged: (index, reason) {

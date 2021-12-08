@@ -15,6 +15,7 @@ class MyPosts extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       final _width = MediaQuery.of(context).size.width;
+      final double paddingLeft = _width * 0.07;
 
       final _myPostsList = <Widget>[];
       for (var id in _controller.myPostsIndexes) {
@@ -28,7 +29,7 @@ class MyPosts extends StatelessWidget {
                 });
               },
               child: Container(
-                margin: EdgeInsets.all(_width * 0.03),
+                margin: EdgeInsets.all(paddingLeft / 2),
                 padding: EdgeInsets.all(_width * 0.03),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),

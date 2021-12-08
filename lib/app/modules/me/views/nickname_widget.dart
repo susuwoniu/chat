@@ -23,8 +23,9 @@ class NicknameWidget extends StatelessWidget {
                   color: Colors.white,
                 )),
           ),
-          Icon(Icons.stars_rounded,
-              color: vip ? Colors.pink : Colors.white, size: 34),
+          vip
+              ? Icon(Icons.stars_rounded, color: Colors.pink, size: 34)
+              : SizedBox.shrink(),
         ],
       ),
     );

@@ -55,5 +55,6 @@ const Map<String, String> zh_Hans = {
   "female": "女性",
   "male": "男性",
   "other": "其他",
-  "Find_Friends": "完成"
+  "Find_Friends": "完成",
+  "no_one_has_seen_it_yet": "还没有人看过这条帖子哦……"
 };

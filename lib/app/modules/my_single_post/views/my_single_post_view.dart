@@ -42,17 +42,27 @@ class MySinglePostView extends GetView<MySinglePostController> {
                 color: Colors.white,
                 height: 1.6,
                 fontSize: 26.0,
-                // fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          Obx(() => Column(
-                children: _homeController.postMap[_postId]!.views != null
-                    ? _homeController.postMap[_postId]!.views!
-                        .map((e) => Container(child: Text(e)))
-                        .toList()
-                    : [],
-              )),
+          Obx(() {
+            final post = _homeController.postMap[_postId]!;
+
+            final isLoading = post.isLoadingViewersList;
+
+            final List<Widget> list = post.views != null
+                ? post.views!.isNotEmpty
+                    ? post.views!.map((e) => Container(child: Text(e))).toList()
+                    : [Text("no_one_has_seen_it_yet".tr)]
+                : [];
+
+            final Widget loadingWidget =
+                isLoading ? Container(child: Text("loading")) : Container();
+
+            list.add(loadingWidget);
+
+            return Column(children: list);
+          }),
         ])));
   }
 }

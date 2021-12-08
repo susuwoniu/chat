@@ -11,11 +11,13 @@ class PostEntity {
   @JsonKey(name: 'account_id')
   final String accountId;
   List<String>? views;
+  bool isLoadingViewersList;
   PostEntity({
     required this.content,
     required this.backgroundColor,
     required this.accountId,
     this.views,
+    this.isLoadingViewersList = false,
   });
 
   /// Connect the generated [_$PostEntityFromJson] function to the `fromJson`

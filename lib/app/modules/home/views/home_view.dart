@@ -78,7 +78,7 @@ class HomeView extends GetView<HomeController> {
                     },
                     child: SafeArea(
                       child: index == controller.postIndexes.length &&
-                              controller.isLoading.value
+                              controller.isLoadingHomePosts.value
                           ? Text("loading")
                           : index == controller.postIndexes.length &&
                                   controller.isDataEmpty.value

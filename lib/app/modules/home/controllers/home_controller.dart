@@ -25,7 +25,7 @@ class HomeController extends GetxController {
   final postIndexes = RxList<String>([]);
   final myPostsIndexes = RxList<String>([]);
 
-  final isLoading = true.obs;
+  final isLoadingHomePosts = true.obs;
   final isLoadingMyPosts = true.obs;
 
   final currentEndCursor = ''.obs;
@@ -76,7 +76,7 @@ class HomeController extends GetxController {
     postMap.addAll(result.postMap);
     postIndexes.addAll(result.indexes);
 
-    isLoadingMyPosts.value = false;
+    isLoadingHomePosts.value = false;
     if (isHomeInitial.value == false) {
       isHomeInitial.value = true;
     }
@@ -106,8 +106,8 @@ class HomeController extends GetxController {
     BottomNavigationBarController.to.changeBackgroundColor(backgroundColor);
 
     if (postIndexes.length - index < 3) {
-      if (!isLoading.value && isDataEmpty.value == false) {
-        isLoading.value = true;
+      if (!isLoadingHomePosts.value && isDataEmpty.value == false) {
+        isLoadingHomePosts.value = true;
         getHomePosts(after: currentEndCursor.value);
       }
     }
@@ -121,15 +121,18 @@ class HomeController extends GetxController {
   }
 
   Future<void> getRawVisitorList(String postId, {String? after}) async {
+    var post = postMap[postId];
+    if (post != null) {
+      post.isLoadingViewersList = true;
+      postMap[postId] = post;
+    }
     Map<String, dynamic> query = {};
     if (after != null) {
       query["after"] = after;
     }
     final body =
         await APIProvider().get("/post/posts/$postId/views", query: query);
-    if (body["data"].length == 0) {
-      return;
-    }
+
     final Map<String, SimpleAccountEntity> newAccountMap = {};
     final List<String> newIndexes = [];
 
@@ -144,9 +147,9 @@ class HomeController extends GetxController {
     }
     AuthProvider.to.simpleAccountMap.addAll(newAccountMap);
 
-    var post = postMap[postId];
     if (post != null) {
       post.views = newIndexes;
+      post.isLoadingViewersList = false;
       postMap[postId] = post;
     }
     // if (body["meta"]["page_info"]["end"] != null) {
