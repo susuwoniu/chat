@@ -150,7 +150,6 @@ class MessageController extends GetxController {
       // stream listener
       ChatProvider.to.streamManager!.deliveredStanzasStream
           .listen((xmpp.AbstractStanza event) {
-        print('deliver event: $event');
         if (event.id != null) {
           updateMessageStatusAsDelivered(event.id!);
         }

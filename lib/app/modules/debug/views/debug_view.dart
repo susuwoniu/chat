@@ -13,6 +13,7 @@ import 'package:chat/common.dart';
 
 class DebugView extends GetView<DebugController> {
   final String phone = "+8615683678489";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,7 +140,7 @@ class DebugView extends GetView<DebugController> {
                     onTap: () async {
                       UIUtils.showLoading();
                       try {
-                        AuthProvider.to.setNextPage(Routes.DEBUG);
+                        // AuthProvider.to.setNextPageAction('back');
                         LoginController.to.setVerificationCode("123456");
                         await LoginController.to.handleLogin();
                         UIUtils.hideLoading();

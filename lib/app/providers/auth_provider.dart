@@ -13,6 +13,7 @@ class AuthProvider extends GetxService {
   final _isLogin = false.obs;
   String? _nextPage;
   String? _nextPageAction;
+  int _closePageCountBeforeNextPage = 0;
   // 令牌 token
   String? _accessToken;
   // refresh token
@@ -119,14 +120,21 @@ class AuthProvider extends GetxService {
     if (accountEntity.actions.isNotEmpty) {
       final actionType = accountEntity.actions[0].type;
       if (actionType == 'add_account_birthday') {
+        //
+        setClosePageCountBeforeNextPage(closePageCountBeforeNextPage + 1);
         Get.toNamed(Routes.AGE_PICKER);
       } else if (actionType == 'add_account_gender') {
+        setClosePageCountBeforeNextPage(closePageCountBeforeNextPage + 1);
         Get.toNamed(Routes.GENDER_SELECT);
       } else if (actionType == 'add_account_name') {
+        setClosePageCountBeforeNextPage(closePageCountBeforeNextPage + 1);
         Get.toNamed(Routes.EDIT_NAME, arguments: {'action': actionType});
       } else if (actionType == 'add_account_bio') {
+        setClosePageCountBeforeNextPage(closePageCountBeforeNextPage + 1);
         Get.toNamed(Routes.EDIT_BIO, arguments: {'action': actionType});
       } else if (actionType == 'add_account_profile_image') {
+        setClosePageCountBeforeNextPage(closePageCountBeforeNextPage + 1);
+
         Get.toNamed(Routes.ADD_PROFILE_IMAGE,
             arguments: {'action': actionType});
       } else {
@@ -143,21 +151,25 @@ class AuthProvider extends GetxService {
     // 检测 next 参数，如果有，则跳转到next参数页面，没有则跳转到首页
     final next = _nextPage;
     final currentNextPageAction = _nextPageAction;
+    final currentClosePageCountBeforeNextPage = _closePageCountBeforeNextPage;
+    if (currentClosePageCountBeforeNextPage > 0) {
+      setClosePageCountBeforeNextPage(0);
+      Get.close(currentClosePageCountBeforeNextPage);
+    }
     if (_nextPageAction != null || next != null) {
       setNextPage(null);
       setNextPageAction(null);
-      final defaultAction = next != null
-          ? next.startsWith(Routes.ROOT)
-              ? "offAll"
-              : "off"
-          : null;
+      final defaultAction =
+          next != null && next == Routes.MAIN ? "offAll" : "off";
       final action = currentNextPageAction ?? defaultAction;
       if (action == 'offAll' && next != null) {
-        Get.offAllNamed(next);
+        // offAll must root
+        // TODO ,root需要做一个路由中心
+        Get.offAllNamed(Routes.ROOT);
       } else if (action == 'back') {
         Get.back();
       } else if (next != null && action == 'off') {
-        Get.offNamed(next);
+        Get.toNamed(next);
       }
     }
   }
@@ -169,6 +181,12 @@ class AuthProvider extends GetxService {
   void setNextPageAction(String? nextPageAction) {
     _nextPageAction = nextPageAction;
   }
+
+  void setClosePageCountBeforeNextPage(int count) {
+    _closePageCountBeforeNextPage = count;
+  }
+
+  int get closePageCountBeforeNextPage => _closePageCountBeforeNextPage;
 }
 
 enum AuthStatus {

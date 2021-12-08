@@ -84,7 +84,7 @@ class ChatProvider extends GetxService {
     super.onClose();
   }
 
-  Future login(
+  Future<void> login(
       String accountId, String domain, String token, String device) async {
     // String? resourceId = await PlatformDeviceId.getDeviceId;
     // final resource = resourceId
@@ -97,7 +97,7 @@ class ChatProvider extends GetxService {
 
     Completer<void> completer = Completer();
 
-    xmpp.Log.logXmpp = true; // todo
+    xmpp.Log.logXmpp = false; // todo
 
     if (_connectionStateSubscription != null) {
       _connectionStateSubscription!.cancel();

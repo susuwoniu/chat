@@ -1,3 +1,4 @@
+import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:get/get.dart';
 import '../../home/controllers/home_controller.dart';
 
@@ -13,9 +14,13 @@ class MeController extends GetxController {
   }
 
   @override
-  void onReady() {
+  void onReady() async {
     if (_homeController.isMeInitial.value == false) {
-      _homeController.getMePosts();
+      try {
+        await _homeController.getMePosts();
+      } catch (e) {
+        UIUtils.showError(e);
+      }
     }
     super.onReady();
   }
