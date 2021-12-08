@@ -19,44 +19,41 @@ class MyPosts extends StatelessWidget {
       final _myPostsList = <Widget>[];
       for (var id in _controller.myPostsIndexes) {
         _myPostsList.add(
-          Column(
-            children: [
-              GestureDetector(
-                  onTap: () {
-                    Get.toNamed(Routes.MY_SINGLE_POST);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(_width * 0.025),
-                    padding: EdgeInsets.all(_width * 0.025),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: HexColor(_controller.postMap[id]!.backgroundColor),
-                    ),
-                    height: _width * 0.4,
-                    width: _width * 0.4,
-                    child: MaxText(
-                      _controller.postMap[id]!.content,
-                      context,
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        overflow: TextOverflow.ellipsis,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ))
-            ],
-          ),
+          GestureDetector(
+              onTap: () {
+                Get.toNamed(Routes.MY_SINGLE_POST, arguments: {
+                  'postId': id,
+                  'content': _controller.postMap[id]!.content,
+                  "backgroundColor": _controller.postMap[id]!.backgroundColor,
+                });
+              },
+              child: Container(
+                margin: EdgeInsets.all(_width * 0.03),
+                padding: EdgeInsets.all(_width * 0.03),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: HexColor(_controller.postMap[id]!.backgroundColor),
+                ),
+                height: _width * 0.4,
+                width: _width * 0.4,
+                child: MaxText(
+                  _controller.postMap[id]!.content,
+                  context,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis,
+                    color: Colors.white,
+                  ),
+                ),
+              )),
         );
       }
 
-      return Container(
-          child: Wrap(direction: Axis.horizontal, children: [
-        Expanded(
-          flex: 1,
-          child: Wrap(children: _myPostsList),
-        ),
-      ]));
+      return SizedBox(
+        width: double.infinity,
+        child: Wrap(alignment: WrapAlignment.center, children: _myPostsList),
+      );
     });
   }
 }
