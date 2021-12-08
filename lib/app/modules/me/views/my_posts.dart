@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import '../../home/controllers/home_controller.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:chat/app/widges/max_text.dart';
 
 class MyPosts extends StatelessWidget {
   MyPosts({
@@ -37,9 +36,9 @@ class MyPosts extends StatelessWidget {
                 ),
                 height: _width * 0.4,
                 width: _width * 0.4,
-                child: MaxText(
+                child: Text(
                   _controller.postMap[id]!.content,
-                  context,
+                  maxLines: 5,
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,

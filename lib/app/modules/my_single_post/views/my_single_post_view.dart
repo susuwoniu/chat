@@ -53,7 +53,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
             final List<Widget> list = post.views != null
                 ? post.views!.isNotEmpty
                     ? post.views!.map((e) => Container(child: Text(e))).toList()
-                    : [Text("no_one_has_seen_it_yet".tr)]
+                    : [Container(child: Text("no_one_has_seen_it_yet".tr))]
                 : [];
 
             final Widget loadingWidget =

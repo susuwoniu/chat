@@ -4,142 +4,124 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/routes/app_pages.dart';
 
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:io';
+
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+
 import '../controllers/test2_controller.dart';
 // import 'package:csc_picker/csc_picker.dart';
 
 class Test2View extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _HomePageState extends State<Test2View> {
-  /// Variables to store country state city data in onChanged method.
-  String countryValue = "";
-  String stateValue = "";
-  String cityValue = "";
-  String address = "";
+enum AppState {
+  free,
+  picked,
+  cropped,
+}
+
+class _MyHomePageState extends State<Test2View> {
+  late AppState state;
+  File? imageFile;
+
+  @override
+  void initState() {
+    super.initState();
+    state = AppState.free;
+  }
 
   @override
   Widget build(BuildContext context) {
-    // GlobalKey<CSCPickerState> _cscPickerKey = GlobalKey();
-
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("dewew"),
+      ),
       body: Center(
-        child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            height: 600,
-            child: TextButton(
-                onPressed: () {
-                  Get.toNamed(Routes.EDIT_BIO,
-                      arguments: {"action": 'add_account_bio'});
-                },
-                child: Text('to edit'))
-            //       child: Column(
-            //         children: [
-            //           ///Adding CSC Picker Widget in app
-            //           CSCPicker(
-            //             ///Enable disable state dropdown [OPTIONAL PARAMETER]
-            //             showStates: true,
-
-            //             /// Enable disable city drop down [OPTIONAL PARAMETER]
-            //             showCities: true,
-
-            //             ///Enable (get flag with country name) / Disable (Disable flag) / ShowInDropdownOnly (display flag in dropdown only) [OPTIONAL PARAMETER]
-            //             flagState: CountryFlag.DISABLE,
-
-            //             ///Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER] (USE with disabledDropdownDecoration)
-            //             dropdownDecoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.all(Radius.circular(10)),
-            //                 color: Colors.white,
-            //                 border:
-            //                     Border.all(color: Colors.grey.shade300, width: 1)),
-
-            //             ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
-            //             disabledDropdownDecoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.all(Radius.circular(10)),
-            //                 color: Colors.grey.shade300,
-            //                 border:
-            //                     Border.all(color: Colors.grey.shade300, width: 1)),
-
-            //             ///placeholders for dropdown search field
-            //             countrySearchPlaceholder: "Country",
-            //             stateSearchPlaceholder: "State",
-            //             citySearchPlaceholder: "City",
-
-            //             ///labels for dropdown
-            //             countryDropdownLabel: "*Country",
-            //             stateDropdownLabel: "*State",
-            //             cityDropdownLabel: "*City",
-
-            //             ///Default Country
-            //             //defaultCountry: DefaultCountry.India,
-
-            //             ///Disable country dropdown (Note: use it with default country)
-            //             //disableCountry: true,
-
-            //             ///selected item style [OPTIONAL PARAMETER]
-            //             selectedItemStyle: TextStyle(
-            //               color: Colors.black,
-            //               fontSize: 14,
-            //             ),
-
-            //             ///DropdownDialog Heading style [OPTIONAL PARAMETER]
-            //             dropdownHeadingStyle: TextStyle(
-            //                 color: Colors.black,
-            //                 fontSize: 17,
-            //                 fontWeight: FontWeight.bold),
-
-            //             ///DropdownDialog Item style [OPTIONAL PARAMETER]
-            //             dropdownItemStyle: TextStyle(
-            //               color: Colors.black,
-            //               fontSize: 14,
-            //             ),
-
-            //             ///Dialog box radius [OPTIONAL PARAMETER]
-            //             dropdownDialogRadius: 10.0,
-
-            //             ///Search bar radius [OPTIONAL PARAMETER]
-            //             searchBarRadius: 10.0,
-
-            //             ///triggers once country selected in dropdown
-            //             onCountryChanged: (value) {
-            //               setState(() {
-            //                 ///store value in country variable
-            //                 countryValue = value;
-            //               });
-            //             },
-
-            //             ///triggers once state selected in dropdown
-            //             onStateChanged: (value) {
-            //               setState(() {
-            //                 ///store value in state variable
-            //                 stateValue = value!;
-            //               });
-            //             },
-
-            //             ///triggers once city selected in dropdown
-            //             onCityChanged: (value) {
-            //               setState(() {
-            //                 ///store value in city variable
-            //                 cityValue = value!;
-            //               });
-            //             },
-            //           ),
-
-            //           ///print newly selected country state and city in Text Widget
-            //           TextButton(
-            //               onPressed: () {
-            //                 setState(() {
-            //                   address = "$cityValue, $stateValue, $countryValue";
-            //                 });
-            //               },
-            //               child: Text("Print Data")),
-            //           Text(address)
-            //         ]),
-            ),
+        child: imageFile != null ? Image.file(imageFile!) : Container(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.deepOrange,
+        onPressed: () {
+          if (state == AppState.free)
+            _pickImage();
+          else if (state == AppState.picked)
+            _cropImage();
+          else if (state == AppState.cropped) _clearImage();
+        },
+        child: _buildButtonIcon(),
       ),
     );
   }
+
+  Widget _buildButtonIcon() {
+    if (state == AppState.free)
+      return Icon(Icons.add);
+    else if (state == AppState.picked)
+      return Icon(Icons.crop);
+    else if (state == AppState.cropped)
+      return Icon(Icons.clear);
+    else
+      return Container();
+  }
+
+  Future<Null> _pickImage() async {
+    final pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    imageFile = pickedImage != null ? File(pickedImage.path) : null;
+    if (imageFile != null) {
+      setState(() {
+        state = AppState.picked;
+      });
+    }
+  }
+
+  Future<Null> _cropImage() async {
+    File? croppedFile = await ImageCropper.cropImage(
+        sourcePath: imageFile!.path,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio16x9
+              ]
+            : [
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio5x3,
+                CropAspectRatioPreset.ratio5x4,
+                CropAspectRatioPreset.ratio7x5,
+                CropAspectRatioPreset.ratio16x9
+              ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        iosUiSettings: IOSUiSettings(
+          title: 'Cropper',
+        ));
+    if (croppedFile != null) {
+      imageFile = croppedFile;
+      setState(() {
+        state = AppState.cropped;
+      });
+    }
+  }
+
+  void _clearImage() {
+    imageFile = null;
+    setState(() {
+      state = AppState.free;
+    });
+  }
 }
-  // Value that is shown in the date picker in dateAndTime mode.
