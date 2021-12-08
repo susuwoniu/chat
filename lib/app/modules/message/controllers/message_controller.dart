@@ -80,7 +80,7 @@ class MessageController extends GetxController {
           author: types.User(id: message.from.userAtDomain),
           createdAt: message.createdAt.millisecondsSinceEpoch,
           id: message.id,
-          uri: message.images![0].url,
+          uri: message.images![0].uri,
           name: message.images![0].name,
           status: status,
           height: message.images![0].height,
@@ -91,7 +91,7 @@ class MessageController extends GetxController {
           author: types.User(id: message.from.userAtDomain),
           createdAt: message.createdAt.millisecondsSinceEpoch,
           id: message.id,
-          uri: message.files![0].url,
+          uri: message.files![0].uri,
           name: message.files![0].name,
           status: status,
           size: message.files![0].size);
@@ -237,7 +237,20 @@ class MessageController extends GetxController {
         width: image.width.toDouble());
     addMessage(roomId, message);
 
-    await roomManager.sendFileMessage(roomId, message);
+    await roomManager.sendFileMessage(
+      roomId,
+      message,
+      getThumbnail: (file) {
+        final thumbtailUri = '${file.uri}/thumbnail';
+        print("thumbtailUri: $thumbtailUri");
+        return xmpp.MessageThumbnail(
+          uri: thumbtailUri,
+          mimeType: mimeType!,
+          height: image.height.toDouble() * 300 / image.width.toDouble(),
+          width: 300,
+        );
+      },
+    );
   }
 
   handlePreviewDataFetched(String messageId, types.PreviewData previewData) {
