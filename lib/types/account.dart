@@ -16,6 +16,46 @@ class ActionEntity {
 }
 
 @JsonSerializable()
+class ThumbtailEntity {
+  final String mime_type;
+  final String url;
+  final double width;
+  final double height;
+
+  ThumbtailEntity({
+    required this.mime_type,
+    required this.url,
+    required this.width,
+    required this.height,
+  });
+  factory ThumbtailEntity.fromJson(Map<String, dynamic> json) =>
+      _$ThumbtailEntityFromJson(json);
+  Map<String, dynamic> toJson() => _$ThumbtailEntityToJson(this);
+}
+
+@JsonSerializable()
+class ProfileImageEntity {
+  final String mime_type;
+  final String url;
+  final double width;
+  final double height;
+  final int size;
+  final ThumbtailEntity thumbtail;
+
+  ProfileImageEntity({
+    required this.mime_type,
+    required this.url,
+    required this.width,
+    required this.height,
+    required this.size,
+    required this.thumbtail,
+  });
+  factory ProfileImageEntity.fromJson(Map<String, dynamic> json) =>
+      _$ProfileImageEntityFromJson(json);
+  Map<String, dynamic> toJson() => _$ProfileImageEntityToJson(this);
+}
+
+@JsonSerializable()
 class AccountEntity {
   /// The generated code assumes these values exist in JSON.
   final String name;
@@ -29,10 +69,12 @@ class AccountEntity {
   final bool vip;
   final String? accountId;
   final List<ActionEntity> actions;
+  List<ProfileImageEntity> profileImages = [];
 
   AccountEntity(
       {required this.name,
       required this.gender,
+      this.profileImages = const [],
       this.accountId,
       this.bio,
       this.location,

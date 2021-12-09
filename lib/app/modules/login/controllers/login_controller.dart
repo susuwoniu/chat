@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/types/types.dart';
-import 'package:chat/app/routes/app_pages.dart';
 
 class LoginController extends GetxController {
   static LoginController get to => Get.find();
@@ -27,7 +26,7 @@ class LoginController extends GetxController {
             checkDataAttributes: true,
             withAuthorization: false));
     final token = TokenEntity.fromJson(body["data"]["attributes"]);
-    final account = AccountEntity.fromJson(body["included"][0]["attributes"]);
+    final account = AuthProvider.to.formatTokenAccount(body);
     // login im service
 
     await AuthProvider.to.saveToken(token);
@@ -83,7 +82,8 @@ class LoginController extends GetxController {
 
   Future<void> postAccountInfoChange(Map<String, dynamic> data) async {
     final body = await APIProvider().patch("/account/me", body: data);
-    final account = AccountEntity.fromJson(body["data"]["attributes"]);
+    final account = AuthProvider.to.formatMainAccount(body);
+
     await AuthProvider.to.saveAccount(account);
   }
 }

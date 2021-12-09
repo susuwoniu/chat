@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
 
-class AgeWidget extends StatelessWidget {
+class LikeCount extends StatelessWidget {
   final String text;
-  final String iconName;
 
-  AgeWidget({
+  LikeCount({
     Key? key,
     required this.text,
-    required this.iconName,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
         child: Row(children: [
-          Text(iconName, style: TextStyle(fontSize: 22)),
+          Text('💗', style: TextStyle(fontSize: 18)),
           SizedBox(width: 4),
           Text(text,
               style: TextStyle(
                   fontSize: 18,
-                  color: Colors.black54,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold))
         ]),
         decoration: BoxDecoration(
-            color: Colors.white54, borderRadius: BorderRadius.circular(6)));
+            color: Colors.black38, borderRadius: BorderRadius.circular(16)));
   }
 }

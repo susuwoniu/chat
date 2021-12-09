@@ -1,5 +1,7 @@
+import 'package:chat/app/providers/auth_provider.dart';
 import 'package:get/get.dart';
-import 'package:chat/app/providers/providers.dart';
+import 'package:chat/utils/upload.dart';
+import 'package:chat/app/providers/api_provider.dart';
 import 'package:chat/types/types.dart';
 
 class EditInfoController extends GetxController {
@@ -11,12 +13,6 @@ class EditInfoController extends GetxController {
   final _datePicked = DateTime.now().toString().obs;
   String get datePicked => _datePicked.value;
 
-  final _imgList = RxList<String>([
-    "https://img9.doubanio.com/icon/ul43630113-26.jpg",
-    "https://i.loli.net/2021/11/24/If5SQkMWKl2rNvX.png",
-    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-  ]);
-  RxList<String> get imgList => _imgList;
   final isChangedName = false.obs;
   final isChangedGender = false.obs;
   final isChangedBio = false.obs;
@@ -44,20 +40,29 @@ class EditInfoController extends GetxController {
     isAddImg.value = true;
   }
 
-  void addImg(int i) {}
-  void deleteImg(int i) {
-    imgList.removeAt(i);
+  Future<void> addImg(int i, ProfileImageEntity img) async {
+    final accountEntity = AuthProvider.to.account.value;
+    final List<ProfileImageEntity> imgList =
+        List.from(accountEntity.profileImages);
+    if (imgList.length > i) {
+      imgList[i] = img;
+    } else {
+      imgList.add(img);
+    }
+    accountEntity.profileImages = imgList;
+    await AuthProvider.to.saveAccount(accountEntity);
   }
 
-  void changeName(int i) {}
-  void changeGender(int i) {}
-  void changeBio(int i) {}
+  void deleteImg(int i) {
+    // TODO
+    AuthProvider.to.account.value.profileImages.removeAt(i);
+  }
+
   void changeLocation(int i) {}
   void changeBirth(String value) {
     birthday.value = value;
   }
 
-  void changeTags(int i) {}
   void setNewDate(DateTime picked) {
     final _picked = picked.toString().substring(0, 10);
     _datePicked.value = _picked;
@@ -65,5 +70,32 @@ class EditInfoController extends GetxController {
 
   void setIsShowYearPicked(bool value) {
     isShowDatePicked.value = value;
+  }
+
+  sendProfileImage(ProfileImageEntity img, {required int index}) async {
+    final slot =
+        await APIProvider().post("/account/me/profile-images/slot", body: {
+      "mime_type": img.mime_type,
+      "size": img.size,
+      "height": img.height,
+      "width": img.width
+    });
+    // print(slot);
+    final putUrl = slot["meta"]["put_url"];
+    final getUrl = slot["meta"]["get_url"];
+    final headers = slot["meta"]["headers"] as Map;
+    final Map<String, String> newHeaders = {};
+
+    for (var key in headers.keys) {
+      newHeaders[key] = headers[key];
+    }
+    await upload(putUrl, img.url, headers: newHeaders, size: img.size);
+    await APIProvider().put('/account/me/profile-images/$index', body: {
+      "url": getUrl,
+      "width": img.width,
+      "height": img.height,
+      "size": img.size,
+      "mime_type": img.mime_type
+    });
   }
 }

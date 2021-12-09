@@ -17,6 +17,43 @@ Map<String, dynamic> _$ActionEntityToJson(ActionEntity instance) =>
       'required': instance.required,
     };
 
+ThumbtailEntity _$ThumbtailEntityFromJson(Map<String, dynamic> json) =>
+    ThumbtailEntity(
+      mime_type: json['mime_type'] as String,
+      url: json['url'] as String,
+      width: (json['width'] as num).toDouble(),
+      height: (json['height'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$ThumbtailEntityToJson(ThumbtailEntity instance) =>
+    <String, dynamic>{
+      'mime_type': instance.mime_type,
+      'url': instance.url,
+      'width': instance.width,
+      'height': instance.height,
+    };
+
+ProfileImageEntity _$ProfileImageEntityFromJson(Map<String, dynamic> json) =>
+    ProfileImageEntity(
+      mime_type: json['mime_type'] as String,
+      url: json['url'] as String,
+      width: (json['width'] as num).toDouble(),
+      height: (json['height'] as num).toDouble(),
+      size: json['size'] as int,
+      thumbtail:
+          ThumbtailEntity.fromJson(json['thumbtail'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ProfileImageEntityToJson(ProfileImageEntity instance) =>
+    <String, dynamic>{
+      'mime_type': instance.mime_type,
+      'url': instance.url,
+      'width': instance.width,
+      'height': instance.height,
+      'size': instance.size,
+      'thumbtail': instance.thumbtail,
+    };
+
 AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
     AccountEntity(
       name: json['name'] as String,

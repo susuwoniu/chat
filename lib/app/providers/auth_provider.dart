@@ -9,6 +9,7 @@ import 'package:chat/app/routes/app_pages.dart';
 class AuthProvider extends GetxService {
   static AuthProvider get to => Get.find();
   final simpleAccountMap = RxMap<String, SimpleAccountEntity>({});
+
   // 是否登录
   final _isLogin = false.obs;
   String? _nextPage;
@@ -114,13 +115,49 @@ class AuthProvider extends GetxService {
     await KVProvider.to.removeExpiredString(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
   }
 
+  AccountEntity formatMainAccount(dynamic body) {
+    final accountEntity = AccountEntity.fromJson(body["data"]["attributes"]);
+    final included = body["included"] as List;
+
+    final List<ProfileImageEntity> profileImageList = [];
+
+    for (var v in included) {
+      if (v["type"] == "profile-images") {
+        profileImageList.insert(v["atrributes"]["order"],
+            ProfileImageEntity.fromJson(v["atrributes"]));
+      }
+    }
+
+    accountEntity.profileImages = profileImageList;
+    return accountEntity;
+  }
+
+  AccountEntity formatTokenAccount(dynamic body) {
+    AccountEntity? accountEntity;
+    final included = body["included"] as List;
+
+    final List<ProfileImageEntity> profileImageList = [];
+
+    for (var v in included) {
+      if (v["type"] == "profile-images") {
+        profileImageList.insert(v["atrributes"]["order"],
+            ProfileImageEntity.fromJson(v["atrributes"]));
+      } else if (v["type"] == "full-accounts") {
+        accountEntity = AccountEntity.fromJson(v["attributes"]);
+      }
+    }
+
+    accountEntity!.profileImages = profileImageList;
+    return accountEntity;
+  }
+
   Future<void> saveAccount(AccountEntity accountEntity) async {
     account(accountEntity);
     await KVProvider.to.putObject(STORAGE_ACCOUNT_KEY, account.toJson());
+
     if (accountEntity.actions.isNotEmpty) {
       final actionType = accountEntity.actions[0].type;
       if (actionType == 'add_account_birthday') {
-        //
         setClosePageCountBeforeNextPage(closePageCountBeforeNextPage + 1);
         Get.toNamed(Routes.AGE_PICKER);
       } else if (actionType == 'add_account_gender') {

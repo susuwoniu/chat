@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ProfileText extends StatelessWidget {
+class ProfileInfoText extends StatelessWidget {
   final String text;
   final IconData iconName;
 
-  ProfileText({
+  ProfileInfoText({
     Key? key,
     required this.text,
     required this.iconName,
@@ -18,13 +18,13 @@ class ProfileText extends StatelessWidget {
         size: 25,
       ),
       Container(
-        padding: EdgeInsets.fromLTRB(5, 0, 0, 2),
+        padding: EdgeInsets.fromLTRB(5, 4, 0, 4),
         child: Text(
           text,
-          style: TextStyle(fontSize: 22, color: Colors.grey),
+          style: TextStyle(fontSize: 20, color: Colors.grey),
         ),
       ),
-      SizedBox(height: 40),
+      // SizedBox(height: 30),
     ]);
   }
 }

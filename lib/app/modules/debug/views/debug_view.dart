@@ -25,6 +25,12 @@ class DebugView extends GetView<DebugController> {
             child: Column(
               children: [
                 ListTile(
+                  title: Text('Clear'),
+                  onTap: () {
+                    KVProvider.to.clear();
+                  },
+                ),
+                ListTile(
                   title: Text('Home'),
                   onTap: () {
                     Get.offAllNamed(Routes.MAIN);
@@ -207,12 +213,6 @@ class DebugView extends GetView<DebugController> {
                   onTap: () {
                     Get.toNamed(Routes.TEST3, parameters: {'id': '1'});
                     //to close the drawer
-                  },
-                ),
-                ListTile(
-                  title: Text('clear'),
-                  onTap: () {
-                    KVProvider.to.clear();
                   },
                 ),
                 ListTile(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class DotWidget extends StatelessWidget {
+class DotsWidget extends StatelessWidget {
   final int current;
   final int count;
   final Function(int index) onTap;
 
-  DotWidget({
+  DotsWidget({
     Key? key,
     required this.current,
     required this.count,
