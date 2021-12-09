@@ -7,6 +7,7 @@ import '../controllers/message_controller.dart';
 import 'package:chat/app/widges/touch_close_keyboard.dart';
 import './conversation_item.dart';
 import 'package:chat/app/providers/providers.dart';
+import 'package:chat/types/types.dart';
 
 class MessageView extends GetView<MessageController> {
   @override
@@ -61,17 +62,27 @@ class MessageView extends GetView<MessageController> {
                         child: Obx(() {
                           final room =
                               controller.entities[controller.indexes[index]]!;
+                          SimpleAccountEntity? roomInfo;
+                          var name = jidToName(room.id);
+                          String? avatar;
+                          if (room.room_info_id != null) {
+                            roomInfo = AuthProvider
+                                .to.simpleAccountMap[room.room_info_id];
+                            name = roomInfo?.name ?? room.id;
+                            avatar = roomInfo?.avatar;
+                          }
+
                           return conversationItemView(
-                            onTap: (index) {
-                              controller.toRoom(index);
-                            },
-                            context: context,
-                            index: index,
-                            title: room.id,
-                            preview: room.preview,
-                            updatedAt: room.updatedAt,
-                            unreadCount: room.clientUnreadCount,
-                          );
+                              onTap: (index) {
+                                controller.toRoom(index);
+                              },
+                              context: context,
+                              index: index,
+                              name: name,
+                              preview: room.preview,
+                              updatedAt: room.updatedAt,
+                              unreadCount: room.clientUnreadCount,
+                              avatar: avatar);
                         }));
                   },
                   childCount: controller.indexes.length,

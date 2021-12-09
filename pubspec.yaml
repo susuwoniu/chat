@@ -12,6 +12,7 @@ dependencies:
   dotted_border: ^2.0.0+1
   image_picker: ^0.8.4+4
   file_picker: ^4.2.7
+  circular_profile_avatar: ^2.0.5
   mime_type: ^1.0.0
   open_file: ^3.2.1
   cupertino_icons: ^1.0.2

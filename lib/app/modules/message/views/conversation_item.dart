@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:chat/app/widges/avatar.dart';
 
 Widget conversationItemView(
     {required BuildContext context,
-    required String title,
+    required String name,
     required String preview,
     required DateTime updatedAt,
     required int unreadCount,
     required int index,
+    String? avatar,
     void Function(int index)? onTap}) {
   return GestureDetector(
     onTap: () {
@@ -17,7 +19,7 @@ Widget conversationItemView(
         child: Row(children: <Widget>[
           Container(
               margin: EdgeInsets.only(left: 10, right: 10),
-              child: Text("avatar")),
+              child: Avatar(name: name, uri: avatar)),
           Expanded(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,7 +27,7 @@ Widget conversationItemView(
               Row(
                 children: [
                   Expanded(
-                    child: Text(title,
+                    child: Text(name,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: 15,

@@ -141,11 +141,11 @@ class HomeController extends GetxController {
       final item = body["data"][i];
       final viewerId = item["attributes"]["viewed_by"];
 
-      newAccountMap[item["id"]] =
-          SimpleAccountEntity(accountId: viewerId, avatar: '', name: 'xxxxjkj');
+      newAccountMap[viewerId] =
+          SimpleAccountEntity(avatar: '', name: 'xxxxjkj');
       newIndexes.add(viewerId);
     }
-    AuthProvider.to.simpleAccountMap.addAll(newAccountMap);
+    AuthProvider.to.saveSimpleAccounts(newAccountMap);
 
     if (post != null) {
       post.views = newIndexes;

@@ -19,12 +19,13 @@ class Room extends xmpp.Room {
   bool isLoadingServerMessage = false;
   bool isInitClientMessages = false;
   bool isInitServerMessages = false;
+  final String? room_info_id;
   // 客户端未读数，由于客户端的未读/已读状态是本地的，服务端未必及时同步，所以这里单独设置一个客户端的维度数，用于在客户端显示，优化用户体验，
   // unreadCount为服务端未读数量，应尽量保持及时把客户端的未读数量同步到服务端，但注意频率，不要无谓的发送
   int clientUnreadCount = 0;
   static fromXmppRoom(xmpp.Room xmppRoom) {
     final newRoom = Room(xmppRoom.id,
-        name: xmppRoom.name,
+        room_info_id: jidToAccountId(xmppRoom.id),
         updatedAt: xmppRoom.updatedAt,
         preview: xmppRoom.preview,
         unreadCount: xmppRoom.unreadCount,
@@ -35,18 +36,15 @@ class Room extends xmpp.Room {
   Room(
     String id, {
     required DateTime updatedAt,
-    required String name,
     required String preview,
     required int unreadCount,
+    required this.room_info_id,
     this.clientUnreadCount = 0,
     this.isLoading = false,
     this.isInitClientMessages = false,
     this.isInitServerMessages = false,
   }) : super(id,
-            updatedAt: updatedAt,
-            name: name,
-            preview: preview,
-            unreadCount: unreadCount);
+            updatedAt: updatedAt, preview: preview, unreadCount: unreadCount);
 }
 
 class MessageController extends GetxController {
@@ -161,6 +159,7 @@ class MessageController extends GetxController {
   Future<List<Room>?> initRooms() async {
     if (ChatProvider.to.roomManager != null) {
       final rooms = await ChatProvider.to.roomManager!.getAllRooms();
+      // get room name, avatar
       for (var room in rooms) {
         entities[room.id] = Room.fromXmppRoom(room);
         if (roomMessageIndexesMap[room.id] == null) {
@@ -171,10 +170,38 @@ class MessageController extends GetxController {
           indexes.add(room.id);
         }
       }
+      await fetchAccounts(indexes);
+
       return rooms.map<Room>((room) => Room.fromXmppRoom(room)).toList();
     } else {
       return null;
     }
+  }
+
+  Future<void> fetchAccounts(List<String> jids) async {
+    if (jids.isNotEmpty) {
+      // TODO check cache
+      final result = await getRawAccountsByIds(jids
+          .where((jid) => jidToAccountId(jid) != null)
+          .map((jid) => jidToAccountId(jid)!)
+          .toList());
+      // save account
+      final Map<String, SimpleAccountEntity> accountMap = {
+        for (var v in result)
+          v["id"]: SimpleAccountEntity.fromJson(v["attributes"])
+      };
+      await AuthProvider.to.saveSimpleAccounts(accountMap);
+      // todo save to auth provider
+    }
+  }
+
+  Future<List<dynamic>> getRawAccountsByIds(List<String> ids) async {
+    if (ids.isEmpty) {
+      return [];
+    }
+    final result =
+        await APIProvider().get('/account/accounts', query: {"ids": ids});
+    return List<dynamic>.from(result["data"] as List);
   }
 
   void addMessage(String roomId, xmpp.Message message) {
@@ -407,7 +434,7 @@ class MessageController extends GetxController {
     // 如果room 不存在，则初始化
     if (entities[roomId] == null) {
       entities[roomId] = Room(roomId,
-          name: roomId,
+          room_info_id: jidToAccountId(roomId),
           preview: preview,
           unreadCount: 0,
           updatedAt: message.createdAt);
@@ -504,5 +531,21 @@ class MessageController extends GetxController {
     if (_roomMessageUpdatedSubscription != null) {
       _roomMessageUpdatedSubscription!.cancel();
     }
+    // 清空房间
+    indexes.clear();
   }
+}
+
+String? jidToAccountId(String jid) {
+  final jidPrefix = jid.split("@")[0];
+  if (jidPrefix.startsWith("im")) {
+    return jidPrefix.substring(2);
+  } else {
+    return null;
+  }
+}
+
+String jidToName(String jid) {
+  final jidPrefix = jid.split("@")[0];
+  return jidPrefix;
 }

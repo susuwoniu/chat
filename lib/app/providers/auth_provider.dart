@@ -187,6 +187,11 @@ class AuthProvider extends GetxService {
   }
 
   int get closePageCountBeforeNextPage => _closePageCountBeforeNextPage;
+  Future<void> saveSimpleAccounts(
+      Map<String, SimpleAccountEntity> accountMap) async {
+    simpleAccountMap.addAll(accountMap);
+    // TODO cache
+  }
 }
 
 enum AuthStatus {
