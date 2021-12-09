@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart' hide ImageMessage;
 import '../controllers/room_controller.dart';
 import 'package:chat/app/modules/message/controllers/message_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
+import './image_message.dart';
 
 class RoomView extends GetView<RoomController> {
   @override
@@ -49,6 +50,9 @@ class RoomView extends GetView<RoomController> {
             messageController.handlePreviewDataFetched(message.id, previewData);
           },
           messages: messages,
+          imageMessageBuilder: (message, {required int messageWidth}) {
+            return ImageMessage(message: message, messageWidth: messageWidth);
+          },
           emptyState: room != null && room.isLoading
               ? Text("isLoading")
               : Text("No message yet"),
