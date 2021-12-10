@@ -209,7 +209,7 @@ class MessageController extends GetxController {
     return List<dynamic>.from(result["data"] as List);
   }
 
-  Future<void> tryToInitRoom(String roomId, xmpp.Message message) async {
+  Future<void> tryToInitRoom(String roomId, xmpp.Message? message) async {
     // check room inbo exists
     final accountId = jidToAccountId(roomId);
     if (AuthProvider.to.simpleAccountMap[accountId] == null) {
@@ -223,9 +223,9 @@ class MessageController extends GetxController {
       entities[roomId] = Room(
         roomId,
         unreadCount: 0,
-        updatedAt: message.createdAt,
+        updatedAt: message != null ? message.createdAt : DateTime.now(),
         room_info_id: jidToAccountId(roomId),
-        preview: getPreview(message),
+        preview: message != null ? getPreview(message) : "",
       );
     }
     // add index
