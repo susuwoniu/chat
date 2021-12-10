@@ -17,7 +17,17 @@ class MessageView extends GetView<MessageController> {
       // resizeToAvoidBottomInset: false,
       // appBar: AppBar(),
       appBar: AppBar(
-        title: Text('Message'),
+        title: Obx(() => Text(
+              _chatProvider.isLoading
+                  ? "Connecting..."
+                  : _chatProvider.isConnected
+                      ? "Chats"
+                      : "连接失败",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            )),
         centerTitle: true,
       ),
       body: Column(
@@ -26,17 +36,6 @@ class MessageView extends GetView<MessageController> {
             child: Obx(() => Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      _chatProvider.isLoading
-                          ? "Connecting..."
-                          : _chatProvider.isConnected
-                              ? "Connected"
-                              : "连接失败",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
                     !_chatProvider.isConnected && !_chatProvider.isLoading
                         ? IconButton(
                             icon: Text("🔄"),
