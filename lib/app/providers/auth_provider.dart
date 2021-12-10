@@ -136,23 +136,30 @@ class AuthProvider extends GetxService {
     AccountEntity? accountEntity;
     final included = body["included"] as List;
 
-    final List<ProfileImageEntity> profileImageList = [];
+    List<ProfileImageEntity> profileImageList = [];
 
     for (var v in included) {
       if (v["type"] == "profile-images") {
-        profileImageList.insert(v["atrributes"]["order"],
-            ProfileImageEntity.fromJson(v["atrributes"]));
+        final profileImageEntity = ProfileImageEntity.fromJson(v["attributes"]);
+        // final order = v["attributes"]["order"];
+        profileImageList.add(profileImageEntity);
+        // profileImageList.insert(v["attributes"]["order"],
+        //     ProfileImageEntity.fromJson(v["atrributes"]));
       } else if (v["type"] == "full-accounts") {
         accountEntity = AccountEntity.fromJson(v["attributes"]);
       }
     }
+    // sort
+
+    profileImageList.sort((a, b) => a.order.compareTo(b.order));
 
     accountEntity!.profileImages = profileImageList;
     return accountEntity;
   }
 
   Future<void> saveAccount(AccountEntity accountEntity) async {
-    account(accountEntity);
+    final json = accountEntity.toJson();
+    account(AccountEntity.fromJson(json));
     await KVProvider.to.putObject(STORAGE_ACCOUNT_KEY, account.toJson());
 
     if (accountEntity.actions.isNotEmpty) {

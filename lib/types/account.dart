@@ -40,6 +40,7 @@ class ProfileImageEntity {
   final double width;
   final double height;
   final int size;
+  final int order;
   final ThumbtailEntity thumbtail;
 
   ProfileImageEntity({
@@ -47,6 +48,7 @@ class ProfileImageEntity {
     required this.url,
     required this.width,
     required this.height,
+    required this.order,
     required this.size,
     required this.thumbtail,
   });

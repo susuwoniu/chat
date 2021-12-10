@@ -17,7 +17,7 @@ class ImageList extends StatelessWidget {
   ImageList({
     Key? key,
   }) : super(key: key);
-
+  final authProvider = AuthProvider.to;
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -27,7 +27,8 @@ class ImageList extends StatelessWidget {
       final _margin = _width * 0.03;
       final _paddingLeft = _width * 0.095 - _margin * 2;
       final _paddingRight = _paddingLeft - _margin;
-      final imgList = AuthProvider.to.account.value.profileImages;
+      final account = authProvider.account.value;
+      final imgList = account.profileImages;
 
       for (var i = 0; i < 6 - imgList.length; i++) {
         blankList.add(Stack(
@@ -50,11 +51,18 @@ class ImageList extends StatelessWidget {
         _imageList.add(
           Stack(
             children: [
-              SingleImage(img: imgList[i]),
+              Obx(() {
+                return SingleImage(
+                    img: authProvider.account.value.profileImages[i]);
+              }),
               Positioned(
                   bottom: 7,
                   right: 7,
-                  child: ImageButton(isAdd: false, onPressed: deleteImage(i))),
+                  child: ImageButton(
+                      isAdd: false,
+                      onPressed: () {
+                        // TODO
+                      })),
             ],
           ),
         );
@@ -102,6 +110,7 @@ class ImageList extends StatelessWidget {
                 width: width,
                 height: height,
                 size: size,
+                order: i,
                 thumbtail: ThumbtailEntity(
                     height: height,
                     width: width,
