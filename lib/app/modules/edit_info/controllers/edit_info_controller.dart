@@ -49,7 +49,9 @@ class EditInfoController extends GetxController {
     } else {
       imgList.add(img);
     }
-    accountEntity.profileImages = imgList;
+    AuthProvider.to.account.update((value) {
+      value!.profileImages = imgList;
+    });
     await AuthProvider.to.saveAccount(accountEntity);
   }
 

@@ -5,6 +5,7 @@ import 'package:chat/app/providers/kv_provider.dart';
 import 'package:chat/common.dart';
 import 'dart:async';
 import 'package:chat/app/routes/app_pages.dart';
+import 'dart:convert';
 
 class AuthProvider extends GetxService {
   static AuthProvider get to => Get.find();
@@ -158,8 +159,10 @@ class AuthProvider extends GetxService {
   }
 
   Future<void> saveAccount(AccountEntity accountEntity) async {
-    final json = accountEntity.toJson();
-    account(AccountEntity.fromJson(json));
+    final jsonString = json.encode(accountEntity.toJson());
+    account(AccountEntity.fromJson(json.decode(jsonString)));
+    account(accountEntity);
+    // TODO
     await KVProvider.to.putObject(STORAGE_ACCOUNT_KEY, account.toJson());
 
     if (accountEntity.actions.isNotEmpty) {

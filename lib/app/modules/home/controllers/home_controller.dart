@@ -114,7 +114,7 @@ class HomeController extends GetxController {
   }
 
   void PatchPostCountView(postId) async {
-    if (AuthProvider.to.account.value.accountId == postMap[postId]!.accountId) {
+    if (AuthProvider.to.accountId == postMap[postId]!.accountId) {
       await APIProvider().patch("/post/posts/$postId",
           body: {"viewed_count_action": "increase_one"});
     }

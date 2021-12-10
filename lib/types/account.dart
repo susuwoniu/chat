@@ -69,7 +69,6 @@ class AccountEntity {
   @JsonKey(name: 'like_count')
   final int likeCount;
   final bool vip;
-  final String? accountId;
   final List<ActionEntity> actions;
   List<ProfileImageEntity> profileImages = [];
 
@@ -77,7 +76,6 @@ class AccountEntity {
       {required this.name,
       required this.gender,
       this.profileImages = const [],
-      this.accountId,
       this.bio,
       this.location,
       this.birthday,
