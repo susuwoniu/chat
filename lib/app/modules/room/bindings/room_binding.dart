@@ -13,8 +13,8 @@ class RoomBinding extends Bindings {
     Get.lazyPut<HomeController>(
       () => HomeController(),
     );
-    Get.lazyPut<RoomController>(
-      () => RoomController(),
+    Get.put<RoomController>(
+      RoomController(),
     );
   }
 }
