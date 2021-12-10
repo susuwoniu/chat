@@ -29,7 +29,7 @@ class _TCardPageState extends State<PostCard> {
               ? Text("loading")
               : Column(
                   children: <Widget>[
-                    SizedBox(height: 5),
+                    SizedBox(height: 15),
                     Container(
                       alignment: Alignment.topLeft,
                       padding: EdgeInsets.only(left: _width * 0.075),
@@ -37,6 +37,7 @@ class _TCardPageState extends State<PostCard> {
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                     ),
+                    SizedBox(height: 10),
                     TCard(
                       size: Size(_width * 0.95,
                           MediaQuery.of(context).size.height * 0.7),
@@ -87,12 +88,9 @@ class _TCardPageState extends State<PostCard> {
 class PostView extends GetView<PostController> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('PostView'),
-        centerTitle: true,
-      ),
+    return SafeArea(
+        child: Scaffold(
       body: PostCard(),
-    );
+    ));
   }
 }

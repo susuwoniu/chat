@@ -17,6 +17,12 @@ class MessageView extends GetView<MessageController> {
       // resizeToAvoidBottomInset: false,
       // appBar: AppBar(),
       appBar: AppBar(
+        bottom: PreferredSize(
+            child: Container(
+              color: Colors.grey[300]!,
+              height: 0.5,
+            ),
+            preferredSize: Size.fromHeight(0)),
         title: Obx(() => Text(
               _chatProvider.isLoading
                   ? "Connecting..."
