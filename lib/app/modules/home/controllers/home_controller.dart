@@ -6,12 +6,14 @@ import 'package:chat/common.dart';
 
 class PostsResult {
   final Map<String, PostEntity> postMap;
+  final Map<String, SimpleAccountEntity> accountMap;
   final List<String> indexes;
   final String? endCursor;
   PostsResult({
     this.postMap = const {},
     this.indexes = const [],
     this.endCursor,
+    this.accountMap = const {},
   });
 }
 
@@ -63,19 +65,32 @@ class HomeController extends GetxController {
       newPostMap[item["id"]] = PostEntity.fromJson(item["attributes"]);
       newIndexes.add(item["id"]);
     }
+    final Map<String, SimpleAccountEntity> newAccountMap = {};
+    if (body["included"] != null) {
+      for (var v in body["included"]) {
+        if (v["type"] == "accounts") {
+          newAccountMap[v["id"]] =
+              SimpleAccountEntity.fromJson(v["attributes"]);
+        }
+      }
+    }
 
     if (body["meta"]["page_info"]["end"] != null) {
       newEndCursor = body["meta"]["page_info"]["end"];
     }
     return PostsResult(
-        postMap: newPostMap, indexes: newIndexes, endCursor: newEndCursor);
+        postMap: newPostMap,
+        indexes: newIndexes,
+        endCursor: newEndCursor,
+        accountMap: newAccountMap);
   }
 
   getHomePosts({String? after}) async {
     final result = await getRawPosts(after: after, url: "/post/posts");
     postMap.addAll(result.postMap);
     postIndexes.addAll(result.indexes);
-
+    // put accoutns to simple accounts
+    await AuthProvider.to.saveSimpleAccounts(result.accountMap);
     isLoadingHomePosts.value = false;
     if (isHomeInitial.value == false) {
       isHomeInitial.value = true;
@@ -87,6 +102,7 @@ class HomeController extends GetxController {
     final result = await getRawPosts(after: after, url: "/post/me/posts");
     postMap.addAll(result.postMap);
     myPostsIndexes.addAll(result.indexes);
+    await AuthProvider.to.saveSimpleAccounts(result.accountMap);
 
     isLoadingMyPosts.value = false;
     if (isMeInitial.value == false) {

@@ -89,6 +89,10 @@ class AppPages {
       binding: SettingBinding(),
     ),
     GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
       name: _Paths.ROOM,
       page: () => RoomView(),
       binding: RoomBinding(),
@@ -123,6 +127,10 @@ class AppPages {
       binding: VerificationBinding(),
     ),
     GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
       name: _Paths.ANSWER,
       page: () => AnswerView(),
       binding: AnswerBinding(),
@@ -137,36 +145,64 @@ class AppPages {
       binding: MeBinding(),
     ),
     GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
       name: _Paths.EDIT_INFO,
       page: () => EditInfoView(),
       binding: EditInfoBinding(),
     ),
     GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
       name: _Paths.EDIT_NAME,
       page: () => EditNameView(),
       binding: EditNameBinding(),
     ),
     GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
       name: _Paths.GENDER_SELECT,
       page: () => GenderSelectView(),
       binding: GenderSelectBinding(),
     ),
     GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
       name: _Paths.MY_SINGLE_POST,
       page: () => MySinglePostView(),
       binding: MySinglePostBinding(),
     ),
     GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
       name: _Paths.AGE_PICKER,
       page: () => AgePickerView(),
       binding: AgePickerBinding(),
     ),
     GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
       name: _Paths.ADD_PROFILE_IMAGE,
       page: () => AddProfileImageView(),
       binding: AddProfileImageBinding(),
     ),
     GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
       name: _Paths.EDIT_BIO,
       page: () => EditBioView(),
       binding: EditBioBinding(),

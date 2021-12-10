@@ -5,7 +5,6 @@ import 'package:chat/app/providers/kv_provider.dart';
 import 'package:chat/common.dart';
 import 'dart:async';
 import 'package:chat/app/routes/app_pages.dart';
-import 'dart:convert';
 
 class AuthProvider extends GetxService {
   static AuthProvider get to => Get.find();
@@ -118,7 +117,10 @@ class AuthProvider extends GetxService {
 
   AccountEntity formatMainAccount(dynamic body) {
     final accountEntity = AccountEntity.fromJson(body["data"]["attributes"]);
-    final included = body["included"] as List;
+    var included = [];
+    if (body["included"] != null) {
+      included = body["included"] as List;
+    }
 
     final List<ProfileImageEntity> profileImageList = [];
 
@@ -135,8 +137,10 @@ class AuthProvider extends GetxService {
 
   AccountEntity formatTokenAccount(dynamic body) {
     AccountEntity? accountEntity;
-    final included = body["included"] as List;
-
+    var included = [];
+    if (body["included"] != null) {
+      included = body["included"] as List;
+    }
     List<ProfileImageEntity> profileImageList = [];
 
     for (var v in included) {
@@ -160,7 +164,6 @@ class AuthProvider extends GetxService {
 
   Future<void> saveAccount(AccountEntity accountEntity) async {
     account(accountEntity);
-    // TODO
     await KVProvider.to.putObject(STORAGE_ACCOUNT_KEY, account.toJson());
 
     if (accountEntity.actions.isNotEmpty) {

@@ -5,7 +5,7 @@ part 'simple_account.g.dart';
 @JsonSerializable()
 class SimpleAccountEntity {
   final String? avatar;
-  final String? name;
+  final String name;
 
   SimpleAccountEntity({
     required this.avatar,

@@ -69,6 +69,7 @@ AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
       location: json['location'] as String?,
       birthday: json['birthday'] as String?,
       age: json['age'] as int?,
+      avatar: json['avatar'] as String?,
       actions: (json['actions'] as List<dynamic>?)
               ?.map((e) => ActionEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -81,6 +82,7 @@ Map<String, dynamic> _$AccountEntityToJson(AccountEntity instance) =>
     <String, dynamic>{
       'name': instance.name,
       'gender': instance.gender,
+      'avatar': instance.avatar,
       'age': instance.age,
       'bio': instance.bio,
       'location': instance.location,

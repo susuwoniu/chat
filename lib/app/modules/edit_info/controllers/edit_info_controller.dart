@@ -60,9 +60,17 @@ class EditInfoController extends GetxController {
     await AuthProvider.to.saveAccount(newAccountEntity);
   }
 
-  void deleteImg(int i) {
+  Future<void> deleteImg(int i) async {
     // TODO
-    AuthProvider.to.account.value.profileImages.removeAt(i);
+    final account = AuthProvider.to.account;
+    account.update((val) {
+      val!.profileImages.removeAt(i);
+    });
+    // save account
+    await AuthProvider.to.saveAccount(account.value);
+    // put new profiles
+    await APIProvider().put("/account/me/profile-images",
+        body: {"images": account.value.profileImages});
   }
 
   void changeLocation(int i) {}

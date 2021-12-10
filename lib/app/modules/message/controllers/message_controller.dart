@@ -204,12 +204,30 @@ class MessageController extends GetxController {
     return List<dynamic>.from(result["data"] as List);
   }
 
-  void addMessage(String roomId, xmpp.Message message) {
-    // add to messageEntities
-    messageEntities[message.id] = formatMessage(message);
+  void tryToInitRoom(String roomId, xmpp.Message message) {
+    if (entities[roomId] != null) {
+      entities[roomId] = Room(
+        roomId,
+        unreadCount: 0,
+        updatedAt: message.createdAt,
+        room_info_id: jidToAccountId(roomId),
+        preview: getPreview(message),
+      );
+      // add index
+      if (!indexes.contains(roomId)) {
+        indexes.insert(0, roomId);
+      }
+    }
     if (roomMessageIndexesMap[roomId] == null) {
       roomMessageIndexesMap[roomId] = [];
     }
+  }
+
+  void addMessage(String roomId, xmpp.Message message) {
+    tryToInitRoom(roomId, message);
+    // add to messageEntities
+    messageEntities[message.id] = formatMessage(message);
+
     roomMessageIndexesMap[roomId]!.insert(0, message.id);
   }
 
@@ -218,8 +236,6 @@ class MessageController extends GetxController {
     final roomManager = ChatProvider.to.roomManager!;
     final message = roomManager.createTextMessage(roomId, _message.text);
     addMessage(roomId, message);
-    final connectStatus = ChatProvider.to.isConnected;
-    print("connect status: $connectStatus");
     try {
       roomManager.sendMessage(roomId, message);
     } catch (e) {

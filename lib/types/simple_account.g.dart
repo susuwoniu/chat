@@ -9,7 +9,7 @@ part of 'simple_account.dart';
 SimpleAccountEntity _$SimpleAccountEntityFromJson(Map<String, dynamic> json) =>
     SimpleAccountEntity(
       avatar: json['avatar'] as String?,
-      name: json['name'] as String?,
+      name: json['name'] as String,
     );
 
 Map<String, dynamic> _$SimpleAccountEntityToJson(

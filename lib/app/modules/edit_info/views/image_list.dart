@@ -58,11 +58,7 @@ class ImageList extends StatelessWidget {
               Positioned(
                   bottom: 7,
                   right: 7,
-                  child: ImageButton(
-                      isAdd: false,
-                      onPressed: () {
-                        // TODO
-                      })),
+                  child: ImageButton(isAdd: false, onPressed: deleteImage(i))),
             ],
           ),
         );
@@ -83,8 +79,12 @@ class ImageList extends StatelessWidget {
   }
 
   DeleteImageFn deleteImage(int i) {
-    return () {
-      EditInfoController.to.deleteImg(i);
+    return () async {
+      try {
+        await EditInfoController.to.deleteImg(i);
+      } catch (e) {
+        UIUtils.showError(e);
+      }
     };
   }
 
