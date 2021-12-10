@@ -1,10 +1,12 @@
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/routes/app_pages.dart';
+import 'package:chat/types/account.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/me_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat/utils/string.dart';
 import 'profile_info_text.dart';
 import './age_widget.dart';
 import './circle_widget.dart';
@@ -12,38 +14,40 @@ import 'nickname_widget.dart';
 import 'dots_widget.dart';
 import 'my_posts.dart';
 import 'like_count.dart';
-
-final List<String> imgList = [
-  "https://img9.doubanio.com/icon/ul43630113-26.jpg",
-  "https://i.loli.net/2021/11/24/If5SQkMWKl2rNvX.png",
-  'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-];
+import 'dart:io';
 
 class MeView extends GetView<MeController> {
   final CarouselController buttonCarouselController = CarouselController();
+  Widget imageSlider(ProfileImageEntity img,
+      {required double height, required double width}) {
+    ImageProvider _image;
+    final isNet = isUrl(img.url);
+    if (isNet) {
+      _image = CachedNetworkImageProvider(img.url);
+    } else {
+      _image = FileImage(File(img.url));
+    }
+    return Container(
+      child: Container(
+        child: Stack(
+          children: <Widget>[
+            Image(
+              image: _image,
+              fit: BoxFit.cover,
+              height: height,
+              width: width,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     final double paddingLeft = width * 0.055;
-
-    final List<Widget> imageSliders = imgList
-        .map((item) => Container(
-              child: Container(
-                child: Stack(
-                  children: <Widget>[
-                    Image.network(
-                      item,
-                      fit: BoxFit.cover,
-                      height: height,
-                      width: width,
-                    ),
-                  ],
-                ),
-              ),
-            ))
-        .toList();
 
     return Scaffold(body: Obx(() {
       final _account = AuthProvider.to.account.value;
@@ -60,7 +64,10 @@ class MeView extends GetView<MeController> {
         children: [
           Stack(children: [
             CarouselSlider(
-              items: imageSliders,
+              items: _account.profileImages
+                  .map((img) =>
+                      imageSlider(img, height: height * 0.4, width: width))
+                  .toList(),
               carouselController: buttonCarouselController,
               options: CarouselOptions(
                   height: height * 0.5,
@@ -76,7 +83,7 @@ class MeView extends GetView<MeController> {
               child: DotsWidget(
                   current: controller.current,
                   onTap: buttonCarouselController.animateToPage,
-                  count: 3),
+                  count: _account.profileImages.length),
             ),
             Positioned(
                 left: paddingLeft,

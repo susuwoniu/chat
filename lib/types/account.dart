@@ -36,12 +36,12 @@ class ThumbtailEntity {
 @JsonSerializable()
 class ProfileImageEntity {
   final String mime_type;
-  final String url;
+  String url;
   final double width;
   final double height;
   final int size;
   final int order;
-  final ThumbtailEntity thumbtail;
+  ThumbtailEntity thumbtail;
 
   ProfileImageEntity({
     required this.mime_type,

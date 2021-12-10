@@ -28,7 +28,7 @@ class ImageList extends StatelessWidget {
       final _paddingLeft = _width * 0.095 - _margin * 2;
       final _paddingRight = _paddingLeft - _margin;
       final account = authProvider.account.value;
-      final imgList = account.profileImages ?? [];
+      final imgList = account.profileImages;
 
       for (var i = 0; i < 6 - imgList.length; i++) {
         blankList.add(Stack(
@@ -96,6 +96,7 @@ class ImageList extends StatelessWidget {
       if (imageFile != null) {
         final file = await cropImage(imageFile.path);
         if (file != null) {
+          UIUtils.showLoading();
           final bytes = await file.readAsBytes();
           var decodedImage = await decodeImageFromList(bytes);
           final width = decodedImage.width.toDouble();
@@ -119,8 +120,10 @@ class ImageList extends StatelessWidget {
 
             await EditInfoController.to.addImg(i, img);
             await EditInfoController.to.sendProfileImage(img, index: i);
-            UIUtils.toast('ok');
+            UIUtils.hideLoading();
           } else {
+            UIUtils.hideLoading();
+
             throw Exception('wrong image type');
           }
         }

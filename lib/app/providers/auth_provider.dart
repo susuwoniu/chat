@@ -159,8 +159,6 @@ class AuthProvider extends GetxService {
   }
 
   Future<void> saveAccount(AccountEntity accountEntity) async {
-    final jsonString = json.encode(accountEntity.toJson());
-    account(AccountEntity.fromJson(json.decode(jsonString)));
     account(accountEntity);
     // TODO
     await KVProvider.to.putObject(STORAGE_ACCOUNT_KEY, account.toJson());

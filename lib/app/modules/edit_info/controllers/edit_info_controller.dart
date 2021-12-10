@@ -1,8 +1,8 @@
-import 'package:chat/app/providers/auth_provider.dart';
 import 'package:get/get.dart';
 import 'package:chat/utils/upload.dart';
-import 'package:chat/app/providers/api_provider.dart';
+import 'package:chat/app/providers/providers.dart';
 import 'package:chat/types/types.dart';
+import 'package:chat/common.dart';
 
 class EditInfoController extends GetxController {
   static EditInfoController get to => Get.find();
@@ -40,19 +40,24 @@ class EditInfoController extends GetxController {
     isAddImg.value = true;
   }
 
-  Future<void> addImg(int i, ProfileImageEntity img) async {
+  Future<void> addImg(
+    int i,
+    ProfileImageEntity img,
+  ) async {
     final accountEntity = AuthProvider.to.account.value;
-    final List<ProfileImageEntity> imgList =
-        List.from(accountEntity.profileImages);
+    final List<ProfileImageEntity> imgList = [...accountEntity.profileImages];
     if (imgList.length > i) {
       imgList[i] = img;
     } else {
       imgList.add(img);
     }
     AuthProvider.to.account.update((value) {
-      value!.profileImages = imgList;
+      if (value != null) {
+        value.profileImages = imgList;
+      }
     });
-    await AuthProvider.to.saveAccount(accountEntity);
+    final newAccountEntity = AuthProvider.to.account.value;
+    await AuthProvider.to.saveAccount(newAccountEntity);
   }
 
   void deleteImg(int i) {
@@ -92,12 +97,19 @@ class EditInfoController extends GetxController {
       newHeaders[key] = headers[key];
     }
     await upload(putUrl, img.url, headers: newHeaders, size: img.size);
-    await APIProvider().put('/account/me/profile-images/$index', body: {
+    final result =
+        await APIProvider().put('/account/me/profile-images/$index', body: {
       "url": getUrl,
       "width": img.width,
       "height": img.height,
       "size": img.size,
       "mime_type": img.mime_type
     });
+
+    final newImage = ProfileImageEntity.fromJson(result['data']['attributes']);
+
+    // save the latest image info
+    await addImg(index, newImage);
+    // TODO hide loading
   }
 }
