@@ -60,6 +60,7 @@ class DebugView extends GetView<DebugController> {
                     onTap: () async {
                       try {
                         await LoginController.to.handleLogout();
+                        Get.offAllNamed(Routes.ROOT);
                         UIUtils.toast("退出成功");
                       } catch (e) {
                         UIUtils.showError(e);

@@ -28,7 +28,7 @@ class MessageView extends GetView<MessageController> {
                   children: [
                     Text(
                       _chatProvider.isLoading
-                          ? "Connecting..."
+                          ? "Loading..."
                           : _chatProvider.isConnected
                               ? "Connected"
                               : "连接失败",
@@ -49,47 +49,46 @@ class MessageView extends GetView<MessageController> {
                 )),
           ),
           Expanded(
-            child: CustomScrollView(
-              slivers: [
-                SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return GestureDetector(
-                        onTap: () async {
-                          await controller.toRoom(index);
-                        },
-                        behavior: HitTestBehavior.translucent,
-                        child: Obx(() {
-                          final room =
-                              controller.entities[controller.indexes[index]]!;
-                          SimpleAccountEntity? roomInfo;
-                          var name = jidToName(room.id);
-                          String? avatar;
-                          if (room.room_info_id != null) {
-                            roomInfo = AuthProvider
-                                .to.simpleAccountMap[room.room_info_id];
-                            name = roomInfo?.name ?? room.id;
-                            avatar = roomInfo?.avatar;
-                          }
-
-                          return conversationItemView(
-                              onTap: (index) {
-                                controller.toRoom(index);
+              child: Obx(() => CustomScrollView(
+                    slivers: [
+                      SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return GestureDetector(
+                              onTap: () async {
+                                await controller.toRoom(index);
                               },
-                              context: context,
-                              index: index,
-                              name: name,
-                              preview: room.preview,
-                              updatedAt: room.updatedAt,
-                              unreadCount: room.clientUnreadCount,
-                              avatar: avatar);
-                        }));
-                  },
-                  childCount: controller.indexes.length,
-                )),
-              ],
-            ),
-          ),
+                              behavior: HitTestBehavior.translucent,
+                              child: Obx(() {
+                                final room = controller
+                                    .entities[controller.indexes[index]]!;
+                                SimpleAccountEntity? roomInfo;
+                                var name = jidToName(room.id);
+                                String? avatar;
+                                if (room.room_info_id != null) {
+                                  roomInfo = AuthProvider
+                                      .to.simpleAccountMap[room.room_info_id];
+                                  name = roomInfo?.name ?? room.id;
+                                  avatar = roomInfo?.avatar;
+                                }
+
+                                return conversationItemView(
+                                    onTap: (index) {
+                                      controller.toRoom(index);
+                                    },
+                                    context: context,
+                                    index: index,
+                                    name: name,
+                                    preview: room.preview,
+                                    updatedAt: room.updatedAt,
+                                    unreadCount: room.clientUnreadCount,
+                                    avatar: avatar);
+                              }));
+                        },
+                        childCount: controller.indexes.length,
+                      )),
+                    ],
+                  ))),
         ],
       ),
     );

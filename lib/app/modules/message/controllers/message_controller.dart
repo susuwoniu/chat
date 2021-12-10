@@ -126,9 +126,14 @@ class MessageController extends GetxController {
         ChatProvider.to.connectionUpdated.listen((event) {
       if (event == ConnectionState.connected) {
         // 初始化房间列表
+        ChatProvider.to.setIsLoading(true);
         init().catchError((e) {
           print(e);
+          ChatProvider.to.setIsLoading(false);
+
           UIUtils.showError(e);
+        }).then((_) {
+          ChatProvider.to.setIsLoading(false);
         });
       } else if (event == ConnectionState.disconnected) {
         // 断开连接，清空房间列表
@@ -204,8 +209,17 @@ class MessageController extends GetxController {
     return List<dynamic>.from(result["data"] as List);
   }
 
-  void tryToInitRoom(String roomId, xmpp.Message message) {
-    if (entities[roomId] != null) {
+  Future<void> tryToInitRoom(String roomId, xmpp.Message message) async {
+    // check room inbo exists
+    final accountId = jidToAccountId(roomId);
+    if (AuthProvider.to.simpleAccountMap[accountId] == null) {
+      final result = await APIProvider().get('/account/accounts/$accountId');
+      await AuthProvider.to.saveSimpleAccounts({
+        result["data"]["id"]:
+            SimpleAccountEntity.fromJson(result["data"]["attributes"])
+      });
+    }
+    if (entities[roomId] == null) {
       entities[roomId] = Room(
         roomId,
         unreadCount: 0,
@@ -213,18 +227,18 @@ class MessageController extends GetxController {
         room_info_id: jidToAccountId(roomId),
         preview: getPreview(message),
       );
-      // add index
-      if (!indexes.contains(roomId)) {
-        indexes.insert(0, roomId);
-      }
+    }
+    // add index
+    if (!indexes.contains(roomId)) {
+      indexes.insert(0, roomId);
     }
     if (roomMessageIndexesMap[roomId] == null) {
       roomMessageIndexesMap[roomId] = [];
     }
   }
 
-  void addMessage(String roomId, xmpp.Message message) {
-    tryToInitRoom(roomId, message);
+  Future<void> addMessage(String roomId, xmpp.Message message) async {
+    await tryToInitRoom(roomId, message);
     // add to messageEntities
     messageEntities[message.id] = formatMessage(message);
 
@@ -235,7 +249,7 @@ class MessageController extends GetxController {
       String roomId, types.PartialText _message) async {
     final roomManager = ChatProvider.to.roomManager!;
     final message = roomManager.createTextMessage(roomId, _message.text);
-    addMessage(roomId, message);
+    await addMessage(roomId, message);
     try {
       roomManager.sendMessage(roomId, message);
     } catch (e) {
@@ -255,7 +269,7 @@ class MessageController extends GetxController {
       filePath: result.files.single.path!,
       mimeType: mimeType!,
     );
-    addMessage(roomId, message);
+    await addMessage(roomId, message);
 
     await roomManager.sendFileMessage(roomId, message);
   }
@@ -278,7 +292,7 @@ class MessageController extends GetxController {
         mimeType: mimeType!,
         height: image.height.toDouble(),
         width: image.width.toDouble());
-    addMessage(roomId, message);
+    await addMessage(roomId, message);
 
     await roomManager.sendFileMessage(
       roomId,

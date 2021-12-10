@@ -13,3 +13,5 @@
 - [ ]  client ping
 - [ ]  发送失败，需要重试，以及修改message 节的delay child
 - [ ]  应用更新后，缓存的数据结构的变化如何处理？
+- [ ]  device id
+- [ ]  stream resume chat

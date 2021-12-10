@@ -201,6 +201,10 @@ class ChatProvider extends GetxService {
       _connection!.close();
     }
   }
+
+  void setIsLoading(bool value) {
+    _isLoading.value = value;
+  }
 }
 
 enum ConnectionState {
