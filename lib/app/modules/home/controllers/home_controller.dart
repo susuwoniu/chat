@@ -30,7 +30,7 @@ class HomeController extends GetxController {
   final isLoadingHomePosts = true.obs;
   final isLoadingMyPosts = true.obs;
 
-  final currentEndCursor = ''.obs;
+  final currentEndCursor = RxnString();
   final isDataEmpty = false.obs;
 
   final postMap = RxMap<String, PostEntity>({});
@@ -87,15 +87,24 @@ class HomeController extends GetxController {
 
   getHomePosts({String? after}) async {
     final result = await getRawPosts(after: after, url: "/post/posts");
-    postMap.addAll(result.postMap);
-    postIndexes.addAll(result.indexes);
-    // put accoutns to simple accounts
-    await AuthProvider.to.saveSimpleAccounts(result.accountMap);
+    if (result.indexes.isNotEmpty) {
+      postMap.addAll(result.postMap);
+      postIndexes.addAll(result.indexes);
+      // save current end cursor
+      if (result.endCursor != null) {
+        currentEndCursor.value = result.endCursor;
+      }
+      // put accoutns to simple accounts
+      await AuthProvider.to.saveSimpleAccounts(result.accountMap);
+      PatchPostCountView(result.indexes[0]);
+    } else {
+      isDataEmpty.value = true;
+    }
+
     isLoadingHomePosts.value = false;
     if (isHomeInitial.value == false) {
       isHomeInitial.value = true;
     }
-    PatchPostCountView(result.indexes[0]);
   }
 
   getMePosts({String? after}) async {
@@ -113,23 +122,41 @@ class HomeController extends GetxController {
   insertEntity() async {}
 
   void setIndex(int index) {
-    currentIndex.value = index;
+    var backgroundColor = "#FFFFFF";
+    if (index >= postIndexes.length) {
+      currentIndex.value = -1;
+    } else {
+      currentIndex.value = index;
 
-    final backgroundColor = currentIndex.value == -1
-        ? "#FFFFFF"
-        : postMap[postIndexes[currentIndex.value]]!.backgroundColor;
-    print("backgroundColor $backgroundColor");
+      final post = postMap[postIndexes[index]];
+      if (post != null) {
+        backgroundColor = post.backgroundColor;
+        PatchPostCountView(postIndexes[index]).catchError((e) {
+          UIUtils.reportError(e);
+        });
+      }
+    }
+
     BottomNavigationBarController.to.changeBackgroundColor(backgroundColor);
 
     if (postIndexes.length - index < 3) {
-      if (!isLoadingHomePosts.value && isDataEmpty.value == false) {
+      if (!isLoadingHomePosts.value &&
+          isDataEmpty.value == false &&
+          currentEndCursor.value != null) {
         isLoadingHomePosts.value = true;
-        getHomePosts(after: currentEndCursor.value);
+        getHomePosts(after: currentEndCursor.value).then((data) {
+          isLoadingHomePosts.value = false;
+        }).catchError((e) {
+          isLoadingHomePosts.value = false;
+          UIUtils.showError(e);
+        });
+      } else if (isDataEmpty.value) {
+        Log.debug("reach post end");
       }
     }
   }
 
-  void PatchPostCountView(postId) async {
+  Future<void> PatchPostCountView(String postId) async {
     if (AuthProvider.to.accountId == postMap[postId]!.accountId) {
       await APIProvider().patch("/post/posts/$postId",
           body: {"viewed_count_action": "increase_one"});

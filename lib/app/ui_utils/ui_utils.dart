@@ -23,6 +23,11 @@ class UIUtils {
       ..userInteractions = true
       ..dismissOnTap = false;
   }
+  static reportError(e) {
+    Log.error(e);
+    // TODO
+  }
+
   static showError(e) async {
     // log
     Log.error(e);

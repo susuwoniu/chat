@@ -99,7 +99,7 @@ class ChatProvider extends GetxService {
 
     Completer<void> completer = Completer();
 
-    xmpp.Log.logXmpp = true; // TODO
+    xmpp.Log.logXmpp = false; // TODO
 
     if (_connectionStateSubscription != null) {
       _connectionStateSubscription!.cancel();

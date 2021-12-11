@@ -78,7 +78,7 @@ class HomeView extends GetView<HomeController> {
                       ? HexColor(controller
                           .postMap[controller.postIndexes[index]]!
                           .backgroundColor)
-                      : Colors.blue,
+                      : Colors.orangeAccent,
                   alignment: Alignment.topLeft,
                   child: GestureDetector(
                     onTap: () {
@@ -92,7 +92,7 @@ class HomeView extends GetView<HomeController> {
                     child: SafeArea(
                       child: index == controller.postIndexes.length &&
                               controller.isLoadingHomePosts.value
-                          ? Text("loading")
+                          ? CircularProgressIndicator()
                           : index == controller.postIndexes.length &&
                                   controller.isDataEmpty.value
                               ? Text("no data")
@@ -198,7 +198,6 @@ class HomeView extends GetView<HomeController> {
   void _handleCallbackEvent(ScrollEventType type, {int? currentIndex}) {
     if (currentIndex != null && currentIndex > 0) {
       controller.setIndex(currentIndex);
-      controller.PatchPostCountView(controller.postIndexes[currentIndex]);
     }
     print(
         "Scroll callback received with data: {type: $type, and index: ${currentIndex ?? 'not given'}}");

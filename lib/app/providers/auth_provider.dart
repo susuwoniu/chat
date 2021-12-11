@@ -98,13 +98,15 @@ class AuthProvider extends GetxService {
     _imAccessToken = null;
     _accountId = null;
     _refreshToken = null;
-    await KVProvider.to.removeExpiredString(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
-    await KVProvider.to
-        .removeExpiredString(STORAGE_ACCOUNT_IM_ACCESS_TOKEN_KEY);
+    // clear all cached data;
+    await KVProvider.to.clear();
+    // await KVProvider.to.removeExpiredString(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
+    // await KVProvider.to
+    //     .removeExpiredString(STORAGE_ACCOUNT_IM_ACCESS_TOKEN_KEY);
 
-    await KVProvider.to.removeExpiredString(STORAGE_ACCOUNT_REFRESH_TOKEN_KEY);
-    await KVProvider.to.remove(STORAGE_ACCOUNT_ID_KEY);
-    await KVProvider.to.remove(STORAGE_ACCOUNT_KEY);
+    // await KVProvider.to.removeExpiredString(STORAGE_ACCOUNT_REFRESH_TOKEN_KEY);
+    // await KVProvider.to.remove(STORAGE_ACCOUNT_ID_KEY);
+    // await KVProvider.to.remove(STORAGE_ACCOUNT_KEY);
     _authUpdatedStreamController.add(AuthStatus.logoutSuccess);
   }
 

@@ -73,7 +73,7 @@ class MessageView extends GetView<MessageController> {
                                 if (room.room_info_id != null) {
                                   roomInfo = AuthProvider
                                       .to.simpleAccountMap[room.room_info_id];
-                                  name = roomInfo?.name ?? room.id;
+                                  name = roomInfo?.name ?? name;
                                   avatar = roomInfo?.avatar;
                                 }
 
