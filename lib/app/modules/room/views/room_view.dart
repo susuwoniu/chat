@@ -1,3 +1,4 @@
+import 'package:chat/app/providers/chat_provider/chat_provider.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -29,6 +30,11 @@ class RoomView extends GetView<RoomController> {
         centerTitle: true,
       ),
       body: Obx(() {
+        if (ChatProvider.to.currentChatAccount.value == null) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         final room = messageController.entities[roomId];
         final roomMessageIndexes =
             messageController.roomMessageIndexesMap[roomId];
@@ -68,7 +74,7 @@ class RoomView extends GetView<RoomController> {
           },
           onMessageTap: _handleMessageTap,
           onEndReached: controller.handleEndReached,
-          user: controller.user!,
+          user: ChatProvider.to.currentChatAccount.value!,
         );
       }),
     );

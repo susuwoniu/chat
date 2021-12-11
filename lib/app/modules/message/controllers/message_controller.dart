@@ -147,8 +147,8 @@ class MessageController extends GetxController {
   Future<void> init() async {
     if (ChatProvider.to.roomManager != null) {
       _roomMessageUpdatedSubscription =
-          ChatProvider.to.roomManager!.roomMessageUpdated.listen((event) {
-        updateRoomMessage(event);
+          ChatProvider.to.roomManager!.roomMessageUpdated.listen((event) async {
+        await updateRoomMessage(event);
       });
       // stream listener
       ChatProvider.to.streamManager!.deliveredStanzasStream
@@ -237,19 +237,14 @@ class MessageController extends GetxController {
     }
   }
 
-  Future<void> addMessage(String roomId, xmpp.Message message) async {
-    await tryToInitRoom(roomId, message);
-    // add to messageEntities
-    messageEntities[message.id] = formatMessage(message);
-
-    roomMessageIndexesMap[roomId]!.insert(0, message.id);
-  }
-
   Future<void> sendTextMessage(
       String roomId, types.PartialText _message) async {
     final roomManager = ChatProvider.to.roomManager!;
     final message = roomManager.createTextMessage(roomId, _message.text);
-    await addMessage(roomId, message);
+    await updateRoomMessage(xmpp.Event(
+      roomId,
+      message,
+    ));
     try {
       roomManager.sendMessage(roomId, message);
     } catch (e) {
@@ -269,7 +264,7 @@ class MessageController extends GetxController {
       filePath: result.files.single.path!,
       mimeType: mimeType!,
     );
-    await addMessage(roomId, message);
+    await updateRoomMessage(xmpp.Event(roomId, message));
 
     await roomManager.sendFileMessage(roomId, message);
   }
@@ -292,7 +287,7 @@ class MessageController extends GetxController {
         mimeType: mimeType!,
         height: image.height.toDouble(),
         width: image.width.toDouble());
-    await addMessage(roomId, message);
+    await updateRoomMessage(xmpp.Event(roomId, message));
 
     await roomManager.sendFileMessage(
       roomId,
@@ -451,25 +446,13 @@ class MessageController extends GetxController {
     }
   }
 
-  void updateRoomMessage(xmpp.Event<xmpp.Message> event) {
+  Future<void> updateRoomMessage(xmpp.Event<xmpp.Message> event) async {
     final roomId = event.id;
     final message = event.data;
     final messageId = event.data.id;
     final preview = getPreview(message);
     messageEntities[messageId] = formatMessage(message);
-    // 如果room message indexes不存在，则初始化
-    if (roomMessageIndexesMap[roomId] == null) {
-      roomMessageIndexesMap[roomId] = [];
-    }
-    // 如果room 不存在，则初始化
-    if (entities[roomId] == null) {
-      entities[roomId] = Room(roomId,
-          room_info_id: jidToAccountId(roomId),
-          preview: preview,
-          unreadCount: 0,
-          updatedAt: message.createdAt);
-      indexes.insert(0, roomId);
-    }
+    await tryToInitRoom(roomId, message);
     final room = entities[roomId]!;
     final roomMessageIndexes = roomMessageIndexesMap[event.id]!;
 
@@ -480,11 +463,11 @@ class MessageController extends GetxController {
     }
     // room对象是否需要更新
     var roomChanged = true;
+    room.preview = preview;
+    room.updatedAt = message.createdAt;
     // 理论上这里监听到的一定是新消息，所以直接添加到数组的最前面
     roomMessageIndexesMap.update(roomId, (value) {
       value.insert(0, messageId);
-      room.preview = getPreview(message);
-      room.updatedAt = message.createdAt;
       return value;
     });
 
