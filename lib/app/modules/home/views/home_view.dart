@@ -24,39 +24,38 @@ class HomeView extends GetView<HomeController> {
           },
         ),
         actions: <Widget>[
-          IconButton(
-            icon: Text("🔑"),
-            onPressed: () {
-              Get.toNamed(
-                Routes.DEBUG,
-              );
-            },
-          ),
-          IconButton(
-            icon: Text("🐻"),
-            onPressed: () {
-              Get.toNamed(
-                Routes.LOGIN,
-              );
-            },
-          ),
-          Container(
-            margin: EdgeInsets.only(right: 16),
-            child: Obx(() {
-              final isLogin = AuthProvider.to.isLogin;
-              if (isLogin) {
-                final account = AuthProvider.to.account.value;
+          Row(
+            children: [
+              IconButton(
+                icon: Text("🔑"),
+                onPressed: () {
+                  Get.toNamed(
+                    Routes.DEBUG,
+                  );
+                },
+              ),
+              Container(
+                height: 46,
+                width: 46,
+                margin: EdgeInsets.only(right: 16),
+                child: Obx(() {
+                  final isLogin = AuthProvider.to.isLogin;
+                  if (isLogin) {
+                    final account = AuthProvider.to.account.value;
 
-                return IconButton(
-                  icon: Avatar(name: account.name, uri: account.avatar),
-                  onPressed: () {
-                    Get.toNamed(Routes.ME);
-                  },
-                );
-              } else {
-                return SizedBox.shrink();
-              }
-            }),
+                    return Avatar(
+                        name: account.name,
+                        elevation: 0,
+                        uri: account.avatar,
+                        onTap: () {
+                          Get.toNamed(Routes.ME);
+                        });
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                }),
+              ),
+            ],
           )
         ]);
 
@@ -127,16 +126,14 @@ class HomeView extends GetView<HomeController> {
                                                 padding: const EdgeInsets.only(
                                                     top: 20, bottom: 120),
                                                 child: Row(children: [
-                                                  TextButton(
-                                                    onPressed: () async {},
-                                                    child: Avatar(
-                                                        name: author.name,
-                                                        uri: author.avatar),
-                                                  ),
+                                                  Avatar(
+                                                      size: 26,
+                                                      name: author.name,
+                                                      uri: author.avatar),
                                                   Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                              right: 8.0)),
+                                                              right: 15.0)),
                                                   Text(
                                                     author.name,
                                                     key: Key('$index-text'),
@@ -167,6 +164,7 @@ class HomeView extends GetView<HomeController> {
                                                       onPressed: () async {},
                                                       child: isLogin
                                                           ? Avatar(
+                                                              size: 20,
                                                               uri: account
                                                                   .avatar,
                                                               name:
