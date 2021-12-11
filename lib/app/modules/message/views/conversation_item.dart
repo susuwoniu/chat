@@ -47,12 +47,13 @@ Widget conversationItemView(
                       children: [
                         Row(
                           children: [
-                            Text(name,
-                                style: TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold)),
-                            SizedBox(width: 6),
+                            Container(
+                                margin: EdgeInsets.only(right: 6),
+                                child: Text(name,
+                                    style: TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold))),
                             Row(children: [
                               Text('💗', style: TextStyle(fontSize: 18)),
                               SizedBox(width: 4),
@@ -66,10 +67,10 @@ Widget conversationItemView(
                             ]),
                           ],
                         ),
-                        TimeAgo(updatedAt: updatedAt)
                       ],
                     ),
                   ),
+                  TimeAgo(updatedAt: updatedAt)
                 ],
               ),
               SizedBox(
