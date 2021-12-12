@@ -66,6 +66,9 @@ class HomeView extends GetView<HomeController> {
         body: Obx(() {
           final isLogin = AuthProvider.to.isLogin;
           final account = AuthProvider.to.account.value;
+          final isLoading = controller.isLoadingHomePosts.value;
+          final isEmpty = controller.isDataEmpty.value;
+          final isInit = controller.isHomeInitial.value;
           return TikTokStyleFullPageScroller(
             contentSize: controller.postIndexes.length + 1,
             swipePositionThreshold: 0.2,
@@ -80,116 +83,121 @@ class HomeView extends GetView<HomeController> {
                           .backgroundColor)
                       : Colors.orangeAccent,
                   alignment: Alignment.topLeft,
-                  child: GestureDetector(
-                    onTap: () {
-                      final post =
-                          controller.postMap[controller.postIndexes[index]]!;
-                      Get.toNamed(Routes.ROOM, arguments: {
-                        "id": "im${post.accountId}@$imDomain",
-                        "post_id": controller.postIndexes[index]
-                      });
-                    },
-                    child: SafeArea(
-                      child: index == controller.postIndexes.length &&
-                              controller.isLoadingHomePosts.value
-                          ? CircularProgressIndicator()
-                          : index == controller.postIndexes.length &&
-                                  controller.isDataEmpty.value
-                              ? Text("no data")
-                              : Builder(builder: (BuildContext context) {
-                                  final post = controller
-                                      .postMap[controller.postIndexes[index]]!;
-                                  final author = AuthProvider
-                                      .to.simpleAccountMap[post.accountId]!;
-                                  return Stack(
-                                    children: <Widget>[
-                                      Container(
-                                        padding: const EdgeInsets.only(
-                                            top: 20, left: 16, right: 16),
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              MaxText(
-                                                post.content,
-                                                context,
-                                                // textDirection: TextDirection.ltr,
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  height: 1.6,
-                                                  fontSize: 26.0,
-                                                  // fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              Container(
-                                                padding: const EdgeInsets.only(
-                                                    top: 20, bottom: 120),
-                                                child: Row(children: [
-                                                  Avatar(
-                                                      size: 26,
-                                                      name: author.name,
-                                                      uri: author.avatar),
-                                                  Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: 15.0)),
-                                                  Text(
-                                                    author.name,
-                                                    key: Key('$index-text'),
-                                                    style: const TextStyle(
-                                                        fontSize: 24,
-                                                        color: Colors.white),
-                                                  ),
-                                                ]),
-                                              ),
-                                            ]),
+                  child: SafeArea(child: Builder(builder: (context) {
+                    if (!isInit ||
+                        (index == controller.postIndexes.length && isLoading)) {
+                      return CircularProgressIndicator();
+                    } else if (index == controller.postIndexes.length &&
+                        isEmpty) {
+                      return Text("empty data");
+                    } else if (controller.postIndexes.isNotEmpty &&
+                        index < controller.postIndexes.length &&
+                        controller.postMap[controller.postIndexes[index]] !=
+                            null) {
+                      return Builder(builder: (BuildContext context) {
+                        final post =
+                            controller.postMap[controller.postIndexes[index]]!;
+                        final author =
+                            AuthProvider.to.simpleAccountMap[post.accountId]!;
+                        return Stack(
+                          children: <Widget>[
+                            Container(
+                              padding: const EdgeInsets.only(
+                                  top: 20, left: 16, right: 16),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    MaxText(
+                                      post.content,
+                                      context,
+                                      // textDirection: TextDirection.ltr,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        height: 1.6,
+                                        fontSize: 26.0,
+                                        // fontWeight: FontWeight.bold,
                                       ),
-                                      Align(
-                                          alignment: Alignment.bottomCenter,
-                                          child: Padding(
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.only(
+                                          top: 20, bottom: 120),
+                                      child: Row(children: [
+                                        Avatar(
+                                            size: 26,
+                                            name: author.name,
+                                            uri: author.avatar),
+                                        Padding(
                                             padding: const EdgeInsets.only(
-                                                bottom: 40),
-                                            child: SafeArea(
-                                              child: Container(
-                                                height: 60,
-                                                width: screenWidth * 0.88,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
-                                                  color: Colors.white,
-                                                ),
-                                                child: Row(children: [
-                                                  TextButton(
-                                                      onPressed: () async {},
-                                                      child: isLogin
-                                                          ? Avatar(
-                                                              size: 20,
-                                                              uri: account
-                                                                  .avatar,
-                                                              name:
-                                                                  account.name)
-                                                          : Text("🤠",
-                                                              style: const TextStyle(
-                                                                  fontSize: 32,
-                                                                  color: Colors
-                                                                      .white))),
-                                                  Text(
-                                                    '$index',
-                                                    key: Key('$index-text'),
-                                                    style: const TextStyle(
-                                                        fontSize: 24,
-                                                        color: Colors.white),
-                                                  ),
-                                                ]),
-                                              ),
-                                            ),
-                                          ))
-                                    ],
-                                  );
-                                }),
-                    ),
-                  ));
+                                                right: 15.0)),
+                                        Text(
+                                          author.name,
+                                          key: Key('$index-text'),
+                                          style: const TextStyle(
+                                              fontSize: 24,
+                                              color: Colors.white),
+                                        ),
+                                      ]),
+                                    ),
+                                  ]),
+                            ),
+                            Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 40),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        final post = controller.postMap[
+                                            controller.postIndexes[index]];
+                                        if (post != null) {
+                                          Get.toNamed(Routes.ROOM, arguments: {
+                                            "id":
+                                                "im${post.accountId}@$imDomain",
+                                            "post_id":
+                                                controller.postIndexes[index]
+                                          });
+                                        }
+                                      },
+                                      child: Container(
+                                        height: 60,
+                                        width: screenWidth * 0.88,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          color: Colors.white,
+                                        ),
+                                        child: Row(children: [
+                                          TextButton(
+                                              onPressed: () async {},
+                                              child: isLogin
+                                                  ? Avatar(
+                                                      size: 20,
+                                                      uri: account.avatar,
+                                                      name: account.name)
+                                                  : Text("🤠",
+                                                      style: const TextStyle(
+                                                          fontSize: 32,
+                                                          color:
+                                                              Colors.white))),
+                                          Text(
+                                            '$index',
+                                            key: Key('$index-text'),
+                                            style: const TextStyle(
+                                                fontSize: 24,
+                                                color: Colors.white),
+                                          ),
+                                        ]),
+                                      ),
+                                    )))
+                          ],
+                        );
+                      });
+                    } else if (controller.homeInitError.value != null) {
+                      return Text(controller.homeInitError.value!);
+                    } else {
+                      return Text("error");
+                    }
+                  })));
             },
           );
         }));

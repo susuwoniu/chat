@@ -15,3 +15,4 @@
 - [ ]  应用更新后，缓存的数据结构的变化如何处理？
 - [ ]  device id
 - [ ]  stream resume chat
+- [ ]  设置页面

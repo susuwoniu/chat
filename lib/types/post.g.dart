@@ -8,6 +8,7 @@ part of 'post.dart';
 
 PostEntity _$PostEntityFromJson(Map<String, dynamic> json) => PostEntity(
       content: json['content'] as String,
+      cursor: json['cursor'] as String,
       backgroundColor: json['background_color'] as String,
       accountId: json['account_id'] as String,
       views:
