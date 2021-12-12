@@ -4,6 +4,23 @@ import 'package:chat/app/modules/main/controllers/bottom_navigation_bar_controll
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/common.dart';
 
+class Skip {
+  String start;
+  String end;
+  DateTime expiresAt;
+  Skip({required this.start, required this.end, required this.expiresAt});
+  Object toJson() {
+    return {"start": start, "end": end, "expiresAt": expiresAt.toString()};
+  }
+
+  Skip fromJson(dynamic value) {
+    return Skip(
+        end: value["end"] as String,
+        start: value["start"],
+        expiresAt: DateTime.parse(value["expiresAt"]));
+  }
+}
+
 class PostsResult {
   final Map<String, PostEntity> postMap;
   final Map<String, SimpleAccountEntity> accountMap;
@@ -24,7 +41,6 @@ class HomeController extends GetxController {
 
   final isHomeInitial = false.obs;
   final isMeInitial = false.obs;
-
   final currentIndex = RxInt(0);
   final postIndexes = RxList<String>([]);
   final myPostsIndexes = RxList<String>([]);
@@ -32,6 +48,9 @@ class HomeController extends GetxController {
   final isLoadingHomePosts = false.obs;
   String? homePostsFirstCursor;
   String? homePostsLastCursor;
+  // [{first:"",end:"",expiresAt:""}]
+  final List<Skip> _skips = [];
+
   final isLoadingMyPosts = false.obs;
 
   final isDataEmpty = false.obs;
@@ -47,7 +66,7 @@ class HomeController extends GetxController {
     try {
       isLoadingHomePosts.value = true;
       super.onReady();
-
+      await initSkips();
       await getHomePosts();
       isLoadingHomePosts.value = false;
       isHomeInitial.value = true;
@@ -61,13 +80,21 @@ class HomeController extends GetxController {
   }
 
   Future<PostsResult> getRawPosts(
-      {String? after, String? before, required String url}) async {
+      {String? after,
+      String? before,
+      required String url,
+      List<Skip>? skips}) async {
     Map<String, dynamic> query = {};
     if (after != null) {
       query["after"] = after;
     }
     if (before != null) {
       query["before"] = before;
+    }
+    if (skips != null) {
+      query["skip"] = skips.map((value) {
+        return "${value.start}-${value.end}";
+      }).join(",");
     }
     final body = await APIProvider().get(url, query: query);
     if (body["data"].length == 0) {
@@ -107,26 +134,35 @@ class HomeController extends GetxController {
   }
 
   getHomePosts({String? after, String? before}) async {
-    final result =
-        await getRawPosts(after: after, before: before, url: "/post/posts");
+    final result = await getRawPosts(
+        after: after, before: before, skips: _skips, url: "/post/posts");
     if (result.indexes.isNotEmpty &&
         result.endCursor != null &&
         result.startCursor != null) {
       postMap.addAll(result.postMap);
       postIndexes.addAll(result.indexes);
-
+      var isFirstCursorChanged = false;
       if (after == null && before == null) {
         // first request
         homePostsFirstCursor = result.startCursor;
         homePostsLastCursor = result.endCursor;
+        isFirstCursorChanged = true;
       } else if (before != null && after == null) {
         homePostsFirstCursor = result.startCursor;
+        isFirstCursorChanged = true;
       } else if (after != null && before == null) {
         homePostsLastCursor = result.endCursor;
       }
       // put accoutns to simple accounts
       await AuthProvider.to.saveSimpleAccounts(result.accountMap);
-      PatchPostCountView(result.indexes[0]);
+      PatchPostCountView(result.indexes[0]).catchError((e) {
+        UIUtils.reportError(e);
+      });
+      // save current first cursor
+      if (isFirstCursorChanged && homePostsFirstCursor != null) {
+        await KVProvider.to.setExpiredString(STORAGE_HOME_FIRST_CURSOR_KEY,
+            homePostsFirstCursor!, getExpiresAt());
+      }
     } else {
       isReachHomePostsEnd.value = true;
       if (isHomeInitial.value == false) {
@@ -135,6 +171,54 @@ class HomeController extends GetxController {
     }
 
     isLoadingHomePosts.value = false;
+  }
+
+  Future<void> initSkips() async {
+    final now = DateTime.now();
+    // 1. check expires _skips
+    final List<Skip> validSkips = [];
+    KVProvider.to.parseObjectList(STORAGE_HOME_SKIPS_KEY, (value) {
+      if (value["expiresAt"] != null) {
+        final expiresAt = DateTime.parse(value["expiresAt"]);
+        if (expiresAt.millisecondsSinceEpoch > now.millisecondsSinceEpoch) {
+          validSkips.insert(
+              0,
+              Skip(
+                  start: value["start"],
+                  end: value["end"],
+                  expiresAt: expiresAt));
+        }
+      }
+    });
+    // 2. get latest first cursor , and cursor
+    final firstCursorValue =
+        await KVProvider.to.getExpiredString(STORAGE_HOME_FIRST_CURSOR_KEY);
+    final lastCursorValue =
+        await KVProvider.to.getExpiredString(STORAGE_HOME_LAST_CURSOR_KEY);
+    if (firstCursorValue != null && lastCursorValue != null) {
+      if (validSkips.isNotEmpty) {
+        if (firstCursorValue != validSkips.first.start) {
+          validSkips.insert(
+              0,
+              Skip(
+                  start: firstCursorValue,
+                  end: lastCursorValue,
+                  expiresAt: getExpiresAt()));
+        }
+      } else {
+        validSkips.insert(
+            0,
+            Skip(
+                start: firstCursorValue,
+                end: lastCursorValue,
+                expiresAt: getExpiresAt()));
+      }
+    }
+    if (validSkips.isNotEmpty) {
+      _skips.addAll(validSkips);
+    }
+    // save to store
+    await KVProvider.to.putObjectList(STORAGE_HOME_SKIPS_KEY, _skips);
   }
 
   getMePosts({String? after}) async {
@@ -182,16 +266,31 @@ class HomeController extends GetxController {
           isLoadingHomePosts.value = false;
           UIUtils.showError(e);
         });
-      } else if (isDataEmpty.value && isLoadingHomePosts.value == false) {
+      } else if (isReachHomePostsEnd.value &&
+          isLoadingHomePosts.value == false) {
         Log.debug("reach post end");
         // maybe loading newest posts
-        String? before;
-        if (homePostsFirstCursor != null) {
-          before = homePostsFirstCursor;
+
+        // put current array to _skips array
+        if (homePostsFirstCursor != null && homePostsLastCursor != null) {
+          _skips.insert(
+              0,
+              Skip(
+                  start: homePostsFirstCursor!,
+                  end: homePostsLastCursor!,
+                  expiresAt: getExpiresAt()));
+
+          // save _skips
+          KVProvider.to
+              .putObjectList(STORAGE_HOME_SKIPS_KEY,
+                  _skips.map((item) => item.toJson()).toList())
+              .catchError((e) {
+            UIUtils.reportError(e);
+          });
         }
         isLoadingHomePosts.value = true;
 
-        getHomePosts(before: before).then((data) {
+        getHomePosts().then((data) {
           isLoadingHomePosts.value = false;
         }).catchError((e) {
           isLoadingHomePosts.value = false;
@@ -202,6 +301,9 @@ class HomeController extends GetxController {
   }
 
   Future<void> PatchPostCountView(String postId) async {
+    // change last cursor
+    await KVProvider.to.setExpiredString(
+        STORAGE_HOME_LAST_CURSOR_KEY, postMap[postId]!.cursor, getExpiresAt());
     if (AuthProvider.to.accountId == postMap[postId]!.accountId) {
       await APIProvider().patch("/post/posts/$postId",
           body: {"viewed_count_action": "increase_one"});
@@ -246,4 +348,11 @@ class HomeController extends GetxController {
     // return PostsResult(
     //     postMap: newPostMap, indexes: newIndexes, endCursor: newEndCursor);
   }
+}
+
+DateTime getExpiresAt({int days = 7}) {
+  final now = DateTime.now();
+  final expiresAt = DateTime.fromMillisecondsSinceEpoch(
+      now.millisecondsSinceEpoch + Duration(days: 7).inMilliseconds);
+  return expiresAt;
 }

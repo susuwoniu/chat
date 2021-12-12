@@ -7,6 +7,11 @@ const String STORAGE_ACCOUNT_ACCESS_TOKEN_KEY = 'account_access_token';
 const String STORAGE_ACCOUNT_REFRESH_TOKEN_KEY = 'account_refresh_token';
 const String STORAGE_ACCOUNT_IM_ACCESS_TOKEN_KEY = 'account_im_access_token';
 const String STORAGE_ACCOUNT_ID_KEY = 'current_account_id';
+// 首页 帖子浏览记录
+
+const String STORAGE_HOME_SKIPS_KEY = "home_skip_key";
+const String STORAGE_HOME_FIRST_CURSOR_KEY = "home_first_cursor_key";
+const String STORAGE_HOME_LAST_CURSOR_KEY = "home_last_cursor_key";
 
 /// 设备是否第一次打开
 const String STORAGE_DEVICE_FIRST_OPEN_KEY = 'device_first_open';
