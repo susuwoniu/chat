@@ -1,3 +1,4 @@
+import 'package:chat/app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -5,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:chat/app/widgets/max_text.dart';
 import '../controllers/my_single_post_controller.dart';
 import '../../home/controllers/home_controller.dart';
+import 'viewers_list.dart';
 
 class MySinglePostView extends GetView<MySinglePostController> {
   final _content = Get.arguments['content'];
@@ -25,10 +27,11 @@ class MySinglePostView extends GetView<MySinglePostController> {
         body: SingleChildScrollView(
             child: Column(children: [
           Container(
-            margin: EdgeInsets.fromLTRB(_width * 0.03, 10, _width * 0.03, 20),
-            padding: EdgeInsets.all(_width * 0.025),
+            margin: EdgeInsets.fromLTRB(_width * 0.03, 10, _width * 0.03, 10),
+            padding: EdgeInsets.symmetric(
+                vertical: _width * 0.02, horizontal: _width * 0.04),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(10),
               color: HexColor(_backgroundColor),
             ),
             height: _height * 0.4,
@@ -52,7 +55,17 @@ class MySinglePostView extends GetView<MySinglePostController> {
 
             final List<Widget> list = post.views != null
                 ? post.views!.isNotEmpty
-                    ? post.views!.map((e) => Container(child: Text(e))).toList()
+                    ? post.views!.map((e) {
+                        final account = AuthProvider.to.simpleAccountMap[e];
+                        return Container(
+                            margin: EdgeInsets.fromLTRB(
+                                _width * 0.03, 13, _width * 0.03, 0),
+                            child: ViewersList(
+                                name: account!.name,
+                                img: account.avatar,
+                                likeCount: account.like_count,
+                                viewerId: e));
+                      }).toList()
                     : [Container(child: Text("no_one_has_seen_it_yet".tr))]
                 : [];
 

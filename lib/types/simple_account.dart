@@ -6,10 +6,12 @@ part 'simple_account.g.dart';
 class SimpleAccountEntity {
   final String? avatar;
   final String name;
+  final int like_count;
 
   SimpleAccountEntity({
-    required this.avatar,
+    this.avatar,
     required this.name,
+    required this.like_count,
   });
   factory SimpleAccountEntity.fromJson(Map<String, dynamic> json) =>
       _$SimpleAccountEntityFromJson(json);

@@ -15,11 +15,13 @@ class AgePickerView extends GetView<AgePickerController> {
         centerTitle: true,
       ),
       body: Center(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Container(
+            padding: EdgeInsets.fromLTRB(20, 15, 0, 15),
+            alignment: Alignment.topLeft,
             child: Text(
               'I_was_born_in'.tr,
-              style: TextStyle(color: Colors.black54, fontSize: 17.0),
+              style: TextStyle(color: Colors.black54, fontSize: 18.0),
             ),
           ),
           YearPicker(
