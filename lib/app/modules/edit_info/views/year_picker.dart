@@ -44,7 +44,9 @@ class _YearPickerState extends State<YearPicker> {
                   scrollController: FixedExtentScrollController(initialItem: 5),
                   selectionOverlay:
                       const CupertinoPickerDefaultSelectionOverlay(
-                          capLeftEdge: false, capRightEdge: false),
+                          // capLeftEdge: false,
+                          // capRightEdge: false
+                          ),
                   magnification: 1.4,
                   children: _ageList
                       .map(

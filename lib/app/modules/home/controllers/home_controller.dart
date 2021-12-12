@@ -156,10 +156,15 @@ class HomeController extends GetxController {
     for (var i = 0; i < body["data"].length; i++) {
       final item = body["data"][i];
       final viewerId = item["attributes"]["viewed_by"];
-
-      newAccountMap[viewerId] =
-          SimpleAccountEntity(avatar: '', name: 'xxxxjkj');
       newIndexes.add(viewerId);
+    }
+    if (body["included"] != null) {
+      for (var v in body["included"]) {
+        if (v["type"] == "accounts") {
+          newAccountMap[v["id"]] =
+              SimpleAccountEntity.fromJson(v["attributes"]);
+        }
+      }
     }
     AuthProvider.to.saveSimpleAccounts(newAccountMap);
 
