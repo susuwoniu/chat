@@ -8,9 +8,9 @@ part of 'post.dart';
 
 PostEntity _$PostEntityFromJson(Map<String, dynamic> json) => PostEntity(
       content: json['content'] as String,
-      cursor: json['cursor'] as String,
       backgroundColor: json['background_color'] as String,
       accountId: json['account_id'] as String,
+      cursor: json['cursor'] as String,
       views:
           (json['views'] as List<dynamic>?)?.map((e) => e as String).toList(),
       isLoadingViewersList: json['isLoadingViewersList'] as bool? ?? false,
@@ -21,6 +21,7 @@ Map<String, dynamic> _$PostEntityToJson(PostEntity instance) =>
       'content': instance.content,
       'background_color': instance.backgroundColor,
       'account_id': instance.accountId,
+      'cursor': instance.cursor,
       'views': instance.views,
       'isLoadingViewersList': instance.isLoadingViewersList,
     };

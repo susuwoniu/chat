@@ -8,15 +8,13 @@ part of 'postTemplates.dart';
 
 PostTemplatesEntity _$PostTemplatesEntityFromJson(Map<String, dynamic> json) =>
     PostTemplatesEntity(
-      id: json['id'] as String,
       content: json['content'] as String,
-      backgroundColor: json['backgroundColor'] as String,
+      backgroundColor: json['background_color'] as String,
     );
 
 Map<String, dynamic> _$PostTemplatesEntityToJson(
         PostTemplatesEntity instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'content': instance.content,
-      'backgroundColor': instance.backgroundColor,
+      'background_color': instance.backgroundColor,
     };

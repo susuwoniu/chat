@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:chat/app/routes/app_pages.dart';
-import 'package:chat/app/widges/max_text.dart';
+import 'package:chat/app/widgets/max_text.dart';
 import 'package:chat/config/config.dart';
-import 'package:chat/app/widges/avatar.dart';
+import 'package:chat/common.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -68,7 +68,9 @@ class HomeView extends GetView<HomeController> {
           final account = AuthProvider.to.account.value;
           final isLoading = controller.isLoadingHomePosts.value;
           final isEmpty = controller.isDataEmpty.value;
+          final isReachEnd = controller.isReachHomePostsEnd.value;
           final isInit = controller.isHomeInitial.value;
+          final isInitError = controller.homeInitError.value;
           return TikTokStyleFullPageScroller(
             contentSize: controller.postIndexes.length + 1,
             swipePositionThreshold: 0.2,
@@ -86,10 +88,38 @@ class HomeView extends GetView<HomeController> {
                   child: SafeArea(child: Builder(builder: (context) {
                     if (!isInit ||
                         (index == controller.postIndexes.length && isLoading)) {
-                      return CircularProgressIndicator();
+                      return Center(child: Loading());
                     } else if (index == controller.postIndexes.length &&
                         isEmpty) {
-                      return Text("empty data");
+                      return Center(
+                          child: Retry(
+                              message: "当前没有帖子哦～",
+                              onRetry: () async {
+                                controller.isLoadingHomePosts.value = true;
+                                try {
+                                  await controller.getHomePosts();
+                                  controller.isLoadingHomePosts.value = false;
+                                } catch (e) {
+                                  controller.isLoadingHomePosts.value = false;
+                                  UIUtils.showError(e);
+                                }
+                              }));
+                    } else if (index == controller.postIndexes.length &&
+                        isReachEnd) {
+                      return Center(
+                          child: Retry(
+                              message: "没有更多帖子了～",
+                              onRetry: () async {
+                                controller.isLoadingHomePosts.value = true;
+                                try {
+                                  await controller.getHomePosts(
+                                      before: controller.homePostsFirstCursor);
+                                  controller.isLoadingHomePosts.value = false;
+                                } catch (e) {
+                                  controller.isLoadingHomePosts.value = false;
+                                  UIUtils.showError(e);
+                                }
+                              }));
                     } else if (controller.postIndexes.isNotEmpty &&
                         index < controller.postIndexes.length &&
                         controller.postMap[controller.postIndexes[index]] !=
@@ -192,8 +222,8 @@ class HomeView extends GetView<HomeController> {
                           ],
                         );
                       });
-                    } else if (controller.homeInitError.value != null) {
-                      return Text(controller.homeInitError.value!);
+                    } else if (isInitError != null) {
+                      return Text(isInitError);
                     } else {
                       return Text("error");
                     }

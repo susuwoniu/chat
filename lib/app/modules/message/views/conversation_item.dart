@@ -1,6 +1,6 @@
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:chat/app/widges/avatar.dart';
+import 'package:chat/common.dart';
 import 'time_ago.dart';
 import 'unread_count.dart';
 

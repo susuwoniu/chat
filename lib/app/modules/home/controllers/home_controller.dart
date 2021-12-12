@@ -30,11 +30,12 @@ class HomeController extends GetxController {
   final myPostsIndexes = RxList<String>([]);
   final homeInitError = RxnString();
   final isLoadingHomePosts = false.obs;
-  final homePostsFirstCursor = RxnString();
-  final homePostsLastCursor = RxnString();
+  String? homePostsFirstCursor;
+  String? homePostsLastCursor;
   final isLoadingMyPosts = false.obs;
 
   final isDataEmpty = false.obs;
+  final isReachHomePostsEnd = false.obs;
 
   final postMap = RxMap<String, PostEntity>({});
 
@@ -116,18 +117,21 @@ class HomeController extends GetxController {
 
       if (after == null && before == null) {
         // first request
-        homePostsFirstCursor.value = result.startCursor;
-        homePostsLastCursor.value = result.endCursor;
+        homePostsFirstCursor = result.startCursor;
+        homePostsLastCursor = result.endCursor;
       } else if (before != null && after == null) {
-        homePostsFirstCursor.value = result.startCursor;
+        homePostsFirstCursor = result.startCursor;
       } else if (after != null && before == null) {
-        homePostsLastCursor.value = result.endCursor;
+        homePostsLastCursor = result.endCursor;
       }
       // put accoutns to simple accounts
       await AuthProvider.to.saveSimpleAccounts(result.accountMap);
       PatchPostCountView(result.indexes[0]);
     } else {
-      isDataEmpty.value = true;
+      isReachHomePostsEnd.value = true;
+      if (isHomeInitial.value == false) {
+        isDataEmpty.value = true;
+      }
     }
 
     isLoadingHomePosts.value = false;
@@ -169,8 +173,8 @@ class HomeController extends GetxController {
       if (!isLoadingHomePosts.value && isDataEmpty.value == false) {
         isLoadingHomePosts.value = true;
         String? after;
-        if (homePostsLastCursor.value != null) {
-          after = homePostsLastCursor.value;
+        if (homePostsLastCursor != null) {
+          after = homePostsLastCursor;
         }
         getHomePosts(after: after).then((data) {
           isLoadingHomePosts.value = false;
@@ -182,10 +186,11 @@ class HomeController extends GetxController {
         Log.debug("reach post end");
         // maybe loading newest posts
         String? before;
-        if (homePostsFirstCursor.value != null) {
-          before = homePostsFirstCursor.value;
+        if (homePostsFirstCursor != null) {
+          before = homePostsFirstCursor;
         }
         isLoadingHomePosts.value = true;
+
         getHomePosts(before: before).then((data) {
           isLoadingHomePosts.value = false;
         }).catchError((e) {

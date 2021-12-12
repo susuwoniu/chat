@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:get/get.dart';
 
 import '../controllers/test3_controller.dart';
-import 'package:chat/app/widges/max_text.dart';
 
 class Test3View extends GetView<Test3Controller> {
   @override

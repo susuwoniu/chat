@@ -4,7 +4,7 @@ import 'package:chat/app/styles/styles.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/res/strings.dart';
 import '../controllers/message_controller.dart';
-import 'package:chat/app/widges/touch_close_keyboard.dart';
+import 'package:chat/app/widgets/touch_close_keyboard.dart';
 import './conversation_item.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/types/types.dart';
