@@ -7,7 +7,7 @@ import 'package:chat/app/modules/main/controllers/bottom_navigation_bar_controll
 import 'package:chat/app/modules/home/views/home_view.dart';
 import 'package:chat/app/modules/post/views/post_view.dart';
 import 'package:chat/app/modules/message/views/message_view.dart';
-import 'package:chat/app/widges/main_bottom_navigation_bar.dart';
+import 'package:chat/app/widgets/main_bottom_navigation_bar.dart';
 
 class MainView extends GetView<MainController> {
   @override

@@ -4,7 +4,7 @@ import 'package:chat/app/styles/styles.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/res/strings.dart';
 import '../controllers/message_controller.dart';
-import 'package:chat/app/widges/touch_close_keyboard.dart';
+import 'package:chat/app/widgets/touch_close_keyboard.dart';
 import './conversation_item.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/types/types.dart';
@@ -73,7 +73,7 @@ class MessageView extends GetView<MessageController> {
                                 if (room.room_info_id != null) {
                                   roomInfo = AuthProvider
                                       .to.simpleAccountMap[room.room_info_id];
-                                  name = roomInfo?.name ?? room.id;
+                                  name = roomInfo?.name ?? name;
                                   avatar = roomInfo?.avatar;
                                 }
 

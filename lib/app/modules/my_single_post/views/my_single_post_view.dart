@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import 'package:get/get.dart';
-import 'package:chat/app/widges/max_text.dart';
+import 'package:chat/app/widgets/max_text.dart';
 import '../controllers/my_single_post_controller.dart';
 import '../../home/controllers/home_controller.dart';
 import 'viewers_list.dart';

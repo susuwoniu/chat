@@ -1,6 +1,6 @@
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:chat/app/widges/avatar.dart';
+import 'package:chat/common.dart';
 import 'time_ago.dart';
 import 'unread_count.dart';
 
@@ -47,12 +47,13 @@ Widget conversationItemView(
                       children: [
                         Row(
                           children: [
-                            Text(name,
-                                style: TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold)),
-                            SizedBox(width: 6),
+                            Container(
+                                margin: EdgeInsets.only(right: 6),
+                                child: Text(name,
+                                    style: TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold))),
                             Row(children: [
                               Text('💗', style: TextStyle(fontSize: 18)),
                               SizedBox(width: 4),
@@ -66,10 +67,10 @@ Widget conversationItemView(
                             ]),
                           ],
                         ),
-                        TimeAgo(updatedAt: updatedAt)
                       ],
                     ),
                   ),
+                  TimeAgo(updatedAt: updatedAt)
                 ],
               ),
               SizedBox(
@@ -84,7 +85,7 @@ Widget conversationItemView(
                             fontSize: 16,
                             overflow: TextOverflow.ellipsis,
                             color: Theme.of(context).hintColor)),
-                    UnreadCount(unreadCount: 9),
+                    UnreadCount(unreadCount: unreadCount),
                   ],
                 ),
               ),

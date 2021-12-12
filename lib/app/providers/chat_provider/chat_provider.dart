@@ -5,11 +5,13 @@ import 'package:chat/common.dart';
 import 'package:chat/errors/errors.dart';
 import '../auth_provider.dart';
 import 'package:chat/config/config.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class ChatProvider extends GetxService {
   static ChatProvider get to => Get.find();
   final _isLoading = true.obs;
   final _isConnected = false.obs;
+  final currentChatAccount = Rxn<types.User>();
   bool get isConnected => _isConnected.value;
   bool get isLoading => _isLoading.value;
   xmpp.Connection? _connection;
@@ -97,7 +99,7 @@ class ChatProvider extends GetxService {
 
     Completer<void> completer = Completer();
 
-    xmpp.Log.logXmpp = false; // todo
+    xmpp.Log.logXmpp = false; // TODO
 
     if (_connectionStateSubscription != null) {
       _connectionStateSubscription!.cancel();
@@ -181,6 +183,7 @@ class ChatProvider extends GetxService {
       case xmpp.XmppConnectionState.Ready:
         Log.debug("Chat connection Ready");
         _currentAccount = _connection!.fullJid;
+        currentChatAccount(types.User(id: _currentAccount!.userAtDomain));
         _roomManager = xmpp.RoomManager.getInstance(_connection!);
         streamManager = _connection!.streamManagementModule;
         _isLoading.value = false;
