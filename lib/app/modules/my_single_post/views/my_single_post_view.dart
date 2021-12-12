@@ -27,11 +27,11 @@ class MySinglePostView extends GetView<MySinglePostController> {
         body: SingleChildScrollView(
             child: Column(children: [
           Container(
-            margin: EdgeInsets.fromLTRB(_width * 0.03, 10, _width * 0.03, 20),
+            margin: EdgeInsets.fromLTRB(_width * 0.03, 10, _width * 0.03, 10),
             padding: EdgeInsets.symmetric(
                 vertical: _width * 0.02, horizontal: _width * 0.04),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(10),
               color: HexColor(_backgroundColor),
             ),
             height: _height * 0.4,
@@ -58,9 +58,12 @@ class MySinglePostView extends GetView<MySinglePostController> {
                     ? post.views!.map((e) {
                         final account = AuthProvider.to.simpleAccountMap[e];
                         return Container(
+                            margin: EdgeInsets.fromLTRB(
+                                _width * 0.03, 13, _width * 0.03, 0),
                             child: ViewersList(
                                 name: account!.name,
                                 img: account.avatar,
+                                likeCount: account.like_count,
                                 viewerId: e));
                       }).toList()
                     : [Container(child: Text("no_one_has_seen_it_yet".tr))]
