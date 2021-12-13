@@ -10,17 +10,29 @@ class UnreadCount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return unreadCount > 0
-        ? Container(
-            padding: EdgeInsets.symmetric(horizontal: 3, vertical: 1),
-            color: Colors.red[400],
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: Text(unreadCount < 100 ? unreadCount.toString() : "99+",
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white)),
-            ))
+        ? unreadCount < 10
+            ? Container(
+                alignment: Alignment.center,
+                width: 18,
+                height: 18,
+                decoration: BoxDecoration(
+                    color: Colors.red[400],
+                    borderRadius: BorderRadius.circular(20)),
+                child: TextWidget(unreadCount.toString()))
+            : Container(
+                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                decoration: BoxDecoration(
+                    color: Colors.red[400],
+                    borderRadius: BorderRadius.circular(20)),
+                child: TextWidget(
+                  unreadCount < 100 ? unreadCount.toString() : "99+",
+                ))
         : SizedBox.shrink();
+  }
+
+  Widget TextWidget(String text) {
+    return Text(text,
+        style: TextStyle(
+            fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white));
   }
 }

@@ -51,10 +51,10 @@ Widget conversationItemView(
                         Flexible(
                             fit: FlexFit.loose,
                             child: Container(
-                                child: Text("2223423423423423423423",
+                                child: Text(name,
                                     style: TextStyle(
                                         overflow: TextOverflow.ellipsis,
-                                        fontSize: 17,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.bold)))),
                         LikeCount(
                           text: AuthProvider.to.account.value.likeCount
@@ -77,10 +77,10 @@ Widget conversationItemView(
                       Expanded(
                           child: Text(preview,
                               style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 15,
                                   overflow: TextOverflow.ellipsis,
                                   color: Theme.of(context).hintColor))),
-                      UnreadCount(unreadCount: 10),
+                      UnreadCount(unreadCount: unreadCount),
                     ]),
               ),
             ],
