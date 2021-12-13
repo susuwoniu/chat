@@ -11,6 +11,7 @@ class PostEntity {
   @JsonKey(name: 'account_id')
   final String accountId;
   final String cursor;
+  final String post_template_id;
   List<String>? views;
   bool isLoadingViewersList;
   PostEntity({
@@ -18,6 +19,7 @@ class PostEntity {
     required this.backgroundColor,
     required this.accountId,
     required this.cursor,
+    required this.post_template_id,
     this.views,
     this.isLoadingViewersList = false,
   });

@@ -8,6 +8,7 @@ import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/widgets/max_text.dart';
 import 'package:chat/config/config.dart';
 import 'package:chat/common.dart';
+import 'tag_widget.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -18,30 +19,37 @@ class HomeView extends GetView<HomeController> {
     final appBar = AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon: Text("✨", style: Theme.of(context).textTheme.headline6),
-          onPressed: () {
-            Get.toNamed(Routes.SETTING);
-          },
-        ),
+            icon: Text("✨", style: Theme.of(context).textTheme.headline6),
+            onPressed: () {
+              Get.toNamed(Routes.SETTING);
+            }),
         actions: <Widget>[
           Row(
             children: [
               IconButton(
-                icon: Text("🔑", style: Theme.of(context).textTheme.headline6),
-                onPressed: () {
-                  Get.toNamed(
-                    Routes.DEBUG,
-                  );
-                },
-              ),
+                  icon:
+                      Text("🐱", style: Theme.of(context).textTheme.headline6),
+                  onPressed: () {
+                    Get.toNamed(
+                      Routes.ADD_PROFILE_IMAGE,
+                    );
+                  }),
               IconButton(
-                icon: Text("✍️", style: Theme.of(context).textTheme.headline6),
-                onPressed: () {
-                  Get.toNamed(
-                    Routes.POST,
-                  );
-                },
-              ),
+                  icon:
+                      Text("🔑", style: Theme.of(context).textTheme.headline6),
+                  onPressed: () {
+                    Get.toNamed(
+                      Routes.DEBUG,
+                    );
+                  }),
+              IconButton(
+                  icon:
+                      Text("✍️", style: Theme.of(context).textTheme.headline6),
+                  onPressed: () {
+                    Get.toNamed(
+                      Routes.POST,
+                    );
+                  }),
             ],
           )
         ]);
@@ -50,6 +58,11 @@ class HomeView extends GetView<HomeController> {
         extendBody: true,
         extendBodyBehindAppBar: true,
         appBar: appBar,
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        floatingActionButton: Align(
+          alignment: Alignment(0.9, 0.51),
+          child: Text("💭", style: TextStyle(fontSize: 50)),
+        ),
         body: Obx(() {
           final isLogin = AuthProvider.to.isLogin;
           final account = AuthProvider.to.account.value;
@@ -119,11 +132,22 @@ class HomeView extends GetView<HomeController> {
                         return Stack(
                           children: <Widget>[
                             Container(
-                              padding: const EdgeInsets.only(
-                                  top: 20, left: 16, right: 16),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    TagWidget(
+                                      text: '今天下班后的计划是：',
+                                      onPressed: () {
+                                        Get.toNamed(Routes.POST_SQUARE,
+                                            arguments: {
+                                              "id": post.post_template_id,
+                                              "content": post.content,
+                                              "color": post.backgroundColor
+                                            });
+                                      },
+                                    ),
                                     MaxText(
                                       post.content,
                                       context,
@@ -132,8 +156,8 @@ class HomeView extends GetView<HomeController> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         height: 1.6,
-                                        fontSize: 26.0,
-                                        // fontWeight: FontWeight.bold,
+                                        fontSize: 30.0,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Container(
@@ -196,13 +220,6 @@ class HomeView extends GetView<HomeController> {
                                                           fontSize: 32,
                                                           color:
                                                               Colors.white))),
-                                          Text(
-                                            '💬点击进入私聊',
-                                            key: Key('$index-text'),
-                                            style: const TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.black38),
-                                          ),
                                         ]),
                                       ),
                                     )))

@@ -16,7 +16,7 @@ class NextPage {
       required this.closePageCountBeforeNextPage});
   static NextPage fromArguments(Map<String, dynamic> arguments) {
     final nextRoute = arguments['next'];
-    final nextRoute = arguments['arguments'];
+    final nextArguments = arguments['arguments'];
     final nextMode = arguments['mode'];
     final closePageCountBeforeNextPage =
         arguments['closePageCountBeforeNextPage'];
