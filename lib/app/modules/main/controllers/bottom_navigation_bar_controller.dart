@@ -1,9 +1,5 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'dart:async';
-import 'package:chat/common.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/providers/providers.dart';
 
@@ -12,10 +8,6 @@ class BottomNavigationBarController extends GetxController {
   final backgroundColor = RxString("");
   // 页控制器
   late final PageController pageController;
-  StreamSubscription? uriSub;
-
-  /// scheme 内部打开
-  bool isInitialUriIsHandled = false;
 
   /// 响应式成员变量
   final _page = 0.obs;
@@ -83,7 +75,6 @@ class BottomNavigationBarController extends GetxController {
 
   @override
   void dispose() {
-    uriSub?.cancel();
     pageController.dispose();
     super.dispose();
   }

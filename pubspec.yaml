@@ -19,6 +19,7 @@ dependencies:
   flare_flutter: ^3.0.2
   tiktoklikescroller: ^0.1.8
   tcard: ^1.3.5
+  uni_links: ^0.5.1
   pin_code_fields: ^7.3.0
   intl_phone_number_input:
     git:
