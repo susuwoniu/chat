@@ -5,8 +5,8 @@ import '../controllers/me_controller.dart';
 class MeBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put<MeController>(
-      MeController(),
+    Get.lazyPut<MeController>(
+      () => MeController(),
     );
   }
 }

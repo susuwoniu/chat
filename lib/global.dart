@@ -39,6 +39,7 @@ class Global {
 
     AppConfig().initConfig(env);
     Log().initLog(env);
+    Get.put<RouterProvider>(RouterProvider());
     await Get.putAsync<KVProvider>(() => KVProvider().init());
     Get.put<APIProvider>(APIProvider());
     Get.put<LoginController>(LoginController());

@@ -44,7 +44,7 @@ class EditInfoView extends GetView<EditInfoController> {
                         title: "name".tr,
                         content: _account.name,
                         onPressed: () {
-                          AuthProvider.to.setNextPageAction('back');
+                          RouterProvider.to.setNextPageAction('back');
                           Get.toNamed(Routes.EDIT_NAME,
                               arguments: {"action": 'add_account_name'});
                         },
@@ -53,7 +53,7 @@ class EditInfoView extends GetView<EditInfoController> {
                         title: "gender".tr,
                         content: _account.gender,
                         onPressed: () {
-                          AuthProvider.to.setNextPageAction('back');
+                          RouterProvider.to.setNextPageAction('back');
                           Get.toNamed(Routes.GENDER_SELECT);
                         },
                       ),
@@ -61,7 +61,7 @@ class EditInfoView extends GetView<EditInfoController> {
                         title: "bio".tr,
                         content: _bio!,
                         onPressed: () {
-                          AuthProvider.to.setNextPageAction('back');
+                          RouterProvider.to.setNextPageAction('back');
                           Get.toNamed(Routes.EDIT_BIO,
                               arguments: {"action": 'add_account_bio'});
                         },
@@ -70,7 +70,7 @@ class EditInfoView extends GetView<EditInfoController> {
                         title: "location".tr,
                         content: _location,
                         onPressed: () {
-                          AuthProvider.to.setNextPageAction('back');
+                          RouterProvider.to.setNextPageAction('back');
                           Get.toNamed(Routes.AGE_PICKER);
                         },
                       ),
@@ -78,7 +78,7 @@ class EditInfoView extends GetView<EditInfoController> {
                         title: "birth".tr,
                         content: _birthday.substring(0, 4),
                         onPressed: () {
-                          AuthProvider.to.setNextPageAction('back');
+                          RouterProvider.to.setNextPageAction('back');
                           controller.setIsShowYearPicked(true);
                           showCupertinoModalPopup<void>(
                               context: context,

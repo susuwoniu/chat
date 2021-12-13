@@ -12,7 +12,7 @@ class EnsureAuthMiddleware extends GetMiddleware {
         route == AppPages.INITIAL) {
       return null;
     } else {
-      AuthProvider.to.setNextPage(route);
+      RouterProvider.to.setNextPage(route);
       return RouteSettings(name: Routes.LOGIN);
     }
   }

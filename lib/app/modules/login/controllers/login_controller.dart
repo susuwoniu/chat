@@ -13,7 +13,7 @@ class LoginController extends GetxController {
     if (Get.arguments != null) {
       final data = Get.arguments as Map<String, dynamic>;
       if (data['next'] != null) {
-        AuthProvider.to.setNextPage(
+        RouterProvider.to.setNextPage(
           data['next'],
         );
       }

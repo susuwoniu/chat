@@ -8,7 +8,6 @@ import './theme.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/config/config.dart';
-import 'package:chat/common.dart';
 import 'global.dart';
 
 Future<void> main() async {
@@ -41,8 +40,8 @@ Future<void> main() async {
                 breakpoints: [
                   ResponsiveBreakpoint.resize(390, name: MOBILE),
                   ResponsiveBreakpoint.autoScale(480, name: MOBILE),
-                  ResponsiveBreakpoint.autoScale(768, name: TABLET),
-                  ResponsiveBreakpoint.resize(1024, name: DESKTOP),
+                  ResponsiveBreakpoint.resize(768, name: TABLET),
+                  ResponsiveBreakpoint.autoScale(1024, name: DESKTOP),
                 ],
               )),
       // builder: EasyLoading.init(builder:),

@@ -25,13 +25,8 @@ class Test3View extends GetView<Test3Controller> {
     return Container(
         padding: EdgeInsets.all(100),
         child: Column(children: [
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: Text("your message goes here"),
-          ),
+          Container(
+              height: 100, width: 100, color: Colors.red, child: Text("2222"))
         ]));
   }
 }
