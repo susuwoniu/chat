@@ -18,7 +18,7 @@ class AgeWidget extends StatelessWidget {
           ),
           Text(text,
               style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 17,
                   color: Colors.black54,
                   fontWeight: FontWeight.bold))
         ]),

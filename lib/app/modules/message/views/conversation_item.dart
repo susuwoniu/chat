@@ -44,30 +44,31 @@ Widget conversationItemView(
                 children: [
                   Expanded(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                                margin: EdgeInsets.only(right: 6),
-                                child: Text(name,
-                                    style: TextStyle(
-                                        overflow: TextOverflow.ellipsis,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold))),
-                            LikeCount(
-                              text: AuthProvider.to.account.value.likeCount
-                                  .toString(),
-                              iconSize: 14,
-                              fontSize: 13,
-                              backgroundColor: Colors.black12,
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                Expanded(
+                                    child: Container(
+                                        child: Text("11",
+                                            style: TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold)))),
+                                LikeCount(
+                                  text: AuthProvider.to.account.value.likeCount
+                                      .toString(),
+                                  iconSize: 16,
+                                  fontSize: 14,
+                                  backgroundColor: Colors.transparent,
+                                ),
+                              ]))
+                        ]),
                   ),
-                  TimeAgo(updatedAt: updatedAt)
+                  TimeAgo(updatedAt: updatedAt),
                 ],
               ),
               SizedBox(
@@ -75,16 +76,16 @@ Widget conversationItemView(
               ),
               Container(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(preview,
-                        style: TextStyle(
-                            fontSize: 16,
-                            overflow: TextOverflow.ellipsis,
-                            color: Theme.of(context).hintColor)),
-                    UnreadCount(unreadCount: unreadCount),
-                  ],
-                ),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: Text(preview,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  overflow: TextOverflow.ellipsis,
+                                  color: Theme.of(context).hintColor))),
+                      UnreadCount(unreadCount: 10),
+                    ]),
               ),
             ],
           )),
