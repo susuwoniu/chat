@@ -40,33 +40,30 @@ Widget conversationItemView(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                        Flexible(
-                            fit: FlexFit.loose,
-                            child: Container(
-                                child: Text(name,
-                                    style: TextStyle(
-                                        overflow: TextOverflow.ellipsis,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)))),
-                        LikeCount(
-                          text: AuthProvider.to.account.value.likeCount
-                              .toString(),
-                          iconSize: 16,
-                          fontSize: 14,
-                          backgroundColor: Colors.transparent,
-                        ),
-                      ])),
-                  TimeAgo(updatedAt: updatedAt),
-                ],
-              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Expanded(
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                      Flexible(
+                          fit: FlexFit.loose,
+                          child: Container(
+                              child: Text(name,
+                                  style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)))),
+                      LikeCount(
+                        text:
+                            AuthProvider.to.account.value.likeCount.toString(),
+                        iconSize: 16,
+                        fontSize: 14,
+                        backgroundColor: Colors.transparent,
+                      ),
+                    ])),
+                TimeAgo(updatedAt: updatedAt),
+              ]),
               SizedBox(
                 height: 5,
               ),
