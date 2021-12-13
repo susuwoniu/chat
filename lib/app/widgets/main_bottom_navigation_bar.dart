@@ -22,14 +22,15 @@ mainBottomNavigationBar(BuildContext context) {
               icon: Text("🔥", style: Theme.of(context).textTheme.headline5),
               label: 'Home'),
           // _Paths.Main + Routes.POST
-          BottomNavigationBarItem(
-            icon: Text("✍️", style: Theme.of(context).textTheme.headline5),
-            label: 'Post',
-          ),
+
           // _Paths.HOME + _Paths.MESSAGE
           BottomNavigationBarItem(
             icon: Text("👋", style: Theme.of(context).textTheme.headline5),
             label: 'Message',
+          ),
+          BottomNavigationBarItem(
+            icon: Text("😍", style: Theme.of(context).textTheme.headline5),
+            label: 'Me',
           ),
         ],
       ));

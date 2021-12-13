@@ -16,3 +16,7 @@
 - [ ]  device id
 - [ ]  stream resume chat
 - [ ]  设置页面
+- [ ]  发送帖子页面，模版优化
+- [ ]  消息页面引用样式？markdown？
+- [ ]  帖子markdown？
+- [ ]  

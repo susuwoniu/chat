@@ -55,14 +55,12 @@ class BottomNavigationBarController extends GetxController {
 
   // tab栏页码切换
   void handlePageChanged(int page) {
-    if (page == 1) {
-      Get.toNamed(Routes.POST);
-      return;
-    }
-
     if (page > 0 && !AuthProvider.to.isLogin) {
       // need login
       var tab = "message";
+      if (page == 2) {
+        tab = "me";
+      }
       final allParam = {"tab": tab};
       allParam.addAll(Get.arguments ?? {});
       final query = Uri(queryParameters: allParam).query;

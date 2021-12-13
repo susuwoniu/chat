@@ -18,7 +18,7 @@ class HomeView extends GetView<HomeController> {
     final appBar = AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon: Text("🤓", style: Theme.of(context).textTheme.headline5),
+          icon: Text("✨", style: Theme.of(context).textTheme.headline6),
           onPressed: () {
             Get.toNamed(Routes.SETTING);
           },
@@ -27,33 +27,20 @@ class HomeView extends GetView<HomeController> {
           Row(
             children: [
               IconButton(
-                icon: Text("🔑"),
+                icon: Text("🔑", style: Theme.of(context).textTheme.headline6),
                 onPressed: () {
                   Get.toNamed(
                     Routes.DEBUG,
                   );
                 },
               ),
-              Container(
-                height: 46,
-                width: 46,
-                margin: EdgeInsets.only(right: 16),
-                child: Obx(() {
-                  final isLogin = AuthProvider.to.isLogin;
-                  if (isLogin) {
-                    final account = AuthProvider.to.account.value;
-
-                    return Avatar(
-                        name: account.name,
-                        elevation: 0,
-                        uri: account.avatar,
-                        onTap: () {
-                          Get.toNamed(Routes.ME);
-                        });
-                  } else {
-                    return SizedBox.shrink();
-                  }
-                }),
+              IconButton(
+                icon: Text("✍️", style: Theme.of(context).textTheme.headline6),
+                onPressed: () {
+                  Get.toNamed(
+                    Routes.POST,
+                  );
+                },
               ),
             ],
           )
@@ -63,14 +50,6 @@ class HomeView extends GetView<HomeController> {
         extendBody: true,
         extendBodyBehindAppBar: true,
         appBar: appBar,
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-        floatingActionButton: Align(
-            alignment: Alignment(1, 0.4),
-            child: FloatingActionButton(
-              backgroundColor: Colors.deepOrange,
-              onPressed: () {},
-              child: Text("✍️"),
-            )),
         body: Obx(() {
           final isLogin = AuthProvider.to.isLogin;
           final account = AuthProvider.to.account.value;
@@ -218,11 +197,11 @@ class HomeView extends GetView<HomeController> {
                                                           color:
                                                               Colors.white))),
                                           Text(
-                                            '$index',
+                                            '💬点击进入私聊',
                                             key: Key('$index-text'),
                                             style: const TextStyle(
-                                                fontSize: 24,
-                                                color: Colors.white),
+                                                fontSize: 16,
+                                                color: Colors.black38),
                                           ),
                                         ]),
                                       ),
