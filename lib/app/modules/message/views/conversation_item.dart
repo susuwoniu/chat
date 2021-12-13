@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:chat/common.dart';
 import 'time_ago.dart';
 import 'unread_count.dart';
+import '../../me/views/like_count.dart';
 
 Widget conversationItemView(
     {required BuildContext context,
@@ -34,7 +35,7 @@ Widget conversationItemView(
           Container(
               margin: EdgeInsets.only(right: _width * 0.03),
               padding: EdgeInsets.symmetric(vertical: _paddingTop),
-              child: Avatar(name: name, uri: avatar)),
+              child: Avatar(name: name, uri: avatar, size: 25)),
           Expanded(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,19 +53,15 @@ Widget conversationItemView(
                                 child: Text(name,
                                     style: TextStyle(
                                         overflow: TextOverflow.ellipsis,
-                                        fontSize: 18,
+                                        fontSize: 17,
                                         fontWeight: FontWeight.bold))),
-                            Row(children: [
-                              Text('💗', style: TextStyle(fontSize: 18)),
-                              SizedBox(width: 4),
-                              Text(
-                                  AuthProvider.to.account.value.likeCount
-                                      .toString(),
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.pink[300],
-                                      fontWeight: FontWeight.bold))
-                            ]),
+                            LikeCount(
+                              text: AuthProvider.to.account.value.likeCount
+                                  .toString(),
+                              iconSize: 14,
+                              fontSize: 13,
+                              backgroundColor: Colors.black12,
+                            )
                           ],
                         ),
                       ],
@@ -74,7 +71,7 @@ Widget conversationItemView(
                 ],
               ),
               SizedBox(
-                height: 8,
+                height: 5,
               ),
               Container(
                 child: Row(

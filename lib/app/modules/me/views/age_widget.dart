@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 class AgeWidget extends StatelessWidget {
   final String text;
-  final String iconName;
+  final IconData icon;
 
-  AgeWidget({
-    Key? key,
-    required this.text,
-    required this.iconName,
-  }) : super(key: key);
+  AgeWidget({Key? key, required this.text, required this.icon})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
         child: Row(children: [
-          Text(iconName, style: TextStyle(fontSize: 22)),
-          SizedBox(width: 4),
+          Icon(
+            icon,
+            color: Colors.black54,
+            size: 22,
+          ),
           Text(text,
               style: TextStyle(
                   fontSize: 18,

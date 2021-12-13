@@ -1,5 +1,6 @@
 import 'package:chat/app/widgets/avatar.dart';
 import 'package:flutter/material.dart';
+import '../../me/views/like_count.dart';
 
 class ViewersList extends StatelessWidget {
   final String? img;
@@ -25,15 +26,21 @@ class ViewersList extends StatelessWidget {
               SizedBox(
                 width: 10,
               ),
-              Text(name),
-              SizedBox(
-                width: 5,
+              Text(
+                name,
+                style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold),
               ),
-              Text("💗"),
               SizedBox(
-                width: 5,
+                width: 10,
               ),
-              Text(likeCount.toString()),
+              LikeCount(
+                text: likeCount.toString(),
+                backgroundColor: Colors.black12,
+                fontSize: 14,
+              ),
             ],
           )
         ],
