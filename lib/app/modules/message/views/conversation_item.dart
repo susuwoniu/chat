@@ -44,31 +44,36 @@ Widget conversationItemView(
                 children: [
                   Expanded(
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Expanded(
                               child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                 Expanded(
+                                    flex: 0,
                                     child: Container(
-                                        child: Text("11",
+                                        child: Text(
+                                            "kdgodfgpdfiipipipipiipoiioipo",
                                             style: TextStyle(
                                                 overflow: TextOverflow.ellipsis,
                                                 fontSize: 17,
                                                 fontWeight: FontWeight.bold)))),
-                                LikeCount(
-                                  text: AuthProvider.to.account.value.likeCount
-                                      .toString(),
-                                  iconSize: 16,
-                                  fontSize: 14,
-                                  backgroundColor: Colors.transparent,
-                                ),
+                                Expanded(
+                                    flex: 0,
+                                    child: LikeCount(
+                                      text: AuthProvider
+                                          .to.account.value.likeCount
+                                          .toString(),
+                                      iconSize: 16,
+                                      fontSize: 14,
+                                      backgroundColor: Colors.transparent,
+                                    )),
                               ]))
                         ]),
                   ),
-                  TimeAgo(updatedAt: updatedAt),
+                  Expanded(flex: 0, child: TimeAgo(updatedAt: updatedAt)),
                 ],
               ),
               SizedBox(
