@@ -93,7 +93,7 @@ class HomeView extends GetView<HomeController> {
                         isEmpty) {
                       return Center(
                           child: Retry(
-                              message: "当前没有帖子哦～",
+                              message: "当前没有更多帖子啦～",
                               onRetry: () async {
                                 controller.isLoadingHomePosts.value = true;
                                 try {
