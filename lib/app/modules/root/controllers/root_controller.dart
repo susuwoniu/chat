@@ -30,7 +30,7 @@ class RootController extends GetxController {
 
       _isInit.value = true;
 
-      Get.toNamed(Routes.MAIN);
+      Get.offNamed(Routes.MAIN);
 
       //  router
     } catch (e) {
