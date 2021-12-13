@@ -4,11 +4,30 @@ import 'dart:async';
 import 'package:chat/common.dart';
 import 'package:chat/app/routes/app_pages.dart';
 
-// class NextPage {
-//   final String route;
-//   final String arguments;
-//   NextPage({this.route, this.arguments});
-// }
+class NextPage {
+  final String route;
+  final Map<String, dynamic> arguments;
+  final String mode;
+  final int closePageCountBeforeNextPage;
+  NextPage(
+      {required this.route,
+      required this.arguments,
+      required this.mode,
+      required this.closePageCountBeforeNextPage});
+  static NextPage fromArguments(Map<String, dynamic> arguments) {
+    final nextRoute = arguments['next'];
+    final nextRoute = arguments['arguments'];
+    final nextMode = arguments['mode'];
+    final closePageCountBeforeNextPage =
+        arguments['closePageCountBeforeNextPage'];
+    return NextPage(
+        route: nextRoute,
+        arguments: nextRoute,
+        mode: nextMode,
+        closePageCountBeforeNextPage: closePageCountBeforeNextPage);
+  }
+}
+
 class RouterProvider extends GetxService {
   static RouterProvider get to => Get.find();
 
