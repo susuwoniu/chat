@@ -22,7 +22,7 @@ class MainView extends GetView<MainController> {
   Widget _buildPageView() {
     return PageView(
       physics: NeverScrollableScrollPhysics(),
-      children: <Widget>[HomeView(), PostView(), MessageView()],
+      children: <Widget>[HomeView(), MessageView()],
       controller: BottomNavigationBarController.to.pageController,
     );
   }

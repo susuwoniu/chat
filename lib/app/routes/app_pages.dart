@@ -43,6 +43,8 @@ import 'package:chat/app/modules/test3/bindings/test3_binding.dart';
 import 'package:chat/app/modules/test3/views/test3_view.dart';
 import 'package:chat/app/modules/verification/bindings/verification_binding.dart';
 import 'package:chat/app/modules/verification/views/verification_view.dart';
+import 'package:chat/app/modules/post/views/post_view.dart';
+import 'package:chat/app/modules/post/bindings/post_binding.dart';
 
 import 'observers.dart';
 
@@ -72,6 +74,15 @@ class AppPages {
       preventDuplicates: true,
       page: () => MainView(),
       binding: MainBinding(),
+    ),
+    GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
+      name: _Paths.POST,
+      page: () => PostView(),
+      binding: PostBinding(),
     ),
     GetPage(
       middlewares: [

@@ -7,6 +7,7 @@ abstract class Routes {
   static const SPLASH = _Paths.SPLASH;
   static const NOTFOUND = _Paths.NOTFOUND;
   static const MAIN = _Paths.MAIN;
+  static const POST = _Paths.POST;
   static const TEST1 = _Paths.TEST1;
   static const TEST2 = _Paths.TEST2;
   static const LOGIN = _Paths.LOGIN;
@@ -36,6 +37,7 @@ abstract class _Paths {
   static const SPLASH = '/splash';
   static const NOTFOUND = '/notfound';
   static const MAIN = '/app';
+  static const POST = '/post';
   static const TEST1 = '/test1';
   static const TEST2 = '/test2';
   static const LOGIN = "/login";

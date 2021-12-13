@@ -8,6 +8,19 @@ class LoginController extends GetxController {
   final phoneNumber = ''.obs;
   final isNumberValid = false.obs;
   final verificationCode = ''.obs;
+  @override
+  onInit() {
+    if (Get.arguments != null) {
+      final data = Get.arguments as Map<String, dynamic>;
+      if (data['next'] != null) {
+        AuthProvider.to.setNextPage(
+          data['next'],
+        );
+      }
+    }
+
+    super.onInit();
+  }
 
   // 发送验证码
   handleSendCode() async {

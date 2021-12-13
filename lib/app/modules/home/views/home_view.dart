@@ -63,6 +63,14 @@ class HomeView extends GetView<HomeController> {
         extendBody: true,
         extendBodyBehindAppBar: true,
         appBar: appBar,
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        floatingActionButton: Align(
+            alignment: Alignment(1, 0.4),
+            child: FloatingActionButton(
+              backgroundColor: Colors.deepOrange,
+              onPressed: () {},
+              child: Text("✍️"),
+            )),
         body: Obx(() {
           final isLogin = AuthProvider.to.isLogin;
           final account = AuthProvider.to.account.value;

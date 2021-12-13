@@ -31,17 +31,16 @@ class BottomNavigationBarController extends GetxController {
     allQuery.addAll(Get.arguments ?? {});
     final tab = allQuery["tab"] ?? "home";
     _page.value = 0;
-    if (tab == 'post') {
+    if (tab == 'message') {
       _page.value = 1;
-    } else if (tab == 'message') {
-      _page.value = 2;
     }
     if (_page.value > 0 && !AuthProvider.to.isLogin) {
       // need login
       final query = Uri(queryParameters: Get.arguments).query;
-      Get.offNamed(Routes.LOGIN, parameters: {
-        "next": "${Routes.MAIN}${query.isNotEmpty ? '?' + query : ''}"
-      });
+      // set next
+      AuthProvider.to
+          .setNextPage("${Routes.MAIN}${query.isNotEmpty ? '?' + query : ''}");
+      Get.offNamed(Routes.LOGIN);
     }
     pageController = PageController(initialPage: _page.value);
     super.onInit();
@@ -56,15 +55,18 @@ class BottomNavigationBarController extends GetxController {
 
   // tab栏页码切换
   void handlePageChanged(int page) {
+    if (page == 1) {
+      Get.toNamed(Routes.POST);
+      return;
+    }
+
     if (page > 0 && !AuthProvider.to.isLogin) {
       // need login
       var tab = "message";
-      if (page == 1) {
-        tab = "post";
-      }
       final allParam = {"tab": tab};
       allParam.addAll(Get.arguments ?? {});
       final query = Uri(queryParameters: allParam).query;
+
       Get.toNamed(Routes.LOGIN, parameters: {
         "next": "${Routes.MAIN}${query.isNotEmpty ? '?' + query : ''}"
       });
