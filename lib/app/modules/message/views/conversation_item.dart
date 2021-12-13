@@ -74,12 +74,14 @@ Widget conversationItemView(
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                          child: Text(preview,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  overflow: TextOverflow.ellipsis,
-                                  color: Theme.of(context).hintColor))),
+                      Container(
+                          width: _width * 0.62,
+                          child: Expanded(
+                              child: Text(preview,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      overflow: TextOverflow.ellipsis,
+                                      color: Theme.of(context).hintColor)))),
                       UnreadCount(unreadCount: unreadCount),
                     ]),
               ),
