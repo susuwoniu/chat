@@ -16,7 +16,6 @@ class LikeCount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 70,
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         child: Row(children: [
           Icon(
