@@ -156,7 +156,7 @@ class HomeController extends GetxController {
       // put accoutns to simple accounts
       await AuthProvider.to.saveSimpleAccounts(result.accountMap);
       PatchPostCountView(result.indexes[0]).catchError((e) {
-        UIUtils.reportError(e);
+        report(e);
       });
       // save current first cursor
       if (isFirstCursorChanged && homePostsFirstCursor != null) {
@@ -246,7 +246,7 @@ class HomeController extends GetxController {
       if (post != null) {
         backgroundColor = post.backgroundColor;
         PatchPostCountView(postIndexes[index]).catchError((e) {
-          UIUtils.reportError(e);
+          report(e);
         });
       }
     }
@@ -285,7 +285,7 @@ class HomeController extends GetxController {
               .putObjectList(STORAGE_HOME_SKIPS_KEY,
                   _skips.map((item) => item.toJson()).toList())
               .catchError((e) {
-            UIUtils.reportError(e);
+            report(e);
           });
         }
         isLoadingHomePosts.value = true;

@@ -41,39 +41,30 @@ Widget conversationItemView(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                              child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                Expanded(
-                                    flex: 0,
-                                    child: Container(
-                                        child: Text(
-                                            "kdgodfgpdfiipipipipiipoiioipo",
-                                            style: TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold)))),
-                                Expanded(
-                                    flex: 0,
-                                    child: LikeCount(
-                                      text: AuthProvider
-                                          .to.account.value.likeCount
-                                          .toString(),
-                                      iconSize: 16,
-                                      fontSize: 14,
-                                      backgroundColor: Colors.transparent,
-                                    )),
-                              ]))
-                        ]),
-                  ),
-                  Expanded(flex: 0, child: TimeAgo(updatedAt: updatedAt)),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                        Flexible(
+                            fit: FlexFit.loose,
+                            child: Container(
+                                child: Text("2223423423423423423423",
+                                    style: TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold)))),
+                        LikeCount(
+                          text: AuthProvider.to.account.value.likeCount
+                              .toString(),
+                          iconSize: 16,
+                          fontSize: 14,
+                          backgroundColor: Colors.transparent,
+                        ),
+                      ])),
+                  TimeAgo(updatedAt: updatedAt),
                 ],
               ),
               SizedBox(

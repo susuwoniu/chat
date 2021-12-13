@@ -18,11 +18,32 @@ A new Flutter project.
 - [Flutter Theme Generator Online](https://zeshuaro.github.io/flutter_theme/#/)
 - [Open IM SDK](https://github.com/OpenIMSDK/Open-IM-SDK-Flutter)
 - [flutter chat ui docs](https://docs.flyer.chat/flutter/chat-ui/advanced-usage)
+- https://github.com/ducafecat/flutter_ducafecat_news_getx
+- [uni_links](https://pub.dev/packages/uni_links)
 - XMPP
   - <https://xmpp.org/extensions/xep-0430.html>
   - https://www.process-one.net/en/ejabberd/protocols/
   - https://mongooseim.readthedocs.io/en/4.0.1/user-guide/Features-and-supported-standards/
 ## Tips
+
+### 获取权限 
+
+```dart
+import 'package:permission_handler/permission_handler.dart';
+import 'package:chat/app/ui_utils/permission_util.dart';
+
+
+Map<Permission, PermissionStatus> statuses =
+    await PermissionUtil.request([
+  Permission.camera,
+  Permission.storage,
+  Permission.microphone,
+  Permission.speech,
+  Permission.location,
+]);
+// TODO reminder user
+print("permission statuses: $statuses");
+```
 
 ### 创建页面
 
