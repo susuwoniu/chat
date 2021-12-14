@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:chat/config/config.dart';
 import 'package:chat/utils/log.dart';
-import 'package:chat/app/modules/login/controllers/login_controller.dart';
 import 'dart:developer';
 
 /// 全局静态数据
@@ -42,7 +41,7 @@ class Global {
     Get.put<RouterProvider>(RouterProvider());
     await Get.putAsync<KVProvider>(() => KVProvider().init());
     Get.put<APIProvider>(APIProvider());
-    Get.put<LoginController>(LoginController());
+    Get.put<AccountProvider>(AccountProvider());
     Get.put<ConfigProvider>(ConfigProvider());
     Get.put<AuthProvider>(AuthProvider());
     Get.put<ChatProvider>(ChatProvider());

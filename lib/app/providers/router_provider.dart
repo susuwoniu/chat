@@ -1,9 +1,11 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:uni_links/uni_links.dart';
 import 'dart:async';
 import 'package:chat/common.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/modules/main/controllers/bottom_navigation_bar_controller.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 class RouterProvider extends GetxService {
   static RouterProvider get to => Get.find();
@@ -92,6 +94,10 @@ class RouterProvider extends GetxService {
     }, arguments: arguments);
   }
 
+  void restart(BuildContext context) {
+    Phoenix.rebirth(context);
+  }
+
   void toNextPage() {
     // 检测 next 参数，如果有，则跳转到next参数页面，没有则跳转到首页
     final next = _nextPage;
@@ -105,7 +111,7 @@ class RouterProvider extends GetxService {
 
       if (mode == NextMode.OffAll) {
         // offAll must root
-        Get.offAllNamed(Routes.ROOT, arguments: next.arguments);
+        Get.offAllNamed(next.route, arguments: next.arguments);
       } else if (mode == NextMode.SwitchTo) {
         switchTo(next.route, arguments: next.arguments);
       } else if (mode == NextMode.Back) {
@@ -124,6 +130,21 @@ class RouterProvider extends GetxService {
 
   void setClosePageCountBeforeNextPage(int count) {
     _nextPage?.closePageCountBeforeNextPage = count;
+  }
+
+  void handleNextPageArguments() {
+    if (Get.arguments != null) {
+      final data = Get.arguments as Map<String, dynamic>;
+      if (data['next'] != null) {
+        RouterProvider.to.setNextPage(NextPage.fromArguments(Get.arguments));
+      } else if (data['mode'] != null && data['mode'] == 'back') {
+        RouterProvider.to.setNextPage(NextPage.back());
+      }
+    }
+  }
+
+  void handleNextPageDipose() {
+    setNextPage(null);
   }
 }
 
@@ -184,4 +205,15 @@ class NextPage {
         mode: nextMode,
         closePageCountBeforeNextPage: closePageCountBeforeNextPage);
   }
+
+  Map<String, String> toArguments() {
+    final nextUri = Uri(path: route, queryParameters: arguments);
+    return <String, String>{
+      'next': nextUri.toString(),
+      'mode': camel(mode.toString().toLowerCase()),
+      'closePageCountBeforeNextPage': closePageCountBeforeNextPage.toString()
+    };
+  }
 }
+
+String camel(String s) => s[0].toLowerCase() + s.substring(1);

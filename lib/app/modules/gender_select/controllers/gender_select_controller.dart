@@ -1,3 +1,4 @@
+import 'package:chat/app/providers/providers.dart';
 import 'package:get/get.dart';
 
 class GenderSelectController extends GetxController {
@@ -8,7 +9,15 @@ class GenderSelectController extends GetxController {
   final count = 0.obs;
   @override
   void onInit() {
+    RouterProvider.to.handleNextPageArguments();
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    RouterProvider.to.handleNextPageDipose();
+
+    super.onClose();
   }
 
   @override

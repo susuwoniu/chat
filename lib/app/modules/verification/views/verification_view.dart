@@ -5,14 +5,13 @@ import '../../login/controllers/login_controller.dart';
 
 import '../controllers/verification_controller.dart';
 import 'package:chat/common.dart';
-import 'package:chat/app/routes/app_pages.dart';
 import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../login/views/bear_log_in_controller.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/services.dart';
-
+import 'package:chat/app/providers/providers.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 class VerificationView extends GetView<VerificationController> {
@@ -231,7 +230,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         );
                       }
                       try {
-                        await _controller.handleLogin(closePageCount: 1);
+                        await AccountProvider.to.handleLogin(
+                            _controller.countryCode.value,
+                            _controller.phoneNumber.value,
+                            _controller.verificationCode.value,
+                            closePageCount: 1);
                         UIUtils.toast('登录成功');
                       } catch (e) {
                         UIUtils.showError(e);

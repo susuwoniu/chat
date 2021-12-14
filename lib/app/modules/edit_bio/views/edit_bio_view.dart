@@ -5,13 +5,11 @@ import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../edit_name/views/appbar_save.dart';
-import '../../login/controllers/login_controller.dart';
 import '../controllers/edit_bio_controller.dart';
 import '../../edit_name/views/input_widget.dart';
+import 'package:chat/app/providers/providers.dart';
 
 class EditBioView extends GetView<EditBioController> {
-  final _loginController = LoginController.to;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +23,7 @@ class EditBioView extends GetView<EditBioController> {
                 isActived: _isActived,
                 onPressed: () async {
                   try {
-                    await _loginController.postAccountInfoChange(
+                    await AccountProvider.to.postAccountInfoChange(
                         {"bio": controller.currentBio.value});
                   } catch (e) {
                     UIUtils.showError(e);

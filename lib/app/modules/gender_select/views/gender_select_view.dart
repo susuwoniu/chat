@@ -5,10 +5,9 @@ import '../../login/controllers/login_controller.dart';
 import '../controllers/gender_select_controller.dart';
 import 'gender_picker.dart';
 import '../../age_picker/views/next_button.dart';
+import 'package:chat/app/providers/providers.dart';
 
 class GenderSelectView extends GetView<GenderSelectController> {
-  final _loginController = LoginController.to;
-
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
@@ -47,7 +46,7 @@ class GenderSelectView extends GetView<GenderSelectController> {
                     action: 'gender',
                     onPressed: () async {
                       try {
-                        await _loginController.postAccountInfoChange(
+                        await AccountProvider.to.postAccountInfoChange(
                             {"gender": controller.selectedGender.value});
                       } catch (e) {
                         UIUtils.showError(e);

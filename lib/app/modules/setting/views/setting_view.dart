@@ -6,7 +6,6 @@ import 'package:settings_ui/settings_ui.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import '../controllers/setting_controller.dart';
 import 'package:chat/app/providers/providers.dart';
-import 'package:chat/app/modules/login/controllers/login_controller.dart';
 
 class SettingView extends GetView<SettingController> {
   @override
@@ -87,10 +86,13 @@ class SettingView extends GetView<SettingController> {
                         title: 'Log_out'.tr,
                         onPressed: (BuildContext context) async {
                           try {
-                            await LoginController.to.handleLogout();
-                            Get.offAllNamed(Routes.ROOT);
+                            UIUtils.showLoading();
+                            await AccountProvider.to.handleLogout();
+                            UIUtils.hideLoading();
                             UIUtils.toast("退出成功");
+                            RouterProvider.to.restart(context);
                           } catch (e) {
+                            UIUtils.hideLoading();
                             UIUtils.showError(e);
                           }
                         }),

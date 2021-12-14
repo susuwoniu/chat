@@ -3,6 +3,7 @@ import 'package:chat/constants/constants.dart';
 import 'package:get/get.dart';
 import 'package:package_info/package_info.dart';
 import 'kv_provider.dart';
+import 'package:chat/utils/log.dart';
 
 class ConfigProvider extends GetxService {
   static ConfigProvider get to => Get.find();
@@ -21,6 +22,7 @@ class ConfigProvider extends GetxService {
   @override
   void onInit() {
     isFirstOpen = KVProvider.to.getBool(STORAGE_DEVICE_FIRST_OPEN_KEY);
+    Log.debug("isFirstOpen: $isFirstOpen");
     nightMode.value = KVProvider.to.getBool(NIGHT_MODE_KEY);
     super.onInit();
   }

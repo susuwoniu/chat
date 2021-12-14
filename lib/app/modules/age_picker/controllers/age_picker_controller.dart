@@ -1,10 +1,7 @@
 import 'package:get/get.dart';
-import '../../login/controllers/login_controller.dart';
+import 'package:chat/app/providers/providers.dart';
 
 class AgePickerController extends GetxController {
-  //TODO: Implement AgePickerController
-  final _loginController = LoginController.to;
-
   final count = 0.obs;
   final birthYear = '1998'.obs;
 
@@ -25,7 +22,7 @@ class AgePickerController extends GetxController {
   }
 
   Future<void> updateAge() async {
-    final account = await _loginController.postAccountInfoChange({
+    final account = await AccountProvider.to.postAccountInfoChange({
       "birthday": birthYear.value + "-01-01",
     });
   }

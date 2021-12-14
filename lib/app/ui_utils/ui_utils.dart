@@ -34,9 +34,12 @@ class UIUtils {
         // get current route
         final currentRoute = Get.currentRoute;
         Log.debug("currentRoute: $currentRoute");
-        RouterProvider.to.setNextPage(NextPage(
-            mode: NextMode.Off, route: currentRoute, arguments: Get.arguments));
-        Get.offNamed(Routes.LOGIN);
+        Get.offNamed(Routes.LOGIN,
+            arguments: NextPage(
+                    mode: NextMode.Off,
+                    route: currentRoute,
+                    arguments: Get.arguments)
+                .toArguments());
         return;
       }
       return snackbar(
