@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:chat/common.dart';
 
 import 'package:get/get.dart';
 import 'package:settings_ui/settings_ui.dart';
-
+import 'package:chat/app/routes/app_pages.dart';
 import '../controllers/setting_controller.dart';
 import 'package:chat/app/providers/providers.dart';
+import 'package:chat/app/modules/login/controllers/login_controller.dart';
 
 class SettingView extends GetView<SettingController> {
   @override
@@ -23,13 +25,18 @@ class SettingView extends GetView<SettingController> {
         ),
         body: Obx(() => SettingsList(
               sections: [
+                SettingsSection(tiles: [
+                  SettingsTile(
+                    title: 'Phone'.tr,
+                  ),
+                ]),
                 SettingsSection(
-                  title: 'general'.tr,
+                  // title: 'general'.tr,
                   tiles: [
                     SettingsTile(
                       title: 'language'.tr,
                       subtitle: 'English',
-                      leading: Icon(Icons.language),
+                      // leading: Icon(Icons.language),
                       onPressed: (BuildContext context) {
                         Get.bottomSheet(
                             Container(
@@ -51,13 +58,42 @@ class SettingView extends GetView<SettingController> {
                     ),
                     SettingsTile.switchTile(
                       title: 'night-mode'.tr,
-                      leading: Icon(Icons.mode_night),
+                      // leading: Icon(Icons.mode_night),
                       switchValue: ConfigProvider.to.nightMode.value,
                       onToggle: (bool value) {
                         print("value $value");
                         ConfigProvider.to.toggleNightMode(value);
                       },
                     ),
+                    SettingsTile(
+                      title: 'Clear'.tr,
+                      onPressed: (BuildContext context) {
+                        KVProvider.to.clear();
+                      },
+                    ),
+                    SettingsTile(
+                      title: 'Help&Feedback'.tr,
+                      onPressed: (BuildContext context) {
+                        Get.toNamed(Routes.FEEDBACK);
+                      },
+                    ),
+                    SettingsTile(
+                      title: 'About'.tr,
+                      onPressed: (BuildContext context) {
+                        Get.toNamed(Routes.ABOUT);
+                      },
+                    ),
+                    SettingsTile(
+                        title: 'Log_out'.tr,
+                        onPressed: (BuildContext context) async {
+                          try {
+                            await LoginController.to.handleLogout();
+                            Get.offAllNamed(Routes.ROOT);
+                            UIUtils.toast("退出成功");
+                          } catch (e) {
+                            UIUtils.showError(e);
+                          }
+                        }),
                   ],
                 ),
               ],

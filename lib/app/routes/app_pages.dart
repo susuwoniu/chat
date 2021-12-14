@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:chat/app/middleware/auth_middleware.dart';
+import 'package:chat/app/modules/about/bindings/about_binding.dart';
+import 'package:chat/app/modules/about/views/about_view.dart';
 import 'package:chat/app/modules/add_profile_image/bindings/add_profile_image_binding.dart';
 import 'package:chat/app/modules/add_profile_image/views/add_profile_image_view.dart';
 import 'package:chat/app/modules/age_picker/bindings/age_picker_binding.dart';
@@ -17,6 +19,8 @@ import 'package:chat/app/modules/edit_info/bindings/edit_info_binding.dart';
 import 'package:chat/app/modules/edit_info/views/edit_info_view.dart';
 import 'package:chat/app/modules/edit_name/bindings/edit_name_binding.dart';
 import 'package:chat/app/modules/edit_name/views/edit_name_view.dart';
+import 'package:chat/app/modules/feedback/bindings/feedback_binding.dart';
+import 'package:chat/app/modules/feedback/views/feedback_view.dart';
 import 'package:chat/app/modules/gender_select/bindings/gender_select_binding.dart';
 import 'package:chat/app/modules/gender_select/views/gender_select_view.dart';
 import 'package:chat/app/modules/login/bindings/login_binding.dart';
@@ -29,6 +33,10 @@ import 'package:chat/app/modules/my_single_post/bindings/my_single_post_binding.
 import 'package:chat/app/modules/my_single_post/views/my_single_post_view.dart';
 import 'package:chat/app/modules/notfound/bindings/notfound_binding.dart';
 import 'package:chat/app/modules/notfound/views/notfound_view.dart';
+import 'package:chat/app/modules/post/bindings/post_binding.dart';
+import 'package:chat/app/modules/post/views/post_view.dart';
+import 'package:chat/app/modules/post_square/bindings/post_square_binding.dart';
+import 'package:chat/app/modules/post_square/views/post_square_view.dart';
 import 'package:chat/app/modules/room/bindings/room_binding.dart';
 import 'package:chat/app/modules/room/views/room_view.dart';
 import 'package:chat/app/modules/root/bindings/root_binding.dart';
@@ -43,8 +51,6 @@ import 'package:chat/app/modules/test3/bindings/test3_binding.dart';
 import 'package:chat/app/modules/test3/views/test3_view.dart';
 import 'package:chat/app/modules/verification/bindings/verification_binding.dart';
 import 'package:chat/app/modules/verification/views/verification_view.dart';
-import 'package:chat/app/modules/post/views/post_view.dart';
-import 'package:chat/app/modules/post/bindings/post_binding.dart';
 
 import 'observers.dart';
 
@@ -217,6 +223,21 @@ class AppPages {
       name: _Paths.EDIT_BIO,
       page: () => EditBioView(),
       binding: EditBioBinding(),
+    ),
+    GetPage(
+      name: _Paths.POST_SQUARE,
+      page: () => PostSquareView(),
+      binding: PostSquareBinding(),
+    ),
+    GetPage(
+      name: _Paths.ABOUT,
+      page: () => AboutView(),
+      binding: AboutBinding(),
+    ),
+    GetPage(
+      name: _Paths.FEEDBACK,
+      page: () => FeedbackView(),
+      binding: FeedbackBinding(),
     ),
   ];
 }

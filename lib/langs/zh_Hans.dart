@@ -1,6 +1,11 @@
 import 'package:chat/common.dart';
 
 const Map<String, String> zh_Hans = {
+  'Phone': "更换手机号",
+  'About': "关于",
+  'Clear': "清理存储空间",
+  'Help&Feedback': "反馈问题",
+  'Log_out': "退出账号",
   'title': '这是标题',
   "Select_a_question": '请选择一个问题：',
   'verification_title': '验证手机号',

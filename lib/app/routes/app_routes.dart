@@ -26,6 +26,9 @@ abstract class Routes {
   static const AGE_PICKER = _Paths.AGE_PICKER;
   static const ADD_PROFILE_IMAGE = _Paths.ADD_PROFILE_IMAGE;
   static const EDIT_BIO = _Paths.EDIT_BIO;
+  static const POST_SQUARE = _Paths.POST_SQUARE;
+  static const ABOUT = _Paths.ABOUT;
+  static const FEEDBACK = _Paths.FEEDBACK;
 }
 
 abstract class _Paths {
@@ -51,4 +54,7 @@ abstract class _Paths {
   static const AGE_PICKER = '/age-picker';
   static const ADD_PROFILE_IMAGE = '/add-profile-image';
   static const EDIT_BIO = '/edit-bio';
+  static const POST_SQUARE = '/post-square';
+  static const ABOUT = '/about';
+  static const FEEDBACK = '/feedback';
 }
