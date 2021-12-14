@@ -28,10 +28,10 @@ class BottomNavigationBarController extends GetxController {
     }
     if (_page.value > 0 && !AuthProvider.to.isLogin) {
       // need login
-      final query = Uri(queryParameters: Get.arguments).query;
+      final query = Uri(queryParameters: Get.arguments).queryParameters;
       // set next
-      RouterProvider.to
-          .setNextPage("${Routes.MAIN}${query.isNotEmpty ? '?' + query : ''}");
+      RouterProvider.to.setNextPage(
+          NextPage(mode: NextMode.Off, route: Routes.MAIN, arguments: query));
       Get.offNamed(Routes.LOGIN);
     }
     pageController = PageController(initialPage: _page.value);

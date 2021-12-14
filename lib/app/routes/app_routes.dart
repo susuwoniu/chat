@@ -12,10 +12,6 @@ abstract class Routes {
   static const TEST2 = _Paths.TEST2;
   static const LOGIN = _Paths.LOGIN;
   static const ME = _Paths.ME;
-
-  static String LOGIN_NEXT(String? afterSuccessfulLogin,
-          [String? redirectAction]) =>
-      '$_Paths.LOGIN?next=${Uri.encodeQueryComponent(afterSuccessfulLogin ?? "/app")}&action=${redirectAction == '/app' ? "offAll" : "off"}';
   static const SETTING = _Paths.SETTING;
   static const ROOM = _Paths.ROOM;
   static const TEST3 = _Paths.TEST3;

@@ -1,4 +1,4 @@
-import 'package:chat/app/providers/auth_provider.dart';
+import 'package:chat/app/providers/router_provider.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -34,7 +34,8 @@ class UIUtils {
         // get current route
         final currentRoute = Get.currentRoute;
         Log.debug("currentRoute: $currentRoute");
-        RouterProvider.to.setNextPage(currentRoute);
+        RouterProvider.to.setNextPage(NextPage(
+            mode: NextMode.Off, route: currentRoute, arguments: Get.arguments));
         Get.offNamed(Routes.LOGIN);
         return;
       }

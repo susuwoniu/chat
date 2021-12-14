@@ -13,9 +13,7 @@ class LoginController extends GetxController {
     if (Get.arguments != null) {
       final data = Get.arguments as Map<String, dynamic>;
       if (data['next'] != null) {
-        RouterProvider.to.setNextPage(
-          data['next'],
-        );
+        RouterProvider.to.setNextPage(NextPage.fromArguments(Get.arguments));
       }
     }
 
@@ -30,7 +28,7 @@ class LoginController extends GetxController {
   }
 
   // 执行登录操作
-  handleLogin({int? closePageCount}) async {
+  handleLogin({int? closePageCount, bool enabledDefaultNexPage = true}) async {
     final body = await APIProvider().post(
         "/account/phone-sessions/$countryCode/$phoneNumber/${verificationCode.value}",
         body: {"timezone_in_seconds": 28800, "device_id": "ttttt"},
@@ -45,7 +43,15 @@ class LoginController extends GetxController {
     await AuthProvider.to.saveToken(token);
     await AuthProvider.to.init();
     if (closePageCount != null && closePageCount > 0) {
+      if (account.actions.isNotEmpty) {
+        // 如果需要跳actions页面则关闭当前登录页面
+        closePageCount++;
+      }
       Get.close(closePageCount);
+    }
+    // if not
+    if (enabledDefaultNexPage && RouterProvider.to.nextPage == null) {
+      RouterProvider.to.setNextPage(NextPage.fromDefault());
     }
     await AuthProvider.to.saveAccount(account);
 

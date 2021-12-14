@@ -36,7 +36,7 @@ class AuthProvider extends GetxService {
       StreamController.broadcast();
 
   Rx<AccountEntity> account = AccountEntity.empty().obs;
-
+  bool isNeedCompleteActions = false;
   Future<void> init() async {
     _accessToken =
         await KVProvider.to.getExpiredString(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
@@ -167,37 +167,61 @@ class AuthProvider extends GetxService {
   Future<void> saveAccount(AccountEntity accountEntity) async {
     account(accountEntity);
     await KVProvider.to.putObject(STORAGE_ACCOUNT_KEY, account.toJson());
-
+    final nextPage = RouterProvider.to.nextPage;
     if (accountEntity.actions.isNotEmpty) {
+      if (isNeedCompleteActions == false) {
+        isNeedCompleteActions = true;
+      }
       final actionType = accountEntity.actions[0].type;
       if (actionType == 'add_account_birthday') {
-        RouterProvider.to.setClosePageCountBeforeNextPage(
-            RouterProvider.to.closePageCountBeforeNextPage + 1);
+        if (nextPage != null) {
+          RouterProvider.to.setClosePageCountBeforeNextPage(
+              nextPage.closePageCountBeforeNextPage + 1);
+        }
+
         Get.toNamed(Routes.AGE_PICKER);
       } else if (actionType == 'add_account_gender') {
-        RouterProvider.to.setClosePageCountBeforeNextPage(
-            RouterProvider.to.closePageCountBeforeNextPage + 1);
+        if (nextPage != null) {
+          RouterProvider.to.setClosePageCountBeforeNextPage(
+              nextPage.closePageCountBeforeNextPage + 1);
+        }
         Get.toNamed(Routes.GENDER_SELECT);
       } else if (actionType == 'add_account_name') {
-        RouterProvider.to.setClosePageCountBeforeNextPage(
-            RouterProvider.to.closePageCountBeforeNextPage + 1);
+        if (nextPage != null) {
+          RouterProvider.to.setClosePageCountBeforeNextPage(
+              nextPage.closePageCountBeforeNextPage + 1);
+        }
         Get.toNamed(Routes.EDIT_NAME, arguments: {'action': actionType});
       } else if (actionType == 'add_account_bio') {
-        RouterProvider.to.setClosePageCountBeforeNextPage(
-            RouterProvider.to.closePageCountBeforeNextPage + 1);
+        if (nextPage != null) {
+          RouterProvider.to.setClosePageCountBeforeNextPage(
+              nextPage.closePageCountBeforeNextPage + 1);
+        }
         Get.toNamed(Routes.EDIT_BIO, arguments: {'action': actionType});
       } else if (actionType == 'add_account_profile_image') {
-        RouterProvider.to.setClosePageCountBeforeNextPage(
-            RouterProvider.to.closePageCountBeforeNextPage + 1);
+        if (nextPage != null) {
+          RouterProvider.to.setClosePageCountBeforeNextPage(
+              nextPage.closePageCountBeforeNextPage + 1);
+        }
 
         Get.toNamed(Routes.ADD_PROFILE_IMAGE,
             arguments: {'action': actionType});
       } else {
+        if (isNeedCompleteActions && nextPage != null) {
+          // 需要减去1页，因为这个需要保留一个登录页
+          RouterProvider.to.setClosePageCountBeforeNextPage(
+              nextPage.closePageCountBeforeNextPage - 1);
+          isNeedCompleteActions = false;
+        }
         RouterProvider.to.toNextPage();
       }
-
-      // TODO
     } else {
+      if (isNeedCompleteActions && nextPage != null) {
+        // 需要减去1页，因为这个需要保留一个登录页
+        RouterProvider.to.setClosePageCountBeforeNextPage(
+            nextPage.closePageCountBeforeNextPage - 1);
+        isNeedCompleteActions = false;
+      }
       RouterProvider.to.toNextPage();
     }
   }

@@ -33,7 +33,7 @@ class DebugView extends GetView<DebugController> {
                 ListTile(
                   title: Text('Home'),
                   onTap: () {
-                    Get.offAllNamed(Routes.MAIN);
+                    RouterProvider.to.toHome();
                     //to close the drawer
                   },
                 ),
@@ -149,7 +149,8 @@ class DebugView extends GetView<DebugController> {
                       try {
                         // RouterProvider.to.setNextPageAction('back');
                         LoginController.to.setVerificationCode("123456");
-                        await LoginController.to.handleLogin();
+                        await LoginController.to
+                            .handleLogin(enabledDefaultNexPage: false);
                         UIUtils.hideLoading();
 
                         UIUtils.toast("登录成功");
@@ -163,14 +164,21 @@ class DebugView extends GetView<DebugController> {
                 ListTile(
                   title: Text('Post'),
                   onTap: () {
-                    Get.offAllNamed(Routes.MAIN, arguments: {'tab': 'post'});
+                    RouterProvider.to.switchTo(Routes.POST);
                     //to close the drawer
                   },
                 ),
                 ListTile(
                   title: Text('Message'),
                   onTap: () {
-                    Get.offAllNamed(Routes.MAIN, arguments: {'tab': 'message'});
+                    RouterProvider.to.toMessage();
+                    //to close the drawer
+                  },
+                ),
+                ListTile(
+                  title: Text('Me'),
+                  onTap: () {
+                    RouterProvider.to.toMe();
                     //to close the drawer
                   },
                 ),

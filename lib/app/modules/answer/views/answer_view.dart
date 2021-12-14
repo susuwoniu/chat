@@ -1,3 +1,4 @@
+import 'package:chat/app/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:get/get.dart';
@@ -105,7 +106,7 @@ class AnswerView extends GetView<AnswerController> {
 
       UIUtils.hideLoading();
       UIUtils.toast("send_successfully".tr);
-      Get.offAllNamed(Routes.ROOT);
+      RouterProvider.to.toHome();
     } catch (e) {
       UIUtils.hideLoading();
       UIUtils.showError(e);
