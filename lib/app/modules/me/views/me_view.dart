@@ -14,6 +14,7 @@ import 'nickname_widget.dart';
 import 'dots_widget.dart';
 import 'my_posts.dart';
 import 'like_count.dart';
+import 'profile_viewers.dart';
 import 'dart:io';
 
 class MeView extends GetView<MeController> {
@@ -99,13 +100,14 @@ class MeView extends GetView<MeController> {
                   }),
             ),
             Positioned(
-              bottom: height * 0.01,
-              width: width,
-              child: DotsWidget(
-                  current: controller.current,
-                  onTap: buttonCarouselController.animateToPage,
-                  count: _account.profileImages.length),
-            ),
+                left: paddingLeft,
+                top: height * 0.06,
+                child: CircleWidget(
+                  icon: Icon(Icons.settings_rounded, color: Colors.white),
+                  onPressed: () {
+                    Get.toNamed(Routes.SETTING);
+                  },
+                )),
             Positioned(
                 right: paddingLeft,
                 top: height * 0.06,
@@ -117,7 +119,7 @@ class MeView extends GetView<MeController> {
                 )),
             Positioned(
                 left: paddingLeft,
-                bottom: height * 0.04,
+                bottom: height * 0.025,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -130,6 +132,22 @@ class MeView extends GetView<MeController> {
                         text: _likeCount,
                       ),
                     ])),
+            Positioned(
+                right: paddingLeft,
+                bottom: height * 0.025,
+                child: ProfileViewers(
+                  totalViewersCount: 999,
+                  newViewersCount: 999,
+                  onPressed: () {},
+                )),
+            Positioned(
+              bottom: height * 0.01,
+              width: width,
+              child: DotsWidget(
+                  current: controller.current,
+                  onTap: buttonCarouselController.animateToPage,
+                  count: _account.profileImages.length),
+            ),
           ]),
           Container(
             padding: EdgeInsets.fromLTRB(paddingLeft, 15, 0, 0),

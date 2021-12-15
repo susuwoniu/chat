@@ -188,7 +188,14 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         );
                       } else {
                         return TextButton(
-                          onPressed: () => {},
+                          onPressed: () async {
+                            try {
+                              await _controller.handleSendCode();
+                              UIUtils.toast('验证码发送成功');
+                            } catch (e) {
+                              UIUtils.showError(e);
+                            }
+                          },
                           child: Text(
                             "resend".tr,
                             style: TextStyle(

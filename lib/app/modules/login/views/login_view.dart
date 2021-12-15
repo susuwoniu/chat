@@ -67,14 +67,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final _controller = LoginController.to;
     return Scaffold(
-      backgroundColor: Color.fromRGBO(93, 142, 155, 1.0),
-      appBar: AppBar(
-        title: Text('LoginView'),
-        centerTitle: true,
-      ),
-      body: Container(
-        child: Stack(
-          children: <Widget>[
+        backgroundColor: Color.fromRGBO(93, 142, 155, 1.0),
+        appBar: AppBar(
+          title: Text('LoginView'),
+          centerTitle: true,
+        ),
+        body: Container(
+          child: Stack(children: <Widget>[
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
@@ -95,115 +94,115 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Positioned.fill(
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                        height: 200,
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: FlareActor(
-                          "assets/Teddy.flr",
-                          shouldClip: false,
-                          alignment: Alignment.bottomCenter,
-                          fit: BoxFit.contain,
-                          controller: _bear_log_inController,
-                        )),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(25.0),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Form(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              InternationalPhoneNumberInput(
-                                inputKey: _fieldKey,
-                                onInputChanged: (PhoneNumber number) {
-                                  _controller.setPhoneNumber(
-                                      number.phoneNumber ?? '',
-                                      number.dialCode ?? '');
-                                  _controller
-                                      .setCountryCode(number.dialCode ?? '');
-                                },
-                                onInputValidated: (bool value) {
-                                  print(value);
-                                },
-                                selectorConfig: SelectorConfig(
-                                  selectorType: PhoneInputSelectorType.DIALOG,
-                                  useEmoji: true,
-                                  trailingSpace: false,
-                                ),
-                                ignoreBlank: false,
-                                autoValidateMode: AutovalidateMode.disabled,
-                                selectorTextStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                                initialValue: number,
-                                textFieldController: controller,
-                                formatInput: false,
-                                textAlignVertical: TextAlignVertical.top,
-                                textStyle: (TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17,
-                                )),
-                                keyboardType: TextInputType.numberWithOptions(
-                                    signed: true, decimal: true),
-                                inputBorder: null,
-                                hintText: "what_s_your_phone_number".tr,
-                                autoFocus: true,
-                                onSaved: (PhoneNumber number) {
-                                  print('On Saved: $number');
-                                },
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                            height: 200,
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: FlareActor(
+                              "assets/Teddy.flr",
+                              shouldClip: false,
+                              alignment: Alignment.bottomCenter,
+                              fit: BoxFit.contain,
+                              controller: _bear_log_inController,
+                            )),
+                        Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25.0),
                               ),
-                              Container(
-                                  margin: EdgeInsets.only(top: 35),
-                                  child: SigninButton(
-                                    child: Text("next".tr,
-                                        style: TextStyle(
-                                          fontFamily: "RobotoMedium",
-                                          fontSize: 16,
-                                          color: Colors.white,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(30.0),
+                              child: Form(
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      InternationalPhoneNumberInput(
+                                        inputKey: _fieldKey,
+                                        onInputChanged: (PhoneNumber number) {
+                                          _controller.setPhoneNumber(
+                                              number.phoneNumber ?? '',
+                                              number.dialCode ?? '');
+                                          _controller.setCountryCode(
+                                              number.dialCode ?? '');
+                                        },
+                                        onInputValidated: (bool value) {
+                                          print(value);
+                                        },
+                                        selectorConfig: SelectorConfig(
+                                          selectorType:
+                                              PhoneInputSelectorType.DIALOG,
+                                          useEmoji: true,
+                                          trailingSpace: false,
+                                        ),
+                                        ignoreBlank: false,
+                                        autoValidateMode:
+                                            AutovalidateMode.disabled,
+                                        selectorTextStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                        initialValue: number,
+                                        textFieldController: controller,
+                                        formatInput: false,
+                                        textAlignVertical:
+                                            TextAlignVertical.top,
+                                        textStyle: (TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17,
                                         )),
-                                    onPressed: () async {
-                                      if (!_controller.isNumberValid.value) {
-                                        UIUtils.toast(
-                                            "please_enter_correct_phone_number"
-                                                .tr);
-
-                                        return;
-                                      }
-                                      try {
-                                        await _controller.handleSendCode();
-                                        UIUtils.toast('验证码发送成功');
-                                        Get.toNamed(Routes.VERIFICATION,
-                                            arguments: Get.arguments);
-                                      } catch (e) {
-                                        UIUtils.showError(e);
-                                      }
-                                    },
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                                signed: true, decimal: true),
+                                        inputBorder: null,
+                                        hintText: "what_s_your_phone_number".tr,
+                                        autoFocus: true,
+                                        onSaved: (PhoneNumber number) {
+                                          print('On Saved: $number');
+                                        },
+                                      ),
+                                      Container(
+                                          margin: EdgeInsets.only(top: 35),
+                                          child: SigninButton(
+                                            child: Text("next".tr,
+                                                style: TextStyle(
+                                                  fontFamily: "RobotoMedium",
+                                                  fontSize: 16,
+                                                  color: Colors.white,
+                                                )),
+                                            onPressed: () async {
+                                              if (!_controller
+                                                  .isNumberValid.value) {
+                                                UIUtils.toast(
+                                                    "please_enter_correct_phone_number"
+                                                        .tr);
+                                                return;
+                                              }
+                                              try {
+                                                await _controller
+                                                    .handleSendCode();
+                                                UIUtils.toast('验证码发送成功');
+                                                Get.toNamed(Routes.VERIFICATION,
+                                                    arguments: Get.arguments);
+                                              } catch (e) {
+                                                UIUtils.showError(e);
+                                              }
+                                            },
+                                          )),
+                                    ]),
+                              ),
+                            )),
+                      ])),
+            )
+          ]),
+        ));
   }
 
   @override
