@@ -8,3 +8,5 @@ export './config_provider.dart';
 export './chat_provider/chat_provider.dart';
 export './router_provider.dart';
 export './account_provider.dart';
+export 'account_store_provider.dart';
+export './cache_provider.dart';

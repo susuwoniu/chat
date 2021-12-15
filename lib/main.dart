@@ -18,9 +18,8 @@ Future<void> main() async {
   );
   await Global.init();
 
-  runApp(
-    Phoenix(
-        child: GetMaterialApp(
+  runApp(Phoenix(
+    child: GetMaterialApp(
       title: "Application",
       getPages: AppPages.routes,
       initialRoute: AppPages.INITIAL,
@@ -58,6 +57,6 @@ Future<void> main() async {
       supportedLocales: ConfigProvider.to.languages,
       locale: ConfigProvider.to.locale,
       fallbackLocale: TranslationService.fallbackLocale,
-    )),
-  );
+    ),
+  ));
 }

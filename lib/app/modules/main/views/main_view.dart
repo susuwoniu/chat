@@ -15,7 +15,11 @@ class MainView extends GetView<MainController> {
     return Scaffold(
         extendBody: true,
         body: _buildPageView(),
-        bottomNavigationBar: mainBottomNavigationBar(context));
+        bottomNavigationBar: Obx(() => mainBottomNavigationBar(context,
+                index: BottomNavigationBarController.to.page,
+                onTap: (int index) {
+              BottomNavigationBarController.to.handlePageChanged(index);
+            })));
   }
 
   // 内容页

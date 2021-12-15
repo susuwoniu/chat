@@ -1,7 +1,9 @@
 import 'package:chat/types/types.dart';
 import 'package:chat/constants/constants.dart';
 import 'package:get/get.dart';
-import 'package:chat/app/providers/kv_provider.dart';
+import 'package:chat/app/providers/cache_provider.dart';
+import 'package:chat/app/providers/account_store_provider.dart';
+
 import 'package:chat/app/providers/router_provider.dart';
 
 import 'package:chat/common.dart';
@@ -38,14 +40,14 @@ class AuthProvider extends GetxService {
   Rx<AccountEntity> account = AccountEntity.empty().obs;
   bool isNeedCompleteActions = false;
   Future<void> init() async {
-    _accessToken =
-        await KVProvider.to.getExpiredString(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
-    _imAccessToken = await KVProvider.to
+    _accessToken = await AccountStoreProvider.to
+        .getExpiredString(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
+    _imAccessToken = await AccountStoreProvider.to
         .getExpiredString(STORAGE_ACCOUNT_IM_ACCESS_TOKEN_KEY);
-    _refreshToken =
-        await KVProvider.to.getExpiredString(STORAGE_ACCOUNT_REFRESH_TOKEN_KEY);
-    _accountId = KVProvider.to.getString(STORAGE_ACCOUNT_ID_KEY);
-    final _accountObj = KVProvider.to.getObject(STORAGE_ACCOUNT_KEY);
+    _refreshToken = await AccountStoreProvider.to
+        .getExpiredString(STORAGE_ACCOUNT_REFRESH_TOKEN_KEY);
+    _accountId = AccountStoreProvider.to.getString(STORAGE_ACCOUNT_ID_KEY);
+    final _accountObj = AccountStoreProvider.to.getObject(STORAGE_ACCOUNT_KEY);
     if (_accountObj != null) {
       account(AccountEntity.fromJson(_accountObj));
     }
@@ -60,10 +62,10 @@ class AuthProvider extends GetxService {
   }
 
   Future<bool> isNeedRenewToken() async {
-    final accessTokenExpiresMs =
-        await KVProvider.to.getExpiredMs(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
-    final imAccessTokenExpiresMs =
-        await KVProvider.to.getExpiredMs(STORAGE_ACCOUNT_IM_ACCESS_TOKEN_KEY);
+    final accessTokenExpiresMs = await AccountStoreProvider.to
+        .getExpiredMs(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
+    final imAccessTokenExpiresMs = await AccountStoreProvider.to
+        .getExpiredMs(STORAGE_ACCOUNT_IM_ACCESS_TOKEN_KEY);
     if (accessTokenExpiresMs == null ||
         imAccessTokenExpiresMs == null ||
         accessTokenExpiresMs < 30 * 60 * 1000 ||
@@ -81,14 +83,21 @@ class AuthProvider extends GetxService {
     _refreshToken = token.refreshToken;
     _imAccessToken = token.imAccessToken;
     _accountId = token.accountId;
-    await KVProvider.to.setExpiredString(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY,
-        _accessToken!, token.accessTokenExpiresAt);
-    await KVProvider.to.setExpiredString(STORAGE_ACCOUNT_IM_ACCESS_TOKEN_KEY,
-        _imAccessToken!, token.imAccessTokenExpiresAt);
+    await AccountStoreProvider.to.setExpiredString(
+        STORAGE_ACCOUNT_ACCESS_TOKEN_KEY,
+        _accessToken!,
+        token.accessTokenExpiresAt);
+    await AccountStoreProvider.to.setExpiredString(
+        STORAGE_ACCOUNT_IM_ACCESS_TOKEN_KEY,
+        _imAccessToken!,
+        token.imAccessTokenExpiresAt);
 
-    await KVProvider.to.setExpiredString(STORAGE_ACCOUNT_REFRESH_TOKEN_KEY,
-        _accessToken!, token.refreshTokenExpiresAt);
-    await KVProvider.to.setString(STORAGE_ACCOUNT_ID_KEY, token.accountId);
+    await AccountStoreProvider.to.setExpiredString(
+        STORAGE_ACCOUNT_REFRESH_TOKEN_KEY,
+        _accessToken!,
+        token.refreshTokenExpiresAt);
+    await AccountStoreProvider.to
+        .setString(STORAGE_ACCOUNT_ID_KEY, token.accountId);
   }
 
   // 注销
@@ -98,23 +107,11 @@ class AuthProvider extends GetxService {
     _imAccessToken = null;
     _accountId = null;
     _refreshToken = null;
-    // clear all cached data;
-    await KVProvider.to.clear();
-    // await KVProvider.to.removeExpiredString(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
-    // await KVProvider.to
-    //     .removeExpiredString(STORAGE_ACCOUNT_IM_ACCESS_TOKEN_KEY);
+    account(AccountEntity.empty());
+    await CacheProvider.to.clear();
+    await AccountStoreProvider.to.clear();
 
-    // await KVProvider.to.removeExpiredString(STORAGE_ACCOUNT_REFRESH_TOKEN_KEY);
-    // await KVProvider.to.remove(STORAGE_ACCOUNT_ID_KEY);
-    // await KVProvider.to.remove(STORAGE_ACCOUNT_KEY);
     _authUpdatedStreamController.add(AuthStatus.logoutSuccess);
-  }
-
-  // 清楚access token test ,not use production
-  Future<void> cleanAccessToken() async {
-    _accessToken = null;
-    _isLogin.value = false;
-    await KVProvider.to.removeExpiredString(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
   }
 
   AccountEntity formatMainAccount(dynamic body) {
@@ -166,7 +163,8 @@ class AuthProvider extends GetxService {
 
   Future<void> saveAccount(AccountEntity accountEntity) async {
     account(accountEntity);
-    await KVProvider.to.putObject(STORAGE_ACCOUNT_KEY, account.toJson());
+    await AccountStoreProvider.to
+        .putObject(STORAGE_ACCOUNT_KEY, account.toJson());
     final nextPage = RouterProvider.to.nextPage;
     if (accountEntity.actions.isNotEmpty) {
       if (isNeedCompleteActions == false) {

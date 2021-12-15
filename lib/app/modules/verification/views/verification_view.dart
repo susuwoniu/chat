@@ -234,8 +234,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                             _controller.countryCode.value,
                             _controller.phoneNumber.value,
                             _controller.verificationCode.value,
-                            closePageCount: 1);
-                        UIUtils.toast('登录成功');
+                            closePageCount: 1,
+                            arguments: Get.arguments);
                       } catch (e) {
                         UIUtils.showError(e);
                       }

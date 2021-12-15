@@ -1,10 +1,7 @@
 import 'package:get/get.dart';
-import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart' hide ConnectionState;
 import 'package:chat/app/providers/providers.dart';
-// import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
-import 'package:chat/utils/date_util.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/common.dart';
 import 'package:xmpp_stone/xmpp_stone.dart' as xmpp;
@@ -205,7 +202,7 @@ class MessageController extends GetxController {
       return [];
     }
     final result =
-        await APIProvider().get('/account/accounts', query: {"ids": ids});
+        await APIProvider.to.get('/account/accounts', query: {"ids": ids});
     return List<dynamic>.from(result["data"] as List);
   }
 
@@ -213,7 +210,7 @@ class MessageController extends GetxController {
     // check room inbo exists
     final accountId = jidToAccountId(roomId);
     if (AuthProvider.to.simpleAccountMap[accountId] == null) {
-      final result = await APIProvider().get('/account/accounts/$accountId');
+      final result = await APIProvider.to.get('/account/accounts/$accountId');
       await AuthProvider.to.saveSimpleAccounts({
         result["data"]["id"]:
             SimpleAccountEntity.fromJson(result["data"]["attributes"])

@@ -9,7 +9,7 @@ class GenderSelectController extends GetxController {
   final count = 0.obs;
   @override
   void onInit() {
-    RouterProvider.to.handleNextPageArguments();
+    RouterProvider.to.handleNextPageArguments(Get.arguments);
     super.onInit();
   }
 

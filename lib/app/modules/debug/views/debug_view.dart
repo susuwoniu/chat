@@ -25,8 +25,10 @@ class DebugView extends GetView<DebugController> {
             child: Column(
               children: [
                 ListTile(
-                  title: Text('Clear'),
+                  title: Text('Clear All'),
                   onTap: () {
+                    CacheProvider.to.clear();
+                    AccountStoreProvider.to.clear();
                     KVProvider.to.clear();
                   },
                 ),
@@ -195,7 +197,16 @@ class DebugView extends GetView<DebugController> {
                 ListTile(
                   title: Text('Test3'),
                   onTap: () {
-                    Get.toNamed(Routes.TEST3, parameters: {'id': '1'});
+                    Get.toNamed(Routes.TEST3, arguments: {'id': '1'});
+                    //to close the drawer
+                  },
+                ),
+                ListTile(
+                  title: Text('Splash'),
+                  onTap: () {
+                    Get.toNamed(
+                      Routes.SPLASH,
+                    );
                     //to close the drawer
                   },
                 ),
@@ -205,7 +216,7 @@ class DebugView extends GetView<DebugController> {
                   ),
                   onTap: () async {
                     try {
-                      final response = await APIProvider.instance
+                      final response = await APIProvider.to
                           .raw_request(AppConfig().config.apiHost, "GET");
                       // UIUtils.toast(response.bodyString);
                       JsonEncoder encoder = JsonEncoder.withIndent('  ');
@@ -236,9 +247,51 @@ class DebugView extends GetView<DebugController> {
                   ),
                   onTap: () async {
                     try {
+                      final result = KVProvider.to.getKeys();
+                      Get.defaultDialog(
+                          title: "结果", content: Text(result.toString()));
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    '测试写入kv',
+                  ),
+                  onTap: () async {
+                    try {
                       final result = await KVProvider.to
-                          .getString(STORAGE_HOME_FIRST_CURSOR_KEY);
+                          .setString('test_kv_key', "test value");
                       UIUtils.toast('result: $result');
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    '测试获取cache store keys',
+                  ),
+                  onTap: () async {
+                    try {
+                      final result = CacheProvider.to.getKeys();
+                      Get.defaultDialog(
+                          title: "结果", content: Text(result.toString()));
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    '测试写入cache store',
+                  ),
+                  onTap: () async {
+                    try {
+                      await CacheProvider.to
+                          .setString('test_cache_key', "test value");
+                      UIUtils.toast('yes');
                     } catch (e) {
                       UIUtils.showError(e);
                     }
@@ -250,8 +303,8 @@ class DebugView extends GetView<DebugController> {
                   ),
                   onTap: () async {
                     try {
-                      final response = await APIProvider.instance
-                          .post("/post/post-templates");
+                      final response =
+                          await APIProvider.to.post("/post/post-templates");
                       // UIUtils.toast(response.bodyString);
 
                     } catch (e) {

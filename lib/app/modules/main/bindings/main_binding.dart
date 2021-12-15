@@ -11,12 +11,13 @@ class MainBinding extends Bindings {
 
   @override
   void dependencies() {
-    Get.put<MainController>(
-      MainController(),
-    );
     Get.put<BottomNavigationBarController>(
       BottomNavigationBarController(),
     );
+    Get.put<MainController>(
+      MainController(),
+    );
+
     HomeBinding().dependencies();
     MessageBinding().dependencies();
     MeBinding().dependencies();

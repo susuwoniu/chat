@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:chat/config/config.dart';
 import 'package:chat/utils/log.dart';
 import 'dart:developer';
+import 'package:get_storage/get_storage.dart';
 
 /// 全局静态数据
 class Global {
@@ -38,15 +39,21 @@ class Global {
 
     AppConfig().initConfig(env);
     Log().initLog(env);
+    await GetStorage.init();
+    await CacheProvider.to.init();
+    await AccountStoreProvider.to.init();
+    await KVProvider.to.init();
+    await Global.initGetx();
+    Timeline.finishSync();
+    print('global init finish');
+  }
+
+  static Future<void> initGetx() async {
     Get.put<RouterProvider>(RouterProvider());
-    await Get.putAsync<KVProvider>(() => KVProvider().init());
-    Get.put<APIProvider>(APIProvider());
     Get.put<AccountProvider>(AccountProvider());
     Get.put<ConfigProvider>(ConfigProvider());
     Get.put<AuthProvider>(AuthProvider());
     Get.put<ChatProvider>(ChatProvider());
-    Timeline.finishSync();
-    print('global init finish');
   }
 
   static void setSystemUi() {

@@ -184,10 +184,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                       try {
                                         await _controller.handleSendCode();
                                         UIUtils.toast('验证码发送成功');
+                                        Get.toNamed(Routes.VERIFICATION,
+                                            arguments: Get.arguments);
                                       } catch (e) {
                                         UIUtils.showError(e);
                                       }
-                                      Get.toNamed(Routes.VERIFICATION);
                                     },
                                   )),
                             ],

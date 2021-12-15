@@ -67,7 +67,7 @@ class SettingView extends GetView<SettingController> {
                     SettingsTile(
                       title: 'Clear'.tr,
                       onPressed: (BuildContext context) {
-                        KVProvider.to.clear();
+                        CacheProvider.to.clear();
                       },
                     ),
                     SettingsTile(

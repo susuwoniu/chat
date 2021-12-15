@@ -89,7 +89,7 @@ class PostController extends GetxController {
     postTemplatesIndexes.clear();
     // todo featured
     isReachEnd.value = false;
-    final body = await APIProvider().get("/post/post-templates", query: query);
+    final body = await APIProvider.to.get("/post/post-templates", query: query);
     if (body["data"].length == 0) {
       if (isInit.value == false) {
         isDataEmpty.value = true;

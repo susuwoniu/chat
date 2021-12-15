@@ -39,7 +39,7 @@ class ConfigProvider extends GetxService {
   }
 
   // 标记用户已打开APP
-  Future<bool> saveAlreadyOpen() {
+  Future<void> saveAlreadyOpen() {
     return KVProvider.to.setBool(STORAGE_DEVICE_FIRST_OPEN_KEY, false);
   }
 

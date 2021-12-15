@@ -1,12 +1,13 @@
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chat/constants/constants.dart';
 import 'dart:convert';
 
-class KVProvider extends GetxService {
-  static KVProvider get to => Get.find();
+class KVProvider {
+  static final KVProvider _instance = KVProvider._internal();
+  static KVProvider get to => _instance;
+  factory KVProvider() => _instance;
+  KVProvider._internal();
   late final SharedPreferences _prefs;
-
   Future<KVProvider> init() async {
     _prefs = await SharedPreferences.getInstance();
     return this;
@@ -183,7 +184,7 @@ class KVProvider extends GetxService {
   }
 
   /// have key.
-  bool? haveKey(String key) {
+  bool haveKey(String key) {
     return _prefs.getKeys().contains(key);
   }
 

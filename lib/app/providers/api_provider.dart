@@ -42,9 +42,9 @@ class GetClient extends GetConnect {
 }
 
 class APIProvider {
-  static APIProvider instance = APIProvider._internal();
-  factory APIProvider() => instance;
-
+  static final APIProvider _instance = APIProvider._internal();
+  static APIProvider get to => _instance;
+  factory APIProvider() => _instance;
   late GetClient client;
 
   APIProvider._internal() {

@@ -96,7 +96,7 @@ class HomeController extends GetxController {
         return "${value.start}-${value.end}";
       }).join(",");
     }
-    final body = await APIProvider().get(url, query: query);
+    final body = await APIProvider.to.get(url, query: query);
     if (body["data"].length == 0) {
       return PostsResult();
     }
@@ -160,7 +160,7 @@ class HomeController extends GetxController {
       });
       // save current first cursor
       if (isFirstCursorChanged && homePostsFirstCursor != null) {
-        await KVProvider.to.setExpiredString(STORAGE_HOME_FIRST_CURSOR_KEY,
+        await CacheProvider.to.setExpiredString(STORAGE_HOME_FIRST_CURSOR_KEY,
             homePostsFirstCursor!, getExpiresAt());
       }
     } else {
@@ -177,7 +177,7 @@ class HomeController extends GetxController {
     final now = DateTime.now();
     // 1. check expires _skips
     final List<Skip> validSkips = [];
-    KVProvider.to.parseObjectList(STORAGE_HOME_SKIPS_KEY, (value) {
+    CacheProvider.to.parseObjectList(STORAGE_HOME_SKIPS_KEY, (value) {
       if (value["expiresAt"] != null) {
         final expiresAt = DateTime.parse(value["expiresAt"]);
         if (expiresAt.millisecondsSinceEpoch > now.millisecondsSinceEpoch) {
@@ -192,9 +192,9 @@ class HomeController extends GetxController {
     });
     // 2. get latest first cursor , and cursor
     final firstCursorValue =
-        await KVProvider.to.getExpiredString(STORAGE_HOME_FIRST_CURSOR_KEY);
+        await CacheProvider.to.getExpiredString(STORAGE_HOME_FIRST_CURSOR_KEY);
     final lastCursorValue =
-        await KVProvider.to.getExpiredString(STORAGE_HOME_LAST_CURSOR_KEY);
+        await CacheProvider.to.getExpiredString(STORAGE_HOME_LAST_CURSOR_KEY);
     if (firstCursorValue != null && lastCursorValue != null) {
       if (validSkips.isNotEmpty) {
         if (firstCursorValue != validSkips.first.start) {
@@ -218,7 +218,7 @@ class HomeController extends GetxController {
       _skips.addAll(validSkips);
     }
     // save to store
-    await KVProvider.to.putObjectList(STORAGE_HOME_SKIPS_KEY, _skips);
+    await CacheProvider.to.putObjectList(STORAGE_HOME_SKIPS_KEY, _skips);
   }
 
   getMePosts({String? after}) async {
@@ -281,7 +281,7 @@ class HomeController extends GetxController {
                   expiresAt: getExpiresAt()));
 
           // save _skips
-          KVProvider.to
+          CacheProvider.to
               .putObjectList(STORAGE_HOME_SKIPS_KEY,
                   _skips.map((item) => item.toJson()).toList())
               .catchError((e) {
@@ -302,10 +302,10 @@ class HomeController extends GetxController {
 
   Future<void> PatchPostCountView(String postId) async {
     // change last cursor
-    await KVProvider.to.setExpiredString(
+    await CacheProvider.to.setExpiredString(
         STORAGE_HOME_LAST_CURSOR_KEY, postMap[postId]!.cursor, getExpiresAt());
     if (AuthProvider.to.accountId == postMap[postId]!.accountId) {
-      await APIProvider().patch("/post/posts/$postId",
+      await APIProvider.to.patch("/post/posts/$postId",
           body: {"viewed_count_action": "increase_one"});
     }
   }
@@ -321,7 +321,7 @@ class HomeController extends GetxController {
       query["after"] = after;
     }
     final body =
-        await APIProvider().get("/post/posts/$postId/views", query: query);
+        await APIProvider.to.get("/post/posts/$postId/views", query: query);
 
     final Map<String, SimpleAccountEntity> newAccountMap = {};
     final List<String> newIndexes = [];

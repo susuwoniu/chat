@@ -16,30 +16,27 @@ class BottomNavigationBarController extends GetxController {
   @override
   void onInit() {
     print("onInit main");
-    // handleInitialUri();
-    // handleIncomingLinks();
-    final Map<String, String?> allQuery = {};
-    allQuery.addAll(Get.parameters);
-    allQuery.addAll(Get.arguments ?? {});
-    final tab = allQuery["tab"] ?? "home";
-    _page.value = 0;
-    if (tab == 'message') {
-      _page.value = 1;
-    }
-    if (_page.value > 0 && !AuthProvider.to.isLogin) {
-      // need login
-      final query = Uri(queryParameters: Get.arguments).queryParameters;
-
-      Get.offNamed(Routes.LOGIN,
-          arguments:
-              NextPage(mode: NextMode.Off, route: Routes.MAIN, arguments: query)
-                  .toArguments());
-    }
-    pageController = PageController(initialPage: _page.value);
+    pageController = PageController(initialPage: page);
+    changePageFromArguments(Get.arguments);
     super.onInit();
   }
 
-  final isInit = false.obs;
+  void changePageFromArguments(dynamic arguments) {
+    final Map<String, String?> allQuery = {};
+    allQuery.addAll(arguments ?? {});
+    final tab = allQuery["tab"] ?? "home";
+    int? newPage;
+    if (tab == 'message') {
+      newPage = 1;
+    } else if (tab == 'me') {
+      newPage = 2;
+    } else if (tab == 'home') {
+      newPage = 0;
+    }
+    if (newPage != null) {
+      handlePageChanged(newPage);
+    }
+  }
 
   @override
   void onReady() {
@@ -47,24 +44,28 @@ class BottomNavigationBarController extends GetxController {
   }
 
   // tab栏页码切换
-  void handlePageChanged(int page) {
-    if (page > 0 && !AuthProvider.to.isLogin) {
-      // need login
-      var tab = "message";
-      if (page == 2) {
-        tab = "me";
+  void handlePageChanged(int newPage) {
+    if (newPage != page) {
+      if (newPage > 0 && !AuthProvider.to.isLogin) {
+        // need login
+        var tab = "message";
+        if (newPage == 2) {
+          tab = "me";
+        }
+        final allParam = {
+          "tab": tab,
+        };
+        allParam.addAll(Get.arguments ?? {});
+        final query = Uri(queryParameters: allParam).query;
+        Get.toNamed(Routes.LOGIN, arguments: {
+          'mode': "switchTo",
+          "next": "${Routes.MAIN}${query.isNotEmpty ? '?' + query : ''}"
+        });
+      } else {
+        _page.value = newPage;
+        pageController.animateToPage(newPage,
+            duration: const Duration(milliseconds: 200), curve: Curves.ease);
       }
-      final allParam = {"tab": tab};
-      allParam.addAll(Get.arguments ?? {});
-      final query = Uri(queryParameters: allParam).query;
-
-      Get.toNamed(Routes.LOGIN, parameters: {
-        "next": "${Routes.MAIN}${query.isNotEmpty ? '?' + query : ''}"
-      });
-    } else {
-      _page.value = page;
-      BottomNavigationBarController.to.pageController.animateToPage(page,
-          duration: const Duration(milliseconds: 200), curve: Curves.ease);
     }
   }
 
@@ -75,8 +76,8 @@ class BottomNavigationBarController extends GetxController {
   }
 
   @override
-  void dispose() {
+  void onClose() {
     pageController.dispose();
-    super.dispose();
+    super.onClose();
   }
 }

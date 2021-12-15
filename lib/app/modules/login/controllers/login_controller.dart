@@ -9,13 +9,11 @@ class LoginController extends GetxController {
   final verificationCode = ''.obs;
   @override
   onInit() {
-    RouterProvider.to.handleNextPageArguments();
     super.onInit();
   }
 
   @override
   onClose() {
-    RouterProvider.to.handleNextPageDipose();
     super.onClose();
   }
 
@@ -45,9 +43,5 @@ class LoginController extends GetxController {
 
   setVerificationCode(String code) {
     verificationCode.value = code;
-  }
-
-  handleCleanAccessToken() async {
-    await AuthProvider.to.cleanAccessToken();
   }
 }

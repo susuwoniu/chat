@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/providers/providers.dart';
+import 'package:chat/common.dart';
 
 class RootController extends GetxController {
   final _isInit = false.obs;
@@ -25,19 +26,20 @@ class RootController extends GetxController {
     super.onReady();
     try {
       await AuthProvider.to.init();
-      await APIProvider().init();
+      await APIProvider.to.init();
       _isLoading.value = false;
 
       _isInit.value = true;
       try {
-        Get.close(1);
         if (RouterProvider.to.nextPage != null) {
+          RouterProvider.to.setClosePageCountBeforeNextPage(1);
           RouterProvider.to.toNextPage();
         } else {
-          Get.toNamed(Routes.MAIN);
+          Get.offNamed(Routes.MAIN);
         }
       } catch (e) {
-        Get.toNamed(Routes.MAIN);
+        Log.error(e);
+        Get.offNamed(Routes.MAIN);
       }
 
       //  router
@@ -48,6 +50,8 @@ class RootController extends GetxController {
   }
 
   void clearAll() {
+    CacheProvider.to.clear();
+    AccountStoreProvider.to.clear();
     KVProvider.to.clear();
   }
 }

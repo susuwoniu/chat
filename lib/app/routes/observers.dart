@@ -28,7 +28,7 @@ class RouteObservers<R extends Route<dynamic>> extends RouteObserver<R> {
       });
       var name = newRoute.settings.name ?? '';
       if (name.isNotEmpty) {
-        if (index > 0) {
+        if (index >= 0) {
           AppPages.history[index] = name;
         } else {
           AppPages.history.add(name);

@@ -5,6 +5,8 @@ import 'dart:async';
 import 'package:chat/common.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/modules/main/controllers/bottom_navigation_bar_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:chat/global.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 class RouterProvider extends GetxService {
@@ -44,7 +46,7 @@ class RouterProvider extends GetxService {
       // 这里获取了 scheme 请求
       Log.debug('got uri: $uri');
       if (uri != null) {
-        final path = uri.path.isNotEmpty ? uri.path : '/';
+        final path = uri.path.isNotEmpty ? uri.path : Routes.MAIN;
         final query = uri.queryParameters.isNotEmpty ? uri.queryParameters : {};
         setNextPage(
             NextPage(route: path, mode: NextMode.SwitchTo, arguments: query));
@@ -89,13 +91,35 @@ class RouterProvider extends GetxService {
   }
 
   void switchTo(String route, {dynamic arguments}) {
-    Get.offNamedUntil(route, (route) {
-      return route.settings.name == Routes.MAIN;
-    }, arguments: arguments);
+    if (route == Routes.MAIN) {
+      BottomNavigationBarController.to.changePageFromArguments(arguments);
+      Get.until((route) {
+        return route.settings.name == Routes.MAIN;
+      });
+    } else {
+      Get.offNamedUntil(route, (route) {
+        return route.settings.name == Routes.MAIN;
+      }, arguments: arguments);
+    }
   }
 
-  void restart(BuildContext context) {
+  Future<void> restart(BuildContext context) async {
+    // reset current app state
+    // await Get.deleteAll(force: true);
+    // Get.reset();
+    Get.reset();
+    // Get.reloadAll(force: true);
+
+    //any Get.put will be deleted. you need to re Get.put any dependency that is required at startup
+    await Global.initGetx();
+    AppPages.history.clear();
     Phoenix.rebirth(context);
+
+    //to remove the current route you have to first navigate to an empty page, so the route stack is completely empty.
+    // Get.offAllNamed(Routes.SPLASH);
+
+    //this is the route that loads as startup page
+    // Get.offAllNamed(Routes.ROOT);
   }
 
   void toNextPage() {
@@ -132,11 +156,11 @@ class RouterProvider extends GetxService {
     _nextPage?.closePageCountBeforeNextPage = count;
   }
 
-  void handleNextPageArguments() {
-    if (Get.arguments != null) {
-      final data = Get.arguments as Map<String, dynamic>;
+  void handleNextPageArguments(dynamic arguments) {
+    if (arguments != null) {
+      final data = arguments as Map<String, dynamic>;
       if (data['next'] != null) {
-        RouterProvider.to.setNextPage(NextPage.fromArguments(Get.arguments));
+        RouterProvider.to.setNextPage(NextPage.fromArguments(arguments));
       } else if (data['mode'] != null && data['mode'] == 'back') {
         RouterProvider.to.setNextPage(NextPage.back());
       }
@@ -181,7 +205,7 @@ class NextPage {
   static NextPage fromArguments(Map<String, dynamic> arguments) {
     final nextPage = arguments['next'];
     final nextPageMode = arguments['mode'];
-    if (nextPage == null || nextPageMode == null) {
+    if (nextPage == null && nextPageMode == null) {
       return NextPage.fromDefault();
     }
     final nextPageUri = Uri.parse(nextPage);

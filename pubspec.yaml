@@ -20,13 +20,14 @@ dependencies:
   tiktoklikescroller: ^0.1.8
   tcard: ^1.3.5
   uni_links: ^0.5.1
-  flutter_phoenix: "^1.0.0"
   pin_code_fields: ^7.3.0
   intl_phone_number_input:
     git:
       url: git@github.com:susuwoniu/intl_phone_number_input.git
       ref: b694b94cc3a6484fe4699d7d41a133a6f8fd80ad
   get: ^4.3.8
+  flutter_phoenix: "^1.0.0"
+  get_storage: ^2.0.3
   timer_count_down: ^2.2.0
   path_provider: ^2.0.7
   package_info: ^2.0.2

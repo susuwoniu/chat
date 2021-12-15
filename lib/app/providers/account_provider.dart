@@ -15,7 +15,9 @@ class AccountProvider extends GetxService {
 
   // 执行登录操作
   handleLogin(String countryCode, String phoneNumber, String verificationCode,
-      {int? closePageCount, bool enabledDefaultNexPage = true}) async {
+      {int? closePageCount,
+      bool enabledDefaultNexPage = true,
+      dynamic arguments}) async {
     final body = await APIProvider().post(
         "/account/phone-sessions/$countryCode/$phoneNumber/$verificationCode",
         body: {"timezone_in_seconds": 28800, "device_id": "ttttt"},
@@ -37,7 +39,14 @@ class AccountProvider extends GetxService {
       Get.close(closePageCount);
     }
     // if not
-    if (enabledDefaultNexPage && RouterProvider.to.nextPage == null) {
+    String? next, mode;
+    if (arguments != null) {
+      next = arguments['next'];
+      mode = arguments['mode'];
+    }
+    if (next != null || mode != null) {
+      RouterProvider.to.setNextPage(NextPage.fromArguments(arguments));
+    } else if (enabledDefaultNexPage) {
       RouterProvider.to.setNextPage(NextPage.fromDefault());
     }
     await AuthProvider.to.saveAccount(account);

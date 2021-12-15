@@ -51,7 +51,7 @@ import 'package:chat/app/modules/test3/bindings/test3_binding.dart';
 import 'package:chat/app/modules/test3/views/test3_view.dart';
 import 'package:chat/app/modules/verification/bindings/verification_binding.dart';
 import 'package:chat/app/modules/verification/views/verification_view.dart';
-
+import 'package:chat/app/modules/splash/views/splash_view.dart';
 import 'observers.dart';
 
 part 'app_routes.dart';
@@ -238,6 +238,10 @@ class AppPages {
       name: _Paths.FEEDBACK,
       page: () => FeedbackView(),
       binding: FeedbackBinding(),
+    ),
+    GetPage(
+      name: _Paths.SPLASH,
+      page: () => SplashView(),
     ),
   ];
 }

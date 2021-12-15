@@ -69,7 +69,7 @@ class EditInfoController extends GetxController {
     // save account
     await AuthProvider.to.saveAccount(account.value);
     // put new profiles
-    await APIProvider().put("/account/me/profile-images",
+    await APIProvider.to.put("/account/me/profile-images",
         body: {"images": account.value.profileImages});
   }
 
@@ -89,7 +89,7 @@ class EditInfoController extends GetxController {
 
   sendProfileImage(ProfileImageEntity img, {required int index}) async {
     final slot =
-        await APIProvider().post("/account/me/profile-images/slot", body: {
+        await APIProvider.to.post("/account/me/profile-images/slot", body: {
       "mime_type": img.mime_type,
       "size": img.size,
       "height": img.height,
@@ -106,7 +106,7 @@ class EditInfoController extends GetxController {
     }
     await upload(putUrl, img.url, headers: newHeaders, size: img.size);
     final result =
-        await APIProvider().put('/account/me/profile-images/$index', body: {
+        await APIProvider.to.put('/account/me/profile-images/$index', body: {
       "url": getUrl,
       "width": img.width,
       "height": img.height,
