@@ -13,8 +13,6 @@ import 'edit_row.dart';
 import 'year_picker.dart';
 
 class EditInfoView extends GetView<EditInfoController> {
-  final _loginController = LoginController.to;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,41 +42,41 @@ class EditInfoView extends GetView<EditInfoController> {
                         title: "name".tr,
                         content: _account.name,
                         onPressed: () {
-                          RouterProvider.to.setNextPageAction('back');
-                          Get.toNamed(Routes.EDIT_NAME,
-                              arguments: {"action": 'add_account_name'});
+                          Get.toNamed(Routes.EDIT_NAME, arguments: {
+                            "action": 'add_account_name',
+                            "mode": "back"
+                          });
                         },
                       ),
                       EditRow(
                         title: "gender".tr,
                         content: _account.gender,
                         onPressed: () {
-                          RouterProvider.to.setNextPageAction('back');
-                          Get.toNamed(Routes.GENDER_SELECT);
+                          Get.toNamed(Routes.GENDER_SELECT,
+                              arguments: {"mode": "back"});
                         },
                       ),
                       EditRow(
                         title: "bio".tr,
                         content: _bio!,
                         onPressed: () {
-                          RouterProvider.to.setNextPageAction('back');
-                          Get.toNamed(Routes.EDIT_BIO,
-                              arguments: {"action": 'add_account_bio'});
+                          Get.toNamed(Routes.EDIT_BIO, arguments: {
+                            "action": 'add_account_bio',
+                            "mode": "back"
+                          });
                         },
                       ),
-                      EditRow(
-                        title: "location".tr,
-                        content: _location,
-                        onPressed: () {
-                          RouterProvider.to.setNextPageAction('back');
-                          Get.toNamed(Routes.AGE_PICKER);
-                        },
-                      ),
+                      // EditRow(
+                      //   title: "location".tr,
+                      //   content: _location,
+                      //   onPressed: () {
+                      //     Get.toNamed(Routes.AGE_PICKER, arguments: {"mode": "back"});
+                      //   },
+                      // ),
                       EditRow(
                         title: "birth".tr,
                         content: _birthday.substring(0, 4),
                         onPressed: () {
-                          RouterProvider.to.setNextPageAction('back');
                           controller.setIsShowYearPicked(true);
                           showCupertinoModalPopup<void>(
                               context: context,
@@ -86,7 +84,7 @@ class EditInfoView extends GetView<EditInfoController> {
                                 return YearPicker(
                                   onSelect: (year) async {
                                     try {
-                                      await _loginController
+                                      await AccountProvider.to
                                           .postAccountInfoChange({
                                         "birthday": year.toString() + "-01-01"
                                       });

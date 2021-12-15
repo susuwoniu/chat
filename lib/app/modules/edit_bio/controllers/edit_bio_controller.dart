@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:chat/app/providers/auth_provider.dart';
+import 'package:chat/app/providers/providers.dart';
 
 class EditBioController extends GetxController {
   static EditBioController get to => Get.find();
@@ -11,7 +11,16 @@ class EditBioController extends GetxController {
   final count = 0.obs;
   @override
   void onInit() {
+    RouterProvider.to.handleNextPageArguments();
+
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    RouterProvider.to.handleNextPageDipose();
+
+    super.onClose();
   }
 
   onChangeTextValue(String value) {
@@ -33,11 +42,6 @@ class EditBioController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 
   void increment() => count.value++;

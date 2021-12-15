@@ -29,8 +29,16 @@ class RootController extends GetxController {
       _isLoading.value = false;
 
       _isInit.value = true;
-
-      Get.offNamed(Routes.MAIN);
+      try {
+        Get.close(1);
+        if (RouterProvider.to.nextPage != null) {
+          RouterProvider.to.toNextPage();
+        } else {
+          Get.toNamed(Routes.MAIN);
+        }
+      } catch (e) {
+        Get.toNamed(Routes.MAIN);
+      }
 
       //  router
     } catch (e) {

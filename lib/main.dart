@@ -9,6 +9,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/config/config.dart';
 import 'global.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 Future<void> main() async {
   const String env = String.fromEnvironment(
@@ -18,7 +19,8 @@ Future<void> main() async {
   await Global.init();
 
   runApp(
-    GetMaterialApp(
+    Phoenix(
+        child: GetMaterialApp(
       title: "Application",
       getPages: AppPages.routes,
       initialRoute: AppPages.INITIAL,
@@ -56,6 +58,6 @@ Future<void> main() async {
       supportedLocales: ConfigProvider.to.languages,
       locale: ConfigProvider.to.locale,
       fallbackLocale: TranslationService.fallbackLocale,
-    ),
+    )),
   );
 }

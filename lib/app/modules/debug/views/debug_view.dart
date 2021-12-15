@@ -6,13 +6,13 @@ import 'dart:convert';
 import 'package:clipboard/clipboard.dart';
 import 'package:get/get.dart';
 import '../controllers/debug_controller.dart';
-import 'package:chat/app/modules/login/controllers/login_controller.dart';
 import 'package:chat/app/modules/message/controllers/message_controller.dart';
 
 import 'package:chat/common.dart';
 
 class DebugView extends GetView<DebugController> {
-  final String phone = "+8617612673392";
+  final String countryCode = "+86";
+  final String phone = "17612673392";
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class DebugView extends GetView<DebugController> {
                 ListTile(
                   title: Text('Home'),
                   onTap: () {
-                    Get.offAllNamed(Routes.MAIN);
+                    RouterProvider.to.toHome();
                     //to close the drawer
                   },
                 ),
@@ -59,26 +59,9 @@ class DebugView extends GetView<DebugController> {
                     ),
                     onTap: () async {
                       try {
-                        await LoginController.to.handleLogout();
-                        Get.offAllNamed(Routes.ROOT);
+                        await AccountProvider.to.handleLogout();
+                        RouterProvider.to.restart(context);
                         UIUtils.toast("退出成功");
-                      } catch (e) {
-                        UIUtils.showError(e);
-                      }
-                    },
-                  ),
-                if (AuthProvider.to.isLogin)
-                  ListTile(
-                    title: Text(
-                      '删除access_token',
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                    ),
-                    onTap: () async {
-                      try {
-                        await LoginController.to.handleCleanAccessToken();
-                        UIUtils.toast("删除成功");
                       } catch (e) {
                         UIUtils.showError(e);
                       }
@@ -124,10 +107,9 @@ class DebugView extends GetView<DebugController> {
                       ),
                     ),
                     onTap: () async {
-                      LoginController.to.setCountryCode("+86");
-                      LoginController.to.setPhoneNumber(phone, "+86");
                       try {
-                        await LoginController.to.handleSendCode();
+                        await AccountProvider.to
+                            .handleSendCode(countryCode, phone);
                         UIUtils.toast("发送成功");
                       } catch (e) {
                         UIUtils.showError(e);
@@ -148,8 +130,9 @@ class DebugView extends GetView<DebugController> {
                       UIUtils.showLoading();
                       try {
                         // RouterProvider.to.setNextPageAction('back');
-                        LoginController.to.setVerificationCode("123456");
-                        await LoginController.to.handleLogin();
+                        await AccountProvider.to.handleLogin(
+                            countryCode, phone, '123456',
+                            enabledDefaultNexPage: false);
                         UIUtils.hideLoading();
 
                         UIUtils.toast("登录成功");
@@ -163,14 +146,21 @@ class DebugView extends GetView<DebugController> {
                 ListTile(
                   title: Text('Post'),
                   onTap: () {
-                    Get.offAllNamed(Routes.MAIN, arguments: {'tab': 'post'});
+                    RouterProvider.to.switchTo(Routes.POST);
                     //to close the drawer
                   },
                 ),
                 ListTile(
                   title: Text('Message'),
                   onTap: () {
-                    Get.offAllNamed(Routes.MAIN, arguments: {'tab': 'message'});
+                    RouterProvider.to.toMessage();
+                    //to close the drawer
+                  },
+                ),
+                ListTile(
+                  title: Text('Me'),
+                  onTap: () {
+                    RouterProvider.to.toMe();
                     //to close the drawer
                   },
                 ),
@@ -185,13 +175,6 @@ class DebugView extends GetView<DebugController> {
                   title: Text('Room'),
                   onTap: () {
                     Get.toNamed(Routes.ROOM);
-                    //to close the drawer
-                  },
-                ),
-                ListTile(
-                  title: Text('splash'),
-                  onTap: () {
-                    Get.toNamed(Routes.SPLASH);
                     //to close the drawer
                   },
                 ),
@@ -240,8 +223,22 @@ class DebugView extends GetView<DebugController> {
                   ),
                   onTap: () async {
                     try {
-                      await LoginController.to.getMe();
+                      await AccountProvider.to.getMe();
                       UIUtils.toast('成功请求');
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    '测试获取kv',
+                  ),
+                  onTap: () async {
+                    try {
+                      final result = await KVProvider.to
+                          .getString(STORAGE_HOME_FIRST_CURSOR_KEY);
+                      UIUtils.toast('result: $result');
                     } catch (e) {
                       UIUtils.showError(e);
                     }

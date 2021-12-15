@@ -1,4 +1,4 @@
-import 'package:chat/app/providers/auth_provider.dart';
+import 'package:chat/app/providers/providers.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -8,11 +8,8 @@ import 'package:hexcolor/hexcolor.dart';
 import '../controllers/edit_name_controller.dart';
 import 'appbar_save.dart';
 import 'input_widget.dart';
-import '../../login/controllers/login_controller.dart';
 
 class EditNameView extends GetView<EditNameController> {
-  final _loginController = LoginController.to;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +23,7 @@ class EditNameView extends GetView<EditNameController> {
                 isActived: _isActived,
                 onPressed: () async {
                   try {
-                    await _loginController.postAccountInfoChange(
+                    await AccountProvider.to.postAccountInfoChange(
                         {"name": controller.currentName.value});
                   } catch (e) {
                     UIUtils.showError(e);
