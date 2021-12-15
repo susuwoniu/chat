@@ -58,8 +58,6 @@ Map<String, dynamic> _$ProfileImageEntityToJson(ProfileImageEntity instance) =>
 
 AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
     AccountEntity(
-      name: json['name'] as String,
-      gender: json['gender'] as String,
       profileImages: (json['profileImages'] as List<dynamic>?)
               ?.map(
                   (e) => ProfileImageEntity.fromJson(e as Map<String, dynamic>))
@@ -74,19 +72,23 @@ AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
               ?.map((e) => ActionEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      phone_number: json['phone_number'] as String?,
+      name: json['name'] as String,
+      gender: json['gender'] as String,
       vip: json['vip'] as bool,
       likeCount: json['like_count'] as int,
     );
 
 Map<String, dynamic> _$AccountEntityToJson(AccountEntity instance) =>
     <String, dynamic>{
-      'name': instance.name,
-      'gender': instance.gender,
       'avatar': instance.avatar,
       'age': instance.age,
       'bio': instance.bio,
       'location': instance.location,
       'birthday': instance.birthday,
+      'phone_number': instance.phone_number,
+      'name': instance.name,
+      'gender': instance.gender,
       'like_count': instance.likeCount,
       'vip': instance.vip,
       'actions': instance.actions,

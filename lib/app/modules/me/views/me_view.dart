@@ -61,9 +61,9 @@ class MeView extends GetView<MeController> {
       final _bio = _account.bio == '' ? 'nothing' : _account.bio;
       final _location = _account.location ?? 'unknown place';
       final _birth = _account.birthday ?? 'xxxx-xx-xx';
-      final imgList = _account.profileImages;
+      final _imgList = List.from(_account.profileImages);
 
-      if (imgList.isEmpty) {
+      if (_imgList.isEmpty) {
         final img = ProfileImageEntity(
             mime_type: "image/jpg",
             url:
@@ -78,7 +78,7 @@ class MeView extends GetView<MeController> {
                 url:
                     "http://p1.music.126.net/jcKLW8e0n4dqVywaBvGqrA==/109951166712826330.jpg?param=140y140",
                 mime_type: "image/jpg"));
-        imgList.add(img);
+        _imgList.add(img);
       }
 
       return SingleChildScrollView(
@@ -86,7 +86,7 @@ class MeView extends GetView<MeController> {
         children: [
           Stack(children: [
             CarouselSlider(
-              items: imgList
+              items: _imgList
                   .map((img) =>
                       imageSlider(img, height: height * 0.5, width: width))
                   .toList(),
@@ -105,7 +105,8 @@ class MeView extends GetView<MeController> {
                 child: CircleWidget(
                   icon: Icon(Icons.settings_rounded, color: Colors.white),
                   onPressed: () {
-                    Get.toNamed(Routes.SETTING);
+                    Get.toNamed(Routes.SETTING,
+                        arguments: {"phone": _account.phone_number});
                   },
                 )),
             Positioned(
@@ -136,8 +137,8 @@ class MeView extends GetView<MeController> {
                 right: paddingLeft,
                 bottom: height * 0.025,
                 child: ProfileViewers(
-                  totalViewersCount: 999,
-                  newViewersCount: 999,
+                  totalViewersCount: 0,
+                  newViewersCount: 10,
                   onPressed: () {},
                 )),
             Positioned(

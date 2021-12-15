@@ -60,13 +60,16 @@ class ProfileImageEntity {
 @JsonSerializable()
 class AccountEntity {
   /// The generated code assumes these values exist in JSON.
-  final String name;
-  final String gender;
+
   final String? avatar;
   final int? age;
   final String? bio;
   final String? location;
   final String? birthday;
+  final String? phone_number;
+
+  final String name;
+  final String gender;
   @JsonKey(name: 'like_count')
   final int likeCount;
   final bool vip;
@@ -74,15 +77,16 @@ class AccountEntity {
   List<ProfileImageEntity> profileImages = [];
 
   AccountEntity(
-      {required this.name,
-      required this.gender,
-      this.profileImages = const [],
+      {this.profileImages = const [],
       this.bio,
       this.location,
       this.birthday,
       this.age,
       this.avatar,
       this.actions = const [],
+      this.phone_number,
+      required this.name,
+      required this.gender,
       required this.vip,
       required this.likeCount});
   static AccountEntity empty() {

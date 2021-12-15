@@ -19,11 +19,11 @@ class ProfileViewers extends StatelessWidget {
           onPressed;
         },
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
           child: Column(children: [
             Stack(clipBehavior: Clip.none, children: [
               Positioned(
-                  right: -20,
+                  right: newViewersCount > 9 ? -33 : -20,
                   top: -13,
                   child: CountBubble(count: newViewersCount, type: "viewers")),
               Text(totalViewersCount.toString(),

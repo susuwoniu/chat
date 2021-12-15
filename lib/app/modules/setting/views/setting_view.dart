@@ -10,6 +10,8 @@ import 'package:chat/app/providers/providers.dart';
 class SettingView extends GetView<SettingController> {
   @override
   Widget build(BuildContext context) {
+    final _account = AuthProvider.to.account.value;
+
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: true,
@@ -24,13 +26,14 @@ class SettingView extends GetView<SettingController> {
         ),
         body: Obx(() => SettingsList(
               sections: [
-                SettingsSection(tiles: [
+                SettingsSection(title: 'Account_Security'.tr, tiles: [
                   SettingsTile(
                     title: 'Phone'.tr,
+                    subtitle: _account.phone_number,
                   ),
                 ]),
                 SettingsSection(
-                  // title: 'general'.tr,
+                  title: 'general'.tr,
                   tiles: [
                     SettingsTile(
                       title: 'language'.tr,

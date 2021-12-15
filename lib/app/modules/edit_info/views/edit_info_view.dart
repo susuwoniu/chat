@@ -7,7 +7,6 @@ import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/providers/providers.dart';
 import '../controllers/edit_info_controller.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
-import '../../login/controllers/login_controller.dart';
 import 'image_list.dart';
 import 'edit_row.dart';
 import 'year_picker.dart';
@@ -28,7 +27,7 @@ class EditInfoView extends GetView<EditInfoController> {
               child: Obx(() {
                 final _account = AuthProvider.to.account.value;
                 final _bio = _account.bio == '' ? 'nothing' : _account.bio;
-                final _location = _account.location ?? 'unknown place';
+                // final _location = _account.location ?? 'unknown place';
                 final _birthday = _account.birthday ?? 'xxxx-xx-xx';
 
                 return Column(children: [
