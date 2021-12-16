@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../me/views/circle_widget.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+
+const Map<int, String> genderMap = {0: "all", 1: "female", 2: "male"};
 
 class FilterBottomSheet extends StatefulWidget {
   final BuildContext context;
@@ -13,7 +14,8 @@ class FilterBottomSheet extends StatefulWidget {
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
   RangeValues _currentRangeValues = const RangeValues(25, 65);
-
+  int value = 0;
+  bool positive = false;
   @override
   Widget build(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
@@ -33,76 +35,87 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               borderRadius: BorderRadius.circular(10),
               color: Colors.blue.shade400,
             ),
-            child: Stack(
-              children: [
-                Positioned(
-                  right: 10,
-                  top: 10,
-                  child: CircleWidget(
-                      icon: Icon(Icons.close_rounded),
-                      height: 32,
-                      iconSize: 22,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      }),
-                ),
+            child: Stack(children: [
+              Positioned(
+                right: 5,
+                top: 0,
+                child: IconButton(
+                    icon: Icon(Icons.cancel),
+                    iconSize: 32,
+                    color: Colors.white60,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+              ),
+              Column(children: [
+                SizedBox(height: _paddingTop3),
+                Text('Filter',
+                    style: TextStyle(fontSize: 23, color: Colors.white)),
+                SizedBox(height: _paddingTop1),
                 Column(children: [
-                  SizedBox(height: _paddingTop3),
-                  Text('Filter',
-                      style: TextStyle(fontSize: 23, color: Colors.white)),
-                  SizedBox(height: _paddingTop1),
-                  Column(children: [
-                    Row(children: [
-                      _title('age'),
-                      Expanded(
-                          child: RangeSlider(
-                        values: _currentRangeValues,
-                        max: 98,
-                        min: 18,
-                        divisions: 8,
-                        activeColor: Colors.pinkAccent,
-                        inactiveColor: Colors.white,
-                        labels: RangeLabels(
-                          _currentRangeValues.start.round().toString(),
-                          _currentRangeValues.end.round().toString(),
-                        ),
-                        onChanged: (RangeValues values) {
-                          setState(() {
-                            _currentRangeValues = values;
-                          });
-                        },
-                      )),
-                      SizedBox(width: _width * 0.03),
-                    ]),
-                    SizedBox(height: _paddingTop3),
-                    Row(children: [
-                      _title('gender'),
-                      SizedBox(width: 20),
-                      Expanded(
-                          child: GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                margin: EdgeInsets.only(right: _width * 0.07),
-                                alignment: Alignment.center,
-                                height: _height * 0.055,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1, color: Colors.white),
-                                    borderRadius: BorderRadius.circular(100)),
-                                child: Text('choose gender',
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.white)),
-                              ))),
-                    ]),
-                  ]),
-                  SizedBox(height: _paddingTop4),
                   Row(children: [
-                    _buttons(text: 'ok', onPressed: () {}),
-                    _buttons(text: 'reset', onPressed: () {}),
-                  ])
+                    _title('age'),
+                    Expanded(
+                        child: RangeSlider(
+                      values: _currentRangeValues,
+                      max: 98,
+                      min: 18,
+                      divisions: 8,
+                      activeColor: Colors.pinkAccent,
+                      inactiveColor: Colors.white,
+                      labels: RangeLabels(
+                        _currentRangeValues.start.round().toString(),
+                        _currentRangeValues.end.round().toString(),
+                      ),
+                      onChanged: (RangeValues values) {
+                        setState(() {
+                          _currentRangeValues = values;
+                        });
+                      },
+                    )),
+                  ]),
+                  SizedBox(height: _paddingTop3),
+                  Row(children: [
+                    _title('gender'),
+                    SizedBox(width: 20),
+                    Expanded(
+                      child: AnimatedToggleSwitch<int>.size(
+                        current: value,
+                        values: [0, 1, 2],
+                        iconOpacity: 0.2,
+                        indicatorSize: Size.fromWidth(100),
+                        indicatorType: IndicatorType.roundedRectangle,
+                        iconAnimationType: AnimationType.onHover,
+                        indicatorAnimationType: AnimationType.onHover,
+                        iconBuilder: (i, size, active) {
+                          return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  genderMap[i]!,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              ]);
+                        },
+                        borderWidth: 0.0,
+                        borderColor: Colors.transparent,
+                        colorBuilder: (i) => Colors.pink.shade400,
+                        onChanged: (i) => setState(() => value = i),
+                      ),
+                    ),
+                    SizedBox(width: _width * 0.04),
+                  ]),
+                ]),
+                SizedBox(height: _paddingTop4),
+                Row(children: [
+                  _buttons(text: 'ok', onPressed: () {}),
+                  _buttons(text: 'reset', onPressed: () {}),
                 ])
-              ],
-            ));
+              ])
+            ]));
       },
     );
   }
@@ -111,7 +124,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     final _width = MediaQuery.of(context).size.width;
     return Row(children: [
       SizedBox(width: _width * 0.05),
-      Text(text, style: TextStyle(fontSize: 22, color: Colors.white)),
+      Text(text, style: TextStyle(fontSize: 18, color: Colors.white)),
       SizedBox(width: 3),
       Icon(Icons.stars_rounded, color: Colors.pink.shade300, size: 24),
     ]);

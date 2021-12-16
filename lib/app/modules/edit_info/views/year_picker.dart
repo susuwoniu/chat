@@ -79,11 +79,6 @@ class _YearPickerState extends State<YearPicker> {
                 children: [
                   TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(Icons.close_rounded)),
-                  TextButton(
-                      onPressed: () {
                         if (widget.onSelect != null) {
                           widget.onSelect!(currentYear);
                         }
@@ -92,6 +87,11 @@ class _YearPickerState extends State<YearPicker> {
                         '确认',
                         style: TextStyle(fontSize: 13),
                       )),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(Icons.close_rounded)),
                 ],
               ),
             )
