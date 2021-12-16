@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/test1_controller.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class Test1View extends GetView<Test1Controller> {
   @override
@@ -14,36 +15,14 @@ class Test1View extends GetView<Test1Controller> {
       ),
       body: SafeArea(
           child: Container(
-        child: Column(
-          children: [
-            Expanded(
-                child: ListView.builder(
-                    itemCount: controller.indexes.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Obx(() {
-                        final entity =
-                            controller.entities[controller.indexes[index]];
-
-                        return ListTile(
-                            title: Text(entity != null
-                                ? entity.count.toString()
-                                : "empty"));
-                      });
-                    })),
-            // Text(controller.entities["1"]!.count.toString()),
-            TextButton(
-              onPressed: () {
-                controller.increment();
-              },
-              child: Text('add'),
-            ),
-            TextButton(
-              onPressed: () {
-                controller.sort();
-              },
-              child: Text('随机'),
-            ),
-          ],
+        // child: TextField()
+        child: PinCodeTextField(
+          appContext: context,
+          length: 4,
+          obscureText: false,
+          onChanged: (value) {
+            print(value);
+          },
         ),
       )),
     );

@@ -40,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String initialCountry = 'CN';
   PhoneNumber number = PhoneNumber(isoCode: 'CN');
   late bear_log_in_Controller _bear_log_inController;
+  final FocusNode _focusNode = FocusNode();
   @override
   initState() {
     textEditingController.addListener(() {
@@ -97,6 +98,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
+                        TextButton(
+                            onPressed: () {
+                              Get.toNamed("/test2");
+                            },
+                            child: Text("other")),
                         Container(
                             height: 200,
                             padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -124,6 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       children: <Widget>[
                                         InternationalPhoneNumberInput(
                                           inputKey: _fieldKey,
+                                          focusNode: _focusNode,
                                           onInputChanged: (PhoneNumber number) {
                                             _controller.setPhoneNumber(
                                                 number.phoneNumber ?? '',
@@ -132,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 number.dialCode ?? '');
                                           },
                                           onInputValidated: (bool value) {
-                                            print(value);
+                                            print("validated?: $value");
                                           },
                                           selectorConfig: SelectorConfig(
                                             selectorType:
@@ -148,8 +155,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
                                           initialValue: number,
-                                          textFieldController:
-                                              textEditingController,
+                                          // textFieldController:
+                                          //     textEditingController,
                                           formatInput: false,
                                           textAlignVertical:
                                               TextAlignVertical.top,
@@ -186,14 +193,25 @@ class _MyHomePageState extends State<MyHomePage> {
                                                             .tr);
                                                     return;
                                                   }
+
+                                                  _focusNode.unfocus();
                                                   try {
                                                     await _controller
                                                         .handleSendCode();
                                                     UIUtils.toast('验证码发送成功');
                                                     Get.toNamed(
                                                         Routes.VERIFICATION,
-                                                        arguments:
-                                                            Get.arguments);
+                                                        arguments: {
+                                                          ...Get.arguments,
+                                                          "countryCode":
+                                                              _controller
+                                                                  .countryCode
+                                                                  .value,
+                                                          "phoneNumber":
+                                                              _controller
+                                                                  .phoneNumber
+                                                                  .value
+                                                        });
                                                   } catch (e) {
                                                     UIUtils.showError(e);
                                                   }
@@ -207,6 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void dispose() {
     textEditingController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 }
