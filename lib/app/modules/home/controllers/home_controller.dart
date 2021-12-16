@@ -82,6 +82,9 @@ class HomeController extends GetxController {
   Future<PostsResult> getRawPosts(
       {String? after,
       String? before,
+      String? selectedGender,
+      String? startAge,
+      String? endAge,
       required String url,
       List<Skip>? skips}) async {
     Map<String, dynamic> query = {};
@@ -95,6 +98,15 @@ class HomeController extends GetxController {
       query["skip"] = skips.map((value) {
         return "${value.start}-${value.end}";
       }).join(",");
+    }
+    if (selectedGender != null) {
+      query["selectedGender"] = selectedGender;
+    }
+    if (startAge != null) {
+      query["startAge"] = startAge;
+    }
+    if (endAge != null) {
+      query["endAge"] = endAge;
     }
     final body = await APIProvider.to.get(url, query: query);
     if (body["data"].length == 0) {
@@ -133,7 +145,12 @@ class HomeController extends GetxController {
         accountMap: newAccountMap);
   }
 
-  getHomePosts({String? after, String? before}) async {
+  getHomePosts(
+      {String? after,
+      String? before,
+      String? selectedGender,
+      String? startAge,
+      String? endAge}) async {
     final result = await getRawPosts(
         after: after, before: before, skips: _skips, url: "/post/posts");
     if (result.indexes.isNotEmpty &&
@@ -352,6 +369,17 @@ class HomeController extends GetxController {
     // }
     // return PostsResult(
     //     postMap: newPostMap, indexes: newIndexes, endCursor: newEndCursor);
+  }
+
+  void onSubmittedFilter(
+      {required int startAge,
+      required int endAge,
+      required String selectedGender}) async {
+    final _selectedGender = selectedGender == 'all' ? null : selectedGender;
+    await getHomePosts(
+        startAge: startAge.toString(),
+        endAge: endAge.toString(),
+        selectedGender: _selectedGender);
   }
 }
 

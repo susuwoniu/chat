@@ -29,7 +29,10 @@ class HomeView extends GetView<HomeController> {
               showModalBottomSheet(
                   context: context,
                   builder: (context) {
-                    return FilterBottomSheet(context: context);
+                    return FilterBottomSheet(
+                      context: context,
+                      onSubmitted: controller.onSubmittedFilter,
+                    );
                   });
             }),
         actions: <Widget>[

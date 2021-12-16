@@ -1,3 +1,5 @@
+import 'package:chat/app/providers/auth_provider.dart';
+import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
@@ -5,16 +7,24 @@ const Map<int, String> genderMap = {0: "all", 1: "female", 2: "male"};
 
 class FilterBottomSheet extends StatefulWidget {
   final BuildContext context;
+  final void Function(
+      {required int startAge,
+      required int endAge,
+      required String selectedGender}) onSubmitted;
 
-  const FilterBottomSheet({Key? key, required this.context});
+  const FilterBottomSheet(
+      {Key? key, required this.onSubmitted, required this.context});
 
   @override
   _FilterBottomSheetState createState() => _FilterBottomSheetState();
 }
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
+  final RangeValues _initialRangeValues = const RangeValues(25, 65);
   RangeValues _currentRangeValues = const RangeValues(25, 65);
+
   int value = 0;
+  String initialGender = 'all';
   bool positive = false;
   @override
   Widget build(BuildContext context) {
@@ -57,15 +67,15 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     _title('age'),
                     Expanded(
                         child: RangeSlider(
-                      values: _currentRangeValues,
+                      values: _initialRangeValues,
                       max: 98,
                       min: 18,
                       divisions: 8,
                       activeColor: Colors.pinkAccent,
                       inactiveColor: Colors.white,
                       labels: RangeLabels(
-                        _currentRangeValues.start.round().toString(),
-                        _currentRangeValues.end.round().toString(),
+                        _initialRangeValues.start.round().toString(),
+                        _initialRangeValues.end.round().toString(),
                       ),
                       onChanged: (RangeValues values) {
                         setState(() {
@@ -103,7 +113,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         borderWidth: 0.0,
                         borderColor: Colors.transparent,
                         colorBuilder: (i) => Colors.pink.shade400,
-                        onChanged: (i) => setState(() => value = i),
+                        onChanged: (i) => setState(() {
+                          value = i;
+                        }),
                       ),
                     ),
                     SizedBox(width: _width * 0.04),
@@ -111,7 +123,27 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 ]),
                 SizedBox(height: _paddingTop4),
                 Row(children: [
-                  _buttons(text: 'ok', onPressed: () {}),
+                  _buttons(
+                      text: 'ok',
+                      onPressed: () {
+                        if (!AuthProvider.to.account.value.vip) {
+                          if (initialGender == genderMap[value] &&
+                              _initialRangeValues.start ==
+                                  _currentRangeValues.start &&
+                              _initialRangeValues.end ==
+                                  _currentRangeValues.end) {
+                            Navigator.pop(context);
+                          } else {
+                            widget.onSubmitted(
+                              selectedGender: genderMap[value]!,
+                              startAge: _currentRangeValues.start.round(),
+                              endAge: _currentRangeValues.end.round(),
+                            );
+                          }
+                        } else {
+                          UIUtils.showError('not vip');
+                        }
+                      }),
                   _buttons(text: 'reset', onPressed: () {}),
                 ])
               ])
