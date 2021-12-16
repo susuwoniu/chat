@@ -24,7 +24,6 @@ class _InputWidgetState extends State<InputWidget> {
   void initState() {
     super.initState();
     //初始化状态
-    print("initState");
     textController.text = widget.initialContent;
     textController.addListener(() {
       final text = textController.text;

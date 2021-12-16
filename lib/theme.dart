@@ -16,12 +16,15 @@ class ChatThemeData {
   static ThemeData themeData(
       ColorScheme colorScheme, Color focusColor, Brightness brightness) {
     return ThemeData(
-        brightness: brightness,
-        colorScheme: colorScheme,
-        appBarTheme: AppBarTheme(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            foregroundColor: colorScheme.onBackground));
+      brightness: brightness,
+      colorScheme: colorScheme,
+      appBarTheme: AppBarTheme(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          foregroundColor: colorScheme.onBackground),
+      bottomSheetTheme:
+          BottomSheetThemeData(backgroundColor: Colors.transparent),
+    );
   }
 
   static const ColorScheme lightColorScheme = ColorScheme(

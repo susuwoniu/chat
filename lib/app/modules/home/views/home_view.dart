@@ -9,6 +9,7 @@ import 'package:chat/app/widgets/max_text.dart';
 import 'package:chat/config/config.dart';
 import 'package:chat/common.dart';
 import 'tag_widget.dart';
+import 'filter_bottom_sheet.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -19,9 +20,17 @@ class HomeView extends GetView<HomeController> {
     final appBar = AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-            icon: Text("✨", style: Theme.of(context).textTheme.headline6),
+            icon: Icon(
+              Icons.filter_list_rounded,
+              size: 36,
+              color: Colors.white,
+            ),
             onPressed: () {
-              Get.toNamed(Routes.SETTING);
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return FilterBottomSheet(context: context);
+                  });
             }),
         actions: <Widget>[
           Row(

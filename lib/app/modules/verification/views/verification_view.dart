@@ -33,12 +33,11 @@ class PinCodeVerificationScreen extends StatefulWidget {
 }
 
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
-  TextEditingController textEditingController = TextEditingController();
-  // ..text = "123456";
+  final TextEditingController textEditingController = TextEditingController();
   late bear_log_in_Controller _bear_log_inController;
-  // ignore: close_sinks
   StreamController<ErrorAnimationType>? errorController;
   bool hasError = false;
+
   String currentText = "";
   final formKey = GlobalKey<FormState>();
   final _controller = LoginController.to;
