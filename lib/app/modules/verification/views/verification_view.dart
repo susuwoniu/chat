@@ -1,8 +1,5 @@
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../login/controllers/login_controller.dart';
-
 import '../controllers/verification_controller.dart';
 import 'package:chat/common.dart';
 import 'dart:async';
@@ -17,15 +14,12 @@ import 'package:timer_count_down/timer_count_down.dart';
 class VerificationView extends GetView<VerificationController> {
   @override
   Widget build(BuildContext context) {
-    return PinCodeVerificationScreen(
-        ""); // a random number, please don't call xD
+    return PinCodeVerificationScreen(); // a random number, please don't call xD
   }
 }
 
 class PinCodeVerificationScreen extends StatefulWidget {
-  final String? phoneNumber;
-
-  PinCodeVerificationScreen(this.phoneNumber);
+  PinCodeVerificationScreen();
 
   @override
   _PinCodeVerificationScreenState createState() =>
@@ -41,7 +35,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   bool hasError = false;
   String currentText = "";
   final formKey = GlobalKey<FormState>();
-  final _controller = LoginController.to;
+  final controller = VerificationController.to;
 
   @override
   void initState() {
@@ -52,6 +46,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
 
   @override
   void dispose() {
+    // textEditingController.dispose();
     errorController!.close();
     super.dispose();
   }
@@ -78,7 +73,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       shouldClip: false,
                       alignment: Alignment.bottomCenter,
                       fit: BoxFit.contain,
-                      controller: _bear_log_inController,
+                      // controller: _bear_log_inController,
                     ))),
             Padding(
                 padding: EdgeInsets.fromLTRB(30, 30, 30, 5),
@@ -88,7 +83,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       "we_have_sent_the_code_to_your_phone".tr,
                     ),
                     Text(
-                      "${_controller.countryCode}${_controller.phoneNumber}",
+                      "${controller.countryCode}${controller.phoneNumber}",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -99,67 +94,65 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 )),
             SizedBox(height: 15),
             Form(
-              key: formKey,
-              child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: PinCodeTextField(
-                    appContext: context,
-                    pastedTextStyle: TextStyle(
-                      color: Colors.blue.shade600,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    length: 6,
-                    blinkWhenObscuring: true,
-                    animationType: AnimationType.fade,
-                    pinTheme: PinTheme(
-                      shape: PinCodeFieldShape.box,
-                      borderRadius: BorderRadius.circular(5),
-                      fieldHeight: 50,
-                      fieldWidth: 40,
-                      activeFillColor: Colors.white,
-                      inactiveFillColor: Colors.white,
-                      selectedFillColor: Colors.white,
-                    ),
-                    cursorColor: Colors.black54,
-                    animationDuration: Duration(milliseconds: 300),
-                    enableActiveFill: true,
-                    autoDisposeControllers: false,
-                    autoFocus: true,
-                    errorAnimationController: errorController,
-                    controller: textEditingController,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                    ],
-                    boxShadows: [
-                      BoxShadow(
-                        offset: Offset(0, 1),
-                        color: Colors.black12,
-                        blurRadius: 10,
-                      )
-                    ],
-                    onCompleted: (v) {
-                      print("Completed");
-                    },
-                    onChanged: (value) {
-                      print(value);
-                      if (value.isNotEmpty) {
-                        _bear_log_inController.coverEyes(true);
-                      } else {
-                        _bear_log_inController.coverEyes(false);
-                      }
-                      setState(() {
-                        currentText = value;
-                      });
-                    },
-                    beforeTextPaste: (text) {
-                      print("Allowing to paste $text");
-                      //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                      //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                      return true;
-                    },
-                  )),
-            ),
+                key: formKey,
+                child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    child: PinCodeTextField(
+                      appContext: context,
+                      pastedTextStyle: TextStyle(
+                        color: Colors.blue.shade600,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      length: 6,
+                      blinkWhenObscuring: true,
+                      animationType: AnimationType.fade,
+                      pinTheme: PinTheme(
+                        shape: PinCodeFieldShape.box,
+                        borderRadius: BorderRadius.circular(5),
+                        fieldHeight: 50,
+                        fieldWidth: 40,
+                        activeFillColor: Colors.white,
+                        inactiveFillColor: Colors.white,
+                        selectedFillColor: Colors.white,
+                      ),
+                      cursorColor: Colors.black54,
+                      animationDuration: Duration(milliseconds: 300),
+                      enableActiveFill: true,
+                      autoFocus: true,
+                      errorAnimationController: errorController,
+                      controller: textEditingController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                      ],
+                      boxShadows: [
+                        BoxShadow(
+                          offset: Offset(0, 1),
+                          color: Colors.black12,
+                          blurRadius: 10,
+                        )
+                      ],
+                      onCompleted: (v) {
+                        print("Completed");
+                      },
+                      onChanged: (value) {
+                        print(value);
+                        if (value.isNotEmpty) {
+                          _bear_log_inController.coverEyes(true);
+                        } else {
+                          _bear_log_inController.coverEyes(false);
+                        }
+                        setState(() {
+                          currentText = value;
+                        });
+                      },
+                      beforeTextPaste: (text) {
+                        print("Allowing to paste $text");
+                        //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                        //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                        return true;
+                      },
+                    ))),
             Container(
               padding: const EdgeInsets.only(left: 23),
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -182,7 +175,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       return TextButton(
                           onPressed: () async {
                             try {
-                              await _controller.handleSendCode();
+                              await controller.handleSendCode();
                               UIUtils.toast('验证码发送成功');
                             } catch (e) {
                               UIUtils.showError(e);
@@ -218,15 +211,15 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         setState(
                           () {
                             hasError = false;
-                            _controller.setVerificationCode(currentText);
                           },
                         );
+                        controller.setVerificationCode(currentText);
                       }
                       try {
                         await AccountProvider.to.handleLogin(
-                            _controller.countryCode.value,
-                            _controller.phoneNumber.value,
-                            _controller.verificationCode.value,
+                            controller.countryCode,
+                            controller.phoneNumber,
+                            controller.verificationCode.value,
                             closePageCount: 1,
                             arguments: Get.arguments);
                       } catch (e) {
