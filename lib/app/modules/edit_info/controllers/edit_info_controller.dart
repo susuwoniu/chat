@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:chat/utils/upload.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/types/types.dart';
-import 'package:chat/common.dart';
 
 class EditInfoController extends GetxController {
   static EditInfoController get to => Get.find();

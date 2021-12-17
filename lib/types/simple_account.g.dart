@@ -14,11 +14,11 @@ SimpleAccountEntity _$SimpleAccountEntityFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       avatar: json['avatar'] as String?,
+      age: json['age'] as int?,
+      bio: json['bio'] as String?,
       name: json['name'] as String,
       like_count: json['like_count'] as int,
-      bio: json['bio'] as String?,
       vip: json['vip'] as bool,
-      age: json['age'] as int?,
       gender: json['gender'] as String,
     );
 

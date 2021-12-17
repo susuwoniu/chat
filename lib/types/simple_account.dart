@@ -13,10 +13,10 @@ class SimpleAccountEntity {
   final int like_count;
   final bool vip;
   final String gender;
-  List<ProfileImageEntity> profileImages = [];
+  List<ProfileImageEntity>? profileImages;
 
   SimpleAccountEntity({
-    this.profileImages = const [],
+    this.profileImages,
     this.avatar,
     this.age,
     this.bio,
