@@ -1,4 +1,5 @@
 import 'package:chat/app/providers/auth_provider.dart';
+import 'package:chat/app/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktoklikescroller/tiktoklikescroller.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,7 @@ class HomeView extends GetView<HomeController> {
     final size = MediaQuery.of(context).size;
     final screenWidth = size.width;
     final imDomain = AppConfig().config.imDomain;
+
     final appBar = AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
@@ -81,67 +83,62 @@ class HomeView extends GetView<HomeController> {
         body: Obx(() {
           final isLogin = AuthProvider.to.isLogin;
           final account = AuthProvider.to.account.value;
-          final isLoading = controller.isLoadingHomePosts.value;
+          final postIndexes = controller.postIndexes;
+          final postMap = controller.postMap;
+          var isLoading = controller.isLoadingHomePosts.value;
           final isEmpty = controller.isDataEmpty.value;
           final isReachEnd = controller.isReachHomePostsEnd.value;
           final isInit = controller.isHomeInitial.value;
           final isInitError = controller.homeInitError.value;
           return TikTokStyleFullPageScroller(
-            contentSize: controller.postIndexes.length + 1,
+            contentSize: postIndexes.length + 1,
             swipePositionThreshold: 0.2,
             swipeVelocityThreshold: 2000,
             animationDuration: const Duration(milliseconds: 300),
             onScrollEvent: _handleCallbackEvent,
             builder: (BuildContext context, int index) {
               return Container(
-                  color: index < controller.postIndexes.length
-                      ? HexColor(controller
-                          .postMap[controller.postIndexes[index]]!
-                          .backgroundColor)
+                  color: index < postIndexes.length
+                      ? HexColor(postMap[postIndexes[index]]!.backgroundColor)
                       : Colors.orangeAccent,
                   alignment: Alignment.topLeft,
                   child: SafeArea(child: Builder(builder: (context) {
-                    if (!isInit ||
-                        (index == controller.postIndexes.length && isLoading)) {
+                    if (!isInit || (index == postIndexes.length && isLoading)) {
                       return Center(child: Loading());
-                    } else if (index == controller.postIndexes.length &&
-                        isEmpty) {
+                    } else if (index == postIndexes.length && isEmpty) {
                       return Center(
                           child: Retry(
                               message: "当前没有更多帖子啦～",
                               onRetry: () async {
-                                controller.isLoadingHomePosts.value = true;
+                                isLoading = true;
                                 try {
                                   await controller.getHomePosts();
-                                  controller.isLoadingHomePosts.value = false;
+                                  isLoading = false;
                                 } catch (e) {
-                                  controller.isLoadingHomePosts.value = false;
+                                  isLoading = false;
                                   UIUtils.showError(e);
                                 }
                               }));
-                    } else if (index == controller.postIndexes.length &&
-                        isReachEnd) {
+                    } else if (index == postIndexes.length && isReachEnd) {
                       return Center(
                           child: Retry(
                               message: "没有更多帖子了～",
                               onRetry: () async {
-                                controller.isLoadingHomePosts.value = true;
+                                isLoading = true;
                                 try {
                                   await controller.getHomePosts(
                                       before: controller.homePostsFirstCursor);
-                                  controller.isLoadingHomePosts.value = false;
+                                  isLoading = false;
                                 } catch (e) {
-                                  controller.isLoadingHomePosts.value = false;
+                                  isLoading = false;
                                   UIUtils.showError(e);
                                 }
                               }));
-                    } else if (controller.postIndexes.isNotEmpty &&
-                        index < controller.postIndexes.length &&
-                        controller.postMap[controller.postIndexes[index]] !=
-                            null) {
+                    } else if (postIndexes.isNotEmpty &&
+                        index < postIndexes.length &&
+                        postMap[postIndexes[index]] != null) {
                       return Builder(builder: (BuildContext context) {
-                        final post =
-                            controller.postMap[controller.postIndexes[index]]!;
+                        final post = postMap[postIndexes[index]]!;
                         final author =
                             AuthProvider.to.simpleAccountMap[post.accountId]!;
                         return Stack(
@@ -182,7 +179,20 @@ class HomeView extends GetView<HomeController> {
                                         Avatar(
                                             size: 26,
                                             name: author.name,
-                                            uri: author.avatar),
+                                            uri: author.avatar,
+                                            onTap: () {
+                                              if (AccountStoreProvider.to.getString(
+                                                      STORAGE_ACCOUNT_ID_KEY) ==
+                                                  post.accountId) {
+                                                RouterProvider.to.toMe();
+                                              } else {
+                                                Get.toNamed(Routes.OTHER,
+                                                    arguments: {
+                                                      "accountId":
+                                                          post.accountId
+                                                    });
+                                              }
+                                            }),
                                         Padding(
                                             padding: const EdgeInsets.only(
                                                 right: 15.0)),
@@ -203,14 +213,13 @@ class HomeView extends GetView<HomeController> {
                                     padding: const EdgeInsets.only(bottom: 40),
                                     child: GestureDetector(
                                       onTap: () {
-                                        final post = controller.postMap[
-                                            controller.postIndexes[index]];
+                                        final post =
+                                            postMap[postIndexes[index]];
                                         if (post != null) {
                                           Get.toNamed(Routes.ROOM, arguments: {
                                             "id":
                                                 "im${post.accountId}@$imDomain",
-                                            "post_id":
-                                                controller.postIndexes[index]
+                                            "post_id": postIndexes[index]
                                           });
                                         }
                                       },
@@ -222,20 +231,29 @@ class HomeView extends GetView<HomeController> {
                                               BorderRadius.circular(30),
                                           color: Colors.white,
                                         ),
-                                        child: Row(children: [
-                                          TextButton(
-                                              onPressed: () async {},
-                                              child: isLogin
-                                                  ? Avatar(
-                                                      size: 20,
-                                                      uri: account.avatar,
-                                                      name: account.name)
-                                                  : Text("🤠",
-                                                      style: const TextStyle(
-                                                          fontSize: 32,
-                                                          color:
-                                                              Colors.white))),
-                                        ]),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              TextButton(
+                                                  onPressed: () async {},
+                                                  child: isLogin
+                                                      ? Avatar(
+                                                          size: 20,
+                                                          uri: account.avatar,
+                                                          name: account.name,
+                                                          onTap: () async {
+                                                            RouterProvider.to
+                                                                .toMe();
+                                                          },
+                                                        )
+                                                      : Text("🤠",
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 32,
+                                                                  color: Colors
+                                                                      .white))),
+                                            ]),
                                       ),
                                     )))
                           ],

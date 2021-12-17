@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/me_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat/utils/string.dart';
 import 'profile_info_text.dart';
 import './age_widget.dart';
 import './circle_widget.dart';
@@ -15,34 +13,10 @@ import 'dots_widget.dart';
 import 'my_posts.dart';
 import 'like_count.dart';
 import 'profile_viewers_bubble.dart';
-import 'dart:io';
+import 'image_slider.dart';
 
 class MeView extends GetView<MeController> {
   final CarouselController buttonCarouselController = CarouselController();
-  Widget imageSlider(ProfileImageEntity img,
-      {required double height, required double width}) {
-    ImageProvider _image;
-    final isNet = isUrl(img.url);
-    if (isNet) {
-      _image = CachedNetworkImageProvider(img.url);
-    } else {
-      _image = FileImage(File(img.url));
-    }
-    return Container(
-      child: Container(
-        child: Stack(
-          children: <Widget>[
-            Image(
-              image: _image,
-              fit: BoxFit.cover,
-              height: height,
-              width: width,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,21 +38,7 @@ class MeView extends GetView<MeController> {
       final _imgList = List.from(_account.profileImages);
 
       if (_imgList.isEmpty) {
-        final img = ProfileImageEntity(
-            mime_type: "image/jpg",
-            url:
-                "http://p1.music.126.net/jcKLW8e0n4dqVywaBvGqrA==/109951166712826330.jpg?param=140y140",
-            width: 140,
-            height: 140,
-            size: 45,
-            order: 0,
-            thumbtail: ThumbtailEntity(
-                height: 140,
-                width: 140,
-                url:
-                    "http://p1.music.126.net/jcKLW8e0n4dqVywaBvGqrA==/109951166712826330.jpg?param=140y140",
-                mime_type: "image/jpg"));
-        _imgList.add(img);
+        _imgList.add(ProfileImageEntity.empty());
       }
 
       return SingleChildScrollView(
@@ -88,7 +48,7 @@ class MeView extends GetView<MeController> {
             CarouselSlider(
               items: _imgList
                   .map((img) =>
-                      imageSlider(img, height: height * 0.5, width: width))
+                      ImageSlider(img: img, height: height * 0.5, width: width))
                   .toList(),
               carouselController: buttonCarouselController,
               options: CarouselOptions(

@@ -52,6 +52,23 @@ class ProfileImageEntity {
     required this.size,
     required this.thumbtail,
   });
+  static ProfileImageEntity empty() {
+    return ProfileImageEntity(
+        mime_type: "image/jpg",
+        url:
+            "http://p1.music.126.net/jcKLW8e0n4dqVywaBvGqrA==/109951166712826330.jpg?param=140y140",
+        width: 140,
+        height: 140,
+        size: 45,
+        order: 0,
+        thumbtail: ThumbtailEntity(
+            height: 140,
+            width: 140,
+            url:
+                "http://p1.music.126.net/jcKLW8e0n4dqVywaBvGqrA==/109951166712826330.jpg?param=140y140",
+            mime_type: "image/jpg"));
+  }
+
   factory ProfileImageEntity.fromJson(Map<String, dynamic> json) =>
       _$ProfileImageEntityFromJson(json);
   Map<String, dynamic> toJson() => _$ProfileImageEntityToJson(this);
