@@ -9,9 +9,9 @@ class FilterBottomSheet extends StatefulWidget {
       {required int startAge,
       required int endAge,
       required String selectedGender}) onSubmitted;
-  final String initialGender;
-  final int initialStartAge;
-  final int initialEndAge;
+  final String? initialGender;
+  final int? initialStartAge;
+  final int? initialEndAge;
 
   const FilterBottomSheet({
     Key? key,
@@ -34,8 +34,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   void initState() {
     super.initState();
     _currentRangeValues = RangeValues(
-        widget.initialStartAge.toDouble(), widget.initialEndAge.toDouble());
-    selectedGender = widget.initialGender;
+        widget.initialStartAge != null
+            ? widget.initialStartAge!.toDouble()
+            : 18,
+        widget.initialEndAge != null ? widget.initialEndAge!.toDouble() : 98);
+    selectedGender = widget.initialGender ?? 'all';
   }
 
   bool positive = false;

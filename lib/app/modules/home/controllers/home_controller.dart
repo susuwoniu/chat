@@ -37,22 +37,18 @@ class PostsResult {
 }
 
 class PostsFilter {
-  final String gender;
-  final int startAge;
-  final int endAge;
+  final String? gender;
+  final int? startAge;
+  final int? endAge;
 
   PostsFilter({
-    required this.gender,
-    required this.startAge,
-    required this.endAge,
+    this.gender,
+    this.startAge,
+    this.endAge,
   });
 
   static PostsFilter empty() {
-    return PostsFilter(
-      gender: 'all',
-      startAge: 18,
-      endAge: 98,
-    );
+    return PostsFilter();
   }
 }
 
@@ -105,8 +101,8 @@ class HomeController extends GetxController {
       {String? after,
       String? before,
       String? selectedGender,
-      String? startAge,
-      String? endAge,
+      int? startAge,
+      int? endAge,
       required String url,
       List<Skip>? skips}) async {
     Map<String, dynamic> query = {};
@@ -116,7 +112,7 @@ class HomeController extends GetxController {
     if (before != null) {
       query["before"] = before;
     }
-    if (skips != null) {
+    if (skips != null && skips.isNotEmpty) {
       query["skip"] = skips.map((value) {
         return "${value.start}-${value.end}";
       }).join(",");
@@ -125,10 +121,10 @@ class HomeController extends GetxController {
       query["gender"] = selectedGender;
     }
     if (startAge != null) {
-      query["startAge"] = startAge;
+      query["start_age"] = startAge.toString();
     }
     if (endAge != null) {
-      query["endAge"] = endAge;
+      query["end_age"] = endAge.toString();
     }
     final body = await APIProvider.to.get(url, query: query);
     if (body["data"].length == 0) {
@@ -170,11 +166,26 @@ class HomeController extends GetxController {
   getHomePosts({
     String? after,
     String? before,
-    String? selectedGender,
-    String? startAge,
-    String? endAge,
     bool replace = false,
   }) async {
+    int? startAge;
+    int? endAge;
+    String? selectedGender;
+    if (postsFilter.value.endAge != null) {
+      {
+        endAge = postsFilter.value.endAge;
+      }
+    }
+    if (postsFilter.value.startAge != null) {
+      {
+        startAge = postsFilter.value.startAge;
+      }
+    }
+    if (postsFilter.value.gender != null) {
+      {
+        selectedGender = postsFilter.value.gender;
+      }
+    }
     final result = await getRawPosts(
         after: after,
         before: before,
@@ -216,6 +227,10 @@ class HomeController extends GetxController {
             homePostsFirstCursor!, getExpiresAt());
       }
     } else {
+      if (replace) {
+        postIndexes.clear();
+        currentIndex.value = 0;
+      }
       isReachHomePostsEnd.value = true;
       if (isHomeInitial.value == false) {
         isDataEmpty.value = true;
@@ -410,14 +425,11 @@ class HomeController extends GetxController {
       {required int startAge,
       required int endAge,
       required String selectedGender}) async {
-    final _selectedGender = selectedGender == 'all' ? null : selectedGender;
     postsFilter(PostsFilter(
         gender: selectedGender, startAge: startAge, endAge: endAge));
-    await getHomePosts(
-        startAge: startAge.toString(),
-        endAge: endAge.toString(),
-        selectedGender: _selectedGender,
-        replace: true);
+    // first init skips,
+    await initSkips();
+    await getHomePosts(replace: true);
   }
 }
 

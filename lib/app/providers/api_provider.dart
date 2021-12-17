@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:convert';
 import 'package:get/get.dart' hide FormData;
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:chat/errors/errors.dart';
@@ -114,7 +114,15 @@ class APIProvider {
     if (response.hasError) {
       throw formatError(response);
     } else {
-      // Log.debug("response: $response.body");
+      //
+      try {
+        JsonEncoder encoder = JsonEncoder.withIndent('  ');
+        String prettyprint = encoder.convert(response.body);
+        Log.debug("response: $prettyprint");
+      } catch (e) {
+        Log.debug("response: ${response.body}");
+      }
+
       return response;
     }
   }

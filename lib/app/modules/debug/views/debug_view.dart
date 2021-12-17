@@ -26,10 +26,18 @@ class DebugView extends GetView<DebugController> {
               children: [
                 ListTile(
                   title: Text('Clear All'),
-                  onTap: () {
-                    CacheProvider.to.clear();
-                    AccountStoreProvider.to.clear();
-                    KVProvider.to.clear();
+                  onTap: () async {
+                    try {
+                      if (AuthProvider.to.isLogin) {
+                        await AccountProvider.to.handleLogout();
+                      }
+                      await CacheProvider.to.clear();
+                      await AccountStoreProvider.to.clear();
+                      await KVProvider.to.clear();
+                      UIUtils.toast("Clear All Success");
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
                   },
                 ),
                 ListTile(
