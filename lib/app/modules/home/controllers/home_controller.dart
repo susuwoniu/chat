@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:chat/types/types.dart';
 import 'package:chat/app/modules/main/controllers/bottom_navigation_bar_controller.dart';
@@ -202,10 +204,7 @@ class HomeController extends GetxController {
         result.endCursor != null &&
         result.startCursor != null) {
       postMap.addAll(result.postMap);
-      if (replace) {
-        postIndexes.clear();
-        currentIndex.value = 0;
-      }
+
       postIndexes.addAll(result.indexes);
 
       var isFirstCursorChanged = false;
@@ -232,8 +231,7 @@ class HomeController extends GetxController {
       }
     } else {
       if (replace) {
-        postIndexes.clear();
-        currentIndex.value = 0;
+        isDataEmpty.value = true;
       }
       isReachHomePostsEnd.value = true;
       if (isHomeInitial.value == false) {
@@ -287,6 +285,10 @@ class HomeController extends GetxController {
     }
     if (validSkips.isNotEmpty) {
       _skips.addAll(validSkips);
+    }
+    // _skips most 6 groups;
+    if (_skips.length > 6) {
+      _skips.removeRange(6, _skips.length);
     }
     // save to store
     await CacheProvider.to.putObjectList(STORAGE_HOME_SKIPS_KEY, _skips);
@@ -432,8 +434,18 @@ class HomeController extends GetxController {
     postsFilter(PostsFilter(
         gender: selectedGender, startAge: startAge, endAge: endAge));
     // first init skips,
-    await initSkips();
-    await getHomePosts(replace: true);
+    try {
+      postIndexes.clear();
+      currentIndex.value = 0;
+      isLoadingHomePosts.value = true;
+      await initSkips();
+      await getHomePosts(replace: true);
+      isLoadingHomePosts.value = false;
+    } catch (e) {
+      isLoadingHomePosts.value = false;
+
+      homeInitError.value = e.toString();
+    }
   }
 }
 
