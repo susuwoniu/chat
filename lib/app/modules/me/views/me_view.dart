@@ -14,7 +14,7 @@ import 'nickname_widget.dart';
 import 'dots_widget.dart';
 import 'my_posts.dart';
 import 'like_count.dart';
-import 'profile_viewers.dart';
+import 'profile_viewers_bubble.dart';
 import 'dart:io';
 
 class MeView extends GetView<MeController> {
@@ -136,10 +136,12 @@ class MeView extends GetView<MeController> {
             Positioned(
                 right: paddingLeft,
                 bottom: height * 0.025,
-                child: ProfileViewers(
+                child: ProfileViewersBubble(
                   totalViewersCount: 0,
                   newViewersCount: 10,
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(Routes.PROFILE_VIEWERS);
+                  },
                 )),
             Positioned(
               bottom: height * 0.01,

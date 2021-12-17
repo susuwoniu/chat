@@ -29,6 +29,8 @@ abstract class Routes {
   static const POST_SQUARE = _Paths.POST_SQUARE;
   static const ABOUT = _Paths.ABOUT;
   static const FEEDBACK = _Paths.FEEDBACK;
+  static const PROFILE_VIEWERS = _Paths.PROFILE_VIEWERS;
+  static const OTHER = _Paths.OTHER;
 }
 
 abstract class _Paths {
@@ -57,4 +59,6 @@ abstract class _Paths {
   static const POST_SQUARE = '/post-square';
   static const ABOUT = '/about';
   static const FEEDBACK = '/feedback';
+  static const PROFILE_VIEWERS = '/profile-viewers';
+  static const OTHER = '/other';
 }

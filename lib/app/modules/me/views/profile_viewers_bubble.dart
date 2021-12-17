@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../message/views/unread_count.dart';
 
-class ProfileViewers extends StatelessWidget {
+class ProfileViewersBubble extends StatelessWidget {
   final int totalViewersCount;
   final int newViewersCount;
   final void Function() onPressed;
 
-  ProfileViewers({
+  ProfileViewersBubble({
     Key? key,
     required this.totalViewersCount,
     required this.newViewersCount,
@@ -16,7 +16,7 @@ class ProfileViewers extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          onPressed;
+          onPressed();
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),

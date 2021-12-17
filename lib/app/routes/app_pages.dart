@@ -33,16 +33,21 @@ import 'package:chat/app/modules/my_single_post/bindings/my_single_post_binding.
 import 'package:chat/app/modules/my_single_post/views/my_single_post_view.dart';
 import 'package:chat/app/modules/notfound/bindings/notfound_binding.dart';
 import 'package:chat/app/modules/notfound/views/notfound_view.dart';
+import 'package:chat/app/modules/other/bindings/other_binding.dart';
+import 'package:chat/app/modules/other/views/other_view.dart';
 import 'package:chat/app/modules/post/bindings/post_binding.dart';
 import 'package:chat/app/modules/post/views/post_view.dart';
 import 'package:chat/app/modules/post_square/bindings/post_square_binding.dart';
 import 'package:chat/app/modules/post_square/views/post_square_view.dart';
+import 'package:chat/app/modules/profile_viewers/bindings/profile_viewers_binding.dart';
+import 'package:chat/app/modules/profile_viewers/views/profile_viewers_view.dart';
 import 'package:chat/app/modules/room/bindings/room_binding.dart';
 import 'package:chat/app/modules/room/views/room_view.dart';
 import 'package:chat/app/modules/root/bindings/root_binding.dart';
 import 'package:chat/app/modules/root/views/root_view.dart';
 import 'package:chat/app/modules/setting/bindings/setting_binding.dart';
 import 'package:chat/app/modules/setting/views/setting_view.dart';
+import 'package:chat/app/modules/splash/views/splash_view.dart';
 import 'package:chat/app/modules/test1/bindings/test1_binding.dart';
 import 'package:chat/app/modules/test1/views/test1_view.dart';
 import 'package:chat/app/modules/test2/bindings/test2_binding.dart';
@@ -51,7 +56,7 @@ import 'package:chat/app/modules/test3/bindings/test3_binding.dart';
 import 'package:chat/app/modules/test3/views/test3_view.dart';
 import 'package:chat/app/modules/verification/bindings/verification_binding.dart';
 import 'package:chat/app/modules/verification/views/verification_view.dart';
-import 'package:chat/app/modules/splash/views/splash_view.dart';
+
 import 'observers.dart';
 
 part 'app_routes.dart';
@@ -242,6 +247,16 @@ class AppPages {
     GetPage(
       name: _Paths.SPLASH,
       page: () => SplashView(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE_VIEWERS,
+      page: () => ProfileViewersView(),
+      binding: ProfileViewersBinding(),
+    ),
+    GetPage(
+      name: _Paths.OTHER,
+      page: () => OtherView(),
+      binding: OtherBinding(),
     ),
   ];
 }

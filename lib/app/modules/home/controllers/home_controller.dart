@@ -187,7 +187,7 @@ class HomeController extends GetxController {
         startAge = postsFilter.value.startAge;
       }
     }
-    if (postsFilter.value.gender != null) {
+    if (postsFilter.value.gender != null && postsFilter.value.gender != 'all') {
       {
         selectedGender = postsFilter.value.gender;
       }

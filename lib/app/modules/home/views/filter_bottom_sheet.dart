@@ -167,7 +167,14 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           UIUtils.showError('not vip');
                         }
                       }),
-                  _buttons(text: 'reset', onPressed: () {}),
+                  _buttons(
+                      text: 'reset',
+                      onPressed: () {
+                        setState(() {
+                          _currentRangeValues = RangeValues(18, 98);
+                          selectedGender = 'all';
+                        });
+                      }),
                 ])
               ])
             ]));
