@@ -152,7 +152,13 @@ class HomeController extends GetxController {
       String? startAge,
       String? endAge}) async {
     final result = await getRawPosts(
-        after: after, before: before, skips: _skips, url: "/post/posts");
+        after: after,
+        before: before,
+        skips: _skips,
+        url: "/post/posts",
+        startAge: startAge,
+        endAge: endAge,
+        selectedGender: selectedGender);
     if (result.indexes.isNotEmpty &&
         result.endCursor != null &&
         result.startCursor != null) {
