@@ -2,6 +2,7 @@ import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:chat/common.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   final BuildContext context;
@@ -36,8 +37,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     _currentRangeValues = RangeValues(
         widget.initialStartAge != null
             ? widget.initialStartAge!.toDouble()
-            : 18,
-        widget.initialEndAge != null ? widget.initialEndAge!.toDouble() : 98);
+            : DEFAULT_START_AGE.toDouble(),
+        widget.initialEndAge != null
+            ? widget.initialEndAge!.toDouble()
+            : DEFAULT_END_AGE.toDouble());
     selectedGender = widget.initialGender ?? 'all';
   }
 

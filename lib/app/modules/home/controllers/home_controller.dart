@@ -171,12 +171,16 @@ class HomeController extends GetxController {
     int? startAge;
     int? endAge;
     String? selectedGender;
-    if (postsFilter.value.endAge != null) {
+    // 默认98
+    if (postsFilter.value.endAge != null &&
+        postsFilter.value.endAge != DEFAULT_END_AGE) {
       {
         endAge = postsFilter.value.endAge;
       }
     }
-    if (postsFilter.value.startAge != null) {
+    // 默认18
+    if (postsFilter.value.startAge != null &&
+        postsFilter.value.startAge != DEFAULT_START_AGE) {
       {
         startAge = postsFilter.value.startAge;
       }
