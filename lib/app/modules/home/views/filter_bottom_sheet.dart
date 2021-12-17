@@ -3,29 +3,43 @@ import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
-const Map<int, String> genderMap = {0: "all", 1: "female", 2: "male"};
-
 class FilterBottomSheet extends StatefulWidget {
   final BuildContext context;
   final void Function(
       {required int startAge,
       required int endAge,
       required String selectedGender}) onSubmitted;
+  final String initialGender;
+  final int initialStartAge;
+  final int initialEndAge;
 
-  const FilterBottomSheet(
-      {Key? key, required this.onSubmitted, required this.context});
+  const FilterBottomSheet({
+    Key? key,
+    required this.onSubmitted,
+    required this.context,
+    required this.initialGender,
+    required this.initialStartAge,
+    required this.initialEndAge,
+  });
 
   @override
   _FilterBottomSheetState createState() => _FilterBottomSheetState();
 }
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
-  final RangeValues _initialRangeValues = const RangeValues(25, 65);
-  RangeValues _currentRangeValues = const RangeValues(25, 65);
+  late RangeValues _currentRangeValues;
+  late String selectedGender;
 
-  int value = 0;
-  String initialGender = 'all';
+  @override
+  void initState() {
+    super.initState();
+    _currentRangeValues = RangeValues(
+        widget.initialStartAge.toDouble(), widget.initialEndAge.toDouble());
+    selectedGender = widget.initialGender;
+  }
+
   bool positive = false;
+
   @override
   Widget build(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
@@ -67,15 +81,16 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     _title('age'),
                     Expanded(
                         child: RangeSlider(
-                      values: _initialRangeValues,
+                      values: RangeValues(
+                          _currentRangeValues.start, _currentRangeValues.end),
                       max: 98,
                       min: 18,
                       divisions: 8,
                       activeColor: Colors.pinkAccent,
                       inactiveColor: Colors.white,
                       labels: RangeLabels(
-                        _initialRangeValues.start.round().toString(),
-                        _initialRangeValues.end.round().toString(),
+                        _currentRangeValues.start.toString(),
+                        _currentRangeValues.end.toString(),
                       ),
                       onChanged: (RangeValues values) {
                         setState(() {
@@ -89,20 +104,20 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     _title('gender'),
                     SizedBox(width: 20),
                     Expanded(
-                      child: AnimatedToggleSwitch<int>.size(
-                        current: value,
-                        values: [0, 1, 2],
+                      child: AnimatedToggleSwitch<String>.size(
+                        current: selectedGender,
+                        values: ['all', 'female', 'male'],
                         iconOpacity: 0.2,
                         indicatorSize: Size.fromWidth(100),
                         indicatorType: IndicatorType.roundedRectangle,
                         iconAnimationType: AnimationType.onHover,
                         indicatorAnimationType: AnimationType.onHover,
-                        iconBuilder: (i, size, active) {
+                        iconBuilder: (value, size, active) {
                           return Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  genderMap[i]!,
+                                  value,
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -112,9 +127,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         },
                         borderWidth: 0.0,
                         borderColor: Colors.transparent,
-                        colorBuilder: (i) => Colors.pink.shade400,
-                        onChanged: (i) => setState(() {
-                          value = i;
+                        colorBuilder: (value) => Colors.pink.shade400,
+                        onChanged: (value) => setState(() {
+                          selectedGender = value;
                         }),
                       ),
                     ),
@@ -127,18 +142,20 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                       text: 'ok',
                       onPressed: () {
                         if (!AuthProvider.to.account.value.vip) {
-                          if (initialGender == genderMap[value] &&
-                              _initialRangeValues.start ==
+                          if (widget.initialGender == selectedGender &&
+                              widget.initialStartAge ==
                                   _currentRangeValues.start &&
-                              _initialRangeValues.end ==
-                                  _currentRangeValues.end) {
+                              widget.initialEndAge == _currentRangeValues.end) {
                             Navigator.pop(context);
+                            UIUtils.toast('ok');
                           } else {
                             widget.onSubmitted(
-                              selectedGender: genderMap[value]!,
+                              selectedGender: selectedGender,
                               startAge: _currentRangeValues.start.round(),
                               endAge: _currentRangeValues.end.round(),
                             );
+                            Navigator.pop(context);
+                            UIUtils.toast('okkkk');
                           }
                         } else {
                           UIUtils.showError('not vip');

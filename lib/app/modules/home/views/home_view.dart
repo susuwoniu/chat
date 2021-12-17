@@ -32,6 +32,9 @@ class HomeView extends GetView<HomeController> {
                     return FilterBottomSheet(
                       context: context,
                       onSubmitted: controller.onSubmittedFilter,
+                      initialStartAge: controller.postsFilter.value.startAge,
+                      initialEndAge: controller.postsFilter.value.endAge,
+                      initialGender: controller.postsFilter.value.gender,
                     );
                   });
             }),

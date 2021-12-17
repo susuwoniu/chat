@@ -36,6 +36,26 @@ class PostsResult {
   });
 }
 
+class PostsFilter {
+  final String gender;
+  final int startAge;
+  final int endAge;
+
+  PostsFilter({
+    required this.gender,
+    required this.startAge,
+    required this.endAge,
+  });
+
+  static PostsFilter empty() {
+    return PostsFilter(
+      gender: 'all',
+      startAge: 18,
+      endAge: 98,
+    );
+  }
+}
+
 class HomeController extends GetxController {
   static HomeController get to => Get.find();
 
@@ -60,6 +80,8 @@ class HomeController extends GetxController {
 
   final postTemplatesIndexes = RxList<String>([]);
   final postTemplatesMap = RxMap<String, PostTemplatesEntity>({});
+
+  final Rx<PostsFilter> postsFilter = PostsFilter.empty().obs;
 
   @override
   void onReady() async {
@@ -145,12 +167,14 @@ class HomeController extends GetxController {
         accountMap: newAccountMap);
   }
 
-  getHomePosts(
-      {String? after,
-      String? before,
-      String? selectedGender,
-      String? startAge,
-      String? endAge}) async {
+  getHomePosts({
+    String? after,
+    String? before,
+    String? selectedGender,
+    String? startAge,
+    String? endAge,
+    bool replace = false,
+  }) async {
     final result = await getRawPosts(
         after: after,
         before: before,
@@ -163,7 +187,12 @@ class HomeController extends GetxController {
         result.endCursor != null &&
         result.startCursor != null) {
       postMap.addAll(result.postMap);
+      if (replace) {
+        postIndexes.clear();
+        currentIndex.value = 0;
+      }
       postIndexes.addAll(result.indexes);
+
       var isFirstCursorChanged = false;
       if (after == null && before == null) {
         // first request
@@ -178,7 +207,7 @@ class HomeController extends GetxController {
       }
       // put accoutns to simple accounts
       await AuthProvider.to.saveSimpleAccounts(result.accountMap);
-      PatchPostCountView(result.indexes[0]).catchError((e) {
+      patchPostCountView(result.indexes[0]).catchError((e) {
         report(e);
       });
       // save current first cursor
@@ -268,7 +297,7 @@ class HomeController extends GetxController {
       final post = postMap[postIndexes[index]];
       if (post != null) {
         backgroundColor = post.backgroundColor;
-        PatchPostCountView(postIndexes[index]).catchError((e) {
+        patchPostCountView(postIndexes[index]).catchError((e) {
           report(e);
         });
       }
@@ -323,7 +352,7 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> PatchPostCountView(String postId) async {
+  Future<void> patchPostCountView(String postId) async {
     // change last cursor
     await CacheProvider.to.setExpiredString(
         STORAGE_HOME_LAST_CURSOR_KEY, postMap[postId]!.cursor, getExpiresAt());
@@ -382,10 +411,13 @@ class HomeController extends GetxController {
       required int endAge,
       required String selectedGender}) async {
     final _selectedGender = selectedGender == 'all' ? null : selectedGender;
+    postsFilter(PostsFilter(
+        gender: selectedGender, startAge: startAge, endAge: endAge));
     await getHomePosts(
         startAge: startAge.toString(),
         endAge: endAge.toString(),
-        selectedGender: _selectedGender);
+        selectedGender: _selectedGender,
+        replace: true);
   }
 }
 
