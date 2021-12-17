@@ -100,7 +100,7 @@ class HomeController extends GetxController {
       }).join(",");
     }
     if (selectedGender != null) {
-      query["selectedGender"] = selectedGender;
+      query["gender"] = selectedGender;
     }
     if (startAge != null) {
       query["startAge"] = startAge;
