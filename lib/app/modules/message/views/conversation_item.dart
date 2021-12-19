@@ -14,8 +14,14 @@ Widget conversationItemView(
     required int index,
     String? avatar,
     void Function(int index)? onTap}) {
+  final size = MediaQuery.of(context).size;
+
+  final paddingLeft = size.width * 0.022;
+
   return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+      padding: EdgeInsets.symmetric(
+          horizontal: paddingLeft, vertical: paddingLeft * 1.8),
+      margin: EdgeInsets.symmetric(horizontal: paddingLeft),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(

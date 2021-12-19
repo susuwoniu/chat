@@ -60,8 +60,8 @@ class HomeView extends GetView<HomeController> {
                     );
                   }),
               IconButton(
-                  icon:
-                      Text("✍️", style: Theme.of(context).textTheme.headline6),
+                  icon: Icon(Icons.border_color_rounded,
+                      color: Colors.white, size: 28),
                   onPressed: () {
                     Get.toNamed(
                       Routes.POST,
@@ -75,11 +75,6 @@ class HomeView extends GetView<HomeController> {
         extendBody: true,
         extendBodyBehindAppBar: true,
         appBar: appBar,
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-        floatingActionButton: Align(
-          alignment: Alignment(0.9, 0.51),
-          child: Text("💭", style: TextStyle(fontSize: 50)),
-        ),
         body: Obx(() {
           final isLogin = AuthProvider.to.isLogin;
           final account = AuthProvider.to.account.value;
@@ -141,77 +136,73 @@ class HomeView extends GetView<HomeController> {
                         final post = postMap[postIndexes[index]]!;
                         final author =
                             AuthProvider.to.simpleAccountMap[post.accountId]!;
-                        return Stack(
-                          children: <Widget>[
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TagWidget(
-                                      text: '今天下班后的计划是：',
-                                      onPressed: () {
-                                        Get.toNamed(Routes.POST_SQUARE,
-                                            arguments: {
-                                              "id": post.post_template_id,
-                                              "content": post.content,
-                                              "color": post.backgroundColor
-                                            });
-                                      },
+                        return Stack(children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  TagWidget(
+                                    text: '今天下班后的计划是：',
+                                    onPressed: () {
+                                      Get.toNamed(Routes.POST_SQUARE,
+                                          arguments: {
+                                            "id": post.post_template_id,
+                                            "content": post.content,
+                                            "color": post.backgroundColor
+                                          });
+                                    },
+                                  ),
+                                  MaxText(
+                                    post.content,
+                                    context,
+                                    // textDirection: TextDirection.ltr,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      height: 1.6,
+                                      fontSize: 30.0,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    MaxText(
-                                      post.content,
-                                      context,
-                                      // textDirection: TextDirection.ltr,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        height: 1.6,
-                                        fontSize: 30.0,
-                                        fontWeight: FontWeight.bold,
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                        top: 20, bottom: 120),
+                                    child: Row(children: [
+                                      Avatar(
+                                          size: 26,
+                                          name: author.name,
+                                          uri: author.avatar,
+                                          onTap: () {
+                                            if (AccountStoreProvider.to.getString(
+                                                    STORAGE_ACCOUNT_ID_KEY) ==
+                                                post.accountId) {
+                                              RouterProvider.to.toMe();
+                                            } else {
+                                              Get.toNamed(Routes.OTHER,
+                                                  arguments: {
+                                                    "accountId": post.accountId
+                                                  });
+                                            }
+                                          }),
+                                      Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 15.0)),
+                                      Text(
+                                        author.name,
+                                        key: Key('$index-text'),
+                                        style: const TextStyle(
+                                            fontSize: 24, color: Colors.white),
                                       ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.only(
-                                          top: 20, bottom: 120),
-                                      child: Row(children: [
-                                        Avatar(
-                                            size: 26,
-                                            name: author.name,
-                                            uri: author.avatar,
-                                            onTap: () {
-                                              if (AccountStoreProvider.to.getString(
-                                                      STORAGE_ACCOUNT_ID_KEY) ==
-                                                  post.accountId) {
-                                                RouterProvider.to.toMe();
-                                              } else {
-                                                Get.toNamed(Routes.OTHER,
-                                                    arguments: {
-                                                      "accountId":
-                                                          post.accountId
-                                                    });
-                                              }
-                                            }),
-                                        Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 15.0)),
-                                        Text(
-                                          author.name,
-                                          key: Key('$index-text'),
-                                          style: const TextStyle(
-                                              fontSize: 24,
-                                              color: Colors.white),
-                                        ),
-                                      ]),
-                                    ),
-                                  ]),
-                            ),
-                            Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 40),
-                                    child: GestureDetector(
+                                    ]),
+                                  ),
+                                ]),
+                          ),
+                          Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 40),
+                                  child: GestureDetector(
                                       onTap: () {
                                         final post =
                                             postMap[postIndexes[index]];
@@ -223,41 +214,52 @@ class HomeView extends GetView<HomeController> {
                                           });
                                         }
                                       },
-                                      child: Container(
-                                        height: 60,
-                                        width: screenWidth * 0.88,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          color: Colors.white,
-                                        ),
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              TextButton(
-                                                  onPressed: () async {},
-                                                  child: isLogin
-                                                      ? Avatar(
-                                                          size: 20,
-                                                          uri: account.avatar,
-                                                          name: account.name,
-                                                          onTap: () async {
-                                                            RouterProvider.to
-                                                                .toMe();
-                                                          },
-                                                        )
-                                                      : Text("🤠",
-                                                          style:
-                                                              const TextStyle(
+                                      child: Stack(
+                                        clipBehavior: Clip.none,
+                                        children: [
+                                          Positioned(
+                                              left: 30,
+                                              bottom: 60,
+                                              child: Text("💭",
+                                                  style:
+                                                      TextStyle(fontSize: 50))),
+                                          Container(
+                                            height: 60,
+                                            width: screenWidth * 0.88,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              color: Colors.white,
+                                            ),
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  TextButton(
+                                                      onPressed: () async {},
+                                                      child: isLogin
+                                                          ? Avatar(
+                                                              size: 20,
+                                                              uri: account
+                                                                  .avatar,
+                                                              name:
+                                                                  account.name,
+                                                              onTap: () async {
+                                                                RouterProvider
+                                                                    .to
+                                                                    .toMe();
+                                                              },
+                                                            )
+                                                          : Text("🤠",
+                                                              style: const TextStyle(
                                                                   fontSize: 32,
                                                                   color: Colors
                                                                       .white))),
-                                            ]),
-                                      ),
-                                    )))
-                          ],
-                        );
+                                                ]),
+                                          ),
+                                        ],
+                                      )))),
+                        ]);
                       });
                     } else if (isInitError != null) {
                       return Text(isInitError);
