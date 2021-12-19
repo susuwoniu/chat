@@ -27,7 +27,8 @@ class MyPosts extends StatelessWidget {
 
     return Obx(() {
       final _width = MediaQuery.of(context).size.width;
-      final double paddingLeft = _width * 0.07;
+      final double paddingLeft = _width * 0.05;
+      final double paddingTop = _width * 0.04;
       final _myPostsList = <Widget>[];
 
       for (var id in postsIndexes) {
@@ -48,7 +49,8 @@ class MyPosts extends StatelessWidget {
                 }
               },
               child: Container(
-                margin: EdgeInsets.all(paddingLeft / 2),
+                margin: EdgeInsets.fromLTRB(
+                    paddingLeft, paddingTop, paddingLeft, paddingTop),
                 padding: EdgeInsets.all(_width * 0.03),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
@@ -74,22 +76,25 @@ class MyPosts extends StatelessWidget {
       }
       return SizedBox(
         width: double.infinity,
-        child: Wrap(
-            // alignment: WrapAlignment.center,
-            children: _myPostsList),
+        child:
+            Wrap(alignment: WrapAlignment.spaceBetween, children: _myPostsList),
       );
     });
   }
 
   Widget createPost(context) {
     final _width = MediaQuery.of(context).size.width;
+    final double paddingLeft = _width * 0.05;
+    final double paddingTop = _width * 0.04;
 
     return GestureDetector(
         onTap: () {
           Get.toNamed(Routes.POST);
         },
         child: Container(
-          margin: EdgeInsets.fromLTRB(_width * 0.055, 15, 0, 0),
+          margin: EdgeInsets.fromLTRB(
+              paddingLeft, paddingTop, paddingLeft, paddingTop),
+          padding: EdgeInsets.all(_width * 0.03),
           height: _width * 0.4,
           width: _width * 0.4,
           decoration: BoxDecoration(
