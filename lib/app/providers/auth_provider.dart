@@ -161,10 +161,14 @@ class AuthProvider extends GetxService {
     return accountEntity;
   }
 
-  Future<void> saveAccount(AccountEntity accountEntity) async {
+  Future<void> saveAccountToStore(AccountEntity accountEntity) async {
     account(accountEntity);
     await AccountStoreProvider.to
         .putObject(STORAGE_ACCOUNT_KEY, account.toJson());
+  }
+
+  Future<void> saveAccount(AccountEntity accountEntity) async {
+    await saveAccountToStore(accountEntity);
     final nextPage = RouterProvider.to.nextPage;
     if (accountEntity.actions.isNotEmpty) {
       if (isNeedCompleteActions == false) {

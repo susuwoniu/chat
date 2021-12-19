@@ -181,8 +181,7 @@ class HomeView extends GetView<HomeController> {
                                             name: author.name,
                                             uri: author.avatar,
                                             onTap: () {
-                                              if (AccountStoreProvider.to.getString(
-                                                      STORAGE_ACCOUNT_ID_KEY) ==
+                                              if (AuthProvider.to.accountId ==
                                                   post.accountId) {
                                                 RouterProvider.to.toMe();
                                               } else {

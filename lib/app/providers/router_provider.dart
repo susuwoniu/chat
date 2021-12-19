@@ -202,7 +202,7 @@ class NextPage {
     );
   }
 
-  static NextPage fromArguments(Map<String, dynamic> arguments) {
+  static NextPage fromArguments(Map<dynamic, dynamic> arguments) {
     final nextPage = arguments['next'];
     final nextPageMode = arguments['mode'];
     if (nextPage == null && nextPageMode == null) {

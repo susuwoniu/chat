@@ -30,6 +30,7 @@ class AccountProvider extends GetxService {
     // login im service
 
     await AuthProvider.to.saveToken(token);
+    await AuthProvider.to.saveAccountToStore(account);
     await AuthProvider.to.init();
     if (closePageCount != null && closePageCount > 0) {
       if (account.actions.isNotEmpty) {
@@ -45,7 +46,8 @@ class AccountProvider extends GetxService {
       mode = arguments['mode'];
     }
     if (next != null || mode != null) {
-      RouterProvider.to.setNextPage(NextPage.fromArguments(arguments));
+      final nextPage = NextPage.fromArguments(arguments);
+      RouterProvider.to.setNextPage(nextPage);
     } else if (enabledDefaultNexPage) {
       RouterProvider.to.setNextPage(NextPage.fromDefault());
     }

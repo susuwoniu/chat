@@ -45,7 +45,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
 
   @override
   void dispose() {
-    // textEditingController.dispose();
     errorController!.close();
     super.dispose();
   }
@@ -72,7 +71,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       shouldClip: false,
                       alignment: Alignment.bottomCenter,
                       fit: BoxFit.contain,
-                      // controller: _bear_log_inController,
+                      controller: _bear_log_inController,
                     ))),
             Padding(
                 padding: EdgeInsets.fromLTRB(30, 30, 30, 5),
