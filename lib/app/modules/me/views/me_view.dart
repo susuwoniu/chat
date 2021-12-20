@@ -97,8 +97,8 @@ class MeView extends GetView<MeController> {
                 right: paddingLeft,
                 bottom: height * 0.025,
                 child: ProfileViewersBubble(
-                  totalViewersCount: 0,
-                  newViewersCount: 10,
+                  totalViewersCount: controller.totalViewedCount.value,
+                  newViewersCount: controller.unreadViewedCount.value,
                   onPressed: () {
                     Get.toNamed(Routes.PROFILE_VIEWERS);
                   },

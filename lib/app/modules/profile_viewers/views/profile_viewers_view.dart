@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../controllers/profile_viewers_controller.dart';
 
 import '../../my_single_post/views/viewers_list.dart';
+import 'single_day_viewers.dart';
 
 class ProfileViewersView extends GetView<ProfileViewersController> {
   @override
@@ -14,9 +15,11 @@ class ProfileViewersView extends GetView<ProfileViewersController> {
           title: Text('ProfileViewersView'),
           centerTitle: true,
         ),
-        body: Container(
-            // ViewersList(),
-
+        body: SingleChildScrollView(
+            // child:
+            //      SingleDayViewers(
+            //   accountMap: controller.userList,
+            // ),
             ));
   }
 }

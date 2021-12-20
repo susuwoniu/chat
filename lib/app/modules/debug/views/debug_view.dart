@@ -12,7 +12,7 @@ import 'package:chat/common.dart';
 
 class DebugView extends GetView<DebugController> {
   final String countryCode = "+86";
-  final String phone = "17612673392";
+  final String phone = "18613227075";
 
   @override
   Widget build(BuildContext context) {
