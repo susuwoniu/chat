@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart' hide YearPicker;
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/providers/providers.dart';
@@ -23,7 +22,7 @@ class EditInfoView extends GetView<EditInfoController> {
         body: SafeArea(
             child: SingleChildScrollView(
           child: Container(
-              color: HexColor("#f0eff4"),
+              color: Color(0xfff0eff4),
               child: Obx(() {
                 final _account = AuthProvider.to.account.value;
                 final _bio = _account.bio == '' ? 'nothing' : _account.bio;

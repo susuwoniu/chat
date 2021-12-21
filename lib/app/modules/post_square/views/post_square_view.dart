@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/post_square_controller.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class PostSquareView extends GetView<PostSquareController> {
   final _content = Get.arguments['content'];
-  final _color = Get.arguments['color'];
+  final _color = int.parse(Get.arguments['color']);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class PostSquareView extends GetView<PostSquareController> {
             clipBehavior: Clip.none,
             children: [
               Container(
-                color: HexColor(_color),
+                color: Color(_color),
                 height: _height * 0.25,
               ),
               Positioned(

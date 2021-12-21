@@ -320,6 +320,18 @@ class DebugView extends GetView<DebugController> {
                     }
                   },
                 ),
+                ListTile(
+                  title: Text(
+                    '是否跳过看过的帖子? ${ConfigProvider.to.skipViewedPost.value}',
+                  ),
+                  onTap: () async {
+                    try {
+                      ConfigProvider.to.toggleSkipViewedPost();
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  },
+                ),
               ],
             ),
           )),

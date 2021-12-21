@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:dotted_border/dotted_border.dart';
 
 class BlankImage extends StatelessWidget {
@@ -25,7 +24,7 @@ class BlankImage extends StatelessWidget {
         borderType: BorderType.RRect,
       ),
       decoration: BoxDecoration(
-        color: HexColor('#e4e6ec'),
+        color: Color(0xffe4e6ec),
         borderRadius: BorderRadius.circular(8),
       ),
     );

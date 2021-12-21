@@ -1,6 +1,5 @@
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 import 'package:get/get.dart';
 import 'package:chat/app/widgets/max_text.dart';
@@ -10,7 +9,7 @@ import 'viewers_list.dart';
 
 class MySinglePostView extends GetView<MySinglePostController> {
   final _content = Get.arguments['content'];
-  final _backgroundColor = Get.arguments['backgroundColor'];
+  final _backgroundColor = (Get.arguments['backgroundColor']);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                 vertical: _width * 0.02, horizontal: _width * 0.04),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: HexColor(_backgroundColor),
+              color: Color(_backgroundColor),
             ),
             height: _height * 0.4,
             width: _width * 0.95,

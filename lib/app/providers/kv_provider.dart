@@ -81,8 +81,8 @@ class KVProvider {
     return _prefs.getString(key);
   }
 
-  bool getBool(String key) {
-    return _prefs.getBool(key) ?? false;
+  bool getBool(String key, {bool defaultValue = false}) {
+    return _prefs.getBool(key) ?? defaultValue;
   }
 
   List<String> getList(String key) {

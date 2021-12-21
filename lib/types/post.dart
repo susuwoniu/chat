@@ -7,7 +7,7 @@ class PostEntity {
   /// The generated code assumes these values exist in JSON.
   final String content;
   @JsonKey(name: 'background_color')
-  final String backgroundColor;
+  final int backgroundColor;
   @JsonKey(name: 'account_id')
   final String accountId;
   final String cursor;

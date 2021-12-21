@@ -2,7 +2,6 @@ import 'package:chat/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import '../../home/controllers/home_controller.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:chat/app/widgets/max_text.dart';
 
 class MyPosts extends StatelessWidget {
@@ -30,7 +29,7 @@ class MyPosts extends StatelessWidget {
                     padding: EdgeInsets.all(_width * 0.025),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: HexColor(_controller.postMap[id]!.backgroundColor),
+                      color: Color(_controller.postMap[id]!.backgroundColor),
                     ),
                     height: _width * 0.4,
                     width: _width * 0.4,

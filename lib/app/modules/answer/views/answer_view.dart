@@ -1,18 +1,17 @@
 import 'package:chat/app/providers/providers.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:get/get.dart';
 import '../../post/controllers/post_controller.dart';
 import '../controllers/answer_controller.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/rendering.dart';
-import 'package:chat/app/routes/app_pages.dart';
 import '../../post/views/templates.dart';
+import 'package:chat/common.dart';
 
 class AnswerView extends GetView<AnswerController> {
   final _answerController = AnswerController.to;
   final _id = Get.arguments['id'];
-
+  final backgroundColor = Color(Get.arguments['background-color']);
   final _item = PostController.to.postTemplatesMap[Get.arguments['id']]!;
 
   @override
@@ -35,7 +34,6 @@ class AnswerView extends GetView<AnswerController> {
 
           final isCanSend = _isComposing && !_isSubmitting;
           final question = _item.content;
-          final _backgroundColor = _item.backgroundColor;
 
           return Center(
               child: GestureDetector(
@@ -44,7 +42,7 @@ class AnswerView extends GetView<AnswerController> {
                   },
                   child: Container(
                     width: _width,
-                    color: HexColor(_backgroundColor),
+                    color: backgroundColor,
                     child: Stack(children: <Widget>[
                       Templates(
                         question: _item.content,
@@ -71,9 +69,7 @@ class AnswerView extends GetView<AnswerController> {
                                 color: isCanSend ? Colors.white : Colors.grey,
                               ),
                               borderRadius: BorderRadius.circular(20),
-                              color: isCanSend
-                                  ? Colors.blue
-                                  : HexColor(_backgroundColor),
+                              color: isCanSend ? Colors.blue : backgroundColor,
                             ),
                             child: IconButton(
                                 color: isCanSend ? Colors.white : Colors.grey,
@@ -101,7 +97,8 @@ class AnswerView extends GetView<AnswerController> {
     try {
       UIUtils.showLoading();
 
-      await _answerController.postAnswer(answer, id);
+      await _answerController.postAnswer(answer, id,
+          backgroundColor: backgroundColor.value);
       _answerController.setIsSubmitting(false);
 
       UIUtils.hideLoading();

@@ -1,12 +1,12 @@
 import 'package:chat/app/modules/post/views/templates.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import '../controllers/post_controller.dart';
 import 'package:tcard/tcard.dart';
 import './templates.dart';
 import 'package:chat/common.dart';
+import 'package:chat/utils/random.dart';
 
 class PostView extends GetView<PostController> {
   @override
@@ -59,11 +59,15 @@ class PostView extends GetView<PostController> {
                           (int index) {
                             final _item = PostController.to.postTemplatesMap[
                                 PostController.to.postTemplatesIndexes[index]];
+                            final backgroundColor =
+                                get_random_element(BACKGROUND_COLORS);
 
                             return GestureDetector(
                                 onTap: () {
                                   Get.toNamed(Routes.ANSWER, arguments: {
-                                    "id": controller.postTemplatesIndexes[index]
+                                    "id":
+                                        controller.postTemplatesIndexes[index],
+                                    "background-color": backgroundColor.value
                                   });
                                 },
                                 child: Container(
@@ -71,10 +75,10 @@ class PostView extends GetView<PostController> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.all(
                                         const Radius.circular(10)),
-                                    color: HexColor(_item!.backgroundColor),
+                                    color: backgroundColor,
                                   ),
                                   child: Templates(
-                                      question: _item.content,
+                                      question: _item!.content,
                                       enabled: false,
                                       id: PostController
                                           .to.postTemplatesIndexes[index]),

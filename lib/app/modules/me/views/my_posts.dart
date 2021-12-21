@@ -2,7 +2,6 @@ import 'package:chat/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import '../../home/controllers/home_controller.dart';
-import 'package:hexcolor/hexcolor.dart';
 import '../../other/controllers/other_controller.dart';
 
 import 'package:chat/config/config.dart';
@@ -54,7 +53,7 @@ class MyPosts extends StatelessWidget {
                 padding: EdgeInsets.all(_width * 0.03),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: HexColor(postMap[id]!.backgroundColor),
+                  color: Color(postMap[id]!.backgroundColor),
                 ),
                 height: _width * 0.4,
                 width: _width * 0.4,
@@ -98,8 +97,7 @@ class MyPosts extends StatelessWidget {
           height: _width * 0.4,
           width: _width * 0.4,
           decoration: BoxDecoration(
-              color: HexColor('#e4e6ec'),
-              borderRadius: BorderRadius.circular(8)),
+              color: Color(0xffe4e6ec), borderRadius: BorderRadius.circular(8)),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             IconButton(
                 padding: EdgeInsets.all(0),

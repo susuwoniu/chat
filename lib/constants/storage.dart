@@ -20,6 +20,8 @@ const String STORAGE_DEVICE_FIRST_OPEN_KEY = 'device_first_open';
 
 const String NIGHT_MODE_KEY = 'night_mode';
 
+const String SKIP_VIEWED_POST_KEY = 'skip_viewed_post_key';
+
 /// 多语言
 const String STORAGE_LANGUAGE_CODE = 'language_code';
 

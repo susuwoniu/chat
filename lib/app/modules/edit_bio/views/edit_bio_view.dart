@@ -2,7 +2,6 @@ import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 import '../../edit_name/views/appbar_save.dart';
 import '../controllers/edit_bio_controller.dart';
@@ -13,7 +12,7 @@ class EditBioView extends GetView<EditBioController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: HexColor("#f0eff4"),
+      backgroundColor: Color(0xfff0eff4),
       appBar: AppBar(
         title: Text("bio"),
         actions: [

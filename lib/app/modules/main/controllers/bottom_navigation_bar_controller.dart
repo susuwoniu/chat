@@ -1,3 +1,4 @@
+import 'package:chat/common.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/app/routes/app_pages.dart';
@@ -5,7 +6,7 @@ import 'package:chat/app/providers/providers.dart';
 
 class BottomNavigationBarController extends GetxController {
   static BottomNavigationBarController get to => Get.find(); // add this line
-  final backgroundColor = RxString("");
+  final backgroundColor = BACKGROUND_COLORS[0].value.obs;
   // 页控制器
   late final PageController pageController;
 
@@ -69,10 +70,8 @@ class BottomNavigationBarController extends GetxController {
     }
   }
 
-  void changeBackgroundColor(String value) {
-    if (value.isNotEmpty) {
-      backgroundColor.value = value;
-    }
+  void changeBackgroundColor(int value) {
+    backgroundColor.value = value;
   }
 
   @override

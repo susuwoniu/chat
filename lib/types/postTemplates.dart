@@ -6,9 +6,10 @@ part 'postTemplates.g.dart';
 class PostTemplatesEntity {
   /// The generated code assumes these values exist in JSON.
   final String content;
-  @JsonKey(name: 'background_color')
-  final String backgroundColor;
-  PostTemplatesEntity({required this.content, required this.backgroundColor});
+
+  PostTemplatesEntity({
+    required this.content,
+  });
 
   /// Connect the generated [_$PostTemplatesEntityFromJson] function to the `fromJson`
   /// factory.

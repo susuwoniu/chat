@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:get/get.dart';
 import 'package:chat/types/types.dart';
 import 'package:chat/app/modules/main/controllers/bottom_navigation_bar_controller.dart';
@@ -243,6 +242,9 @@ class HomeController extends GetxController {
   }
 
   Future<void> initSkips() async {
+    if (ConfigProvider.to.skipViewedPost.value == false) {
+      return;
+    }
     final now = DateTime.now();
     // 1. check expires _skips
     final List<Skip> validSkips = [];
@@ -309,7 +311,7 @@ class HomeController extends GetxController {
   insertEntity() async {}
 
   void setIndex(int index) {
-    var backgroundColor = "#FFFFFF";
+    var backgroundColor = BACKGROUND_COLORS[0].value;
     currentIndex.value = index;
 
     if (index >= postIndexes.length) {

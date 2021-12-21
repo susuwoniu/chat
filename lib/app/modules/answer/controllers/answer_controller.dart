@@ -22,9 +22,12 @@ class AnswerController extends GetxController {
   }
 
   void increment() => count.value++;
-  postAnswer(String answer, String id) async {
-    await APIProvider.to
-        .post("/post/posts", body: {"content": answer, "post_template_id": id});
+  postAnswer(String answer, String id, {required int backgroundColor}) async {
+    await APIProvider.to.post("/post/posts", body: {
+      "content": answer,
+      "post_template_id": id,
+      "background_color": backgroundColor
+    });
   }
 
   void setAnswer(String input) {

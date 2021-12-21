@@ -18,12 +18,16 @@ class ConfigProvider extends GetxService {
     Locale('zh', 'CN'),
   ];
   final nightMode = false.obs;
-
+  // 跳过看过的帖子
+  final skipViewedPost = true.obs;
   @override
   void onInit() {
     isFirstOpen = KVProvider.to.getBool(STORAGE_DEVICE_FIRST_OPEN_KEY);
     Log.debug("isFirstOpen: $isFirstOpen");
     nightMode.value = KVProvider.to.getBool(NIGHT_MODE_KEY);
+    skipViewedPost.value =
+        KVProvider.to.getBool(SKIP_VIEWED_POST_KEY, defaultValue: true);
+
     super.onInit();
   }
 
@@ -32,6 +36,12 @@ class ConfigProvider extends GetxService {
     Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
 
     KVProvider.to.setBool(NIGHT_MODE_KEY, nightMode.value);
+  }
+
+  toggleSkipViewedPost() {
+    skipViewedPost.value = !skipViewedPost.value;
+
+    KVProvider.to.setBool(SKIP_VIEWED_POST_KEY, skipViewedPost.value);
   }
 
   Future<void> getPlatform() async {

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:tiktoklikescroller/tiktoklikescroller.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/widgets/max_text.dart';
 import 'package:chat/config/config.dart';
@@ -94,7 +93,7 @@ class HomeView extends GetView<HomeController> {
             builder: (BuildContext context, int index) {
               return Container(
                   color: index < postIndexes.length
-                      ? HexColor(postMap[postIndexes[index]]!.backgroundColor)
+                      ? Color(postMap[postIndexes[index]]!.backgroundColor)
                       : Colors.orangeAccent,
                   alignment: Alignment.topLeft,
                   child: SafeArea(child: Builder(builder: (context) {
@@ -142,17 +141,17 @@ class HomeView extends GetView<HomeController> {
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  TagWidget(
-                                    text: '今天下班后的计划是：',
-                                    onPressed: () {
-                                      Get.toNamed(Routes.POST_SQUARE,
-                                          arguments: {
-                                            "id": post.post_template_id,
-                                            "content": post.content,
-                                            "color": post.backgroundColor
-                                          });
-                                    },
-                                  ),
+                                  // TagWidget(
+                                  //   text: '今天下班后的计划是：',
+                                  //   onPressed: () {
+                                  //     Get.toNamed(Routes.POST_SQUARE,
+                                  //         arguments: {
+                                  //           "id": post.post_template_id,
+                                  //           "content": post.content,
+                                  //           "color": post.backgroundColor
+                                  //         });
+                                  //   },
+                                  // ),
                                   MaxText(
                                     post.content,
                                     context,
