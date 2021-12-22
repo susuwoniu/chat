@@ -12,7 +12,7 @@ class CreateView extends GetView<CreateController> {
   @override
   Widget build(BuildContext context) {
     final postTemplate =
-        PostController.to.postTemplatesMap[controller.postTemplateId];
+        PostController.to.postTemplatesMap[controller.postTemplateId]!;
     final fonts = [
       'OpenSans',
       'Billabong',
@@ -34,11 +34,10 @@ class CreateView extends GetView<CreateController> {
       'VeganStyle',
     ];
     TextStyle _textStyle = TextStyle(
-      fontSize: 50,
+      fontSize: 30,
       color: Colors.white,
-      fontFamily: 'Billabong',
     );
-    String _text = 'Sample Text';
+    String _text = postTemplate.content;
     TextAlign _textAlign = TextAlign.center;
     return Scaffold(
       appBar: AppBar(
@@ -57,21 +56,17 @@ class CreateView extends GetView<CreateController> {
           child: Container(
               child: TextEditor(
         fonts: fonts,
-        text: _text,
+        text: controller.postTemplateFormattedText,
+        hintText: _text,
+        defaultTextPosition: controller.defaultTextPosition,
         textStyle: _textStyle,
         textAlingment: _textAlign,
         minFontSize: 10,
         onChange: controller.handleChange,
-        // paletteColors: [
-        //   Colors.black,
-        //   Colors.white,
-        //   Colors.blue,
-        //   Colors.red,
-        //   Colors.green,
-        //   Colors.yellow,
-        //   Colors.pink,
-        //   Colors.cyanAccent,
-        // ],
+        backgroundColorPaletteColors: BACKGROUND_COLORS,
+        paletteColors:
+            List.generate(BACKGROUND_COLORS.length, (index) => Colors.white),
+        defaultBackgroundColorIndex: controller.backgroundColorIndex,
         // decoration: EditorDecoration(
         //   textBackground: TextBackgroundDecoration(
         //     disable: Text('Disable'),

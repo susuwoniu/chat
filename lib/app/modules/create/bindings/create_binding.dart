@@ -6,11 +6,11 @@ import '../../post/controllers/post_controller.dart';
 class CreateBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<PostController>(
-      () => PostController(),
+    Get.put<PostController>(
+      PostController(),
     );
-    Get.lazyPut<CreateController>(
-      () => CreateController(),
+    Get.put<CreateController>(
+      CreateController(),
     );
   }
 }
