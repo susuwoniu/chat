@@ -2,16 +2,17 @@ import 'package:chat/app/modules/post/controllers/post_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:text_editor/text_editor.dart';
 import '../../post/controllers/post_controller.dart';
-
+import 'package:chat/common.dart';
 import 'package:get/get.dart';
+import 'package:chat/app/providers/providers.dart';
 
 import '../controllers/create_controller.dart';
 
 class CreateView extends GetView<CreateController> {
-  final _id = Get.arguments['id'];
   @override
   Widget build(BuildContext context) {
-    final postTemplate = PostController.to.postTemplatesMap[_id];
+    final postTemplate =
+        PostController.to.postTemplatesMap[controller.postTemplateId];
     final fonts = [
       'OpenSans',
       'Billabong',
@@ -43,6 +44,14 @@ class CreateView extends GetView<CreateController> {
       appBar: AppBar(
         title: Text('CreateView'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.check),
+            onPressed: () async {
+              _handleSubmitted();
+            },
+          ),
+        ],
       ),
       body: SafeArea(
           child: Container(
@@ -52,6 +61,7 @@ class CreateView extends GetView<CreateController> {
         textStyle: _textStyle,
         textAlingment: _textAlign,
         minFontSize: 10,
+        onChange: controller.handleChange,
         // paletteColors: [
         //   Colors.black,
         //   Colors.white,
@@ -85,8 +95,29 @@ class CreateView extends GetView<CreateController> {
         //     ),
         //   ),
         // ),
-        onEditCompleted: (style, align, text) {},
       ))),
     );
+  }
+
+  Future<void> _handleSubmitted() async {
+    if (!controller.isComposing || controller.isSubmitting) {
+      return;
+    }
+    controller.setIsSubmitting(true);
+
+    try {
+      UIUtils.showLoading();
+
+      await controller.postAnswer();
+      controller.setIsSubmitting(false);
+
+      UIUtils.hideLoading();
+      UIUtils.toast("send_successfully".tr);
+      RouterProvider.to.toHome();
+    } catch (e) {
+      UIUtils.hideLoading();
+      UIUtils.showError(e);
+      controller.setIsSubmitting(false);
+    }
   }
 }

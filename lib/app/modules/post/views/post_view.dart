@@ -59,15 +59,17 @@ class PostView extends GetView<PostController> {
                           (int index) {
                             final _item = PostController.to.postTemplatesMap[
                                 PostController.to.postTemplatesIndexes[index]];
+                            final backgroundColorIndex =
+                                get_random_index(BACKGROUND_COLORS.length);
                             final backgroundColor =
-                                get_random_element(BACKGROUND_COLORS);
-
+                                BACKGROUND_COLORS[backgroundColorIndex];
                             return GestureDetector(
                                 onTap: () {
                                   Get.toNamed(Routes.CREATE, arguments: {
                                     "id":
                                         controller.postTemplatesIndexes[index],
-                                    "background-color": backgroundColor.value
+                                    "background-color-index":
+                                        backgroundColorIndex
                                   });
                                 },
                                 child: Container(
