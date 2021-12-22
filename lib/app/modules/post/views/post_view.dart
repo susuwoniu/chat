@@ -64,7 +64,7 @@ class PostView extends GetView<PostController> {
 
                             return GestureDetector(
                                 onTap: () {
-                                  Get.toNamed(Routes.ANSWER, arguments: {
+                                  Get.toNamed(Routes.CREATE, arguments: {
                                     "id":
                                         controller.postTemplatesIndexes[index],
                                     "background-color": backgroundColor.value

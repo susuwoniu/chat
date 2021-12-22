@@ -2,61 +2,62 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'package:chat/app/middleware/auth_middleware.dart';
-import 'package:chat/app/modules/about/bindings/about_binding.dart';
-import 'package:chat/app/modules/about/views/about_view.dart';
-import 'package:chat/app/modules/add_profile_image/bindings/add_profile_image_binding.dart';
-import 'package:chat/app/modules/add_profile_image/views/add_profile_image_view.dart';
-import 'package:chat/app/modules/age_picker/bindings/age_picker_binding.dart';
-import 'package:chat/app/modules/age_picker/views/age_picker_view.dart';
-import 'package:chat/app/modules/answer/bindings/answer_binding.dart';
-import 'package:chat/app/modules/answer/views/answer_view.dart';
-import 'package:chat/app/modules/debug/bindings/debug_binding.dart';
-import 'package:chat/app/modules/debug/views/debug_view.dart';
-import 'package:chat/app/modules/edit_bio/bindings/edit_bio_binding.dart';
-import 'package:chat/app/modules/edit_bio/views/edit_bio_view.dart';
-import 'package:chat/app/modules/edit_info/bindings/edit_info_binding.dart';
-import 'package:chat/app/modules/edit_info/views/edit_info_view.dart';
-import 'package:chat/app/modules/edit_name/bindings/edit_name_binding.dart';
-import 'package:chat/app/modules/edit_name/views/edit_name_view.dart';
-import 'package:chat/app/modules/feedback/bindings/feedback_binding.dart';
-import 'package:chat/app/modules/feedback/views/feedback_view.dart';
-import 'package:chat/app/modules/gender_select/bindings/gender_select_binding.dart';
-import 'package:chat/app/modules/gender_select/views/gender_select_view.dart';
-import 'package:chat/app/modules/login/bindings/login_binding.dart';
-import 'package:chat/app/modules/login/views/login_view.dart';
-import 'package:chat/app/modules/main/bindings/main_binding.dart';
-import 'package:chat/app/modules/main/views/main_view.dart';
-import 'package:chat/app/modules/me/bindings/me_binding.dart';
-import 'package:chat/app/modules/me/views/me_view.dart';
-import 'package:chat/app/modules/my_single_post/bindings/my_single_post_binding.dart';
-import 'package:chat/app/modules/my_single_post/views/my_single_post_view.dart';
-import 'package:chat/app/modules/notfound/bindings/notfound_binding.dart';
-import 'package:chat/app/modules/notfound/views/notfound_view.dart';
-import 'package:chat/app/modules/other/bindings/other_binding.dart';
-import 'package:chat/app/modules/other/views/other_view.dart';
-import 'package:chat/app/modules/post/bindings/post_binding.dart';
-import 'package:chat/app/modules/post/views/post_view.dart';
-import 'package:chat/app/modules/post_square/bindings/post_square_binding.dart';
-import 'package:chat/app/modules/post_square/views/post_square_view.dart';
-import 'package:chat/app/modules/profile_viewers/bindings/profile_viewers_binding.dart';
-import 'package:chat/app/modules/profile_viewers/views/profile_viewers_view.dart';
-import 'package:chat/app/modules/room/bindings/room_binding.dart';
-import 'package:chat/app/modules/room/views/room_view.dart';
-import 'package:chat/app/modules/root/bindings/root_binding.dart';
-import 'package:chat/app/modules/root/views/root_view.dart';
-import 'package:chat/app/modules/setting/bindings/setting_binding.dart';
-import 'package:chat/app/modules/setting/views/setting_view.dart';
-import 'package:chat/app/modules/splash/views/splash_view.dart';
-import 'package:chat/app/modules/test1/bindings/test1_binding.dart';
-import 'package:chat/app/modules/test1/views/test1_view.dart';
-import 'package:chat/app/modules/test2/bindings/test2_binding.dart';
-import 'package:chat/app/modules/test2/views/test2_view.dart';
-import 'package:chat/app/modules/test3/bindings/test3_binding.dart';
-import 'package:chat/app/modules/test3/views/test3_view.dart';
-import 'package:chat/app/modules/verification/bindings/verification_binding.dart';
-import 'package:chat/app/modules/verification/views/verification_view.dart';
-
+import '../middleware/auth_middleware.dart';
+import '../modules/about/bindings/about_binding.dart';
+import '../modules/about/views/about_view.dart';
+import '../modules/add_profile_image/bindings/add_profile_image_binding.dart';
+import '../modules/add_profile_image/views/add_profile_image_view.dart';
+import '../modules/age_picker/bindings/age_picker_binding.dart';
+import '../modules/age_picker/views/age_picker_view.dart';
+import '../modules/answer/bindings/answer_binding.dart';
+import '../modules/answer/views/answer_view.dart';
+import '../modules/create/bindings/create_binding.dart';
+import '../modules/create/views/create_view.dart';
+import '../modules/debug/bindings/debug_binding.dart';
+import '../modules/debug/views/debug_view.dart';
+import '../modules/edit_bio/bindings/edit_bio_binding.dart';
+import '../modules/edit_bio/views/edit_bio_view.dart';
+import '../modules/edit_info/bindings/edit_info_binding.dart';
+import '../modules/edit_info/views/edit_info_view.dart';
+import '../modules/edit_name/bindings/edit_name_binding.dart';
+import '../modules/edit_name/views/edit_name_view.dart';
+import '../modules/feedback/bindings/feedback_binding.dart';
+import '../modules/feedback/views/feedback_view.dart';
+import '../modules/gender_select/bindings/gender_select_binding.dart';
+import '../modules/gender_select/views/gender_select_view.dart';
+import '../modules/login/bindings/login_binding.dart';
+import '../modules/login/views/login_view.dart';
+import '../modules/main/bindings/main_binding.dart';
+import '../modules/main/views/main_view.dart';
+import '../modules/me/bindings/me_binding.dart';
+import '../modules/me/views/me_view.dart';
+import '../modules/my_single_post/bindings/my_single_post_binding.dart';
+import '../modules/my_single_post/views/my_single_post_view.dart';
+import '../modules/notfound/bindings/notfound_binding.dart';
+import '../modules/notfound/views/notfound_view.dart';
+import '../modules/other/bindings/other_binding.dart';
+import '../modules/other/views/other_view.dart';
+import '../modules/post/bindings/post_binding.dart';
+import '../modules/post/views/post_view.dart';
+import '../modules/post_square/bindings/post_square_binding.dart';
+import '../modules/post_square/views/post_square_view.dart';
+import '../modules/profile_viewers/bindings/profile_viewers_binding.dart';
+import '../modules/profile_viewers/views/profile_viewers_view.dart';
+import '../modules/room/bindings/room_binding.dart';
+import '../modules/room/views/room_view.dart';
+import '../modules/root/bindings/root_binding.dart';
+import '../modules/root/views/root_view.dart';
+import '../modules/setting/bindings/setting_binding.dart';
+import '../modules/setting/views/setting_view.dart';
+import '../modules/splash/views/splash_view.dart';
+import '../modules/test1/bindings/test1_binding.dart';
+import '../modules/test1/views/test1_view.dart';
+import '../modules/test2/bindings/test2_binding.dart';
+import '../modules/test2/views/test2_view.dart';
+import '../modules/test3/bindings/test3_binding.dart';
+import '../modules/test3/views/test3_view.dart';
+import '../modules/verification/bindings/verification_binding.dart';
+import '../modules/verification/views/verification_view.dart';
 import 'observers.dart';
 
 part 'app_routes.dart';
@@ -257,6 +258,11 @@ class AppPages {
       name: _Paths.OTHER,
       page: () => OtherView(),
       binding: OtherBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE,
+      page: () => CreateView(),
+      binding: CreateBinding(),
     ),
   ];
 }

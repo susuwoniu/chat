@@ -31,6 +31,7 @@ abstract class Routes {
   static const FEEDBACK = _Paths.FEEDBACK;
   static const PROFILE_VIEWERS = _Paths.PROFILE_VIEWERS;
   static const OTHER = _Paths.OTHER;
+  static const CREATE = _Paths.CREATE;
 }
 
 abstract class _Paths {
@@ -61,4 +62,5 @@ abstract class _Paths {
   static const FEEDBACK = '/feedback';
   static const PROFILE_VIEWERS = '/profile-viewers';
   static const OTHER = '/other';
+  static const CREATE = '/create';
 }
