@@ -104,6 +104,7 @@ class HomeController extends GetxController {
       String? selectedGender,
       int? startAge,
       int? endAge,
+      String? postTemplateId,
       required String url,
       List<Skip>? skips}) async {
     Map<String, dynamic> query = {};
@@ -126,6 +127,9 @@ class HomeController extends GetxController {
     }
     if (endAge != null) {
       query["end_age"] = endAge.toString();
+    }
+    if (postTemplateId != null) {
+      query["post_template_id"] = postTemplateId.toString();
     }
     final body = await APIProvider.to.get(url, query: query);
     if (body["data"].length == 0) {

@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import '../controllers/post_square_controller.dart';
 
 class PostSquareView extends GetView<PostSquareController> {
-  final _content = Get.arguments['content'];
-  final _color = int.parse(Get.arguments['color']);
+  final _title = Get.arguments['title'];
+  final _id = int.parse(Get.arguments['id']);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,17 @@ class PostSquareView extends GetView<PostSquareController> {
             clipBehavior: Clip.none,
             children: [
               Container(
-                height: _height * 0.25,
+                height: _height * 0.2,
+                color: Colors.pink.shade100,
+                alignment: Alignment.center,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
+                child: Text(_title,
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    )),
               ),
               Positioned(
                   bottom: -_width * 0.1,
@@ -44,12 +54,6 @@ class PostSquareView extends GetView<PostSquareController> {
             ],
           ),
           SizedBox(height: _width * 0.15),
-          Text(_content,
-              style: TextStyle(
-                fontSize: 30.0,
-                fontWeight: FontWeight.bold,
-              )),
-          SizedBox(height: _width * 0.02),
           Text("3333条回答",
               style: TextStyle(fontSize: 17.0, color: Colors.black54)),
         ],
