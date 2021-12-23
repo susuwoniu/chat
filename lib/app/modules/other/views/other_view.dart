@@ -26,11 +26,6 @@ class OtherView extends GetView<OtherController> {
       final _account = AuthProvider.to.simpleAccountMap[accountId]!;
       final _name = _account.name;
       final _vip = _account.vip;
-      final _genderIcon = _account.gender == 'unknown'
-          ? Icons.help_outline_rounded
-          : _account.gender == 'female'
-              ? Icons.female
-              : Icons.male;
       final _likeCount = _account.like_count.toString();
 
       final _bio = _account.bio == '' ? 'nothing' : _account.bio;
@@ -75,8 +70,8 @@ class OtherView extends GetView<OtherController> {
                       NicknameWidget(name: _name, vip: _vip),
                       SizedBox(height: 8),
                       AgeWidget(
-                          icon: _genderIcon,
-                          text: _account.age == null
+                          gender: _account.gender,
+                          age: _account.age == null
                               ? ' ???'
                               : _account.age.toString()),
                       SizedBox(height: 15),

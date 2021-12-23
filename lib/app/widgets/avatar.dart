@@ -11,7 +11,8 @@ Widget Avatar(
     uri ??
         '', //sets image path, it should be a URL string. default value is empty string, if path is empty it will display only initials
     radius: size ?? 24, // sets radius, default 50.0
-    backgroundColor: Colors.pink, // sets background color, default Colors.white
+    backgroundColor:
+        Colors.lightBlueAccent, // sets background color, default Colors.white
     borderWidth: 0, // sets border, default 0.0
     initialsText: Text(
       name.substring(0, 2),

@@ -1,28 +1,42 @@
 import 'package:flutter/material.dart';
 
 class AgeWidget extends StatelessWidget {
-  final String text;
-  final IconData icon;
+  final String age;
+  final String gender;
+  final double? iconSize;
+  final double? fontSize;
+  final Color? background;
+  AgeWidget({
+    Key? key,
+    required this.age,
+    required this.gender,
+    this.iconSize = 22,
+    this.fontSize = 17,
+    this.background = Colors.white54,
+  }) : super(key: key);
 
-  AgeWidget({Key? key, required this.text, required this.icon})
-      : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _genderIcon = gender == 'unknown'
+        ? Icons.help_outline_rounded
+        : gender == 'female'
+            ? Icons.female
+            : Icons.male;
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
         child: Row(children: [
           Icon(
-            icon,
+            _genderIcon,
             color: Colors.black54,
-            size: 22,
+            size: iconSize!,
           ),
-          Text(text,
+          Text(age,
               style: TextStyle(
-                  fontSize: 17,
+                  fontSize: fontSize!,
                   color: Colors.black54,
                   fontWeight: FontWeight.bold))
         ]),
         decoration: BoxDecoration(
-            color: Colors.white54, borderRadius: BorderRadius.circular(6)));
+            color: background!, borderRadius: BorderRadius.circular(6)));
   }
 }

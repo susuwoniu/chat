@@ -1,4 +1,3 @@
-import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktoklikescroller/tiktoklikescroller.dart';
@@ -8,7 +7,6 @@ import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/widgets/max_text.dart';
 import 'package:chat/config/config.dart';
 import 'package:chat/common.dart';
-import 'tag_widget.dart';
 import 'filter_bottom_sheet.dart';
 
 class HomeView extends GetView<HomeController> {

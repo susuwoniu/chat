@@ -28,8 +28,7 @@ class MeView extends GetView<MeController> {
       final _account = AuthProvider.to.account.value;
       final _name = _account.name;
       final _vip = _account.vip;
-      final _genderIcon =
-          _account.gender == 'female' ? Icons.female : Icons.male;
+
       final _likeCount = _account.likeCount.toString();
 
       final _bio = _account.bio == '' ? 'nothing' : _account.bio;
@@ -87,7 +86,8 @@ class MeView extends GetView<MeController> {
                       NicknameWidget(name: _name, vip: _vip),
                       SizedBox(height: 8),
                       AgeWidget(
-                          icon: _genderIcon, text: _account.age.toString()),
+                          gender: _account.gender,
+                          age: _account.age.toString()),
                       SizedBox(height: 15),
                       LikeCount(
                         text: _likeCount,

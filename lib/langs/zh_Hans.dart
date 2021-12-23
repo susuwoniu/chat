@@ -62,5 +62,7 @@ const Map<String, String> zh_Hans = {
   "male": "男性",
   "other": "其他",
   "Find_Friends": "完成",
-  "no_one_has_seen_it_yet": "还没有人看过这条帖子哦……"
+  "no_one_has_seen_it_yet": "还没有人看过这条帖子哦……",
+  "visited_you": "访问了你",
+  "times": "次"
 };
