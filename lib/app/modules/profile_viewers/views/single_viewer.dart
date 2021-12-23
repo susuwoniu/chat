@@ -76,7 +76,9 @@ class SingleViewer extends StatelessWidget {
             SizedBox(height: 4),
             AgeWidget(
                 gender: _gender,
-                age: viewerAccount.account.age.toString(),
+                age: viewerAccount.account.age == null
+                    ? ' ???'
+                    : viewerAccount.account.age.toString(),
                 iconSize: 18,
                 fontSize: 14,
                 background: _genderBackColor),

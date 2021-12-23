@@ -1,5 +1,4 @@
 import 'package:chat/app/providers/auth_provider.dart';
-import 'package:chat/types/account.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -11,6 +10,7 @@ import '../../me/views/my_posts.dart';
 import '../../me/views/like_count.dart';
 import '../controllers/other_controller.dart';
 import '../../me/views/image_slider.dart';
+import 'package:chat/types/types.dart';
 
 class OtherView extends GetView<OtherController> {
   final CarouselController buttonCarouselController = CarouselController();
@@ -23,12 +23,17 @@ class OtherView extends GetView<OtherController> {
     return Scaffold(body: Obx(() {
       final accountId = controller.accountId;
 
-      final _account = AuthProvider.to.simpleAccountMap[accountId]!;
+      final _account = AuthProvider.to.simpleAccountMap[accountId] ??
+          SimpleAccountEntity.empty();
       final _name = _account.name;
       final _vip = _account.vip;
       final _likeCount = _account.like_count.toString();
 
-      final _bio = _account.bio == '' ? 'nothing' : _account.bio;
+      final _bio = _account.bio == null
+          ? 'nothing'
+          : _account.bio == ''
+              ? 'nothing'
+              : _account.bio;
       final _imgList = List.from(_account.profileImages ?? []);
       if (_imgList.isEmpty) {
         _imgList.add(ProfileImageEntity.empty());
@@ -85,7 +90,9 @@ class OtherView extends GetView<OtherController> {
               child: DotsWidget(
                   current: controller.current,
                   onTap: buttonCarouselController.animateToPage,
-                  count: _account.profileImages!.length),
+                  count: _account.profileImages == null
+                      ? 0
+                      : _account.profileImages!.length),
             ),
           ]),
           Container(

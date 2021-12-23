@@ -10,6 +10,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:image_picker/image_picker.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:file_picker/file_picker.dart';
+import '../../home/controllers/home_controller.dart';
 
 class Room extends xmpp.Room {
   bool isLoading = false;
@@ -45,6 +46,8 @@ class Room extends xmpp.Room {
 }
 
 class MessageController extends GetxController {
+  late String chatAccountId = '';
+
   static MessageController get to => Get.find();
   static types.Message formatMessage(xmpp.Message message) {
     // todo 不支持的消息类型
@@ -209,12 +212,14 @@ class MessageController extends GetxController {
   Future<void> tryToInitRoom(String roomId, xmpp.Message? message) async {
     // check room inbo exists
     final accountId = jidToAccountId(roomId);
+    chatAccountId = jidToAccountId(roomId)!;
+
     if (AuthProvider.to.simpleAccountMap[accountId] == null) {
-      final result = await APIProvider.to.get('/account/accounts/$accountId');
-      await AuthProvider.to.saveSimpleAccounts({
-        result["data"]["id"]:
-            SimpleAccountEntity.fromJson(result["data"]["attributes"])
-      });
+      try {
+        await HomeController.to.getOtherAccount(id: accountId!);
+      } catch (e) {
+        UIUtils.showError(e);
+      }
     }
     if (entities[roomId] == null) {
       entities[roomId] = Room(

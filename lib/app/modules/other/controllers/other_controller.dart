@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import '../../home/controllers/home_controller.dart';
 import 'package:chat/common.dart';
 import 'package:chat/types/types.dart';
+import 'package:chat/app/providers/providers.dart';
 
 class OtherController extends GetxController {
   //TODO: Implement OtherController
@@ -31,6 +32,14 @@ class OtherController extends GetxController {
       // await APIProvider.to.get('/account/accounts/$accountId/profile-images');
     } catch (e) {
       UIUtils.showError(e);
+    }
+    if (AuthProvider.to.simpleAccountMap[accountId] == null) {
+      try {
+        await HomeController.to.getOtherAccount(id: accountId!);
+      } catch (e) {
+        Get.back();
+        UIUtils.showError(e);
+      }
     }
   }
 

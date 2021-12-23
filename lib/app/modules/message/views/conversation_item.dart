@@ -1,5 +1,7 @@
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:chat/app/routes/app_pages.dart';
+import 'package:get/get.dart';
 import 'package:chat/common.dart';
 import 'time_ago.dart';
 import 'unread_count.dart';
@@ -12,6 +14,7 @@ Widget conversationItemView(
     required DateTime updatedAt,
     required int unreadCount,
     required int index,
+    required String id,
     String? avatar,
     void Function(int index)? onTap}) {
   final size = MediaQuery.of(context).size;
@@ -31,7 +34,13 @@ Widget conversationItemView(
       ),
       child: Row(children: [
         Container(
-          child: Avatar(name: name, uri: avatar, size: 25),
+          child: Avatar(
+              name: name,
+              uri: avatar,
+              size: 25,
+              onTap: () {
+                Get.toNamed(Routes.OTHER, arguments: {"accountId": id});
+              }),
           padding: EdgeInsets.only(right: 10),
         ),
         Expanded(

@@ -83,6 +83,7 @@ class MessageView extends GetView<MessageController> {
                                     },
                                     context: context,
                                     index: index,
+                                    id: room.room_info_id ?? '',
                                     name: name,
                                     preview: room.preview,
                                     updatedAt: room.updatedAt,

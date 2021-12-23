@@ -8,12 +8,11 @@ import 'package:chat/app/widgets/max_text.dart';
 import 'package:chat/config/config.dart';
 import 'package:chat/common.dart';
 import 'filter_bottom_sheet.dart';
+import 'chat_box.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final screenWidth = size.width;
     final imDomain = AppConfig().config.imDomain;
 
     final appBar = AppBar(
@@ -133,130 +132,66 @@ class HomeView extends GetView<HomeController> {
                         final post = postMap[postIndexes[index]]!;
                         final author =
                             AuthProvider.to.simpleAccountMap[post.accountId]!;
-                        return Stack(children: <Widget>[
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // TagWidget(
-                                  //   text: '今天下班后的计划是：',
-                                  //   onPressed: () {
-                                  //     Get.toNamed(Routes.POST_SQUARE,
-                                  //         arguments: {
-                                  //           "id": post.post_template_id,
-                                  //           "content": post.content,
-                                  //           "color": post.backgroundColor
-                                  //         });
-                                  //   },
-                                  // ),
-                                  MaxText(
-                                    post.content,
-                                    context,
-                                    // textDirection: TextDirection.ltr,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      height: 1.6,
-                                      fontSize: 30.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 20, bottom: 120),
-                                    child: Row(children: [
-                                      Avatar(
-                                          size: 26,
-                                          name: author.name,
-                                          uri: author.avatar,
-                                          onTap: () {
-                                            if (AccountStoreProvider.to.getString(
-                                                    STORAGE_ACCOUNT_ID_KEY) ==
-                                                post.accountId) {
-                                              RouterProvider.to.toMe();
-                                            } else {
-                                              Get.toNamed(Routes.OTHER,
-                                                  arguments: {
-                                                    "accountId": post.accountId
-                                                  });
-                                            }
-                                          }),
-                                      Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 15.0)),
-                                      Text(
-                                        author.name,
-                                        key: Key('$index-text'),
-                                        style: const TextStyle(
-                                            fontSize: 24, color: Colors.white),
-                                      ),
-                                    ]),
-                                  ),
-                                ]),
-                          ),
-                          Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 40),
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        final post =
-                                            postMap[postIndexes[index]];
-                                        if (post != null) {
-                                          Get.toNamed(Routes.ROOM, arguments: {
-                                            "id":
-                                                "im${post.accountId}@$imDomain",
-                                            "post_id": postIndexes[index]
-                                          });
-                                        }
-                                      },
-                                      child: Stack(
-                                        clipBehavior: Clip.none,
-                                        children: [
-                                          Positioned(
-                                              left: 30,
-                                              bottom: 60,
-                                              child: Text("💭",
-                                                  style:
-                                                      TextStyle(fontSize: 50))),
-                                          Container(
-                                            height: 60,
-                                            width: screenWidth * 0.88,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              color: Colors.white,
-                                            ),
-                                            child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  TextButton(
-                                                      onPressed: () async {},
-                                                      child: isLogin
-                                                          ? Avatar(
-                                                              size: 20,
-                                                              uri: account
-                                                                  .avatar,
-                                                              name:
-                                                                  account.name,
-                                                              onTap: () async {
-                                                                RouterProvider
-                                                                    .to
-                                                                    .toMe();
-                                                              },
-                                                            )
-                                                          : Text("🤠",
-                                                              style: const TextStyle(
-                                                                  fontSize: 32,
-                                                                  color: Colors
-                                                                      .white))),
-                                                ]),
-                                          ),
-                                        ],
-                                      )))),
-                        ]);
+                        return Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              // TagWidget(
+                              //   text: '今天下班后的计划是：',
+                              //   onPressed: () {
+                              //     Get.toNamed(Routes.POST_SQUARE,
+                              //         arguments: {
+                              //           "id": post.post_template_id,
+                              //           "content": post.content,
+                              //           "color": post.backgroundColor
+                              //         });
+                              //   },
+                              // ),
+                              MaxText(post.content, context,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    height: 1.6,
+                                    fontSize: 30.0,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                              Row(children: [
+                                Avatar(
+                                    size: 26,
+                                    name: author.name,
+                                    uri: author.avatar,
+                                    onTap: () {
+                                      if (AccountStoreProvider.to.getString(
+                                              STORAGE_ACCOUNT_ID_KEY) ==
+                                          post.accountId) {
+                                        RouterProvider.to.toMe();
+                                      } else {
+                                        Get.toNamed(Routes.OTHER, arguments: {
+                                          "accountId": post.accountId
+                                        });
+                                      }
+                                    }),
+                                SizedBox(width: 15),
+                                Text(
+                                  author.name,
+                                  key: Key('$index-text'),
+                                  style: const TextStyle(
+                                      fontSize: 24, color: Colors.white),
+                                ),
+                              ]),
+                              ChatBox(
+                                  account: account,
+                                  isLogin: isLogin,
+                                  postId: postIndexes[index],
+                                  onPressed: () {
+                                    final post = postMap[postIndexes[index]];
+                                    if (post != null) {
+                                      Get.toNamed(Routes.ROOM, arguments: {
+                                        "id": "im${post.accountId}@$imDomain",
+                                        "post_id": postIndexes[index]
+                                      });
+                                    }
+                                  }),
+                            ]);
                       });
                     } else if (isInitError != null) {
                       return Text(isInitError);

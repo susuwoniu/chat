@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
-import '../controllers/profile_viewers_controller.dart';
-
-import 'single_viewer.dart';
 import 'package:chat/app/routes/app_pages.dart';
+import '../controllers/profile_viewers_controller.dart';
+import 'single_viewer.dart';
 
 class ProfileViewersView extends GetView<ProfileViewersController> {
   @override

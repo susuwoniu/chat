@@ -449,6 +449,16 @@ class HomeController extends GetxController {
       homeInitError.value = e.toString();
     }
   }
+
+  getOtherAccount({required String id}) async {
+    if (AuthProvider.to.simpleAccountMap[id] == null) {
+      final result = await APIProvider.to.get('/account/accounts/$id');
+      await AuthProvider.to.saveSimpleAccounts({
+        result["data"]["id"]:
+            SimpleAccountEntity.fromJson(result["data"]["attributes"])
+      });
+    }
+  }
 }
 
 DateTime getExpiresAt({int days = 7}) {
