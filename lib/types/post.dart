@@ -14,12 +14,15 @@ class PostEntity {
   final String post_template_id;
   List<String>? views;
   bool isLoadingViewersList;
+  final String post_template_title;
+
   PostEntity({
     required this.content,
     required this.backgroundColor,
     required this.accountId,
     required this.cursor,
     required this.post_template_id,
+    required this.post_template_title,
     this.views,
     this.isLoadingViewersList = false,
   });

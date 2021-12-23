@@ -6,9 +6,11 @@ part 'postTemplates.g.dart';
 class PostTemplatesEntity {
   /// The generated code assumes these values exist in JSON.
   final String content;
+  final String title;
 
   PostTemplatesEntity({
     required this.content,
+    required this.title,
   });
 
   /// Connect the generated [_$PostTemplatesEntityFromJson] function to the `fromJson`

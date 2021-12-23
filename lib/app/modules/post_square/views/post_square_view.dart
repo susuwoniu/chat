@@ -26,7 +26,6 @@ class PostSquareView extends GetView<PostSquareController> {
             clipBehavior: Clip.none,
             children: [
               Container(
-                color: Color(_color),
                 height: _height * 0.25,
               ),
               Positioned(

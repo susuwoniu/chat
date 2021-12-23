@@ -15,6 +15,7 @@ PostEntity _$PostEntityFromJson(Map<String, dynamic> json) => PostEntity(
       views:
           (json['views'] as List<dynamic>?)?.map((e) => e as String).toList(),
       isLoadingViewersList: json['isLoadingViewersList'] as bool? ?? false,
+      post_template_title: json['post_template_title'] as String,
     );
 
 Map<String, dynamic> _$PostEntityToJson(PostEntity instance) =>
@@ -26,4 +27,5 @@ Map<String, dynamic> _$PostEntityToJson(PostEntity instance) =>
       'post_template_id': instance.post_template_id,
       'views': instance.views,
       'isLoadingViewersList': instance.isLoadingViewersList,
+      'post_template_title': instance.post_template_title,
     };

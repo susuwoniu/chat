@@ -9,6 +9,7 @@ import 'package:chat/config/config.dart';
 import 'package:chat/common.dart';
 import 'filter_bottom_sheet.dart';
 import 'chat_box.dart';
+import 'tag_widget.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -135,25 +136,6 @@ class HomeView extends GetView<HomeController> {
                         return Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              // TagWidget(
-                              //   text: '今天下班后的计划是：',
-                              //   onPressed: () {
-                              //     Get.toNamed(Routes.POST_SQUARE,
-                              //         arguments: {
-                              //           "id": post.post_template_id,
-                              //           "content": post.content,
-                              //           "color": post.backgroundColor
-                              //         });
-                              //   },
-                              // ),
-                              MaxText(post.content, context,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    height: 1.6,
-                                    fontSize: 30.0,
-                                    fontWeight: FontWeight.bold,
-                                  )),
                               Row(children: [
                                 Avatar(
                                     size: 26,
@@ -178,6 +160,23 @@ class HomeView extends GetView<HomeController> {
                                       fontSize: 24, color: Colors.white),
                                 ),
                               ]),
+                              MaxText(post.content, context,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    height: 1.6,
+                                    fontSize: 30.0,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                              TagWidget(
+                                text: post.post_template_title,
+                                onPressed: () {
+                                  Get.toNamed(Routes.POST_SQUARE, arguments: {
+                                    "id": post.post_template_id,
+                                    "title": post.post_template_title
+                                  });
+                                },
+                              ),
                               ChatBox(
                                   account: account,
                                   isLogin: isLogin,
