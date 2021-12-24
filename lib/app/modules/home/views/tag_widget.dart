@@ -12,19 +12,20 @@ class TagWidget extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 10),
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30), color: Colors.white38),
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.black.withOpacity(0.3)),
         child: GestureDetector(
           onTap: () {
             onPressed();
           },
           child: Row(mainAxisSize: MainAxisSize.min, children: [
-            Icon(Icons.tag_rounded, color: Colors.blueAccent),
+            // Icon(Icons.tag_rounded, color: Colors.white),
             Text(text,
                 style: (TextStyle(
-                    fontSize: 20,
+                    fontSize: 14,
                     // fontStyle: FontStyle.italic,
                     // fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent))),
+                    color: Colors.white))),
           ]),
         ));
   }

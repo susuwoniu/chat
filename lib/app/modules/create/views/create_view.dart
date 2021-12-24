@@ -38,7 +38,7 @@ class CreateView extends GetView<CreateController> {
       color: Colors.white,
     );
     String _text = postTemplate.content;
-    TextAlign _textAlign = TextAlign.center;
+    TextAlign _textAlign = TextAlign.left;
     return Scaffold(
       appBar: AppBar(
         title: Text('CreateView'),

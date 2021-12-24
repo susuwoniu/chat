@@ -6,10 +6,12 @@ Widget Avatar(
     String? uri,
     Function? onTap,
     double? size,
-    double? elevation}) {
+    double? elevation,
+    Widget? child}) {
   return CircularProfileAvatar(
     uri ??
         '', //sets image path, it should be a URL string. default value is empty string, if path is empty it will display only initials
+    child: child,
     radius: size ?? 24, // sets radius, default 50.0
     backgroundColor:
         Colors.lightBlueAccent, // sets background color, default Colors.white
@@ -21,7 +23,7 @@ Widget Avatar(
     ), // sets initials text, set your own style, default Text('')
     // borderColor: Colors.pink, // sets border color, default Colors.white
     elevation: elevation ??
-        5.0, // sets elevation (shadow of the profile picture), default value is 0.0
+        0.0, // sets elevation (shadow of the profile picture), default value is 0.0
     foregroundColor: Colors.brown.withOpacity(
         0.5), //sets foreground colour, it works if showInitialTextAbovePicture = true , default Colors.transparent
     cacheImage: true, // allow widget to cache image against provided url

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import './single_line_markdown_body.dart';
 
 // 外层不能套Container
 // 只能放在Column的直接子元素中
@@ -20,23 +21,22 @@ Widget MaxText(String text, BuildContext context,
 
       //lets not return 0 max lines or less
       final maxLines = max(1, (constraints.maxHeight / size.height).floor());
-
-      return MarkdownBody(
+      return SingleLineMarkdownBody(
         data: text,
         styleSheet: MarkdownStyleSheet(
             textAlign: WrapAlignment.start,
             p: style,
             a: TextStyle(
               decoration: TextDecoration.underline,
-              color: Colors.white,
-              height: 1.6,
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
+              color: style?.color,
+              height: style?.height,
+              fontSize: style?.fontSize,
+              fontWeight: style?.fontWeight,
             )),
         // style: style,
         // textAlign: textAlign,
-        // overflow: TextOverflow.ellipsis,
-        // maxLines: maxLines,
+        overflow: TextOverflow.ellipsis,
+        maxLines: maxLines,
       );
     }),
   );
