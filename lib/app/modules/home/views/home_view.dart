@@ -93,7 +93,6 @@ class HomeView extends GetView<HomeController> {
                   color: index < postIndexes.length
                       ? Color(postMap[postIndexes[index]]!.backgroundColor)
                       : Colors.orangeAccent,
-                  alignment: Alignment.topLeft,
                   child: SafeArea(child: Builder(builder: (context) {
                     if (!isInit || (index == postIndexes.length && isLoading)) {
                       return Center(child: Loading());
@@ -133,64 +132,105 @@ class HomeView extends GetView<HomeController> {
                         final post = postMap[postIndexes[index]]!;
                         final author =
                             AuthProvider.to.simpleAccountMap[post.accountId]!;
-                        return Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Row(children: [
-                                Avatar(
-                                    size: 26,
-                                    name: author.name,
-                                    uri: author.avatar,
-                                    onTap: () {
-                                      if (AccountStoreProvider.to.getString(
-                                              STORAGE_ACCOUNT_ID_KEY) ==
-                                          post.accountId) {
-                                        RouterProvider.to.toMe();
-                                      } else {
-                                        Get.toNamed(Routes.OTHER, arguments: {
-                                          "accountId": post.accountId
-                                        });
-                                      }
-                                    }),
-                                SizedBox(width: 15),
-                                Text(
-                                  author.name,
-                                  key: Key('$index-text'),
-                                  style: const TextStyle(
-                                      fontSize: 24, color: Colors.white),
-                                ),
-                              ]),
-                              MaxText(post.content, context,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    height: 1.6,
-                                    fontSize: 30.0,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              TagWidget(
-                                text: post.post_template_title,
-                                onPressed: () {
-                                  Get.toNamed(Routes.POST_SQUARE, arguments: {
-                                    "id": post.post_template_id,
-                                    "title": post.post_template_title
-                                  });
-                                },
-                              ),
-                              ChatBox(
-                                  account: account,
-                                  isLogin: isLogin,
-                                  postId: postIndexes[index],
-                                  onPressed: () {
-                                    final post = postMap[postIndexes[index]];
-                                    if (post != null) {
-                                      Get.toNamed(Routes.ROOM, arguments: {
-                                        "id": "im${post.accountId}@$imDomain",
-                                        "post_id": postIndexes[index]
-                                      });
-                                    }
-                                  }),
-                            ]);
+                        return Stack(children: <Widget>[
+                          Container(
+                              alignment: Alignment.topLeft,
+                              padding: const EdgeInsets.only(
+                                  left: 16, top: 16, bottom: 60),
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                        child: MaxText(post.content, context,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              height: 1.6,
+                                              fontSize: 30.0,
+                                              fontWeight: FontWeight.bold,
+                                            ))),
+                                    Row(children: [
+                                      Avatar(
+                                          size: 26,
+                                          name: author.name,
+                                          uri: author.avatar,
+                                          onTap: () {
+                                            if (AccountStoreProvider.to.getString(
+                                                    STORAGE_ACCOUNT_ID_KEY) ==
+                                                post.accountId) {
+                                              RouterProvider.to.toMe();
+                                            } else {
+                                              Get.toNamed(Routes.OTHER,
+                                                  arguments: {
+                                                    "accountId": post.accountId
+                                                  });
+                                            }
+                                          }),
+                                      SizedBox(width: 15),
+                                      Text(
+                                        author.name,
+                                        key: Key('$index-text'),
+                                        style: const TextStyle(
+                                            fontSize: 24, color: Colors.white),
+                                      ),
+                                    ]),
+                                  ])),
+                          Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 0),
+                                child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(children: [
+                                        Expanded(
+                                            child: Container(
+                                                padding: EdgeInsets.only(
+                                                    left: 16, right: 16),
+                                                child: ChatBox(
+                                                    account: account,
+                                                    isLogin: isLogin,
+                                                    postId: postIndexes[index],
+                                                    onPressed: () {
+                                                      final post = postMap[
+                                                          postIndexes[index]];
+                                                      if (post != null) {
+                                                        Get.toNamed(Routes.ROOM,
+                                                            arguments: {
+                                                              "id":
+                                                                  "im${post.accountId}@$imDomain",
+                                                              "post_id":
+                                                                  postIndexes[
+                                                                      index]
+                                                            });
+                                                      }
+                                                    }))),
+                                        IconButton(
+                                            icon: Icon(Icons.more_horiz,
+                                                color: Colors.white, size: 28),
+                                            onPressed: () {})
+                                      ]),
+                                      Container(
+                                          padding:
+                                              const EdgeInsets.only(left: 16),
+                                          child: TagWidget(
+                                            text:
+                                                "来自问题：${post.post_template_title}",
+                                            onPressed: () {
+                                              Get.toNamed(Routes.POST_SQUARE,
+                                                  arguments: {
+                                                    "id": post.post_template_id,
+                                                    "title":
+                                                        post.post_template_title
+                                                  });
+                                            },
+                                          )),
+                                    ]),
+                              ))
+                        ]);
                       });
                     } else if (isInitError != null) {
                       return Text(isInitError);

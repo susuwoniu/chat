@@ -75,3 +75,4 @@ samples, guidance on mobile development, and a full API reference.
 - https://github.com/natintosh/intl_phone_number_input
 - https://github.com/BrunoJurkovic/tcard
 - https://github.com/best-flutter/flutter_swiper
+- <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
