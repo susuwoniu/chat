@@ -3,26 +3,36 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import '../../home/controllers/home_controller.dart';
 import '../../other/controllers/other_controller.dart';
-
+import 'package:chat/types/types.dart';
 import 'package:chat/config/config.dart';
+import '../../post_square/controllers/post_square_controller.dart';
 
 final imDomain = AppConfig().config.imDomain;
 
 class MyPosts extends StatelessWidget {
   final String? profileId;
+  final String? postTemplateId;
+
   MyPosts({
     Key? key,
     this.profileId,
+    this.postTemplateId,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final postsIndexes = profileId != null
-        ? OtherController.to.myPostsIndexes
-        : HomeController.to.myPostsIndexes;
-    final postMap = profileId != null
-        ? OtherController.to.postMap
-        : HomeController.to.postMap;
+    late RxList<String> postsIndexes;
+    late RxMap<String, PostEntity> postMap;
+    if (profileId != null) {
+      postsIndexes = OtherController.to.myPostsIndexes;
+      postMap = OtherController.to.postMap;
+    } else if (postTemplateId != null) {
+      postsIndexes = PostSquareController.to.myPostsIndexes;
+      postMap = PostSquareController.to.postMap;
+    } else {
+      postsIndexes = HomeController.to.myPostsIndexes;
+      postMap = HomeController.to.postMap;
+    }
 
     return Obx(() {
       final _width = MediaQuery.of(context).size.width;

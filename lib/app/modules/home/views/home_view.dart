@@ -15,6 +15,9 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final imDomain = AppConfig().config.imDomain;
+    final size = MediaQuery.of(context).size;
+    final screenHeight = size.height;
+    final screenWidth = size.width;
 
     final appBar = AppBar(
         backgroundColor: Colors.transparent,
@@ -179,57 +182,44 @@ class HomeView extends GetView<HomeController> {
                           Align(
                               alignment: Alignment.bottomLeft,
                               child: Padding(
-                                padding: const EdgeInsets.only(bottom: 0),
+                                padding: EdgeInsets.only(
+                                    bottom: screenHeight * 0.05),
                                 child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Row(children: [
-                                        Expanded(
-                                            child: Container(
-                                                padding: EdgeInsets.only(
-                                                    left: 16, right: 16),
-                                                child: ChatBox(
-                                                    account: account,
-                                                    isLogin: isLogin,
-                                                    postId: postIndexes[index],
-                                                    onPressed: () {
-                                                      final post = postMap[
-                                                          postIndexes[index]];
-                                                      if (post != null) {
-                                                        Get.toNamed(Routes.ROOM,
-                                                            arguments: {
-                                                              "id":
-                                                                  "im${post.accountId}@$imDomain",
-                                                              "post_id":
-                                                                  postIndexes[
-                                                                      index]
-                                                            });
-                                                      }
-                                                    }))),
-                                        IconButton(
-                                            icon: Icon(Icons.more_horiz,
-                                                color: Colors.white, size: 28),
-                                            onPressed: () {})
-                                      ]),
-                                      Container(
-                                          padding:
-                                              const EdgeInsets.only(left: 16),
-                                          child: TagWidget(
-                                            text:
-                                                "来自问题：${post.post_template_title}",
-                                            onPressed: () {
-                                              Get.toNamed(Routes.POST_SQUARE,
+                                      ChatBox(
+                                          account: account,
+                                          isLogin: isLogin,
+                                          postId: postIndexes[index],
+                                          onPressed: () {
+                                            final post =
+                                                postMap[postIndexes[index]];
+                                            if (post != null) {
+                                              Get.toNamed(Routes.ROOM,
                                                   arguments: {
-                                                    "id": post.post_template_id,
-                                                    "title":
-                                                        post.post_template_title
+                                                    "id":
+                                                        "im${post.accountId}@$imDomain",
+                                                    "post_id":
+                                                        postIndexes[index]
                                                   });
-                                            },
-                                          )),
+                                            }
+                                          }),
+                                      SizedBox(height: 15),
+                                      TagWidget(
+                                          text:
+                                              "来自问题：${post.post_template_title}",
+                                          onPressed: () {
+                                            Get.toNamed(Routes.POST_SQUARE,
+                                                arguments: {
+                                                  "id": post.post_template_id,
+                                                  "title":
+                                                      post.post_template_title
+                                                });
+                                          }),
                                     ]),
-                              ))
+                              )),
                         ]);
                       });
                     } else if (isInitError != null) {

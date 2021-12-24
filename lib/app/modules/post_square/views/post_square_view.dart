@@ -4,12 +4,16 @@ import 'package:get/get.dart';
 
 import '../controllers/post_square_controller.dart';
 
+import '../../me/views/my_posts.dart';
+
 class PostSquareView extends GetView<PostSquareController> {
   final _title = Get.arguments['title'];
   final _id = int.parse(Get.arguments['id']);
 
   @override
   Widget build(BuildContext context) {
+    final usedCount = controller.usedCount.value;
+
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
 
@@ -53,9 +57,13 @@ class PostSquareView extends GetView<PostSquareController> {
                       ))),
             ],
           ),
-          SizedBox(height: _width * 0.15),
-          Text("3333条回答",
+          SizedBox(height: _height * 0.06),
+          Text(
+              usedCount > 1
+                  ? usedCount.toString() + ' Posts'.tr
+                  : usedCount.toString() + ' Post'.tr,
               style: TextStyle(fontSize: 17.0, color: Colors.black54)),
+          MyPosts(postTemplateId: _id.toString()),
         ],
       )),
     );

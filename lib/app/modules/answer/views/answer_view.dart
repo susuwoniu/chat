@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../../post/controllers/post_controller.dart';
 import '../controllers/answer_controller.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
-import 'package:flutter/rendering.dart';
 import '../../post/views/templates.dart';
 import 'package:chat/common.dart';
 

@@ -19,37 +19,38 @@ class ChatBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        onPressed();
-      },
-      child: Container(
-        height: 48,
-        // width: screenWidth * 0.88,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
-          color: Colors.white,
-        ),
-        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          TextButton(
-              style: TextButton.styleFrom(
-                  padding: EdgeInsets.only(left: 4),
-                  alignment: Alignment.centerLeft),
-              onPressed: () async {},
-              child: Avatar(
-                elevation: 0,
-                size: 20,
-                uri: account.avatar,
-                child: isLogin
-                    ? null
-                    : const Image(image: AssetImage('assets/avatar.png')),
-                name: isLogin ? account.name : "--",
-                onTap: () async {
-                  RouterProvider.to.toMe();
-                },
-              ))
-        ]),
-      ),
-    );
+    final size = MediaQuery.of(context).size;
+    final screenWidth = size.width;
+    return Container(
+        alignment: Alignment.center,
+        child: GestureDetector(
+          onTap: () {
+            onPressed();
+          },
+          child: Container(
+            height: 60,
+            width: screenWidth * 0.88,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: Colors.white,
+            ),
+            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              TextButton(
+                  onPressed: () async {},
+                  child: isLogin
+                      ? Avatar(
+                          size: 20,
+                          uri: account.avatar,
+                          name: account.name,
+                          onTap: () async {
+                            RouterProvider.to.toMe();
+                          },
+                        )
+                      : Text("🤠",
+                          style: const TextStyle(
+                              fontSize: 32, color: Colors.white))),
+            ]),
+          ),
+        ));
   }
 }
