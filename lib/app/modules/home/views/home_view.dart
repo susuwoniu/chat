@@ -10,6 +10,7 @@ import 'package:chat/common.dart';
 import 'filter_bottom_sheet.dart';
 import 'chat_box.dart';
 import 'tag_widget.dart';
+import 'author_name.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -17,7 +18,7 @@ class HomeView extends GetView<HomeController> {
     final imDomain = AppConfig().config.imDomain;
     final size = MediaQuery.of(context).size;
     final screenHeight = size.height;
-    final screenWidth = size.width;
+    // final screenWidth = size.width;
 
     final appBar = AppBar(
         backgroundColor: Colors.transparent,
@@ -153,37 +154,18 @@ class HomeView extends GetView<HomeController> {
                                               fontSize: 30.0,
                                               fontWeight: FontWeight.bold,
                                             ))),
-                                    Row(children: [
-                                      Avatar(
-                                          size: 26,
-                                          name: author.name,
-                                          uri: author.avatar,
-                                          onTap: () {
-                                            if (AccountStoreProvider.to.getString(
-                                                    STORAGE_ACCOUNT_ID_KEY) ==
-                                                post.accountId) {
-                                              RouterProvider.to.toMe();
-                                            } else {
-                                              Get.toNamed(Routes.OTHER,
-                                                  arguments: {
-                                                    "accountId": post.accountId
-                                                  });
-                                            }
-                                          }),
-                                      SizedBox(width: 15),
-                                      Text(
-                                        author.name,
-                                        key: Key('$index-text'),
-                                        style: const TextStyle(
-                                            fontSize: 24, color: Colors.white),
-                                      ),
-                                    ]),
+                                    SizedBox(height: 20),
+                                    AuthorName(
+                                        accountId: post.accountId,
+                                        authorName: author.name,
+                                        avatarUri: author.avatar,
+                                        index: index),
                                   ])),
                           Align(
                               alignment: Alignment.bottomLeft,
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                    bottom: screenHeight * 0.05),
+                                    bottom: screenHeight * 0.02),
                                 child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment:
