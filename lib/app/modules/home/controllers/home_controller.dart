@@ -208,6 +208,9 @@ class HomeController extends GetxController {
         result.startCursor != null) {
       postMap.addAll(result.postMap);
 
+      if (replace) {
+        postIndexes.clear();
+      }
       postIndexes.addAll(result.indexes);
 
       var isFirstCursorChanged = false;
@@ -377,6 +380,17 @@ class HomeController extends GetxController {
         });
       }
     }
+  }
+
+  void refreshHomePosts() async {
+    isLoadingHomePosts.value = true;
+
+    getHomePosts(replace: true).then((data) {
+      isLoadingHomePosts.value = false;
+    }).catchError((e) {
+      isLoadingHomePosts.value = false;
+      UIUtils.showError(e);
+    });
   }
 
   Future<void> patchPostCountView(String postId) async {

@@ -49,7 +49,7 @@ class ChatBox extends StatelessWidget {
                     : const Image(image: AssetImage('assets/avatar.png')),
                 name: isLogin ? account.name : "--",
               )),
-          Text("回应 @$postAuthorName:",
+          Text("私聊回应 @$postAuthorName:",
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               style: TextStyle(color: Colors.white, fontSize: 16))

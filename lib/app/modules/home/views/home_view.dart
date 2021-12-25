@@ -11,6 +11,7 @@ import 'filter_bottom_sheet.dart';
 import 'chat_box.dart';
 import 'tag_widget.dart';
 import 'author_name.dart';
+import './action_buttons.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -205,51 +206,13 @@ class HomeView extends GetView<HomeController> {
                                                       }
                                                     })),
                                             SizedBox(width: 8),
-                                            Column(
-                                              children: [
-                                                TextButton(
-                                                    style: TextButton.styleFrom(
-                                                      backgroundColor: Colors
-                                                          .black
-                                                          .withOpacity(0.12),
-                                                      shape: CircleBorder(),
-                                                    ),
-                                                    child: Icon(Icons.add,
-                                                        color: Colors.white,
-                                                        size: 28),
-                                                    onPressed: () {}),
-                                                SizedBox(
-                                                  height: 12,
-                                                ),
-                                                TextButton(
-                                                    style: TextButton.styleFrom(
-                                                      backgroundColor: Colors
-                                                          .black
-                                                          .withOpacity(0.12),
-                                                      shape: CircleBorder(),
-                                                    ),
-                                                    child: Icon(Icons.refresh,
-                                                        color: Colors.white,
-                                                        size: 28),
-                                                    onPressed: () {}),
-                                                SizedBox(
-                                                  height: 12,
-                                                ),
-                                                TextButton(
-                                                    style: TextButton.styleFrom(
-                                                      backgroundColor: Colors
-                                                          .black
-                                                          .withOpacity(0.12),
-                                                      shape: CircleBorder(),
-                                                    ),
-                                                    child: Icon(
-                                                        Icons
-                                                            .more_horiz_outlined,
-                                                        color: Colors.white,
-                                                        size: 28),
-                                                    onPressed: () {})
-                                              ],
-                                            ),
+                                            ActionButtons(
+                                              onRefresh: () {
+                                                controller.refreshHomePosts();
+                                              },
+                                              isRefreshing: controller
+                                                  .isLoadingHomePosts.value,
+                                            )
                                           ]),
                                     ]),
                               )),
