@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
-
+import 'package:chat/utils/random.dart';
 import 'package:get/get.dart';
-
 import '../controllers/post_square_controller.dart';
-
+import 'package:chat/common.dart';
 import '../../me/views/my_posts.dart';
 
 class PostSquareView extends GetView<PostSquareController> {
   final _title = Get.arguments['title'];
   final _id = int.parse(Get.arguments['id']);
+  final backgroundColorIndex = get_random_index(BACKGROUND_COLORS.length);
 
   @override
   Widget build(BuildContext context) {
-    final usedCount = controller.usedCount.value;
-
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
+    final backgroundColor = BACKGROUND_COLORS[backgroundColorIndex];
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('PostSquareView'),
-        centerTitle: true,
+        backgroundColor: backgroundColor,
       ),
       body: SingleChildScrollView(
           child: Column(
@@ -31,11 +29,10 @@ class PostSquareView extends GetView<PostSquareController> {
             children: [
               Container(
                 height: _height * 0.2,
-                color: Colors.pink.shade100,
-                alignment: Alignment.center,
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
+                width: _width,
+                color: backgroundColor,
+                padding: EdgeInsets.symmetric(
+                    horizontal: _width * 0.06, vertical: 10),
                 child: Text(_title,
                     style: TextStyle(
                       fontSize: 24.0,
@@ -58,11 +55,14 @@ class PostSquareView extends GetView<PostSquareController> {
             ],
           ),
           SizedBox(height: _height * 0.06),
-          Text(
-              usedCount > 1
-                  ? usedCount.toString() + ' Posts'.tr
-                  : usedCount.toString() + ' Post'.tr,
-              style: TextStyle(fontSize: 17.0, color: Colors.black54)),
+          Obx(() {
+            final usedCount = controller.usedCount.value;
+            return Text(
+                usedCount > 1
+                    ? usedCount.toString() + ' Posts'.tr
+                    : usedCount.toString() + ' Post'.tr,
+                style: TextStyle(fontSize: 17.0, color: Colors.black54));
+          }),
           MyPosts(postTemplateId: _id.toString()),
         ],
       )),

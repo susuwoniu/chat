@@ -12,6 +12,7 @@ class MeController extends GetxController {
   final _homeController = HomeController.to;
   final totalViewedCount = 0.obs;
   final unreadViewedCount = 0.obs;
+  final isLoadingImages = true.obs;
 
   @override
   void onInit() {

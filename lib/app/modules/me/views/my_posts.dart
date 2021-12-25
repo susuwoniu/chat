@@ -6,6 +6,8 @@ import '../../other/controllers/other_controller.dart';
 import 'package:chat/types/types.dart';
 import 'package:chat/config/config.dart';
 import '../../post_square/controllers/post_square_controller.dart';
+import 'package:chat/utils/random.dart';
+import 'package:chat/common.dart';
 
 final imDomain = AppConfig().config.imDomain;
 
@@ -21,20 +23,22 @@ class MyPosts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late RxList<String> postsIndexes;
-    late RxMap<String, PostEntity> postMap;
-    if (profileId != null) {
-      postsIndexes = OtherController.to.myPostsIndexes;
-      postMap = OtherController.to.postMap;
-    } else if (postTemplateId != null) {
-      postsIndexes = PostSquareController.to.myPostsIndexes;
-      postMap = PostSquareController.to.postMap;
-    } else {
-      postsIndexes = HomeController.to.myPostsIndexes;
-      postMap = HomeController.to.postMap;
-    }
+    late List<String> postsIndexes;
+    late Map<String, PostEntity> postMap;
+    final backgroundColorIndex = get_random_index(BACKGROUND_COLORS.length);
 
     return Obx(() {
+      if (profileId != null) {
+        postsIndexes = OtherController.to.myPostsIndexes;
+        postMap = OtherController.to.postMap;
+      } else if (postTemplateId != null) {
+        postsIndexes = PostSquareController.to.myPostsIndexes;
+        postMap = PostSquareController.to.postMap;
+      } else {
+        postsIndexes = HomeController.to.myPostsIndexes;
+        postMap = HomeController.to.postMap;
+      }
+
       final _width = MediaQuery.of(context).size.width;
       final double paddingLeft = _width * 0.05;
       final double paddingTop = _width * 0.04;
@@ -80,8 +84,16 @@ class MyPosts extends StatelessWidget {
               )),
         );
       }
-      if (profileId == null) {
-        _myPostsList.insert(0, createPost(context));
+      if (profileId == null && postTemplateId == null) {
+        _myPostsList.insert(0, createPost(context: context));
+      } else if (postTemplateId != null) {
+        _myPostsList.insert(
+            0,
+            createPost(
+                context: context,
+                type: 'toCreate',
+                id: postTemplateId,
+                backgroundColorIndex: backgroundColorIndex));
       }
       return SizedBox(
         width: double.infinity,
@@ -91,14 +103,25 @@ class MyPosts extends StatelessWidget {
     });
   }
 
-  Widget createPost(context) {
+  Widget createPost(
+      {required BuildContext context,
+      String? type,
+      String? id,
+      int? backgroundColorIndex}) {
     final _width = MediaQuery.of(context).size.width;
     final double paddingLeft = _width * 0.05;
     final double paddingTop = _width * 0.04;
 
     return GestureDetector(
         onTap: () {
-          Get.toNamed(Routes.POST);
+          if (type != null) {
+            Get.toNamed(Routes.CREATE, arguments: {
+              "id": id,
+              "background-color-index": backgroundColorIndex
+            });
+          } else {
+            Get.toNamed(Routes.POST);
+          }
         },
         child: Container(
           margin: EdgeInsets.fromLTRB(
@@ -112,7 +135,14 @@ class MyPosts extends StatelessWidget {
             IconButton(
                 padding: EdgeInsets.all(0),
                 onPressed: () {
-                  Get.toNamed(Routes.POST);
+                  if (type == 'toCreate') {
+                    Get.toNamed(Routes.CREATE, arguments: {
+                      "id": id,
+                      "background-color-index": backgroundColorIndex
+                    });
+                  } else {
+                    Get.toNamed(Routes.POST);
+                  }
                 },
                 icon: const Icon(
                   Icons.add_circle_outline_rounded,

@@ -6,7 +6,7 @@ import 'package:chat/common.dart';
 import 'package:chat/types/types.dart';
 
 class PostSquareController extends GetxController {
-  static HomeController get to => Get.find();
+  static PostSquareController get to => Get.find();
 
   //TODO: Implement PostSquareController
 
@@ -29,6 +29,7 @@ class PostSquareController extends GetxController {
     super.onReady();
     try {
       await getTemplatesSquareData(postTemplateId: _id);
+      await getUsedCount();
     } catch (e) {
       UIUtils.showError(e);
     }
@@ -52,6 +53,7 @@ class PostSquareController extends GetxController {
 
   getUsedCount() async {
     final result = await APIProvider.to.get('/post/post-templates/$_id');
-    usedCount.value = result['used_count'];
+    usedCount.value = result['data']['attributes']['used_count'];
+    print(usedCount);
   }
 }
