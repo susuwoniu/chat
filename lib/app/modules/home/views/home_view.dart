@@ -61,8 +61,7 @@ class HomeView extends GetView<HomeController> {
                     );
                   }),
               IconButton(
-                  icon: Icon(Icons.border_color_rounded,
-                      color: Colors.white, size: 28),
+                  icon: Icon(Icons.add, color: Colors.white, size: 36),
                   onPressed: () {
                     Get.toNamed(
                       Routes.POST,
@@ -140,7 +139,7 @@ class HomeView extends GetView<HomeController> {
                           Container(
                               alignment: Alignment.topLeft,
                               padding: const EdgeInsets.only(
-                                  left: 16, top: 16, bottom: 60),
+                                  left: 16, right: 16, top: 16, bottom: 60),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,6 +153,16 @@ class HomeView extends GetView<HomeController> {
                                               fontSize: 30.0,
                                               fontWeight: FontWeight.bold,
                                             ))),
+                                    TagWidget(
+                                        text: post.post_template_title,
+                                        onPressed: () {
+                                          Get.toNamed(Routes.POST_SQUARE,
+                                              arguments: {
+                                                "id": post.post_template_id,
+                                                "title":
+                                                    post.post_template_title
+                                              });
+                                        }),
                                     SizedBox(height: 20),
                                     AuthorName(
                                         accountId: post.accountId,
@@ -165,41 +174,83 @@ class HomeView extends GetView<HomeController> {
                               alignment: Alignment.bottomLeft,
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                    bottom: screenHeight * 0.02),
+                                    bottom: 20, left: 16, right: 8),
                                 child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      ChatBox(
-                                          account: account,
-                                          isLogin: isLogin,
-                                          postId: postIndexes[index],
-                                          onPressed: () {
-                                            final post =
-                                                postMap[postIndexes[index]];
-                                            if (post != null) {
-                                              Get.toNamed(Routes.ROOM,
-                                                  arguments: {
-                                                    "id":
-                                                        "im${post.accountId}@$imDomain",
-                                                    "post_id":
-                                                        postIndexes[index]
-                                                  });
-                                            }
-                                          }),
-                                      SizedBox(height: 15),
-                                      TagWidget(
-                                          text:
-                                              "来自问题：${post.post_template_title}",
-                                          onPressed: () {
-                                            Get.toNamed(Routes.POST_SQUARE,
-                                                arguments: {
-                                                  "id": post.post_template_id,
-                                                  "title":
-                                                      post.post_template_title
-                                                });
-                                          }),
+                                      Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Expanded(
+                                                child: ChatBox(
+                                                    postAuthorName: author.name,
+                                                    account: account,
+                                                    isLogin: isLogin,
+                                                    postId: postIndexes[index],
+                                                    onPressed: () {
+                                                      final post = postMap[
+                                                          postIndexes[index]];
+                                                      if (post != null) {
+                                                        Get.toNamed(Routes.ROOM,
+                                                            arguments: {
+                                                              "id":
+                                                                  "im${post.accountId}@$imDomain",
+                                                              "post_id":
+                                                                  postIndexes[
+                                                                      index]
+                                                            });
+                                                      }
+                                                    })),
+                                            SizedBox(width: 8),
+                                            Column(
+                                              children: [
+                                                TextButton(
+                                                    style: TextButton.styleFrom(
+                                                      backgroundColor: Colors
+                                                          .black
+                                                          .withOpacity(0.12),
+                                                      shape: CircleBorder(),
+                                                    ),
+                                                    child: Icon(Icons.add,
+                                                        color: Colors.white,
+                                                        size: 28),
+                                                    onPressed: () {}),
+                                                SizedBox(
+                                                  height: 12,
+                                                ),
+                                                TextButton(
+                                                    style: TextButton.styleFrom(
+                                                      backgroundColor: Colors
+                                                          .black
+                                                          .withOpacity(0.12),
+                                                      shape: CircleBorder(),
+                                                    ),
+                                                    child: Icon(Icons.refresh,
+                                                        color: Colors.white,
+                                                        size: 28),
+                                                    onPressed: () {}),
+                                                SizedBox(
+                                                  height: 12,
+                                                ),
+                                                TextButton(
+                                                    style: TextButton.styleFrom(
+                                                      backgroundColor: Colors
+                                                          .black
+                                                          .withOpacity(0.12),
+                                                      shape: CircleBorder(),
+                                                    ),
+                                                    child: Icon(
+                                                        Icons
+                                                            .more_horiz_outlined,
+                                                        color: Colors.white,
+                                                        size: 28),
+                                                    onPressed: () {})
+                                              ],
+                                            ),
+                                          ]),
                                     ]),
                               )),
                         ]);

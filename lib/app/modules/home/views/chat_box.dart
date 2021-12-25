@@ -8,49 +8,53 @@ class ChatBox extends StatelessWidget {
   final AccountEntity account;
   final String postId;
   final Function onPressed;
-
+  final String postAuthorName;
   ChatBox({
     Key? key,
     required this.isLogin,
     required this.account,
     required this.postId,
+    required this.postAuthorName,
     required this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final screenWidth = size.width;
-    return Container(
-        alignment: Alignment.center,
-        child: GestureDetector(
-          onTap: () {
-            onPressed();
-          },
-          child: Container(
-            height: 60,
-            width: screenWidth * 0.88,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: Colors.white,
-            ),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              TextButton(
-                  onPressed: () async {},
-                  child: isLogin
-                      ? Avatar(
-                          size: 20,
-                          uri: account.avatar,
-                          name: account.name,
-                          onTap: () async {
-                            RouterProvider.to.toMe();
-                          },
-                        )
-                      : Text("🤠",
-                          style: const TextStyle(
-                              fontSize: 32, color: Colors.white))),
-            ]),
-          ),
-        ));
+    return GestureDetector(
+      onTap: () {
+        onPressed();
+      },
+      child: Container(
+        height: 48,
+        // width: screenWidth * 0.88,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          color: Colors.black.withOpacity(0.12),
+        ),
+        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          TextButton(
+              style: TextButton.styleFrom(
+                  minimumSize: Size.zero,
+                  padding: EdgeInsets.only(left: 6, right: 10),
+                  alignment: Alignment.centerLeft),
+              onPressed: () async {
+                RouterProvider.to.toMe();
+              },
+              child: Avatar(
+                elevation: 0,
+                size: 18,
+                uri: account.avatar,
+                child: isLogin
+                    ? null
+                    : const Image(image: AssetImage('assets/avatar.png')),
+                name: isLogin ? account.name : "--",
+              )),
+          Text("回应 @$postAuthorName:",
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: TextStyle(color: Colors.white, fontSize: 16))
+        ]),
+      ),
+    );
   }
 }

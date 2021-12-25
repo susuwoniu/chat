@@ -22,7 +22,7 @@ class AuthorName extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(children: [
       Avatar(
-          size: 26,
+          size: 24,
           name: authorName,
           uri: avatarUri,
           onTap: () {
@@ -37,7 +37,7 @@ class AuthorName extends StatelessWidget {
       Text(
         authorName,
         key: Key('$index-text'),
-        style: const TextStyle(fontSize: 24, color: Colors.white),
+        style: const TextStyle(fontSize: 22, color: Colors.white),
       ),
     ]);
   }

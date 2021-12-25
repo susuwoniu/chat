@@ -24,6 +24,7 @@ A new Flutter project.
   - <https://xmpp.org/extensions/xep-0430.html>
   - https://www.process-one.net/en/ejabberd/protocols/
   - https://mongooseim.readthedocs.io/en/4.0.1/user-guide/Features-and-supported-standards/
+- Icons <https://fonts.google.com/icons?selected=Material+Icons>
 ## Tips
 
 ### 获取权限 
