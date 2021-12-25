@@ -17,55 +17,67 @@ class PostSquareView extends GetView<PostSquareController> {
     final backgroundColor = BACKGROUND_COLORS[backgroundColorIndex];
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: backgroundColor,
-      ),
-      body: SingleChildScrollView(
-          child: Column(
-        children: [
-          Stack(
-            alignment: AlignmentDirectional.center,
-            clipBehavior: Clip.none,
-            children: [
-              Container(
-                height: _height * 0.2,
-                width: _width,
-                color: backgroundColor,
-                padding: EdgeInsets.symmetric(
-                    horizontal: _width * 0.06, vertical: 10),
-                child: Text(_title,
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                    )),
-              ),
-              Positioned(
-                  bottom: -_width * 0.1,
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(_width * 0.2)),
-                      height: _width * 0.2,
-                      width: _width * 0.2,
-                      child: Icon(
-                        Icons.face_outlined,
-                        size: _width * 0.13.toDouble(),
-                        color: Colors.black54,
-                      ))),
-            ],
-          ),
-          SizedBox(height: _height * 0.06),
-          Obx(() {
-            final usedCount = controller.usedCount.value;
-            return Text(
-                usedCount > 1
-                    ? usedCount.toString() + ' Posts'.tr
-                    : usedCount.toString() + ' Post'.tr,
-                style: TextStyle(fontSize: 17.0, color: Colors.black54));
-          }),
-          MyPosts(postTemplateId: _id.toString()),
-        ],
-      )),
-    );
+        appBar: AppBar(
+          backgroundColor: backgroundColor,
+        ),
+        body: RefreshIndicator(
+            onRefresh: () {
+              return _pullRefresh(_id);
+            },
+            child: SingleChildScrollView(
+              child: Column(children: [
+                Stack(
+                  alignment: AlignmentDirectional.center,
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      height: _height * 0.2,
+                      width: _width,
+                      color: backgroundColor,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: _width * 0.06, vertical: 10),
+                      child: Text(_title,
+                          style: TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)),
+                    ),
+                    Positioned(
+                        bottom: -_width * 0.1,
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.circular(_width * 0.2)),
+                            height: _width * 0.2,
+                            width: _width * 0.2,
+                            child: Icon(
+                              Icons.face_outlined,
+                              size: _width * 0.13.toDouble(),
+                              color: Colors.black54,
+                            ))),
+                  ],
+                ),
+                SizedBox(height: _height * 0.06),
+                Obx(() {
+                  final usedCount = controller.usedCount.value;
+                  return Text(
+                      usedCount > 1
+                          ? usedCount.toString() + ' Posts'.tr
+                          : usedCount.toString() + ' Post'.tr,
+                      style: TextStyle(fontSize: 17.0, color: Colors.black54));
+                }),
+                MyPosts(postTemplateId: _id.toString()),
+              ]),
+            )));
+  }
+}
+
+Future<void> _pullRefresh(id) async {
+  try {
+    await PostSquareController.to
+        .getTemplatesSquareData(postTemplateId: id.toString());
+  } catch (e) {
+    UIUtils.showError(e);
   }
 }

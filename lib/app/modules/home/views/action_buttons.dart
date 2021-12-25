@@ -5,7 +5,9 @@ class ActionButtons extends StatelessWidget {
   final bool isRefreshing;
   final Function? onRefresh;
   final Function? onAdd;
-  ActionButtons({this.isRefreshing = false, this.onRefresh, this.onAdd});
+  final Function? onMore;
+  ActionButtons(
+      {this.isRefreshing = false, this.onRefresh, this.onAdd, this.onMore});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,7 +50,11 @@ class ActionButtons extends StatelessWidget {
             ),
             child:
                 Icon(Icons.more_horiz_outlined, color: Colors.white, size: 28),
-            onPressed: () {})
+            onPressed: () {
+              if (onMore != null) {
+                onMore!();
+              }
+            })
       ],
     );
   }

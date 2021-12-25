@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../controllers/feedback_controller.dart';
 
+// TODO use constans or config
 class FeedbackView extends GetView<FeedbackController> {
   @override
   Widget build(BuildContext context) {

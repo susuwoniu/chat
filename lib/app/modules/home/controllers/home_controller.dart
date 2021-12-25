@@ -137,6 +137,7 @@ class HomeController extends GetxController {
     }
     final Map<String, PostEntity> newPostMap = {};
     final List<String> newIndexes = [];
+
     String? newEndCursor;
     String? newStartCursor;
     for (var i = 0; i < body["data"].length; i++) {

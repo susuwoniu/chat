@@ -12,6 +12,7 @@ import 'chat_box.dart';
 import 'tag_widget.dart';
 import 'author_name.dart';
 import './action_buttons.dart';
+import 'more_dots.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -199,20 +200,30 @@ class HomeView extends GetView<HomeController> {
                                                             arguments: {
                                                               "id":
                                                                   "im${post.accountId}@$imDomain",
-                                                              "post_id":
-                                                                  postIndexes[
-                                                                      index]
+                                                              "quote":
+                                                                  post.content
                                                             });
                                                       }
                                                     })),
                                             SizedBox(width: 8),
                                             ActionButtons(
-                                              onRefresh: () {
-                                                controller.refreshHomePosts();
-                                              },
-                                              isRefreshing: controller
-                                                  .isLoadingHomePosts.value,
-                                            )
+                                                onRefresh: () {
+                                                  controller.refreshHomePosts();
+                                                },
+                                                isRefreshing: controller
+                                                    .isLoadingHomePosts.value,
+                                                onMore: () {
+                                                  showModalBottomSheet(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return MoreDots(
+                                                            context: context,
+                                                            onPressedShare:
+                                                                () {},
+                                                            onPressedReport:
+                                                                () {});
+                                                      });
+                                                })
                                           ]),
                                     ]),
                               )),

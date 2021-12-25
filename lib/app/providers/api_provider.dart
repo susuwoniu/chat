@@ -332,7 +332,7 @@ formatError(Response response) {
         }
     }
   } else {
-    return ServiceException.withCode("client_network_error".tr,
-        code: "client_network_error", detail: response.statusText);
+    return ServiceException.withCode("maybe_client_network_error".tr,
+        code: "maybe_client_network_error", detail: response.statusText);
   }
 }

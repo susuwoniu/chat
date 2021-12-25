@@ -4,6 +4,7 @@ import 'package:chat/app/providers/providers.dart';
 import '../../home/controllers/home_controller.dart';
 import 'package:chat/common.dart';
 import 'package:chat/types/types.dart';
+import '../../post/controllers/post_controller.dart';
 
 class PostSquareController extends GetxController {
   static PostSquareController get to => Get.find();
@@ -29,7 +30,7 @@ class PostSquareController extends GetxController {
     super.onReady();
     try {
       await getTemplatesSquareData(postTemplateId: _id);
-      await getUsedCount();
+      await getTemplateData();
     } catch (e) {
       UIUtils.showError(e);
     }
@@ -45,15 +46,20 @@ class PostSquareController extends GetxController {
         after: after, url: "/post/posts", postTemplateId: _id);
     postMap.addAll(result.postMap);
     myPostsIndexes.addAll(result.indexes);
+    _homeController.myPostsIndexes.addAll(result.indexes);
+
     isLoadingPosts.value = false;
     if (isInitial.value == false) {
       isInitial.value = true;
     }
   }
 
-  getUsedCount() async {
+  getTemplateData() async {
     final result = await APIProvider.to.get('/post/post-templates/$_id');
     usedCount.value = result['data']['attributes']['used_count'];
-    print(usedCount);
+    if (PostController.to.postTemplatesMap[_id] == null) {
+      PostController.to.postTemplatesMap.addAll(result['data']['attributes']);
+      PostController.to.postTemplatesIndexes.add(_id);
+    }
   }
 }
