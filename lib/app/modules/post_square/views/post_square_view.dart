@@ -35,9 +35,9 @@ class PostSquareView extends GetView<PostSquareController> {
                     horizontal: _width * 0.06, vertical: 10),
                 child: Text(_title,
                     style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                    )),
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white)),
               ),
               Positioned(
                   bottom: -_width * 0.1,

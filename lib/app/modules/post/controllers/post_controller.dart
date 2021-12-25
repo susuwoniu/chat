@@ -6,6 +6,7 @@ import 'package:tcard/tcard.dart';
 
 class PostController extends GetxController {
   static PostController get to => Get.find();
+
   final TCardController tcardController = TCardController();
   final count = 0.obs;
   final index = 0.obs;
