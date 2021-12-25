@@ -11,6 +11,7 @@ import 'filter_bottom_sheet.dart';
 import 'chat_box.dart';
 import 'tag_widget.dart';
 import 'author_name.dart';
+import 'more_dots.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -236,18 +237,29 @@ class HomeView extends GetView<HomeController> {
                                                   height: 12,
                                                 ),
                                                 TextButton(
-                                                    style: TextButton.styleFrom(
-                                                      backgroundColor: Colors
-                                                          .black
-                                                          .withOpacity(0.12),
-                                                      shape: CircleBorder(),
-                                                    ),
-                                                    child: Icon(
-                                                        Icons
-                                                            .more_horiz_outlined,
-                                                        color: Colors.white,
-                                                        size: 28),
-                                                    onPressed: () {})
+                                                  style: TextButton.styleFrom(
+                                                    backgroundColor: Colors
+                                                        .black
+                                                        .withOpacity(0.12),
+                                                    shape: CircleBorder(),
+                                                  ),
+                                                  child: Icon(
+                                                      Icons.more_horiz_outlined,
+                                                      color: Colors.white,
+                                                      size: 28),
+                                                  onPressed: () {
+                                                    showModalBottomSheet(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return MoreDots(
+                                                              context: context,
+                                                              onPressedShare:
+                                                                  () {},
+                                                              onPressedReport:
+                                                                  () {});
+                                                        });
+                                                  },
+                                                )
                                               ],
                                             ),
                                           ]),

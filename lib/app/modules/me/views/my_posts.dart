@@ -48,7 +48,7 @@ class MyPosts extends StatelessWidget {
         _myPostsList.add(
           GestureDetector(
               onTap: () {
-                if (profileId != null) {
+                if (profileId != null || postTemplateId != null) {
                   Get.toNamed(Routes.ROOM, arguments: {
                     "id": "im$profileId@$imDomain",
                     "post_id": id

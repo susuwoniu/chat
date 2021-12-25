@@ -57,127 +57,129 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     return BottomSheet(
       onClosing: () {},
       builder: (context) {
-        return Container(
-            clipBehavior: Clip.hardEdge,
-            height: _height * 0.4,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.blue.shade400,
-            ),
-            child: Stack(children: [
-              Positioned(
-                right: 5,
-                top: 0,
-                child: IconButton(
-                    icon: Icon(Icons.cancel),
-                    iconSize: 32,
-                    color: Colors.white60,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
+        return Wrap(children: [
+          Container(
+              padding: EdgeInsets.only(bottom: _height * 0.07),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.blue.shade400,
               ),
-              Column(children: [
-                SizedBox(height: _paddingTop3),
-                Text('Filter',
-                    style: TextStyle(fontSize: 23, color: Colors.white)),
-                SizedBox(height: _paddingTop1),
+              child: Stack(children: [
+                Positioned(
+                  right: 5,
+                  top: 0,
+                  child: IconButton(
+                      icon: Icon(Icons.cancel),
+                      iconSize: 32,
+                      color: Colors.white60,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                ),
                 Column(children: [
-                  Row(children: [
-                    _title('age'),
-                    Expanded(
-                        child: RangeSlider(
-                      values: RangeValues(
-                          _currentRangeValues.start, _currentRangeValues.end),
-                      max: 98,
-                      min: 18,
-                      divisions: 8,
-                      activeColor: Colors.pinkAccent,
-                      inactiveColor: Colors.white,
-                      labels: RangeLabels(
-                        _currentRangeValues.start.toString(),
-                        _currentRangeValues.end.toString(),
-                      ),
-                      onChanged: (RangeValues values) {
-                        setState(() {
-                          _currentRangeValues = values;
-                        });
-                      },
-                    )),
-                  ]),
                   SizedBox(height: _paddingTop3),
-                  Row(children: [
-                    _title('gender'),
-                    SizedBox(width: 20),
-                    Expanded(
-                      child: AnimatedToggleSwitch<String>.size(
-                        current: selectedGender,
-                        values: ['all', 'female', 'male'],
-                        iconOpacity: 0.2,
-                        indicatorSize: Size.fromWidth(100),
-                        indicatorType: IndicatorType.roundedRectangle,
-                        iconAnimationType: AnimationType.onHover,
-                        indicatorAnimationType: AnimationType.onHover,
-                        iconBuilder: (value, size, active) {
-                          return Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  value,
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                              ]);
+                  Text('Filter',
+                      style: TextStyle(fontSize: 23, color: Colors.white)),
+                  SizedBox(height: _paddingTop1),
+                  Column(children: [
+                    Row(children: [
+                      _title('age'),
+                      Expanded(
+                          child: RangeSlider(
+                        values: RangeValues(
+                            _currentRangeValues.start, _currentRangeValues.end),
+                        max: 98,
+                        min: 18,
+                        divisions: 8,
+                        activeColor: Colors.pinkAccent,
+                        inactiveColor: Colors.white,
+                        labels: RangeLabels(
+                          _currentRangeValues.start.toString(),
+                          _currentRangeValues.end.toString(),
+                        ),
+                        onChanged: (RangeValues values) {
+                          setState(() {
+                            _currentRangeValues = values;
+                          });
                         },
-                        borderWidth: 0.0,
-                        borderColor: Colors.transparent,
-                        colorBuilder: (value) => Colors.pink.shade400,
-                        onChanged: (value) => setState(() {
-                          selectedGender = value;
-                        }),
+                      )),
+                    ]),
+                    SizedBox(height: _paddingTop3),
+                    Row(children: [
+                      _title('gender'),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: AnimatedToggleSwitch<String>.size(
+                          current: selectedGender,
+                          values: ['all', 'female', 'male'],
+                          iconOpacity: 0.2,
+                          indicatorSize: Size.fromWidth(100),
+                          indicatorType: IndicatorType.roundedRectangle,
+                          iconAnimationType: AnimationType.onHover,
+                          indicatorAnimationType: AnimationType.onHover,
+                          iconBuilder: (value, size, active) {
+                            return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    value,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ]);
+                          },
+                          borderWidth: 0.0,
+                          borderColor: Colors.transparent,
+                          colorBuilder: (value) => Colors.pink.shade400,
+                          onChanged: (value) => setState(() {
+                            selectedGender = value;
+                          }),
+                        ),
                       ),
-                    ),
-                    SizedBox(width: _width * 0.04),
+                      SizedBox(width: _width * 0.04),
+                    ]),
                   ]),
-                ]),
-                SizedBox(height: _paddingTop4),
-                Row(children: [
-                  _buttons(
-                      text: 'ok',
-                      onPressed: () {
-                        if (!AuthProvider.to.account.value.vip) {
-                          if (widget.initialGender == selectedGender &&
-                              widget.initialStartAge ==
-                                  _currentRangeValues.start &&
-                              widget.initialEndAge == _currentRangeValues.end) {
-                            Navigator.pop(context);
-                            UIUtils.toast('ok');
+                  SizedBox(height: _paddingTop4),
+                  Row(children: [
+                    _buttons(
+                        text: 'ok',
+                        onPressed: () {
+                          if (!AuthProvider.to.account.value.vip) {
+                            if (widget.initialGender == selectedGender &&
+                                widget.initialStartAge ==
+                                    _currentRangeValues.start &&
+                                widget.initialEndAge ==
+                                    _currentRangeValues.end) {
+                              Navigator.pop(context);
+                              UIUtils.toast('ok');
+                            } else {
+                              widget.onSubmitted(
+                                selectedGender: selectedGender,
+                                startAge: _currentRangeValues.start.round(),
+                                endAge: _currentRangeValues.end.round(),
+                              );
+                              Navigator.pop(context);
+                              UIUtils.toast('okkkk');
+                            }
                           } else {
-                            widget.onSubmitted(
-                              selectedGender: selectedGender,
-                              startAge: _currentRangeValues.start.round(),
-                              endAge: _currentRangeValues.end.round(),
-                            );
-                            Navigator.pop(context);
-                            UIUtils.toast('okkkk');
+                            UIUtils.showError('not vip');
                           }
-                        } else {
-                          UIUtils.showError('not vip');
-                        }
-                      }),
-                  _buttons(
-                      text: 'reset',
-                      onPressed: () {
-                        setState(() {
-                          _currentRangeValues = RangeValues(18, 98);
-                          selectedGender = 'all';
-                        });
-                      }),
+                        }),
+                    _buttons(
+                        text: 'reset',
+                        onPressed: () {
+                          setState(() {
+                            _currentRangeValues = RangeValues(18, 98);
+                            selectedGender = 'all';
+                          });
+                        }),
+                  ])
                 ])
-              ])
-            ]));
+              ])),
+        ]);
       },
     );
   }

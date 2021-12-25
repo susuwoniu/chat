@@ -9,7 +9,10 @@ var BACKGROUND_COLORS = [
   HexColor("#b8e994"),
   HexColor("#ff7675"),
   HexColor("#fd79a8"),
-  HexColor("#fed330"),
+  HexColor("#FBDF4C"),
   HexColor("#FFB3A7"),
   HexColor("#89729E"),
+  // HexColor("#DB3832"),
+  HexColor("#F8CA47"),
+  HexColor("#3A6CAF"),
 ];
