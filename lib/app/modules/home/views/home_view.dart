@@ -18,10 +18,6 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final imDomain = AppConfig().config.imDomain;
-    final size = MediaQuery.of(context).size;
-    final screenHeight = size.height;
-    // final screenWidth = size.width;
-
     final appBar = AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
@@ -89,6 +85,7 @@ class HomeView extends GetView<HomeController> {
           final isInitError = controller.homeInitError.value;
           return TikTokStyleFullPageScroller(
             contentSize: postIndexes.length + 1,
+            cardIndex: controller.currentIndex.value,
             swipePositionThreshold: 0.2,
             swipeVelocityThreshold: 2000,
             animationDuration: const Duration(milliseconds: 300),
@@ -207,6 +204,9 @@ class HomeView extends GetView<HomeController> {
                                                     })),
                                             SizedBox(width: 8),
                                             ActionButtons(
+                                                onAdd: () {
+                                                  Get.toNamed(Routes.POST);
+                                                },
                                                 onRefresh: () {
                                                   controller.refreshHomePosts();
                                                 },
@@ -241,7 +241,7 @@ class HomeView extends GetView<HomeController> {
   }
 
   void _handleCallbackEvent(ScrollEventType type, {int? currentIndex}) {
-    if (currentIndex != null && currentIndex > 0) {
+    if (currentIndex != null && currentIndex >= 0) {
       controller.setIndex(currentIndex);
     }
     print(

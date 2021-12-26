@@ -13,6 +13,8 @@ const String STORAGE_HOME_SKIPS_KEY = "home_skip_key";
 const String STORAGE_HOME_FIRST_CURSOR_KEY = "home_first_cursor_key";
 const String STORAGE_HOME_LAST_CURSOR_KEY = "home_last_cursor_key";
 
+const String LIST_AT_NEAR_BY_KEY = 'list_at_nearby_key';
+
 /// 设备是否第一次打开
 const String STORAGE_DEVICE_FIRST_OPEN_KEY = 'device_first_open';
 

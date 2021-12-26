@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:file_picker/file_picker.dart';
 import '../../home/controllers/home_controller.dart';
+import 'package:chat/utils/string.dart';
 
 class Room extends xmpp.Room {
   bool isLoading = false;
@@ -554,7 +555,12 @@ class MessageController extends GetxController {
 String? jidToAccountId(String jid) {
   final jidPrefix = jid.split("@")[0];
   if (jidPrefix.startsWith("im")) {
-    return jidPrefix.substring(2);
+    final accountId = jidPrefix.substring(2);
+    if (isValidId(accountId)) {
+      return accountId;
+    } else {
+      return null;
+    }
   } else {
     return null;
   }

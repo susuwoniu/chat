@@ -37,6 +37,8 @@
 	<dict/>
 	<key>NSCameraUsageDescription</key>
 	<string>Take photo in chat</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Send post with location, or browser the near posts</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Record Photo</string>
 	<key>NSPhotoLibraryUsageDescription</key>

@@ -681,6 +681,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  location:
+    dependency: "direct main"
+    description:
+      name: location
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.3.0"
+  location_platform_interface:
+    dependency: transitive
+    description:
+      name: location_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.0"
+  location_web:
+    dependency: transitive
+    description:
+      name: location_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.1"
   logger:
     dependency: "direct main"
     description:
@@ -1167,9 +1188,9 @@ packages:
   tiktoklikescroller:
     dependency: "direct main"
     description:
-      name: tiktoklikescroller
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../tiktok-flutter-plugin"
+      relative: true
+    source: path
     version: "0.1.8"
   timer_count_down:
     dependency: "direct main"

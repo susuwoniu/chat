@@ -5,14 +5,16 @@ import '../../post/controllers/post_controller.dart';
 import 'package:chat/common.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
-
+import 'package:chat/app/ui_utils/location.dart';
 import '../controllers/create_controller.dart';
+import 'package:location/location.dart';
 
 class CreateView extends GetView<CreateController> {
   @override
   Widget build(BuildContext context) {
     final postTemplate =
         PostController.to.postTemplatesMap[controller.postTemplateId]!;
+    final currentAccount = AuthProvider.to.account.value;
     final fonts = [
       'OpenSans',
       'Billabong',
@@ -41,56 +43,97 @@ class CreateView extends GetView<CreateController> {
     TextAlign _textAlign = TextAlign.left;
     return Scaffold(
       appBar: AppBar(
-        title: Text('CreateView'),
+        title: Text('创建帖子'),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: Icon(Icons.check),
-            onPressed: () async {
-              _handleSubmitted();
-            },
-          ),
+          Container(
+            padding: EdgeInsets.only(right: 16, top: 10, bottom: 10),
+            child: Obx(() => ElevatedButton(
+                  child: Text("发布"),
+                  style: ButtonStyle(),
+                  onPressed: controller.isComposing
+                      ? () async {
+                          _handleSubmitted();
+                        }
+                      : null,
+                )),
+          )
         ],
       ),
       body: SafeArea(
-          child: Container(
-              child: TextEditor(
-        fonts: fonts,
-        text: controller.postTemplateFormattedText,
-        hintText: _text,
-        defaultTextPosition: controller.defaultTextPosition,
-        textStyle: _textStyle,
-        textAlingment: _textAlign,
-        minFontSize: 10,
-        onChange: controller.handleChange,
-        backgroundColorPaletteColors: BACKGROUND_COLORS,
-        paletteColors:
-            List.generate(BACKGROUND_COLORS.length, (index) => Colors.white),
-        defaultBackgroundColorIndex: controller.backgroundColorIndex,
-        // decoration: EditorDecoration(
-        //   textBackground: TextBackgroundDecoration(
-        //     disable: Text('Disable'),
-        //     enable: Text('Enable'),
-        //   ),
-        //   doneButton: Icon(Icons.close, color: Colors.white),
-        //   fontFamily: Icon(Icons.title, color: Colors.white),
-        //   colorPalette: Icon(Icons.palette, color: Colors.white),
-        //   alignment: AlignmentDecoration(
-        //     left: Text(
-        //       'left',
-        //       style: TextStyle(color: Colors.white),
-        //     ),
-        //     center: Text(
-        //       'center',
-        //       style: TextStyle(color: Colors.white),
-        //     ),
-        //     right: Text(
-        //       'right',
-        //       style: TextStyle(color: Colors.white),
-        //     ),
-        //   ),
-        // ),
-      ))),
+          child: Column(children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+                padding: EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                ),
+                child: Avatar(
+                    name: currentAccount.name, uri: currentAccount.avatar)),
+            Expanded(
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(currentAccount.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Row(
+                      children: [
+                        Text("公开 "),
+                        Icon(Icons.public, size: 16),
+                      ],
+                    )
+                  ],
+                ),
+                Container(
+                    padding: EdgeInsets.only(right: 16),
+                    child: Row(children: [
+                      Text("显示到附近"),
+                      Obx(() => Switch(
+                          value: ConfigProvider.to.listAtNearby,
+                          onChanged: (value) async {
+                            // check permission
+                            await ConfigProvider.to.toggleListAtNearby();
+
+                            try {
+                              if (value == true) {
+                                await checkLocationPermission();
+                              }
+                            } catch (e) {
+                              UIUtils.showError(e);
+                              // change back
+                              await ConfigProvider.to.toggleListAtNearby();
+                            }
+                          })),
+                    ]))
+              ],
+            ))
+          ],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Expanded(
+            child: TextEditor(
+          fonts: fonts,
+          text: controller.postTemplateFormattedText,
+          hintText: _text,
+          defaultTextPosition: controller.defaultTextPosition,
+          textStyle: _textStyle,
+          textAlingment: _textAlign,
+          minFontSize: 10,
+          onChange: controller.handleChange,
+          backgroundColorPaletteColors: BACKGROUND_COLORS,
+          paletteColors:
+              List.generate(BACKGROUND_COLORS.length, (index) => Colors.white),
+          defaultBackgroundColorIndex: controller.backgroundColorIndex,
+        ))
+      ])),
     );
   }
 
@@ -101,6 +144,16 @@ class CreateView extends GetView<CreateController> {
     controller.setIsSubmitting(true);
 
     try {
+      // check permission
+      LocationData? _locationData;
+      if (ConfigProvider.to.listAtNearby) {
+        try {
+          _locationData = await getLocation();
+        } catch (e) {
+          // donothing
+        }
+      }
+
       UIUtils.showLoading();
 
       await controller.postAnswer();

@@ -383,11 +383,12 @@ class HomeController extends GetxController {
     }
   }
 
-  void refreshHomePosts() async {
+  void refreshHomePosts() {
     isLoadingHomePosts.value = true;
 
     getHomePosts(replace: true).then((data) {
       isLoadingHomePosts.value = false;
+      setIndex(0);
     }).catchError((e) {
       isLoadingHomePosts.value = false;
       UIUtils.showError(e);

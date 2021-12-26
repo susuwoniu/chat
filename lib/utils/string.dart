@@ -5,3 +5,13 @@ bool isUrl(String str) {
     return false;
   }
 }
+
+bool isValidId(String id) {
+  // parse to int
+  final idInt = int.tryParse(id);
+  if (idInt == null) {
+    return false;
+  } else {
+    return true;
+  }
+}

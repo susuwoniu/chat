@@ -20,6 +20,8 @@ class ConfigProvider extends GetxService {
   final nightMode = false.obs;
   // 跳过看过的帖子
   final skipViewedPost = true.obs;
+  final _listAtNearby = false.obs;
+  bool get listAtNearby => _listAtNearby.value;
   @override
   void onInit() {
     isFirstOpen = KVProvider.to.getBool(STORAGE_DEVICE_FIRST_OPEN_KEY);
@@ -27,6 +29,7 @@ class ConfigProvider extends GetxService {
     nightMode.value = KVProvider.to.getBool(NIGHT_MODE_KEY);
     skipViewedPost.value =
         KVProvider.to.getBool(SKIP_VIEWED_POST_KEY, defaultValue: true);
+    _listAtNearby.value = KVProvider.to.getBool(LIST_AT_NEAR_BY_KEY);
 
     super.onInit();
   }
@@ -36,6 +39,12 @@ class ConfigProvider extends GetxService {
     Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
 
     KVProvider.to.setBool(NIGHT_MODE_KEY, nightMode.value);
+  }
+
+  Future<void> toggleListAtNearby() async {
+    _listAtNearby.value = !_listAtNearby.value;
+
+    await KVProvider.to.setBool(LIST_AT_NEAR_BY_KEY, _listAtNearby.value);
   }
 
   toggleSkipViewedPost() {
