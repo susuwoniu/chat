@@ -42,40 +42,34 @@ class CreateView extends GetView<CreateController> {
     String _text = postTemplate.content;
     TextAlign _textAlign = TextAlign.left;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('创建帖子'),
-        centerTitle: true,
-        actions: [
-          Container(
-            padding: EdgeInsets.only(right: 16, top: 10, bottom: 10),
-            child: Obx(() => ElevatedButton(
-                  child: Text("发布"),
-                  style: ButtonStyle(),
-                  onPressed: controller.isComposing
-                      ? () async {
-                          _handleSubmitted();
-                        }
-                      : null,
-                )),
-          )
-        ],
-      ),
+      appBar: AppBar(title: Text('创建帖子'), centerTitle: true, actions: [
+        Container(
+          padding: EdgeInsets.only(right: 16, top: 10, bottom: 10),
+          child: Obx(() => ElevatedButton(
+                child: Text("发布"),
+                style: ButtonStyle(),
+                onPressed: controller.isComposing
+                    ? () async {
+                        _handleSubmitted();
+                      }
+                    : null,
+              )),
+        )
+      ]),
       body: SafeArea(
           child: Column(children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-                padding: EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                ),
-                child: Avatar(
-                    name: currentAccount.name, uri: currentAccount.avatar)),
-            Expanded(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+        Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          Container(
+              padding: EdgeInsets.only(
+                left: 16,
+                right: 16,
+              ),
+              child: Avatar(
+                  name: currentAccount.name, uri: currentAccount.avatar)),
+          Expanded(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -111,10 +105,8 @@ class CreateView extends GetView<CreateController> {
                             }
                           })),
                     ]))
-              ],
-            ))
-          ],
-        ),
+              ])),
+        ]),
         SizedBox(
           height: 10,
         ),

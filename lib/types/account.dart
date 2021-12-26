@@ -108,7 +108,7 @@ class AccountEntity {
       required this.likeCount});
   static AccountEntity empty() {
     return AccountEntity(
-      name: "-",
+      name: "--",
       gender: "unknown",
       vip: false,
       likeCount: 0,

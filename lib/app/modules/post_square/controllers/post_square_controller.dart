@@ -44,9 +44,10 @@ class PostSquareController extends GetxController {
       {String? after, required String postTemplateId}) async {
     final result = await _homeController.getRawPosts(
         after: after, url: "/post/posts", postTemplateId: _id);
+    myPostsIndexes.clear();
     postMap.addAll(result.postMap);
     myPostsIndexes.addAll(result.indexes);
-    _homeController.myPostsIndexes.addAll(result.indexes);
+    _homeController.postMap.addAll(result.postMap);
 
     isLoadingPosts.value = false;
     if (isInitial.value == false) {
@@ -58,8 +59,8 @@ class PostSquareController extends GetxController {
     final result = await APIProvider.to.get('/post/post-templates/$_id');
     usedCount.value = result['data']['attributes']['used_count'];
     if (PostController.to.postTemplatesMap[_id] == null) {
-      PostController.to.postTemplatesMap.addAll(result['data']['attributes']);
-      PostController.to.postTemplatesIndexes.add(_id);
+      PostController.to.postTemplatesMap[_id] =
+          PostTemplatesEntity.fromJson(result['data']['attributes']);
     }
   }
 }

@@ -260,6 +260,10 @@ class AppPages {
       binding: OtherBinding(),
     ),
     GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
       name: _Paths.CREATE,
       page: () => CreateView(),
       binding: CreateBinding(),
