@@ -17,6 +17,8 @@ git clone git@github.com:susuwoniu/chat.git
 git clone git@github.com:theowenyoung/xmpp_client.git
 # clone editor repo
 git clone git@github.com:theowenyoung/instagram-text-editor.git
+# clone tiktok repo
+git clone git@github.com:theowenyoung/tiktok-flutter-plugin.git
 ```
 
 ## Install Dependence
