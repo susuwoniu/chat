@@ -22,7 +22,7 @@ class _NearbySwitchState extends State<NearbySwitch> {
   void initState() {
     super.initState();
 
-    page = widget.selectedPage ?? 'Home';
+    page = widget.selectedPage ?? 'home';
   }
 
   @override
@@ -33,7 +33,7 @@ class _NearbySwitchState extends State<NearbySwitch> {
       height: 38,
       innerColor: Colors.white24,
       current: page,
-      values: ["Home", 'Nearby'],
+      values: ["home", 'nearby'],
       iconOpacity: 0.8,
       indicatorSize: Size.fromWidth(_width * 0.2),
       indicatorType: IndicatorType.roundedRectangle,

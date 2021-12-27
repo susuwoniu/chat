@@ -39,9 +39,9 @@ class PageState {
   String? homePostsFirstCursor;
   String? homePostsLastCursor;
   // [{first:"",end:"",expiresAt:""}]
-  List<Skip> skips;
+  List<Skip> skips = [];
 
-  List<String> postIndexes;
+  List<String> postIndexes = [];
 
   // final String storageHomeFirstCursorKey;
 
@@ -53,10 +53,8 @@ class PageState {
     this.homeInitError = '',
     this.homePostsFirstCursor,
     this.homePostsLastCursor,
-    this.skips = const [],
     this.isDataEmpty = false,
     this.isReachHomePostsEnd = false,
-    this.postIndexes = const [],
     // required this.storageHomeFirstCursorKey,
   });
 }
@@ -220,9 +218,6 @@ class HomeController extends GetxController {
     String? after,
     String? before,
     bool replace = false,
-    double? longitude,
-    double? latitude,
-    double? distance,
   }) async {
     int? startAge;
     int? endAge;
@@ -245,6 +240,16 @@ class HomeController extends GetxController {
       {
         selectedGender = postsFilter.value.gender;
       }
+    }
+    double? longitude;
+    double? latitude;
+    double? distance;
+    if (currentPage == "nearby") {
+      // get location
+      final location = await getLocation();
+      longitude = location.longitude;
+      latitude = location.latitude;
+      distance = 10000000;
     }
     final result = await getRawPosts(
         longitude: longitude,
@@ -452,25 +457,15 @@ class HomeController extends GetxController {
     }
   }
 
-  void refreshHomePosts({String? page}) {
+  void refreshHomePosts() {
     isLoadingHomePosts.value = true;
-    if (page != null) {
-      onPressedTabSwitch('Nearby').then((data) {
-        isLoadingHomePosts.value = false;
-        setIndex(index: 0);
-      }).catchError((e) {
-        isLoadingHomePosts.value = false;
-        UIUtils.showError(e);
-      });
-    } else {
-      getHomePosts(replace: true).then((data) {
-        isLoadingHomePosts.value = false;
-        setIndex(index: 0);
-      }).catchError((e) {
-        isLoadingHomePosts.value = false;
-        UIUtils.showError(e);
-      });
-    }
+    getHomePosts(replace: true).then((data) {
+      isLoadingHomePosts.value = false;
+      setIndex(index: 0);
+    }).catchError((e) {
+      isLoadingHomePosts.value = false;
+      UIUtils.showError(e);
+    });
   }
 
   Future<void> patchPostCountView(String postId) async {
