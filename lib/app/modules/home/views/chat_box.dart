@@ -26,10 +26,9 @@ class ChatBox extends StatelessWidget {
       },
       child: Container(
         height: 48,
-        // width: screenWidth * 0.88,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          color: Colors.black.withOpacity(0.12),
+          color: Colors.white,
         ),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           TextButton(
@@ -52,7 +51,7 @@ class ChatBox extends StatelessWidget {
           Text("私聊回应 @$postAuthorName:",
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
-              style: TextStyle(color: Colors.white, fontSize: 16))
+              style: TextStyle(color: Colors.black54, fontSize: 15))
         ]),
       ),
     );

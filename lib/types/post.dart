@@ -15,6 +15,8 @@ class PostEntity {
   List<String>? views;
   bool isLoadingViewersList;
   final String post_template_title;
+  final String created_at;
+  final String visibility;
 
   PostEntity({
     required this.content,
@@ -25,6 +27,8 @@ class PostEntity {
     required this.post_template_title,
     this.views,
     this.isLoadingViewersList = false,
+    required this.created_at,
+    required this.visibility,
   });
 
   /// Connect the generated [_$PostEntityFromJson] function to the `fromJson`

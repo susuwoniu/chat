@@ -59,6 +59,8 @@ class MyPosts extends StatelessWidget {
                     'postId': id,
                     'content': post.content,
                     "backgroundColor": post.backgroundColor,
+                    'visibility': post.visibility,
+                    'createAt': post.created_at,
                   });
                 }
               },
@@ -70,7 +72,7 @@ class MyPosts extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   color: Color(postMap[id]!.backgroundColor),
                 ),
-                height: _width * 0.4,
+                height: _width * 0.5,
                 width: _width * 0.4,
                 child: Text(
                   postMap[id]!.content,
@@ -128,7 +130,7 @@ class MyPosts extends StatelessWidget {
           margin: EdgeInsets.fromLTRB(
               paddingLeft, paddingTop, paddingLeft, paddingTop),
           padding: EdgeInsets.all(_width * 0.03),
-          height: _width * 0.4,
+          height: _width * 0.5,
           width: _width * 0.4,
           decoration: BoxDecoration(
               color: Color(0xffe4e6ec), borderRadius: BorderRadius.circular(8)),
