@@ -111,30 +111,14 @@ class HomeView extends GetView<HomeController> {
                           child: Retry(
                               message: "当前没有更多帖子啦～",
                               onRetry: () async {
-                                isLoading = true;
-                                try {
-                                  await controller.getHomePosts();
-                                  isLoading = false;
-                                } catch (e) {
-                                  isLoading = false;
-                                  UIUtils.showError(e);
-                                }
+                                controller.refreshHomePosts();
                               }));
                     } else if (index == postIndexes.length && isReachEnd) {
                       return Center(
                           child: Retry(
                               message: "没有更多帖子了～",
                               onRetry: () async {
-                                isLoading = true;
-                                try {
-                                  await controller.getHomePosts(
-                                      before: currentPageState
-                                          .homePostsFirstCursor);
-                                  isLoading = false;
-                                } catch (e) {
-                                  isLoading = false;
-                                  UIUtils.showError(e);
-                                }
+                                controller.refreshHomePosts();
                               }));
                     } else if (postIndexes.isNotEmpty &&
                         index < postIndexes.length &&

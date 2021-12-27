@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:flutter/material.dart';
 import '../../post/controllers/post_controller.dart';
+import 'package:location/location.dart';
 
 class CreateController extends GetxController {
   static CreateController get to => Get.find();
@@ -48,12 +49,17 @@ class CreateController extends GetxController {
     _isComposing.value = answer.isNotEmpty;
   }
 
-  postAnswer() async {
-    await APIProvider.to.post("/post/posts", body: {
+  postAnswer({LocationData? location}) async {
+    final dynamic body = {
       "content": answer,
       "post_template_id": postTemplateId,
       "background_color": backgroundColor.value,
-    });
+    };
+    if (location != null) {
+      body["latitude"] = location.latitude;
+      body["longitude"] = location.longitude;
+    }
+    await APIProvider.to.post("/post/posts", body: body);
   }
 
   void setAnswer(String input) {

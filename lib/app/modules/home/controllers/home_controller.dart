@@ -458,14 +458,16 @@ class HomeController extends GetxController {
   }
 
   void refreshHomePosts() {
-    isLoadingHomePosts.value = true;
-    getHomePosts(replace: true).then((data) {
-      isLoadingHomePosts.value = false;
-      setIndex(index: 0);
-    }).catchError((e) {
-      isLoadingHomePosts.value = false;
-      UIUtils.showError(e);
-    });
+    if (isLoadingHomePosts.value == false) {
+      isLoadingHomePosts.value = true;
+      getHomePosts(replace: true).then((data) {
+        isLoadingHomePosts.value = false;
+        setIndex(index: 0);
+      }).catchError((e) {
+        isLoadingHomePosts.value = false;
+        UIUtils.showError(e);
+      });
+    }
   }
 
   Future<void> patchPostCountView(String postId) async {

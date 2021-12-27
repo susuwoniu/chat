@@ -148,7 +148,7 @@ class CreateView extends GetView<CreateController> {
 
       UIUtils.showLoading();
 
-      await controller.postAnswer();
+      await controller.postAnswer(location: _locationData);
       controller.setIsSubmitting(false);
 
       UIUtils.hideLoading();
