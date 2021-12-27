@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
+import 'package:chat/common.dart';
 
 class LoginController extends GetxController {
   static LoginController get to => Get.find();
-  final countryCode = ''.obs;
-  final phoneNumber = ''.obs;
+  final countryCode = '+86'.obs;
+  final phoneNumber = AppConfig.to.isDev ? "18613227075".obs : ''.obs;
   final isNumberValid = false.obs;
+
   @override
   onInit() {
     super.onInit();

@@ -19,7 +19,7 @@ class RoomController extends GetxController {
 
   types.TextMessage? _previewMessage;
   types.TextMessage? get previewMessage => _previewMessage;
-  StreamSubscription<ConnectionState>? _chatConnectionUpdatedSubscription;
+  StreamSubscription<RoomsState>? _roomsStateSubscription;
 
   @override
   void onInit() {
@@ -27,27 +27,41 @@ class RoomController extends GetxController {
     if (pageArguments["id"] != null && pageArguments["id"] is String) {
       _roomId = pageArguments["id"];
     }
+    init();
 
-    _chatConnectionUpdatedSubscription =
-        ChatProvider.to.connectionUpdated.listen((event) {
-      if (event == ConnectionState.connected) {
-        init();
-      } else if (event == ConnectionState.disconnected) {
-        // 断开连接，清空房间列表
-        dipose();
+    final messageController = MessageController.to;
+
+    _roomsStateSubscription =
+        messageController.roomsStateStream.listen((event) {
+      if (event == RoomsState.inited) {
+        initQuote();
+        initRoom().then((rooms) {}).catchError((error) {
+          print(error);
+        });
+      } else if (event == RoomsState.error) {
+        Get.back();
       }
     });
-    if (ChatProvider.to.currentChatAccount.value != null) {
-      init();
-    }
 
     super.onInit();
   }
 
   void init() {
     final messageController = MessageController.to;
+    // is room exists
 
+    if (messageController.entities[_roomId] == null) {
+      messageController.entities[_roomId] = Room(
+        _roomId,
+        updatedAt: DateTime.now(),
+        room_info_id: jidToAccountId(_roomId),
+      );
+    }
     messageController.setCurrentRoomId(_roomId);
+    initQuote();
+  }
+
+  initQuote() {
     final quote = Get.arguments["quote"];
     if (quote != null && ChatProvider.to.currentChatAccount.value != null) {
       _previewMessage = types.TextMessage(
@@ -58,25 +72,39 @@ class RoomController extends GetxController {
     }
   }
 
-  @override
-  void onReady() async {
+  Future<void> initRoom() async {
     final messageController = MessageController.to;
-    messageController.markRoomAsRead(_roomId);
+    if (!messageController.isInitRooms) {
+      return;
+    }
+    if (messageController.entities[_roomId]!.isLoading == true) {
+      return;
+    }
+    messageController.entities[_roomId]!.isLoading = true;
     final room = messageController.getCurrentRoom();
     if (room != null && !room.isInitServerMessages) {
       try {
         await MessageController.to.getRoomServerEarlierMessage(_roomId);
+        messageController.markRoomAsRead(_roomId);
+
+        messageController.entities[_roomId]!.isLoading = false;
       } catch (e) {
+        messageController.entities[_roomId]!.isLoading = false;
+
         print(e);
       }
     }
+  }
 
+  @override
+  void onReady() async {
+    await initRoom();
     super.onReady();
   }
 
   void dipose() {
-    if (_chatConnectionUpdatedSubscription != null) {
-      _chatConnectionUpdatedSubscription!.cancel();
+    if (_roomsStateSubscription != null) {
+      _roomsStateSubscription!.cancel();
     }
   }
 

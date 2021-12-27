@@ -7,6 +7,7 @@ class AppConfig {
   factory AppConfig() {
     return _singleton;
   }
+  static AppConfig get to => _singleton;
 
   AppConfig._internal();
 
@@ -18,8 +19,11 @@ class AppConfig {
   static const String PROD = 'prod';
 
   late BaseConfig config;
-
+  late String _env;
+  String get env => _env;
+  bool get isDev => _env == DEV || _env == LOCAL;
   initConfig(String env) {
+    _env = env;
     config = _getConfig(env);
   }
 

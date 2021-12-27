@@ -30,12 +30,13 @@ class RoomView extends GetView<RoomController> {
         centerTitle: true,
       ),
       body: Obx(() {
-        if (ChatProvider.to.currentChatAccount.value == null) {
+        final room = messageController.entities[roomId];
+
+        if (room == null || room.isLoading || !room.isInitServerMessages) {
           return Center(
             child: CircularProgressIndicator(),
           );
         }
-        final room = messageController.entities[roomId];
         final roomMessageIndexes =
             messageController.roomMessageIndexesMap[roomId];
         final List<types.Message> emptyMessages = [];
@@ -59,7 +60,7 @@ class RoomView extends GetView<RoomController> {
           imageMessageBuilder: (message, {required int messageWidth}) {
             return ImageMessage(message: message, messageWidth: messageWidth);
           },
-          emptyState: room != null && room.isLoading
+          emptyState: ((room != null && room.isLoading) || room == null)
               ? Text("isLoading")
               : Text("No message yet"),
           onAttachmentPressed: () {

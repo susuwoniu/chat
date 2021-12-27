@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import '../controllers/verification_controller.dart';
 import 'package:chat/common.dart';
 import 'dart:async';
-import 'package:flutter/gestures.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../login/views/bear_log_in_controller.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -27,12 +26,14 @@ class PinCodeVerificationScreen extends StatefulWidget {
 }
 
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
-  final TextEditingController textEditingController = TextEditingController();
   late bear_log_in_Controller _bear_log_inController;
   StreamController<ErrorAnimationType>? errorController;
   bool hasError = false;
 
-  String currentText = "";
+  String currentText = VerificationController.to.verificationCode.value;
+  final TextEditingController textEditingController = TextEditingController(
+      text: VerificationController.to.verificationCode.value);
+
   final formKey = GlobalKey<FormState>();
   final controller = VerificationController.to;
 

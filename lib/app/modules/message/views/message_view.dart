@@ -24,8 +24,8 @@ class MessageView extends GetView<MessageController> {
             ),
             preferredSize: Size.fromHeight(0)),
         title: Obx(() => Text(
-              _chatProvider.isLoading
-                  ? "Connecting..."
+              controller.isLoadingRooms
+                  ? "Loading..."
                   : _chatProvider.isConnected
                       ? "Chats"
                       : "连接失败",
@@ -42,7 +42,7 @@ class MessageView extends GetView<MessageController> {
             child: Obx(() => Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    !_chatProvider.isConnected && !_chatProvider.isLoading
+                    !_chatProvider.isConnected && !controller.isLoadingRooms
                         ? IconButton(
                             icon: Text("🔄"),
                             onPressed: () async {

@@ -5,30 +5,21 @@ import 'package:flutter/material.dart';
 
 class EnsureAuthMiddleware extends GetMiddleware {
   @override
-  RouteSettings? redirect(String? route) {
+  RouteSettings? redirect(String? route, RouteSettings? routeSettings) {
     // parse route
     if (AuthProvider.to.isLogin ||
         route == Routes.LOGIN ||
         route == AppPages.INITIAL) {
       return null;
     } else if (route != null) {
-      final arguments =
-          NextPage(route: route, mode: NextMode.Off, arguments: Get.arguments)
-              .toArguments();
+      final arguments = NextPage(
+              route: route,
+              mode: NextMode.Off,
+              arguments: routeSettings!.arguments)
+          .toArguments();
       return RouteSettings(name: Routes.LOGIN, arguments: arguments);
     } else {
       return null;
-    }
-  }
-}
-
-class EnsureNotAuthedMiddleware extends GetMiddleware {
-  @override
-  RouteSettings? redirect(String? route) {
-    if (AuthProvider.to.isLogin) {
-      return null;
-    } else {
-      return RouteSettings(name: route);
     }
   }
 }

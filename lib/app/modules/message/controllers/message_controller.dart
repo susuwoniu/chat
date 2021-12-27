@@ -35,8 +35,8 @@ class Room extends xmpp.Room {
   Room(
     String id, {
     required DateTime updatedAt,
-    required String preview,
-    required int unreadCount,
+    String preview = "",
+    int unreadCount = 0,
     required this.room_info_id,
     this.clientUnreadCount = 0,
     this.isLoading = false,
@@ -105,6 +105,10 @@ class MessageController extends GetxController {
     );
   }
 
+  final _isInitRooms = false.obs;
+  bool get isInitRooms => _isInitRooms.value;
+  final _isLoadingRooms = false.obs;
+  bool get isLoadingRooms => _isLoadingRooms.value;
   // 房间的id列表，按照更新时间倒序
   final RxList<String> indexes = RxList<String>();
   final RxMap<String, Room> entities = RxMap<String, Room>({});
@@ -121,6 +125,9 @@ class MessageController extends GetxController {
   String get currentRoomId => _currentRoomId.value;
   StreamSubscription<ConnectionState>? _chatConnectionUpdatedSubscription;
   StreamSubscription<xmpp.Event<xmpp.Message>>? _roomMessageUpdatedSubscription;
+  Stream<RoomsState> get roomsStateStream => _roomsStateStreamController.stream;
+  final StreamController<RoomsState> _roomsStateStreamController =
+      StreamController.broadcast();
   @override
   Future<void> onReady() async {
     _chatConnectionUpdatedSubscription =
@@ -163,22 +170,33 @@ class MessageController extends GetxController {
   }
 
   Future<List<Room>?> initRooms() async {
-    if (ChatProvider.to.roomManager != null) {
-      final rooms = await ChatProvider.to.roomManager!.getAllRooms();
-      // get room name, avatar
-      for (var room in rooms) {
-        entities[room.id] = Room.fromXmppRoom(room);
-        if (roomMessageIndexesMap[room.id] == null) {
-          roomMessageIndexesMap[room.id] = [];
+    if (ChatProvider.to.roomManager != null &&
+        _isInitRooms.value == false &&
+        isLoadingRooms == false) {
+      _isLoadingRooms.value = true;
+      try {
+        final rooms = await ChatProvider.to.roomManager!.getAllRooms();
+        // get room name, avatar
+        for (var room in rooms) {
+          entities[room.id] = Room.fromXmppRoom(room);
+          if (roomMessageIndexesMap[room.id] == null) {
+            roomMessageIndexesMap[room.id] = [];
+          }
+          // duduplicate
+          if (!indexes.contains(room.id)) {
+            indexes.add(room.id);
+          }
         }
-        // duduplicate
-        if (!indexes.contains(room.id)) {
-          indexes.add(room.id);
-        }
+        await fetchAccounts(indexes);
+        _isLoadingRooms.value = false;
+        _isInitRooms.value = true;
+        _roomsStateStreamController.add(RoomsState.inited);
+        return rooms.map<Room>((room) => Room.fromXmppRoom(room)).toList();
+      } catch (e) {
+        _isLoadingRooms.value = false;
+        _roomsStateStreamController.add(RoomsState.error);
+        return null;
       }
-      await fetchAccounts(indexes);
-
-      return rooms.map<Room>((room) => Room.fromXmppRoom(room)).toList();
     } else {
       return null;
     }
@@ -547,6 +565,7 @@ class MessageController extends GetxController {
     if (_roomMessageUpdatedSubscription != null) {
       _roomMessageUpdatedSubscription!.cancel();
     }
+    _roomsStateStreamController.close();
     // 清空房间
     indexes.clear();
   }
@@ -570,3 +589,5 @@ String jidToName(String jid) {
   final jidPrefix = jid.split("@")[0];
   return jidPrefix;
 }
+
+enum RoomsState { inited, error }

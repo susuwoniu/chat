@@ -1,10 +1,11 @@
 import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
+import 'package:chat/common.dart';
 
 class VerificationController extends GetxController {
   //TODO: Implement VerificationController
   static VerificationController get to => Get.find();
-  final verificationCode = ''.obs;
+  final verificationCode = AppConfig.to.isDev ? "123456".obs : ''.obs;
 
   final count = 0.obs;
   final countryCode = Get.arguments['countryCode'];

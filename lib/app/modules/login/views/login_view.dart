@@ -1,4 +1,3 @@
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/login_controller.dart';
@@ -7,11 +6,9 @@ import 'package:chat/app/routes/app_pages.dart';
 import 'dart:async';
 
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:flutter/rendering.dart';
 import 'signin_button.dart';
 import 'bear_log_in_controller.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:flutter/services.dart';
 
 import 'input_helper.dart';
 
@@ -36,9 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey _fieldKey = GlobalKey();
 
   Timer? _debounceTimer;
-  final TextEditingController textEditingController = TextEditingController();
-  String initialCountry = 'CN';
-  PhoneNumber number = PhoneNumber(isoCode: 'CN');
+  final TextEditingController textEditingController =
+      TextEditingController(text: LoginController.to.phoneNumber.value);
   late bear_log_in_Controller _bear_log_inController;
   final FocusNode _focusNode = FocusNode();
   @override
@@ -154,9 +150,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                               color: Colors.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
-                                          initialValue: number,
-                                          // textFieldController:
-                                          //     textEditingController,
+                                          initialValue: PhoneNumber(
+                                              isoCode: "CN",
+                                              dialCode:
+                                                  _controller.countryCode.value,
+                                              phoneNumber: _controller
+                                                  .phoneNumber.value),
+                                          textFieldController:
+                                              textEditingController,
                                           formatInput: false,
                                           textAlignVertical:
                                               TextAlignVertical.top,
@@ -186,6 +187,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       color: Colors.white,
                                                     )),
                                                 onPressed: () async {
+                                                  // first set Phonnumber with latest value
+
                                                   if (!_controller
                                                       .isNumberValid.value) {
                                                     UIUtils.toast(

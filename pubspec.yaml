@@ -32,10 +32,19 @@ dependencies:
     git:
       url: git@github.com:susuwoniu/intl_phone_number_input.git
       ref: b694b94cc3a6484fe4699d7d41a133a6f8fd80ad
-  get: ^4.3.8
+  # get: ^4.6.1
+  get:
+    git:
+      url: git@github.com:theowenyoung/getx.git
+  # get:
+  #   path: ../../inbox/getx
+  #   version: ^4.6.1
   flutter_phoenix: "^1.0.0"
   flutter_markdown: ^0.6.9
-  get_storage: ^2.0.3
+  # get_storage: ^2.0.3
+  get_storage:
+    git:
+      url: git@github.com:theowenyoung/get_storage.git
   timer_count_down: ^2.2.0
   path_provider: ^2.0.7
   package_info: ^2.0.2

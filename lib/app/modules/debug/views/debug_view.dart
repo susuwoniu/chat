@@ -12,7 +12,7 @@ import 'package:chat/common.dart';
 
 class DebugView extends GetView<DebugController> {
   final String countryCode = "+86";
-  final String phone = "18613227075";
+  final String phone = "18613227077";
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +139,7 @@ class DebugView extends GetView<DebugController> {
                     onTap: () async {
                       UIUtils.showLoading();
                       try {
-                        // RouterProvider.to.setNextPageAction('back');
+                        RouterProvider.to.setNextPage(NextPage.back());
                         await AccountProvider.to.handleLogin(
                             countryCode, phone, '123456',
                             enabledDefaultNexPage: false);
