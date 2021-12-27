@@ -1,3 +1,4 @@
+import 'package:chat/app/providers/api_provider.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import '../../home/controllers/home_controller.dart';
@@ -27,4 +28,7 @@ class MySinglePostController extends GetxController {
   }
 
   void increment() => count.value++;
+  onDeletePost(id) async {
+    await APIProvider.to.delete('/post/posts/$id');
+  }
 }
