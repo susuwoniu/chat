@@ -1,6 +1,8 @@
 import 'package:chat/common.dart';
 
 const Map<String, String> zh_Hans = {
+  'Home': "首页",
+  'Nearby': "附近",
   'Account_Security': "账号与安全",
   'Phone': "手机号",
   'About': "关于",

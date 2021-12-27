@@ -1,5 +1,4 @@
 import 'package:chat/app/providers/auth_provider.dart';
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:chat/common.dart';
@@ -118,6 +117,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           indicatorType: IndicatorType.roundedRectangle,
                           iconAnimationType: AnimationType.onHover,
                           indicatorAnimationType: AnimationType.onHover,
+                          animationDuration: const Duration(milliseconds: 250),
                           iconBuilder: (value, size, active) {
                             return Row(
                                 mainAxisAlignment: MainAxisAlignment.center,

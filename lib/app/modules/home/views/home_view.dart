@@ -13,6 +13,7 @@ import 'tag_widget.dart';
 import 'author_name.dart';
 import './action_buttons.dart';
 import 'more_dots.dart';
+import 'nearby_switch.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -39,17 +40,18 @@ class HomeView extends GetView<HomeController> {
                     );
                   });
             }),
+        title: NearbySwitch(onPressedTabSwitch: controller.onPressedTabSwitch),
         actions: <Widget>[
           Row(
             children: [
-              IconButton(
-                  icon:
-                      Text("🐱", style: Theme.of(context).textTheme.headline6),
-                  onPressed: () {
-                    Get.toNamed(
-                      Routes.ADD_PROFILE_IMAGE,
-                    );
-                  }),
+              // IconButton(
+              //     icon:
+              //         Text("🐱", style: Theme.of(context).textTheme.headline6),
+              //     onPressed: () {
+              //       Get.toNamed(
+              //         Routes.ADD_PROFILE_IMAGE,
+              //       );
+              //     }),
               IconButton(
                   icon:
                       Text("🔑", style: Theme.of(context).textTheme.headline6),
@@ -74,18 +76,24 @@ class HomeView extends GetView<HomeController> {
         extendBodyBehindAppBar: true,
         appBar: appBar,
         body: Obx(() {
+          final currentPage = controller.currentPage;
+          final currentPageState = controller.pageState[currentPage]!;
           final isLogin = AuthProvider.to.isLogin;
           final account = AuthProvider.to.account.value;
-          final postIndexes = controller.postIndexes;
+
+          final postIndexes = currentPageState.postIndexes;
+
           final postMap = controller.postMap;
+
           var isLoading = controller.isLoadingHomePosts.value;
-          final isEmpty = controller.isDataEmpty.value;
-          final isReachEnd = controller.isReachHomePostsEnd.value;
-          final isInit = controller.isHomeInitial.value;
-          final isInitError = controller.homeInitError.value;
+          final isEmpty = currentPageState.isDataEmpty;
+          final isReachEnd = currentPageState.isReachHomePostsEnd;
+          final isInit = currentPageState.isHomeInitial;
+          final isInitError = currentPageState.homeInitError;
+
           return TikTokStyleFullPageScroller(
             contentSize: postIndexes.length + 1,
-            cardIndex: controller.currentIndex.value,
+            cardIndex: currentPageState.currentIndex,
             swipePositionThreshold: 0.2,
             swipeVelocityThreshold: 2000,
             animationDuration: const Duration(milliseconds: 300),
@@ -120,7 +128,8 @@ class HomeView extends GetView<HomeController> {
                                 isLoading = true;
                                 try {
                                   await controller.getHomePosts(
-                                      before: controller.homePostsFirstCursor);
+                                      before: currentPageState
+                                          .homePostsFirstCursor);
                                   isLoading = false;
                                 } catch (e) {
                                   isLoading = false;
@@ -242,7 +251,7 @@ class HomeView extends GetView<HomeController> {
 
   void _handleCallbackEvent(ScrollEventType type, {int? currentIndex}) {
     if (currentIndex != null && currentIndex >= 0) {
-      controller.setIndex(currentIndex);
+      controller.setIndex(index: currentIndex);
     }
     print(
         "Scroll callback received with data: {type: $type, and index: ${currentIndex ?? 'not given'}}");

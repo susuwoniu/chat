@@ -1,7 +1,7 @@
 # Todo
 
-- [ ]  square跳转到room缺少content
-- [ ]  square类型提示错误
+- [x]  square跳转到room缺少content
+- [x]  square类型提示错误
 - [ ]  返回键
 - [x]  删除唯一头像后自动填充默认头像bug
 - [ ]  过期前30分钟后台静默刷新token

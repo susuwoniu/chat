@@ -4,6 +4,8 @@ import 'package:chat/types/types.dart';
 import 'package:chat/app/modules/main/controllers/bottom_navigation_bar_controller.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/common.dart';
+import 'package:location/location.dart';
+import 'package:chat/app/ui_utils/location.dart';
 
 class Skip {
   String start;
@@ -22,12 +24,50 @@ class Skip {
   }
 }
 
+class PageState {
+  bool isHomeInitial;
+  bool isLoadingHomePosts;
+
+  bool isDataEmpty;
+  bool isReachHomePostsEnd;
+
+  int currentIndex;
+
+  String name;
+  String homeInitError;
+
+  String? homePostsFirstCursor;
+  String? homePostsLastCursor;
+  // [{first:"",end:"",expiresAt:""}]
+  List<Skip> skips;
+
+  List<String> postIndexes;
+
+  // final String storageHomeFirstCursorKey;
+
+  PageState({
+    this.isHomeInitial = false,
+    this.isLoadingHomePosts = false,
+    this.currentIndex = 0,
+    this.name = 'Home',
+    this.homeInitError = '',
+    this.homePostsFirstCursor,
+    this.homePostsLastCursor,
+    this.skips = const [],
+    this.isDataEmpty = false,
+    this.isReachHomePostsEnd = false,
+    this.postIndexes = const [],
+    // required this.storageHomeFirstCursorKey,
+  });
+}
+
 class PostsResult {
   final Map<String, PostEntity> postMap;
   final Map<String, SimpleAccountEntity> accountMap;
   final List<String> indexes;
   final String? startCursor;
   final String? endCursor;
+
   PostsResult({
     this.postMap = const {},
     this.indexes = const [],
@@ -56,43 +96,39 @@ class PostsFilter {
 class HomeController extends GetxController {
   static HomeController get to => Get.find();
 
-  final isHomeInitial = false.obs;
-  final isMeInitial = false.obs;
-  final currentIndex = RxInt(0);
-  final postIndexes = RxList<String>([]);
-  final myPostsIndexes = RxList<String>([]);
-  final homeInitError = RxnString();
-  final isLoadingHomePosts = false.obs;
-  String? homePostsFirstCursor;
-  String? homePostsLastCursor;
-  // [{first:"",end:"",expiresAt:""}]
-  final List<Skip> _skips = [];
+  final pageState = RxMap<String, PageState>(
+      {"home": PageState(), "nearby": PageState(name: 'Nearby')});
 
+  final isLoadingHomePosts = false.obs;
+
+  final _currentPage = 'home'.obs;
+  String get currentPage => _currentPage.value;
+
+  final isMeInitial = false.obs;
+  final myPostsIndexes = RxList<String>([]);
   final isLoadingMyPosts = false.obs;
 
-  final isDataEmpty = false.obs;
-  final isReachHomePostsEnd = false.obs;
-
   final postMap = RxMap<String, PostEntity>({});
-
-  final postTemplatesIndexes = RxList<String>([]);
-  final postTemplatesMap = RxMap<String, PostTemplatesEntity>({});
 
   final Rx<PostsFilter> postsFilter = PostsFilter.empty().obs;
 
   @override
   void onReady() async {
+    super.onReady();
+    await initReady();
+  }
+
+  Future<void> initReady() async {
     try {
       isLoadingHomePosts.value = true;
-      super.onReady();
       await initSkips();
       await getHomePosts();
       isLoadingHomePosts.value = false;
-      isHomeInitial.value = true;
+      pageState[currentPage]!.isHomeInitial = true;
     } catch (e) {
       isLoadingHomePosts.value = false;
-      isHomeInitial.value = true;
-      homeInitError.value = e.toString();
+      pageState[currentPage]!.isHomeInitial = true;
+      pageState[currentPage]!.homeInitError = e.toString();
 
       UIUtils.showError(e);
     }
@@ -105,6 +141,9 @@ class HomeController extends GetxController {
       int? startAge,
       int? endAge,
       String? postTemplateId,
+      double? longitude,
+      double? latitude,
+      double? distance,
       required String url,
       List<Skip>? skips}) async {
     Map<String, dynamic> query = {};
@@ -131,7 +170,15 @@ class HomeController extends GetxController {
     if (postTemplateId != null) {
       query["post_template_id"] = postTemplateId.toString();
     }
+
+    if (longitude != null && latitude != null && distance != null) {
+      query["longitude"] = longitude.toString();
+      query["latitude"] = latitude.toString();
+      query["distance"] = distance.toString();
+    }
+
     final body = await APIProvider.to.get(url, query: query);
+    print(query);
     if (body["data"].length == 0) {
       return PostsResult();
     }
@@ -173,6 +220,9 @@ class HomeController extends GetxController {
     String? after,
     String? before,
     bool replace = false,
+    double? longitude,
+    double? latitude,
+    double? distance,
   }) async {
     int? startAge;
     int? endAge;
@@ -197,9 +247,12 @@ class HomeController extends GetxController {
       }
     }
     final result = await getRawPosts(
+        longitude: longitude,
+        latitude: latitude,
+        distance: distance,
         after: after,
         before: before,
-        skips: _skips,
+        skips: pageState[currentPage]!.skips,
         url: "/post/posts",
         startAge: startAge,
         endAge: endAge,
@@ -210,21 +263,22 @@ class HomeController extends GetxController {
       postMap.addAll(result.postMap);
 
       if (replace) {
-        postIndexes.clear();
+        pageState[currentPage]!.postIndexes.clear();
       }
-      postIndexes.addAll(result.indexes);
+
+      pageState[currentPage]!.postIndexes.addAll(result.indexes);
 
       var isFirstCursorChanged = false;
       if (after == null && before == null) {
         // first request
-        homePostsFirstCursor = result.startCursor;
-        homePostsLastCursor = result.endCursor;
+        pageState[currentPage]!.homePostsFirstCursor = result.startCursor;
+        pageState[currentPage]!.homePostsLastCursor = result.endCursor;
         isFirstCursorChanged = true;
       } else if (before != null && after == null) {
-        homePostsFirstCursor = result.startCursor;
+        pageState[currentPage]!.homePostsFirstCursor = result.startCursor;
         isFirstCursorChanged = true;
       } else if (after != null && before == null) {
-        homePostsLastCursor = result.endCursor;
+        pageState[currentPage]!.homePostsLastCursor = result.endCursor;
       }
       // put accoutns to simple accounts
       await AuthProvider.to.saveSimpleAccounts(result.accountMap);
@@ -232,17 +286,20 @@ class HomeController extends GetxController {
         report(e);
       });
       // save current first cursor
-      if (isFirstCursorChanged && homePostsFirstCursor != null) {
-        await CacheProvider.to.setExpiredString(STORAGE_HOME_FIRST_CURSOR_KEY,
-            homePostsFirstCursor!, getExpiresAt());
+      if (isFirstCursorChanged &&
+          pageState[currentPage]!.homePostsFirstCursor != null) {
+        await CacheProvider.to.setExpiredString(
+            "STORAGE_${currentPage}_FIRST_CURSOR_KEY",
+            pageState[currentPage]!.homePostsFirstCursor!,
+            getExpiresAt());
       }
     } else {
       if (replace) {
-        isDataEmpty.value = true;
+        pageState[currentPage]!.isDataEmpty = true;
       }
-      isReachHomePostsEnd.value = true;
-      if (isHomeInitial.value == false) {
-        isDataEmpty.value = true;
+      pageState[currentPage]!.isReachHomePostsEnd = true;
+      if (pageState[currentPage]!.isHomeInitial == false) {
+        pageState[currentPage]!.isDataEmpty = true;
       }
     }
 
@@ -256,7 +313,8 @@ class HomeController extends GetxController {
     final now = DateTime.now();
     // 1. check expires _skips
     final List<Skip> validSkips = [];
-    CacheProvider.to.parseObjectList(STORAGE_HOME_SKIPS_KEY, (value) {
+    CacheProvider.to.parseObjectList("STORAGE_${currentPage}_SKIPS_KEY",
+        (value) {
       if (value["expiresAt"] != null) {
         final expiresAt = DateTime.parse(value["expiresAt"]);
         if (expiresAt.millisecondsSinceEpoch > now.millisecondsSinceEpoch) {
@@ -270,10 +328,10 @@ class HomeController extends GetxController {
       }
     });
     // 2. get latest first cursor , and cursor
-    final firstCursorValue =
-        await CacheProvider.to.getExpiredString(STORAGE_HOME_FIRST_CURSOR_KEY);
-    final lastCursorValue =
-        await CacheProvider.to.getExpiredString(STORAGE_HOME_LAST_CURSOR_KEY);
+    final firstCursorValue = await CacheProvider.to
+        .getExpiredString("STORAGE_${currentPage}_FIRST_CURSOR_KEY");
+    final lastCursorValue = await CacheProvider.to
+        .getExpiredString("STORAGE_${currentPage}_LAST_CURSOR_KEY");
     if (firstCursorValue != null && lastCursorValue != null) {
       if (validSkips.isNotEmpty) {
         if (firstCursorValue != validSkips.first.start) {
@@ -294,14 +352,17 @@ class HomeController extends GetxController {
       }
     }
     if (validSkips.isNotEmpty) {
-      _skips.addAll(validSkips);
+      pageState[currentPage]!.skips.addAll(validSkips);
     }
     // _skips most 6 groups;
-    if (_skips.length > 6) {
-      _skips.removeRange(6, _skips.length);
+    if (pageState[currentPage]!.skips.length > 6) {
+      pageState[currentPage]!
+          .skips
+          .removeRange(6, pageState[currentPage]!.skips.length);
     }
     // save to store
-    await CacheProvider.to.putObjectList(STORAGE_HOME_SKIPS_KEY, _skips);
+    await CacheProvider.to.putObjectList(
+        "STORAGE_${currentPage}_SKIPS_KEY", pageState[currentPage]!.skips);
   }
 
   getMePosts({String? after}) async {
@@ -318,17 +379,19 @@ class HomeController extends GetxController {
 
   insertEntity() async {}
 
-  void setIndex(int index) {
+  void setIndex({required int index}) {
     var backgroundColor = BACKGROUND_COLORS[0].value;
-    currentIndex.value = index;
 
-    if (index >= postIndexes.length) {
+    pageState[currentPage]!.currentIndex = index;
+
+    if (index >= pageState[currentPage]!.postIndexes.length) {
       // loading more
     } else {
-      final post = postMap[postIndexes[index]];
+      final post = postMap[pageState[currentPage]!.postIndexes[index]];
       if (post != null) {
         backgroundColor = post.backgroundColor;
-        patchPostCountView(postIndexes[index]).catchError((e) {
+        patchPostCountView(pageState[currentPage]!.postIndexes[index])
+            .catchError((e) {
           report(e);
         });
       }
@@ -336,12 +399,13 @@ class HomeController extends GetxController {
 
     BottomNavigationBarController.to.changeBackgroundColor(backgroundColor);
 
-    if (postIndexes.length - index < 3) {
-      if (!isLoadingHomePosts.value && isDataEmpty.value == false) {
+    if (pageState[currentPage]!.postIndexes.length - index < 3) {
+      if (!isLoadingHomePosts.value &&
+          pageState[currentPage]!.isDataEmpty == false) {
         isLoadingHomePosts.value = true;
         String? after;
-        if (homePostsLastCursor != null) {
-          after = homePostsLastCursor;
+        if (pageState[currentPage]!.homePostsLastCursor != null) {
+          after = pageState[currentPage]!.homePostsLastCursor;
         }
         getHomePosts(after: after).then((data) {
           isLoadingHomePosts.value = false;
@@ -349,24 +413,29 @@ class HomeController extends GetxController {
           isLoadingHomePosts.value = false;
           UIUtils.showError(e);
         });
-      } else if (isReachHomePostsEnd.value &&
+      } else if (pageState[currentPage]!.isReachHomePostsEnd &&
           isLoadingHomePosts.value == false) {
         Log.debug("reach post end");
         // maybe loading newest posts
 
         // put current array to _skips array
-        if (homePostsFirstCursor != null && homePostsLastCursor != null) {
-          _skips.insert(
+        if (pageState[currentPage]!.homePostsFirstCursor != null &&
+            pageState[currentPage]!.homePostsLastCursor != null) {
+          pageState[currentPage]!.skips.insert(
               0,
               Skip(
-                  start: homePostsFirstCursor!,
-                  end: homePostsLastCursor!,
+                  start: pageState[currentPage]!.homePostsFirstCursor!,
+                  end: pageState[currentPage]!.homePostsLastCursor!,
                   expiresAt: getExpiresAt()));
 
           // save _skips
           CacheProvider.to
-              .putObjectList(STORAGE_HOME_SKIPS_KEY,
-                  _skips.map((item) => item.toJson()).toList())
+              .putObjectList(
+                  'STORAGE_${currentPage}_SKIPS_KEY',
+                  pageState[currentPage]!
+                      .skips
+                      .map((item) => item.toJson())
+                      .toList())
               .catchError((e) {
             report(e);
           });
@@ -383,22 +452,33 @@ class HomeController extends GetxController {
     }
   }
 
-  void refreshHomePosts() {
+  void refreshHomePosts({String? page}) {
     isLoadingHomePosts.value = true;
-
-    getHomePosts(replace: true).then((data) {
-      isLoadingHomePosts.value = false;
-      setIndex(0);
-    }).catchError((e) {
-      isLoadingHomePosts.value = false;
-      UIUtils.showError(e);
-    });
+    if (page != null) {
+      onPressedTabSwitch('Nearby').then((data) {
+        isLoadingHomePosts.value = false;
+        setIndex(index: 0);
+      }).catchError((e) {
+        isLoadingHomePosts.value = false;
+        UIUtils.showError(e);
+      });
+    } else {
+      getHomePosts(replace: true).then((data) {
+        isLoadingHomePosts.value = false;
+        setIndex(index: 0);
+      }).catchError((e) {
+        isLoadingHomePosts.value = false;
+        UIUtils.showError(e);
+      });
+    }
   }
 
   Future<void> patchPostCountView(String postId) async {
     // change last cursor
     await CacheProvider.to.setExpiredString(
-        STORAGE_HOME_LAST_CURSOR_KEY, postMap[postId]!.cursor, getExpiresAt());
+        'STORAGE_${currentPage}_LAST_CURSOR_KEY',
+        postMap[postId]!.cursor,
+        getExpiresAt());
     if (AuthProvider.to.accountId == postMap[postId]!.accountId) {
       await APIProvider.to.patch("/post/posts/$postId",
           body: {"viewed_count_action": "increase_one"});
@@ -457,8 +537,8 @@ class HomeController extends GetxController {
         gender: selectedGender, startAge: startAge, endAge: endAge));
     // first init skips,
     try {
-      postIndexes.clear();
-      currentIndex.value = 0;
+      pageState[currentPage]!.postIndexes.clear();
+      pageState[currentPage]!.currentIndex = 0;
       isLoadingHomePosts.value = true;
       await initSkips();
       await getHomePosts(replace: true);
@@ -466,7 +546,7 @@ class HomeController extends GetxController {
     } catch (e) {
       isLoadingHomePosts.value = false;
 
-      homeInitError.value = e.toString();
+      pageState[currentPage]!.homeInitError = e.toString();
     }
   }
 
@@ -477,6 +557,14 @@ class HomeController extends GetxController {
         result["data"]["id"]:
             SimpleAccountEntity.fromJson(result["data"]["attributes"])
       });
+    }
+  }
+
+  onPressedTabSwitch(String page) async {
+    _currentPage.value = page;
+    if (!pageState[page]!.isHomeInitial) {
+      await initReady();
+      setIndex(index: 0);
     }
   }
 }

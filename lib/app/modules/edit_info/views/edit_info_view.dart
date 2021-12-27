@@ -2,7 +2,6 @@ import 'package:flutter/material.dart' hide YearPicker;
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/routes/app_pages.dart';
-import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/providers/providers.dart';
 import '../controllers/edit_info_controller.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
