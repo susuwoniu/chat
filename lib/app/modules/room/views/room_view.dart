@@ -14,6 +14,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
 import './image_message.dart';
 import './text_message.dart';
+import './bottom_widget.dart';
 
 class RoomView extends GetView<RoomController> {
   @override
@@ -54,6 +55,19 @@ class RoomView extends GetView<RoomController> {
         }
         return Chat(
           messages: messages,
+          customBottomWidget: BottomWidget(
+              onAttachmentPressed: () {
+                _handleImageSelection();
+              },
+              onCameraPressed: () {},
+              onSendPressed: (types.PartialText message) async {
+                try {
+                  await controller.handleSendPressed(message);
+                } catch (e) {
+                  UIUtils.showError(e);
+                }
+              },
+              sendButtonVisibilityMode: SendButtonVisibilityMode.editing),
           textMessageBuilder: (
             types.TextMessage message, {
             required int messageWidth,
