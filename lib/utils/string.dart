@@ -15,3 +15,9 @@ bool isValidId(String id) {
     return true;
   }
 }
+
+String toMarkdownQuote(String str) {
+  return str.split("\n").map((line) {
+    return "> $line";
+  }).join("\n");
+}

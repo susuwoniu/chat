@@ -1,3 +1,4 @@
+import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/providers/chat_provider/chat_provider.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,6 @@ class RoomView extends GetView<RoomController> {
   Widget build(BuildContext context) {
     final messageController = MessageController.to;
     final roomId = controller.roomId;
-
     return Scaffold(
       appBar: AppBar(
         title: Obx(() {
@@ -40,8 +40,11 @@ class RoomView extends GetView<RoomController> {
             child: CircularProgressIndicator(),
           );
         }
+        final roomInfoId = messageController.entities[roomId]!.room_info_id;
+        final toAccount = AuthProvider.to.simpleAccountMap[roomInfoId]!;
         final roomMessageIndexes =
             messageController.roomMessageIndexesMap[roomId];
+
         final List<types.Message> emptyMessages = [];
         final messages = roomMessageIndexes != null
             ? roomMessageIndexes
@@ -56,10 +59,15 @@ class RoomView extends GetView<RoomController> {
         return Chat(
           messages: messages,
           customBottomWidget: BottomWidget(
+              onCancelQuote: controller.handleCancelPreview,
+              replyTo:
+                  controller.previewMessage != null ? toAccount.name : null,
               onAttachmentPressed: () {
                 _handleImageSelection();
               },
-              onCameraPressed: () {},
+              onCameraPressed: () {
+                _handleCameraSelection();
+              },
               onSendPressed: (types.PartialText message) async {
                 try {
                   await controller.handleSendPressed(message);
@@ -178,6 +186,24 @@ class RoomView extends GetView<RoomController> {
         imageQuality: 70,
         maxWidth: 1440,
         source: ImageSource.gallery,
+      );
+
+      if (result != null) {
+        await messageController.sendImageMessage(controller.roomId, result);
+      }
+    } catch (e) {
+      UIUtils.showError(e);
+    }
+  }
+
+  void _handleCameraSelection() async {
+    final messageController = MessageController.to;
+
+    try {
+      final result = await ImagePicker().pickImage(
+        imageQuality: 70,
+        maxWidth: 1440,
+        source: ImageSource.camera,
       );
 
       if (result != null) {

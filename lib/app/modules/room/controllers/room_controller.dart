@@ -5,6 +5,7 @@ import 'package:chat/app/modules/message/controllers/message_controller.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:async';
+import 'package:chat/utils/string.dart';
 
 // For the testing purposes, you should probably use https://pub.dev/packages/uuid
 String randomString() {
@@ -17,8 +18,8 @@ class RoomController extends GetxController {
   late String _roomId;
   String get roomId => _roomId;
 
-  types.TextMessage? _previewMessage;
-  types.TextMessage? get previewMessage => _previewMessage;
+  final Rxn<types.TextMessage> _previewMessage = Rxn();
+  types.TextMessage? get previewMessage => _previewMessage.value;
   StreamSubscription<RoomsState>? _roomsStateSubscription;
 
   @override
@@ -64,8 +65,9 @@ class RoomController extends GetxController {
   initQuote() {
     final quote = Get.arguments["quote"];
     if (quote != null && ChatProvider.to.currentChatAccount.value != null) {
-      _previewMessage = types.TextMessage(
-          text: "> $quote",
+      // todo check new line
+      _previewMessage.value = types.TextMessage(
+          text: toMarkdownQuote(quote),
           author: ChatProvider.to.currentChatAccount.value!,
           createdAt: DateTime.now().millisecondsSinceEpoch,
           id: "preview");
@@ -122,17 +124,21 @@ class RoomController extends GetxController {
     await messageController.getRoomServerEarlierMessage(_roomId);
   }
 
+  void handleCancelPreview() {
+    _previewMessage.value = null;
+  }
+
   Future<void> handleSendPressed(types.PartialText message) async {
     final messageController = MessageController.to;
     // check is has preview message
     try {
-      if (_previewMessage != null) {
+      if (_previewMessage.value != null) {
         messageController.sendTextMessage(
             _roomId,
             types.PartialText(
-              text: _previewMessage!.text,
+              text: _previewMessage.value!.text,
             ));
-        _previewMessage = null;
+        _previewMessage.value = null;
         messageController.sendTextMessage(_roomId, message);
       } else {
         messageController.sendTextMessage(_roomId, message);

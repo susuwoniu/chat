@@ -44,3 +44,4 @@
 - [ ] 擦亮功能
 - [ ] 附近km筛选
 - [ ] universal link
+- [ ] video send
