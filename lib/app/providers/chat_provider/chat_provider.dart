@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:chat/common.dart';
 import 'package:chat/errors/errors.dart';
 import '../auth_provider.dart';
-import 'package:chat/config/config.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class ChatProvider extends GetxService {

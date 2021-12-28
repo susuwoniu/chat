@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:flutter_chat_ui/flutter_chat_ui.dart' hide ImageMessage;
+import 'package:flutter_chat_ui/flutter_chat_ui.dart'
+    hide ImageMessage, TextMessage;
 import '../controllers/room_controller.dart';
 import 'package:chat/app/modules/message/controllers/message_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
 import './image_message.dart';
+import './text_message.dart';
 
 class RoomView extends GetView<RoomController> {
   @override
@@ -51,18 +53,30 @@ class RoomView extends GetView<RoomController> {
           messages.insert(0, controller.previewMessage!);
         }
         return Chat(
-          usePreviewData: true,
-          onPreviewDataFetched:
-              (types.Message message, types.PreviewData previewData) {
-            messageController.handlePreviewDataFetched(message.id, previewData);
-          },
           messages: messages,
+          textMessageBuilder: (
+            types.TextMessage message, {
+            required int messageWidth,
+            required bool showName,
+          }) {
+            return TextMessage(
+              message: message,
+              showName: showName,
+              usePreviewData: true,
+              emojiEnlargementBehavior: EmojiEnlargementBehavior.multi,
+              hideBackgroundOnEmojiMessages: true,
+              onPreviewDataFetched:
+                  (types.Message message, types.PreviewData previewData) {
+                messageController.handlePreviewDataFetched(
+                    message.id, previewData);
+              },
+            );
+          },
           imageMessageBuilder: (message, {required int messageWidth}) {
             return ImageMessage(message: message, messageWidth: messageWidth);
           },
-          emptyState: ((room != null && room.isLoading) || room == null)
-              ? Text("isLoading")
-              : Text("No message yet"),
+          emptyState:
+              ((room.isLoading)) ? Text("isLoading") : Text("No message yet"),
           onAttachmentPressed: () {
             _handleAtachmentPressed(context);
           },

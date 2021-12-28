@@ -249,7 +249,7 @@ class HomeController extends GetxController {
       final location = await getLocation();
       longitude = location.longitude;
       latitude = location.latitude;
-      distance = 10000000;
+      distance = 50000;
     }
     final result = await getRawPosts(
         longitude: longitude,
@@ -455,6 +455,8 @@ class HomeController extends GetxController {
         });
       }
     }
+    // 强制更新
+    pageState[currentPage] = pageState[currentPage]!;
   }
 
   void refreshHomePosts() {

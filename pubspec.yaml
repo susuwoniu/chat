@@ -73,7 +73,9 @@ dependencies:
     sdk: flutter
   rxdart: ^0.27.2
   clipboard: ^0.1.3
-  flutter_chat_ui: ^1.5.1
+  flutter_chat_ui: ^1.5.3
+  # flutter_chat_ui:
+  #   path: ../flutter_chat_ui
   sprintf: ^6.0.0
   # xmpp_stone:
   #   git:

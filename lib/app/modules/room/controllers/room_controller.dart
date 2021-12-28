@@ -80,10 +80,11 @@ class RoomController extends GetxController {
     if (messageController.entities[_roomId]!.isLoading == true) {
       return;
     }
-    messageController.entities[_roomId]!.isLoading = true;
     final room = messageController.getCurrentRoom();
     if (room != null && !room.isInitServerMessages) {
       try {
+        messageController.entities[_roomId]!.isLoading = true;
+
         await MessageController.to.getRoomServerEarlierMessage(_roomId);
         messageController.markRoomAsRead(_roomId);
 
