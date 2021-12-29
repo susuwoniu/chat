@@ -16,6 +16,7 @@ import 'package:open_file/open_file.dart';
 import './image_message.dart';
 import './text_message.dart';
 import './bottom_widget.dart';
+import './bubble_widget.dart';
 
 class RoomView extends GetView<RoomController> {
   @override
@@ -53,13 +54,22 @@ class RoomView extends GetView<RoomController> {
                 .toList()
             : emptyMessages;
         // add preview
-        if (controller.previewMessage != null) {
-          messages.insert(0, controller.previewMessage!);
-        }
+        // if (controller.previewMessage != null) {
+        //   messages.insert(0, controller.previewMessage!);
+        // }
         return Chat(
           messages: messages,
+          bubbleBuilder: (
+            Widget child, {
+            required types.Message message,
+            required bool nextMessageInGroup,
+          }) {
+            return BubbleWidget(child,
+                message: message, nextMessageInGroup: nextMessageInGroup);
+          },
           customBottomWidget: BottomWidget(
               onCancelQuote: controller.handleCancelPreview,
+              quoteMessage: controller.previewMessage,
               replyTo:
                   controller.previewMessage != null ? toAccount.name : null,
               onAttachmentPressed: () {

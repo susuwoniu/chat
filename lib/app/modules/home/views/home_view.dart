@@ -190,6 +190,8 @@ class HomeView extends GetView<HomeController> {
                                                             arguments: {
                                                               "id":
                                                                   "im${post.accountId}@$imDomain",
+                                                              "quote_background_color":
+                                                                  post.backgroundColor,
                                                               "quote":
                                                                   post.content
                                                             });

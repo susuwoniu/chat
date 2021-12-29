@@ -65,8 +65,14 @@ class RoomController extends GetxController {
   initQuote() {
     final quote = Get.arguments["quote"];
     if (quote != null && ChatProvider.to.currentChatAccount.value != null) {
+      final backgroundColor = Get.arguments["quote_background_color"];
       // todo check new line
+      Map<String, dynamic> metadata = {};
+      if (backgroundColor != null) {
+        metadata["background_color"] = backgroundColor as int;
+      }
       _previewMessage.value = types.TextMessage(
+          metadata: metadata,
           text: toMarkdownQuote(quote),
           author: ChatProvider.to.currentChatAccount.value!,
           createdAt: DateTime.now().millisecondsSinceEpoch,

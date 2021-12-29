@@ -6,6 +6,10 @@ import 'package:flutter_chat_ui/src/widgets/attachment_button.dart';
 import 'package:flutter_chat_ui/src/widgets/inherited_chat_theme.dart';
 import 'package:flutter_chat_ui/src/widgets/inherited_l10n.dart';
 import 'package:flutter_chat_ui/src/widgets/send_button.dart';
+import './text_message.dart';
+import 'dart:math';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart'
+    hide ImageMessage, TextMessage;
 
 class NewLineIntent extends Intent {
   const NewLineIntent();
@@ -29,8 +33,10 @@ class BottomWidget extends StatefulWidget {
       this.onTextFieldTap,
       required this.sendButtonVisibilityMode,
       this.onCancelQuote,
+      this.quoteMessage,
       this.replyTo})
       : super(key: key);
+  final types.TextMessage? quoteMessage;
 
   /// See [AttachmentButton.onPressed]
   final void Function()? onAttachmentPressed;
@@ -77,7 +83,8 @@ class _InputState extends State<BottomWidget> {
     super.initState();
 
     if (widget.sendButtonVisibilityMode == SendButtonVisibilityMode.editing) {
-      _sendButtonVisible = _textController.text.trim() != '';
+      _sendButtonVisible =
+          _textController.text.trim() != '' || widget.quoteMessage != null;
       _textController.addListener(_handleTextControllerChange);
     } else {
       _sendButtonVisible = true;
@@ -102,7 +109,8 @@ class _InputState extends State<BottomWidget> {
 
   void _handleTextControllerChange() {
     setState(() {
-      _sendButtonVisible = _textController.text.trim() != '';
+      _sendButtonVisible =
+          _textController.text.trim() != '' || widget.quoteMessage != null;
     });
   }
 
@@ -162,7 +170,16 @@ class _InputState extends State<BottomWidget> {
   @override
   Widget build(BuildContext context) {
     final _query = MediaQuery.of(context);
-
+    final _messageBorderRadius =
+        InheritedChatTheme.of(context).theme.messageBorderRadius;
+    final _width = MediaQuery.of(context).size.width;
+    final messageMaxWidth = min(_width * 0.78, 440).floor();
+    final _borderRadius = BorderRadius.only(
+      bottomLeft: Radius.circular(0),
+      bottomRight: Radius.circular(_messageBorderRadius),
+      topLeft: Radius.circular(_messageBorderRadius),
+      topRight: Radius.circular(_messageBorderRadius),
+    );
     return GestureDetector(
       onTap: () => _inputFocusNode.requestFocus(),
       child: Shortcuts(
@@ -195,9 +212,60 @@ class _InputState extends State<BottomWidget> {
             child: Padding(
               padding: InheritedChatTheme.of(context).theme.inputPadding,
               child: Column(children: [
+                widget.quoteMessage != null
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                            ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(4)),
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 4, bottom: 0),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                        width: 4.0,
+                                        color: Colors.black.withOpacity(0.24),
+                                      ),
+                                      left: BorderSide(
+                                        width: 4.0,
+                                        color: Colors.black.withOpacity(0.24),
+                                      ),
+                                    ),
+                                  ),
+                                  height: 40,
+                                  width: 30,
+                                )),
+                            Container(
+                                margin: EdgeInsets.only(right: 24, bottom: 12),
+                                width: messageMaxWidth.toDouble(),
+                                decoration: BoxDecoration(
+                                    borderRadius: _borderRadius,
+                                    color: widget.quoteMessage?.metadata?[
+                                                "background_color"] !=
+                                            null
+                                        ? Color(widget.quoteMessage!
+                                                .metadata!["background_color"]!
+                                            as int)
+                                        : InheritedChatTheme.of(context)
+                                            .theme
+                                            .primaryColor),
+                                child: ClipRRect(
+                                    borderRadius: _borderRadius,
+                                    child: TextMessage(
+                                      message: widget.quoteMessage!,
+                                      showName: false,
+                                      usePreviewData: false,
+                                      emojiEnlargementBehavior:
+                                          EmojiEnlargementBehavior.multi,
+                                      hideBackgroundOnEmojiMessages: true,
+                                    )))
+                          ])
+                    : Container(),
                 widget.replyTo != null
                     ? Container(
-                        color: Colors.black.withOpacity(0.08),
+                        color: Colors.black.withOpacity(0.12),
                         padding: EdgeInsets.only(left: 16),
                         child: Row(
                           children: [
@@ -209,7 +277,12 @@ class _InputState extends State<BottomWidget> {
                                   fontSize: 14),
                             )),
                             IconButton(
-                              onPressed: widget.onCancelQuote,
+                              onPressed: () {
+                                _sendButtonVisible = false;
+                                if (widget.onCancelQuote != null) {
+                                  widget.onCancelQuote!();
+                                }
+                              },
                               icon: Icon(
                                 Icons.close,
                                 color: Colors.black.withOpacity(0.5),
