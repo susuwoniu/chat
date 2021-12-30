@@ -21,9 +21,7 @@ A new Flutter project.
 - https://github.com/ducafecat/flutter_ducafecat_news_getx
 - [uni_links](https://pub.dev/packages/uni_links)
 - XMPP
-  - <https://xmpp.org/extensions/xep-0430.html>
-  - https://www.process-one.net/en/ejabberd/protocols/
-  - https://mongooseim.readthedocs.io/en/4.0.1/user-guide/Features-and-supported-standards/
+  - https://esl.github.io/MongooseDocs/latest/user-guide/Supported-standards/
 - Icons <https://fonts.google.com/icons?selected=Material+Icons>
 ## Tips
 
