@@ -45,3 +45,4 @@
 - [ ] 附近km筛选
 - [ ] universal link
 - [ ] video send
+- [ ] 当接口返回格式非json时，body作为错误内容
