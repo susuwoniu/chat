@@ -2,7 +2,6 @@ import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:chat/app/widgets/max_text.dart';
 import '../controllers/my_single_post_controller.dart';
 import '../../home/controllers/home_controller.dart';
 import 'viewers_list.dart';
@@ -18,7 +17,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
-    final _height = MediaQuery.of(context).size.height;
+    // final _height = MediaQuery.of(context).size.height;
     final _homeController = HomeController.to;
     final _postId = Get.arguments['postId'];
     final String _createAt =
@@ -40,7 +39,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                   color: Color(_backgroundColor),
                 ),
                 // height: _height * 0.4,
-                width: _width * 0.95,
+                width: _width * 0.9,
                 child: Column(children: [
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

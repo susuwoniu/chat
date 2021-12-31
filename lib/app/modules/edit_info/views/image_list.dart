@@ -33,7 +33,9 @@ class ImageList extends StatelessWidget {
       for (var i = 0; i < 6 - imgList.length; i++) {
         blankList.add(Stack(
           children: [
-            Wrap(direction: Axis.horizontal, children: [BlankImage()]),
+            Wrap(
+                direction: Axis.horizontal,
+                children: [BlankImage(onPressed: () {})]),
             Positioned(
                 bottom: 7,
                 right: 7,

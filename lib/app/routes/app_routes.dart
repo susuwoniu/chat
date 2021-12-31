@@ -8,6 +8,7 @@ abstract class Routes {
   static const NOTFOUND = _Paths.NOTFOUND;
   static const MAIN = _Paths.MAIN;
   static const POST = _Paths.POST;
+  static const REPORT = _Paths.REPORT;
   static const TEST1 = _Paths.TEST1;
   static const TEST2 = _Paths.TEST2;
   static const LOGIN = _Paths.LOGIN;
@@ -63,4 +64,5 @@ abstract class _Paths {
   static const PROFILE_VIEWERS = '/profile-viewers';
   static const OTHER = '/other';
   static const CREATE = '/create';
+  static const REPORT = '/report';
 }

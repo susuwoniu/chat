@@ -216,7 +216,19 @@ class HomeView extends GetView<HomeController> {
                                                             onPressedShare:
                                                                 () {},
                                                             onPressedReport:
-                                                                () {});
+                                                                () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              Get.toNamed(
+                                                                  Routes.REPORT,
+                                                                  arguments: {
+                                                                    "related_post_id":
+                                                                        postIndexes[
+                                                                            index],
+                                                                    "related_account_id":
+                                                                        post.accountId
+                                                                  });
+                                                            });
                                                       });
                                                 })
                                           ]),

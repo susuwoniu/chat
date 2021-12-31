@@ -154,9 +154,9 @@ class DebugView extends GetView<DebugController> {
                     },
                   ),
                 ListTile(
-                  title: Text('Post'),
+                  title: Text('REPORT'),
                   onTap: () {
-                    RouterProvider.to.switchTo(Routes.POST);
+                    RouterProvider.to.switchTo(Routes.REPORT);
                     //to close the drawer
                   },
                 ),

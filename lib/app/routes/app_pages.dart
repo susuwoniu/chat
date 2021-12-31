@@ -59,6 +59,8 @@ import '../modules/test3/views/test3_view.dart';
 import '../modules/verification/bindings/verification_binding.dart';
 import '../modules/verification/views/verification_view.dart';
 import 'observers.dart';
+import '../modules/report/views/report_view.dart';
+import '../modules/report/bindings/report_binding.dart';
 
 part 'app_routes.dart';
 
@@ -267,6 +269,15 @@ class AppPages {
       name: _Paths.CREATE,
       page: () => CreateView(),
       binding: CreateBinding(),
+    ),
+    GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
+      name: _Paths.REPORT,
+      page: () => ReportView(),
+      binding: ReportBinding(),
     ),
   ];
 }
