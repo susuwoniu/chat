@@ -10,8 +10,10 @@ class ReportController extends GetxController {
   final _related_account_id = Get.arguments['related_account_id'];
   final count = 0.obs;
   final reportType = ''.obs;
-  late String reportContent = '';
   final imgList = RxList([]);
+  final isShowBlank = true.obs;
+  late ProfileImageEntity imgEntity;
+
   @override
   void onInit() {
     super.onInit();
@@ -33,8 +35,8 @@ class ReportController extends GetxController {
     reportType.value = type;
   }
 
-  void setReportContent(String text) {
-    reportContent = text;
+  void setImgEntity(ProfileImageEntity img) {
+    imgEntity = img;
   }
 
   uploadImg({ProfileImageEntity? img}) async {
@@ -55,7 +57,7 @@ class ReportController extends GetxController {
       for (var key in headers.keys) {
         newHeaders[key] = headers[key];
       }
-      await upload(putUrl, img.url, headers: newHeaders, size: img.size);
+      // await upload(putUrl, img.url, headers: newHeaders, size: img.size);
     }
   }
 
@@ -65,10 +67,10 @@ class ReportController extends GetxController {
     imgList.add(img);
   }
 
-  onPressReport() async {
+  onPressReport({String? content}) async {
     final result = await APIProvider.to.post('/report/reports', body: {
       "type": reportType,
-      "content": reportContent,
+      "content": content ?? '',
       "related_post_id": _related_post_id,
       "related_account_id": _related_account_id,
       // "images": [url]

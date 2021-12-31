@@ -13,6 +13,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'report_sheet.dart';
+import '../../edit_info/views/single_image.dart';
 
 const Map<String, String> Type = {
   "spam": "Fraud",
@@ -26,8 +27,9 @@ class ReportView extends GetView<ReportController> {
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
+    final double _height = MediaQuery.of(context).size.height;
+    final double _width = MediaQuery.of(context).size.width;
+    final _imgWidth = _width * 0.27;
 
     return Scaffold(
         appBar: AppBar(
@@ -71,7 +73,6 @@ class ReportView extends GetView<ReportController> {
                   )),
               SizedBox(height: 15),
               TextField(
-                onSubmitted: _handleSubmitted,
                 controller: _textController,
                 maxLines: 5,
                 keyboardType: TextInputType.multiline,
@@ -99,22 +100,20 @@ class ReportView extends GetView<ReportController> {
               SizedBox(height: 15),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 5),
-                child: BlankImage(
-                    page: 'report',
-                    onPressed: () {
-                      _uploadScreenshot();
-                    }),
+                child: Obx(() => controller.isShowBlank.value
+                    ? BlankImage(
+                        page: 'report',
+                        onPressed: () {
+                          _uploadScreenshot();
+                        })
+                    : SingleImage(img: controller.imgEntity)),
               ),
               SizedBox(height: 20),
               NextButton(onPressed: () {
-                controller.onPressReport();
+                controller.onPressReport(content: _textController.text);
+                _textController.clear();
               })
             ])));
-  }
-
-  void _handleSubmitted(String text) {
-    _textController.clear();
-    controller.setReportContent(text);
   }
 
   Future<void> _uploadScreenshot() async {
@@ -144,7 +143,10 @@ class ReportView extends GetView<ReportController> {
                   width: width,
                   url: imageFile.path,
                   mime_type: mimeType));
-          await controller.uploadImg(img: img);
+          controller.isShowBlank.value = false;
+          controller.setImgEntity(img);
+
+          // await controller.uploadImg(img: img);
 
           UIUtils.hideLoading();
         } else {
