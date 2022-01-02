@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'visibility_sheet.dart';
 
 class SinglePostDot extends StatelessWidget {
-  final Function onPressedVisibility;
+  final Function(String visibility) onPressedVisibility;
   final Function onPressedDelete;
+  final String postId;
 
   SinglePostDot(
       {Key? key,
+      required this.postId,
       required this.onPressedVisibility,
       required this.onPressedDelete})
       : super(key: key);
@@ -16,7 +19,7 @@ class SinglePostDot extends StatelessWidget {
     // final _width = MediaQuery.of(context).size.width;
     return Wrap(alignment: WrapAlignment.center, children: [
       Container(
-        padding: EdgeInsets.only(bottom: 35),
+        padding: EdgeInsets.only(bottom: 30),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -27,7 +30,15 @@ class SinglePostDot extends StatelessWidget {
             _buttons(
                 icon: Icons.lock_outline_rounded,
                 text: 'Visibility',
-                onPressed: onPressedVisibility),
+                onPressed: () {
+                  Navigator.pop(context);
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return VisibilitySheet(
+                            onPressedVisibility: onPressedVisibility);
+                      });
+                }),
             _buttons(
                 icon: Icons.delete_forever_rounded,
                 text: 'Delete',
@@ -35,7 +46,7 @@ class SinglePostDot extends StatelessWidget {
           ]),
           Container(
             height: 10,
-            color: Colors.black12,
+            color: Colors.grey.shade100,
           ),
           SizedBox(height: 20),
           GestureDetector(
@@ -62,12 +73,12 @@ class SinglePostDot extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    color: Colors.black12,
+                    color: Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(50)),
                 child: Icon(
                   icon,
                   size: 30,
-                  color: Colors.black54,
+                  color: Colors.grey.shade600,
                 ),
               ),
               SizedBox(height: 14),

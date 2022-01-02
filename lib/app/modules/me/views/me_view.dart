@@ -40,102 +40,96 @@ class MeView extends GetView<MeController> {
         _imgList.add(ProfileImageEntity.empty());
       }
 
-      return SingleChildScrollView(
-          child: Column(
-        children: [
-          Stack(children: [
-            CarouselSlider(
-              items: _imgList
-                  .map((img) =>
-                      ImageSlider(img: img, height: height * 0.5, width: width))
-                  .toList(),
-              carouselController: buttonCarouselController,
-              options: CarouselOptions(
-                  height: height * 0.5,
-                  viewportFraction: 1,
-                  enableInfiniteScroll: false,
-                  onPageChanged: (index, reason) {
-                    controller.setCurrent(index);
-                  }),
-            ),
-            Positioned(
-                left: paddingLeft,
-                top: height * 0.06,
-                child: CircleWidget(
-                  icon: Icon(Icons.settings_rounded, color: Colors.white),
-                  onPressed: () {
-                    Get.toNamed(Routes.SETTING,
-                        arguments: {"phone": _account.phone_number});
-                  },
-                )),
-            Positioned(
-                right: paddingLeft,
-                top: height * 0.06,
-                child: CircleWidget(
-                  icon: Icon(Icons.create_rounded, color: Colors.white),
-                  onPressed: () {
-                    Get.toNamed(Routes.EDIT_INFO);
-                  },
-                )),
-            Positioned(
-                left: paddingLeft,
-                bottom: height * 0.025,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      NicknameWidget(name: _name, vip: _vip),
-                      SizedBox(height: 8),
-                      AgeWidget(
-                          gender: _account.gender,
-                          age: _account.age.toString()),
-                      SizedBox(height: 15),
-                      LikeCount(
-                        text: _likeCount,
-                      ),
-                    ])),
-            Positioned(
-                right: paddingLeft,
-                bottom: height * 0.025,
-                child: ProfileViewersBubble(
-                  totalViewersCount: controller.totalViewedCount.value,
-                  newViewersCount: controller.unreadViewedCount.value,
-                  onPressed: () {
-                    Get.toNamed(Routes.PROFILE_VIEWERS);
-                  },
-                )),
-            Positioned(
-              bottom: height * 0.01,
-              width: width,
-              child: DotsWidget(
-                  current: controller.current,
-                  onTap: buttonCarouselController.animateToPage,
-                  count: _account.profileImages.length),
-            ),
-          ]),
-          Container(
-            padding: EdgeInsets.fromLTRB(paddingLeft, 15, 0, 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(_bio!,
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.grey,
-                    )),
-                SizedBox(height: 8),
-                ProfileInfoText(
-                    text: _location,
-                    iconName: IconData(61716, fontFamily: 'MaterialIcons')),
-                SizedBox(height: 6),
-                ProfileInfoText(
-                    text: _birth,
-                    iconName: IconData(61505, fontFamily: 'MaterialIcons')),
-              ],
-            ),
+      return ListView(padding: EdgeInsets.all(0), children: [
+        Stack(children: [
+          CarouselSlider(
+            items: _imgList
+                .map((img) =>
+                    ImageSlider(img: img, height: height * 0.5, width: width))
+                .toList(),
+            carouselController: buttonCarouselController,
+            options: CarouselOptions(
+                height: height * 0.5,
+                viewportFraction: 1,
+                enableInfiniteScroll: false,
+                onPageChanged: (index, reason) {
+                  controller.setCurrent(index);
+                }),
           ),
-          MyPosts(),
-        ],
-      ));
+          Positioned(
+              left: paddingLeft,
+              top: height * 0.06,
+              child: CircleWidget(
+                icon: Icon(Icons.settings_rounded, color: Colors.white),
+                onPressed: () {
+                  Get.toNamed(Routes.SETTING,
+                      arguments: {"phone": _account.phone_number});
+                },
+              )),
+          Positioned(
+              right: paddingLeft,
+              top: height * 0.06,
+              child: CircleWidget(
+                icon: Icon(Icons.create_rounded, color: Colors.white),
+                onPressed: () {
+                  Get.toNamed(Routes.EDIT_INFO);
+                },
+              )),
+          Positioned(
+              left: paddingLeft,
+              bottom: height * 0.025,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    NicknameWidget(name: _name, vip: _vip),
+                    SizedBox(height: 8),
+                    AgeWidget(
+                        gender: _account.gender, age: _account.age.toString()),
+                    SizedBox(height: 15),
+                    LikeCount(
+                      text: _likeCount,
+                    ),
+                  ])),
+          Positioned(
+              right: paddingLeft,
+              bottom: height * 0.025,
+              child: ProfileViewersBubble(
+                totalViewersCount: controller.totalViewedCount.value,
+                newViewersCount: controller.unreadViewedCount.value,
+                onPressed: () {
+                  Get.toNamed(Routes.PROFILE_VIEWERS);
+                },
+              )),
+          Positioned(
+            bottom: height * 0.01,
+            width: width,
+            child: DotsWidget(
+                current: controller.current,
+                onTap: buttonCarouselController.animateToPage,
+                count: _account.profileImages.length),
+          ),
+        ]),
+        Container(
+          padding: EdgeInsets.fromLTRB(paddingLeft, 15, 0, 0),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(_bio!,
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Colors.grey,
+                )),
+            SizedBox(height: 8),
+            ProfileInfoText(
+                text: _location,
+                iconName: IconData(61716, fontFamily: 'MaterialIcons')),
+            SizedBox(height: 6),
+            ProfileInfoText(
+                text: _birth,
+                iconName: IconData(61505, fontFamily: 'MaterialIcons')),
+          ]),
+        ),
+        MyPosts(),
+      ]);
     }));
   }
 }

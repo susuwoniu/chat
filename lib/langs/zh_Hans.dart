@@ -69,5 +69,6 @@ const Map<String, String> zh_Hans = {
   "times": "次",
   " Posts": "条帖子",
   " Post": "条帖子",
-  "public": "公开可见"
+  "Public": "公开可见",
+  "Private": "仅自己可见",
 };

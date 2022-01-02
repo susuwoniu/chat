@@ -8,6 +8,7 @@ import 'package:chat/app/providers/providers.dart';
 import 'package:chat/app/ui_utils/location.dart';
 import '../controllers/create_controller.dart';
 import 'package:location/location.dart';
+import '../../my_single_post/views/visibility_sheet.dart';
 
 class CreateView extends GetView<CreateController> {
   @override
@@ -76,18 +77,34 @@ class CreateView extends GetView<CreateController> {
                     Text(currentAccount.name,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontWeight: FontWeight.bold)),
-                    Row(
-                      children: [
-                        Text("公开 "),
-                        Icon(Icons.public, size: 16),
-                      ],
+                    GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return VisibilitySheet(
+                                  onPressedVisibility: (String visibility) {
+                                controller.setIsVisibility(visibility);
+                              });
+                            });
+                      },
+                      child: Obx(() => Row(children: [
+                            Text(controller.visibility + ' ',
+                                style: TextStyle(color: Colors.black54)),
+                            Icon(
+                                controller.visibility == 'public'
+                                    ? Icons.public
+                                    : Icons.lock_outline_rounded,
+                                size: 16,
+                                color: Colors.black54),
+                          ])),
                     )
                   ],
                 ),
                 Container(
                     padding: EdgeInsets.only(right: 16),
                     child: Row(children: [
-                      Text("显示到附近"),
+                      Text("Location"),
                       Obx(() => Switch(
                           value: ConfigProvider.to.listAtNearby,
                           onChanged: (value) async {

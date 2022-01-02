@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../home/controllers/home_controller.dart';
 import '../../other/controllers/other_controller.dart';
 import 'package:chat/types/types.dart';
-import 'package:chat/config/config.dart';
 import '../../post_square/controllers/post_square_controller.dart';
 import 'package:chat/utils/random.dart';
 import 'package:chat/common.dart';
@@ -57,10 +56,6 @@ class MyPosts extends StatelessWidget {
                 } else {
                   Get.toNamed(Routes.MY_SINGLE_POST, arguments: {
                     'postId': id,
-                    'content': post.content,
-                    "backgroundColor": post.backgroundColor,
-                    'visibility': post.visibility,
-                    'createAt': post.created_at,
                   });
                 }
               },
@@ -74,16 +69,14 @@ class MyPosts extends StatelessWidget {
                 ),
                 height: _width * 0.5,
                 width: _width * 0.4,
-                child: Text(
-                  postMap[id]!.content,
-                  maxLines: 5,
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    overflow: TextOverflow.ellipsis,
-                    color: Colors.white,
-                  ),
-                ),
+                child: Text(postMap[id]!.content,
+                    maxLines: 5,
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.ellipsis,
+                      color: Colors.white,
+                    )),
               )),
         );
       }

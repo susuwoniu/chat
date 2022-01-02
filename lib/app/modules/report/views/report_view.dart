@@ -1,6 +1,4 @@
 import 'package:chat/app/modules/age_picker/views/next_button.dart';
-import 'package:chat/app/providers/auth_provider.dart';
-import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/types/account.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -105,21 +103,23 @@ class ReportView extends GetView<ReportController> {
                     : SingleImage(img: controller.imgEntity)),
               ),
               SizedBox(height: 20),
-              NextButton(onPressed: () async {
-                if (controller.reportType.value != '') {
-                  try {
-                    await controller.onPressReport(
-                        content: _textController.text);
-                    UIUtils.toast('okk');
-                    _textController.clear();
-                    Get.back();
-                  } catch (e) {
-                    UIUtils.showError(e);
-                  }
-                } else {
-                  UIUtils.showError('choose type');
-                }
-              })
+              NextButton(
+                  text: 'Submit',
+                  onPressed: () async {
+                    if (controller.reportType.value != '') {
+                      try {
+                        await controller.onPressReport(
+                            content: _textController.text);
+                        UIUtils.toast('okk');
+                        _textController.clear();
+                        Get.back();
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
+                    } else {
+                      UIUtils.showError('choose type');
+                    }
+                  })
             ])));
   }
 

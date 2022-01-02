@@ -4,6 +4,8 @@ import 'package:chat/app/providers/providers.dart';
 import 'package:flutter/material.dart';
 import '../../post/controllers/post_controller.dart';
 import 'package:location/location.dart';
+import '../../home/controllers/home_controller.dart';
+import 'package:chat/types/types.dart';
 
 class CreateController extends GetxController {
   static CreateController get to => Get.find();
@@ -25,6 +27,8 @@ class CreateController extends GetxController {
   final _isSubmitting = false.obs;
   bool get isComposing => _isComposing.value;
   bool get isSubmitting => _isSubmitting.value;
+  final _visibility = 'public'.obs;
+  String get visibility => _visibility.value;
 
   @override
   void onInit() {
@@ -54,12 +58,16 @@ class CreateController extends GetxController {
       "content": answer,
       "post_template_id": postTemplateId,
       "background_color": backgroundColor.value,
+      "visibility": visibility
     };
     if (location != null) {
       body["latitude"] = location.latitude;
       body["longitude"] = location.longitude;
     }
-    await APIProvider.to.post("/post/posts", body: body);
+    final result = await APIProvider.to.post("/post/posts", body: body);
+    HomeController.to.myPostsIndexes.insert(0, result['data']['id']);
+    HomeController.to.postMap[result['data']['id']] =
+        PostEntity.fromJson(result['data']["attributes"]);
   }
 
   void setAnswer(String input) {
@@ -72,5 +80,9 @@ class CreateController extends GetxController {
 
   void setIsSubmitting(bool value) {
     _isSubmitting.value = value;
+  }
+
+  void setIsVisibility(String visibility) {
+    _visibility.value = visibility;
   }
 }

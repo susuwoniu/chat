@@ -9,19 +9,20 @@ import 'package:intl/intl.dart';
 import 'single_post_dot.dart';
 
 class MySinglePostView extends GetView<MySinglePostController> {
-  final _content = Get.arguments['content'];
-  final _backgroundColor = (Get.arguments['backgroundColor']);
-  final String _visibility = Get.arguments['visibility'];
-  final DateFormat formatter = DateFormat('yyyy-MM-dd  H:m');
+  final _postId = (Get.arguments['postId']);
+  final DateFormat formatter = DateFormat('yyyy-MM-dd  H:mm');
 
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
-    // final _height = MediaQuery.of(context).size.height;
+    final _height = MediaQuery.of(context).size.height;
     final _homeController = HomeController.to;
-    final _postId = Get.arguments['postId'];
-    final String _createAt =
-        formatter.format(DateTime.parse(Get.arguments['createAt']));
+
+    final _post = HomeController.to.postMap[_postId]!;
+    final _content = _post.content;
+    final _backgroundColor = _post.backgroundColor;
+
+    final String _createAt = formatter.format(DateTime.parse(_post.created_at));
 
     return Scaffold(
         appBar: AppBar(
@@ -29,16 +30,15 @@ class MySinglePostView extends GetView<MySinglePostController> {
           centerTitle: true,
         ),
         body: SafeArea(
-            child: SingleChildScrollView(
-          child: Column(children: [
+          child: ListView(children: [
             Container(
-                margin: EdgeInsets.fromLTRB(15, 6, 10, 15),
-                padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
+                margin: EdgeInsets.fromLTRB(12, 6, 12, 23),
+                padding: EdgeInsets.fromLTRB(15, 5, 0, 25),
+                constraints: BoxConstraints(minHeight: _height * 0.4),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Color(_backgroundColor),
                 ),
-                // height: _height * 0.4,
                 width: _width * 0.9,
                 child: Column(children: [
                   Row(
@@ -49,41 +49,17 @@ class MySinglePostView extends GetView<MySinglePostController> {
                           style: TextStyle(color: Colors.black45),
                         ),
                         Row(children: [
-                          Text(
-                            _visibility.tr,
-                            style: TextStyle(color: Colors.black45),
-                          ),
-                          IconButton(
-                              onPressed: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return SinglePostDot(
-                                          onPressedVisibility: () {
-                                        Navigator.pop(context);
-                                      }, onPressedDelete: () {
-                                        try {
-                                          controller.onDeletePost(_postId);
-                                          UIUtils.toast('ok');
-                                          Navigator.pop(context);
-                                          Get.back();
-                                        } catch (e) {
-                                          UIUtils.showError(e);
-                                        }
-                                      });
-                                    });
-                              },
-                              icon: Icon(
-                                Icons.more_vert_rounded,
-                                size: 26,
-                                color: Colors.black87,
+                          Obx(() => Text(
+                                controller.visibility.tr,
+                                style: TextStyle(color: Colors.black45),
                               )),
+                          _dotIcon(context: context, postId: _postId)
                         ]),
                       ]),
                   Container(
                       padding: EdgeInsets.only(right: 15),
                       child: Text(_content,
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.start,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 26.0,
@@ -99,8 +75,8 @@ class MySinglePostView extends GetView<MySinglePostController> {
                       ? post.views!.map((e) {
                           final account = AuthProvider.to.simpleAccountMap[e];
                           return Container(
-                              margin: EdgeInsets.fromLTRB(
-                                  _width * 0.03, 13, _width * 0.03, 0),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: _width * 0.04),
                               child: ViewersList(
                                   name: account!.name,
                                   img: account.avatar,
@@ -118,6 +94,47 @@ class MySinglePostView extends GetView<MySinglePostController> {
               return Column(children: list);
             }),
           ]),
-        )));
+        ));
+  }
+
+  Widget _dotIcon({required BuildContext context, required String postId}) {
+    return IconButton(
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return SinglePostDot(
+                    postId: postId,
+                    onPressedVisibility: (String visibility) async {
+                      try {
+                        UIUtils.showLoading();
+                        await controller.postVisibility(
+                            type: visibility, postId: postId);
+                        UIUtils.toast('okk');
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
+                      UIUtils.hideLoading();
+                      Navigator.pop(context);
+                    },
+                    onPressedDelete: () async {
+                      try {
+                        UIUtils.showLoading();
+                        await controller.onDeletePost(postId);
+                        UIUtils.toast('okk');
+                        Get.back();
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
+                      UIUtils.hideLoading();
+                      Navigator.pop(context);
+                    });
+              });
+        },
+        icon: Icon(
+          Icons.more_vert_rounded,
+          size: 26,
+          color: Colors.black87,
+        ));
   }
 }

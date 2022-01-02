@@ -4,7 +4,6 @@ import 'package:chat/types/types.dart';
 import 'package:chat/app/modules/main/controllers/bottom_navigation_bar_controller.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/common.dart';
-import 'package:location/location.dart';
 import 'package:chat/app/ui_utils/location.dart';
 
 class Skip {
@@ -79,12 +78,9 @@ class PostsFilter {
   final String? gender;
   final int? startAge;
   final int? endAge;
+  final int? endDistance;
 
-  PostsFilter({
-    this.gender,
-    this.startAge,
-    this.endAge,
-  });
+  PostsFilter({this.gender, this.startAge, this.endAge, this.endDistance});
 
   static PostsFilter empty() {
     return PostsFilter();
@@ -528,12 +524,17 @@ class HomeController extends GetxController {
     //     postMap: newPostMap, indexes: newIndexes, endCursor: newEndCursor);
   }
 
-  void onSubmittedFilter(
-      {required int startAge,
-      required int endAge,
-      required String selectedGender}) async {
+  void onSubmittedFilter({
+    required int startAge,
+    required int endAge,
+    required String selectedGender,
+    required int endDistance,
+  }) async {
     postsFilter(PostsFilter(
-        gender: selectedGender, startAge: startAge, endAge: endAge));
+        gender: selectedGender,
+        startAge: startAge,
+        endAge: endAge,
+        endDistance: endDistance));
     // first init skips,
     try {
       pageState[currentPage]!.postIndexes.clear();

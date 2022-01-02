@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ReportType extends StatelessWidget {
+class BottomSheetRow extends StatelessWidget {
   final String text;
   final Function onPressed;
 
-  ReportType({
+  BottomSheetRow({
     Key? key,
     required this.text,
     required this.onPressed,
@@ -18,14 +18,6 @@ class ReportType extends StatelessWidget {
           onPressed();
         },
         child: Container(
-          width: 600,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              border: Border(
-            bottom: BorderSide(
-              color: Colors.grey[200]!,
-            ),
-          )),
           padding: EdgeInsets.symmetric(vertical: 20),
           child: Text(
             text,

@@ -5,10 +5,16 @@ import '../../home/controllers/home_controller.dart';
 
 class MySinglePostController extends GetxController {
   //TODO: Implement MySinglePostController
+  static MySinglePostController get to => Get.find();
 
   final _homeController = HomeController.to;
   final _postId = Get.arguments['postId'];
+  final _visibility =
+      HomeController.to.postMap[Get.arguments['postId']]!.visibility.obs;
+  String get visibility => _visibility.value;
+
   final count = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -30,5 +36,13 @@ class MySinglePostController extends GetxController {
   void increment() => count.value++;
   onDeletePost(id) async {
     await APIProvider.to.delete('/post/posts/$id');
+    HomeController.to.myPostsIndexes.remove(id);
+    HomeController.to.postMap.remove(id);
+  }
+
+  postVisibility({required String type, required String postId}) async {
+    await APIProvider.to
+        .patch('/post/posts/$postId', body: {'visibility': type});
+    _visibility.value = type;
   }
 }

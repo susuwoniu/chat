@@ -37,6 +37,10 @@ class HomeView extends GetView<HomeController> {
                       initialStartAge: controller.postsFilter.value.startAge,
                       initialEndAge: controller.postsFilter.value.endAge,
                       initialGender: controller.postsFilter.value.gender,
+                      initialEndDistance:
+                          controller.postsFilter.value.endDistance,
+                      isNearby:
+                          controller.currentPage == 'nearby' ? true : false,
                     );
                   });
             }),
