@@ -57,23 +57,17 @@ class ReportController extends GetxController {
       for (var key in headers.keys) {
         newHeaders[key] = headers[key];
       }
-      // await upload(putUrl, img.url, headers: newHeaders, size: img.size);
+      await upload(putUrl, img.url, headers: newHeaders, size: img.size);
     }
   }
 
-  Future<void> addImg(
-    ProfileImageEntity img,
-  ) async {
-    imgList.add(img);
-  }
-
   onPressReport({String? content}) async {
-    final result = await APIProvider.to.post('/report/reports', body: {
-      "type": reportType,
+    await APIProvider.to.post('/report/reports', body: {
+      "type": reportType.value,
       "content": content ?? '',
       "related_post_id": _related_post_id,
       "related_account_id": _related_account_id,
-      // "images": [url]
+      "images": [imgEntity.url]
     });
   }
 }

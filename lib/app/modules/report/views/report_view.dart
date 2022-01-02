@@ -27,10 +27,6 @@ class ReportView extends GetView<ReportController> {
 
   @override
   Widget build(BuildContext context) {
-    final double _height = MediaQuery.of(context).size.height;
-    final double _width = MediaQuery.of(context).size.width;
-    final _imgWidth = _width * 0.27;
-
     return Scaffold(
         appBar: AppBar(
           title: Text('ReportView'),
@@ -109,9 +105,20 @@ class ReportView extends GetView<ReportController> {
                     : SingleImage(img: controller.imgEntity)),
               ),
               SizedBox(height: 20),
-              NextButton(onPressed: () {
-                controller.onPressReport(content: _textController.text);
-                _textController.clear();
+              NextButton(onPressed: () async {
+                if (controller.reportType.value != '') {
+                  try {
+                    await controller.onPressReport(
+                        content: _textController.text);
+                    UIUtils.toast('okk');
+                    _textController.clear();
+                    Get.back();
+                  } catch (e) {
+                    UIUtils.showError(e);
+                  }
+                } else {
+                  UIUtils.showError('choose type');
+                }
               })
             ])));
   }
@@ -143,15 +150,17 @@ class ReportView extends GetView<ReportController> {
                   width: width,
                   url: imageFile.path,
                   mime_type: mimeType));
+
           controller.isShowBlank.value = false;
           controller.setImgEntity(img);
-
-          // await controller.uploadImg(img: img);
-
+          try {
+            await controller.uploadImg(img: controller.imgEntity);
+          } catch (e) {
+            UIUtils.showError(e);
+          }
           UIUtils.hideLoading();
         } else {
           UIUtils.hideLoading();
-
           throw Exception('wrong image type');
         }
       }

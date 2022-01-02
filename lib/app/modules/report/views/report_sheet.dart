@@ -35,11 +35,7 @@ class ReportSheet extends StatelessWidget {
                 onPressed: () {
                   controller.setReportType('complaint');
                 }),
-            ReportType(
-                text: 'Cancel',
-                onPressed: () {
-                  Navigator.pop(context);
-                }),
+            ReportType(text: 'Cancel', onPressed: () {}),
           ]))
     ]);
   }
