@@ -24,18 +24,23 @@ class MyPosts extends StatelessWidget {
   Widget build(BuildContext context) {
     late List<String> postsIndexes;
     late Map<String, PostEntity> postMap;
+    late bool isLoading = true;
     final backgroundColorIndex = get_random_index(BACKGROUND_COLORS.length);
 
     return Obx(() {
       if (profileId != null) {
         postsIndexes = OtherController.to.myPostsIndexes;
         postMap = OtherController.to.postMap;
+        isLoading = OtherController.to.isLoadingPosts.value;
       } else if (postTemplateId != null) {
         postsIndexes = PostSquareController.to.myPostsIndexes;
         postMap = PostSquareController.to.postMap;
+        isLoading = PostSquareController.to.isLoadingPosts.value;
+        print(isLoading);
       } else {
         postsIndexes = HomeController.to.myPostsIndexes;
         postMap = HomeController.to.postMap;
+        isLoading = HomeController.to.isLoadingMyPosts.value;
       }
 
       final _width = MediaQuery.of(context).size.width;
@@ -91,11 +96,14 @@ class MyPosts extends StatelessWidget {
                 id: postTemplateId,
                 backgroundColorIndex: backgroundColorIndex));
       }
-      return SizedBox(
-        width: double.infinity,
-        child:
-            Wrap(alignment: WrapAlignment.spaceBetween, children: _myPostsList),
-      );
+      return isLoading
+          ? Loading()
+          : SizedBox(
+              width: double.infinity,
+              child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  children: _myPostsList),
+            );
     });
   }
 
