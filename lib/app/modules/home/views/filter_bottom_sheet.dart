@@ -2,6 +2,7 @@ import 'package:chat/app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:chat/common.dart';
+import 'vip_sheet.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   final BuildContext context;
@@ -189,7 +190,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     _buttons(
                         text: 'ok',
                         onPressed: () {
-                          if (!AuthProvider.to.account.value.vip) {
+                          if (AuthProvider.to.account.value.vip) {
                             if (widget.initialGender == selectedGender &&
                                 widget.initialStartAge ==
                                     _currentAgeRangeValues.start &&
@@ -197,7 +198,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                     _currentAgeRangeValues.end &&
                                 widget.initialEndDistance ==
                                     _currentDistanceRangeValues.end) {
-                              UIUtils.toast('----');
+                              UIUtils.toast('no changes');
                               Navigator.pop(context);
                             } else {
                               widget.onSubmitted(
@@ -211,7 +212,14 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               Navigator.pop(context);
                             }
                           } else {
-                            UIUtils.showError('not vip');
+                            Navigator.pop(context);
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                enableDrag: false,
+                                builder: (context) {
+                                  return VipSheet(context: context);
+                                });
                           }
                         }),
                     _buttons(
@@ -221,6 +229,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                             _currentAgeRangeValues = RangeValues(18, 98);
                             selectedGender = 'all';
                             _currentDistanceRangeValues = RangeValues(0, 100);
+                            UIUtils.toast('okkkk');
                           });
                         }),
                   ])

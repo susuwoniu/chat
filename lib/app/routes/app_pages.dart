@@ -61,7 +61,6 @@ import '../modules/verification/views/verification_view.dart';
 import 'observers.dart';
 import '../modules/report/views/report_view.dart';
 import '../modules/report/bindings/report_binding.dart';
-
 part 'app_routes.dart';
 
 class AppPages {

@@ -14,6 +14,7 @@ import 'my_posts.dart';
 import 'like_count.dart';
 import 'profile_viewers_bubble.dart';
 import 'image_slider.dart';
+import '../../home/views/vip_sheet.dart';
 
 class MeView extends GetView<MeController> {
   final CarouselController buttonCarouselController = CarouselController();
@@ -94,12 +95,21 @@ class MeView extends GetView<MeController> {
               right: paddingLeft,
               bottom: height * 0.025,
               child: ProfileViewersBubble(
-                totalViewersCount: controller.totalViewedCount.value,
-                newViewersCount: controller.unreadViewedCount.value,
-                onPressed: () {
-                  Get.toNamed(Routes.PROFILE_VIEWERS);
-                },
-              )),
+                  totalViewersCount: controller.totalViewedCount.value,
+                  newViewersCount: controller.unreadViewedCount.value,
+                  onPressed: () {
+                    if (_vip) {
+                      Get.toNamed(Routes.PROFILE_VIEWERS);
+                    } else {
+                      showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          enableDrag: false,
+                          builder: (context) {
+                            return VipSheet(context: context);
+                          });
+                    }
+                  })),
           Positioned(
             bottom: height * 0.01,
             width: width,

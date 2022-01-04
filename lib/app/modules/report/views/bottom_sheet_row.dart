@@ -18,6 +18,8 @@ class BottomSheetRow extends StatelessWidget {
           onPressed();
         },
         child: Container(
+          color: Colors.transparent,
+          alignment: Alignment.center,
           padding: EdgeInsets.symmetric(vertical: 20),
           child: Text(
             text,

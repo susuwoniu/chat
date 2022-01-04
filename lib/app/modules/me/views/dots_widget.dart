@@ -4,12 +4,14 @@ class DotsWidget extends StatelessWidget {
   final int current;
   final int count;
   final Function(int index) onTap;
+  final double? size;
 
   DotsWidget({
     Key? key,
     required this.current,
     required this.count,
     required this.onTap,
+    this.size = 12,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -21,14 +23,12 @@ class DotsWidget extends StatelessWidget {
         return GestureDetector(
             onTap: () => {onTap(index)},
             child: Container(
-              width: 12.0,
-              height: 12.0,
+              width: size,
+              height: size,
               margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: (Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black)
+                  color: (size == null ? Colors.black : Colors.white)
                       .withOpacity(current == index ? 0.9 : 0.4)),
             ));
       }).toList(),
