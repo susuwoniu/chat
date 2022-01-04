@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 
 class MoreDots extends StatelessWidget {
   final void Function() onPressedReport;
@@ -42,11 +43,17 @@ class MoreDots extends StatelessWidget {
                   child: Text('Report',
                       style: TextStyle(fontSize: 20, color: Colors.red)),
                 )),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-              width: _width,
-              child: GestureDetector(
-                  onTap: onPressedShare,
+            GestureDetector(
+              onTap: () async {
+                final box = context.findRenderObject() as RenderBox?;
+
+                await Share.share('',
+                    sharePositionOrigin:
+                        box!.localToGlobal(Offset.zero) & box.size);
+              },
+              child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                  color: Colors.transparent,
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

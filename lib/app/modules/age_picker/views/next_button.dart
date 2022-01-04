@@ -3,14 +3,25 @@ import 'package:flutter/material.dart';
 class NextButton extends StatelessWidget {
   final String? action;
   final String? text;
-
+  final double? height;
+  final double? width;
+  final Color? color;
+  final double? size;
+  final Color? textColor;
+  final double? borderRadius;
   final void Function() onPressed;
 
   NextButton({
     Key? key,
     this.action,
     required this.onPressed,
+    this.height,
+    this.width,
     this.text = 'next',
+    this.color,
+    this.size,
+    this.textColor,
+    this.borderRadius,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -22,19 +33,18 @@ class NextButton extends StatelessWidget {
         onPressed();
       },
       child: Container(
-        height: _height * 0.07,
-        width: _width * 0.95,
-        margin: EdgeInsets.only(bottom: _height * 0.06),
+        height: height ?? _height * 0.07,
+        width: width ?? _width * 0.95,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.blue,
+          borderRadius: BorderRadius.circular(borderRadius ?? 10),
+          color: color ?? Colors.blue,
         ),
         alignment: Alignment.center,
         child: Text(text!,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 22,
-                color: Colors.white)),
+                fontSize: size ?? 22,
+                color: textColor ?? Colors.white)),
       ),
     );
   }

@@ -7,6 +7,8 @@ environment:
 
 dependencies:
   # csc_picker: ^0.2.6
+  flutter_social_content_share: ^1.0.2
+  share_plus: ^3.0.4
   animated_toggle_switch: ^0.2.1
   image_cropper: ^1.4.1
   location: ^4.3.0

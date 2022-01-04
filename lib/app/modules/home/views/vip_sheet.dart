@@ -1,18 +1,9 @@
+import 'package:chat/app/modules/age_picker/views/next_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:chat/app/providers/providers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../me/views/dots_widget.dart';
-
-// class VipCardEntity {
-//   final IconData icon;
-//   final String title;
-//   final String detail;
-
-//   VipCardEntity(
-//       {required this.icon, required this.title, required this.detail});
-// }
+import '../../age_picker/views/next_button.dart';
 
 final List<Map<String, dynamic>> _cardList = [
   {
@@ -44,7 +35,7 @@ class _VipSheetState extends State<VipSheet> {
   final CarouselController buttonCarouselController = CarouselController();
   @override
   Widget build(BuildContext context) {
-    final _account = AuthProvider.to.account.value;
+    // final _account = AuthProvider.to.account.value;
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
 
@@ -106,7 +97,7 @@ class _VipSheetState extends State<VipSheet> {
             ]),
           ),
           _priceList(context: context),
-          _buyButton(height: height, width: width)
+          _toBuyButton(height: height, width: width),
         ]),
       )
     ]);
@@ -127,7 +118,7 @@ class _VipSheetState extends State<VipSheet> {
           gradient: LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
-              colors: [Colors.purple, Colors.blue.shade700]),
+              colors: [Colors.purple, Colors.blue.shade800]),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(8), topRight: Radius.circular(8)),
         ),
@@ -150,24 +141,17 @@ class _VipSheetState extends State<VipSheet> {
         ]));
   }
 
-  Widget _buyButton({required double height, required double width}) {
+  Widget _toBuyButton({required double height, required double width}) {
     return Container(
-      child: GestureDetector(
-        child: Container(
-            alignment: Alignment.center,
-            height: height * 0.15,
-            width: width * 0.8,
-            decoration: BoxDecoration(
-                color: Colors.black87, borderRadius: BorderRadius.circular(8)),
-            child: Text('To_Purchase',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17))),
-      ),
+      child: NextButton(
+          color: Colors.black87,
+          size: 17,
+          height: height * 0.06,
+          width: width * 0.8,
+          text: 'To_Purchase',
+          onPressed: () {}),
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(vertical: 15),
-      height: height * 0.1,
       width: width * 0.9,
       decoration: BoxDecoration(
           color: Colors.grey.shade100,

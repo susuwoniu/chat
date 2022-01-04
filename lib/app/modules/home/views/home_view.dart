@@ -1,3 +1,4 @@
+import 'package:chat/app/modules/home/views/social_share.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktoklikescroller/tiktoklikescroller.dart';
@@ -14,6 +15,7 @@ import 'author_name.dart';
 import './action_buttons.dart';
 import 'more_dots.dart';
 import 'nearby_switch.dart';
+import 'social_share.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -217,8 +219,19 @@ class HomeView extends GetView<HomeController> {
                                                       builder: (context) {
                                                         return MoreDots(
                                                             context: context,
-                                                            onPressedShare:
-                                                                () {},
+                                                            onPressedShare: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              showModalBottomSheet(
+                                                                  context:
+                                                                      context,
+                                                                  isScrollControlled:
+                                                                      true,
+                                                                  builder:
+                                                                      (context) {
+                                                                    return SocialShare();
+                                                                  });
+                                                            },
                                                             onPressedReport:
                                                                 () {
                                                               Navigator.pop(
