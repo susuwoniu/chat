@@ -352,7 +352,8 @@ class MessageController extends GetxController {
   Future<void> initMessages() async {
     final roomManager = ChatProvider.to.roomManager!;
     var currentEarliestMessageId = null;
-    final messages = await roomManager.getServerMessages();
+    final messages =
+        await roomManager.getServerMessages(limit: 4, sort: "desc");
     print('messages $messages');
   }
 

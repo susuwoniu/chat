@@ -231,7 +231,8 @@ class NextPage {
   }
 
   Map<String, String> toArguments() {
-    final nextUri = Uri(path: route, queryParameters: arguments);
+    final nextUri = Uri(
+        path: route, queryParameters: argumentsToQueryParameters(arguments));
     return <String, String>{
       'next': nextUri.toString(),
       'mode': camel(mode.toString().toLowerCase()),
@@ -241,3 +242,10 @@ class NextPage {
 }
 
 String camel(String s) => s[0].toLowerCase() + s.substring(1);
+argumentsToQueryParameters(Map<String, dynamic> arguments) {
+  final queryParameters = <String, String>{};
+  arguments.forEach((key, value) {
+    queryParameters[key] = value.toString();
+  });
+  return queryParameters;
+}
