@@ -47,7 +47,7 @@ class Room extends xmpp.Room {
 }
 
 class MessageController extends GetxController {
-  late String chatAccountId = '';
+  String? chatAccountId;
 
   static MessageController get to => Get.find();
   static types.Message formatMessage(xmpp.Message message) {
@@ -230,12 +230,12 @@ class MessageController extends GetxController {
 
   Future<void> tryToInitRoom(String roomId, xmpp.Message? message) async {
     // check room inbo exists
-    final accountId = jidToAccountId(roomId);
-    chatAccountId = jidToAccountId(roomId)!;
+    chatAccountId = jidToAccountId(roomId);
 
-    if (AuthProvider.to.simpleAccountMap[accountId] == null) {
+    if (chatAccountId != null &&
+        AuthProvider.to.simpleAccountMap[chatAccountId] == null) {
       try {
-        await HomeController.to.getOtherAccount(id: accountId!);
+        await HomeController.to.getOtherAccount(id: chatAccountId!);
       } catch (e) {
         UIUtils.showError(e);
       }
