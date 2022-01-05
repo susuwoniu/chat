@@ -76,93 +76,93 @@ class _MyPostsState extends State<MyPosts> {
   Widget build(BuildContext context) {
     final backgroundColorIndex = get_random_index(BACKGROUND_COLORS.length);
 
-    return Obx(() {
-      final _width = MediaQuery.of(context).size.width;
-      final double paddingLeft = _width * 0.05;
-      final double paddingTop = _width * 0.04;
-      bool isLoading = false;
-      RxList<String> postsIndexes;
-      RxMap<String, PostEntity> postMap;
-      if (widget.profileId != null) {
-        postsIndexes = OtherController.to.myPostsIndexes;
-        postMap = OtherController.to.postMap;
-        isLoading = OtherController.to.isLoadingPosts.value;
-        type = 'other';
-      } else if (widget.postTemplateId != null) {
-        postsIndexes = PostSquareController.to.myPostsIndexes;
-        postMap = PostSquareController.to.postMap;
-        isLoading = PostSquareController.to.isLoadingPosts.value;
-        type = 'square';
-      } else {
-        postsIndexes = HomeController.to.myPostsIndexes;
-        postMap = HomeController.to.postMap;
-        isLoading = HomeController.to.isLoadingMyPosts.value;
-      }
+    // return Obx(() {
+    final _width = MediaQuery.of(context).size.width;
+    final double paddingLeft = _width * 0.05;
+    final double paddingTop = _width * 0.04;
+    bool isLoading = false;
+    RxList<String> postsIndexes;
+    RxMap<String, PostEntity> postMap;
+    if (widget.profileId != null) {
+      postsIndexes = OtherController.to.myPostsIndexes;
+      postMap = OtherController.to.postMap;
+      isLoading = OtherController.to.isLoadingPosts.value;
+      type = 'other';
+    } else if (widget.postTemplateId != null) {
+      postsIndexes = PostSquareController.to.myPostsIndexes;
+      postMap = PostSquareController.to.postMap;
+      isLoading = PostSquareController.to.isLoadingPosts.value;
+      type = 'square';
+    } else {
+      postsIndexes = HomeController.to.myPostsIndexes;
+      postMap = HomeController.to.postMap;
+      isLoading = HomeController.to.isLoadingMyPosts.value;
+    }
 
-      lastPostId = postsIndexes.isNotEmpty ? postsIndexes.last : null;
+    lastPostId = postsIndexes.isNotEmpty ? postsIndexes.last : null;
 
-      // if (widget.profileId == null && widget.postTemplateId == null) {
-      //   _myPostsList.insert(0, createPost(context: context));
-      // } else if (widget.postTemplateId != null) {
-      //   _myPostsList.insert(
-      //       0,
-      //       createPost(
-      //           context: context,
-      //           type: 'toCreate',
-      //           id: widget.postTemplateId,
-      //           backgroundColorIndex: backgroundColorIndex));
-      // }
-      return isLoading
-          ? Loading()
-          : PagedListView<String?, String>(
-              pagingController: _pagingController,
-              builderDelegate: PagedChildBuilderDelegate<String>(
-                  itemBuilder: (context, id, index) {
-                final post = postMap[id]!;
+    // if (widget.profileId == null && widget.postTemplateId == null) {
+    //   _myPostsList.insert(0, createPost(context: context));
+    // } else if (widget.postTemplateId != null) {
+    //   _myPostsList.insert(
+    //       0,
+    //       createPost(
+    //           context: context,
+    //           type: 'toCreate',
+    //           id: widget.postTemplateId,
+    //           backgroundColorIndex: backgroundColorIndex));
+    // }
+    return Container(
+        height: 400,
+        child: PagedListView<String?, String>(
+          pagingController: _pagingController,
+          builderDelegate: PagedChildBuilderDelegate<String>(
+              itemBuilder: (context, id, index) {
+            final post = postMap[id]!;
 
-                return GestureDetector(
-                    onTap: () {
-                      if (widget.profileId != null ||
-                          widget.postTemplateId != null) {
-                        Get.toNamed(Routes.ROOM, arguments: {
-                          "id": "im${post.accountId}@$imDomain",
-                          "quote": post.content
-                        });
-                      } else {
-                        Get.toNamed(Routes.MY_SINGLE_POST, arguments: {
-                          'postId': id,
-                        });
-                      }
-                    },
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(
-                          paddingLeft, paddingTop, paddingLeft, paddingTop),
-                      padding: EdgeInsets.all(_width * 0.03),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Color(postMap[id]!.backgroundColor),
-                      ),
-                      height: _width * 0.5,
-                      width: _width * 0.4,
-                      child: Text(postMap[id]!.content,
-                          maxLines: 5,
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            overflow: TextOverflow.ellipsis,
-                            color: Colors.white,
-                          )),
-                    ));
-              }),
-            );
+            return GestureDetector(
+                onTap: () {
+                  if (widget.profileId != null ||
+                      widget.postTemplateId != null) {
+                    Get.toNamed(Routes.ROOM, arguments: {
+                      "id": "im${post.accountId}@$imDomain",
+                      "quote": post.content
+                    });
+                  } else {
+                    Get.toNamed(Routes.MY_SINGLE_POST, arguments: {
+                      'postId': id,
+                    });
+                  }
+                },
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(
+                      paddingLeft, paddingTop, paddingLeft, paddingTop),
+                  padding: EdgeInsets.all(_width * 0.03),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Color(postMap[id]!.backgroundColor),
+                  ),
+                  height: _width * 0.5,
+                  width: _width * 0.4,
+                  child: Text(postMap[id]!.content,
+                      maxLines: 5,
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis,
+                        color: Colors.white,
+                      )),
+                ));
+          }),
+        ));
 
-      // SizedBox(
-      //     width: double.infinity,
-      //     child: Wrap(
-      //         alignment: WrapAlignment.spaceBetween,
-      //         children: _myPostsList),
-      //   );
-    });
+    // SizedBox(
+    //     width: double.infinity,
+    //     child: Wrap(
+    //         alignment: WrapAlignment.spaceBetween,
+    //         children: _myPostsList),
+    //   );
+    // });
   }
 
   Widget createPost(

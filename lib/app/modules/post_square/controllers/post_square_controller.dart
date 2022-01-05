@@ -11,7 +11,7 @@ class PostSquareController extends GetxController {
 
   //TODO: Implement PostSquareController
 
-  final _id = int.parse(Get.arguments['id']).toString();
+  final _id = Get.arguments['id'];
   final usedCount = 0.obs;
   final _homeController = HomeController.to;
   final isInitial = false.obs;
@@ -28,19 +28,19 @@ class PostSquareController extends GetxController {
   @override
   onReady() async {
     super.onReady();
-    try {
-      await getTemplatesSquareData(postTemplateId: _id);
-      await getTemplateData();
-    } catch (e) {
-      UIUtils.showError(e);
-    }
+    // try {
+    //   await getTemplatesSquareData(postTemplateId: _id);
+    //   await getTemplateData();
+    // } catch (e) {
+    //   UIUtils.showError(e);
+    // }
   }
 
   @override
   void onClose() {}
   void increment() => count.value++;
 
-  getTemplatesSquareData(
+  Future<List<String>> getTemplatesSquareData(
       {String? after, required String postTemplateId}) async {
     isLoadingPosts.value = true;
     final result = await _homeController.getRawPosts(
@@ -54,6 +54,7 @@ class PostSquareController extends GetxController {
     if (isInitial.value == false) {
       isInitial.value = true;
     }
+    return result.indexes;
   }
 
   Future<List<String>> getTemplateData() async {
