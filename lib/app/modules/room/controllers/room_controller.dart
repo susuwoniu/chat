@@ -65,7 +65,10 @@ class RoomController extends GetxController {
   initQuote() {
     final quote = Get.arguments["quote"];
     if (quote != null && ChatProvider.to.currentChatAccount.value != null) {
-      final backgroundColor = Get.arguments["quote_background_color"];
+      var backgroundColor = Get.arguments["quote_background_color"];
+      if (backgroundColor is String) {
+        backgroundColor = int.parse(backgroundColor);
+      }
       // todo check new line
       Map<String, dynamic> metadata = {};
       if (backgroundColor != null) {
