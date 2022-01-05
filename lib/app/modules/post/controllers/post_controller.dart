@@ -78,7 +78,7 @@ class PostController extends GetxController {
     // todo
     Map<String, dynamic> query = {
       // "featured": "true",
-      "limit": "3",
+      "limit": DEFAULT_PAGE_SIZE.toString(),
     };
     if (after != null) {
       query["after"] = after;

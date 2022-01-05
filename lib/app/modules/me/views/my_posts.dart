@@ -25,41 +25,50 @@ class MyPosts extends StatefulWidget {
 }
 
 class _MyPostsState extends State<MyPosts> {
-  String type = 'home';
+  String type = 'me';
   String? lastPostId;
 
-  final PagingController _pagingController = PagingController(firstPageKey: 0);
+  final PagingController<String?, String> _pagingController =
+      PagingController(firstPageKey: null);
 
   @override
   void initState() {
-    // _pagingController.addPageRequestListener((pageKey) {
-    //   // _fetchPage(pageKey);
-    // });
+    _pagingController.addPageRequestListener((lastPostId) {
+      _fetchPage(lastPostId);
+    });
 
     super.initState();
   }
 
-  Future<void> _fetchPage(int pageKey) async {
-    if (type == 'home') {
+  Future<void> _fetchPage(String? lastPostId) async {
+    List<String> indexes = [];
+    if (type == 'other') {
       try {
-        HomeController.to.getMePosts(after: lastPostId);
-      } catch (e) {
-        UIUtils.showError(e);
-      }
-    } else if (type == 'other') {
-      try {
-        OtherController.to
+        indexes = await OtherController.to
             .getAccountsPosts(after: lastPostId, id: widget.profileId!);
       } catch (e) {
         UIUtils.showError(e);
       }
     } else if (type == 'square') {
       try {
-        PostSquareController.to.getTemplatesSquareData(
+        indexes = await PostSquareController.to.getTemplatesSquareData(
             after: lastPostId, postTemplateId: widget.postTemplateId!);
       } catch (e) {
         UIUtils.showError(e);
       }
+    } else {
+      try {
+        indexes = await HomeController.to.getMePosts(after: lastPostId);
+      } catch (e) {
+        UIUtils.showError(e);
+      }
+    }
+    final isLastPage = indexes.length < DEFAULT_PAGE_SIZE;
+    if (isLastPage) {
+      _pagingController.appendLastPage(indexes);
+    } else {
+      final nextPageKey = indexes.last;
+      _pagingController.appendPage(indexes, nextPageKey);
     }
   }
 
@@ -92,64 +101,67 @@ class _MyPostsState extends State<MyPosts> {
 
       lastPostId = postsIndexes.isNotEmpty ? postsIndexes.last : null;
 
-      List<Widget> _myPostsList = [];
-
-      for (var id in postsIndexes) {
-        final post = postMap[id]!;
-        _myPostsList.add(
-          GestureDetector(
-              onTap: () {
-                if (widget.profileId != null || widget.postTemplateId != null) {
-                  Get.toNamed(Routes.ROOM, arguments: {
-                    "id": "im${post.accountId}@$imDomain",
-                    "quote": post.content
-                  });
-                } else {
-                  Get.toNamed(Routes.MY_SINGLE_POST, arguments: {
-                    'postId': id,
-                  });
-                }
-              },
-              child: Container(
-                margin: EdgeInsets.fromLTRB(
-                    paddingLeft, paddingTop, paddingLeft, paddingTop),
-                padding: EdgeInsets.all(_width * 0.03),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color(postMap[id]!.backgroundColor),
-                ),
-                height: _width * 0.5,
-                width: _width * 0.4,
-                child: Text(postMap[id]!.content,
-                    maxLines: 5,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      overflow: TextOverflow.ellipsis,
-                      color: Colors.white,
-                    )),
-              )),
-        );
-      }
-      if (widget.profileId == null && widget.postTemplateId == null) {
-        _myPostsList.insert(0, createPost(context: context));
-      } else if (widget.postTemplateId != null) {
-        _myPostsList.insert(
-            0,
-            createPost(
-                context: context,
-                type: 'toCreate',
-                id: widget.postTemplateId,
-                backgroundColorIndex: backgroundColorIndex));
-      }
+      // if (widget.profileId == null && widget.postTemplateId == null) {
+      //   _myPostsList.insert(0, createPost(context: context));
+      // } else if (widget.postTemplateId != null) {
+      //   _myPostsList.insert(
+      //       0,
+      //       createPost(
+      //           context: context,
+      //           type: 'toCreate',
+      //           id: widget.postTemplateId,
+      //           backgroundColorIndex: backgroundColorIndex));
+      // }
       return isLoading
           ? Loading()
-          : SizedBox(
-              width: double.infinity,
-              child: Wrap(
-                  alignment: WrapAlignment.spaceBetween,
-                  children: _myPostsList),
+          : PagedListView<String?, String>(
+              pagingController: _pagingController,
+              builderDelegate: PagedChildBuilderDelegate<String>(
+                  itemBuilder: (context, id, index) {
+                final post = postMap[id]!;
+
+                return GestureDetector(
+                    onTap: () {
+                      if (widget.profileId != null ||
+                          widget.postTemplateId != null) {
+                        Get.toNamed(Routes.ROOM, arguments: {
+                          "id": "im${post.accountId}@$imDomain",
+                          "quote": post.content
+                        });
+                      } else {
+                        Get.toNamed(Routes.MY_SINGLE_POST, arguments: {
+                          'postId': id,
+                        });
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(
+                          paddingLeft, paddingTop, paddingLeft, paddingTop),
+                      padding: EdgeInsets.all(_width * 0.03),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Color(postMap[id]!.backgroundColor),
+                      ),
+                      height: _width * 0.5,
+                      width: _width * 0.4,
+                      child: Text(postMap[id]!.content,
+                          maxLines: 5,
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
+                            color: Colors.white,
+                          )),
+                    ));
+              }),
             );
+
+      // SizedBox(
+      //     width: double.infinity,
+      //     child: Wrap(
+      //         alignment: WrapAlignment.spaceBetween,
+      //         children: _myPostsList),
+      //   );
     });
   }
 
@@ -192,5 +204,11 @@ class _MyPostsState extends State<MyPosts> {
                 style: TextStyle(color: Colors.black54, fontSize: 16))
           ]),
         ));
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
   }
 }
