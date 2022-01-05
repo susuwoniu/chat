@@ -13,6 +13,7 @@ class ChatProvider extends GetxService {
   final currentChatAccount = Rxn<types.User>();
   bool get isConnected => _isConnected.value;
   bool get isLoading => _isLoading.value;
+  bool isInitConnection = false;
   xmpp.Connection? _connection;
   xmpp.Jid? _currentAccount;
   xmpp.Jid? get currentAccount => _currentAccount;
@@ -35,7 +36,7 @@ class ChatProvider extends GetxService {
   }
 
   @override
-  void onInit() async {
+  void onInit() {
     // init im login
     _authStatusSubscription = AuthProvider.to.authUpdated.listen((event) {
       if (event == AuthStatus.loginSuccess) {
@@ -48,6 +49,7 @@ class ChatProvider extends GetxService {
         dipose();
       }
     });
+    // init xmpp client
 
     super.onInit();
   }
@@ -57,10 +59,12 @@ class ChatProvider extends GetxService {
     if (AuthProvider.to.isLogin) {
       // disable current
       dipose();
-      final username = "im${AuthProvider.to.accountId}";
       try {
-        await ChatProvider.to.login(username, AppConfig().config.imDomain,
-            AuthProvider.to.imAccessToken!, "flutter");
+        await ChatProvider.to.login(
+            AuthProvider.to.accountId!,
+            AppConfig().config.imDomain,
+            AuthProvider.to.imAccessToken!,
+            "flutter");
       } catch (e) {
         print(e);
         rethrow;
@@ -90,12 +94,14 @@ class ChatProvider extends GetxService {
     // String? resourceId = await PlatformDeviceId.getDeviceId;
     // final resource = resourceId
     // final platform = Platform.isAndroid ? 'Android' : 'iOS';
-    final jid = "$accountId@$domain/$device";
+    final jid = "im$accountId@$domain/$device";
     final account = xmpp.XmppAccountSettings.fromJid(jid, token);
     account.reconnectionTimeout = 3000;
     _isLoading.value = true;
     _connection = xmpp.Connection(account);
-
+    if (!isInitConnection) {
+      await _connection!.init();
+    }
     Completer<void> completer = Completer();
 
     xmpp.Log.logXmpp = false; // TODO
