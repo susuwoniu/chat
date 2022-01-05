@@ -1,3 +1,4 @@
+import 'package:chat/app/modules/me/views/small_post.dart';
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/types/account.dart';
@@ -15,9 +16,15 @@ import 'like_count.dart';
 import 'profile_viewers_bubble.dart';
 import 'image_slider.dart';
 import '../../home/views/vip_sheet.dart';
+import 'small_post.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import '../../home/controllers/home_controller.dart';
 
 class MeView extends GetView<MeController> {
   final CarouselController buttonCarouselController = CarouselController();
+
+  final PagingController<String?, String> _pagingController =
+      PagingController(firstPageKey: null);
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +34,9 @@ class MeView extends GetView<MeController> {
 
     return Scaffold(body: Obx(() {
       final _account = AuthProvider.to.account.value;
+      final postsIndexes = HomeController.to.myPostsIndexes;
+      final postMap = HomeController.to.postMap;
+      final isLoading = HomeController.to.isLoadingMyPosts.value;
       final _name = _account.name;
       final _vip = _account.vip;
 
@@ -41,104 +51,120 @@ class MeView extends GetView<MeController> {
         _imgList.add(ProfileImageEntity.empty());
       }
 
-      return ListView(padding: EdgeInsets.all(0), children: [
-        Stack(children: [
-          CarouselSlider(
-            items: _imgList
-                .map((img) =>
-                    ImageSlider(img: img, height: height * 0.5, width: width))
-                .toList(),
-            carouselController: buttonCarouselController,
-            options: CarouselOptions(
-                height: height * 0.5,
-                viewportFraction: 1,
-                enableInfiniteScroll: false,
-                onPageChanged: (index, reason) {
-                  controller.setCurrent(index);
-                }),
-          ),
-          Positioned(
-              left: paddingLeft,
-              top: height * 0.06,
-              child: CircleWidget(
-                icon: Icon(Icons.settings_rounded, color: Colors.white),
-                onPressed: () {
-                  Get.toNamed(Routes.SETTING,
-                      arguments: {"phone": _account.phone_number});
-                },
-              )),
-          Positioned(
-              right: paddingLeft,
-              top: height * 0.06,
-              child: CircleWidget(
-                icon: Icon(Icons.create_rounded, color: Colors.white),
-                onPressed: () {
-                  Get.toNamed(Routes.EDIT_INFO);
-                },
-              )),
-          Positioned(
-              left: paddingLeft,
-              bottom: height * 0.025,
+      return CustomScrollView(slivers: [
+        SliverToBoxAdapter(
+          child: Column(children: [
+            Stack(children: [
+              CarouselSlider(
+                items: _imgList
+                    .map((img) => ImageSlider(
+                        img: img, height: height * 0.5, width: width))
+                    .toList(),
+                carouselController: buttonCarouselController,
+                options: CarouselOptions(
+                    height: height * 0.5,
+                    viewportFraction: 1,
+                    enableInfiniteScroll: false,
+                    onPageChanged: (index, reason) {
+                      controller.setCurrent(index);
+                    }),
+              ),
+              Positioned(
+                  left: paddingLeft,
+                  top: height * 0.06,
+                  child: CircleWidget(
+                    icon: Icon(Icons.settings_rounded, color: Colors.white),
+                    onPressed: () {
+                      Get.toNamed(Routes.SETTING,
+                          arguments: {"phone": _account.phone_number});
+                    },
+                  )),
+              Positioned(
+                  right: paddingLeft,
+                  top: height * 0.06,
+                  child: CircleWidget(
+                    icon: Icon(Icons.create_rounded, color: Colors.white),
+                    onPressed: () {
+                      Get.toNamed(Routes.EDIT_INFO);
+                    },
+                  )),
+              Positioned(
+                  left: paddingLeft,
+                  bottom: height * 0.025,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        NicknameWidget(name: _name, vip: _vip),
+                        SizedBox(height: 8),
+                        AgeWidget(
+                            gender: _account.gender,
+                            age: _account.age.toString()),
+                        SizedBox(height: 15),
+                        LikeCount(
+                          text: _likeCount,
+                        ),
+                      ])),
+              Positioned(
+                  right: paddingLeft,
+                  bottom: height * 0.025,
+                  child: ProfileViewersBubble(
+                      totalViewersCount: controller.totalViewedCount.value,
+                      newViewersCount: controller.unreadViewedCount.value,
+                      onPressed: () {
+                        if (_vip) {
+                          Get.toNamed(Routes.PROFILE_VIEWERS);
+                        } else {
+                          showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              enableDrag: false,
+                              builder: (context) {
+                                return VipSheet(context: context);
+                              });
+                        }
+                      })),
+              Positioned(
+                bottom: height * 0.01,
+                width: width,
+                child: DotsWidget(
+                    current: controller.current,
+                    onTap: buttonCarouselController.animateToPage,
+                    count: _account.profileImages.length),
+              ),
+            ]),
+            Container(
+              padding: EdgeInsets.fromLTRB(paddingLeft, 15, 0, 0),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    NicknameWidget(name: _name, vip: _vip),
+                    Text(_bio!,
+                        style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.grey,
+                        )),
                     SizedBox(height: 8),
-                    AgeWidget(
-                        gender: _account.gender, age: _account.age.toString()),
-                    SizedBox(height: 15),
-                    LikeCount(
-                      text: _likeCount,
-                    ),
-                  ])),
-          Positioned(
-              right: paddingLeft,
-              bottom: height * 0.025,
-              child: ProfileViewersBubble(
-                  totalViewersCount: controller.totalViewedCount.value,
-                  newViewersCount: controller.unreadViewedCount.value,
-                  onPressed: () {
-                    if (_vip) {
-                      Get.toNamed(Routes.PROFILE_VIEWERS);
-                    } else {
-                      showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          enableDrag: false,
-                          builder: (context) {
-                            return VipSheet(context: context);
-                          });
-                    }
-                  })),
-          Positioned(
-            bottom: height * 0.01,
-            width: width,
-            child: DotsWidget(
-                current: controller.current,
-                onTap: buttonCarouselController.animateToPage,
-                count: _account.profileImages.length),
-          ),
-        ]),
-        Container(
-          padding: EdgeInsets.fromLTRB(paddingLeft, 15, 0, 0),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(_bio!,
-                style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.grey,
-                )),
-            SizedBox(height: 8),
-            ProfileInfoText(
-                text: _location,
-                iconName: IconData(61716, fontFamily: 'MaterialIcons')),
-            SizedBox(height: 6),
-            ProfileInfoText(
-                text: _birth,
-                iconName: IconData(61505, fontFamily: 'MaterialIcons')),
+                    ProfileInfoText(
+                        text: _location,
+                        iconName: IconData(61716, fontFamily: 'MaterialIcons')),
+                    SizedBox(height: 6),
+                    ProfileInfoText(
+                        text: _birth,
+                        iconName: IconData(61505, fontFamily: 'MaterialIcons')),
+                  ]),
+            )
           ]),
         ),
-        MyPosts(),
+        PagedSliverList<String?, String>(
+          pagingController: _pagingController,
+          builderDelegate: PagedChildBuilderDelegate<String>(
+              itemBuilder: (context, id, index) {
+            final post = postMap[id]!;
+            return SmallPost(
+                postId: id,
+                content: post.content,
+                backgroundColor: post.backgroundColor);
+          }),
+        ),
       ]);
     }));
   }
