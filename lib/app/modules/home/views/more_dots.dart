@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
+// import 'package:share_plus/share_plus.dart';
+import 'package:flutter_share_me/flutter_share_me.dart';
 
 class MoreDots extends StatelessWidget {
   final void Function() onPressedReport;
@@ -45,11 +46,12 @@ class MoreDots extends StatelessWidget {
                 )),
             GestureDetector(
               onTap: () async {
-                final box = context.findRenderObject() as RenderBox?;
-
-                await Share.share('',
-                    sharePositionOrigin:
-                        box!.localToGlobal(Offset.zero) & box.size);
+                Navigator.pop(context);
+                final FlutterShareMe flutterShareMe = FlutterShareMe();
+                // TODO right share url
+                final response =
+                    await flutterShareMe.shareToSystem(msg: "test");
+                print(response);
               },
               child: Container(
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
