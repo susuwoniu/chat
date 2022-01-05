@@ -25,9 +25,6 @@ class MyPosts extends StatefulWidget {
 }
 
 class _MyPostsState extends State<MyPosts> {
-  List<String> postsIndexes = [];
-  Map<String, PostEntity> postMap = {};
-  bool isLoading = true;
   String type = 'home';
   String? lastPostId;
 
@@ -44,31 +41,25 @@ class _MyPostsState extends State<MyPosts> {
 
   Future<void> _fetchPage(int pageKey) async {
     if (type == 'home') {
-      isLoading = true;
       try {
         HomeController.to.getMePosts(after: lastPostId);
       } catch (e) {
         UIUtils.showError(e);
       }
-      isLoading = false;
     } else if (type == 'other') {
-      isLoading = true;
       try {
         OtherController.to
             .getAccountsPosts(after: lastPostId, id: widget.profileId!);
       } catch (e) {
         UIUtils.showError(e);
       }
-      isLoading = false;
     } else if (type == 'square') {
-      isLoading = true;
       try {
         PostSquareController.to.getTemplatesSquareData(
             after: lastPostId, postTemplateId: widget.postTemplateId!);
       } catch (e) {
         UIUtils.showError(e);
       }
-      isLoading = false;
     }
   }
 
@@ -80,7 +71,9 @@ class _MyPostsState extends State<MyPosts> {
       final _width = MediaQuery.of(context).size.width;
       final double paddingLeft = _width * 0.05;
       final double paddingTop = _width * 0.04;
-
+      bool isLoading = false;
+      RxList<String> postsIndexes;
+      RxMap<String, PostEntity> postMap;
       if (widget.profileId != null) {
         postsIndexes = OtherController.to.myPostsIndexes;
         postMap = OtherController.to.postMap;
@@ -96,8 +89,10 @@ class _MyPostsState extends State<MyPosts> {
         postMap = HomeController.to.postMap;
         isLoading = HomeController.to.isLoadingMyPosts.value;
       }
-      lastPostId = postsIndexes.last;
-      final _myPostsList = <Widget>[];
+
+      lastPostId = postsIndexes.isNotEmpty ? postsIndexes.last : null;
+
+      List<Widget> _myPostsList = [];
 
       for (var id in postsIndexes) {
         final post = postMap[id]!;

@@ -42,7 +42,9 @@ class RoomView extends GetView<RoomController> {
           );
         }
         final roomInfoId = messageController.entities[roomId]!.room_info_id;
-        final toAccount = AuthProvider.to.simpleAccountMap[roomInfoId]!;
+        final toAccount = roomInfoId != null
+            ? AuthProvider.to.simpleAccountMap[roomInfoId]
+            : null;
         final roomMessageIndexes =
             messageController.roomMessageIndexesMap[roomId];
 
@@ -71,7 +73,7 @@ class RoomView extends GetView<RoomController> {
               onCancelQuote: controller.handleCancelPreview,
               quoteMessage: controller.previewMessage,
               replyTo:
-                  controller.previewMessage != null ? toAccount.name : null,
+                  controller.previewMessage != null ? toAccount?.name : null,
               onAttachmentPressed: () {
                 _handleImageSelection();
               },

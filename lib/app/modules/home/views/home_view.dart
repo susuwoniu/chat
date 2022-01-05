@@ -253,10 +253,15 @@ class HomeView extends GetView<HomeController> {
                               )),
                         ]);
                       });
-                    } else if (isInitError != null) {
-                      return Text(isInitError);
+                    } else if (isInitError.isNotEmpty) {
+                      return Retry(
+                          message: isInitError,
+                          onRetry: () async {
+                            controller.refreshHomePosts();
+                          });
                     } else {
-                      return Text("error");
+                      return Container(
+                          padding: EdgeInsets.all(16), child: Text("未知错误"));
                     }
                   })));
             },

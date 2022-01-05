@@ -21,6 +21,7 @@ class Log {
   static var info = _instance.i;
 
   static var debug = _instance.d;
+  static var verbose = _instance.v;
 
   static var warn = _instance.w;
 

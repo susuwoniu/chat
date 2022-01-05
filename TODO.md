@@ -1,5 +1,8 @@
 # Todo
 
+## Todos
+
+- [x]  square跳转到room缺少content
 - [ ]  square跳转到single post
 - [ ]  square假删除
 - [ ]  限时发送功能
@@ -51,3 +54,12 @@
 - [ ] device id get
 - [ ] 推送功能
 - [ ] share的文本和地址
+- [ ] skip优化，如果只看第一条的话，不必加入到skip列表，浪费表情
+- [ ] 切换语言
+- [ ] 切换主题
+- [ ] 允许筛选重置成默认状态
+- [ ] 会员过期后，会员功能需要重置成初始状态
+- [ ] preview消息，多行问题
+
+## 上线前Check
+

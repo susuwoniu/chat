@@ -118,9 +118,9 @@ class APIProvider {
       try {
         JsonEncoder encoder = JsonEncoder.withIndent('  ');
         String prettyprint = encoder.convert(response.body);
-        Log.debug("response: $prettyprint");
+        Log.verbose("response: $prettyprint");
       } catch (e) {
-        Log.debug("response: ${response.body}");
+        Log.verbose("response: ${response.body}");
       }
 
       return response;
