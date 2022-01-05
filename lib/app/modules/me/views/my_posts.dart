@@ -7,10 +7,11 @@ import 'package:chat/types/types.dart';
 import '../../post_square/controllers/post_square_controller.dart';
 import 'package:chat/utils/random.dart';
 import 'package:chat/common.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 final imDomain = AppConfig().config.imDomain;
 
-class MyPosts extends StatelessWidget {
+class MyPosts extends StatefulWidget {
   final String? profileId;
   final String? postTemplateId;
 
@@ -19,33 +20,83 @@ class MyPosts extends StatelessWidget {
     this.profileId,
     this.postTemplateId,
   }) : super(key: key);
+  @override
+  _MyPostsState createState() => _MyPostsState();
+}
+
+class _MyPostsState extends State<MyPosts> {
+  List<String> postsIndexes = [];
+  Map<String, PostEntity> postMap = {};
+  bool isLoading = true;
+  String type = 'home';
+  String? lastPostId;
+
+  final PagingController _pagingController = PagingController(firstPageKey: 0);
+
+  @override
+  void initState() {
+    // _pagingController.addPageRequestListener((pageKey) {
+    //   // _fetchPage(pageKey);
+    // });
+
+    super.initState();
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
+    if (type == 'home') {
+      isLoading = true;
+      try {
+        HomeController.to.getMePosts(after: lastPostId);
+      } catch (e) {
+        UIUtils.showError(e);
+      }
+      isLoading = false;
+    } else if (type == 'other') {
+      isLoading = true;
+      try {
+        OtherController.to
+            .getAccountsPosts(after: lastPostId, id: widget.profileId!);
+      } catch (e) {
+        UIUtils.showError(e);
+      }
+      isLoading = false;
+    } else if (type == 'square') {
+      isLoading = true;
+      try {
+        PostSquareController.to.getTemplatesSquareData(
+            after: lastPostId, postTemplateId: widget.postTemplateId!);
+      } catch (e) {
+        UIUtils.showError(e);
+      }
+      isLoading = false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    late List<String> postsIndexes;
-    late Map<String, PostEntity> postMap;
-    late bool isLoading = true;
     final backgroundColorIndex = get_random_index(BACKGROUND_COLORS.length);
 
     return Obx(() {
-      if (profileId != null) {
+      final _width = MediaQuery.of(context).size.width;
+      final double paddingLeft = _width * 0.05;
+      final double paddingTop = _width * 0.04;
+
+      if (widget.profileId != null) {
         postsIndexes = OtherController.to.myPostsIndexes;
         postMap = OtherController.to.postMap;
         isLoading = OtherController.to.isLoadingPosts.value;
-      } else if (postTemplateId != null) {
+        type = 'other';
+      } else if (widget.postTemplateId != null) {
         postsIndexes = PostSquareController.to.myPostsIndexes;
         postMap = PostSquareController.to.postMap;
         isLoading = PostSquareController.to.isLoadingPosts.value;
-        print(isLoading);
+        type = 'square';
       } else {
         postsIndexes = HomeController.to.myPostsIndexes;
         postMap = HomeController.to.postMap;
         isLoading = HomeController.to.isLoadingMyPosts.value;
       }
-
-      final _width = MediaQuery.of(context).size.width;
-      final double paddingLeft = _width * 0.05;
-      final double paddingTop = _width * 0.04;
+      lastPostId = postsIndexes.last;
       final _myPostsList = <Widget>[];
 
       for (var id in postsIndexes) {
@@ -53,7 +104,7 @@ class MyPosts extends StatelessWidget {
         _myPostsList.add(
           GestureDetector(
               onTap: () {
-                if (profileId != null || postTemplateId != null) {
+                if (widget.profileId != null || widget.postTemplateId != null) {
                   Get.toNamed(Routes.ROOM, arguments: {
                     "id": "im${post.accountId}@$imDomain",
                     "quote": post.content
@@ -85,15 +136,15 @@ class MyPosts extends StatelessWidget {
               )),
         );
       }
-      if (profileId == null && postTemplateId == null) {
+      if (widget.profileId == null && widget.postTemplateId == null) {
         _myPostsList.insert(0, createPost(context: context));
-      } else if (postTemplateId != null) {
+      } else if (widget.postTemplateId != null) {
         _myPostsList.insert(
             0,
             createPost(
                 context: context,
                 type: 'toCreate',
-                id: postTemplateId,
+                id: widget.postTemplateId,
                 backgroundColorIndex: backgroundColorIndex));
       }
       return isLoading

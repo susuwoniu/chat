@@ -28,7 +28,7 @@ Widget conversationItemView(
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Colors.grey[200]!,
+            color: Colors.grey.shade200,
           ),
         ),
       ),

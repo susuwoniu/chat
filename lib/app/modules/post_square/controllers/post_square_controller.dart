@@ -43,12 +43,12 @@ class PostSquareController extends GetxController {
   getTemplatesSquareData(
       {String? after, required String postTemplateId}) async {
     isLoadingPosts.value = true;
-    final result = await _homeController.getRawPosts(
-        after: after, url: "/post/posts", postTemplateId: _id);
+    // final result = await _homeController.getRawPosts(
+    //     after: after, url: "/post/posts", postTemplateId: _id);
     myPostsIndexes.clear();
-    postMap.addAll(result.postMap);
-    myPostsIndexes.addAll(result.indexes);
-    _homeController.postMap.addAll(result.postMap);
+    // postMap.addAll(result.postMap);
+    // myPostsIndexes.addAll(result.indexes);
+    // _homeController.postMap.addAll(result.postMap);
 
     isLoadingPosts.value = false;
     if (isInitial.value == false) {

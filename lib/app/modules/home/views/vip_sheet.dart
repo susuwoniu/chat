@@ -15,24 +15,33 @@ final List<Map<String, dynamic>> _cardList = [
   {'icon': Icons.theater_comedy_rounded, 'title': '匿名访问', 'detail': '适度隐藏自己'},
   {'icon': Icons.filter_list_rounded, 'title': '设置筛选', 'detail': '筛选性别/年龄/距离'},
   {'icon': Icons.timer_off_rounded, 'title': '无限发帖', 'detail': '解锁发帖无时间限制模式'},
-  {'icon': Icons.shortcut_rounded, 'title': '更多特权', 'detail': '更多会员功能敬请期待...'}
+  {'icon': Icons.more_horiz_rounded, 'title': '更多特权', 'detail': '更多会员功能敬请期待...'}
 ];
 
 class VipSheet extends StatefulWidget {
   final BuildContext context;
-  const VipSheet({Key? key, required this.context});
+  final int? selectedPriceIndex;
+  const VipSheet({
+    Key? key,
+    required this.context,
+    this.selectedPriceIndex,
+  });
   @override
   _VipSheetState createState() => _VipSheetState();
 }
 
 class _VipSheetState extends State<VipSheet> {
+  final CarouselController buttonCarouselController = CarouselController();
+  late int selectedPriceIndex;
+
   void initState() {
     super.initState();
+    selectedPriceIndex = 0;
   }
 
   final _current = 0.obs;
   int get current => _current.value;
-  final CarouselController buttonCarouselController = CarouselController();
+
   @override
   Widget build(BuildContext context) {
     // final _account = AuthProvider.to.account.value;
@@ -144,7 +153,6 @@ class _VipSheetState extends State<VipSheet> {
   Widget _toBuyButton({required double height, required double width}) {
     return Container(
       child: NextButton(
-          color: Colors.black87,
           size: 17,
           height: height * 0.06,
           width: width * 0.8,
@@ -170,39 +178,55 @@ class _VipSheetState extends State<VipSheet> {
         width: width * 0.9,
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: ListView(scrollDirection: Axis.horizontal, children: [
-          _price(width: width * 0.23, time: '1_week', price: 5),
-          _price(width: width * 0.23, time: '1_month', price: 10),
-          _price(width: width * 0.23, time: '3_months', price: 20),
-          _price(width: width * 0.23, time: '6_months', price: 30),
-          _price(width: width * 0.23, time: '1_year', price: 50),
+          _price(width: width * 0.23, time: '1_week', price: 5, priceIndex: 0),
+          _price(
+              width: width * 0.23, time: '1_month', price: 10, priceIndex: 1),
+          _price(
+              width: width * 0.23, time: '3_months', price: 20, priceIndex: 2),
+          _price(
+              width: width * 0.23, time: '6_months', price: 30, priceIndex: 3),
+          _price(width: width * 0.23, time: '1_year', price: 50, priceIndex: 4),
         ]));
   }
 
   Widget _price(
-      {required double width, required String time, required int price}) {
+      {required double width,
+      required String time,
+      required int price,
+      required int priceIndex}) {
+    final isSelected = selectedPriceIndex == priceIndex;
     return GestureDetector(
         onTap: () {
-          setState(() {});
+          setState(() {
+            selectedPriceIndex = priceIndex;
+          });
         },
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 10, vertical: 25),
           padding: EdgeInsets.symmetric(horizontal: 2),
           width: width,
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade900, width: 2),
+              color: isSelected ? Colors.blue.shade400 : Colors.transparent,
+              border: Border.all(
+                  color: isSelected ? Colors.white : Colors.grey.shade900,
+                  width: 2),
               borderRadius: BorderRadius.circular(8)),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(time,
-                style: TextStyle(fontSize: 17, color: Colors.grey.shade900)),
+                style: TextStyle(
+                    fontSize: 17,
+                    color: isSelected ? Colors.white : Colors.grey.shade900)),
             SizedBox(height: 10),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text('¥',
-                  style: TextStyle(fontSize: 15, color: Colors.grey.shade800)),
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: isSelected ? Colors.white : Colors.grey.shade800)),
               Text(price.toString(),
                   style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87)),
+                      color: isSelected ? Colors.white : Colors.black87)),
             ]),
           ]),
         ));

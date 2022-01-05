@@ -32,7 +32,8 @@ class _YearPickerState extends State<YearPicker> {
 
     return Stack(children: [
       Container(
-          height: _height * 0.3,
+          height: _height * 0.35,
+          padding: EdgeInsets.only(top: _height * 0.04),
           color: Colors.white,
           child: GestureDetector(
             // Blocks taps from propagating to the modal sheet and popping.
@@ -41,7 +42,8 @@ class _YearPickerState extends State<YearPicker> {
               top: false,
               child: CupertinoPicker(
                   squeeze: 1.2,
-                  scrollController: FixedExtentScrollController(initialItem: 5),
+                  scrollController:
+                      FixedExtentScrollController(initialItem: 10),
                   selectionOverlay:
                       const CupertinoPickerDefaultSelectionOverlay(
                           // capLeftEdge: false,
@@ -51,7 +53,6 @@ class _YearPickerState extends State<YearPicker> {
                   children: _ageList
                       .map(
                         (e) => Container(
-                            height: _height * 0.3,
                             alignment: Alignment.center,
                             child: Text(e.toString(),
                                 style: TextStyle(
@@ -73,7 +74,13 @@ class _YearPickerState extends State<YearPicker> {
           )),
       widget.isShowBar
           ? Container(
-              padding: EdgeInsets.fromLTRB(0, 6, 0, 30),
+              padding: EdgeInsets.only(top: 3),
+              decoration: BoxDecoration(
+                  border: Border(
+                top: BorderSide(
+                  color: Colors.grey.shade200,
+                ),
+              )),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -85,13 +92,16 @@ class _YearPickerState extends State<YearPicker> {
                       },
                       child: Text(
                         '确认',
-                        style: TextStyle(fontSize: 13),
+                        style: TextStyle(fontSize: 16),
                       )),
                   TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Icon(Icons.close_rounded)),
+                      child: Icon(
+                        Icons.close_rounded,
+                        size: 28,
+                      )),
                 ],
               ),
             )

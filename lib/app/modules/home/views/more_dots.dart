@@ -34,7 +34,7 @@ class MoreDots extends StatelessWidget {
                 decoration: BoxDecoration(
                     border: Border(
                   bottom: BorderSide(
-                    color: Colors.grey[200]!,
+                    color: Colors.grey.shade300,
                   ),
                 )),
                 child: GestureDetector(

@@ -47,7 +47,7 @@ class ReportView extends GetView<ReportController> {
                     decoration: BoxDecoration(
                         border: Border(
                       bottom: BorderSide(
-                        color: Colors.grey[200]!,
+                        color: Colors.grey.shade200,
                       ),
                     )),
                     child: Row(
@@ -76,13 +76,16 @@ class ReportView extends GetView<ReportController> {
                   contentPadding: EdgeInsets.symmetric(horizontal: 5),
                   hintText: 'Enter_report_description(Optional)',
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey[200]!, width: 1),
+                    borderSide:
+                        BorderSide(color: Colors.grey.shade200, width: 1),
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey[200]!, width: 1),
+                    borderSide:
+                        BorderSide(color: Colors.grey.shade200, width: 1),
                   ),
                   disabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey[200]!, width: 1),
+                    borderSide:
+                        BorderSide(color: Colors.grey.shade200, width: 1),
                   ),
                 ),
               ),

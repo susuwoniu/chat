@@ -1,6 +1,6 @@
 # Todo
 
-- [x]  square跳转到room缺少content
+- [ ]  square跳转到single post
 - [ ]  square假删除
 - [ ]  限时发送功能
 - [x]  square类型提示错误
