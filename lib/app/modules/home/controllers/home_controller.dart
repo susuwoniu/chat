@@ -333,7 +333,9 @@ class HomeController extends GetxController {
         .getExpiredString("STORAGE_${currentPage}_FIRST_CURSOR_KEY");
     final lastCursorValue = await CacheProvider.to
         .getExpiredString("STORAGE_${currentPage}_LAST_CURSOR_KEY");
-    if (firstCursorValue != null && lastCursorValue != null) {
+    if (firstCursorValue != null &&
+        lastCursorValue != null &&
+        firstCursorValue != lastCursorValue) {
       if (validSkips.isNotEmpty) {
         if (firstCursorValue != validSkips.first.start) {
           validSkips.insert(
