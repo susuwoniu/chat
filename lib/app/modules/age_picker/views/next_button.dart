@@ -5,7 +5,6 @@ class NextButton extends StatelessWidget {
   final String? text;
   final double? height;
   final double? width;
-  final Color? color;
   final double? size;
   final Color? textColor;
   final double? borderRadius;
@@ -18,7 +17,6 @@ class NextButton extends StatelessWidget {
     this.height,
     this.width,
     this.text = 'next',
-    this.color,
     this.size,
     this.textColor,
     this.borderRadius,
@@ -37,7 +35,7 @@ class NextButton extends StatelessWidget {
         width: width ?? _width * 0.95,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius ?? 10),
-          color: color ?? Colors.blue,
+          color: Colors.black87,
         ),
         alignment: Alignment.center,
         child: Text(text!,

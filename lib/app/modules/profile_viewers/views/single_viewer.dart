@@ -33,7 +33,7 @@ class SingleViewer extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: _paddingTop),
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: Colors.grey[200]!),
+            bottom: BorderSide(color: Colors.grey.shade200),
           ),
         ),
         child: Row(children: [

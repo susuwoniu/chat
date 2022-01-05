@@ -369,6 +369,7 @@ class HomeController extends GetxController {
   }
 
   getMePosts({String? after}) async {
+    isLoadingMyPosts.value = true;
     final result = await getRawPosts(after: after, url: "/post/me/posts");
     postMap.addAll(result.postMap);
     myPostsIndexes.addAll(result.indexes);

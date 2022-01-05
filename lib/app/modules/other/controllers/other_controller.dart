@@ -51,6 +51,7 @@ class OtherController extends GetxController {
   }
 
   getAccountsPosts({String? after, required String id}) async {
+    isLoadingPosts.value = true;
     final result = await _homeController.getRawPosts(
         after: after, url: "/post/accounts/$id/posts");
     postMap.addAll(result.postMap);

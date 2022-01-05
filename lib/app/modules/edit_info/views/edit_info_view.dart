@@ -75,7 +75,7 @@ class EditInfoView extends GetView<EditInfoController> {
                         content: _birthday.substring(0, 4),
                         onPressed: () {
                           controller.setIsShowYearPicked(true);
-                          showCupertinoModalPopup<void>(
+                          showModalBottomSheet<void>(
                               context: context,
                               builder: (BuildContext context) {
                                 return YearPicker(

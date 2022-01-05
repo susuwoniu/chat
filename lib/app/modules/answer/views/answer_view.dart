@@ -100,14 +100,13 @@ class AnswerView extends GetView<AnswerController> {
           backgroundColor: backgroundColor.value);
       _answerController.setIsSubmitting(false);
 
-      UIUtils.hideLoading();
       UIUtils.toast("send_successfully".tr);
       RouterProvider.to.toHome();
     } catch (e) {
-      UIUtils.hideLoading();
       UIUtils.showError(e);
       _answerController.setIsSubmitting(false);
     }
+    UIUtils.hideLoading();
   }
 
   isNotEmpty(text) {

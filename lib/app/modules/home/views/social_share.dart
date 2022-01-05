@@ -64,7 +64,6 @@ class _SocialShareState extends State<SocialShare> {
                     icon: Icons.star, text: 'wechat', onPressed: () {}),
               ])),
           NextButton(
-              color: Colors.white,
               size: 17,
               height: height * 0.06,
               width: width * 0.89,

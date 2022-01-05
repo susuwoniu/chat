@@ -36,6 +36,7 @@ class Room extends xmpp.Room {
     String id, {
     required DateTime updatedAt,
     String preview = "",
+    String? resource,
     int unreadCount = 0,
     required this.room_info_id,
     this.clientUnreadCount = 0,
@@ -43,7 +44,10 @@ class Room extends xmpp.Room {
     this.isInitClientMessages = false,
     this.isInitServerMessages = false,
   }) : super(id,
-            updatedAt: updatedAt, preview: preview, unreadCount: unreadCount);
+            updatedAt: updatedAt,
+            resource: resource,
+            preview: preview,
+            unreadCount: unreadCount);
 }
 
 class MessageController extends GetxController {
@@ -188,6 +192,8 @@ class MessageController extends GetxController {
           }
         }
         await fetchAccounts(indexes);
+
+        await initMessages();
         _isLoadingRooms.value = false;
         _isInitRooms.value = true;
         _roomsStateStreamController.add(RoomsState.inited);
@@ -228,8 +234,10 @@ class MessageController extends GetxController {
     return List<dynamic>.from(result["data"] as List);
   }
 
-  Future<void> tryToInitRoom(String roomId, xmpp.Message? message) async {
+  Future<void> tryToInitRoom(String roomId, xmpp.Message? message,
+      {String? resource}) async {
     // check room inbo exists
+
     chatAccountId = jidToAccountId(roomId);
 
     if (chatAccountId != null &&
@@ -243,6 +251,7 @@ class MessageController extends GetxController {
     if (entities[roomId] == null) {
       entities[roomId] = Room(
         roomId,
+        resource: resource ?? message?.room.resource,
         unreadCount: 0,
         updatedAt: message != null ? message.createdAt : DateTime.now(),
         room_info_id: jidToAccountId(roomId),
@@ -261,7 +270,12 @@ class MessageController extends GetxController {
   Future<void> sendTextMessage(
       String roomId, types.PartialText _message) async {
     final roomManager = ChatProvider.to.roomManager!;
-    final message = roomManager.createTextMessage(roomId, _message.text);
+    final room = entities[roomId]!;
+    final message = roomManager.createTextMessage(
+      roomId,
+      _message.text,
+      resource: room.resource,
+    );
     await updateRoomMessage(xmpp.Event(
       roomId,
       message,
@@ -334,6 +348,14 @@ class MessageController extends GetxController {
     }
   }
 
+  // 初始化7天内的消息
+  Future<void> initMessages() async {
+    final roomManager = ChatProvider.to.roomManager!;
+    var currentEarliestMessageId = null;
+    final messages = await roomManager.getServerMessages();
+    print('messages $messages');
+  }
+
   // 获取更早的服务器archive信息
   Future<void> getRoomServerEarlierMessage(String roomId) async {
     final roomManager = ChatProvider.to.roomManager!;
@@ -358,8 +380,8 @@ class MessageController extends GetxController {
               ? currentRoomServerMessageIndexes.last
               : null;
       try {
-        final messages = await roomManager.getMessages(roomId,
-            beforeId: currentEarliestMessageId);
+        final messages = await roomManager.getMessages(
+            roomId: roomId, beforeId: currentEarliestMessageId);
         room.isLoading = false;
         room.isLoadingServerMessage = false;
         if (currentEarliestMessageId == null) {
@@ -468,12 +490,13 @@ class MessageController extends GetxController {
   }
 
   Future<void> updateRoomMessage(xmpp.Event<xmpp.Message> event) async {
-    final roomId = event.id;
+    final roomFullJid = event.id;
     final message = event.data;
     final messageId = event.data.id;
     final preview = getPreview(message);
     messageEntities[messageId] = formatMessage(message);
-    await tryToInitRoom(roomId, message);
+    final roomId = xmpp.Jid.fromFullJid(roomFullJid).userAtDomain;
+    await tryToInitRoom(roomFullJid, message);
     final room = entities[roomId]!;
     final roomMessageIndexes = roomMessageIndexesMap[event.id]!;
 

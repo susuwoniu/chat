@@ -23,17 +23,17 @@ class GenderSelectView extends GetView<GenderSelectController> {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: _width * 0.08),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(children: [
+                  SizedBox(height: 10),
                   Container(
-                    padding: EdgeInsets.only(bottom: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('I_am'.tr,
                             style: TextStyle(
                                 color: Colors.black54, fontSize: 17.0)),
+                        SizedBox(height: 5),
                         Obx(() => GenderPicker(
                               selectedGender: controller.selectedGender.value,
                               setGender: controller.setGender,
@@ -42,6 +42,7 @@ class GenderSelectView extends GetView<GenderSelectController> {
                     ),
                   ),
                 ]),
+                SizedBox(height: _height * 0.05),
                 NextButton(
                     action: 'gender',
                     onPressed: () async {

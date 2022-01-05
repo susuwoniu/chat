@@ -31,7 +31,7 @@ class GenderPicker extends StatelessWidget {
                   border: Border.all(
                       width: 4,
                       color: selectedGender == gender
-                          ? Colors.lightBlue
+                          ? Colors.pink.shade300
                           : Colors.black12)),
               child: Column(children: [
                 Text(
@@ -43,7 +43,7 @@ class GenderPicker extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
                         color: selectedGender == gender
-                            ? Colors.lightBlue
+                            ? Colors.pink.shade300
                             : Colors.black54))
               ]),
             )));
