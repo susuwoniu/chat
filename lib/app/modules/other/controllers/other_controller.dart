@@ -50,7 +50,8 @@ class OtherController extends GetxController {
     _current.value = i;
   }
 
-  getAccountsPosts({String? after, required String id}) async {
+  Future<List<String>> getAccountsPosts(
+      {String? after, required String id}) async {
     isLoadingPosts.value = true;
     final result = await _homeController.getRawPosts(
         after: after, url: "/post/accounts/$id/posts");
@@ -61,5 +62,6 @@ class OtherController extends GetxController {
     if (isInitial.value == false) {
       isInitial.value = true;
     }
+    return result.indexes;
   }
 }

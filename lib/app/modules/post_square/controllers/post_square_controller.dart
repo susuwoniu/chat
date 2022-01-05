@@ -56,12 +56,13 @@ class PostSquareController extends GetxController {
     }
   }
 
-  getTemplateData() async {
+  Future<List<String>> getTemplateData() async {
     final result = await APIProvider.to.get('/post/post-templates/$_id');
     usedCount.value = result['data']['attributes']['used_count'];
     if (PostController.to.postTemplatesMap[_id] == null) {
       PostController.to.postTemplatesMap[_id] =
           PostTemplatesEntity.fromJson(result['data']['attributes']);
     }
+    return result.indexes;
   }
 }

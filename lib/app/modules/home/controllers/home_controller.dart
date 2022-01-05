@@ -140,7 +140,10 @@ class HomeController extends GetxController {
       double? distance,
       required String url,
       List<Skip>? skips}) async {
-    Map<String, dynamic> query = {};
+    Map<String, dynamic> query = {
+      // "featured": "true",
+      "limit": DEFAULT_PAGE_SIZE.toString(),
+    };
     if (after != null) {
       query["after"] = after;
     }
@@ -368,7 +371,7 @@ class HomeController extends GetxController {
         "STORAGE_${currentPage}_SKIPS_KEY", pageState[currentPage]!.skips);
   }
 
-  getMePosts({String? after}) async {
+  Future<List<String>> getMePosts({String? after}) async {
     isLoadingMyPosts.value = true;
     final result = await getRawPosts(after: after, url: "/post/me/posts");
     postMap.addAll(result.postMap);
@@ -379,6 +382,7 @@ class HomeController extends GetxController {
     if (isMeInitial.value == false) {
       isMeInitial.value = true;
     }
+    return result.indexes;
   }
 
   insertEntity() async {}
