@@ -5,11 +5,11 @@ part 'postTemplates.g.dart';
 @JsonSerializable()
 class PostTemplatesEntity {
   /// The generated code assumes these values exist in JSON.
-  final String content;
+  final String? content;
   final String title;
 
   PostTemplatesEntity({
-    required this.content,
+    this.content,
     required this.title,
   });
 

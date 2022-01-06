@@ -8,7 +8,7 @@ part of 'postTemplates.dart';
 
 PostTemplatesEntity _$PostTemplatesEntityFromJson(Map<String, dynamic> json) =>
     PostTemplatesEntity(
-      content: json['content'] as String,
+      content: json['content'] as String?,
       title: json['title'] as String,
     );
 

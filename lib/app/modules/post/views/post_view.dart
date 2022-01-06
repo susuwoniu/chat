@@ -80,7 +80,7 @@ class PostView extends GetView<PostController> {
                                     color: backgroundColor,
                                   ),
                                   child: Templates(
-                                      question: _item!.content,
+                                      question: _item!.content ?? _item.title,
                                       enabled: false,
                                       id: PostController
                                           .to.postTemplatesIndexes[index]),

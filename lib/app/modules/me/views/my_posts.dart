@@ -89,7 +89,7 @@ class _MyPostsState extends State<MyPosts> {
       isLoading = OtherController.to.isLoadingPosts.value;
       type = 'other';
     } else if (widget.postTemplateId != null) {
-      postsIndexes = PostSquareController.to.myPostsIndexes;
+      postsIndexes = PostSquareController.to.squarePostsIndexes;
       postMap = PostSquareController.to.postMap;
       isLoading = PostSquareController.to.isLoadingPosts.value;
       type = 'square';

@@ -11,7 +11,6 @@ import './age_widget.dart';
 import './circle_widget.dart';
 import 'nickname_widget.dart';
 import 'dots_widget.dart';
-import 'my_posts.dart';
 import 'like_count.dart';
 import 'profile_viewers_bubble.dart';
 import 'image_slider.dart';
@@ -23,37 +22,33 @@ import '../../home/controllers/home_controller.dart';
 class MeView extends GetView<MeController> {
   final CarouselController buttonCarouselController = CarouselController();
 
-  final PagingController<String?, String> _pagingController =
-      PagingController(firstPageKey: null);
-
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     final double paddingLeft = width * 0.055;
+    final _account = AuthProvider.to.account.value;
+    final postsIndexes = HomeController.to.myPostsIndexes;
+    final postMap = HomeController.to.postMap;
+    final isLoading = HomeController.to.isLoadingMyPosts.value;
+    final _name = _account.name;
+    final _vip = _account.vip;
 
-    return Scaffold(body: Obx(() {
-      final _account = AuthProvider.to.account.value;
-      final postsIndexes = HomeController.to.myPostsIndexes;
-      final postMap = HomeController.to.postMap;
-      final isLoading = HomeController.to.isLoadingMyPosts.value;
-      final _name = _account.name;
-      final _vip = _account.vip;
+    final _likeCount = _account.likeCount.toString();
 
-      final _likeCount = _account.likeCount.toString();
+    final _bio = _account.bio == '' ? 'nothing' : _account.bio;
+    final _location = _account.location ?? 'unknown place';
+    final _birth = _account.birthday ?? 'xxxx-xx-xx';
+    final _imgList = List.from(_account.profileImages);
 
-      final _bio = _account.bio == '' ? 'nothing' : _account.bio;
-      final _location = _account.location ?? 'unknown place';
-      final _birth = _account.birthday ?? 'xxxx-xx-xx';
-      final _imgList = List.from(_account.profileImages);
-
-      if (_imgList.isEmpty) {
-        _imgList.add(ProfileImageEntity.empty());
-      }
-
-      return CustomScrollView(slivers: [
-        SliverToBoxAdapter(
-          child: Column(children: [
+    if (_imgList.isEmpty) {
+      _imgList.add(ProfileImageEntity.empty());
+    }
+    return Scaffold(
+        body: CustomScrollView(slivers: [
+      SliverToBoxAdapter(
+        child: Obx(() {
+          return Column(children: [
             Stack(children: [
               CarouselSlider(
                 items: _imgList
@@ -70,7 +65,7 @@ class MeView extends GetView<MeController> {
                     }),
               ),
               Positioned(
-                  left: paddingLeft,
+                  left: width * 0.04,
                   top: height * 0.06,
                   child: CircleWidget(
                     icon: Icon(Icons.settings_rounded, color: Colors.white),
@@ -80,7 +75,7 @@ class MeView extends GetView<MeController> {
                     },
                   )),
               Positioned(
-                  right: paddingLeft,
+                  right: width * 0.04,
                   top: height * 0.06,
                   child: CircleWidget(
                     icon: Icon(Icons.create_rounded, color: Colors.white),
@@ -152,20 +147,27 @@ class MeView extends GetView<MeController> {
                         iconName: IconData(61505, fontFamily: 'MaterialIcons')),
                   ]),
             )
-          ]),
+          ]);
+        }),
+      ),
+      PagedSliverGrid<String?, String>(
+        showNewPageProgressIndicatorAsGridChild: false,
+        showNewPageErrorIndicatorAsGridChild: false,
+        showNoMoreItemsIndicatorAsGridChild: false,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: 0.75,
+          crossAxisCount: 2,
         ),
-        PagedSliverList<String?, String>(
-          pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<String>(
-              itemBuilder: (context, id, index) {
-            final post = postMap[id]!;
-            return SmallPost(
-                postId: id,
-                content: post.content,
-                backgroundColor: post.backgroundColor);
-          }),
-        ),
-      ]);
-    }));
+        pagingController: controller.pagingController,
+        builderDelegate: PagedChildBuilderDelegate<String>(
+            itemBuilder: (context, id, index) {
+          final post = postMap[id]!;
+          return SmallPost(
+              postId: id,
+              content: post.content,
+              backgroundColor: post.backgroundColor);
+        }),
+      ),
+    ]));
   }
 }
