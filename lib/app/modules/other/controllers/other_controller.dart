@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 import '../../home/controllers/home_controller.dart';
 import 'package:chat/common.dart';
 import 'package:chat/types/types.dart';
-import 'package:chat/app/providers/providers.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:flutter/material.dart';
 
 class OtherController extends GetxController {
   //TODO: Implement OtherController
@@ -16,10 +16,11 @@ class OtherController extends GetxController {
   final _homeController = HomeController.to;
   final isInitial = false.obs;
   final isLoadingPosts = false.obs;
-
   final myPostsIndexes = RxList<String>([]);
   final postMap = RxMap<String, PostEntity>({});
   final accountId = Get.arguments['accountId'];
+  // final isShowAppBar = false.obs;
+  // final ScrollController listScrollController = ScrollController();
 
   @override
   void onInit() {
@@ -31,6 +32,17 @@ class OtherController extends GetxController {
 
   @override
   void onReady() async {
+    // listScrollController.addListener(() {
+    //   final position = listScrollController.offset;
+    //   if (position > 350) {
+    //     isShowAppBar.value = true;
+    //     return;
+    //   } else {
+    //     isShowAppBar.value = false;
+    //     return;
+    //   }
+    // });
+
     super.onReady();
   }
 
@@ -53,7 +65,10 @@ class OtherController extends GetxController {
   }
 
   @override
-  void onClose() {}
+  void onClose() {
+    // listScrollController.removeListener(() {});
+  }
+
   void increment() => count.value++;
   void setCurrent(i) {
     _current.value = i;

@@ -45,129 +45,171 @@ class MeView extends GetView<MeController> {
       _imgList.add(ProfileImageEntity.empty());
     }
     return Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        appBar: _appbar(
+            iconLeft: Icons.settings_rounded,
+            leftTap: () {
+              Get.toNamed(Routes.SETTING,
+                  arguments: {"phone": _account.phone_number});
+            },
+            iconRight: Icons.create_rounded,
+            rightTap: () {
+              Get.toNamed(Routes.EDIT_INFO);
+            }),
         body: CustomScrollView(slivers: [
-      SliverToBoxAdapter(
-        child: Obx(() {
-          return Column(children: [
-            Stack(children: [
-              CarouselSlider(
-                items: _imgList
-                    .map((img) => ImageSlider(
-                        img: img, height: height * 0.5, width: width))
-                    .toList(),
-                carouselController: buttonCarouselController,
-                options: CarouselOptions(
-                    height: height * 0.5,
-                    viewportFraction: 1,
-                    enableInfiniteScroll: false,
-                    onPageChanged: (index, reason) {
-                      controller.setCurrent(index);
-                    }),
-              ),
-              Positioned(
-                  left: width * 0.04,
-                  top: height * 0.06,
-                  child: CircleWidget(
-                    icon: Icon(Icons.settings_rounded, color: Colors.white),
-                    onPressed: () {
-                      Get.toNamed(Routes.SETTING,
-                          arguments: {"phone": _account.phone_number});
-                    },
-                  )),
-              Positioned(
-                  right: width * 0.04,
-                  top: height * 0.06,
-                  child: CircleWidget(
-                    icon: Icon(Icons.create_rounded, color: Colors.white),
-                    onPressed: () {
-                      Get.toNamed(Routes.EDIT_INFO);
-                    },
-                  )),
-              Positioned(
-                  left: paddingLeft,
-                  bottom: height * 0.025,
+          SliverToBoxAdapter(
+            child: Obx(() {
+              return Column(children: [
+                Stack(children: [
+                  CarouselSlider(
+                    items: _imgList
+                        .map((img) => ImageSlider(
+                            img: img, height: height * 0.5, width: width))
+                        .toList(),
+                    carouselController: buttonCarouselController,
+                    options: CarouselOptions(
+                        height: height * 0.5,
+                        viewportFraction: 1,
+                        enableInfiniteScroll: false,
+                        onPageChanged: (index, reason) {
+                          controller.setCurrent(index);
+                        }),
+                  ),
+                  // Positioned(
+                  //     left: width * 0.04,
+                  //     top: height * 0.06,
+                  //     child: CircleWidget(
+                  //       icon: Icon(Icons.settings_rounded, color: Colors.white),
+                  //       onPressed: () {
+                  //         Get.toNamed(Routes.SETTING,
+                  //             arguments: {"phone": _account.phone_number});
+                  //       },
+                  //     )),
+                  // Positioned(
+                  //     right: width * 0.04,
+                  //     top: height * 0.06,
+                  //     child: CircleWidget(
+                  //       icon: Icon(Icons.create_rounded, color: Colors.white),
+                  //       onPressed: () {
+                  //         Get.toNamed(Routes.EDIT_INFO);
+                  //       },
+                  //     )),
+                  Positioned(
+                      left: paddingLeft,
+                      bottom: height * 0.025,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            NicknameWidget(name: _name, vip: _vip),
+                            SizedBox(height: 8),
+                            AgeWidget(
+                                gender: _account.gender,
+                                age: _account.age.toString()),
+                            SizedBox(height: 15),
+                            LikeCount(
+                              text: _likeCount,
+                            ),
+                          ])),
+                  Positioned(
+                      right: paddingLeft,
+                      bottom: height * 0.025,
+                      child: ProfileViewersBubble(
+                          totalViewersCount: controller.totalViewedCount.value,
+                          newViewersCount: controller.unreadViewedCount.value,
+                          onPressed: () {
+                            if (_vip) {
+                              Get.toNamed(Routes.PROFILE_VIEWERS);
+                            } else {
+                              showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  enableDrag: false,
+                                  builder: (context) {
+                                    return VipSheet(context: context);
+                                  });
+                            }
+                          })),
+                  Positioned(
+                    bottom: height * 0.01,
+                    width: width,
+                    child: DotsWidget(
+                        current: controller.current,
+                        onTap: buttonCarouselController.animateToPage,
+                        count: _account.profileImages.length),
+                  ),
+                ]),
+                Container(
+                  padding: EdgeInsets.fromLTRB(paddingLeft, 15, 0, 0),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        NicknameWidget(name: _name, vip: _vip),
+                        Text(_bio!,
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.grey,
+                            )),
                         SizedBox(height: 8),
-                        AgeWidget(
-                            gender: _account.gender,
-                            age: _account.age.toString()),
-                        SizedBox(height: 15),
-                        LikeCount(
-                          text: _likeCount,
-                        ),
-                      ])),
-              Positioned(
-                  right: paddingLeft,
-                  bottom: height * 0.025,
-                  child: ProfileViewersBubble(
-                      totalViewersCount: controller.totalViewedCount.value,
-                      newViewersCount: controller.unreadViewedCount.value,
-                      onPressed: () {
-                        if (_vip) {
-                          Get.toNamed(Routes.PROFILE_VIEWERS);
-                        } else {
-                          showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              enableDrag: false,
-                              builder: (context) {
-                                return VipSheet(context: context);
-                              });
-                        }
-                      })),
-              Positioned(
-                bottom: height * 0.01,
-                width: width,
-                child: DotsWidget(
-                    current: controller.current,
-                    onTap: buttonCarouselController.animateToPage,
-                    count: _account.profileImages.length),
-              ),
-            ]),
-            Container(
-              padding: EdgeInsets.fromLTRB(paddingLeft, 15, 0, 0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(_bio!,
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.grey,
-                        )),
-                    SizedBox(height: 8),
-                    ProfileInfoText(
-                        text: _location,
-                        iconName: IconData(61716, fontFamily: 'MaterialIcons')),
-                    SizedBox(height: 6),
-                    ProfileInfoText(
-                        text: _birth,
-                        iconName: IconData(61505, fontFamily: 'MaterialIcons')),
-                  ]),
-            )
-          ]);
-        }),
-      ),
-      PagedSliverGrid<String?, String>(
-        showNewPageProgressIndicatorAsGridChild: false,
-        showNewPageErrorIndicatorAsGridChild: false,
-        showNoMoreItemsIndicatorAsGridChild: false,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: 0.75,
-          crossAxisCount: 2,
-        ),
-        pagingController: controller.pagingController,
-        builderDelegate: PagedChildBuilderDelegate<String>(
-            itemBuilder: (context, id, index) {
-          final post = postMap[id]!;
-          return SmallPost(
-              postId: id,
-              content: post.content,
-              backgroundColor: post.backgroundColor);
-        }),
-      ),
-    ]));
+                        ProfileInfoText(
+                            text: _location,
+                            iconName:
+                                IconData(61716, fontFamily: 'MaterialIcons')),
+                        SizedBox(height: 6),
+                        ProfileInfoText(
+                            text: _birth,
+                            iconName:
+                                IconData(61505, fontFamily: 'MaterialIcons')),
+                      ]),
+                )
+              ]);
+            }),
+          ),
+          PagedSliverGrid<String?, String>(
+            showNewPageProgressIndicatorAsGridChild: false,
+            showNewPageErrorIndicatorAsGridChild: false,
+            showNoMoreItemsIndicatorAsGridChild: false,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: 0.75,
+              crossAxisCount: 2,
+            ),
+            pagingController: controller.pagingController,
+            builderDelegate: PagedChildBuilderDelegate<String>(
+                itemBuilder: (context, id, index) {
+              final post = postMap[id]!;
+              return SmallPost(
+                  postId: id,
+                  content: post.content,
+                  backgroundColor: post.backgroundColor);
+            }),
+          ),
+        ]));
+  }
+
+  PreferredSizeWidget _appbar(
+      {required IconData iconLeft,
+      required Function leftTap,
+      IconData? iconRight,
+      Function? rightTap}) {
+    return AppBar(
+        leading: Container(
+            padding: EdgeInsets.only(left: 16),
+            child: CircleWidget(
+              icon: Icon(iconLeft, color: Colors.white),
+              onPressed: () {
+                leftTap();
+              },
+            )),
+        actions: [
+          Container(
+              margin: EdgeInsets.only(right: 17),
+              child: CircleWidget(
+                icon: Icon(iconRight, color: Colors.white),
+                onPressed: () {
+                  if (rightTap != null) {
+                    rightTap();
+                  }
+                },
+              )),
+        ]);
   }
 }
