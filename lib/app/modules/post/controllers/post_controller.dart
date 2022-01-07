@@ -31,18 +31,6 @@ class PostController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-    isLoading.value = true;
-    try {
-      await getPosts();
-      isInit.value = true;
-      isLoading.value = false;
-    } catch (e) {
-      isLoading.value = false;
-      initError.value = e.toString();
-      isInit.value = true;
-
-      UIUtils.showError(e);
-    }
   }
 
   void increment() => count.value++;

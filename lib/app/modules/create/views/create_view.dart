@@ -40,7 +40,7 @@ class CreateView extends GetView<CreateController> {
       fontSize: 30,
       color: Colors.white,
     );
-    String _text = postTemplate.content;
+    String _text = postTemplate.content ?? '';
     TextAlign _textAlign = TextAlign.left;
     return Scaffold(
       appBar: AppBar(title: Text('创建帖子'), centerTitle: true, actions: [

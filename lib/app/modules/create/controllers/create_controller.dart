@@ -36,8 +36,8 @@ class CreateController extends GetxController {
     backgroundColor = BACKGROUND_COLORS[backgroundColorIndex];
     postTemplateId = Get.arguments["id"] ?? "";
     final postTemplate = PostController.to.postTemplatesMap[postTemplateId]!;
-    postTemplateFormattedText = formatEditorContent(postTemplate.content);
-    defaultTextPosition = getDefaultTextPosition(postTemplate.content);
+    postTemplateFormattedText = formatEditorContent(postTemplate.content ?? '');
+    defaultTextPosition = getDefaultTextPosition(postTemplate.content ?? '');
     super.onInit();
   }
 

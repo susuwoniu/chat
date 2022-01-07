@@ -6,13 +6,17 @@ class MoreDots extends StatelessWidget {
   final void Function() onPressedReport;
   final void Function() onPressedShare;
   final BuildContext context;
+  final String? bottomText;
+  final IconData? bottomIcon;
 
-  MoreDots({
-    Key? key,
-    required this.onPressedReport,
-    required this.onPressedShare,
-    required this.context,
-  }) : super(key: key);
+  MoreDots(
+      {Key? key,
+      required this.onPressedReport,
+      required this.onPressedShare,
+      required this.context,
+      this.bottomText,
+      this.bottomIcon})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
@@ -60,12 +64,13 @@ class MoreDots extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Share',
+                          bottomText ?? 'Share',
                           style: TextStyle(fontSize: 20),
                         ),
                         Icon(
-                          Icons.send_rounded,
-                          color: Colors.blue,
+                          bottomIcon ?? Icons.send_rounded,
+                          color:
+                              bottomText == null ? Colors.blue : Colors.black,
                           size: 30,
                         ),
                       ])),

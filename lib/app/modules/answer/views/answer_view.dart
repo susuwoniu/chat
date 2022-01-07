@@ -44,7 +44,7 @@ class AnswerView extends GetView<AnswerController> {
                     color: backgroundColor,
                     child: Stack(children: <Widget>[
                       Templates(
-                        question: _item.content,
+                        question: _item.content ?? _item.title,
                         id: _id,
                         autofocus: true,
                         onChanged: (String text) {

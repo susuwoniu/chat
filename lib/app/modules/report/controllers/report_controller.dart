@@ -12,7 +12,7 @@ class ReportController extends GetxController {
   final reportType = ''.obs;
   final imgList = RxList([]);
   final isShowBlank = true.obs;
-  late ProfileImageEntity imgEntity;
+  ProfileImageEntity imgEntity = ProfileImageEntity.empty();
 
   @override
   void onInit() {
