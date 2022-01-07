@@ -1,4 +1,5 @@
 import 'package:chat/app/providers/auth_provider.dart';
+import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/routes/app_pages.dart';
@@ -42,7 +43,7 @@ class OtherView extends GetView<OtherController> {
                     : _account.bio == ''
                         ? 'nothing'
                         : _account.bio;
-                final _imgList = List.from(_account.profileImages ?? []);
+                final _imgList = List.from(_account.profile_images ?? []);
                 if (_imgList.isEmpty) {
                   _imgList.add(ProfileImageEntity.empty());
                 }
@@ -87,9 +88,9 @@ class OtherView extends GetView<OtherController> {
                       child: DotsWidget(
                           current: controller.current,
                           onTap: buttonCarouselController.animateToPage,
-                          count: _account.profileImages == null
+                          count: _account.profile_images == null
                               ? 0
-                              : _account.profileImages!.length),
+                              : _account.profile_images!.length),
                     ),
                   ]),
                   Container(
@@ -159,6 +160,86 @@ class OtherView extends GetView<OtherController> {
                   });
             },
           )),
+      Positioned(
+          bottom: 0,
+          child: Container(
+              width: width,
+              decoration: BoxDecoration(
+                border: Border(
+                    top: BorderSide(
+                  color: Colors.grey.shade200,
+                )),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3) // changes position of shadow
+                      )
+                ],
+                color: Colors.white,
+              ),
+              padding: EdgeInsets.fromLTRB(30, 13, 30, 25),
+              child: Row(children: [
+                _chatButton(
+                    text: 'Like',
+                    onPressed: () {
+                      try {
+                        controller.postLikeCount(accountId);
+                        UIUtils.toast('okkk');
+                        controller.setIsLiked();
+                        final currentAccount =
+                            AuthProvider.to.simpleAccountMap[accountId]!;
+                        currentAccount.like_count += 1;
+                        AuthProvider.to.simpleAccountMap[accountId] =
+                            currentAccount;
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
+                    },
+                    color: Colors.pink.shade200),
+                SizedBox(width: 30),
+                _chatButton(
+                  text: 'Chat',
+                  onPressed: () {},
+                )
+              ]))),
     ]);
+  }
+
+  Widget _chatButton(
+      {required String text, required Function onPressed, Color? color}) {
+    return Expanded(
+        child: GestureDetector(
+            onTap: () {
+              onPressed();
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 7),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      color: color == null
+                          ? Colors.transparent
+                          : controller.isLiked.value
+                              ? Colors.white
+                              : color),
+                  color: color == null
+                      ? Colors.black
+                      : controller.isLiked.value
+                          ? color
+                          : Colors.white,
+                  borderRadius: BorderRadius.circular(20)),
+              child: Text(
+                text,
+                style: TextStyle(
+                    color: color == null
+                        ? Colors.white
+                        : controller.isLiked.value
+                            ? Colors.white
+                            : color,
+                    fontSize: 20),
+              ),
+            )));
   }
 }

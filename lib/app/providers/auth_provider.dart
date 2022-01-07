@@ -130,7 +130,7 @@ class AuthProvider extends GetxService {
       }
     }
 
-    accountEntity.profileImages = profileImageList;
+    accountEntity.profile_images = profileImageList;
     return accountEntity;
   }
 
@@ -157,7 +157,7 @@ class AuthProvider extends GetxService {
 
     profileImageList.sort((a, b) => a.order.compareTo(b.order));
 
-    accountEntity!.profileImages = profileImageList;
+    accountEntity!.profile_images = profileImageList;
     return accountEntity;
   }
 

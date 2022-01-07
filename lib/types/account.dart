@@ -91,10 +91,10 @@ class AccountEntity {
   final int likeCount;
   final bool vip;
   final List<ActionEntity> actions;
-  List<ProfileImageEntity> profileImages = [];
+  List<ProfileImageEntity> profile_images = [];
 
   AccountEntity(
-      {this.profileImages = const [],
+      {this.profile_images = const [],
       this.bio,
       this.location,
       this.birthday,

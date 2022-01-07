@@ -10,13 +10,13 @@ class SimpleAccountEntity {
   final String? bio;
 
   final String name;
-  final int like_count;
+  int like_count;
   final bool vip;
   final String gender;
-  List<ProfileImageEntity>? profileImages;
+  List<ProfileImageEntity>? profile_images;
 
   SimpleAccountEntity({
-    this.profileImages,
+    this.profile_images,
     this.avatar,
     this.age,
     this.bio,

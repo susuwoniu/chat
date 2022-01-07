@@ -8,7 +8,7 @@ part of 'simple_account.dart';
 
 SimpleAccountEntity _$SimpleAccountEntityFromJson(Map<String, dynamic> json) =>
     SimpleAccountEntity(
-      profileImages: (json['profileImages'] as List<dynamic>?)
+      profile_images: (json['profile_images'] as List<dynamic>?)
               ?.map(
                   (e) => ProfileImageEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -32,5 +32,5 @@ Map<String, dynamic> _$SimpleAccountEntityToJson(
       'like_count': instance.like_count,
       'vip': instance.vip,
       'gender': instance.gender,
-      'profileImages': instance.profileImages,
+      'profile_images': instance.profile_images,
     };
