@@ -1,8 +1,7 @@
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/providers/chat_provider/chat_provider.dart';
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
-
+import 'package:chat/common.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -27,9 +26,13 @@ class RoomView extends GetView<RoomController> {
       appBar: AppBar(
         title: Obx(() {
           final room = messageController.entities[roomId];
+          final roomInfoId = room?.room_info_id;
+          final roomAccount = roomInfoId != null
+              ? AuthProvider.to.simpleAccountMap[roomInfoId]
+              : null;
           return room != null && room.isLoading
-              ? Text("loading")
-              : Text('ChatView');
+              ? Text("Loading")
+              : Text(roomAccount?.name ?? "Room");
         }),
         centerTitle: true,
       ),
@@ -110,7 +113,7 @@ class RoomView extends GetView<RoomController> {
             return ImageMessage(message: message, messageWidth: messageWidth);
           },
           emptyState:
-              ((room.isLoading)) ? Text("isLoading") : Text("No message yet"),
+              ((room.isLoading)) ? Center(child: Loading()) : SizedBox.shrink(),
           onAttachmentPressed: () {
             _handleAtachmentPressed(context);
           },
