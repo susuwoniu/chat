@@ -15,11 +15,7 @@ class PostController extends GetxController {
   String? firstCursor;
   String? lastCursor;
   final postTemplatesIndexes = RxList<String>([]);
-  final postTemplatesMap = RxMap<String, PostTemplatesEntity>({
-    // "1": PostTemplatesEntity(
-    //     backgroundColor: "#22222", id: "1", content: "11111111"
-    // )
-  });
+  final postTemplatesMap = RxMap<String, PostTemplatesEntity>({});
   final isLoading = true.obs;
   final isDataEmpty = false.obs;
   final isInit = false.obs;

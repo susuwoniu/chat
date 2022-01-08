@@ -18,6 +18,7 @@ SimpleAccountEntity _$SimpleAccountEntityFromJson(Map<String, dynamic> json) =>
       bio: json['bio'] as String?,
       name: json['name'] as String,
       like_count: json['like_count'] as int,
+      is_liked: json['is_liked'] as bool,
       vip: json['vip'] as bool,
       gender: json['gender'] as String,
     );
@@ -30,6 +31,7 @@ Map<String, dynamic> _$SimpleAccountEntityToJson(
       'bio': instance.bio,
       'name': instance.name,
       'like_count': instance.like_count,
+      'is_liked': instance.is_liked,
       'vip': instance.vip,
       'gender': instance.gender,
       'profile_images': instance.profile_images,

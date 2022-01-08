@@ -11,6 +11,7 @@ class SimpleAccountEntity {
 
   final String name;
   int like_count;
+  bool is_liked;
   final bool vip;
   final String gender;
   List<ProfileImageEntity>? profile_images;
@@ -20,6 +21,7 @@ class SimpleAccountEntity {
     this.avatar,
     this.age,
     this.bio,
+    this.is_liked = false,
     required this.name,
     required this.like_count,
     required this.vip,
@@ -34,7 +36,11 @@ class SimpleAccountEntity {
     );
   }
 
-  factory SimpleAccountEntity.fromJson(Map<String, dynamic> json) =>
-      _$SimpleAccountEntityFromJson(json);
+  factory SimpleAccountEntity.fromJson(Map<String, dynamic> json) {
+    if (json['is_liked'] == null) {
+      json['is_liked'] = false;
+    }
+    return _$SimpleAccountEntityFromJson(json);
+  }
   Map<String, dynamic> toJson() => _$SimpleAccountEntityToJson(this);
 }

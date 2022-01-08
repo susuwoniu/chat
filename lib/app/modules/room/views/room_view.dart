@@ -2,9 +2,7 @@ import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/providers/chat_provider/chat_provider.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart'
     hide ImageMessage, TextMessage;
@@ -17,6 +15,7 @@ import './image_message.dart';
 import './text_message.dart';
 import './bottom_widget.dart';
 import './bubble_widget.dart';
+import '../../message/views/appbar_border.dart';
 
 class RoomView extends GetView<RoomController> {
   @override
@@ -25,6 +24,8 @@ class RoomView extends GetView<RoomController> {
     final roomId = controller.roomId;
     return Scaffold(
       appBar: AppBar(
+        bottom: PreferredSize(
+            child: AppbarBorder(), preferredSize: Size.fromHeight(0)),
         title: Obx(() {
           final roomInfoId = messageController.entities[roomId]!.room_info_id;
           final toAccount = roomInfoId != null
@@ -73,25 +74,40 @@ class RoomView extends GetView<RoomController> {
             return BubbleWidget(child,
                 message: message, nextMessageInGroup: nextMessageInGroup);
           },
-          customBottomWidget: BottomWidget(
-              onCancelQuote: controller.handleCancelPreview,
-              quoteMessage: controller.previewMessage,
-              replyTo:
-                  controller.previewMessage != null ? toAccount?.name : null,
-              onAttachmentPressed: () {
-                _handleImageSelection();
-              },
-              onCameraPressed: () {
-                _handleCameraSelection();
-              },
-              onSendPressed: (types.PartialText message) async {
-                try {
-                  await controller.handleSendPressed(message);
-                } catch (e) {
-                  UIUtils.showError(e);
-                }
-              },
-              sendButtonVisibilityMode: SendButtonVisibilityMode.editing),
+          customBottomWidget: Container(
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    )
+                  ],
+                  border: Border(
+                      top: BorderSide(
+                    color: Colors.grey.shade200,
+                  ))),
+              child: BottomWidget(
+                  onCancelQuote: controller.handleCancelPreview,
+                  quoteMessage: controller.previewMessage,
+                  replyTo: controller.previewMessage != null
+                      ? toAccount?.name
+                      : null,
+                  onAttachmentPressed: () {
+                    _handleImageSelection();
+                  },
+                  onCameraPressed: () {
+                    _handleCameraSelection();
+                  },
+                  onSendPressed: (types.PartialText message) async {
+                    try {
+                      await controller.handleSendPressed(message);
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  },
+                  sendButtonVisibilityMode: SendButtonVisibilityMode.editing)),
           textMessageBuilder: (
             types.TextMessage message, {
             required int messageWidth,

@@ -161,12 +161,13 @@ class HomeView extends GetView<HomeController> {
                                                     post.post_template_title
                                               });
                                         }),
-                                    SizedBox(height: 20),
+                                    SizedBox(height: 15),
                                     AuthorName(
                                         accountId: post.accountId,
                                         authorName: author.name,
                                         avatarUri: author.avatar,
                                         index: index),
+                                    SizedBox(height: 30),
                                   ])),
                           Align(
                               alignment: Alignment.bottomLeft,

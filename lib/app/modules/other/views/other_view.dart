@@ -185,11 +185,11 @@ class OtherView extends GetView<OtherController> {
               padding: EdgeInsets.fromLTRB(30, 13, 30, 25),
               child: Row(children: [
                 Obx(() => _chatButton(
-                    text: controller.likeButtonText.value,
+                    text: _account.is_liked ? 'Liked' : 'Like',
                     onPressed: () {
                       controller.toggleLike();
 
-                      if (controller.isLiked.value) {
+                      if (_account.is_liked) {
                         try {
                           controller.postLikeCount(accountId);
                           UIUtils.toast('okkk');
@@ -219,7 +219,11 @@ class OtherView extends GetView<OtherController> {
                 SizedBox(width: 30),
                 _chatButton(
                   text: 'Chat',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(Routes.ROOM, arguments: {
+                      'id': "im$accountId@$imDomain",
+                    });
+                  },
                 )
               ]))),
     ]);
@@ -227,6 +231,9 @@ class OtherView extends GetView<OtherController> {
 
   Widget _chatButton(
       {required String text, required Function onPressed, Color? color}) {
+    final accountId = controller.accountId;
+    final _account = AuthProvider.to.simpleAccountMap[accountId] ??
+        SimpleAccountEntity.empty();
     return Expanded(
         child: GestureDetector(
             onTap: () {
@@ -239,17 +246,17 @@ class OtherView extends GetView<OtherController> {
                   border: Border.all(
                       color: color == null
                           ? Colors.black
-                          : controller.isLiked.value
+                          : _account.is_liked
                               ? Colors.transparent
                               : color),
-                  color: controller.isLiked.value ? color : Colors.white,
+                  color: _account.is_liked ? color : Colors.white,
                   borderRadius: BorderRadius.circular(20)),
               child: Text(
                 text,
                 style: TextStyle(
                     color: color == null
                         ? Colors.black
-                        : controller.isLiked.value
+                        : _account.is_liked
                             ? Colors.white
                             : color,
                     fontSize: 20),
