@@ -19,8 +19,6 @@ class OtherController extends GetxController {
   final myPostsIndexes = RxList<String>([]);
   final postMap = RxMap<String, PostEntity>({});
   final accountId = Get.arguments['accountId'];
-  final isLiked = false.obs;
-  final likeButtonText = 'Like'.obs;
 
   // final ScrollController listScrollController = ScrollController();
 
@@ -102,11 +100,8 @@ class OtherController extends GetxController {
   }
 
   toggleLike() {
-    isLiked.value = !isLiked.value;
-    if (isLiked.value) {
-      likeButtonText.value = 'Liked';
-    } else {
-      likeButtonText.value = 'Like';
-    }
+    final _account = AuthProvider.to.simpleAccountMap[accountId] ??
+        SimpleAccountEntity.empty();
+    _account.is_liked = !_account.is_liked;
   }
 }

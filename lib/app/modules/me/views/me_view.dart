@@ -79,7 +79,7 @@ class MeView extends GetView<MeController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             NicknameWidget(name: _name, vip: _vip),
-                            SizedBox(height: 8),
+                            SizedBox(height: 10),
                             AgeWidget(
                                 gender: _account.gender,
                                 age: _account.age.toString()),
@@ -121,21 +121,15 @@ class MeView extends GetView<MeController> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(_bio!,
-                            style: TextStyle(
-                              fontSize: 22,
-                              color: Colors.grey,
-                            )),
-                        SizedBox(height: 8),
                         ProfileInfoText(
-                            text: _location,
-                            iconName:
-                                IconData(61716, fontFamily: 'MaterialIcons')),
+                            text: _bio!,
+                            icon: Icons.face_retouching_natural_outlined),
                         SizedBox(height: 6),
                         ProfileInfoText(
-                            text: _birth,
-                            iconName:
-                                IconData(61505, fontFamily: 'MaterialIcons')),
+                            text: _location,
+                            icon: Icons.location_city_outlined),
+                        SizedBox(height: 6),
+                        ProfileInfoText(text: _birth, icon: Icons.cake_outlined)
                       ]),
                 )
               ]);

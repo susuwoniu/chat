@@ -43,19 +43,22 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   void initState() {
     super.initState();
     _currentAgeRangeValues = RangeValues(
-        widget.initialStartAge != null
+        AuthProvider.to.account.value.vip && widget.initialStartAge != null
             ? widget.initialStartAge!.toDouble()
             : DEFAULT_START_AGE.toDouble(),
-        widget.initialEndAge != null
+        AuthProvider.to.account.value.vip && widget.initialEndAge != null
             ? widget.initialEndAge!.toDouble()
             : DEFAULT_END_AGE.toDouble());
 
     _currentDistanceRangeValues = RangeValues(
         0,
-        widget.initialEndDistance != null
+        AuthProvider.to.account.value.vip && widget.initialEndDistance != null
             ? widget.initialEndDistance!.toDouble()
             : DEFAULT_END_DISTANCE.toDouble());
-    selectedGender = widget.initialGender ?? 'all';
+    selectedGender =
+        AuthProvider.to.account.value.vip && widget.initialGender != null
+            ? widget.initialGender!
+            : 'all';
   }
 
   bool positive = false;
