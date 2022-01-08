@@ -15,6 +15,8 @@ import '../controllers/other_controller.dart';
 import '../../me/views/image_slider.dart';
 import 'package:chat/types/types.dart';
 import '../../home/views/more_dots.dart';
+import '../../me/views/profile_info_text.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class OtherView extends GetView<OtherController> {
   final CarouselController buttonCarouselController = CarouselController();
@@ -37,6 +39,8 @@ class OtherView extends GetView<OtherController> {
         : _account.bio == ''
             ? 'nothing'
             : _account.bio;
+    final _location = _account.location;
+    final _birth = _account.birthday;
     final _imgList = List.from(_account.profile_images ?? []);
     if (_imgList.isEmpty) {
       _imgList.add(ProfileImageEntity.empty());
@@ -69,7 +73,7 @@ class OtherView extends GetView<OtherController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             NicknameWidget(name: _name, vip: _vip),
-                            SizedBox(height: 8),
+                            SizedBox(height: 10),
                             AgeWidget(
                                 gender: _account.gender,
                                 age: _account.age == null
@@ -103,11 +107,15 @@ class OtherView extends GetView<OtherController> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(_bio!,
-                            style: TextStyle(
-                              fontSize: 22,
-                              color: Colors.grey,
-                            )),
+                        ProfileInfoText(
+                            text: _bio!,
+                            icon: Icons.face_retouching_natural_outlined),
+                        SizedBox(height: 6),
+                        ProfileInfoText(
+                            text: _location,
+                            icon: Icons.location_city_outlined),
+                        SizedBox(height: 6),
+                        ProfileInfoText(text: _birth, icon: Icons.cake_outlined)
                       ]),
                 )
               ]),
@@ -185,37 +193,38 @@ class OtherView extends GetView<OtherController> {
               padding: EdgeInsets.fromLTRB(30, 13, 30, 25),
               child: Row(children: [
                 Obx(() => _chatButton(
-                    text: _account.is_liked ? 'Liked' : 'Like',
-                    onPressed: () {
-                      controller.toggleLike();
+                      text: _account.is_liked ? 'Liked' : 'Like',
+                      onPressed: () {
+                        controller.toggleLike();
 
-                      if (_account.is_liked) {
-                        try {
-                          controller.postLikeCount(accountId);
-                          UIUtils.toast('okkk');
-                          final currentAccount =
-                              AuthProvider.to.simpleAccountMap[accountId]!;
-                          currentAccount.like_count += 1;
-                          AuthProvider.to.simpleAccountMap[accountId] =
-                              currentAccount;
-                        } catch (e) {
-                          UIUtils.showError(e);
+                        if (_account.is_liked) {
+                          try {
+                            controller.postLikeCount(accountId);
+                            UIUtils.toast('okkk');
+                            final currentAccount =
+                                AuthProvider.to.simpleAccountMap[accountId]!;
+                            currentAccount.like_count += 1;
+                            AuthProvider.to.simpleAccountMap[accountId] =
+                                currentAccount;
+                          } catch (e) {
+                            UIUtils.showError(e);
+                          }
+                        } else {
+                          try {
+                            controller.cancelLikeCount(accountId);
+                            UIUtils.toast('okkk-cancel');
+                            final currentAccount =
+                                AuthProvider.to.simpleAccountMap[accountId]!;
+                            currentAccount.like_count -= 1;
+                            AuthProvider.to.simpleAccountMap[accountId] =
+                                currentAccount;
+                          } catch (e) {
+                            UIUtils.showError(e);
+                          }
                         }
-                      } else {
-                        try {
-                          controller.cancelLikeCount(accountId);
-                          UIUtils.toast('okkk-cancel');
-                          final currentAccount =
-                              AuthProvider.to.simpleAccountMap[accountId]!;
-                          currentAccount.like_count -= 1;
-                          AuthProvider.to.simpleAccountMap[accountId] =
-                              currentAccount;
-                        } catch (e) {
-                          UIUtils.showError(e);
-                        }
-                      }
-                    },
-                    color: Colors.pink.shade200)),
+                      },
+                      color: HexColor("#fd79a8"),
+                    )),
                 SizedBox(width: 30),
                 _chatButton(
                   text: 'Chat',

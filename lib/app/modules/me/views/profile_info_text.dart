@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 
 class ProfileInfoText extends StatelessWidget {
   final String text;
-  final IconData iconName;
+  final IconData icon;
 
   ProfileInfoText({
     Key? key,
     required this.text,
-    required this.iconName,
+    required this.icon,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Icon(
-        iconName,
+        icon,
         color: Colors.grey,
         size: 25,
       ),
