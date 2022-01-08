@@ -22,8 +22,8 @@ class SmallPost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
-    final double paddingLeft = _width * 0.05;
-    final double paddingTop = _width * 0.04;
+    final double paddingLeft = 13;
+    final double paddingTop = 12;
     return Container(
         height: _width * 0.5,
         width: _width * 0.4,
@@ -43,7 +43,8 @@ class SmallPost extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.fromLTRB(
                   paddingLeft, paddingTop, paddingLeft, paddingTop),
-              padding: EdgeInsets.all(_width * 0.03),
+              padding: EdgeInsets.all(14),
+              alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Color(backgroundColor),

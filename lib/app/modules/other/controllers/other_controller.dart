@@ -19,9 +19,9 @@ class OtherController extends GetxController {
   final myPostsIndexes = RxList<String>([]);
   final postMap = RxMap<String, PostEntity>({});
   final accountId = Get.arguments['accountId'];
-  final likeCount = AuthProvider
-      .to.simpleAccountMap[Get.arguments['accountId']]!.like_count.obs;
   final isLiked = false.obs;
+  final likeButtonText = 'Like'.obs;
+
   // final ScrollController listScrollController = ScrollController();
 
   @override
@@ -96,7 +96,17 @@ class OtherController extends GetxController {
         body: {"like_count_action": 'increase_one'});
   }
 
-  setIsLiked() {
+  cancelLikeCount(String id) async {
+    await APIProvider.to.put("/account/accounts/$id",
+        body: {"like_count_action": 'decrease_one'});
+  }
+
+  toggleLike() {
     isLiked.value = !isLiked.value;
+    if (isLiked.value) {
+      likeButtonText.value = 'Liked';
+    } else {
+      likeButtonText.value = 'Like';
+    }
   }
 }

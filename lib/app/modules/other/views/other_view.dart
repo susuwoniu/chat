@@ -29,85 +29,88 @@ class OtherView extends GetView<OtherController> {
     final _account = AuthProvider.to.simpleAccountMap[accountId] ??
         SimpleAccountEntity.empty();
     final _name = _account.name;
+
+    final _vip = _account.vip;
+
+    final _bio = _account.bio == null
+        ? 'nothing'
+        : _account.bio == ''
+            ? 'nothing'
+            : _account.bio;
+    final _imgList = List.from(_account.profile_images ?? []);
+    if (_imgList.isEmpty) {
+      _imgList.add(ProfileImageEntity.empty());
+    }
     return Stack(clipBehavior: Clip.antiAliasWithSaveLayer, children: [
       CustomScrollView(
           // controller: controller.listScrollController,
           slivers: [
             SliverToBoxAdapter(
-              child: Obx(() {
-                final _vip = _account.vip;
-                final _likeCount = _account.like_count.toString();
-
-                final _bio = _account.bio == null
-                    ? 'nothing'
-                    : _account.bio == ''
-                        ? 'nothing'
-                        : _account.bio;
-                final _imgList = List.from(_account.profile_images ?? []);
-                if (_imgList.isEmpty) {
-                  _imgList.add(ProfileImageEntity.empty());
-                }
-
-                return Column(children: [
-                  Stack(children: [
-                    CarouselSlider(
-                      items: _imgList
-                          .map((img) => ImageSlider(
-                              img: img, height: height * 0.5, width: width))
-                          .toList(),
-                      carouselController: buttonCarouselController,
-                      options: CarouselOptions(
-                          height: height * 0.5,
-                          viewportFraction: 1,
-                          enableInfiniteScroll: false,
-                          onPageChanged: (index, reason) {
-                            controller.setCurrent(index);
-                          }),
-                    ),
-                    Positioned(
-                        left: paddingLeft,
-                        bottom: height * 0.025,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              NicknameWidget(name: _name, vip: _vip),
-                              SizedBox(height: 8),
-                              AgeWidget(
-                                  gender: _account.gender,
-                                  age: _account.age == null
-                                      ? ' ???'
-                                      : _account.age.toString()),
-                              SizedBox(height: 15),
-                              LikeCount(
-                                text: _likeCount,
-                              ),
-                            ])),
-                    Positioned(
-                      bottom: height * 0.01,
-                      width: width,
-                      child: DotsWidget(
-                          current: controller.current,
-                          onTap: buttonCarouselController.animateToPage,
-                          count: _account.profile_images == null
-                              ? 0
-                              : _account.profile_images!.length),
-                    ),
-                  ]),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(paddingLeft, 15, 0, 0),
-                    alignment: Alignment.topLeft,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(_bio!,
-                              style: TextStyle(
-                                fontSize: 22,
-                                color: Colors.grey,
-                              )),
-                        ]),
-                  )
-                ]);
-              }),
+              child: Column(children: [
+                Stack(children: [
+                  CarouselSlider(
+                    items: _imgList
+                        .map((img) => ImageSlider(
+                            img: img, height: height * 0.5, width: width))
+                        .toList(),
+                    carouselController: buttonCarouselController,
+                    options: CarouselOptions(
+                        height: height * 0.5,
+                        viewportFraction: 1,
+                        enableInfiniteScroll: false,
+                        onPageChanged: (index, reason) {
+                          controller.setCurrent(index);
+                        }),
+                  ),
+                  Positioned(
+                      left: paddingLeft,
+                      bottom: height * 0.025,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            NicknameWidget(name: _name, vip: _vip),
+                            SizedBox(height: 8),
+                            AgeWidget(
+                                gender: _account.gender,
+                                age: _account.age == null
+                                    ? ' ???'
+                                    : _account.age.toString()),
+                            SizedBox(height: 15),
+                            Obx(() {
+                              final _likeCount = AuthProvider
+                                  .to
+                                  .simpleAccountMap[Get.arguments['accountId']]!
+                                  .like_count;
+                              return LikeCount(
+                                text: _likeCount.toString(),
+                              );
+                            }),
+                          ])),
+                  Positioned(
+                    bottom: height * 0.01,
+                    width: width,
+                    child: DotsWidget(
+                        current: controller.current,
+                        onTap: buttonCarouselController.animateToPage,
+                        count: _account.profile_images == null
+                            ? 0
+                            : _account.profile_images!.length),
+                  ),
+                ]),
+                Container(
+                  padding: EdgeInsets.fromLTRB(paddingLeft, 15, 0, 0),
+                  alignment: Alignment.topLeft,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(_bio!,
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.grey,
+                            )),
+                      ]),
+                )
+              ]),
             ),
             PagedSliverGrid<String?, String>(
                 showNewPageProgressIndicatorAsGridChild: false,
@@ -181,23 +184,38 @@ class OtherView extends GetView<OtherController> {
               ),
               padding: EdgeInsets.fromLTRB(30, 13, 30, 25),
               child: Row(children: [
-                _chatButton(
-                    text: 'Like',
+                Obx(() => _chatButton(
+                    text: controller.likeButtonText.value,
                     onPressed: () {
-                      try {
-                        controller.postLikeCount(accountId);
-                        UIUtils.toast('okkk');
-                        controller.setIsLiked();
-                        final currentAccount =
-                            AuthProvider.to.simpleAccountMap[accountId]!;
-                        currentAccount.like_count += 1;
-                        AuthProvider.to.simpleAccountMap[accountId] =
-                            currentAccount;
-                      } catch (e) {
-                        UIUtils.showError(e);
+                      controller.toggleLike();
+
+                      if (controller.isLiked.value) {
+                        try {
+                          controller.postLikeCount(accountId);
+                          UIUtils.toast('okkk');
+                          final currentAccount =
+                              AuthProvider.to.simpleAccountMap[accountId]!;
+                          currentAccount.like_count += 1;
+                          AuthProvider.to.simpleAccountMap[accountId] =
+                              currentAccount;
+                        } catch (e) {
+                          UIUtils.showError(e);
+                        }
+                      } else {
+                        try {
+                          controller.cancelLikeCount(accountId);
+                          UIUtils.toast('okkk-cancel');
+                          final currentAccount =
+                              AuthProvider.to.simpleAccountMap[accountId]!;
+                          currentAccount.like_count -= 1;
+                          AuthProvider.to.simpleAccountMap[accountId] =
+                              currentAccount;
+                        } catch (e) {
+                          UIUtils.showError(e);
+                        }
                       }
                     },
-                    color: Colors.pink.shade200),
+                    color: Colors.pink.shade200)),
                 SizedBox(width: 30),
                 _chatButton(
                   text: 'Chat',
@@ -220,21 +238,17 @@ class OtherView extends GetView<OtherController> {
               decoration: BoxDecoration(
                   border: Border.all(
                       color: color == null
-                          ? Colors.transparent
+                          ? Colors.black
                           : controller.isLiked.value
-                              ? Colors.white
+                              ? Colors.transparent
                               : color),
-                  color: color == null
-                      ? Colors.black
-                      : controller.isLiked.value
-                          ? color
-                          : Colors.white,
+                  color: controller.isLiked.value ? color : Colors.white,
                   borderRadius: BorderRadius.circular(20)),
               child: Text(
                 text,
                 style: TextStyle(
                     color: color == null
-                        ? Colors.white
+                        ? Colors.black
                         : controller.isLiked.value
                             ? Colors.white
                             : color,
