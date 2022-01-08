@@ -44,7 +44,7 @@ class EditInfoController extends GetxController {
     ProfileImageEntity img,
   ) async {
     final accountEntity = AuthProvider.to.account.value;
-    final List<ProfileImageEntity> imgList = [...accountEntity.profileImages];
+    final List<ProfileImageEntity> imgList = [...accountEntity.profile_images];
     if (imgList.length > i) {
       imgList[i] = img;
     } else {
@@ -52,7 +52,7 @@ class EditInfoController extends GetxController {
     }
     AuthProvider.to.account.update((value) {
       if (value != null) {
-        value.profileImages = imgList;
+        value.profile_images = imgList;
       }
     });
     final newAccountEntity = AuthProvider.to.account.value;
@@ -63,13 +63,13 @@ class EditInfoController extends GetxController {
     // TODO
     final account = AuthProvider.to.account;
     account.update((val) {
-      val!.profileImages.removeAt(i);
+      val!.profile_images.removeAt(i);
     });
     // save account
     await AuthProvider.to.saveAccount(account.value);
     // put new profiles
     await APIProvider.to.put("/account/me/profile-images",
-        body: {"images": account.value.profileImages});
+        body: {"images": account.value.profile_images});
   }
 
   void changeLocation(int i) {}

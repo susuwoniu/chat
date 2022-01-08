@@ -128,12 +128,12 @@ class AuthProvider extends GetxService {
 
     for (var v in included) {
       if (v["type"] == "profile-images") {
-        profileImageList.insert(v["atrributes"]["order"],
-            ProfileImageEntity.fromJson(v["atrributes"]));
+        profileImageList.insert(v["attributes"]["order"],
+            ProfileImageEntity.fromJson(v["attributes"]));
       }
     }
 
-    accountEntity.profileImages = profileImageList;
+    accountEntity.profile_images = profileImageList;
     return accountEntity;
   }
 
@@ -151,7 +151,7 @@ class AuthProvider extends GetxService {
         // final order = v["attributes"]["order"];
         profileImageList.add(profileImageEntity);
         // profileImageList.insert(v["attributes"]["order"],
-        //     ProfileImageEntity.fromJson(v["atrributes"]));
+        //     ProfileImageEntity.fromJson(v["attributes"]));
       } else if (v["type"] == "full-accounts") {
         accountEntity = AccountEntity.fromJson(v["attributes"]);
       }
@@ -160,7 +160,7 @@ class AuthProvider extends GetxService {
 
     profileImageList.sort((a, b) => a.order.compareTo(b.order));
 
-    accountEntity!.profileImages = profileImageList;
+    accountEntity!.profile_images = profileImageList;
     return accountEntity;
   }
 

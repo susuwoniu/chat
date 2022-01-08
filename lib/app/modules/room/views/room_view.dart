@@ -25,8 +25,8 @@ class RoomView extends GetView<RoomController> {
     return Scaffold(
       appBar: AppBar(
         title: Obx(() {
+          final roomInfoId = messageController.entities[roomId]!.room_info_id;
           final room = messageController.entities[roomId];
-          final roomInfoId = room?.room_info_id;
           final roomAccount = roomInfoId != null
               ? AuthProvider.to.simpleAccountMap[roomInfoId]
               : null;
@@ -58,10 +58,7 @@ class RoomView extends GetView<RoomController> {
                     (id) => messageController.messageEntities[id]!)
                 .toList()
             : emptyMessages;
-        // add preview
-        // if (controller.previewMessage != null) {
-        //   messages.insert(0, controller.previewMessage!);
-        // }
+
         return Chat(
           messages: messages,
           bubbleBuilder: (

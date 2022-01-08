@@ -27,31 +27,14 @@ class MeView extends GetView<MeController> {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     final double paddingLeft = width * 0.055;
-    final _account = AuthProvider.to.account.value;
-    final postsIndexes = HomeController.to.myPostsIndexes;
-    final postMap = HomeController.to.postMap;
-    final isLoading = HomeController.to.isLoadingMyPosts.value;
-    final _name = _account.name;
-    final _vip = _account.vip;
-
-    final _likeCount = _account.likeCount.toString();
-
-    final _bio = _account.bio == '' ? 'nothing' : _account.bio;
-    final _location = _account.location ?? 'unknown place';
-    final _birth = _account.birthday ?? 'xxxx-xx-xx';
-    final _imgList = List.from(_account.profileImages);
-
-    if (_imgList.isEmpty) {
-      _imgList.add(ProfileImageEntity.empty());
-    }
+    final phone = AuthProvider.to.account.value.phone_number;
     return Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
         appBar: _appbar(
             iconLeft: Icons.settings_rounded,
             leftTap: () {
-              Get.toNamed(Routes.SETTING,
-                  arguments: {"phone": _account.phone_number});
+              Get.toNamed(Routes.SETTING, arguments: {"phone": phone});
             },
             iconRight: Icons.create_rounded,
             rightTap: () {
@@ -60,6 +43,19 @@ class MeView extends GetView<MeController> {
         body: CustomScrollView(slivers: [
           SliverToBoxAdapter(
             child: Obx(() {
+              final _account = AuthProvider.to.account.value;
+              final _name = _account.name;
+              final _vip = _account.vip;
+              final _likeCount = _account.likeCount.toString();
+
+              final _bio = _account.bio == '' ? 'nothing' : _account.bio;
+              final _location = _account.location ?? 'unknown place';
+              final _birth = _account.birthday ?? 'xxxx-xx-xx';
+              final _imgList = List.from(_account.profile_images);
+
+              if (_imgList.isEmpty) {
+                _imgList.add(ProfileImageEntity.empty());
+              }
               return Column(children: [
                 Stack(children: [
                   CarouselSlider(
@@ -76,25 +72,6 @@ class MeView extends GetView<MeController> {
                           controller.setCurrent(index);
                         }),
                   ),
-                  // Positioned(
-                  //     left: width * 0.04,
-                  //     top: height * 0.06,
-                  //     child: CircleWidget(
-                  //       icon: Icon(Icons.settings_rounded, color: Colors.white),
-                  //       onPressed: () {
-                  //         Get.toNamed(Routes.SETTING,
-                  //             arguments: {"phone": _account.phone_number});
-                  //       },
-                  //     )),
-                  // Positioned(
-                  //     right: width * 0.04,
-                  //     top: height * 0.06,
-                  //     child: CircleWidget(
-                  //       icon: Icon(Icons.create_rounded, color: Colors.white),
-                  //       onPressed: () {
-                  //         Get.toNamed(Routes.EDIT_INFO);
-                  //       },
-                  //     )),
                   Positioned(
                       left: paddingLeft,
                       bottom: height * 0.025,
@@ -136,7 +113,7 @@ class MeView extends GetView<MeController> {
                     child: DotsWidget(
                         current: controller.current,
                         onTap: buttonCarouselController.animateToPage,
-                        count: _account.profileImages.length),
+                        count: _account.profile_images.length),
                   ),
                 ]),
                 Container(
@@ -175,7 +152,7 @@ class MeView extends GetView<MeController> {
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<String>(
                 itemBuilder: (context, id, index) {
-              final post = postMap[id]!;
+              final post = HomeController.to.postMap[id]!;
               return SmallPost(
                   postId: id,
                   content: post.content,

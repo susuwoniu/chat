@@ -1,4 +1,3 @@
-import 'package:chat/app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:get/get.dart';
@@ -16,11 +15,10 @@ Widget conversationItemView(
     required int index,
     required String id,
     String? avatar,
+    int likeCount = 0,
     void Function(int index)? onTap}) {
   final size = MediaQuery.of(context).size;
-
   final paddingLeft = size.width * 0.022;
-
   return Container(
       padding: EdgeInsets.symmetric(
           horizontal: paddingLeft, vertical: paddingLeft * 1.8),
@@ -62,7 +60,7 @@ Widget conversationItemView(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold)))),
                     LikeCount(
-                      text: AuthProvider.to.account.value.likeCount.toString(),
+                      text: likeCount.toString(),
                       iconSize: 16,
                       fontSize: 14,
                       backgroundColor: Colors.transparent,

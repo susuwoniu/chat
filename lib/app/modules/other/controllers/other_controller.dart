@@ -3,7 +3,7 @@ import '../../home/controllers/home_controller.dart';
 import 'package:chat/common.dart';
 import 'package:chat/types/types.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:flutter/material.dart';
+import 'package:chat/app/providers/providers.dart';
 
 class OtherController extends GetxController {
   //TODO: Implement OtherController
@@ -19,7 +19,9 @@ class OtherController extends GetxController {
   final myPostsIndexes = RxList<String>([]);
   final postMap = RxMap<String, PostEntity>({});
   final accountId = Get.arguments['accountId'];
-  // final isShowAppBar = false.obs;
+  final isLiked = false.obs;
+  final likeButtonText = 'Like'.obs;
+
   // final ScrollController listScrollController = ScrollController();
 
   @override
@@ -87,5 +89,24 @@ class OtherController extends GetxController {
       isInitial.value = true;
     }
     return result.indexes;
+  }
+
+  postLikeCount(String id) async {
+    await APIProvider.to.put("/account/accounts/$id",
+        body: {"like_count_action": 'increase_one'});
+  }
+
+  cancelLikeCount(String id) async {
+    await APIProvider.to.put("/account/accounts/$id",
+        body: {"like_count_action": 'decrease_one'});
+  }
+
+  toggleLike() {
+    isLiked.value = !isLiked.value;
+    if (isLiked.value) {
+      likeButtonText.value = 'Liked';
+    } else {
+      likeButtonText.value = 'Like';
+    }
   }
 }

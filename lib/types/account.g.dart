@@ -58,7 +58,7 @@ Map<String, dynamic> _$ProfileImageEntityToJson(ProfileImageEntity instance) =>
 
 AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
     AccountEntity(
-      profileImages: (json['profileImages'] as List<dynamic>?)
+      profile_images: (json['profile_images'] as List<dynamic>?)
               ?.map(
                   (e) => ProfileImageEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -92,5 +92,5 @@ Map<String, dynamic> _$AccountEntityToJson(AccountEntity instance) =>
       'like_count': instance.likeCount,
       'vip': instance.vip,
       'actions': instance.actions,
-      'profileImages': instance.profileImages,
+      'profile_images': instance.profile_images,
     };

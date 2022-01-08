@@ -28,7 +28,7 @@ class ImageList extends StatelessWidget {
       final _paddingLeft = _width * 0.095 - _margin * 2;
       final _paddingRight = _paddingLeft - _margin;
       final account = authProvider.account.value;
-      final imgList = account.profileImages;
+      final imgList = account.profile_images;
 
       for (var i = 0; i < 6 - imgList.length; i++) {
         blankList.add(Stack(
@@ -55,7 +55,7 @@ class ImageList extends StatelessWidget {
             children: [
               Obx(() {
                 return SingleImage(
-                    img: authProvider.account.value.profileImages[i]);
+                    img: authProvider.account.value.profile_images[i]);
               }),
               Positioned(
                   bottom: 7,
