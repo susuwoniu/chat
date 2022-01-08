@@ -1,8 +1,5 @@
-import 'package:chat/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
-import 'package:chat/app/styles/styles.dart';
 import 'package:get/get.dart';
-import 'package:chat/app/res/strings.dart';
 import '../controllers/message_controller.dart';
 import 'package:chat/app/widgets/touch_close_keyboard.dart';
 import './conversation_item.dart';
@@ -19,8 +16,16 @@ class MessageView extends GetView<MessageController> {
       appBar: AppBar(
         bottom: PreferredSize(
             child: Container(
-              color: Colors.grey[300]!,
               height: 0.5,
+              decoration:
+                  BoxDecoration(color: Colors.grey.shade400, boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(1, 2), // changes position of shadow
+                )
+              ]),
             ),
             preferredSize: Size.fromHeight(0)),
         title: Obx(() => Text(
@@ -88,7 +93,8 @@ class MessageView extends GetView<MessageController> {
                                     preview: room.preview,
                                     updatedAt: room.updatedAt,
                                     unreadCount: room.clientUnreadCount,
-                                    avatar: avatar);
+                                    avatar: avatar,
+                                    likeCount: roomInfo?.like_count ?? 0);
                               }));
                         },
                         childCount: controller.indexes.length,

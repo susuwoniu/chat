@@ -26,10 +26,14 @@ class RoomView extends GetView<RoomController> {
     return Scaffold(
       appBar: AppBar(
         title: Obx(() {
+          final roomInfoId = messageController.entities[roomId]!.room_info_id;
+          final toAccount = roomInfoId != null
+              ? AuthProvider.to.simpleAccountMap[roomInfoId]
+              : null;
           final room = messageController.entities[roomId];
           return room != null && room.isLoading
               ? Text("loading")
-              : Text('ChatView');
+              : Text(toAccount?.name ?? '');
         }),
         centerTitle: true,
       ),

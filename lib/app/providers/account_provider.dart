@@ -74,7 +74,6 @@ class AccountProvider extends GetxService {
   Future<void> postAccountInfoChange(Map<String, dynamic> data) async {
     final body = await APIProvider().patch("/account/me", body: data);
     final account = AuthProvider.to.formatMainAccount(body);
-
     await AuthProvider.to.saveAccount(account);
   }
 }
