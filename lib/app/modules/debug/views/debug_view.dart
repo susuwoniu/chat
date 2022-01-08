@@ -332,6 +332,56 @@ class DebugView extends GetView<DebugController> {
                     }
                   },
                 ),
+                ListTile(
+                  title: Text(
+                    '打印数据库索引',
+                  ),
+                  onTap: () async {
+                    try {
+                      await ChatProvider.to.database!.printIndexee();
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    '打印数据库结构',
+                  ),
+                  onTap: () async {
+                    try {
+                      await ChatProvider.to.database!.printTables();
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    '打印最新5条数据库消息',
+                  ),
+                  onTap: () async {
+                    try {
+                      await ChatProvider.to.database!
+                          .getMessages(limit: 20, sort: "desc");
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    '打印服务端最新5条数据库消息',
+                  ),
+                  onTap: () async {
+                    try {
+                      await ChatProvider.to.roomManager!
+                          .getServerMessages(limit: 5, sort: "desc");
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  },
+                ),
               ],
             ),
           )),

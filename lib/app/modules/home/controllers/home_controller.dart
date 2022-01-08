@@ -213,7 +213,7 @@ class HomeController extends GetxController {
         accountMap: newAccountMap);
   }
 
-  getHomePosts({
+  Future<List<String>> getHomePosts({
     String? after,
     String? before,
     bool replace = false,
@@ -308,6 +308,7 @@ class HomeController extends GetxController {
     }
 
     isLoadingHomePosts.value = false;
+    return result.indexes;
   }
 
   Future<void> initSkips() async {
@@ -407,7 +408,8 @@ class HomeController extends GetxController {
 
     BottomNavigationBarController.to.changeBackgroundColor(backgroundColor);
 
-    if (pageState[currentPage]!.postIndexes.length - index < 3) {
+    if (pageState[currentPage]!.postIndexes.length >= 3 &&
+        pageState[currentPage]!.postIndexes.length - index < 3) {
       if (!isLoadingHomePosts.value &&
           pageState[currentPage]!.isDataEmpty == false) {
         isLoadingHomePosts.value = true;
@@ -467,7 +469,9 @@ class HomeController extends GetxController {
       isLoadingHomePosts.value = true;
       getHomePosts(replace: true).then((data) {
         isLoadingHomePosts.value = false;
-        setIndex(index: 0);
+        if (data.isNotEmpty) {
+          setIndex(index: 0);
+        }
       }).catchError((e) {
         isLoadingHomePosts.value = false;
         UIUtils.showError(e);
@@ -557,14 +561,17 @@ class HomeController extends GetxController {
     }
   }
 
-  getOtherAccount({required String id}) async {
+  Future<SimpleAccountEntity?> getOtherAccount(
+      {required String id, bool persist = false}) async {
     if (AuthProvider.to.simpleAccountMap[id] == null) {
       final result = await APIProvider.to.get('/account/accounts/$id');
-      await AuthProvider.to.saveSimpleAccounts({
-        result["data"]["id"]:
-            SimpleAccountEntity.fromJson(result["data"]["attributes"])
-      });
+      final account =
+          SimpleAccountEntity.fromJson(result["data"]["attributes"]);
+      await AuthProvider.to.saveSimpleAccounts({result["data"]["id"]: account},
+          persist: persist);
+      return account;
     }
+    return null;
   }
 
   onPressedTabSwitch(String page) async {

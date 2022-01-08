@@ -10,3 +10,4 @@ export './router_provider.dart';
 export './account_provider.dart';
 export 'account_store_provider.dart';
 export './cache_provider.dart';
+export './simple_account_map_cache_provider.dart';

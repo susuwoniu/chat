@@ -1,10 +1,7 @@
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/providers/chat_provider/chat_provider.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:chat/common.dart';
-=======
->>>>>>> 7e80854bfcd15af618ced8cedda162c3cb508cae
 import 'package:get/get.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart'
@@ -44,7 +41,7 @@ class RoomView extends GetView<RoomController> {
       body: Obx(() {
         final room = messageController.entities[roomId];
 
-        if (room == null || room.isLoading || !room.isInitServerMessages) {
+        if (room == null || room.isLoading || !room.isInitDbMessages) {
           return Center(
             child: CircularProgressIndicator(),
           );

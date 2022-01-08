@@ -52,6 +52,7 @@ class RootController extends GetxController {
   void clearAll() {
     CacheProvider.to.clear();
     AccountStoreProvider.to.clear();
+    SimpleAccountMapCacheProvider.to.clear();
     KVProvider.to.clear();
   }
 }

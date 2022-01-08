@@ -41,6 +41,7 @@ class Global {
     Log().initLog(env);
     await GetStorage.init();
     await CacheProvider.to.init();
+    await SimpleAccountMapCacheProvider.to.init();
     await AccountStoreProvider.to.init();
     await KVProvider.to.init();
     await Global.initGetx();
