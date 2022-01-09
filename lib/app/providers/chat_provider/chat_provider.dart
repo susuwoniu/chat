@@ -5,6 +5,7 @@ import 'package:chat/common.dart';
 import 'package:chat/errors/errors.dart';
 import '../auth_provider.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:sqflite/sqflite.dart';
 
 class ChatProvider extends GetxService {
   static ChatProvider get to => Get.find();
@@ -14,6 +15,7 @@ class ChatProvider extends GetxService {
   bool get isConnected => _isConnected.value;
   bool get isLoading => _isLoading.value;
   bool isInitConnection = false;
+  xmpp.DbProvider? get database => _connection?.db;
   xmpp.Connection? _connection;
   xmpp.Jid? _currentAccount;
   xmpp.Jid? get currentAccount => _currentAccount;
@@ -99,12 +101,20 @@ class ChatProvider extends GetxService {
     account.reconnectionTimeout = 3000;
     _isLoading.value = true;
     _connection = xmpp.Connection(account);
+    // roomManager
+    _currentAccount = _connection!.fullJid;
+    currentChatAccount(types.User(id: _currentAccount!.userAtDomain));
+    _roomManager = xmpp.RoomManager.getInstance(_connection!);
+    if (AppConfig.to.isDev) {
+      xmpp.Log.logXmpp = true;
+      xmpp.Log.logLevel = xmpp.LogLevel.DEBUG;
+    }
+
     if (!isInitConnection) {
       await _connection!.init();
     }
     Completer<void> completer = Completer();
 
-    xmpp.Log.logXmpp = true; // TODO
     if (_connectionStateSubscription != null) {
       _connectionStateSubscription!.cancel();
     }
@@ -186,10 +196,8 @@ class ChatProvider extends GetxService {
         break;
       case xmpp.XmppConnectionState.Ready:
         Log.debug("Chat connection Ready");
-        _currentAccount = _connection!.fullJid;
-        currentChatAccount(types.User(id: _currentAccount!.userAtDomain));
-        _roomManager = xmpp.RoomManager.getInstance(_connection!);
         streamManager = _connection!.streamManagementModule;
+
         _isLoading.value = false;
         if (!completer.isCompleted) {
           completer.complete();

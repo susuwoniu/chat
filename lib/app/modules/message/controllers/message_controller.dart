@@ -16,8 +16,9 @@ import 'package:chat/utils/string.dart';
 class Room extends xmpp.Room {
   bool isLoading = false;
   bool isLoadingServerMessage = false;
+  bool isLoadingDbMessage = false;
   bool isInitClientMessages = false;
-  bool isInitServerMessages = false;
+  bool isInitDbMessages = false;
   final String? room_info_id;
   // 客户端未读数，由于客户端的未读/已读状态是本地的，服务端未必及时同步，所以这里单独设置一个客户端的维度数，用于在客户端显示，优化用户体验，
   // unreadCount为服务端未读数量，应尽量保持及时把客户端的未读数量同步到服务端，但注意频率，不要无谓的发送
@@ -42,7 +43,7 @@ class Room extends xmpp.Room {
     this.clientUnreadCount = 0,
     this.isLoading = false,
     this.isInitClientMessages = false,
-    this.isInitServerMessages = false,
+    this.isInitDbMessages = false,
   }) : super(id,
             updatedAt: updatedAt,
             resource: resource,
@@ -125,8 +126,11 @@ class MessageController extends GetxController {
   // 分页获取服务器archive信息，只能依赖服务器id，所以必须在这维护一份时间倒序的，已获取的服务器信息id列表
   // 服务器id信息只用于内部使用，不用obs到界面
   final Map<String, List<String>> roomServerMessageIndexesMap = {};
-  final _currentRoomId = "".obs;
-  String get currentRoomId => _currentRoomId.value;
+  //  db id 信息,内部使用，不用obs到界面
+  final Map<String, List<int>> roomDbMessageIndexesMap = {};
+
+  final _currentRoomId = RxnString();
+  String? get currentRoomId => _currentRoomId.value;
   StreamSubscription<ConnectionState>? _chatConnectionUpdatedSubscription;
   StreamSubscription<xmpp.Event<xmpp.Message>>? _roomMessageUpdatedSubscription;
   Stream<RoomsState> get roomsStateStream => _roomsStateStreamController.stream;
@@ -148,8 +152,19 @@ class MessageController extends GetxController {
           ChatProvider.to.setIsLoading(false);
         });
       } else if (event == ConnectionState.disconnected) {
-        // 断开连接，清空房间列表
-        dipose();
+        // 离线初始化
+        ChatProvider.to.setIsLoading(true);
+
+        initRooms().catchError((e) {
+          Log.error("offline init rooms failed $e");
+          // 断开连接
+          ChatProvider.to.setIsLoading(false);
+          cancelSubscription();
+        }).then((_) {
+          // 断开连接
+          ChatProvider.to.setIsLoading(false);
+          cancelSubscription();
+        });
       }
     });
 
@@ -179,6 +194,8 @@ class MessageController extends GetxController {
         isLoadingRooms == false) {
       _isLoadingRooms.value = true;
       try {
+        // first try to load cache
+
         final rooms = await ChatProvider.to.roomManager!.getAllRooms();
         // get room name, avatar
         for (var room in rooms) {
@@ -191,12 +208,11 @@ class MessageController extends GetxController {
             indexes.add(room.id);
           }
         }
-        await fetchAccounts(indexes);
 
-        await initMessages();
         _isLoadingRooms.value = false;
         _isInitRooms.value = true;
         _roomsStateStreamController.add(RoomsState.inited);
+
         return rooms.map<Room>((room) => Room.fromXmppRoom(room)).toList();
       } catch (e) {
         _isLoadingRooms.value = false;
@@ -239,13 +255,22 @@ class MessageController extends GetxController {
     // check room inbo exists
 
     chatAccountId = jidToAccountId(roomId);
-
-    if (chatAccountId != null &&
-        AuthProvider.to.simpleAccountMap[chatAccountId] == null) {
+    final theAccount = chatAccountId != null
+        ? AuthProvider.to.simpleAccountMap[chatAccountId]
+        : null;
+    if (chatAccountId != null && theAccount == null) {
       try {
-        await HomeController.to.getOtherAccount(id: chatAccountId!);
+        await HomeController.to
+            .getOtherAccount(id: chatAccountId!, persist: true);
       } catch (e) {
         UIUtils.showError(e);
+      }
+    } else if (chatAccountId != null && theAccount != null) {
+      // psersist account
+      if (SimpleAccountMapCacheProvider.to.getObject(chatAccountId!) == null) {
+        final simpleAccountMap = <String, SimpleAccountEntity>{};
+        simpleAccountMap[chatAccountId!] = theAccount;
+        SimpleAccountMapCacheProvider.to.addAll(simpleAccountMap);
       }
     }
     if (entities[roomId] == null) {
@@ -348,25 +373,16 @@ class MessageController extends GetxController {
     }
   }
 
-  // 初始化7天内的消息
-  Future<void> initMessages() async {
-    final roomManager = ChatProvider.to.roomManager!;
-    var currentEarliestMessageId = null;
-    final messages =
-        await roomManager.getServerMessages(limit: 4, sort: "desc");
-    print('messages $messages');
-  }
-
   // 获取更早的服务器archive信息
-  Future<void> getRoomServerEarlierMessage(String roomId) async {
+  Future<void> getRoomEarlierMessage(String roomId) async {
     final roomManager = ChatProvider.to.roomManager!;
     final room = entities[roomId];
 
     if (room != null) {
-      if (room.isLoadingServerMessage) {
+      if (room.isLoadingDbMessage) {
         return;
       }
-      room.isLoadingServerMessage = true;
+      room.isLoadingDbMessage = true;
 
       if (!room.isInitClientMessages) {
         room.isLoading = true;
@@ -375,29 +391,24 @@ class MessageController extends GetxController {
       final currentRoomMessageIndexes = roomMessageIndexesMap[roomId] ?? [];
       final currentRoomServerMessageIndexes =
           roomServerMessageIndexesMap[roomId] ?? [];
-
-      final currentEarliestMessageId =
+      final currentRoomDbMessageIndexes = roomDbMessageIndexesMap[roomId] ?? [];
+      // TODO 使用DB ID去过滤
+      final currentEarliestServerMessageId =
           currentRoomServerMessageIndexes.isNotEmpty
               ? currentRoomServerMessageIndexes.last
               : null;
+      final currentEarliestDbMessageId = currentRoomDbMessageIndexes.isNotEmpty
+          ? currentRoomDbMessageIndexes.last
+          : null;
       try {
         final messages = await roomManager.getMessages(
-            roomId: roomId, beforeId: currentEarliestMessageId);
-        room.isLoading = false;
-        room.isLoadingServerMessage = false;
-        if (currentEarliestMessageId == null) {
-          room.isInitClientMessages = true;
-          room.isInitServerMessages = true;
-        }
+            roomId: roomId, beforeId: currentEarliestDbMessageId);
 
-        entities[roomId] = room;
-
-        if (messages.isEmpty) {
-          return;
-        }
         Map<String, types.Message> newEntities = {};
         List<String> newIndexes = [];
         List<String> newServerIndexes = [];
+        List<int> newDbIndexes = [];
+
         for (var i = 0; i < messages.length; i++) {
           final message = messages[i];
           newEntities[message.id] = formatMessage(message);
@@ -410,17 +421,27 @@ class MessageController extends GetxController {
               newServerIndexes.insert(0, message.serverId!);
             }
           }
+          if (message.dbId != null) {
+            if (!currentRoomDbMessageIndexes.contains(message.dbId!)) {
+              newDbIndexes.insert(0, message.dbId!);
+            }
+          }
         }
         messageEntities.addAll(newEntities);
         currentRoomMessageIndexes.addAll(newIndexes);
         roomMessageIndexesMap[roomId] = currentRoomMessageIndexes;
         currentRoomServerMessageIndexes.addAll(newServerIndexes);
         roomServerMessageIndexesMap[roomId] = currentRoomServerMessageIndexes;
-
+        currentRoomDbMessageIndexes.addAll(newDbIndexes);
+        roomDbMessageIndexesMap[roomId] = currentRoomDbMessageIndexes;
+        room.isLoadingDbMessage = false;
+        room.isLoading = false;
+        room.isInitClientMessages = true;
+        room.isInitDbMessages = true;
         entities[roomId] = room;
       } catch (e) {
+        room.isLoadingDbMessage = false;
         room.isLoading = false;
-        room.isLoadingServerMessage = false;
         entities[roomId] = room;
         UIUtils.showError(e);
       }
@@ -453,7 +474,7 @@ class MessageController extends GetxController {
   }
 
   Room? getCurrentRoom() {
-    if (currentRoomId.isNotEmpty) {
+    if (currentRoomId != null) {
       return entities[currentRoomId]!;
     } else {
       return null;
@@ -467,6 +488,8 @@ class MessageController extends GetxController {
   void setCurrentRoomId(String? id) {
     if (id != null && entities[id] != null) {
       _currentRoomId.value = id;
+    } else {
+      _currentRoomId.value = null;
     }
   }
 
@@ -549,12 +572,6 @@ class MessageController extends GetxController {
         return room;
       });
     }
-  }
-
-  void updateRoomPreview(xmpp.Event<xmpp.Message> event) {
-    entities[event.id]!.preview = getPreview(event.data);
-    entities[event.id]!.updatedAt = event.data.createdAt;
-
     sortRooms();
   }
 
@@ -582,7 +599,7 @@ class MessageController extends GetxController {
     super.onClose();
   }
 
-  void dipose() {
+  void cancelSubscription() {
     if (_chatConnectionUpdatedSubscription != null) {
       _chatConnectionUpdatedSubscription!.cancel();
     }
@@ -590,6 +607,10 @@ class MessageController extends GetxController {
       _roomMessageUpdatedSubscription!.cancel();
     }
     _roomsStateStreamController.close();
+  }
+
+  void dipose() {
+    cancelSubscription();
     // 清空房间
     indexes.clear();
   }

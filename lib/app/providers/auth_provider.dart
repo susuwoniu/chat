@@ -1,9 +1,8 @@
 import 'package:chat/types/types.dart';
-import 'package:chat/constants/constants.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/providers/cache_provider.dart';
 import 'package:chat/app/providers/account_store_provider.dart';
-
+import 'package:chat/app/providers/simple_account_map_cache_provider.dart';
 import 'package:chat/app/providers/router_provider.dart';
 
 import 'package:chat/common.dart';
@@ -50,6 +49,10 @@ class AuthProvider extends GetxService {
     final _accountObj = AccountStoreProvider.to.getObject(STORAGE_ACCOUNT_KEY);
     if (_accountObj != null) {
       account(AccountEntity.fromJson(_accountObj));
+    }
+    final _simpleAccountMap = SimpleAccountMapCacheProvider.to.getAll();
+    if (_simpleAccountMap.keys.isNotEmpty) {
+      simpleAccountMap.addAll(_simpleAccountMap);
     }
     //todo refresh token to access token
     if (_accessToken != null && _imAccessToken != null && _accountId != null) {
@@ -229,9 +232,13 @@ class AuthProvider extends GetxService {
   }
 
   Future<void> saveSimpleAccounts(
-      Map<String, SimpleAccountEntity> accountMap) async {
+    Map<String, SimpleAccountEntity> accountMap, {
+    bool persist = false,
+  }) async {
     simpleAccountMap.addAll(accountMap);
-    // TODO cache
+    if (persist) {
+      await SimpleAccountMapCacheProvider.to.addAll(accountMap);
+    }
   }
 }
 

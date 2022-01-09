@@ -92,11 +92,11 @@ class RoomController extends GetxController {
       return;
     }
     final room = messageController.getCurrentRoom();
-    if (room != null && !room.isInitServerMessages) {
+    if (room != null && !room.isInitDbMessages) {
       try {
         messageController.entities[_roomId]!.isLoading = true;
 
-        await MessageController.to.getRoomServerEarlierMessage(_roomId);
+        await MessageController.to.getRoomEarlierMessage(_roomId);
         messageController.markRoomAsRead(_roomId);
 
         messageController.entities[_roomId]!.isLoading = false;
@@ -130,7 +130,7 @@ class RoomController extends GetxController {
 
   Future<void> handleEndReached() async {
     final messageController = MessageController.to;
-    await messageController.getRoomServerEarlierMessage(_roomId);
+    await messageController.getRoomEarlierMessage(_roomId);
   }
 
   void handleCancelPreview() {

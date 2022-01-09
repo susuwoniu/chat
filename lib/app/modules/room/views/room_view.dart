@@ -1,7 +1,7 @@
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/providers/chat_provider/chat_provider.dart';
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:chat/common.dart';
 import 'package:get/get.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart'
@@ -28,20 +28,20 @@ class RoomView extends GetView<RoomController> {
             child: AppbarBorder(), preferredSize: Size.fromHeight(0)),
         title: Obx(() {
           final roomInfoId = messageController.entities[roomId]!.room_info_id;
-          final toAccount = roomInfoId != null
+          final room = messageController.entities[roomId];
+          final roomAccount = roomInfoId != null
               ? AuthProvider.to.simpleAccountMap[roomInfoId]
               : null;
-          final room = messageController.entities[roomId];
           return room != null && room.isLoading
-              ? Text("loading")
-              : Text(toAccount?.name ?? '');
+              ? Text("Loading")
+              : Text(roomAccount?.name ?? "Room");
         }),
         centerTitle: true,
       ),
       body: Obx(() {
         final room = messageController.entities[roomId];
 
-        if (room == null || room.isLoading || !room.isInitServerMessages) {
+        if (room == null || room.isLoading || !room.isInitDbMessages) {
           return Center(
             child: CircularProgressIndicator(),
           );
@@ -60,10 +60,7 @@ class RoomView extends GetView<RoomController> {
                     (id) => messageController.messageEntities[id]!)
                 .toList()
             : emptyMessages;
-        // add preview
-        // if (controller.previewMessage != null) {
-        //   messages.insert(0, controller.previewMessage!);
-        // }
+
         return Chat(
           messages: messages,
           bubbleBuilder: (
@@ -130,7 +127,7 @@ class RoomView extends GetView<RoomController> {
             return ImageMessage(message: message, messageWidth: messageWidth);
           },
           emptyState:
-              ((room.isLoading)) ? Text("isLoading") : Text("No message yet"),
+              ((room.isLoading)) ? Center(child: Loading()) : SizedBox.shrink(),
           onAttachmentPressed: () {
             _handleAtachmentPressed(context);
           },
