@@ -382,6 +382,18 @@ class DebugView extends GetView<DebugController> {
                     }
                   },
                 ),
+                ListTile(
+                  title: Text(
+                    '打印本地的房间列表',
+                  ),
+                  onTap: () async {
+                    try {
+                      await ChatProvider.to.roomManager!.getAllRooms();
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  },
+                ),
               ],
             ),
           )),

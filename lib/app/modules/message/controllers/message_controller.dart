@@ -129,8 +129,8 @@ class MessageController extends GetxController {
   //  db id 信息,内部使用，不用obs到界面
   final Map<String, List<int>> roomDbMessageIndexesMap = {};
 
-  final _currentRoomId = "".obs;
-  String get currentRoomId => _currentRoomId.value;
+  final _currentRoomId = RxnString();
+  String? get currentRoomId => _currentRoomId.value;
   StreamSubscription<ConnectionState>? _chatConnectionUpdatedSubscription;
   StreamSubscription<xmpp.Event<xmpp.Message>>? _roomMessageUpdatedSubscription;
   Stream<RoomsState> get roomsStateStream => _roomsStateStreamController.stream;
@@ -153,12 +153,16 @@ class MessageController extends GetxController {
         });
       } else if (event == ConnectionState.disconnected) {
         // 离线初始化
+        ChatProvider.to.setIsLoading(true);
+
         initRooms().catchError((e) {
           Log.error("offline init rooms failed $e");
           // 断开连接
+          ChatProvider.to.setIsLoading(false);
           cancelSubscription();
         }).then((_) {
           // 断开连接
+          ChatProvider.to.setIsLoading(false);
           cancelSubscription();
         });
       }
@@ -208,43 +212,11 @@ class MessageController extends GetxController {
         _isLoadingRooms.value = false;
         _isInitRooms.value = true;
         _roomsStateStreamController.add(RoomsState.inited);
-        syncServerRooms().catchError((e) {
-          Log.error(e);
-        });
+
         return rooms.map<Room>((room) => Room.fromXmppRoom(room)).toList();
       } catch (e) {
         _isLoadingRooms.value = false;
         _roomsStateStreamController.add(RoomsState.error);
-        return null;
-      }
-    } else {
-      return null;
-    }
-  }
-
-  Future<List<Room>?> syncServerRooms() async {
-    if (ChatProvider.to.roomManager != null) {
-      try {
-        // first try to load cache
-
-        final rooms = await ChatProvider.to.roomManager!.getAllServerRooms();
-        // save to db
-        await ChatProvider.to.roomManager!.syncRooms(rooms);
-        // get room name, avatar
-        for (var room in rooms) {
-          entities[room.id] = Room.fromXmppRoom(room);
-          if (roomMessageIndexesMap[room.id] == null) {
-            roomMessageIndexesMap[room.id] = [];
-          }
-          // duduplicate
-          if (!indexes.contains(room.id)) {
-            indexes.add(room.id);
-          }
-        }
-        await fetchAccounts(indexes);
-
-        return rooms.map<Room>((room) => Room.fromXmppRoom(room)).toList();
-      } catch (e) {
         return null;
       }
     } else {
@@ -431,17 +403,7 @@ class MessageController extends GetxController {
       try {
         final messages = await roomManager.getMessages(
             roomId: roomId, beforeId: currentEarliestDbMessageId);
-        room.isLoading = false;
-        if (currentEarliestDbMessageId == null) {
-          room.isInitClientMessages = true;
-          room.isInitDbMessages = true;
-        }
 
-        entities[roomId] = room;
-
-        if (messages.isEmpty) {
-          return;
-        }
         Map<String, types.Message> newEntities = {};
         List<String> newIndexes = [];
         List<String> newServerIndexes = [];
@@ -472,11 +434,14 @@ class MessageController extends GetxController {
         roomServerMessageIndexesMap[roomId] = currentRoomServerMessageIndexes;
         currentRoomDbMessageIndexes.addAll(newDbIndexes);
         roomDbMessageIndexesMap[roomId] = currentRoomDbMessageIndexes;
-        entities[roomId] = room;
         room.isLoadingDbMessage = false;
-      } catch (e) {
         room.isLoading = false;
+        room.isInitClientMessages = true;
+        room.isInitDbMessages = true;
+        entities[roomId] = room;
+      } catch (e) {
         room.isLoadingDbMessage = false;
+        room.isLoading = false;
         entities[roomId] = room;
         UIUtils.showError(e);
       }
@@ -509,7 +474,7 @@ class MessageController extends GetxController {
   }
 
   Room? getCurrentRoom() {
-    if (currentRoomId.isNotEmpty) {
+    if (currentRoomId != null) {
       return entities[currentRoomId]!;
     } else {
       return null;
@@ -523,6 +488,8 @@ class MessageController extends GetxController {
   void setCurrentRoomId(String? id) {
     if (id != null && entities[id] != null) {
       _currentRoomId.value = id;
+    } else {
+      _currentRoomId.value = null;
     }
   }
 
@@ -605,12 +572,6 @@ class MessageController extends GetxController {
         return room;
       });
     }
-  }
-
-  void updateRoomPreview(xmpp.Event<xmpp.Message> event) {
-    entities[event.id]!.preview = getPreview(event.data);
-    entities[event.id]!.updatedAt = event.data.createdAt;
-
     sortRooms();
   }
 
