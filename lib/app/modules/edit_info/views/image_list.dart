@@ -37,7 +37,7 @@ class ImageList extends StatelessWidget {
                 direction: Axis.horizontal,
                 children: [BlankImage(onPressed: () {})]),
             Positioned(
-                bottom: 7,
+                bottom: 2,
                 right: 7,
                 child: ImageButton(
                     isAdd: true,
@@ -58,7 +58,7 @@ class ImageList extends StatelessWidget {
                     img: authProvider.account.value.profile_images[i]);
               }),
               Positioned(
-                  bottom: 7,
+                  bottom: 2,
                   right: 7,
                   child: ImageButton(isAdd: false, onPressed: deleteImage(i))),
             ],

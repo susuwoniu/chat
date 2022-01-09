@@ -33,7 +33,7 @@ class _YearPickerState extends State<YearPicker> {
     return Stack(children: [
       Container(
           height: _height * 0.35,
-          padding: EdgeInsets.only(top: _height * 0.04),
+          padding: EdgeInsets.only(top: 45),
           color: Colors.white,
           child: GestureDetector(
             // Blocks taps from propagating to the modal sheet and popping.
@@ -49,7 +49,7 @@ class _YearPickerState extends State<YearPicker> {
                           // capLeftEdge: false,
                           // capRightEdge: false
                           ),
-                  magnification: 1.4,
+                  magnification: 1.3,
                   children: _ageList
                       .map(
                         (e) => Container(
@@ -74,16 +74,25 @@ class _YearPickerState extends State<YearPicker> {
           )),
       widget.isShowBar
           ? Container(
-              padding: EdgeInsets.only(top: 3),
               decoration: BoxDecoration(
                   border: Border(
                 top: BorderSide(
                   color: Colors.grey.shade200,
                 ),
+                bottom: BorderSide(color: Colors.grey.shade300, width: 0.5),
               )),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  TextButton(
+                      style: ButtonStyle(splashFactory: NoSplash.splashFactory),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.close_rounded,
+                        size: 28,
+                      )),
                   TextButton(
                       onPressed: () {
                         if (widget.onSelect != null) {
@@ -93,14 +102,6 @@ class _YearPickerState extends State<YearPicker> {
                       child: Text(
                         '确认',
                         style: TextStyle(fontSize: 16),
-                      )),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.close_rounded,
-                        size: 28,
                       )),
                 ],
               ),

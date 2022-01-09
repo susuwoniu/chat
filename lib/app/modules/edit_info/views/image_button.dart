@@ -18,6 +18,7 @@ class ImageButton extends StatelessWidget {
       backgroundColor: Colors.white,
       iconColor: Colors.blue,
       height: 32,
+      iconSize: 20,
       onPressed: onPressed,
     ));
   }

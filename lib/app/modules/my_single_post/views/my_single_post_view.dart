@@ -32,7 +32,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
         body: SafeArea(
           child: ListView(children: [
             Container(
-                margin: EdgeInsets.fromLTRB(12, 6, 12, 23),
+                margin: EdgeInsets.fromLTRB(12, 6, 12, 20),
                 padding: EdgeInsets.fromLTRB(15, 5, 0, 25),
                 constraints: BoxConstraints(minHeight: _height * 0.4),
                 decoration: BoxDecoration(
@@ -46,23 +46,23 @@ class MySinglePostView extends GetView<MySinglePostController> {
                       children: [
                         Text(
                           _createAt,
-                          style: TextStyle(color: Colors.black45),
+                          style: TextStyle(color: Colors.white70),
                         ),
                         Row(children: [
                           Obx(() => Text(
                                 controller.visibility.tr,
-                                style: TextStyle(color: Colors.black45),
+                                style: TextStyle(color: Colors.white70),
                               )),
                           _dotIcon(context: context, postId: _postId)
                         ]),
                       ]),
                   Container(
                       padding: EdgeInsets.only(right: 15),
+                      alignment: Alignment.centerLeft,
                       child: Text(_content,
-                          textAlign: TextAlign.start,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 26.0,
+                            fontSize: 22.0,
                           ))),
                 ])),
             Obx(() {
@@ -134,7 +134,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
         icon: Icon(
           Icons.more_vert_rounded,
           size: 26,
-          color: Colors.black87,
+          color: Colors.white,
         ));
   }
 }
