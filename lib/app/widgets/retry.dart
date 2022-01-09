@@ -8,7 +8,7 @@ Widget Retry({
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text("ℹ️", style: TextStyle(fontSize: 50)),
+        Icon(Icons.error_outline, size: 50),
         SizedBox(
           height: 20,
         ),
@@ -24,11 +24,9 @@ Widget Retry({
           height: 20,
         ),
         ElevatedButton(
-          child: Text(
-            '🔄 刷新看看',
-            style: TextStyle(
-              fontSize: 16,
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [Icon(Icons.refresh), Text("刷新看看")],
           ),
           onPressed: () {
             onRetry();

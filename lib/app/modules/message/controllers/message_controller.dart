@@ -216,6 +216,8 @@ class MessageController extends GetxController {
         return rooms.map<Room>((room) => Room.fromXmppRoom(room)).toList();
       } catch (e) {
         _isLoadingRooms.value = false;
+        _isInitRooms.value = true;
+
         _roomsStateStreamController.add(RoomsState.error);
         return null;
       }

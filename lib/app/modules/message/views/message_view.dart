@@ -18,7 +18,7 @@ class MessageView extends GetView<MessageController> {
         bottom: PreferredSize(
             child: AppbarBorder(), preferredSize: Size.fromHeight(0)),
         title: Obx(() => Text(
-              controller.isLoadingRooms
+              controller.isLoadingRooms || !controller.isInitRooms
                   ? "Loading..."
                   : _chatProvider.isConnected
                       ? "Chats"
@@ -30,67 +30,73 @@ class MessageView extends GetView<MessageController> {
             )),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Container(
-            child: Obx(() => Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    !_chatProvider.isConnected && !controller.isLoadingRooms
-                        ? IconButton(
-                            icon: Text("🔄"),
-                            onPressed: () async {
-                              await _chatProvider.connect();
-                            },
-                          )
-                        : Container(),
-                  ],
-                )),
-          ),
-          Expanded(
-              child: Obx(() => CustomScrollView(
-                    slivers: [
-                      SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          return GestureDetector(
-                              onTap: () async {
-                                await controller.toRoom(index);
-                              },
-                              behavior: HitTestBehavior.translucent,
-                              child: Obx(() {
-                                final room = controller
-                                    .entities[controller.indexes[index]]!;
-                                SimpleAccountEntity? roomInfo;
-                                var name = jidToName(room.id);
-                                String? avatar;
-                                if (room.room_info_id != null) {
-                                  roomInfo = AuthProvider
-                                      .to.simpleAccountMap[room.room_info_id];
-                                  name = roomInfo?.name ?? name;
-                                  avatar = roomInfo?.avatar;
-                                }
+      body: Obx(
+        () => CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+                child: Container(
+              color: Colors.black.withOpacity(0.06),
+              // child: Container(color: Colors.red, height: 50)
+              child: !_chatProvider.isConnected &&
+                      controller.isInitRooms &&
+                      !controller.isLoadingRooms
+                  ? SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.white38,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              shadowColor: Colors.white38,
+                              textStyle: TextStyle(color: Colors.black)),
+                          onPressed: () async {
+                            await _chatProvider.connect();
+                          },
+                          icon: Icon(Icons.refresh,
+                              color: Colors.black, size: 18),
+                          label: Text("重试",
+                              style: TextStyle(color: Colors.black))))
+                  : SizedBox.shrink(),
+            )),
+            SliverList(
+                delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return GestureDetector(
+                    onTap: () async {
+                      await controller.toRoom(index);
+                    },
+                    behavior: HitTestBehavior.translucent,
+                    child: Obx(() {
+                      final room =
+                          controller.entities[controller.indexes[index]]!;
+                      SimpleAccountEntity? roomInfo;
+                      var name = jidToName(room.id);
+                      String? avatar;
+                      if (room.room_info_id != null) {
+                        roomInfo =
+                            AuthProvider.to.simpleAccountMap[room.room_info_id];
+                        name = roomInfo?.name ?? name;
+                        avatar = roomInfo?.avatar;
+                      }
 
-                                return conversationItemView(
-                                    onTap: (index) {
-                                      controller.toRoom(index);
-                                    },
-                                    context: context,
-                                    index: index,
-                                    id: room.room_info_id ?? '',
-                                    name: name,
-                                    preview: room.preview,
-                                    updatedAt: room.updatedAt,
-                                    unreadCount: room.clientUnreadCount,
-                                    avatar: avatar,
-                                    likeCount: roomInfo?.like_count ?? 0);
-                              }));
-                        },
-                        childCount: controller.indexes.length,
-                      )),
-                    ],
-                  ))),
-        ],
+                      return conversationItemView(
+                          onTap: (index) {
+                            controller.toRoom(index);
+                          },
+                          context: context,
+                          index: index,
+                          id: room.room_info_id ?? '',
+                          name: name,
+                          preview: room.preview,
+                          updatedAt: room.updatedAt,
+                          unreadCount: room.clientUnreadCount,
+                          avatar: avatar,
+                          likeCount: roomInfo?.like_count ?? 0);
+                    }));
+              },
+              childCount: controller.indexes.length,
+            )),
+          ],
+        ),
       ),
     );
   }
