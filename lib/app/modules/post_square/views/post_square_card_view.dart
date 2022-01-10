@@ -8,7 +8,6 @@ import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/widgets/max_text.dart';
 import 'package:chat/common.dart';
 import 'package:chat/app/modules/home/views/chat_box.dart';
-import 'package:chat/app/modules/home/views/tag_widget.dart';
 import 'package:chat/app/modules/home/views/author_name.dart';
 import 'package:chat/app/modules/home/views/action_buttons.dart';
 import 'package:chat/app/modules/home/views/more_dots.dart';
@@ -141,7 +140,7 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                                         Get.toNamed(Routes.ROOM,
                                                             arguments: {
                                                               "id":
-                                                                  "im${post.accountId}@$imDomain",
+                                                                  "${post.accountId}@$imDomain",
                                                               "quote_background_color":
                                                                   post.backgroundColor,
                                                               "quote":

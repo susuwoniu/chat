@@ -236,7 +236,7 @@ class OtherView extends GetView<OtherController> {
                   text: 'Chat',
                   onPressed: () {
                     Get.toNamed(Routes.ROOM, arguments: {
-                      'id': "im$accountId@$imDomain",
+                      'id': "$accountId@$imDomain",
                     });
                   },
                 )

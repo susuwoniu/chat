@@ -196,7 +196,7 @@ class HomeView extends GetView<HomeController> {
                                                         Get.toNamed(Routes.ROOM,
                                                             arguments: {
                                                               "id":
-                                                                  "im${post.accountId}@$imDomain",
+                                                                  "${post.accountId}@$imDomain",
                                                               "quote_background_color":
                                                                   post.backgroundColor,
                                                               "quote":

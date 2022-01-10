@@ -188,6 +188,10 @@ class MessageController extends GetxController {
     }
   }
 
+  void setIsLoading(bool value) {
+    _isLoadingRooms.value = value;
+  }
+
   Future<List<Room>?> initRooms() async {
     if (ChatProvider.to.roomManager != null &&
         _isInitRooms.value == false &&
@@ -620,8 +624,8 @@ class MessageController extends GetxController {
 
 String? jidToAccountId(String jid) {
   final jidPrefix = jid.split("@")[0];
-  if (jidPrefix.startsWith("im")) {
-    final accountId = jidPrefix.substring(2);
+  if (jidPrefix.isNotEmpty) {
+    final accountId = jidPrefix;
     if (isValidId(accountId)) {
       return accountId;
     } else {

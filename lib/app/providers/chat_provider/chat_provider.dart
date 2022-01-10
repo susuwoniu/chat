@@ -96,7 +96,7 @@ class ChatProvider extends GetxService {
     // String? resourceId = await PlatformDeviceId.getDeviceId;
     // final resource = resourceId
     // final platform = Platform.isAndroid ? 'Android' : 'iOS';
-    final jid = "im$accountId@$domain/$device";
+    final jid = "$accountId@$domain/$device";
     final account = xmpp.XmppAccountSettings.fromJid(jid, token);
     account.reconnectionTimeout = 3000;
     _isLoading.value = true;
@@ -124,7 +124,8 @@ class ChatProvider extends GetxService {
       _onConnectionStateChangedInternal(state, completer);
     });
 
-    if (_connection!.state == xmpp.XmppConnectionState.ForcefullyClosed) {
+    if (_connection!.state == xmpp.XmppConnectionState.ForcefullyClosed ||
+        _connection!.state == xmpp.XmppConnectionState.Closed) {
       _connection!.reconnect();
     } else {
       _connection!.connect();
@@ -138,7 +139,8 @@ class ChatProvider extends GetxService {
       completer.completeError(exception);
     }
     if ((_connection != null &&
-            _connection!.state == xmpp.XmppConnectionState.ForcefullyClosed) ||
+            (_connection!.state == xmpp.XmppConnectionState.ForcefullyClosed ||
+                _connection!.state == xmpp.XmppConnectionState.Closed)) ||
         _connection == null) {
       _isLoading.value = false;
       _connectionUpdatedStreamController.add(ConnectionState.disconnected);

@@ -1,8 +1,8 @@
 import 'package:chat/app/modules/message/views/appbar_border.dart';
+import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/message_controller.dart';
-import 'package:chat/app/widgets/touch_close_keyboard.dart';
 import './conversation_item.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/types/types.dart';
@@ -49,7 +49,14 @@ class MessageView extends GetView<MessageController> {
                               shadowColor: Colors.white38,
                               textStyle: TextStyle(color: Colors.black)),
                           onPressed: () async {
-                            await _chatProvider.connect();
+                            controller.setIsLoading(true);
+                            try {
+                              await _chatProvider.connect();
+                              controller.setIsLoading(false);
+                            } catch (e) {
+                              UIUtils.showError(e);
+                              controller.setIsLoading(false);
+                            }
                           },
                           icon: Icon(Icons.refresh,
                               color: Colors.black, size: 18),
