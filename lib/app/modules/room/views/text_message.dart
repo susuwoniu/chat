@@ -178,9 +178,7 @@ class TextMessage extends StatelessWidget {
             del: TextStyle(
                 decoration: TextDecoration.lineThrough, color: defaultColor),
             img: defaultTextStyle,
-            checkbox: negotiveTextStyle,
-            blockSpacing: 8.0,
-            listIndent: 24.0,
+            checkbox: defaultTextStyle.copyWith(color: defaultCodeColor),
             listBullet: defaultTextStyle,
             tableHead:
                 TextStyle(fontWeight: FontWeight.w600, color: defaultColor),

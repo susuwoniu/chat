@@ -65,9 +65,18 @@ class CreateController extends GetxController {
       body["longitude"] = location.longitude;
     }
     final result = await APIProvider.to.post("/post/posts", body: body);
-    HomeController.to.myPostsIndexes.insert(0, result['data']['id']);
-    HomeController.to.postMap[result['data']['id']] =
+    final homeController = HomeController.to;
+    homeController.postMap[result['data']['id']] =
         PostEntity.fromJson(result['data']["attributes"]);
+    homeController.myPostsIndexes.insert(0, result['data']['id']);
+    final homeCurrentTab = homeController.currentPage;
+    if (homeCurrentTab == 'nearby') {
+      await homeController.onPressedTabSwitch("home");
+    }
+    homeController.pageState['home']!.postIndexes
+        .insert(0, result['data']['id']);
+
+    homeController.setIndex(index: 0);
   }
 
   void setAnswer(String input) {
