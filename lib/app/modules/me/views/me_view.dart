@@ -148,6 +148,11 @@ class MeView extends GetView<MeController> {
                 itemBuilder: (context, id, index) {
               final post = HomeController.to.postMap[id]!;
               return SmallPost(
+                  onTap: () {
+                    Get.toNamed(Routes.MY_SINGLE_POST, arguments: {
+                      'postId': id,
+                    });
+                  },
                   postId: id,
                   content: post.content,
                   backgroundColor: post.backgroundColor);

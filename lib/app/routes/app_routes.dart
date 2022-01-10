@@ -33,6 +33,7 @@ abstract class Routes {
   static const PROFILE_VIEWERS = _Paths.PROFILE_VIEWERS;
   static const OTHER = _Paths.OTHER;
   static const CREATE = _Paths.CREATE;
+  static const POST_SQUARE_CARD_VIEW = _Paths.POST_SQUARE_CARD_VIEW;
 }
 
 abstract class _Paths {
@@ -58,7 +59,9 @@ abstract class _Paths {
   static const AGE_PICKER = '/age-picker';
   static const ADD_PROFILE_IMAGE = '/add-profile-image';
   static const EDIT_BIO = '/edit-bio';
-  static const POST_SQUARE = '/post-square';
+  static const POST_SQUARE = '/topic';
+  static const POST_SQUARE_CARD_VIEW = '/topic-card';
+
   static const ABOUT = '/about';
   static const FEEDBACK = '/feedback';
   static const PROFILE_VIEWERS = '/profile-viewers';

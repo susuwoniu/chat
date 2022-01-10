@@ -133,6 +133,12 @@ class OtherView extends GetView<OtherController> {
                     itemBuilder: (context, id, index) {
                   final post = postMap[id]!;
                   return SmallPost(
+                      onTap: () {
+                        Get.toNamed(Routes.ROOM, arguments: {
+                          "id": "im$accountId@$imDomain",
+                          "quote": post.content
+                        });
+                      },
                       postId: id,
                       content: post.content,
                       backgroundColor: post.backgroundColor);

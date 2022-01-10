@@ -6,6 +6,7 @@ import 'package:chat/common.dart';
 import '../../me/views/small_post.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../me/views/circle_widget.dart';
+import 'package:chat/app/routes/app_pages.dart';
 
 class PostSquareView extends GetView<PostSquareController> {
   final _title = Get.arguments['title'];
@@ -62,7 +63,7 @@ class PostSquareView extends GetView<PostSquareController> {
                 ),
                 SizedBox(height: _height * 0.06),
                 Obx(() {
-                  final usedCount = controller.usedCount.value;
+                  final usedCount = controller.usedCount;
                   return Text(
                       usedCount > 1
                           ? usedCount.toString() + ' Posts'.tr
@@ -87,6 +88,12 @@ class PostSquareView extends GetView<PostSquareController> {
                 final post = postMap[id]!;
                 return SmallPost(
                     postId: id,
+                    onTap: () {
+                      controller.setIndex(index: index);
+                      Get.toNamed(
+                        Routes.POST_SQUARE_CARD_VIEW,
+                      );
+                    },
                     content: post.content,
                     backgroundColor: post.backgroundColor);
               })),
@@ -123,8 +130,7 @@ class PostSquareView extends GetView<PostSquareController> {
 
 Future<void> _pullRefresh(id) async {
   try {
-    await PostSquareController.to
-        .getTemplatesSquareData(postTemplateId: id.toString());
+    PostSquareController.to.refreshHomePosts();
   } catch (e) {
     UIUtils.showError(e);
   }

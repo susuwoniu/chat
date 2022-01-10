@@ -41,6 +41,7 @@ import '../modules/post/bindings/post_binding.dart';
 import '../modules/post/views/post_view.dart';
 import '../modules/post_square/bindings/post_square_binding.dart';
 import '../modules/post_square/views/post_square_view.dart';
+import '../modules/post_square/views/post_square_card_view.dart';
 import '../modules/profile_viewers/bindings/profile_viewers_binding.dart';
 import '../modules/profile_viewers/views/profile_viewers_view.dart';
 import '../modules/room/bindings/room_binding.dart';
@@ -234,6 +235,11 @@ class AppPages {
     GetPage(
       name: _Paths.POST_SQUARE,
       page: () => PostSquareView(),
+      binding: PostSquareBinding(),
+    ),
+    GetPage(
+      name: _Paths.POST_SQUARE_CARD_VIEW,
+      page: () => PostSquareCardView(),
       binding: PostSquareBinding(),
     ),
     GetPage(

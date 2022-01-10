@@ -1,5 +1,3 @@
-import 'package:chat/app/routes/app_pages.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/common.dart';
 
@@ -11,12 +9,14 @@ class SmallPost extends StatelessWidget {
   final String? accountId;
   final String content;
   final int backgroundColor;
+  final Function onTap;
   SmallPost({
     this.type = 'me',
     required this.postId,
     this.accountId,
     required this.content,
     required this.backgroundColor,
+    required this.onTap,
   });
 
   @override
@@ -29,16 +29,7 @@ class SmallPost extends StatelessWidget {
         width: _width * 0.4,
         child: GestureDetector(
             onTap: () {
-              if (type == 'me') {
-                Get.toNamed(Routes.MY_SINGLE_POST, arguments: {
-                  'postId': postId,
-                });
-              } else {
-                Get.toNamed(Routes.ROOM, arguments: {
-                  "id": "im$accountId@$imDomain",
-                  "quote": content
-                });
-              }
+              onTap();
             },
             child: Container(
               margin: EdgeInsets.fromLTRB(

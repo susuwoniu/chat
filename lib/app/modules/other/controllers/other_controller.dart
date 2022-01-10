@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
-import '../../home/controllers/home_controller.dart';
 import 'package:chat/common.dart';
-import 'package:chat/types/types.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:chat/app/providers/providers.dart';
 
@@ -13,7 +11,6 @@ class OtherController extends GetxController {
   final count = 0.obs;
   final _current = 0.obs;
   int get current => _current.value;
-  final _homeController = HomeController.to;
   final isInitial = false.obs;
   final isLoadingPosts = false.obs;
   final myPostsIndexes = RxList<String>([]);
@@ -77,8 +74,8 @@ class OtherController extends GetxController {
   Future<List<String>> getAccountsPosts(
       {String? after, required String id}) async {
     isLoadingPosts.value = true;
-    final result = await _homeController.getRawPosts(
-        after: after, url: "/post/accounts/$id/posts");
+    final result =
+        await getApiPosts(after: after, url: "/post/accounts/$id/posts");
     postMap.addAll(result.postMap);
     myPostsIndexes.addAll(result.indexes);
 

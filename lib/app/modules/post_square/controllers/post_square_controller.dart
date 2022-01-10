@@ -1,32 +1,38 @@
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
-import '../../home/controllers/home_controller.dart';
 import 'package:chat/common.dart';
-import 'package:chat/types/types.dart';
 import '../../post/controllers/post_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class PostSquareController extends GetxController {
   static PostSquareController get to => Get.find();
 
-  //TODO: Implement PostSquareController
   final PagingController<String?, String> pagingController =
       PagingController(firstPageKey: null);
 
   final _id = Get.arguments['id'];
-  final usedCount = 0.obs;
-  final _homeController = HomeController.to;
-  final isInitial = false.obs;
-  final isLoadingPosts = false.obs;
-  final squarePostsIndexes = RxList<String>([]);
+  final _usedCount = 0.obs;
+  int get usedCount => _usedCount.value;
+  final _isInitial = false.obs;
+  bool get isInitial => _isInitial.value;
+  final _isLoadingPosts = false.obs;
+  bool get isLoadingPosts => _isLoadingPosts.value;
+  final postIndexes = RxList<String>([]);
   final postMap = RxMap<String, PostEntity>({});
+  final _isReachHomePostsEnd = false.obs;
+  bool get isReachHomePostsEnd => _isReachHomePostsEnd.value;
+  final _homeInitError = "".obs;
+  String get homeInitError => _homeInitError.value;
+  final _currentIndex = 0.obs;
+  int get currentIndex => _currentIndex.value;
+  final _isDataEmpty = false.obs;
+  bool get isDataEmpty => _isDataEmpty.value;
+  String? homePostsLastCursor;
 
-  final count = 0.obs;
   @override
   void onInit() {
     pagingController.addPageRequestListener((lastPostId) {
-      fetchPage(lastPostId);
+      fetchPage(lastPostId: lastPostId);
     });
     super.onInit();
   }
@@ -41,49 +47,98 @@ class PostSquareController extends GetxController {
     }
   }
 
-  Future<void> fetchPage(String? lastPostId) async {
-    List<String> indexes = [];
+  Future<List<String>> fetchPage({
+    bool replace = false,
+    String? lastPostId,
+  }) async {
+    if (_isLoadingPosts.value == false) {
+      _isLoadingPosts.value = true;
 
-    try {
-      indexes =
-          await getTemplatesSquareData(postTemplateId: _id, after: lastPostId);
-    } catch (e) {
-      UIUtils.showError(e);
-    }
+      List<String> indexes = [];
 
-    final isLastPage = indexes.length < DEFAULT_PAGE_SIZE;
-    if (isLastPage) {
-      pagingController.appendLastPage(indexes);
+      try {
+        final result = await getApiPosts(
+            after: lastPostId, url: "/post/posts", postTemplateId: _id);
+        if (_isInitial.value == false) {
+          _isInitial.value = true;
+        }
+        indexes = result.indexes;
+        postMap.addAll(result.postMap);
+        postIndexes.addAll(indexes);
+        _isLoadingPosts.value = false;
+      } catch (e) {
+        _isLoadingPosts.value = false;
+
+        UIUtils.showError(e);
+        return indexes;
+      }
+
+      final isLastPage = indexes.length < DEFAULT_PAGE_SIZE;
+      if (isLastPage) {
+        _isReachHomePostsEnd.value = true;
+        pagingController.appendLastPage(indexes);
+      } else {
+        final nextPageKey = indexes.last;
+        pagingController.appendPage(indexes, nextPageKey);
+      }
+      if (indexes.isNotEmpty) {
+        homePostsLastCursor = indexes.last;
+      }
+      return indexes;
     } else {
-      final nextPageKey = indexes.last;
-      pagingController.appendPage(indexes, nextPageKey);
+      return [];
     }
   }
 
-  @override
-  void onClose() {}
-  void increment() => count.value++;
+  void refreshHomePosts() {
+    fetchPage(replace: true).then((data) {
+      if (data.isNotEmpty) {
+        setIndex(index: 0);
+      }
+    }).catchError((e) {
+      UIUtils.showError(e);
+    });
+  }
 
-  Future<List<String>> getTemplatesSquareData(
-      {String? after, required String postTemplateId}) async {
-    isLoadingPosts.value = true;
-    final result = await _homeController.getRawPosts(
-        after: after, url: "/post/posts", postTemplateId: _id);
-    squarePostsIndexes.clear();
-    postMap.addAll(result.postMap);
-    squarePostsIndexes.addAll(result.indexes);
-    _homeController.postMap.addAll(result.postMap);
+  void setIndex({required int index}) {
+    _currentIndex.value = index;
 
-    isLoadingPosts.value = false;
-    if (isInitial.value == false) {
-      isInitial.value = true;
+    if (index >= postIndexes.length) {
+      // loading more
+    } else {
+      final post = postMap[postIndexes[index]];
+      if (post != null) {
+        patchPostCountView(postIndexes[index]).catchError((e) {
+          report(e);
+        });
+      }
     }
-    return result.indexes;
+
+    if (postIndexes.length >= 3 && postIndexes.length - index < 3) {
+      if (!isLoadingPosts && isDataEmpty == false && !isReachHomePostsEnd) {
+        fetchPage(lastPostId: homePostsLastCursor)
+            .then((data) {})
+            .catchError((e) {
+          UIUtils.showError(e);
+        });
+      } else if (isReachHomePostsEnd && _isLoadingPosts.value == false) {
+        Log.debug("reach post end");
+      }
+    }
+  }
+
+  Future<void> patchPostCountView(String postId) async {
+    // change last cursor
+
+    if (AuthProvider.to.accountId == postMap[postId]!.accountId) {
+      await APIProvider.to.patch("/post/posts/$postId",
+          body: {"viewed_count_action": "increase_one"});
+    }
   }
 
   getTemplateData() async {
     final result = await APIProvider.to.get('/post/post-templates/$_id');
-    usedCount.value = result['data']['attributes']['used_count'];
+    _usedCount.value = result['data']['attributes']['used_count'];
     if (PostController.to.postTemplatesMap[_id] == null) {
       PostController.to.postTemplatesMap[_id] =
           PostTemplatesEntity.fromJson(result['data']['attributes']);
