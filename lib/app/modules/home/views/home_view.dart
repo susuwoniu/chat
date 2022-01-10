@@ -148,7 +148,7 @@ class HomeView extends GetView<HomeController> {
                                             style: TextStyle(
                                               color: Colors.white,
                                               height: 1.6,
-                                              fontSize: 30.0,
+                                              fontSize: 25.0,
                                               fontWeight: FontWeight.bold,
                                             ))),
                                     TagWidget(

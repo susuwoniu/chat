@@ -399,8 +399,7 @@ class MessageController extends GetxController {
       final currentRoomServerMessageIndexes =
           roomServerMessageIndexesMap[roomId] ?? [];
       final currentRoomDbMessageIndexes = roomDbMessageIndexesMap[roomId] ?? [];
-      // TODO 使用DB ID去过滤
-      final currentEarliestServerMessageId =
+      final _currentEarliestServerMessageId =
           currentRoomServerMessageIndexes.isNotEmpty
               ? currentRoomServerMessageIndexes.last
               : null;

@@ -7,6 +7,8 @@ import 'package:flutter_chat_ui/src/util.dart';
 import 'package:flutter_chat_ui/src/widgets/inherited_chat_theme.dart';
 import 'package:flutter_chat_ui/src/widgets/inherited_user.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:chat/common.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// A class that represents text message widget with optional link preview
 class TextMessage extends StatelessWidget {
@@ -103,7 +105,25 @@ class TextMessage extends StatelessWidget {
     final color =
         getUserAvatarNameColor(message.author, theme.userAvatarNameColors);
     final name = getUserName(message.author);
-
+    final defaultColor = user.id == message.author.id
+        ? theme.sentMessageBodyTextStyle.color!
+        : theme.receivedMessageBodyTextStyle.color!;
+    final defaultCodeColor =
+        user.id == message.author.id ? Colors.greenAccent : Colors.redAccent;
+    final defaultTextStyle = user.id == message.author.id
+        ? enlargeEmojis
+            ? theme.sentEmojiMessageTextStyle
+            : theme.sentMessageBodyTextStyle
+        : enlargeEmojis
+            ? theme.receivedEmojiMessageTextStyle
+            : theme.receivedMessageBodyTextStyle;
+    final negotiveTextStyle = user.id == message.author.id
+        ? enlargeEmojis
+            ? theme.receivedEmojiMessageTextStyle
+            : theme.receivedMessageBodyTextStyle
+        : enlargeEmojis
+            ? theme.sentEmojiMessageTextStyle
+            : theme.sentMessageBodyTextStyle;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -120,22 +140,64 @@ class TextMessage extends StatelessWidget {
         MarkdownBody(
           data: message.text,
           selectable: true,
+          onTapLink: (String text, String? href, String? title) async {
+            if (href != null && await canLaunch(href)) {
+              await launch(href);
+            }
+          },
           styleSheet: MarkdownStyleSheet(
+            a: TextStyle(
+                decoration: TextDecoration.underline, color: defaultColor),
+            pPadding: EdgeInsets.zero,
+            code: theme.sentMessageBodyTextStyle.copyWith(
+                backgroundColor: Colors.transparent,
+                fontFamily: 'monospace',
+                fontSize: theme.sentMessageBodyTextStyle.fontSize! * 0.85,
+                color: defaultCodeColor),
+            codeblockPadding: const EdgeInsets.all(0),
+            codeblockDecoration: BoxDecoration(
+              color: Colors.transparent,
+            ),
+            h1: Theme.of(context)
+                .textTheme
+                .headline5!
+                .copyWith(color: defaultColor),
+            h2: Theme.of(context)
+                .textTheme
+                .headline6!
+                .copyWith(color: defaultColor),
+            h3: Theme.of(context)
+                .textTheme
+                .subtitle1!
+                .copyWith(color: defaultColor),
+            h4: defaultTextStyle,
+            h5: defaultTextStyle,
+            h6: defaultTextStyle,
+            em: TextStyle(fontStyle: FontStyle.italic, color: defaultColor),
+            strong: TextStyle(fontWeight: FontWeight.bold, color: defaultColor),
+            del: TextStyle(
+                decoration: TextDecoration.lineThrough, color: defaultColor),
+            img: defaultTextStyle,
+            checkbox: negotiveTextStyle,
+            blockSpacing: 8.0,
+            listIndent: 24.0,
+            listBullet: defaultTextStyle,
+            tableHead:
+                TextStyle(fontWeight: FontWeight.w600, color: defaultColor),
+            tableBody: defaultTextStyle,
+            tableBorder: TableBorder.all(
+              color: Theme.of(context).dividerColor,
+              width: 1,
+            ),
             blockquoteDecoration: BoxDecoration(
               border: Border(
                   left: BorderSide(
-                color: Colors.white54,
+                color: defaultColor,
                 width: 2,
               )),
             ),
             blockquotePadding: EdgeInsets.only(left: 10),
-            p: user.id == message.author.id
-                ? enlargeEmojis
-                    ? theme.sentEmojiMessageTextStyle
-                    : theme.sentMessageBodyTextStyle
-                : enlargeEmojis
-                    ? theme.receivedEmojiMessageTextStyle
-                    : theme.receivedMessageBodyTextStyle,
+            p: defaultTextStyle,
           ),
         )
         // SelectableText(

@@ -81,6 +81,7 @@ dependencies:
   # flutter_chat_ui:
   #   path: ../flutter_chat_ui
   sprintf: ^6.0.0
+  url_launcher: ^6.0.18
   # xmpp_stone:
   #   git:
   #     url: git@github.com:theowenyoung/xmpp_client.git

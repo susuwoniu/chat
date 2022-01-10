@@ -6,3 +6,4 @@ export 'package:chat/app/common/error.dart';
 export 'package:chat/config/config.dart';
 export 'package:chat/types/types.dart';
 export 'package:chat/app/common/api.dart';
+export 'package:chat/theme.dart';

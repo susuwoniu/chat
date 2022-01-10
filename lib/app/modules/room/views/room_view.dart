@@ -99,7 +99,7 @@ class RoomView extends GetView<RoomController> {
             return TextMessage(
               message: message,
               showName: showName,
-              usePreviewData: true,
+              usePreviewData: false,
               emojiEnlargementBehavior: EmojiEnlargementBehavior.multi,
               hideBackgroundOnEmojiMessages: true,
               onPreviewDataFetched:
