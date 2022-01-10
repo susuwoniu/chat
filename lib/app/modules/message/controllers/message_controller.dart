@@ -19,6 +19,7 @@ class Room extends xmpp.Room {
   bool isLoadingDbMessage = false;
   bool isInitClientMessages = false;
   bool isInitDbMessages = false;
+  bool isLastPage = false;
   final String? room_info_id;
   // 客户端未读数，由于客户端的未读/已读状态是本地的，服务端未必及时同步，所以这里单独设置一个客户端的维度数，用于在客户端显示，优化用户体验，
   // unreadCount为服务端未读数量，应尽量保持及时把客户端的未读数量同步到服务端，但注意频率，不要无谓的发送
@@ -407,9 +408,12 @@ class MessageController extends GetxController {
           ? currentRoomDbMessageIndexes.last
           : null;
       try {
+        final limit = 8;
         final messages = await roomManager.getMessages(
             roomId: roomId, beforeId: currentEarliestDbMessageId);
-
+        if (messages.length < 8) {
+          room.isLastPage = true;
+        }
         Map<String, types.Message> newEntities = {};
         List<String> newIndexes = [];
         List<String> newServerIndexes = [];

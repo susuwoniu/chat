@@ -115,6 +115,11 @@ class _InputState extends State<BottomWidget> {
   }
 
   Widget _leftWidget() {
+    if (_sendButtonVisible) {
+      return SizedBox(
+        width: 6,
+      );
+    }
     if (widget.isAttachmentUploading == true) {
       return Container(
         height: 24,
@@ -213,10 +218,14 @@ class _InputState extends State<BottomWidget> {
               padding: InheritedChatTheme.of(context).theme.inputPadding,
               child: Column(children: [
                 widget.quoteMessage != null
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
+                    ? Container(
+                        // color: InheritedChatTheme.of(context)
+                        //     .theme
+                        //     .backgroundColor,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
                             ClipRRect(
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(4)),
@@ -261,11 +270,17 @@ class _InputState extends State<BottomWidget> {
                                           EmojiEnlargementBehavior.multi,
                                       hideBackgroundOnEmojiMessages: true,
                                     )))
-                          ])
-                    : Container(),
+                          ]))
+                    : SizedBox.shrink(),
                 widget.replyTo != null
                     ? Container(
-                        color: Colors.black.withOpacity(0.12),
+                        // color: Colors.white38,
+                        decoration: BoxDecoration(
+                            border: Border(
+                                top: BorderSide(
+                          // width: 4.0,
+                          color: Colors.black.withOpacity(0.12),
+                        ))),
                         padding: EdgeInsets.only(left: 16),
                         child: Row(
                           children: [
@@ -278,7 +293,9 @@ class _InputState extends State<BottomWidget> {
                             )),
                             IconButton(
                               onPressed: () {
-                                _sendButtonVisible = false;
+                                if (_textController.text.trim() == '') {
+                                  _sendButtonVisible = false;
+                                }
                                 if (widget.onCancelQuote != null) {
                                   widget.onCancelQuote!();
                                 }
@@ -295,7 +312,7 @@ class _InputState extends State<BottomWidget> {
                   // borderRadius:
                   //     InheritedChatTheme.of(context).theme.inputBorderRadius,
                   // color: Colors.black.withOpacity(0.06),
-                  color: Colors.white,
+                  // color: Colors.red,
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24),

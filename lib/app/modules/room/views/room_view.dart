@@ -62,6 +62,7 @@ class RoomView extends GetView<RoomController> {
             : emptyMessages;
 
         return Chat(
+          isLastPage: room.isLastPage,
           messages: messages,
           bubbleBuilder: (
             Widget child, {
@@ -71,40 +72,25 @@ class RoomView extends GetView<RoomController> {
             return BubbleWidget(child,
                 message: message, nextMessageInGroup: nextMessageInGroup);
           },
-          customBottomWidget: Container(
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
-                    )
-                  ],
-                  border: Border(
-                      top: BorderSide(
-                    color: Colors.grey.shade200,
-                  ))),
-              child: BottomWidget(
-                  onCancelQuote: controller.handleCancelPreview,
-                  quoteMessage: controller.previewMessage,
-                  replyTo: controller.previewMessage != null
-                      ? toAccount?.name
-                      : null,
-                  onAttachmentPressed: () {
-                    _handleImageSelection();
-                  },
-                  onCameraPressed: () {
-                    _handleCameraSelection();
-                  },
-                  onSendPressed: (types.PartialText message) async {
-                    try {
-                      await controller.handleSendPressed(message);
-                    } catch (e) {
-                      UIUtils.showError(e);
-                    }
-                  },
-                  sendButtonVisibilityMode: SendButtonVisibilityMode.editing)),
+          customBottomWidget: BottomWidget(
+              onCancelQuote: controller.handleCancelPreview,
+              quoteMessage: controller.previewMessage,
+              replyTo:
+                  controller.previewMessage != null ? toAccount?.name : null,
+              onAttachmentPressed: () {
+                _handleImageSelection();
+              },
+              onCameraPressed: () {
+                _handleCameraSelection();
+              },
+              onSendPressed: (types.PartialText message) async {
+                try {
+                  await controller.handleSendPressed(message);
+                } catch (e) {
+                  UIUtils.showError(e);
+                }
+              },
+              sendButtonVisibilityMode: SendButtonVisibilityMode.editing),
           textMessageBuilder: (
             types.TextMessage message, {
             required int messageWidth,
