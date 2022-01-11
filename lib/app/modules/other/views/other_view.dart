@@ -165,7 +165,7 @@ class OtherView extends GetView<OtherController> {
                     return MoreDots(
                         context: context,
                         bottomIcon: Icons.face_retouching_off_rounded,
-                        bottomText: 'Ban',
+                        bottomText: 'Ban'.tr,
                         onPressedShare: () {
                           Navigator.pop(context);
                         },
@@ -267,7 +267,7 @@ class OtherView extends GetView<OtherController> {
                   color: _account.is_liked ? color : Colors.white,
                   borderRadius: BorderRadius.circular(20)),
               child: Text(
-                text,
+                text.tr,
                 style: TextStyle(
                     color: color == null
                         ? Colors.black

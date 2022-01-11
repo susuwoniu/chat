@@ -8,6 +8,8 @@ import 'viewers_list.dart';
 import 'package:intl/intl.dart';
 import 'single_post_dot.dart';
 
+final VisibilityMap = {'public': 'Public', 'private': 'Private'};
+
 class MySinglePostView extends GetView<MySinglePostController> {
   final _postId = (Get.arguments['postId']);
   final DateFormat formatter = DateFormat('yyyy-MM-dd  H:mm');
@@ -50,7 +52,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                         ),
                         Row(children: [
                           Obx(() => Text(
-                                controller.visibility.tr,
+                                VisibilityMap[controller.visibility]!.tr,
                                 style: TextStyle(color: Colors.white),
                               )),
                           _dotIcon(context: context, postId: _postId)
@@ -108,8 +110,20 @@ class MySinglePostView extends GetView<MySinglePostController> {
                     onPressedVisibility: (String visibility) async {
                       try {
                         UIUtils.showLoading();
-                        await controller.postVisibility(
+                        await controller.postChange(
                             type: visibility, postId: postId);
+                        UIUtils.toast('okk');
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
+                      UIUtils.hideLoading();
+                      Navigator.pop(context);
+                    },
+                    onPressedPolish: () async {
+                      try {
+                        UIUtils.showLoading();
+                        await controller.postChange(
+                            type: 'promote', postId: postId);
                         UIUtils.toast('okk');
                       } catch (e) {
                         UIUtils.showError(e);

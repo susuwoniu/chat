@@ -40,9 +40,11 @@ class MySinglePostController extends GetxController {
     HomeController.to.postMap.remove(id);
   }
 
-  postVisibility({required String type, required String postId}) async {
-    await APIProvider.to
-        .patch('/post/posts/$postId', body: {'visibility': type});
-    _visibility.value = type;
+  postChange({required String type, required String postId}) async {
+    await APIProvider.to.patch('/post/posts/$postId',
+        body: {type: type == 'visibility' ? type : true});
+    if (type == 'visibility') {
+      _visibility.value = type;
+    }
   }
 }

@@ -7,6 +7,7 @@
 - [ ]  square跳转到single post
 - [ ]  square假删除
 - [ ]  限时发送功能
+- [x]  点亮
 - [x]  square类型提示错误
 - [ ]  返回键
 - [x]  删除唯一头像后自动填充默认头像bug

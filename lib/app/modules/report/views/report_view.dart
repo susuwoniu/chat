@@ -55,8 +55,8 @@ class ReportView extends GetView<ReportController> {
                         children: [
                           Obx(() => Text(
                                 controller.reportType.value == ''
-                                    ? 'choose_report_type'
-                                    : Type[controller.reportType.value]!,
+                                    ? 'Choose_report_type'.tr
+                                    : Type[controller.reportType.value]!.tr,
                                 style: TextStyle(fontSize: 17),
                               )),
                           Icon(
@@ -74,7 +74,7 @@ class ReportView extends GetView<ReportController> {
                 cursorColor: Colors.pink,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(horizontal: 5),
-                  hintText: 'Enter_report_description(Optional)',
+                  hintText: 'Enter_report_description(Optional)'.tr,
                   enabledBorder: UnderlineInputBorder(
                     borderSide:
                         BorderSide(color: Colors.grey.shade200, width: 1),
@@ -92,7 +92,7 @@ class ReportView extends GetView<ReportController> {
               SizedBox(height: 20),
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5),
-                  child: Text('Screenshot_of_Evidence(Optional)',
+                  child: Text('Screenshot_of_Evidence(Optional)'.tr,
                       style: TextStyle(fontSize: 16))),
               SizedBox(height: 15),
               Padding(

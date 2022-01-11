@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:share_plus/share_plus.dart';
+import 'package:get/get.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 
 class MoreDots extends StatelessWidget {
@@ -45,7 +45,7 @@ class MoreDots extends StatelessWidget {
                   onTap: () {
                     onPressedReport();
                   },
-                  child: Text('Report',
+                  child: Text('Report'.tr,
                       style: TextStyle(fontSize: 20, color: Colors.red)),
                 )),
             GestureDetector(
@@ -64,7 +64,7 @@ class MoreDots extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          bottomText ?? 'Share',
+                          bottomText ?? 'Share'.tr,
                           style: TextStyle(fontSize: 20),
                         ),
                         Icon(

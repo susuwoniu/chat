@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:get/get.dart';
 
+final Page = {'home': 'Home', 'nearby': 'Nearby'};
+
 class NearbySwitch extends StatefulWidget {
   final Function onPressedTabSwitch;
   final String? selectedPage;
@@ -30,11 +32,11 @@ class _NearbySwitchState extends State<NearbySwitch> {
     final _width = MediaQuery.of(context).size.width;
 
     return AnimatedToggleSwitch<String>.size(
-      height: 38,
-      innerColor: Colors.white24,
+      height: 40,
+      innerColor: Colors.white38,
       current: page,
       values: ["home", 'nearby'],
-      iconOpacity: 0.8,
+      iconOpacity: 0.3,
       indicatorSize: Size.fromWidth(_width * 0.2),
       indicatorType: IndicatorType.roundedRectangle,
       iconAnimationType: AnimationType.onHover,
@@ -43,15 +45,17 @@ class _NearbySwitchState extends State<NearbySwitch> {
       iconBuilder: (value, size, active) {
         return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
-            value.tr,
+            Page[value]!.tr,
             style: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue.shade500),
           ),
         ]);
       },
       borderWidth: 0.0,
       borderColor: Colors.transparent,
-      colorBuilder: (value) => Colors.white30,
+      colorBuilder: (value) => Colors.white70,
       onChanged: (value) => setState(() {
         page = value;
         widget.onPressedTabSwitch(value);

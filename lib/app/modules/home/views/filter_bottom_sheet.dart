@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:chat/common.dart';
 import 'vip_sheet.dart';
+import 'package:get/get.dart';
+
+final genderMap = {'all': 'All', 'male': 'Male', 'female': 'Female'};
 
 class FilterBottomSheet extends StatefulWidget {
   final BuildContext context;
@@ -96,9 +99,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 ),
                 Column(children: [
                   SizedBox(height: _paddingTop3),
-                  Text('Filter',
-                      style: TextStyle(fontSize: 23, color: Colors.white)),
-                  SizedBox(height: _paddingTop1),
+                  Text('Filter'.tr,
+                      style: TextStyle(fontSize: 21, color: Colors.white)),
+                  SizedBox(height: 15),
                   Column(children: [
                     Row(children: [
                       _title('age'),
@@ -128,6 +131,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                       SizedBox(width: 20),
                       Expanded(
                         child: AnimatedToggleSwitch<String>.size(
+                          height: 45,
                           current: selectedGender,
                           values: ['all', 'female', 'male'],
                           iconOpacity: 0.2,
@@ -141,9 +145,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    value,
+                                    genderMap[value]!.tr,
                                     style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white),
                                   ),
@@ -164,7 +168,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         : SizedBox.shrink(),
                     widget.isNearby
                         ? Row(children: [
-                            _title('Location'),
+                            _title('location'),
                             Expanded(
                                 child: RangeSlider(
                               values: RangeValues(
@@ -191,7 +195,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   SizedBox(height: _paddingTop4),
                   Row(children: [
                     _buttons(
-                        text: 'ok',
+                        text: 'Ok',
                         onPressed: () {
                           if (AuthProvider.to.account.value.vip) {
                             if (widget.initialGender == selectedGender &&
@@ -226,7 +230,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           }
                         }),
                     _buttons(
-                        text: 'reset',
+                        text: 'Reset',
                         onPressed: () {
                           setState(() {
                             _currentAgeRangeValues = RangeValues(18, 98);
@@ -244,12 +248,14 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   }
 
   Widget _title(String text) {
+    final titleMap = {'age': 'Age', 'gender': 'Gender', 'location': 'Location'};
     final _width = MediaQuery.of(context).size.width;
     return Row(children: [
       SizedBox(width: _width * 0.05),
-      Text(text, style: TextStyle(fontSize: 18, color: Colors.white)),
-      SizedBox(width: 3),
-      Icon(Icons.stars_rounded, color: Colors.pink.shade300, size: 24),
+      Text(titleMap[text]!.tr,
+          style: TextStyle(fontSize: 17, color: Colors.white)),
+      SizedBox(width: 6),
+      Icon(Icons.stars_rounded, color: Colors.pink.shade300, size: 22),
     ]);
   }
 
@@ -261,13 +267,16 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       margin: EdgeInsets.symmetric(horizontal: _width * 0.04),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          color: text == 'ok' ? Colors.pinkAccent : Colors.white60),
+          color: text == 'Ok' ? Colors.pinkAccent : Colors.white60),
       child: TextButton(
           style: ButtonStyle(splashFactory: NoSplash.splashFactory),
           onPressed: () {
             onPressed();
           },
-          child: Text(text)),
+          child: Text(text.tr,
+              style: TextStyle(
+                  color: text == 'Ok' ? Colors.white : Colors.blue,
+                  fontSize: 16))),
     ));
   }
 }

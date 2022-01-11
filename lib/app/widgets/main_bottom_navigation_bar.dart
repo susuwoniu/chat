@@ -41,7 +41,7 @@ mainBottomNavigationBar(BuildContext context,
               BottomNavigationBarItem(
                 icon: Badge(
                     notificationCount: messageNotificationCount,
-                    iconData: Icons.question_answer),
+                    iconData: Icons.chat_bubble_rounded),
                 label: 'Message',
               ),
               BottomNavigationBarItem(

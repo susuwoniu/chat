@@ -5,12 +5,14 @@ import 'visibility_sheet.dart';
 class SinglePostDot extends StatelessWidget {
   final Function(String visibility) onPressedVisibility;
   final Function onPressedDelete;
+  final Function onPressedPolish;
   final String postId;
 
   SinglePostDot(
       {Key? key,
       required this.postId,
       required this.onPressedVisibility,
+      required this.onPressedPolish,
       required this.onPressedDelete})
       : super(key: key);
   @override
@@ -29,7 +31,7 @@ class SinglePostDot extends StatelessWidget {
           Row(children: [
             _buttons(
                 icon: Icons.lock_outline_rounded,
-                text: 'Visibility',
+                text: 'Visibility'.tr,
                 onPressed: () {
                   Navigator.pop(context);
                   showModalBottomSheet(
@@ -40,8 +42,12 @@ class SinglePostDot extends StatelessWidget {
                       });
                 }),
             _buttons(
+                icon: Icons.touch_app_rounded,
+                text: 'Polish'.tr,
+                onPressed: onPressedPolish),
+            _buttons(
                 icon: Icons.delete_forever_rounded,
-                text: 'Delete',
+                text: 'Delete'.tr,
                 onPressed: onPressedDelete)
           ]),
           Container(
@@ -53,7 +59,7 @@ class SinglePostDot extends StatelessWidget {
               onTap: () {
                 Get.back();
               },
-              child: Text('Cancle', style: TextStyle(fontSize: 16))),
+              child: Text('Cancel'.tr, style: TextStyle(fontSize: 16))),
         ]),
       ),
     ]);
@@ -64,7 +70,7 @@ class SinglePostDot extends StatelessWidget {
       required String text,
       required Function onPressed}) {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 25),
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
         child: GestureDetector(
             onTap: () {
               onPressed();

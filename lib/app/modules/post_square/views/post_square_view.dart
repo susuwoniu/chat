@@ -116,7 +116,7 @@ class PostSquareView extends GetView<PostSquareController> {
                   borderRadius: BorderRadius.circular(30), color: Colors.black),
               child: Row(children: [
                 Icon(Icons.tag_rounded, color: Colors.white, size: 22),
-                Text(' Join_topic',
+                Text(' Join_topic'.tr,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,

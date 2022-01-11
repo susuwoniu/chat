@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class NextButton extends StatelessWidget {
   final String? action;
@@ -16,7 +17,7 @@ class NextButton extends StatelessWidget {
     required this.onPressed,
     this.height,
     this.width,
-    this.text = 'next',
+    this.text,
     this.size,
     this.textColor,
     this.borderRadius,
@@ -38,7 +39,7 @@ class NextButton extends StatelessWidget {
           color: Colors.black87,
         ),
         alignment: Alignment.center,
-        child: Text(text!,
+        child: Text(text != null ? text!.tr : 'Next'.tr,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: size ?? 22,
