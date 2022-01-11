@@ -46,12 +46,12 @@ class MySinglePostView extends GetView<MySinglePostController> {
                       children: [
                         Text(
                           _createAt,
-                          style: TextStyle(color: Colors.white70),
+                          style: TextStyle(color: Colors.white),
                         ),
                         Row(children: [
                           Obx(() => Text(
                                 controller.visibility.tr,
-                                style: TextStyle(color: Colors.white70),
+                                style: TextStyle(color: Colors.white),
                               )),
                           _dotIcon(context: context, postId: _postId)
                         ]),
@@ -62,7 +62,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                       child: Text(_content,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 22.0,
+                            fontSize: 18.0,
                           ))),
                 ])),
             Obx(() {

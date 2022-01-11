@@ -50,7 +50,6 @@ class MeView extends GetView<MeController> {
 
               final _bio = _account.bio == '' ? 'nothing' : _account.bio;
               final _location = _account.location ?? 'unknown place';
-              final _birth = _account.birthday ?? 'xxxx-xx-xx';
               final _imgList = List.from(_account.profile_images);
 
               if (_imgList.isEmpty) {
@@ -124,12 +123,11 @@ class MeView extends GetView<MeController> {
                         ProfileInfoText(
                             text: _bio!,
                             icon: Icons.face_retouching_natural_outlined),
-                        SizedBox(height: 6),
+                        SizedBox(height: 1),
                         ProfileInfoText(
                             text: _location,
                             icon: Icons.location_city_outlined),
-                        SizedBox(height: 6),
-                        ProfileInfoText(text: _birth, icon: Icons.cake_outlined)
+                        SizedBox(height: 2),
                       ]),
                 )
               ]);
@@ -158,6 +156,7 @@ class MeView extends GetView<MeController> {
                   backgroundColor: post.backgroundColor);
             }),
           ),
+          SliverToBoxAdapter(child: Container(height: 100))
         ]));
   }
 

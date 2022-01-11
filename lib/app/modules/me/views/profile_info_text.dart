@@ -15,13 +15,13 @@ class ProfileInfoText extends StatelessWidget {
       Icon(
         icon,
         color: Colors.grey,
-        size: 25,
+        size: 23,
       ),
       Container(
         padding: EdgeInsets.fromLTRB(5, 4, 0, 4),
         child: Text(
           text,
-          style: TextStyle(fontSize: 20, color: Colors.grey),
+          style: TextStyle(fontSize: 19, color: Colors.grey),
         ),
       ),
       // SizedBox(height: 30),
