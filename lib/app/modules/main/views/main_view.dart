@@ -17,7 +17,8 @@ class MainView extends GetView<MainController> {
         body: _buildPageView(),
         bottomNavigationBar: Obx(() => mainBottomNavigationBar(context,
                 index: BottomNavigationBarController.to.page,
-                onTap: (int index) {
+                messageNotificationCount: BottomNavigationBarController
+                    .to.messageNotificationCount, onTap: (int index) {
               BottomNavigationBarController.to.handlePageChanged(index);
             })));
   }

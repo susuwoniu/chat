@@ -97,7 +97,6 @@ class RoomController extends GetxController {
         messageController.entities[_roomId]!.isLoading = true;
 
         await MessageController.to.getRoomEarlierMessage(_roomId);
-        messageController.markRoomAsRead(_roomId);
 
         messageController.entities[_roomId]!.isLoading = false;
       } catch (e) {
@@ -106,6 +105,7 @@ class RoomController extends GetxController {
         print(e);
       }
     }
+    messageController.markRoomAsRead(_roomId);
   }
 
   @override

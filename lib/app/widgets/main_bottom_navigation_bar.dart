@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:chat/app/widgets/badge.dart';
 
 mainBottomNavigationBar(BuildContext context,
-    {required int index, required Function(int index) onTap}) {
+    {required int index,
+    required int messageNotificationCount,
+    required Function(int index) onTap}) {
   return Theme(
       data: Theme.of(context).copyWith(
         splashColor: Colors.transparent,
@@ -38,7 +40,8 @@ mainBottomNavigationBar(BuildContext context,
               // _Paths.HOME + _Paths.MESSAGE
               BottomNavigationBarItem(
                 icon: Badge(
-                    notificationCount: 1000, iconData: Icons.question_answer),
+                    notificationCount: messageNotificationCount,
+                    iconData: Icons.question_answer),
                 label: 'Message',
               ),
               BottomNavigationBarItem(

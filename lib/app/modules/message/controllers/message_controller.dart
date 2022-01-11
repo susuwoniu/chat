@@ -1,3 +1,4 @@
+import 'package:chat/app/widgets/main_bottom_navigation_bar.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 import 'package:flutter/material.dart' hide ConnectionState;
@@ -5,7 +6,7 @@ import 'package:chat/app/providers/providers.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/common.dart';
 import 'package:xmpp_stone/xmpp_stone.dart' as xmpp;
-import 'package:chat/types/types.dart';
+import '../../main/controllers/bottom_navigation_bar_controller.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:image_picker/image_picker.dart';
 import 'package:mime_type/mime_type.dart';
@@ -200,7 +201,7 @@ class MessageController extends GetxController {
       _isLoadingRooms.value = true;
       try {
         // first try to load cache
-
+        var totalUnreadCount = 0;
         final rooms = await ChatProvider.to.roomManager!.getAllRooms();
         // get room name, avatar
         for (var room in rooms) {
@@ -212,12 +213,14 @@ class MessageController extends GetxController {
           if (!indexes.contains(room.id)) {
             indexes.add(room.id);
           }
+          totalUnreadCount += entities[room.id]!.clientUnreadCount;
         }
 
         _isLoadingRooms.value = false;
         _isInitRooms.value = true;
         _roomsStateStreamController.add(RoomsState.inited);
-
+        BottomNavigationBarController.to
+            .setMessageNotificationCount(totalUnreadCount);
         return rooms.map<Room>((room) => Room.fromXmppRoom(room)).toList();
       } catch (e) {
         _isLoadingRooms.value = false;
@@ -466,6 +469,7 @@ class MessageController extends GetxController {
           value.clientUnreadCount = 0;
           return value;
         });
+        updateTotalUnreadCount();
       }
 
       // mark server room read
@@ -580,8 +584,22 @@ class MessageController extends GetxController {
       entities.update(roomId, (_) {
         return room;
       });
+      updateTotalUnreadCount();
     }
     sortRooms();
+  }
+
+  void updateTotalUnreadCount() {
+    // 计算total unread count
+    var totalUnreadCount = 0;
+    for (var roomId in indexes) {
+      final theRoom = entities[roomId];
+      if (theRoom != null && theRoom.clientUnreadCount > 0) {
+        totalUnreadCount += theRoom.clientUnreadCount;
+      }
+    }
+    BottomNavigationBarController.to
+        .setMessageNotificationCount(totalUnreadCount);
   }
 
   void sortRooms() {

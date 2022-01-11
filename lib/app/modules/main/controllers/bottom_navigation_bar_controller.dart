@@ -13,13 +13,18 @@ class BottomNavigationBarController extends GetxController {
   /// 响应式成员变量
   final _page = 0.obs;
   get page => _page.value;
-
+  final _messageNotificationCount = 0.obs;
+  get messageNotificationCount => _messageNotificationCount.value;
   @override
   void onInit() {
     print("onInit main");
     pageController = PageController(initialPage: page);
     changePageFromArguments(Get.arguments);
     super.onInit();
+  }
+
+  void setMessageNotificationCount(int count) {
+    _messageNotificationCount.value = count;
   }
 
   void changePageFromArguments(dynamic arguments) {
