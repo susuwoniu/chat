@@ -26,8 +26,8 @@ class CountBubble extends StatelessWidget {
         ? count < 10
             ? Container(
                 alignment: Alignment.center,
-                width: type == "viewers" ? 22 : 20,
-                height: type == "viewers" ? 22 : 20,
+                width: type == "viewers" ? 22 : 18,
+                height: type == "viewers" ? 22 : 18,
                 decoration: BoxDecoration(
                     color: Colors.red[400],
                     borderRadius: BorderRadius.circular(20)),
@@ -36,7 +36,7 @@ class CountBubble extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                 decoration: BoxDecoration(
                     color: Colors.red[400],
-                    borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(18)),
                 child: TextCount(text))
         : SizedBox.shrink();
   }
@@ -44,6 +44,6 @@ class CountBubble extends StatelessWidget {
   Widget TextCount(String count) {
     return Text(count,
         style: TextStyle(
-            fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white));
+            fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white));
   }
 }

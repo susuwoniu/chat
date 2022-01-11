@@ -67,38 +67,33 @@ class MessageView extends GetView<MessageController> {
             SliverList(
                 delegate: SliverChildBuilderDelegate(
               (context, index) {
-                return GestureDetector(
-                    onTap: () async {
-                      await controller.toRoom(index);
-                    },
-                    behavior: HitTestBehavior.translucent,
-                    child: Obx(() {
-                      final room =
-                          controller.entities[controller.indexes[index]]!;
-                      SimpleAccountEntity? roomInfo;
-                      var name = jidToName(room.id);
-                      String? avatar;
-                      if (room.room_info_id != null) {
-                        roomInfo =
-                            AuthProvider.to.simpleAccountMap[room.room_info_id];
-                        name = roomInfo?.name ?? name;
-                        avatar = roomInfo?.avatar;
-                      }
+                return Obx(() {
+                  final room = controller.entities[controller.indexes[index]]!;
+                  SimpleAccountEntity? roomInfo;
+                  var name = jidToName(room.id);
+                  String? avatar;
+                  if (room.room_info_id != null) {
+                    roomInfo =
+                        AuthProvider.to.simpleAccountMap[room.room_info_id];
+                    name = roomInfo?.name ?? name;
+                    avatar = roomInfo?.avatar;
+                  }
 
-                      return conversationItemView(
-                          onTap: (index) {
-                            controller.toRoom(index);
-                          },
-                          context: context,
-                          index: index,
-                          id: room.room_info_id ?? '',
-                          name: name,
-                          preview: room.preview,
-                          updatedAt: room.updatedAt,
-                          unreadCount: room.clientUnreadCount,
-                          avatar: avatar,
-                          likeCount: roomInfo?.like_count ?? 0);
-                    }));
+                  return conversationItemView(
+                      onTap: (index) {
+                        controller.toRoom(index);
+                      },
+                      isLast: index == controller.entities.length - 1,
+                      context: context,
+                      index: index,
+                      id: room.room_info_id ?? '',
+                      name: name,
+                      preview: room.preview,
+                      updatedAt: room.updatedAt,
+                      unreadCount: room.clientUnreadCount,
+                      avatar: avatar,
+                      likeCount: roomInfo?.like_count ?? 0);
+                });
               },
               childCount: controller.indexes.length,
             )),

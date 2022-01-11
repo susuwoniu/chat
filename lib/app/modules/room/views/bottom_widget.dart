@@ -328,7 +328,7 @@ class _InputState extends State<BottomWidget> {
                       10 + _query.padding.left,
                       10,
                       10 + _query.padding.right,
-                      _query.viewInsets.bottom + _query.padding.bottom,
+                      _query.viewInsets.bottom + _query.padding.bottom + 10,
                     ),
                     child: Row(
                       children: [

@@ -37,7 +37,7 @@ class CreateView extends GetView<CreateController> {
       'VeganStyle',
     ];
     TextStyle _textStyle = TextStyle(
-      fontSize: 30,
+      fontSize: 25,
       color: Colors.white,
     );
     String _text = postTemplate.content ?? '';
