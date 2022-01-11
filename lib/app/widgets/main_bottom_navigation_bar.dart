@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:chat/app/widgets/badge.dart';
 
 mainBottomNavigationBar(BuildContext context,
     {required int index, required Function(int index) onTap}) {
@@ -29,14 +30,15 @@ mainBottomNavigationBar(BuildContext context,
             items: [
               // _Paths.Main + [Empty]
               BottomNavigationBarItem(
-                icon: Icon(Icons.home_rounded, size: 35),
+                icon: Icon(Icons.home_rounded, size: 36),
                 label: 'Home',
               ),
               // _Paths.Main + Routes.POST
 
               // _Paths.HOME + _Paths.MESSAGE
               BottomNavigationBarItem(
-                icon: Icon(Icons.mark_chat_unread_rounded, size: 30),
+                icon: Badge(
+                    notificationCount: 1000, iconData: Icons.question_answer),
                 label: 'Message',
               ),
               BottomNavigationBarItem(
