@@ -1,4 +1,3 @@
-import 'package:chat/app/modules/message/views/appbar_border.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +15,11 @@ class MessageView extends GetView<MessageController> {
       // appBar: AppBar(),
       appBar: AppBar(
         bottom: PreferredSize(
-            child: AppbarBorder(), preferredSize: Size.fromHeight(0)),
+            child: Container(
+              height: 0.5,
+              color: Colors.grey.shade400,
+            ),
+            preferredSize: Size.fromHeight(0)),
         title: Obx(() => Text(
               controller.isLoadingRooms || !controller.isInitRooms
                   ? "Loading..."

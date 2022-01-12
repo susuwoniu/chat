@@ -46,7 +46,7 @@ class MoreDots extends StatelessWidget {
                     onPressedReport();
                   },
                   child: Text('Report'.tr,
-                      style: TextStyle(fontSize: 20, color: Colors.red)),
+                      style: TextStyle(fontSize: 18, color: Colors.red)),
                 )),
             GestureDetector(
               onTap: () async {
@@ -65,7 +65,7 @@ class MoreDots extends StatelessWidget {
                       children: [
                         Text(
                           bottomText ?? 'Share'.tr,
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 18),
                         ),
                         Icon(
                           bottomIcon ?? Icons.send_rounded,

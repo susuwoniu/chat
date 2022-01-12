@@ -15,7 +15,6 @@ import './image_message.dart';
 import './text_message.dart';
 import './bottom_widget.dart';
 import './bubble_widget.dart';
-import '../../message/views/appbar_border.dart';
 
 class RoomView extends GetView<RoomController> {
   @override
@@ -25,7 +24,11 @@ class RoomView extends GetView<RoomController> {
     return Scaffold(
       appBar: AppBar(
         bottom: PreferredSize(
-            child: AppbarBorder(), preferredSize: Size.fromHeight(0)),
+            child: Container(
+              height: 0.5,
+              color: Colors.grey.shade400,
+            ),
+            preferredSize: Size.fromHeight(0)),
         title: Obx(() {
           final roomInfoId = messageController.entities[roomId]!.room_info_id;
           final room = messageController.entities[roomId];

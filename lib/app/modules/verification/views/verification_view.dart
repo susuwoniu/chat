@@ -227,7 +227,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     },
                     child: Center(
                         child: Text(
-                      "submit".tr.toUpperCase(),
+                      "Submit".tr,
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,

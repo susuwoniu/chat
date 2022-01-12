@@ -42,7 +42,7 @@ class NextButton extends StatelessWidget {
         child: Text(text != null ? text!.tr : 'Next'.tr,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: size ?? 22,
+                fontSize: size ?? 19,
                 color: textColor ?? Colors.white)),
       ),
     );

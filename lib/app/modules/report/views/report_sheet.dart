@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../controllers/report_controller.dart';
 import 'bottom_sheet_row.dart';
+import 'package:get/get.dart';
 
 class ReportSheet extends StatelessWidget {
   final controller = ReportController.to;
@@ -16,30 +17,30 @@ class ReportSheet extends StatelessWidget {
           ),
           child: Column(children: [
             BottomSheetRow(
-                text: 'Fraud',
+                text: 'Fraud'.tr,
                 onPressed: () {
                   controller.setReportType('spam');
                 }),
             Container(height: 1, color: Colors.grey.shade100),
             BottomSheetRow(
-                text: 'Harassing',
+                text: 'Harassing'.tr,
                 onPressed: () {
                   controller.setReportType('offensive');
                 }),
             Container(height: 1, color: Colors.grey.shade100),
             BottomSheetRow(
-                text: 'Crime_and_illegal_activities',
+                text: 'Crime_and_illegal_activities'.tr,
                 onPressed: () {
                   controller.setReportType('illegal');
                 }),
             Container(height: 1, color: Colors.grey.shade100),
             BottomSheetRow(
-                text: 'Other',
+                text: 'Other'.tr,
                 onPressed: () {
                   controller.setReportType('complaint');
                 }),
             Container(height: 8, color: Colors.grey.shade100),
-            BottomSheetRow(text: 'Cancel', onPressed: () {}),
+            BottomSheetRow(text: 'Cancel'.tr, onPressed: () {}),
           ]))
     ]);
   }

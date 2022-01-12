@@ -10,23 +10,42 @@ class ProfileViewersView extends GetView<ProfileViewersController> {
     final _paddingLeft = MediaQuery.of(context).size.width * 0.04;
     return Scaffold(
         appBar: AppBar(
-          title: Text('ProfileViewersView'),
+          title: Text('ProfileViewersView'.tr),
           centerTitle: true,
+          bottom: PreferredSize(
+              child: Container(
+                height: 0.5,
+                color: Colors.grey.shade400,
+              ),
+              preferredSize: Size.fromHeight(0)),
         ),
         body: Obx(() => SingleChildScrollView(
-              child: controller.profileViewerIdList.isNotEmpty
-                  ? Container(
-                      padding: EdgeInsets.symmetric(horizontal: _paddingLeft),
-                      child: Column(
-                          children: controller.profileViewerIdList.map((id) {
-                        return SingleViewer(
-                            onPressed: () {
-                              Get.toNamed(Routes.OTHER,
-                                  arguments: {"accountId": id});
-                            },
-                            viewerAccount: controller.profileViewerMap[id]!);
-                      }).toList()))
-                  : SizedBox.shrink(),
-            )));
+            child: controller.profileViewerIdList.isNotEmpty
+                ? Container(
+                    padding: EdgeInsets.symmetric(horizontal: _paddingLeft),
+                    child: Column(
+                        children: controller.profileViewerIdList.map((id) {
+                      return SingleViewer(
+                          onPressed: () {
+                            Get.toNamed(Routes.OTHER,
+                                arguments: {"accountId": id});
+                          },
+                          viewerAccount: controller.profileViewerMap[id]!);
+                    }).toList()))
+                : Center(
+                    child: Column(children: [
+                      SizedBox(height: 20),
+                      Icon(
+                        Icons.lunch_dining_rounded,
+                        color: Colors.yellow.shade700,
+                        size: 60,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'No_one_has_been_here.'.tr,
+                        style: TextStyle(fontSize: 18, color: Colors.black87),
+                      ),
+                    ]),
+                  ))));
   }
 }

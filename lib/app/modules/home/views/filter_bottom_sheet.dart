@@ -38,7 +38,7 @@ class FilterBottomSheet extends StatefulWidget {
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
   late RangeValues _currentAgeRangeValues;
-  late RangeValues _currentDistanceRangeValues;
+  late double _currentEndDistance;
 
   late String selectedGender;
 
@@ -53,11 +53,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             ? widget.initialEndAge!.toDouble()
             : DEFAULT_END_AGE.toDouble());
 
-    _currentDistanceRangeValues = RangeValues(
-        0,
+    _currentEndDistance =
         AuthProvider.to.account.value.vip && widget.initialEndDistance != null
             ? widget.initialEndDistance!.toDouble()
-            : DEFAULT_END_DISTANCE.toDouble());
+            : DEFAULT_END_DISTANCE.toDouble();
     selectedGender =
         AuthProvider.to.account.value.vip && widget.initialGender != null
             ? widget.initialGender!
@@ -72,7 +71,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     final _width = MediaQuery.of(context).size.width;
     final _paddingTop4 = _height * 0.04;
     final _paddingTop3 = _height * 0.03;
-    final _paddingTop1 = _height * 0.01;
 
     return BottomSheet(
       onClosing: () {},
@@ -109,14 +107,16 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           child: RangeSlider(
                         values: RangeValues(_currentAgeRangeValues.start,
                             _currentAgeRangeValues.end),
-                        max: 98,
+                        max: 100,
                         min: 18,
                         divisions: 8,
                         activeColor: Colors.pinkAccent,
                         inactiveColor: Colors.white,
                         labels: RangeLabels(
-                          _currentAgeRangeValues.start.toString(),
-                          _currentAgeRangeValues.end.toString(),
+                          _currentAgeRangeValues.start.toInt().toString() +
+                              'years_old'.tr,
+                          _currentAgeRangeValues.end.toInt().toString() +
+                              'years_old'.tr,
                         ),
                         onChanged: (RangeValues values) {
                           setState(() {
@@ -170,22 +170,18 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         ? Row(children: [
                             _title('location'),
                             Expanded(
-                                child: RangeSlider(
-                              values: RangeValues(
-                                  DEFAULT_START_DISTANCE.toDouble(),
-                                  _currentDistanceRangeValues.end),
+                                child: Slider(
+                              value: _currentEndDistance.toDouble(),
                               max: 100,
                               min: 0,
                               divisions: 5,
                               activeColor: Colors.lightGreen,
                               inactiveColor: Colors.white,
-                              labels: RangeLabels(
-                                DEFAULT_START_DISTANCE.toString(),
-                                _currentDistanceRangeValues.end.toString(),
-                              ),
-                              onChanged: (RangeValues values) {
+                              label:
+                                  _currentEndDistance.toInt().toString() + 'KM',
+                              onChanged: (double value) {
                                 setState(() {
-                                  _currentDistanceRangeValues = values;
+                                  _currentEndDistance = value;
                                 });
                               },
                             )),
@@ -204,7 +200,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                 widget.initialEndAge ==
                                     _currentAgeRangeValues.end &&
                                 widget.initialEndDistance ==
-                                    _currentDistanceRangeValues.end) {
+                                    _currentEndDistance) {
                               UIUtils.toast('no changes');
                               Navigator.pop(context);
                             } else {
@@ -213,8 +209,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                   startAge:
                                       _currentAgeRangeValues.start.round(),
                                   endAge: _currentAgeRangeValues.end.round(),
-                                  endDistance:
-                                      _currentDistanceRangeValues.end.round());
+                                  endDistance: _currentEndDistance.round());
                               UIUtils.toast('okkkk');
                               Navigator.pop(context);
                             }
@@ -235,7 +230,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           setState(() {
                             _currentAgeRangeValues = RangeValues(18, 98);
                             selectedGender = 'all';
-                            _currentDistanceRangeValues = RangeValues(0, 100);
+                            _currentEndDistance = 100;
                             UIUtils.toast('okkkk');
                           });
                         }),
@@ -248,7 +243,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   }
 
   Widget _title(String text) {
-    final titleMap = {'age': 'Age', 'gender': 'Gender', 'location': 'Location'};
+    final titleMap = {'age': 'Age', 'gender': 'Gender', 'location': 'Distance'};
     final _width = MediaQuery.of(context).size.width;
     return Row(children: [
       SizedBox(width: _width * 0.05),

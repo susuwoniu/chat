@@ -74,7 +74,7 @@ class HomeView extends GetView<HomeController> {
                     );
                   }),
               Padding(
-                  padding: EdgeInsets.only(right: 8),
+                  padding: EdgeInsets.only(right: 15),
                   child: IconButton(
                       icon: Icon(!isCreate ? Icons.add : Icons.timer_outlined,
                           color: Colors.white, size: 36),

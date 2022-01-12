@@ -5,6 +5,7 @@ const Map<String, String> zh_Hans = {
   'ReportView': '举报',
   'bio': '关于我',
   'MySinglePostView': '我的帖子',
+  'ProfileViewersView': '谁看过我',
   'PostView': '',
   'Room': '房间',
   'Loading': '加载中',
@@ -83,6 +84,7 @@ const Map<String, String> zh_Hans = {
   "Age": "年龄",
   "Gender": "性别",
   "Location": "位置",
+  "Distance": "距离",
   "Ok": "提交",
   "Reset": "重置",
   "All": "所有",
@@ -114,5 +116,6 @@ const Map<String, String> zh_Hans = {
   '1_year': '1年',
   'Unknown_place': '未知位置',
   'Nothing...': '没有留下简介',
-  'Unknown': '未知'
+  'Unknown': '未知',
+  'No_one_has_been_here.': '还没有人来过...'
 };
