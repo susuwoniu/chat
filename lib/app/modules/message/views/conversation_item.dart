@@ -28,7 +28,7 @@ Widget conversationItemView(
           onTap(index);
         }
       },
-      contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      contentPadding: EdgeInsets.fromLTRB(10, 3, 13, 3),
       leading: Avatar(
           name: name,
           uri: avatar,
@@ -68,6 +68,7 @@ Widget conversationItemView(
                     fontSize: 15,
                     overflow: TextOverflow.ellipsis,
                     color: Theme.of(context).hintColor))),
+        SizedBox(height: 30),
         CountBubble(count: unreadCount),
       ]),
     ),

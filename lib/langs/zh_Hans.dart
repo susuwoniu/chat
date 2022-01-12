@@ -83,7 +83,7 @@ const Map<String, String> zh_Hans = {
   "Male": "男性",
   "Report": "举报",
   "Share": "分享",
-  " Join_topic": " 加入话题",
+  "Join_topic": "加入话题",
   "Choose_report_type": "选择举报类型",
   "Enter_report_description(Optional)": "详细的举报描述有助于我们更快做出判断。（可选）",
   'Screenshot_of_Evidence(Optional)': '图片证据（可选）',
@@ -95,5 +95,7 @@ const Map<String, String> zh_Hans = {
   'Polish': '擦亮',
   'Delete': '删除',
   'Cancel': '取消',
-  'Ban': '拉黑'
+  'Ban': '拉黑',
+  'Create_Post': '发布状态',
+  'Unlocks_at: ': '下次发帖: '
 };

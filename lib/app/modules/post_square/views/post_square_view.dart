@@ -114,14 +114,20 @@ class PostSquareView extends GetView<PostSquareController> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30), color: Colors.black),
-              child: Row(children: [
-                Icon(Icons.tag_rounded, color: Colors.white, size: 22),
-                Text(' Join_topic'.tr,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    )),
-              ]),
+              child: GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.CREATE, arguments: {
+                      "id": _id.toString(),
+                    });
+                  },
+                  child: Row(children: [
+                    Icon(Icons.tag_rounded, color: Colors.white, size: 20),
+                    Text('Join_topic'.tr,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                        )),
+                  ])),
             )),
       ]),
     );

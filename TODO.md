@@ -3,13 +3,14 @@
 ## Todos
 
 - [x]  square跳转到room缺少content
+- [ ]  拉黑
 - [ ]  post template 区分title content
-- [ ]  square跳转到single post
-- [ ]  square假删除
+- [x]  square跳转到single post
+- [x]  square假删除
 - [ ]  限时发送功能
 - [x]  点亮
 - [x]  square类型提示错误
-- [ ]  返回键
+- [x]  返回键
 - [x]  删除唯一头像后自动填充默认头像bug
 - [ ]  过期前30分钟后台静默刷新token
 - [x]  重新获取验证码逻辑没有
@@ -67,7 +68,7 @@
 - [ ] 各种空列表判断，比如me页面的帖子列表
 - [ ] 账户id考虑不用数字，用个简短一点的
 - [ ] 监听网络变化事件
-- [ ] 首页切换附近，再回来，数据被清空？
+- [x] 首页切换附近，再回来，数据被清空？
 - [ ] 聊天对方的消息的markdown样式
 - [ ] 聊天消息的markdown
 - [ ] tab，未读总数
@@ -79,7 +80,7 @@
 - [ ] Edit info手机
 - [ ] private，在列表里有lock的图标
 - [ ] emoji 太大的问题
-- [ ] me页面底部被tab遮挡
+- [x] me页面底部被tab遮挡
 ## 上线前Check
 
 ## 二期功能

@@ -18,6 +18,7 @@ import '../../home/views/vip_sheet.dart';
 import 'small_post.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../home/controllers/home_controller.dart';
+import './create_post.dart';
 
 class MeView extends GetView<MeController> {
   final CarouselController buttonCarouselController = CarouselController();
@@ -116,35 +117,45 @@ class MeView extends GetView<MeController> {
                   ),
                 ]),
                 Container(
-                  padding: EdgeInsets.fromLTRB(paddingLeft, 15, 0, 0),
+                  padding: EdgeInsets.fromLTRB(20, 17, 25, 0),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text(
+                          _bio!,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              height: 1.4,
+                              fontSize: 18,
+                              color: Colors.grey.shade800),
+                        ),
+                        SizedBox(height: 8),
                         ProfileInfoText(
-                            text: _bio!,
-                            icon: Icons.face_retouching_natural_outlined),
-                        SizedBox(height: 1),
-                        ProfileInfoText(
-                            text: _location,
-                            icon: Icons.location_city_outlined),
+                            text: _location, icon: Icons.location_on_outlined),
                         SizedBox(height: 2),
                       ]),
                 )
               ]);
             }),
           ),
+          // SliverToBoxAdapter(child: CreatePost()),
           PagedSliverGrid<String?, String>(
             showNewPageProgressIndicatorAsGridChild: false,
             showNewPageErrorIndicatorAsGridChild: false,
             showNoMoreItemsIndicatorAsGridChild: false,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 0.75,
+              childAspectRatio: 0.8,
               crossAxisCount: 2,
             ),
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<String>(
                 itemBuilder: (context, id, index) {
               final post = HomeController.to.postMap[id]!;
+              if (index == 0) {
+                return Obx(() => CreatePost(
+                    isCreate: controller.isCreate.value,
+                    nextCreateTime: controller.nextCreateTime.value));
+              }
               return SmallPost(
                   onTap: () {
                     Get.toNamed(Routes.MY_SINGLE_POST, arguments: {

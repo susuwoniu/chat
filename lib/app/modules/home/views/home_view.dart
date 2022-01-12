@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/widgets/max_text.dart';
-import 'package:chat/config/config.dart';
 import 'package:chat/common.dart';
 import 'filter_bottom_sheet.dart';
 import 'chat_box.dart';
@@ -23,29 +22,32 @@ class HomeView extends GetView<HomeController> {
     final imDomain = AppConfig().config.imDomain;
     final appBar = AppBar(
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-            icon: Icon(
-              Icons.filter_list_rounded,
-              size: 36,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return FilterBottomSheet(
+        leading: Padding(
+            padding: EdgeInsets.only(left: 4),
+            child: IconButton(
+                icon: Icon(
+                  Icons.filter_list_rounded,
+                  size: 36,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  showModalBottomSheet(
                       context: context,
-                      onSubmitted: controller.onSubmittedFilter,
-                      initialStartAge: controller.postsFilter.value.startAge,
-                      initialEndAge: controller.postsFilter.value.endAge,
-                      initialGender: controller.postsFilter.value.gender,
-                      initialEndDistance:
-                          controller.postsFilter.value.endDistance,
-                      isNearby:
-                          controller.currentPage == 'nearby' ? true : false,
-                    );
-                  });
-            }),
+                      builder: (context) {
+                        return FilterBottomSheet(
+                          context: context,
+                          onSubmitted: controller.onSubmittedFilter,
+                          initialStartAge:
+                              controller.postsFilter.value.startAge,
+                          initialEndAge: controller.postsFilter.value.endAge,
+                          initialGender: controller.postsFilter.value.gender,
+                          initialEndDistance:
+                              controller.postsFilter.value.endDistance,
+                          isNearby:
+                              controller.currentPage == 'nearby' ? true : false,
+                        );
+                      });
+                })),
         title: NearbySwitch(onPressedTabSwitch: controller.onPressedTabSwitch),
         actions: <Widget>[
           Row(
@@ -66,13 +68,16 @@ class HomeView extends GetView<HomeController> {
                       Routes.DEBUG,
                     );
                   }),
-              IconButton(
-                  icon: Icon(Icons.add, color: Colors.white, size: 36),
-                  onPressed: () {
-                    Get.toNamed(
-                      Routes.POST,
-                    );
-                  }),
+              Padding(
+                  padding: EdgeInsets.only(right: 8),
+                  child: IconButton(
+                      icon: Icon(Icons.add_outlined,
+                          color: Colors.white, size: 36),
+                      onPressed: () {
+                        Get.toNamed(
+                          Routes.POST,
+                        );
+                      })),
             ],
           )
         ]);

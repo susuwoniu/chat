@@ -35,7 +35,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
           child: ListView(children: [
             Container(
                 margin: EdgeInsets.fromLTRB(12, 6, 12, 20),
-                padding: EdgeInsets.fromLTRB(15, 5, 0, 25),
+                padding: EdgeInsets.fromLTRB(16, 5, 0, 25),
                 constraints: BoxConstraints(minHeight: _height * 0.4),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -59,13 +59,13 @@ class MySinglePostView extends GetView<MySinglePostController> {
                         ]),
                       ]),
                   Container(
-                      padding: EdgeInsets.only(right: 15),
+                      padding: EdgeInsets.only(right: 16),
                       alignment: Alignment.centerLeft,
                       child: Text(_content,
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                          ))),
+                              color: Colors.white,
+                              fontSize: 17.0,
+                              height: 1.6))),
                 ])),
             Obx(() {
               final post = _homeController.postMap[_postId]!;

@@ -12,7 +12,12 @@ final List<Map<String, dynamic>> _cardList = [
     'detail': '展示会员专属标识'
   },
   {'icon': Icons.catching_pokemon_rounded, 'title': '查看访客', 'detail': '查看主页访客'},
-  {'icon': Icons.theater_comedy_rounded, 'title': '匿名访问', 'detail': '适度隐藏自己'},
+  {
+    'icon': Icons.auto_fix_high_outlined,
+    'title': '擦亮状态',
+    'detail': '擦亮后可增加曝光量'
+  },
+  // {'icon': Icons.theater_comedy_rounded, 'title': '匿名访问', 'detail': '适度隐藏自己'},
   {'icon': Icons.filter_list_rounded, 'title': '设置筛选', 'detail': '筛选性别/年龄/距离'},
   {'icon': Icons.timer_off_rounded, 'title': '无限发帖', 'detail': '解锁发帖无时间限制模式'},
   {'icon': Icons.more_horiz_rounded, 'title': '更多特权', 'detail': '更多会员功能敬请期待...'}
@@ -202,7 +207,7 @@ class _VipSheetState extends State<VipSheet> {
           });
         },
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+          margin: EdgeInsets.symmetric(horizontal: 7, vertical: 25),
           padding: EdgeInsets.symmetric(horizontal: 2),
           width: width,
           decoration: BoxDecoration(

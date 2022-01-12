@@ -1,8 +1,10 @@
 import 'package:chat/app/providers/api_provider.dart';
+import 'package:chat/app/providers/auth_provider.dart';
 import 'package:get/get.dart';
 import '../../home/controllers/home_controller.dart';
 import 'package:chat/common.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart';
 
 class MeController extends GetxController {
   static MeController get to => Get.find();
@@ -14,6 +16,8 @@ class MeController extends GetxController {
   final totalViewedCount = 0.obs;
   final unreadViewedCount = 0.obs;
   final isLoadingImages = true.obs;
+  var isCreate = true.obs;
+  var nextCreateTime = ''.obs;
 
   @override
   void onInit() {
@@ -25,6 +29,10 @@ class MeController extends GetxController {
 
   @override
   void onReady() async {
+    if (AuthProvider.to.account.value.next_post_not_before != null) {
+      setIsCreate(
+          DateTime.parse(AuthProvider.to.account.value.next_post_not_before!));
+    }
     super.onReady();
   }
 
@@ -62,5 +70,12 @@ class MeController extends GetxController {
     unreadViewedCount.value = result['meta']['profile_viewed']['unread_count'];
     totalViewedCount.value = result['meta']['profile_viewed']['total_count'];
     print(result);
+  }
+
+  setIsCreate(DateTime time) {
+    final now = DateTime.now();
+    isCreate.value = now.isBefore(time);
+    final DateFormat formatter = DateFormat('H:mm');
+    nextCreateTime.value = formatter.format(time);
   }
 }

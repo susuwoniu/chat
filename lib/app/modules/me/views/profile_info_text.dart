@@ -9,20 +9,20 @@ class ProfileInfoText extends StatelessWidget {
     required this.text,
     required this.icon,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Icon(
         icon,
-        color: Colors.grey,
-        size: 23,
+        color: Colors.grey.shade700,
+        size: 20,
       ),
-      Container(
-        padding: EdgeInsets.fromLTRB(5, 4, 0, 4),
-        child: Text(
-          text,
-          style: TextStyle(fontSize: 19, color: Colors.grey),
-        ),
+      Text(
+        text,
+        textAlign: TextAlign.start,
+        style:
+            TextStyle(height: 1.4, fontSize: 18, color: Colors.grey.shade700),
       ),
       // SizedBox(height: 30),
     ]);

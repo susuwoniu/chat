@@ -61,7 +61,7 @@ class HomeController extends GetxController {
 
   final isLoadingHomePosts = false.obs;
 
-  final _currentPage = 'Home'.obs;
+  final _currentPage = 'home'.obs;
   String get currentPage => _currentPage.value;
 
   final isMeInitial = false.obs;

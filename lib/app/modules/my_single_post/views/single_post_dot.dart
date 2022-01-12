@@ -42,7 +42,7 @@ class SinglePostDot extends StatelessWidget {
                       });
                 }),
             _buttons(
-                icon: Icons.touch_app_rounded,
+                icon: Icons.auto_fix_high_outlined,
                 text: 'Polish'.tr,
                 onPressed: onPressedPolish),
             _buttons(

@@ -1,40 +1,60 @@
-// Widget createPost(
-//       {required BuildContext context,
-//       String? type,
-//       String? id,
-//       int? backgroundColorIndex}) {
-//     final _width = MediaQuery.of(context).size.width;
-//     final double paddingLeft = _width * 0.05;
-//     final double paddingTop = _width * 0.04;
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:chat/app/routes/app_pages.dart';
 
-//     return GestureDetector(
-//         onTap: () {
-//           if (type != null) {
-//             Get.toNamed(Routes.CREATE, arguments: {
-//               "id": id,
-//               "background-color-index": backgroundColorIndex
-//             });
-//           } else {
-//             Get.toNamed(Routes.POST);
-//           }
-//         },
-//         child: Container(
-//           margin: EdgeInsets.fromLTRB(
-//               paddingLeft, paddingTop, paddingLeft, paddingTop),
-//           padding: EdgeInsets.all(_width * 0.03),
-//           height: _width * 0.5,
-//           width: _width * 0.4,
-//           decoration: BoxDecoration(
-//               color: Color(0xffe4e6ec), borderRadius: BorderRadius.circular(8)),
-//           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-//             Icon(
-//               Icons.add_circle_outline_rounded,
-//               size: 52,
-//               color: Colors.black54,
-//             ),
-//             SizedBox(height: 10),
-//             Text("Create_Post",
-//                 style: TextStyle(color: Colors.black54, fontSize: 16))
-//           ]),
-//         ));
-//   }
+class CreatePost extends StatelessWidget {
+  final bool? isCreate;
+  final String nextCreateTime;
+  final String? id;
+  final int? backgroundColorIndex;
+
+  CreatePost({
+    Key? key,
+    required this.isCreate,
+    required this.nextCreateTime,
+    this.id,
+    this.backgroundColorIndex,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final double paddingLeft = 13;
+    final double paddingTop = 12;
+    final _createText = Text("Create_Post".tr,
+        style: TextStyle(
+            color: Colors.black54, fontSize: 16, fontWeight: FontWeight.bold));
+
+    final _lockText = Wrap(alignment: WrapAlignment.center, children: [
+      Text('Unlocks_at: ',
+          style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold)),
+      SizedBox(height: 3),
+      Text(nextCreateTime,
+          style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold)),
+    ]);
+    return GestureDetector(
+        onTap: () {
+          Get.toNamed(Routes.CREATE, arguments: {
+            "id": id,
+            "background-color-index": backgroundColorIndex
+          });
+        },
+        child: Container(
+          margin: EdgeInsets.fromLTRB(
+              paddingLeft, paddingTop, paddingLeft, paddingTop),
+          padding: EdgeInsets.all(14),
+          decoration: BoxDecoration(
+              color: Color(0xffe4e6ec), borderRadius: BorderRadius.circular(5)),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Icon(
+              isCreate!
+                  ? Icons.add_circle_outline_rounded
+                  : Icons.timer_outlined,
+              size: 52,
+              color: Colors.black54,
+            ),
+            SizedBox(height: 10),
+            isCreate! ? _createText : _lockText,
+          ]),
+        ));
+  }
+}

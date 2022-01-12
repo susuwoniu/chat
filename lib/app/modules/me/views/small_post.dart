@@ -25,8 +25,6 @@ class SmallPost extends StatelessWidget {
     final double paddingLeft = 13;
     final double paddingTop = 12;
     return Container(
-        height: _width * 0.5,
-        width: _width * 0.4,
         child: GestureDetector(
             onTap: () {
               onTap();
@@ -34,18 +32,17 @@ class SmallPost extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.fromLTRB(
                   paddingLeft, paddingTop, paddingLeft, paddingTop),
-              padding: EdgeInsets.all(14),
+              padding: EdgeInsets.all(16),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Color(backgroundColor),
               ),
-              height: _width * 0.5,
-              width: _width * 0.4,
               child: Text(content,
-                  maxLines: 5,
+                  maxLines: 8,
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 16,
+                    height: 1.4,
                     fontWeight: FontWeight.bold,
                     overflow: TextOverflow.ellipsis,
                     color: Colors.white,

@@ -84,6 +84,7 @@ class AccountEntity {
   final String? location;
   final String? birthday;
   final String? phone_number;
+  final String? next_post_not_before;
 
   final String name;
   final String gender;
@@ -102,6 +103,7 @@ class AccountEntity {
       this.avatar,
       this.actions = const [],
       this.phone_number,
+      this.next_post_not_before,
       required this.name,
       required this.gender,
       required this.vip,

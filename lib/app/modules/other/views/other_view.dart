@@ -102,18 +102,21 @@ class OtherView extends GetView<OtherController> {
                   ),
                 ]),
                 Container(
-                  padding: EdgeInsets.fromLTRB(paddingLeft, 15, 0, 0),
-                  alignment: Alignment.topLeft,
+                  padding: EdgeInsets.fromLTRB(20, 17, 25, 0),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text(
+                          _bio!,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              height: 1.4,
+                              fontSize: 18,
+                              color: Colors.grey.shade800),
+                        ),
+                        SizedBox(height: 8),
                         ProfileInfoText(
-                            text: _bio!,
-                            icon: Icons.face_retouching_natural_outlined),
-                        SizedBox(height: 1),
-                        ProfileInfoText(
-                            text: _location,
-                            icon: Icons.location_city_outlined),
+                            text: _location, icon: Icons.location_on_outlined),
                         SizedBox(height: 2)
                       ]),
                 )

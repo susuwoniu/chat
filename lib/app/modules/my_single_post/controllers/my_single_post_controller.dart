@@ -41,10 +41,14 @@ class MySinglePostController extends GetxController {
   }
 
   postChange({required String type, required String postId}) async {
-    await APIProvider.to.patch('/post/posts/$postId',
-        body: {type: type == 'visibility' ? type : true});
-    if (type == 'visibility') {
+    String _title;
+    if (type != 'promote') {
       _visibility.value = type;
+      _title = 'visibility';
+    } else {
+      _title = 'promote';
     }
+    await APIProvider.to.patch('/post/posts/$postId',
+        body: {_title: type == 'promote' ? true : type});
   }
 }

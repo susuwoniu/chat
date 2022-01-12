@@ -77,6 +77,7 @@ AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
       gender: json['gender'] as String,
       vip: json['vip'] as bool,
       likeCount: json['like_count'] as int,
+      next_post_not_before: json['next_post_not_before'] as String?,
     );
 
 Map<String, dynamic> _$AccountEntityToJson(AccountEntity instance) =>
@@ -93,4 +94,5 @@ Map<String, dynamic> _$AccountEntityToJson(AccountEntity instance) =>
       'vip': instance.vip,
       'actions': instance.actions,
       'profile_images': instance.profile_images,
+      'next_post_not_before': instance.next_post_not_before,
     };
