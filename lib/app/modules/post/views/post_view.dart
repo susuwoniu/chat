@@ -16,7 +16,7 @@ class PostView extends GetView<PostController> {
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
-              title: Text("PostView"),
+              title: Text("PostView".tr),
               centerTitle: true,
             ),
             body: Obx(() {

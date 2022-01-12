@@ -33,8 +33,8 @@ class RoomView extends GetView<RoomController> {
               ? AuthProvider.to.simpleAccountMap[roomInfoId]
               : null;
           return room != null && room.isLoading
-              ? Text("Loading")
-              : Text(roomAccount?.name ?? "Room");
+              ? Text("Loading".tr)
+              : Text(roomAccount?.name ?? "Room".tr);
         }),
         centerTitle: true,
       ),

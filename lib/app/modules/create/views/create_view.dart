@@ -10,6 +10,8 @@ import '../controllers/create_controller.dart';
 import 'package:location/location.dart';
 import '../../my_single_post/views/visibility_sheet.dart';
 
+final VisibilityMap = {'public': 'Public', 'private': 'Private'};
+
 class CreateView extends GetView<CreateController> {
   @override
   Widget build(BuildContext context) {
@@ -43,11 +45,11 @@ class CreateView extends GetView<CreateController> {
     String _text = postTemplate.content ?? '';
     TextAlign _textAlign = TextAlign.left;
     return Scaffold(
-      appBar: AppBar(title: Text('创建帖子'), centerTitle: true, actions: [
+      appBar: AppBar(title: Text('Create'.tr), centerTitle: true, actions: [
         Container(
           padding: EdgeInsets.only(right: 16, top: 10, bottom: 10),
           child: Obx(() => ElevatedButton(
-                child: Text("发布"),
+                child: Text("Send".tr),
                 style: ButtonStyle(),
                 onPressed: controller.isComposing
                     ? () async {
@@ -77,6 +79,7 @@ class CreateView extends GetView<CreateController> {
                     Text(currentAccount.name,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontWeight: FontWeight.bold)),
+                    SizedBox(height: 5),
                     GestureDetector(
                       onTap: () {
                         showModalBottomSheet(
@@ -89,8 +92,9 @@ class CreateView extends GetView<CreateController> {
                             });
                       },
                       child: Obx(() => Row(children: [
-                            Text(controller.visibility + ' ',
-                                style: TextStyle(color: Colors.black54)),
+                            Text(VisibilityMap[controller.visibility]!.tr + ' ',
+                                style: TextStyle(
+                                    color: Colors.black54, fontSize: 13)),
                             Icon(
                                 controller.visibility == 'public'
                                     ? Icons.public
@@ -104,7 +108,7 @@ class CreateView extends GetView<CreateController> {
                 Container(
                     padding: EdgeInsets.only(right: 16),
                     child: Row(children: [
-                      Text("Location"),
+                      Text("Location".tr),
                       Obx(() => Switch(
                           value: ConfigProvider.to.listAtNearby,
                           onChanged: (value) async {

@@ -1,6 +1,14 @@
 import 'package:chat/common.dart';
 
 const Map<String, String> zh_Hans = {
+  'EditInfoView': '编辑',
+  'ReportView': '举报',
+  'bio': '关于我',
+  'MySinglePostView': '我的帖子',
+  'PostView': '',
+  'Room': '房间',
+  'Loading': '加载中',
+  'Chats': '聊天',
   'Home': "首页",
   'Nearby': "附近",
   'Account_Security': "账号与安全",
@@ -53,7 +61,6 @@ const Map<String, String> zh_Hans = {
   "renew_token_failed": "登录失败",
   "name": "昵称",
   "gender": "性别",
-  "bio": "签名",
   "location": "地区",
   "tags": "兴趣",
   "birth": "生日",
@@ -97,5 +104,15 @@ const Map<String, String> zh_Hans = {
   'Cancel': '取消',
   'Ban': '拉黑',
   'Create_Post': '发布状态',
-  'Unlocks_at: ': '下次发帖: '
+  'Create': '发布',
+  'Unlocks_at: ': '下次发帖: ',
+  'To_Purchase': '确认购买',
+  '1_week': '1周',
+  '1_month': '1个月',
+  '3_months': '3个月',
+  '6_months': '6个月',
+  '1_year': '1年',
+  'Unknown_place': '未知位置',
+  'Nothing...': '没有留下简介',
+  'Unknown': '未知'
 };

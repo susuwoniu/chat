@@ -27,7 +27,7 @@ class ReportView extends GetView<ReportController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('ReportView'),
+          title: Text('ReportView'.tr),
           centerTitle: true,
         ),
         body: Container(

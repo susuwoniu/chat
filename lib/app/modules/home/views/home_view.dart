@@ -15,11 +15,16 @@ import './action_buttons.dart';
 import 'more_dots.dart';
 import 'nearby_switch.dart';
 import 'social_share.dart';
+import 'vip_sheet.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final imDomain = AppConfig().config.imDomain;
+    final isCreate = AuthProvider.to.account.value.next_post_not_before == null
+        ? true
+        : DateTime.now().isAfter(DateTime.parse(
+            AuthProvider.to.account.value.next_post_not_before!));
     final appBar = AppBar(
         backgroundColor: Colors.transparent,
         leading: Padding(
@@ -71,12 +76,22 @@ class HomeView extends GetView<HomeController> {
               Padding(
                   padding: EdgeInsets.only(right: 8),
                   child: IconButton(
-                      icon: Icon(Icons.add_outlined,
+                      icon: Icon(!isCreate ? Icons.add : Icons.timer_outlined,
                           color: Colors.white, size: 36),
                       onPressed: () {
-                        Get.toNamed(
-                          Routes.POST,
-                        );
+                        if (isCreate) {
+                          Get.toNamed(
+                            Routes.POST,
+                          );
+                        } else {
+                          showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              enableDrag: false,
+                              builder: (context) {
+                                return VipSheet(context: context, index: 4);
+                              });
+                        }
                       })),
             ],
           )
@@ -212,7 +227,22 @@ class HomeView extends GetView<HomeController> {
                                             SizedBox(width: 8),
                                             ActionButtons(
                                                 onAdd: () {
-                                                  Get.toNamed(Routes.POST);
+                                                  if (isCreate) {
+                                                    Get.toNamed(
+                                                      Routes.POST,
+                                                    );
+                                                  } else {
+                                                    showModalBottomSheet(
+                                                        context: context,
+                                                        isScrollControlled:
+                                                            true,
+                                                        enableDrag: false,
+                                                        builder: (context) {
+                                                          return VipSheet(
+                                                              context: context,
+                                                              index: 4);
+                                                        });
+                                                  }
                                                 },
                                                 onRefresh: () {
                                                   controller.refreshHomePosts();

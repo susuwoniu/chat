@@ -21,7 +21,7 @@ class MessageView extends GetView<MessageController> {
               controller.isLoadingRooms || !controller.isInitRooms
                   ? "Loading..."
                   : _chatProvider.isConnected
-                      ? "Chats"
+                      ? "Chats".tr
                       : "连接失败",
               style: TextStyle(
                 fontSize: 16,

@@ -49,8 +49,10 @@ class MeView extends GetView<MeController> {
               final _vip = _account.vip;
               final _likeCount = _account.likeCount.toString();
 
-              final _bio = _account.bio == '' ? 'nothing' : _account.bio;
-              final _location = _account.location ?? 'unknown place';
+              final _bio = _account.bio == '' ? 'Nothing...'.tr : _account.bio;
+              final _location = _account.location == ''
+                  ? 'Unknown_place'.tr
+                  : _account.location;
               final _imgList = List.from(_account.profile_images);
 
               if (_imgList.isEmpty) {
@@ -103,18 +105,19 @@ class MeView extends GetView<MeController> {
                                   isScrollControlled: true,
                                   enableDrag: false,
                                   builder: (context) {
-                                    return VipSheet(context: context);
+                                    return VipSheet(context: context, index: 1);
                                   });
                             }
                           })),
                   Positioned(
-                    bottom: height * 0.01,
-                    width: width,
-                    child: DotsWidget(
-                        current: controller.current,
-                        onTap: buttonCarouselController.animateToPage,
-                        count: _account.profile_images.length),
-                  ),
+                      bottom: 10,
+                      width: width,
+                      child: Obx(
+                        () => DotsWidget(
+                            current: controller.current,
+                            onTap: buttonCarouselController.animateToPage,
+                            count: _account.profile_images.length),
+                      )),
                 ]),
                 Container(
                   padding: EdgeInsets.fromLTRB(20, 17, 25, 0),
@@ -131,7 +134,7 @@ class MeView extends GetView<MeController> {
                         ),
                         SizedBox(height: 8),
                         ProfileInfoText(
-                            text: _location, icon: Icons.location_on_outlined),
+                            text: _location!, icon: Icons.location_on_outlined),
                         SizedBox(height: 2),
                       ]),
                 )
@@ -153,6 +156,7 @@ class MeView extends GetView<MeController> {
               final post = HomeController.to.postMap[id]!;
               if (index == 0) {
                 return Obx(() => CreatePost(
+                    id: id,
                     isCreate: controller.isCreate.value,
                     nextCreateTime: controller.nextCreateTime.value));
               }

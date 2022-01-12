@@ -225,7 +225,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                 isScrollControlled: true,
                                 enableDrag: false,
                                 builder: (context) {
-                                  return VipSheet(context: context);
+                                  return VipSheet(context: context, index: 3);
                                 });
                           }
                         }),

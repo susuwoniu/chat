@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../report/views/bottom_sheet_row.dart';
+import 'package:get/get.dart';
 
 class VisibilitySheet extends StatelessWidget {
   final Function(String visibility) onPressedVisibility;
@@ -20,18 +21,18 @@ class VisibilitySheet extends StatelessWidget {
         ),
         child: Column(children: [
           BottomSheetRow(
-              text: 'Public',
+              text: 'Public'.tr,
               onPressed: () {
                 onPressedVisibility('public');
               }),
           Container(height: 1, color: Colors.grey.shade100),
           BottomSheetRow(
-              text: 'Private',
+              text: 'Private'.tr,
               onPressed: () {
                 onPressedVisibility('private');
               }),
           Container(height: 8, color: Colors.grey.shade100),
-          BottomSheetRow(text: 'Cancle', onPressed: () {}),
+          BottomSheetRow(text: 'Cancel'.tr, onPressed: () {}),
         ]),
       )
     ]);

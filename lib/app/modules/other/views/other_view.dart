@@ -34,13 +34,11 @@ class OtherView extends GetView<OtherController> {
 
     final _vip = _account.vip;
 
-    final _bio = _account.bio == null
-        ? 'nothing'
-        : _account.bio == ''
-            ? 'nothing'
-            : _account.bio;
-    final _location = _account.location;
-    final _birth = _account.birthday;
+    final _bio = _account.bio == '' ? 'Nothing...'.tr : _account.bio;
+
+    final _location =
+        _account.location == '' ? 'Unknown_place'.tr : _account.location;
+
     final _imgList = List.from(_account.profile_images ?? []);
     if (_imgList.isEmpty) {
       _imgList.add(ProfileImageEntity.empty());
@@ -91,15 +89,16 @@ class OtherView extends GetView<OtherController> {
                             }),
                           ])),
                   Positioned(
-                    bottom: height * 0.01,
-                    width: width,
-                    child: DotsWidget(
-                        current: controller.current,
-                        onTap: buttonCarouselController.animateToPage,
-                        count: _account.profile_images == null
-                            ? 0
-                            : _account.profile_images!.length),
-                  ),
+                      bottom: 10,
+                      width: width,
+                      child: Obx(
+                        () => DotsWidget(
+                            current: controller.current,
+                            onTap: buttonCarouselController.animateToPage,
+                            count: _account.profile_images == null
+                                ? 0
+                                : _account.profile_images!.length),
+                      )),
                 ]),
                 Container(
                   padding: EdgeInsets.fromLTRB(20, 17, 25, 0),
@@ -127,7 +126,7 @@ class OtherView extends GetView<OtherController> {
                 showNewPageErrorIndicatorAsGridChild: false,
                 showNoMoreItemsIndicatorAsGridChild: false,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 0.75,
+                  childAspectRatio: 0.8,
                   crossAxisCount: 2,
                 ),
                 pagingController: controller.pagingController,

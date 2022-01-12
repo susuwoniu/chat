@@ -7,6 +7,7 @@ import '../../home/controllers/home_controller.dart';
 import 'viewers_list.dart';
 import 'package:intl/intl.dart';
 import 'single_post_dot.dart';
+import '../../home/views/vip_sheet.dart';
 
 final VisibilityMap = {'public': 'Public', 'private': 'Private'};
 
@@ -28,7 +29,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('MySinglePostView'),
+          title: Text('MySinglePostView'.tr),
           centerTitle: true,
         ),
         body: SafeArea(
@@ -100,6 +101,8 @@ class MySinglePostView extends GetView<MySinglePostController> {
   }
 
   Widget _dotIcon({required BuildContext context, required String postId}) {
+    final isVip = AuthProvider.to.account.value.vip;
+
     return IconButton(
         onPressed: () {
           showModalBottomSheet(
@@ -120,16 +123,27 @@ class MySinglePostView extends GetView<MySinglePostController> {
                       Navigator.pop(context);
                     },
                     onPressedPolish: () async {
-                      try {
-                        UIUtils.showLoading();
-                        await controller.postChange(
-                            type: 'promote', postId: postId);
-                        UIUtils.toast('okk');
-                      } catch (e) {
-                        UIUtils.showError(e);
-                      }
-                      UIUtils.hideLoading();
                       Navigator.pop(context);
+
+                      if (isVip) {
+                        try {
+                          UIUtils.showLoading();
+                          await controller.postChange(
+                              type: 'promote', postId: postId);
+                          UIUtils.toast('okk');
+                        } catch (e) {
+                          UIUtils.showError(e);
+                        }
+                        UIUtils.hideLoading();
+                      } else {
+                        showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            enableDrag: false,
+                            builder: (context) {
+                              return VipSheet(context: context, index: 2);
+                            });
+                      }
                     },
                     onPressedDelete: () async {
                       try {

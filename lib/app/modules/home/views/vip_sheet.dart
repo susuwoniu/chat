@@ -26,10 +26,12 @@ final List<Map<String, dynamic>> _cardList = [
 class VipSheet extends StatefulWidget {
   final BuildContext context;
   final int? selectedPriceIndex;
-  const VipSheet({
+  final int? index;
+  VipSheet({
     Key? key,
     required this.context,
     this.selectedPriceIndex,
+    this.index,
   });
   @override
   _VipSheetState createState() => _VipSheetState();
@@ -39,6 +41,7 @@ class _VipSheetState extends State<VipSheet> {
   final CarouselController buttonCarouselController = CarouselController();
   late int selectedPriceIndex;
 
+  @override
   void initState() {
     super.initState();
     selectedPriceIndex = 0;
@@ -78,6 +81,7 @@ class _VipSheetState extends State<VipSheet> {
                     .toList(),
                 carouselController: buttonCarouselController,
                 options: CarouselOptions(
+                    initialPage: widget.index ?? 0,
                     autoPlayInterval: const Duration(seconds: 3),
                     height: height * 0.25,
                     autoPlay: true,
@@ -104,6 +108,7 @@ class _VipSheetState extends State<VipSheet> {
                 bottom: 10,
                 child: Obx(() => DotsWidget(
                     current: _current.value,
+                    initialIndex: widget.index ?? 0,
                     onTap: buttonCarouselController.animateToPage,
                     count: _cardList.length,
                     size: 9)),
@@ -161,7 +166,7 @@ class _VipSheetState extends State<VipSheet> {
           size: 17,
           height: height * 0.06,
           width: width * 0.8,
-          text: 'To_Purchase',
+          text: 'To_Purchase'.tr,
           onPressed: () {}),
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(vertical: 15),
@@ -183,14 +188,25 @@ class _VipSheetState extends State<VipSheet> {
         width: width * 0.9,
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: ListView(scrollDirection: Axis.horizontal, children: [
-          _price(width: width * 0.23, time: '1_week', price: 5, priceIndex: 0),
           _price(
-              width: width * 0.23, time: '1_month', price: 10, priceIndex: 1),
+              width: width * 0.23, time: '1_week'.tr, price: 5, priceIndex: 0),
           _price(
-              width: width * 0.23, time: '3_months', price: 20, priceIndex: 2),
+              width: width * 0.23,
+              time: '1_month'.tr,
+              price: 10,
+              priceIndex: 1),
           _price(
-              width: width * 0.23, time: '6_months', price: 30, priceIndex: 3),
-          _price(width: width * 0.23, time: '1_year', price: 50, priceIndex: 4),
+              width: width * 0.23,
+              time: '3_months'.tr,
+              price: 20,
+              priceIndex: 2),
+          _price(
+              width: width * 0.23,
+              time: '6_months'.tr,
+              price: 30,
+              priceIndex: 3),
+          _price(
+              width: width * 0.23, time: '1_year'.tr, price: 50, priceIndex: 4),
         ]));
   }
 
@@ -219,7 +235,7 @@ class _VipSheetState extends State<VipSheet> {
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(time,
                 style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 16,
                     color: isSelected ? Colors.white : Colors.grey.shade900)),
             SizedBox(height: 10),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -229,7 +245,7 @@ class _VipSheetState extends State<VipSheet> {
                       color: isSelected ? Colors.white : Colors.grey.shade800)),
               Text(price.toString(),
                   style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: isSelected ? Colors.white : Colors.black87)),
             ]),

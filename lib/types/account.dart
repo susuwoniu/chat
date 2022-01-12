@@ -80,9 +80,9 @@ class AccountEntity {
 
   final String? avatar;
   final int? age;
+  String? birthday;
   final String? bio;
   final String? location;
-  final String? birthday;
   final String? phone_number;
   final String? next_post_not_before;
 
@@ -98,8 +98,8 @@ class AccountEntity {
       {this.profile_images = const [],
       this.bio,
       this.location,
-      this.birthday,
       this.age,
+      this.birthday,
       this.avatar,
       this.actions = const [],
       this.phone_number,
@@ -111,7 +111,7 @@ class AccountEntity {
   static AccountEntity empty() {
     return AccountEntity(
       name: "--",
-      gender: "unknown",
+      gender: "Unknown",
       vip: false,
       likeCount: 0,
     );
@@ -121,8 +121,16 @@ class AccountEntity {
   /// factory.
   ///
 
-  factory AccountEntity.fromJson(Map<String, dynamic> json) =>
-      _$AccountEntityFromJson(json);
+  factory AccountEntity.fromJson(Map<String, dynamic> json) {
+    if (json['gender'] == null ||
+        json['location'] == null ||
+        json['bio'] == null) {
+      json['gender'] = 'Unknown';
+      json['location'] = '';
+      json['bio'] = '';
+    }
+    return _$AccountEntityFromJson(json);
+  }
 
   /// Connect the generated [_$AccountEntityToJson] function to the `toJson` method.
   Map<String, dynamic> toJson() => _$AccountEntityToJson(this);

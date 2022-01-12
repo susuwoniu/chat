@@ -14,7 +14,7 @@ class EditInfoView extends GetView<EditInfoController> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text('EditInfoView'),
+          title: Text('EditInfoView'.tr),
           centerTitle: true,
         ),
         body: SafeArea(
@@ -23,9 +23,12 @@ class EditInfoView extends GetView<EditInfoController> {
               color: Color(0xfff0eff4),
               child: Obx(() {
                 final _account = AuthProvider.to.account.value;
-                final _bio = _account.bio == '' ? 'nothing' : _account.bio;
-                final _location = _account.location ?? 'unknown place';
-                final _birthday = _account.birthday ?? 'xxxx-xx-xx';
+                final _bio =
+                    _account.bio == '' ? 'Nothing...'.tr : _account.bio;
+                final _location = _account.location == ''
+                    ? 'Unknown_place'.tr
+                    : _account.location;
+                final _birthday = _account.birthday ?? '????';
 
                 return Column(children: [
                   ImageList(),
@@ -45,7 +48,7 @@ class EditInfoView extends GetView<EditInfoController> {
                           }),
                       SettingsTile(
                           title: "gender".tr,
-                          subtitle: _account.gender,
+                          subtitle: _account.gender.tr,
                           onPressed: (BuildContext context) {
                             Get.toNamed(Routes.GENDER_SELECT,
                                 arguments: {"mode": "back"});

@@ -74,7 +74,7 @@ class MeController extends GetxController {
 
   setIsCreate(DateTime time) {
     final now = DateTime.now();
-    isCreate.value = now.isBefore(time);
+    isCreate.value = now.isAfter(time);
     final DateFormat formatter = DateFormat('H:mm');
     nextCreateTime.value = formatter.format(time);
   }

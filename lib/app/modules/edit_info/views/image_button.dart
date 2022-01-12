@@ -13,13 +13,21 @@ class ImageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 3,
+            blurRadius: 7,
+            offset: Offset(0, 2), // changes position of shadow
+          )
+        ]),
         child: CircleWidget(
-      icon: Icon(isAdd ? Icons.add_rounded : Icons.close_rounded),
-      backgroundColor: Colors.white,
-      iconColor: Colors.blue,
-      height: 32,
-      iconSize: 20,
-      onPressed: onPressed,
-    ));
+          icon: Icon(isAdd ? Icons.add_rounded : Icons.close_rounded),
+          backgroundColor: isAdd ? Colors.blue : Colors.white,
+          iconColor: isAdd ? Colors.white : Colors.blue,
+          height: 32,
+          iconSize: 23,
+          onPressed: onPressed,
+        ));
   }
 }
