@@ -82,6 +82,7 @@ const Map<String, String> zh_Hans = {
   "Private": "仅自己可见",
   "Filter": "筛选",
   "Age": "年龄",
+  'years_old': '岁',
   "Gender": "性别",
   "Location": "位置",
   "Distance": "距离",
