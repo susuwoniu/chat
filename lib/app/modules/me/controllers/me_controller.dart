@@ -18,11 +18,19 @@ class MeController extends GetxController {
   final isLoadingImages = true.obs;
   var isCreate = true.obs;
   var nextCreateTime = ''.obs;
+  String? _nextPageKey;
+  bool _isLastPage = false;
 
   @override
   void onInit() {
     pagingController.addPageRequestListener((lastPostId) {
       fetchPage(lastPostId);
+    });
+    ever(HomeController.to.myPostsIndexes, (_) {
+      pagingController.value = PagingState(
+        nextPageKey: _nextPageKey,
+        itemList: HomeController.to.myPostsIndexes,
+      );
     });
     super.onInit();
   }
@@ -38,7 +46,13 @@ class MeController extends GetxController {
 
   Future<void> fetchPage(String? lastPostId) async {
     List<String> indexes = [];
-
+    if (_isLastPage) {
+      pagingController.value = PagingState(
+        nextPageKey: null,
+        itemList: HomeController.to.myPostsIndexes,
+      );
+      return;
+    }
     try {
       indexes = await HomeController.to.getMePosts(after: lastPostId);
     } catch (e) {
@@ -46,11 +60,14 @@ class MeController extends GetxController {
     }
 
     final isLastPage = indexes.length < DEFAULT_PAGE_SIZE;
+    _isLastPage = isLastPage;
+    _nextPageKey = indexes.last;
+
     if (isLastPage) {
-      pagingController.appendLastPage(indexes);
-    } else {
-      final nextPageKey = indexes.last;
-      pagingController.appendPage(indexes, nextPageKey);
+      pagingController.value = PagingState(
+        nextPageKey: null,
+        itemList: HomeController.to.myPostsIndexes,
+      );
     }
   }
 

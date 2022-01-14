@@ -86,7 +86,24 @@ class MySinglePostView extends GetView<MySinglePostController> {
                                   likeCount: account.like_count,
                                   viewerId: e));
                         }).toList()
-                      : [Container(child: Text("no_one_has_seen_it_yet".tr))]
+                      : [
+                          Container(
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "no_one_has_seen...".tr,
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.black87),
+                                  ),
+                                  Icon(
+                                    Icons.lunch_dining_rounded,
+                                    color: Colors.yellow.shade700,
+                                    size: 22,
+                                  )
+                                ]),
+                          )
+                        ]
                   : [];
 
               final Widget loadingWidget =

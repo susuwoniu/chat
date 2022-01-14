@@ -57,14 +57,14 @@ class HomeView extends GetView<HomeController> {
         actions: <Widget>[
           Row(
             children: [
-              // IconButton(
-              //     icon:
-              //         Text("🐱", style: Theme.of(context).textTheme.headline6),
-              //     onPressed: () {
-              //       Get.toNamed(
-              //         Routes.ADD_PROFILE_IMAGE,
-              //       );
-              //     }),
+              IconButton(
+                  icon:
+                      Text("🐱", style: Theme.of(context).textTheme.headline6),
+                  onPressed: () {
+                    Get.toNamed(
+                      Routes.ADD_PROFILE_IMAGE,
+                    );
+                  }),
               IconButton(
                   icon:
                       Text("🔑", style: Theme.of(context).textTheme.headline6),

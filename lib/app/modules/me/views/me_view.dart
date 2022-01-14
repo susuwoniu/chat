@@ -153,12 +153,15 @@ class MeView extends GetView<MeController> {
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<String>(
                 itemBuilder: (context, id, index) {
-              final post = HomeController.to.postMap[id]!;
+              final post = HomeController.to.postMap[id];
               if (index == 0) {
                 return Obx(() => CreatePost(
                     id: id,
                     isCreate: controller.isCreate.value,
                     nextCreateTime: controller.nextCreateTime.value));
+              }
+              if (post == null) {
+                return SizedBox.shrink();
               }
               return SmallPost(
                   onTap: () {

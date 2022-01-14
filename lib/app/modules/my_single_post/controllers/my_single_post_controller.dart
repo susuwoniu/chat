@@ -37,7 +37,8 @@ class MySinglePostController extends GetxController {
   onDeletePost(id) async {
     await APIProvider.to.delete('/post/posts/$id');
     HomeController.to.myPostsIndexes.remove(id);
-    HomeController.to.postMap.remove(id);
+    HomeController.to.pageState['home']!.postIndexes.remove(id);
+    HomeController.to.pageState['nearby']!.postIndexes.remove(id);
   }
 
   postChange({required String type, required String postId}) async {

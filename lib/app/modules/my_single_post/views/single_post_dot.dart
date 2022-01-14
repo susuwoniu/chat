@@ -43,6 +43,7 @@ class SinglePostDot extends StatelessWidget {
                 }),
             _buttons(
                 icon: Icons.auto_fix_high_outlined,
+                color: Colors.purple,
                 text: 'Polish'.tr,
                 onPressed: onPressedPolish),
             _buttons(
@@ -67,6 +68,7 @@ class SinglePostDot extends StatelessWidget {
 
   Widget _buttons(
       {required IconData icon,
+      Color? color,
       required String text,
       required Function onPressed}) {
     return Container(
@@ -79,12 +81,21 @@ class SinglePostDot extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
+                    gradient: color == null
+                        ? null
+                        : LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.topRight,
+                            colors: [
+                                Colors.purple.shade400,
+                                Colors.blue.shade600
+                              ]),
+                    color: color == null ? Colors.grey.shade200 : null,
                     borderRadius: BorderRadius.circular(50)),
                 child: Icon(
                   icon,
                   size: 30,
-                  color: Colors.grey.shade600,
+                  color: color == null ? Colors.grey.shade600 : Colors.white,
                 ),
               ),
               SizedBox(height: 14),
