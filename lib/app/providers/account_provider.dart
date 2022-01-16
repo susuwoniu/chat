@@ -1,3 +1,4 @@
+import 'package:chat/common.dart';
 import 'package:get/get.dart';
 import './api_provider.dart';
 import 'package:chat/types/types.dart';
@@ -6,6 +7,8 @@ import './router_provider.dart';
 
 class AccountProvider extends GetxService {
   static AccountProvider get to => Get.find();
+
+  var serverTime = '';
   // 发送验证码
   handleSendCode(String countryCode, String phoneNumber) async {
     await APIProvider().post("/account/phone-codes/$countryCode/$phoneNumber",
@@ -64,10 +67,10 @@ class AccountProvider extends GetxService {
 
   // 执行登录操作
   getMe() async {
-    final _ = await APIProvider().get(
+    final result = await APIProvider().get(
       "/account/me",
     );
-
+    serverTime = getNow(result);
     // Get.offAndToNamed(AppRoutes.Application);
   }
 

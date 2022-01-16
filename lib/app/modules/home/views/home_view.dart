@@ -76,8 +76,7 @@ class HomeView extends GetView<HomeController> {
               Padding(
                   padding: EdgeInsets.only(right: 15),
                   child: IconButton(
-                      icon: Icon(!isCreate ? Icons.add : Icons.timer_outlined,
-                          color: Colors.white, size: 36),
+                      icon: Icon(Icons.add, color: Colors.white, size: 36),
                       onPressed: () {
                         if (isCreate) {
                           Get.toNamed(

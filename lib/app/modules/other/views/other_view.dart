@@ -34,10 +34,12 @@ class OtherView extends GetView<OtherController> {
 
     final _vip = _account.vip;
 
-    final _bio = _account.bio == '' ? 'Nothing...'.tr : _account.bio;
+    final _bio = _account.bio == '' ? 'Nothing...'.tr : _account.bio!;
+
+    final _is_liked = _account.is_liked ?? false;
 
     final _location =
-        _account.location == '' ? 'Unknown_place'.tr : _account.location;
+        _account.location == '' ? 'Unknown_place'.tr : _account.location!;
 
     final _imgList = List.from(_account.profile_images ?? []);
     if (_imgList.isEmpty) {
@@ -106,7 +108,7 @@ class OtherView extends GetView<OtherController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _bio!,
+                          _bio,
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               height: 1.4,
@@ -201,11 +203,11 @@ class OtherView extends GetView<OtherController> {
               padding: EdgeInsets.fromLTRB(30, 13, 30, 25),
               child: Row(children: [
                 Obx(() => _chatButton(
-                      text: _account.is_liked ? 'Liked' : 'Like',
+                      text: _is_liked ? 'Liked' : 'Like',
                       onPressed: () {
                         controller.toggleLike();
 
-                        if (_account.is_liked) {
+                        if (_is_liked) {
                           try {
                             controller.postLikeCount(accountId);
                             UIUtils.toast('okkk');
@@ -251,6 +253,8 @@ class OtherView extends GetView<OtherController> {
     final accountId = controller.accountId;
     final _account = AuthProvider.to.simpleAccountMap[accountId] ??
         SimpleAccountEntity.empty();
+    final _is_liked = _account.is_liked ?? false;
+
     return Expanded(
         child: GestureDetector(
             onTap: () {
@@ -263,17 +267,17 @@ class OtherView extends GetView<OtherController> {
                   border: Border.all(
                       color: color == null
                           ? Colors.black
-                          : _account.is_liked
+                          : _is_liked
                               ? Colors.transparent
                               : color),
-                  color: _account.is_liked ? color : Colors.white,
+                  color: _is_liked ? color : Colors.white,
                   borderRadius: BorderRadius.circular(20)),
               child: Text(
                 text.tr,
                 style: TextStyle(
                     color: color == null
                         ? Colors.black
-                        : _account.is_liked
+                        : _is_liked
                             ? Colors.white
                             : color,
                     fontSize: 20),

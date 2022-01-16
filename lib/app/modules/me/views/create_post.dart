@@ -1,11 +1,13 @@
+import 'package:chat/app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import '../../home/views/vip_sheet.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 class CreatePost extends StatelessWidget {
   final bool isCreate;
-  final String nextCreateTime;
+  final int nextCreateTime;
   final String? id;
   final int? backgroundColorIndex;
 
@@ -28,9 +30,19 @@ class CreatePost extends StatelessWidget {
     final _lockText = Wrap(alignment: WrapAlignment.center, children: [
       Text('Unlocks_at: ',
           style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold)),
-      SizedBox(height: 3),
-      Text(nextCreateTime,
-          style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold)),
+      SizedBox(height: 6),
+      Countdown(
+        seconds: nextCreateTime,
+        build: (BuildContext context, double time) {
+          return Text(getCountDown(time),
+              style: TextStyle(
+                  color: Colors.black54, fontWeight: FontWeight.bold));
+        },
+        interval: Duration(milliseconds: 1000),
+        onFinished: () {
+          AuthProvider.to.account.value.is_can_post = true;
+        },
+      ),
     ]);
     return GestureDetector(
         onTap: () {
@@ -64,5 +76,27 @@ class CreatePost extends StatelessWidget {
             isCreate ? _createText : _lockText,
           ]),
         ));
+  }
+
+  getCountDown(double time) {
+    int h, m, s;
+
+    h = time ~/ 3600;
+
+    m = ((time - h * 3600)) ~/ 60;
+
+    s = time.toInt() - (h * 3600) - (m * 60);
+    String hourLeft =
+        h.toString().length < 2 ? "0" + h.toString() : h.toString();
+
+    String minuteLeft =
+        m.toString().length < 2 ? "0" + m.toString() : m.toString();
+
+    String secondsLeft =
+        s.toString().length < 2 ? "0" + s.toString() : s.toString();
+
+    String result = "$hourLeft:$minuteLeft:$secondsLeft";
+
+    return result;
   }
 }

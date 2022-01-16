@@ -91,6 +91,7 @@ class AccountEntity {
   @JsonKey(name: 'like_count')
   final int likeCount;
   final bool vip;
+  bool? is_can_post;
   final List<ActionEntity> actions;
   List<ProfileImageEntity> profile_images = [];
 
@@ -107,6 +108,7 @@ class AccountEntity {
       required this.name,
       required this.gender,
       required this.vip,
+      this.is_can_post,
       required this.likeCount});
   static AccountEntity empty() {
     return AccountEntity(
@@ -122,13 +124,16 @@ class AccountEntity {
   ///
 
   factory AccountEntity.fromJson(Map<String, dynamic> json) {
-    if (json['gender'] == null ||
-        json['location'] == null ||
-        json['bio'] == null) {
+    if (json['gender'] == null) {
       json['gender'] = 'Unknown';
-      json['location'] = '';
-      json['bio'] = '';
     }
+    if (json['location'] == null) {
+      json['location'] = '';
+    }
+    if (json['is_can_post'] == null) {
+      json['is_can_post'] = true;
+    }
+
     return _$AccountEntityFromJson(json);
   }
 

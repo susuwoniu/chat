@@ -99,6 +99,8 @@ class OtherController extends GetxController {
   toggleLike() {
     final _account = AuthProvider.to.simpleAccountMap[accountId] ??
         SimpleAccountEntity.empty();
-    _account.is_liked = !_account.is_liked;
+    final _is_liked = _account.is_liked ?? false;
+
+    _account.is_liked = !_is_liked;
   }
 }
