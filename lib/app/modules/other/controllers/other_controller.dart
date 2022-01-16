@@ -1,3 +1,4 @@
+import 'package:chat/app/modules/home/controllers/home_controller.dart';
 import 'package:get/get.dart';
 import 'package:chat/common.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -39,8 +40,12 @@ class OtherController extends GetxController {
     //     return;
     //   }
     // });
-
     super.onReady();
+    try {
+      await HomeController.to.getOtherAccount(id: accountId, force: true);
+    } catch (e) {
+      UIUtils.showError(e);
+    }
   }
 
   Future<void> fetchPage(String? lastPostId) async {
@@ -87,19 +92,19 @@ class OtherController extends GetxController {
   }
 
   postLikeCount(String id) async {
-    await APIProvider.to.put("/account/accounts/$id",
+    await APIProvider.to.patch("/account/accounts/$id",
         body: {"like_count_action": 'increase_one'});
   }
 
   cancelLikeCount(String id) async {
-    await APIProvider.to.put("/account/accounts/$id",
+    await APIProvider.to.patch("/account/accounts/$id",
         body: {"like_count_action": 'decrease_one'});
   }
 
   toggleLike() {
     final _account = AuthProvider.to.simpleAccountMap[accountId] ??
         SimpleAccountEntity.empty();
-    final _is_liked = _account.is_liked ?? false;
+    final _is_liked = _account.is_liked;
 
     _account.is_liked = !_is_liked;
   }

@@ -19,7 +19,7 @@ SimpleAccountEntity _$SimpleAccountEntityFromJson(Map<String, dynamic> json) =>
       location: json['location'] as String?,
       name: json['name'] as String,
       like_count: json['like_count'] as int,
-      is_liked: json['is_liked'] as bool?,
+      is_liked: json['is_liked'] as bool,
       vip: json['vip'] as bool,
       gender: json['gender'] as String,
     );

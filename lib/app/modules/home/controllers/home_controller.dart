@@ -443,8 +443,8 @@ class HomeController extends GetxController {
   }
 
   Future<SimpleAccountEntity?> getOtherAccount(
-      {required String id, bool persist = false}) async {
-    if (AuthProvider.to.simpleAccountMap[id] == null) {
+      {required String id, bool persist = false, bool force = false}) async {
+    if (AuthProvider.to.simpleAccountMap[id] == null || force) {
       final result = await APIProvider.to.get('/account/accounts/$id');
       final account =
           SimpleAccountEntity.fromJson(result["data"]["attributes"]);

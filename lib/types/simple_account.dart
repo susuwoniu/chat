@@ -11,7 +11,7 @@ class SimpleAccountEntity {
 
   final String name;
   int like_count;
-  bool? is_liked;
+  bool is_liked;
   String? location;
 
   final bool vip;
@@ -23,7 +23,7 @@ class SimpleAccountEntity {
     this.avatar,
     this.age,
     this.bio,
-    this.is_liked,
+    required this.is_liked,
     this.location,
     required this.name,
     required this.like_count,
@@ -32,10 +32,17 @@ class SimpleAccountEntity {
   });
   static SimpleAccountEntity empty() {
     return SimpleAccountEntity(
-        name: "-", gender: "Unknown", vip: false, like_count: 0);
+        name: "-",
+        gender: "Unknown",
+        vip: false,
+        like_count: 0,
+        is_liked: false);
   }
 
   factory SimpleAccountEntity.fromJson(Map<String, dynamic> json) {
+    if (json['is_liked'] == null) {
+      json['is_liked'] = false;
+    }
     if (json['location'] == null) {
       json['location'] = '';
     }

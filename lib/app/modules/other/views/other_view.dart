@@ -36,7 +36,7 @@ class OtherView extends GetView<OtherController> {
 
     final _bio = _account.bio == '' ? 'Nothing...'.tr : _account.bio!;
 
-    final _is_liked = _account.is_liked ?? false;
+    final _is_liked = _account.is_liked;
 
     final _location =
         _account.location == '' ? 'Unknown_place'.tr : _account.location!;
@@ -253,7 +253,7 @@ class OtherView extends GetView<OtherController> {
     final accountId = controller.accountId;
     final _account = AuthProvider.to.simpleAccountMap[accountId] ??
         SimpleAccountEntity.empty();
-    final _is_liked = _account.is_liked ?? false;
+    final _is_liked = _account.is_liked;
 
     return Expanded(
         child: GestureDetector(
