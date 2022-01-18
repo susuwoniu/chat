@@ -175,6 +175,12 @@ class CreateView extends GetView<CreateController> {
       UIUtils.hideLoading();
       UIUtils.toast("send_successfully".tr);
       RouterProvider.to.toHome();
+      AuthProvider.to.account.update((value) {
+        if (value != null) {
+          value.is_can_post = false;
+          value.next_post_not_before = DateTime.now().toString();
+        }
+      });
     } catch (e) {
       UIUtils.hideLoading();
       UIUtils.showError(e);

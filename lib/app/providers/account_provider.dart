@@ -7,8 +7,8 @@ import './router_provider.dart';
 
 class AccountProvider extends GetxService {
   static AccountProvider get to => Get.find();
+  var diffTime = 0;
 
-  var serverTime = '';
   // 发送验证码
   handleSendCode(String countryCode, String phoneNumber) async {
     await APIProvider().post("/account/phone-codes/$countryCode/$phoneNumber",
@@ -70,7 +70,8 @@ class AccountProvider extends GetxService {
     final result = await APIProvider().get(
       "/account/me",
     );
-    serverTime = getNow(result);
+    final serverTime = DateTime.parse(result['data']['attributes']['now']);
+    diffTime = DateTime.now().difference(serverTime).inMilliseconds;
     // Get.offAndToNamed(AppRoutes.Application);
   }
 

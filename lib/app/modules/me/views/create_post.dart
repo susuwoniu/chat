@@ -1,26 +1,26 @@
+import 'package:chat/app/modules/create/views/create_view.dart';
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import '../../home/views/vip_sheet.dart';
 import 'package:timer_count_down/timer_count_down.dart';
+import 'package:chat/app/providers/account_provider.dart';
 
 class CreatePost extends StatelessWidget {
-  final bool isCreate;
-  final int nextCreateTime;
   final String? id;
   final int? backgroundColorIndex;
 
   CreatePost({
     Key? key,
-    required this.isCreate,
-    required this.nextCreateTime,
     this.id,
     this.backgroundColorIndex,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final result = getTimeStop();
+    final isCreate = getTimeStop() > 0 ? false : true;
     final double paddingLeft = 13;
     final double paddingTop = 12;
     final _createText = Text("Create_Post".tr,
@@ -32,7 +32,7 @@ class CreatePost extends StatelessWidget {
           style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold)),
       SizedBox(height: 6),
       Countdown(
-        seconds: nextCreateTime,
+        seconds: getTimeStop() ?? 0,
         build: (BuildContext context, double time) {
           return Text(getCountDown(time),
               style: TextStyle(
@@ -40,7 +40,11 @@ class CreatePost extends StatelessWidget {
         },
         interval: Duration(milliseconds: 1000),
         onFinished: () {
-          AuthProvider.to.account.value.is_can_post = true;
+          AuthProvider.to.account.update((value) {
+            if (value != null) {
+              value.is_can_post = true;
+            }
+          });
         },
       ),
     ]);
@@ -98,5 +102,18 @@ class CreatePost extends StatelessWidget {
     String result = "$hourLeft:$minuteLeft:$secondsLeft";
 
     return result;
+  }
+
+  getTimeStop() {
+    final clientNow = DateTime.now().millisecondsSinceEpoch;
+
+    final serverNow = clientNow - AccountProvider.to.diffTime;
+
+    final next =
+        DateTime.parse(AuthProvider.to.account.value.next_post_not_before)
+            .millisecondsSinceEpoch;
+    final nextCreateTime = (next - serverNow) / 1000;
+
+    return nextCreateTime.toInt();
   }
 }

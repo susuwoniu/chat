@@ -84,13 +84,15 @@ class AccountEntity {
   final String? bio;
   final String? location;
   final String? phone_number;
-  final String? next_post_not_before;
+  String next_post_not_before;
+  int? next_post_in_seconds;
 
   final String name;
   final String gender;
   @JsonKey(name: 'like_count')
   final int likeCount;
   final bool vip;
+  final String? now;
   bool? is_can_post;
   final List<ActionEntity> actions;
   List<ProfileImageEntity> profile_images = [];
@@ -104,19 +106,21 @@ class AccountEntity {
       this.avatar,
       this.actions = const [],
       this.phone_number,
-      this.next_post_not_before,
+      required this.next_post_not_before,
+      this.next_post_in_seconds,
       required this.name,
       required this.gender,
       required this.vip,
+      this.now,
       this.is_can_post,
       required this.likeCount});
   static AccountEntity empty() {
     return AccountEntity(
-      name: "--",
-      gender: "Unknown",
-      vip: false,
-      likeCount: 0,
-    );
+        name: "--",
+        gender: "Unknown",
+        vip: false,
+        likeCount: 0,
+        next_post_not_before: '2014-10-14T16:32:41.018Z');
   }
 
   /// Connect the generated [_$AccountEntityFromJson] function to the `fromJson`

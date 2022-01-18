@@ -17,7 +17,6 @@ class MeController extends GetxController {
   final totalViewedCount = 0.obs;
   final unreadViewedCount = 0.obs;
   final isLoadingImages = true.obs;
-  int nextCreateTime = 0;
   String? _nextPageKey;
   bool _isLastPage = false;
 
@@ -38,8 +37,6 @@ class MeController extends GetxController {
   @override
   void onReady() async {
     await AccountProvider.to.getMe();
-
-    getTimeStop();
     super.onReady();
   }
 
@@ -86,18 +83,5 @@ class MeController extends GetxController {
     unreadViewedCount.value = result['meta']['profile_viewed']['unread_count'];
     totalViewedCount.value = result['meta']['profile_viewed']['total_count'];
     print(result);
-  }
-
-  getTimeStop() {
-    final now = DateTime.parse(AccountProvider.to.serverTime);
-    // final now = DateTime.now();
-    // final next = DateTime.parse('2022-01-16 06:29:00.692634');
-
-    final next = AuthProvider.to.account.value.next_post_not_before != null
-        ? DateTime.parse(AuthProvider.to.account.value.next_post_not_before!)
-        : null;
-    if (next != null) {
-      nextCreateTime = next.difference(now).inSeconds;
-    }
   }
 }

@@ -29,6 +29,7 @@ class MeView extends GetView<MeController> {
     final double width = MediaQuery.of(context).size.width;
     final double paddingLeft = width * 0.055;
     final phone = AuthProvider.to.account.value.phone_number;
+
     return RefreshIndicator(
         onRefresh: () => Future.sync(
               () => controller.pagingController.refresh(),
@@ -166,10 +167,8 @@ class MeView extends GetView<MeController> {
                   final post = HomeController.to.postMap[id];
                   if (index == 0) {
                     return CreatePost(
-                        id: id,
-                        isCreate:
-                            AuthProvider.to.account.value.is_can_post ?? true,
-                        nextCreateTime: controller.nextCreateTime);
+                      id: id,
+                    );
                   }
                   if (post == null) {
                     return SizedBox.shrink();
