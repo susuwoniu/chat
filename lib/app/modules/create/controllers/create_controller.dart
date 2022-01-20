@@ -65,6 +65,11 @@ class CreateController extends GetxController {
       body["longitude"] = location.longitude;
     }
     final result = await APIProvider.to.post("/post/posts", body: body);
+    AuthProvider.to.account.update((value) {
+      if (value != null) {
+        value.next_post_not_before = result['meta']["next_post_not_before"];
+      }
+    });
     final homeController = HomeController.to;
     homeController.postMap[result['data']['id']] =
         PostEntity.fromJson(result['data']["attributes"]);

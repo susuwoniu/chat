@@ -178,7 +178,6 @@ class CreateView extends GetView<CreateController> {
       AuthProvider.to.account.update((value) {
         if (value != null) {
           value.is_can_post = false;
-          value.next_post_not_before = DateTime.now().toString();
         }
       });
     } catch (e) {
