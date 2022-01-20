@@ -18,6 +18,7 @@ PostEntity _$PostEntityFromJson(Map<String, dynamic> json) => PostEntity(
       post_template_title: json['post_template_title'] as String,
       visibility: json['visibility'] as String,
       created_at: json['created_at'] as String,
+      is_can_promote: json['is_can_promote'] as bool,
     );
 
 Map<String, dynamic> _$PostEntityToJson(PostEntity instance) =>
@@ -32,4 +33,5 @@ Map<String, dynamic> _$PostEntityToJson(PostEntity instance) =>
       'post_template_title': instance.post_template_title,
       'created_at': instance.created_at,
       'visibility': instance.visibility,
+      'is_can_promote': instance.is_can_promote,
     };

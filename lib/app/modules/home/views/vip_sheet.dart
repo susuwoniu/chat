@@ -40,15 +40,14 @@ class VipSheet extends StatefulWidget {
 class _VipSheetState extends State<VipSheet> {
   final CarouselController buttonCarouselController = CarouselController();
   late int selectedPriceIndex;
+  var _current = 0;
 
   @override
   void initState() {
     super.initState();
     selectedPriceIndex = 0;
+    _current = widget.index ?? 0;
   }
-
-  final _current = 0.obs;
-  int get current => _current.value;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +89,7 @@ class _VipSheetState extends State<VipSheet> {
                     enableInfiniteScroll: false,
                     onPageChanged: (index, reason) {
                       setState(() {
-                        _current.value = index;
+                        _current = index;
                       });
                     }),
               ),
@@ -106,12 +105,11 @@ class _VipSheetState extends State<VipSheet> {
                   )),
               Positioned(
                 bottom: 10,
-                child: Obx(() => DotsWidget(
-                    current: _current.value,
-                    initialIndex: widget.index ?? 0,
+                child: DotsWidget(
+                    current: _current,
                     onTap: buttonCarouselController.animateToPage,
                     count: _cardList.length,
-                    size: 9)),
+                    size: 9),
               )
             ]),
           ),

@@ -52,7 +52,7 @@ class MeView extends GetView<MeController> {
                   final _account = AuthProvider.to.account.value;
                   final _name = _account.name;
                   final _vip = _account.vip;
-                  final _likeCount = _account.likeCount.toString();
+                  final _likeCount = _account.likeCount;
 
                   final _bio =
                       _account.bio == '' ? 'Nothing...'.tr : _account.bio!;
@@ -76,7 +76,7 @@ class MeView extends GetView<MeController> {
                         options: CarouselOptions(
                             height: height * 0.5,
                             viewportFraction: 1,
-                            enableInfiniteScroll: false,
+                            initialPage: controller.current,
                             onPageChanged: (index, reason) {
                               controller.setCurrent(index);
                             }),
@@ -94,7 +94,7 @@ class MeView extends GetView<MeController> {
                                     age: _account.age.toString()),
                                 SizedBox(height: 15),
                                 LikeCount(
-                                  text: _likeCount,
+                                  count: _likeCount,
                                 ),
                               ])),
                       Positioned(

@@ -6,6 +6,7 @@ import 'package:chat/utils/string.dart';
 
 import 'dart:io';
 
+@immutable
 class ImageSlider extends StatelessWidget {
   final ProfileImageEntity img;
   final double height;

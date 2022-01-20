@@ -1,5 +1,3 @@
-import 'package:chat/app/providers/auth_provider.dart';
-import 'package:chat/app/providers/chat_provider/chat_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/common.dart';
 import 'package:get/get.dart';
@@ -8,6 +6,8 @@ import 'package:flutter_chat_ui/flutter_chat_ui.dart'
     hide ImageMessage, TextMessage;
 import '../controllers/room_controller.dart';
 import 'package:chat/app/modules/message/controllers/message_controller.dart';
+import 'package:chat/app/routes/app_pages.dart';
+import 'package:chat/app/providers/providers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
@@ -15,6 +15,7 @@ import './image_message.dart';
 import './text_message.dart';
 import './bottom_widget.dart';
 import './bubble_widget.dart';
+import '../../me/views/like_count.dart';
 
 class RoomView extends GetView<RoomController> {
   @override
@@ -22,25 +23,7 @@ class RoomView extends GetView<RoomController> {
     final messageController = MessageController.to;
     final roomId = controller.roomId;
     return Scaffold(
-      appBar: AppBar(
-        bottom: PreferredSize(
-            child: Container(
-              height: 0.5,
-              color: Colors.grey.shade400,
-            ),
-            preferredSize: Size.fromHeight(0)),
-        title: Obx(() {
-          final roomInfoId = messageController.entities[roomId]!.room_info_id;
-          final room = messageController.entities[roomId];
-          final roomAccount = roomInfoId != null
-              ? AuthProvider.to.simpleAccountMap[roomInfoId]
-              : null;
-          return room != null && room.isLoading
-              ? Text("Loading".tr)
-              : Text(roomAccount?.name ?? "Room".tr);
-        }),
-        centerTitle: true,
-      ),
+      appBar: roomAppBar(roomId: roomId),
       body: Obx(() {
         final room = messageController.entities[roomId];
 
@@ -236,5 +219,56 @@ class RoomView extends GetView<RoomController> {
     if (message is types.FileMessage) {
       await OpenFile.open(message.uri);
     }
+  }
+
+  PreferredSizeWidget roomAppBar({required String roomId}) {
+    return AppBar(
+        title: Obx(() {
+          final roomInfoId =
+              MessageController.to.entities[roomId]!.room_info_id;
+          final room = MessageController.to.entities[roomId];
+          final roomAccount = roomInfoId != null
+              ? AuthProvider.to.simpleAccountMap[roomInfoId]
+              : null;
+          return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(children: [
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Avatar(
+                        elevation: 0,
+                        size: 20,
+                        uri: roomAccount?.avatar,
+                        name: roomAccount?.name ?? '--',
+                        onTap: () {
+                          if (roomInfoId == AuthProvider.to.accountId) {
+                            RouterProvider.to.toMe();
+                            return;
+                          }
+                          Get.toNamed(Routes.OTHER,
+                              arguments: {"accountId": roomInfoId});
+                        }),
+                  ),
+                  SizedBox(width: 10),
+                  room != null && room.isLoading
+                      ? Text("Loading".tr, style: TextStyle(fontSize: 16))
+                      : Text(roomAccount?.name ?? "Room".tr,
+                          style: TextStyle(fontSize: 16)),
+                ]),
+                LikeCount(
+                  count: roomAccount?.like_count != null
+                      ? roomAccount!.like_count
+                      : 0,
+                  backgroundColor: Colors.transparent,
+                ),
+              ]);
+        }),
+        bottom: PreferredSize(
+            child: Container(
+              height: 0.5,
+              color: Colors.grey.shade400,
+            ),
+            preferredSize: Size.fromHeight(0)));
   }
 }

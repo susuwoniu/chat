@@ -61,7 +61,6 @@ class OtherView extends GetView<OtherController> {
                     options: CarouselOptions(
                         height: height * 0.5,
                         viewportFraction: 1,
-                        enableInfiniteScroll: false,
                         onPageChanged: (index, reason) {
                           controller.setCurrent(index);
                         }),
@@ -86,7 +85,7 @@ class OtherView extends GetView<OtherController> {
                                   .simpleAccountMap[Get.arguments['accountId']]!
                                   .like_count;
                               return LikeCount(
-                                text: _likeCount.toString(),
+                                count: _likeCount,
                               );
                             }),
                           ])),

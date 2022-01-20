@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chat/app/routes/app_pages.dart';
+import 'package:chat/app/providers/providers.dart';
 import 'package:get/get.dart';
 import 'package:chat/common.dart';
 import 'time_ago.dart';
@@ -34,6 +35,10 @@ Widget conversationItemView(
           uri: avatar,
           size: 25,
           onTap: () {
+            if (id == AuthProvider.to.accountId) {
+              RouterProvider.to.toMe();
+              return;
+            }
             Get.toNamed(Routes.OTHER, arguments: {"accountId": id});
           }),
       title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -51,7 +56,7 @@ Widget conversationItemView(
                               fontSize: 16,
                               fontWeight: FontWeight.bold)))),
               LikeCount(
-                text: likeCount.toString(),
+                count: likeCount,
                 iconSize: 16,
                 fontSize: 14,
                 backgroundColor: Colors.transparent,

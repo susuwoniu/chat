@@ -1,6 +1,8 @@
+import 'package:chat/app/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'visibility_sheet.dart';
+import '../../home/controllers/home_controller.dart';
 
 class SinglePostDot extends StatelessWidget {
   final Function(String visibility) onPressedVisibility;
@@ -8,17 +10,18 @@ class SinglePostDot extends StatelessWidget {
   final Function onPressedPolish;
   final String postId;
 
-  SinglePostDot(
-      {Key? key,
-      required this.postId,
-      required this.onPressedVisibility,
-      required this.onPressedPolish,
-      required this.onPressedDelete})
-      : super(key: key);
+  SinglePostDot({
+    Key? key,
+    required this.postId,
+    required this.onPressedVisibility,
+    required this.onPressedPolish,
+    required this.onPressedDelete,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // final _height = MediaQuery.of(context).size.height;
     // final _width = MediaQuery.of(context).size.width;
+
     return Wrap(alignment: WrapAlignment.center, children: [
       Container(
         padding: EdgeInsets.only(bottom: 30),
@@ -31,7 +34,7 @@ class SinglePostDot extends StatelessWidget {
           Row(children: [
             _buttons(
                 icon: Icons.lock_outline_rounded,
-                text: 'Visibility'.tr,
+                text: 'Visibility',
                 onPressed: () {
                   Navigator.pop(context);
                   showModalBottomSheet(
@@ -41,14 +44,18 @@ class SinglePostDot extends StatelessWidget {
                             onPressedVisibility: onPressedVisibility);
                       });
                 }),
-            _buttons(
-                icon: Icons.auto_fix_high_outlined,
-                color: Colors.purple,
-                text: 'Polish'.tr,
-                onPressed: onPressedPolish),
+            Obx(() {
+              final is_can_promote =
+                  HomeController.to.postMap[postId]!.is_can_promote;
+              return _buttons(
+                  icon: Icons.auto_fix_high_outlined,
+                  text: 'Polish',
+                  onPressed: onPressedPolish,
+                  is_can_promote: is_can_promote);
+            }),
             _buttons(
                 icon: Icons.delete_forever_rounded,
-                text: 'Delete'.tr,
+                text: 'Delete',
                 onPressed: onPressedDelete)
           ]),
           Container(
@@ -66,40 +73,45 @@ class SinglePostDot extends StatelessWidget {
     ]);
   }
 
-  Widget _buttons(
-      {required IconData icon,
-      Color? color,
-      required String text,
-      required Function onPressed}) {
+  Widget _buttons({
+    required IconData icon,
+    required String text,
+    required Function onPressed,
+    bool? is_can_promote,
+  }) {
+    final _is_can_promote = is_can_promote ?? false;
+    bool isColorful = false;
+    if (text == 'Polish') {
+      isColorful = !AuthProvider.to.account.value.vip || _is_can_promote;
+    }
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
         child: GestureDetector(
-            onTap: () {
-              onPressed();
-            },
-            child: Column(children: [
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    gradient: color == null
-                        ? null
-                        : LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.topRight,
-                            colors: [
-                                Colors.purple.shade400,
-                                Colors.blue.shade600
-                              ]),
-                    color: color == null ? Colors.grey.shade200 : null,
-                    borderRadius: BorderRadius.circular(50)),
-                child: Icon(
-                  icon,
+          onTap: () {
+            onPressed();
+          },
+          child: Column(children: [
+            Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  gradient: isColorful
+                      ? LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.topRight,
+                          colors: [
+                              Colors.purple.shade400,
+                              Colors.blue.shade600
+                            ])
+                      : null,
+                  color: isColorful ? null : Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(50)),
+              child: Icon(icon,
                   size: 30,
-                  color: color == null ? Colors.grey.shade600 : Colors.white,
-                ),
-              ),
-              SizedBox(height: 14),
-              Text(text, style: TextStyle(fontSize: 16)),
-            ])));
+                  color: isColorful ? Colors.white : Colors.grey.shade600),
+            ),
+            SizedBox(height: 14),
+            Text(text.tr, style: TextStyle(fontSize: 16)),
+          ]),
+        ));
   }
 }

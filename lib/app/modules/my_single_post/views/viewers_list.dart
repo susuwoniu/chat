@@ -37,7 +37,7 @@ class ViewersList extends StatelessWidget {
                 width: 10,
               ),
               LikeCount(
-                text: likeCount.toString(),
+                count: likeCount,
                 backgroundColor: Colors.black12,
                 fontSize: 14,
               ),

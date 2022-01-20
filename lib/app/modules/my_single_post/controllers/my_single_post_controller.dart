@@ -2,6 +2,7 @@ import 'package:chat/app/providers/api_provider.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import '../../home/controllers/home_controller.dart';
+import 'package:chat/types/types.dart';
 
 class MySinglePostController extends GetxController {
   //TODO: Implement MySinglePostController
@@ -49,7 +50,9 @@ class MySinglePostController extends GetxController {
     } else {
       _title = 'promote';
     }
-    await APIProvider.to.patch('/post/posts/$postId',
+    final result = await APIProvider.to.patch('/post/posts/$postId',
         body: {_title: type == 'promote' ? true : type});
+    HomeController.to.postMap[postId] =
+        PostEntity.fromJson(result['data']['attributes']);
   }
 }

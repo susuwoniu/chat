@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class LikeCount extends StatelessWidget {
-  final String text;
+  final int count;
   final Color? backgroundColor;
   final double? fontSize;
   final double? iconSize;
 
   LikeCount(
       {Key? key,
-      required this.text,
+      required this.count,
       this.backgroundColor = Colors.black38,
       this.fontSize = 19,
       this.iconSize = 19})
@@ -24,7 +24,7 @@ class LikeCount extends StatelessWidget {
             color: Colors.pink.shade300,
           ),
           SizedBox(width: 4),
-          Text(text,
+          Text(count > 999 ? '999+' : count.toString(),
               style: TextStyle(
                   fontSize: fontSize,
                   color: Colors.pink.shade300,

@@ -17,6 +17,7 @@ class PostEntity {
   final String post_template_title;
   final String created_at;
   final String visibility;
+  bool is_can_promote;
 
   PostEntity({
     required this.content,
@@ -29,6 +30,7 @@ class PostEntity {
     this.isLoadingViewersList = false,
     required this.created_at,
     required this.visibility,
+    required this.is_can_promote,
   });
 
   /// Connect the generated [_$PostEntityFromJson] function to the `fromJson`

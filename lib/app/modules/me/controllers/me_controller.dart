@@ -69,6 +69,7 @@ class MeController extends GetxController {
 
   @override
   void onClose() {
+    _current.value = 0;
     super.onClose();
   }
 
