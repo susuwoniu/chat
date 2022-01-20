@@ -4,6 +4,8 @@ import '../controllers/profile_viewers_controller.dart';
 import '../../message/views/time_ago.dart';
 import 'package:get/get.dart';
 import '../../me/views/age_widget.dart';
+import '../../me/views/like_count.dart';
+import 'package:intl/intl.dart';
 
 class SingleViewer extends StatelessWidget {
   final Function() onPressed;
@@ -14,10 +16,13 @@ class SingleViewer extends StatelessWidget {
     required this.onPressed,
     required this.viewerAccount,
   }) : super(key: key);
+  final DateFormat formatter = DateFormat('yyyy-MM-dd  H:mm');
 
   @override
   Widget build(BuildContext context) {
-    final _paddingTop = MediaQuery.of(context).size.height * 0.015;
+    final String updatedAt =
+        formatter.format(DateTime.parse(viewerAccount.updatedAt.toString()));
+    final _paddingTop = 12.0;
     final _gender = viewerAccount.account.gender;
     final _genderBackColor = _gender == 'unknown'
         ? Colors.black12
@@ -29,67 +34,62 @@ class SingleViewer extends StatelessWidget {
         : _gender == 'female'
             ? Colors.pink.shade300
             : Colors.blue;
-    return Container(
-        padding: EdgeInsets.symmetric(vertical: _paddingTop),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: Colors.grey.shade200),
-          ),
-        ),
-        child: Row(children: [
-          Stack(clipBehavior: Clip.none, children: [
-            Avatar(
-                name:
-                    viewerAccount.account.avatar ?? viewerAccount.account.name,
-                size: 30,
-                onTap: () {
-                  onPressed();
-                }),
-            Positioned(
-              bottom: -2,
-              right: -4,
-              child: viewerAccount.account.vip
-                  ? Icon(Icons.stars_rounded,
-                      color: Colors.pink.shade300, size: 28)
-                  : SizedBox.shrink(),
-            )
-          ]),
-          SizedBox(width: 10),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Text(
-                viewerAccount.account.name,
-                style: TextStyle(color: _genderColor, fontSize: 15),
-              ),
-              SizedBox(width: 2),
-              Text(
-                "visited_you".tr,
-              ),
-              SizedBox(width: 3),
-              Text(
-                viewerAccount.viewedCount.toString(),
-                style: TextStyle(color: _genderColor, fontSize: 17),
-              ),
-              SizedBox(width: 3),
-              Text("times".tr),
-            ]),
-            SizedBox(height: 4),
-            AgeWidget(
-                gender: _gender,
-                age: viewerAccount.account.age == null
-                    ? ' ???'
-                    : viewerAccount.account.age.toString(),
-                iconSize: 18,
-                fontSize: 14,
-                background: _genderBackColor),
-            SizedBox(height: 4),
-            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Text("最近访问: ",
+    return Column(children: [
+      ListTile(
+        contentPadding: EdgeInsets.fromLTRB(10, 6, 13, 6),
+        leading: Stack(clipBehavior: Clip.none, children: [
+          Avatar(
+              name: viewerAccount.account.avatar ?? viewerAccount.account.name,
+              size: 28,
+              onTap: () {
+                onPressed();
+              }),
+          Positioned(
+            bottom: -2,
+            right: -4,
+            child: viewerAccount.account.vip
+                ? Icon(Icons.stars_rounded,
+                    color: Colors.pink.shade300, size: 28)
+                : SizedBox.shrink(),
+          )
+        ]),
+        title: Container(
+            padding: EdgeInsets.symmetric(vertical: 3),
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Row(children: [
+                      Flexible(
+                          fit: FlexFit.loose,
+                          child: Text(viewerAccount.account.name,
+                              style: TextStyle(
+                                color: _genderColor,
+                                fontSize: 15,
+                                overflow: TextOverflow.ellipsis,
+                              ))),
+                      LikeCount(
+                          count: viewerAccount.account.like_count,
+                          iconSize: 14,
+                          fontSize: 14,
+                          backgroundColor: Colors.transparent),
+                    ]),
+                  ),
+                  SizedBox(width: 15),
+                  Text(viewerAccount.viewedCount.toString() + "times".tr,
+                      style: TextStyle(color: Colors.black, fontSize: 17)),
+                ])),
+        subtitle: Container(
+            padding: EdgeInsets.symmetric(vertical: 3),
+            child:
+                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Text("Last_visit：" + updatedAt,
                   style: TextStyle(
                       fontSize: 14, color: Theme.of(context).hintColor)),
-              TimeAgo(updatedAt: viewerAccount.updatedAt),
-            ]),
-          ]),
-        ]));
+            ])),
+      ),
+      Divider(height: 1)
+    ]);
   }
 }

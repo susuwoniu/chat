@@ -11,23 +11,25 @@ class NicknameWidget extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _width = MediaQuery.of(context).size.width;
+
     return Container(
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.only(right: 7),
+        width: _width * 0.9,
+        child: Expanded(
+            child: Row(children: [
+          Flexible(
+            fit: FlexFit.loose,
             child: Text(name,
                 style: TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
+                  overflow: TextOverflow.ellipsis,
                 )),
           ),
           vip
               ? Icon(Icons.stars_rounded, color: Colors.pink, size: 34)
               : SizedBox.shrink(),
-        ],
-      ),
-    );
+        ])));
   }
 }

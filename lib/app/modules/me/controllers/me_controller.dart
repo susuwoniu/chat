@@ -36,7 +36,13 @@ class MeController extends GetxController {
 
   @override
   void onReady() async {
-    await AccountProvider.to.getMe();
+    try {
+      await AccountProvider.to.getMe();
+      await getViewedCount();
+    } catch (e) {
+      UIUtils.showError(e);
+    }
+
     super.onReady();
   }
 

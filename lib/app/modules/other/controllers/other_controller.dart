@@ -43,6 +43,8 @@ class OtherController extends GetxController {
     super.onReady();
     try {
       await HomeController.to.getOtherAccount(id: accountId, force: true);
+      await APIProvider.to.patch('/account/accounts/$accountId',
+          body: {'viewed_count_action': 'increase_one'});
     } catch (e) {
       UIUtils.showError(e);
     }
