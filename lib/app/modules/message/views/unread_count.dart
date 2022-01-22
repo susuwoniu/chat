@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 class CountBubble extends StatelessWidget {
   final int count;
-  final String type;
+  final bool isUnread;
 
   CountBubble({
     Key? key,
     required this.count,
-    this.type = "unreadCount",
+    this.isUnread = true,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     late String text;
@@ -16,24 +17,25 @@ class CountBubble extends StatelessWidget {
 
     if (count >= 100) {
       //+99
-      text = type == "viewers" ? '+99' : '99+';
+      text = isUnread ? '99+' : '+99';
     } else {
       //+22
-      text = type == "viewers" ? "+" + countStr : countStr;
+      text = isUnread ? countStr : "+" + countStr;
     }
 
     return count > 0
         ? count < 10
             ? Container(
                 alignment: Alignment.center,
-                width: type == "viewers" ? 22 : 20,
-                height: type == "viewers" ? 22 : 20,
+                width: isUnread ? 20 : 24,
+                height: isUnread ? 20 : 24,
                 decoration: BoxDecoration(
                     color: Colors.red[400],
                     borderRadius: BorderRadius.circular(20)),
                 child: TextCount(text))
             : Container(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                     color: Colors.red[400],
                     borderRadius: BorderRadius.circular(20)),
@@ -44,8 +46,6 @@ class CountBubble extends StatelessWidget {
   Widget TextCount(String count) {
     return Text(count,
         style: TextStyle(
-            fontSize: count.length > 2 ? 10 : 12,
-            fontWeight: FontWeight.bold,
-            color: Colors.white));
+            fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white));
   }
 }

@@ -86,7 +86,6 @@ class CreateView extends GetView<CreateController> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Row(mainAxisSize: MainAxisSize.min, children: [
                     Flexible(
-                        fit: FlexFit.loose,
                         child: Container(
                             width: MediaQuery.of(context).size.width * 0.5,
                             child: Text(currentAccount.name,

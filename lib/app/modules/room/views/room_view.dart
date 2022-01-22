@@ -22,8 +22,9 @@ class RoomView extends GetView<RoomController> {
   Widget build(BuildContext context) {
     final messageController = MessageController.to;
     final roomId = controller.roomId;
+
     return Scaffold(
-      appBar: roomAppBar(roomId: roomId),
+      appBar: roomAppBar(context: context, roomId: roomId),
       body: Obx(() {
         final room = messageController.entities[roomId];
 
@@ -221,7 +222,10 @@ class RoomView extends GetView<RoomController> {
     }
   }
 
-  PreferredSizeWidget roomAppBar({required String roomId}) {
+  PreferredSizeWidget roomAppBar(
+      {required BuildContext context, required String roomId}) {
+    final _width = MediaQuery.of(context).size.width;
+
     return AppBar(
         title: Obx(() {
           final roomInfoId =
@@ -233,7 +237,7 @@ class RoomView extends GetView<RoomController> {
           return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(children: [
+                Row(mainAxisSize: MainAxisSize.min, children: [
                   Container(
                     alignment: Alignment.topLeft,
                     child: Avatar(
@@ -253,8 +257,11 @@ class RoomView extends GetView<RoomController> {
                   SizedBox(width: 10),
                   room != null && room.isLoading
                       ? Text("Loading".tr, style: TextStyle(fontSize: 16))
-                      : Text(roomAccount?.name ?? "Room".tr,
-                          style: TextStyle(fontSize: 16)),
+                      : Container(
+                          width: _width * 0.45,
+                          child: Flexible(
+                              child: Text(roomAccount?.name ?? "Room".tr,
+                                  style: TextStyle(fontSize: 16)))),
                 ]),
                 LikeCount(
                   count: roomAccount?.like_count != null

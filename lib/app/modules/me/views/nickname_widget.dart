@@ -18,7 +18,6 @@ class NicknameWidget extends StatelessWidget {
         child: Expanded(
             child: Row(children: [
           Flexible(
-            fit: FlexFit.loose,
             child: Text(name,
                 style: TextStyle(
                   fontSize: 26,

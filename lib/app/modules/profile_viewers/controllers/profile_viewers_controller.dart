@@ -1,8 +1,8 @@
 import 'package:chat/app/providers/providers.dart';
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:get/get.dart';
 import '../../me/controllers/me_controller.dart';
-import 'package:chat/types/types.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:chat/common.dart';
 
 class ViewerEntity {
   final SimpleAccountEntity account;
@@ -17,8 +17,19 @@ class ViewerEntity {
 }
 
 class ProfileViewersController extends GetxController {
-  //TODO: Implement ProfileViewersController
   static ProfileViewersController get to => Get.find();
+  final PagingController<String?, String> pagingController =
+      PagingController(firstPageKey: null);
+
+  final isLoading = false.obs;
+
+  final _isInitial = false.obs;
+  bool get isInitial => _isInitial.value;
+
+  final _isReachListEnd = false.obs;
+  bool get isReachListEnd => _isReachListEnd.value;
+
+  String? lastCursor;
 
   final count = 0.obs;
   final profileViewerIdList = RxList<String>([]);
@@ -26,6 +37,9 @@ class ProfileViewersController extends GetxController {
 
   @override
   void onInit() {
+    pagingController.addPageRequestListener((lastPostId) {
+      fetchPage(lastPostId: lastPostId);
+    });
     super.onInit();
   }
 
@@ -33,11 +47,12 @@ class ProfileViewersController extends GetxController {
   void onReady() async {
     super.onReady();
     try {
+      isLoading.value = true;
       await clearUnreadViewerCount();
-      await getProfileViewersList();
     } catch (e) {
       UIUtils.showError(e);
     }
+    isLoading.value = false;
   }
 
   @override
@@ -49,7 +64,8 @@ class ProfileViewersController extends GetxController {
     MeController.to.unreadViewedCount.value = 0;
   }
 
-  getProfileViewersList({String? before, String? after}) async {
+  Future<List<String>> getProfileViewersList(
+      {String? before, String? after}) async {
     Map<String, dynamic> query = {};
     if (after != null) {
       query["after"] = after;
@@ -57,7 +73,7 @@ class ProfileViewersController extends GetxController {
     if (before != null) {
       query["before"] = before;
     }
-    final result = await APIProvider.to.get("/account/me/views");
+    final result = await APIProvider.to.get("/account/me/views", query: query);
     final Map<String, SimpleAccountEntity> accountMap = {};
 
     if (result["included"] != null) {
@@ -67,6 +83,9 @@ class ProfileViewersController extends GetxController {
         }
       }
     }
+    lastCursor = result['meta']['page_info']['end'];
+
+    List<String> indexes = [];
     if (result['data'] != null) {
       for (var v in result['data']) {
         final viewerId = v['attributes']['viewed_by'];
@@ -75,11 +94,49 @@ class ProfileViewersController extends GetxController {
           updatedAt: DateTime.parse(v['attributes']['updated_at']),
           viewedCount: v['attributes']['viewed_count'],
         );
-        profileViewerIdList.add(viewerId);
+        indexes.add(viewerId);
       }
+
+      profileViewerIdList.addAll(indexes);
+      return indexes;
     }
+    return [];
   }
 
+  Future<List<String>> fetchPage({
+    bool replace = false,
+    String? lastPostId,
+  }) async {
+    if (isLoading.value == false) {
+      isLoading.value = true;
+
+      List<String> indexes = [];
+      try {
+        final result = await getProfileViewersList(after: lastPostId);
+        if (_isInitial.value == false) {
+          _isInitial.value = true;
+        }
+        indexes = result;
+        isLoading.value = false;
+      } catch (e) {
+        isLoading.value = false;
+        UIUtils.showError(e);
+        return indexes;
+      }
+
+      final isLastPage = indexes.isEmpty;
+      if (isLastPage) {
+        _isReachListEnd.value = true;
+        pagingController.appendLastPage(indexes);
+      } else {
+        pagingController.appendPage(indexes, lastCursor);
+      }
+
+      return indexes;
+    } else {
+      return [];
+    }
+  }
 //   setDateName(DateTime date) {
 //     if (calculateDifference(date) == -1) {
 //       return 'Yesterday';
@@ -100,4 +157,5 @@ class ProfileViewersController extends GetxController {
 //         .difference(DateTime(now.year, now.month, now.day))
 //         .inDays;
 //   }
+
 }

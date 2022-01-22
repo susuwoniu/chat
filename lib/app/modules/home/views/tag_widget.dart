@@ -23,7 +23,6 @@ class TagWidget extends StatelessWidget {
             Icon(Icons.style, size: 18, color: Colors.white),
             SizedBox(width: 4),
             Flexible(
-                fit: FlexFit.loose,
                 child: Text(text,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,

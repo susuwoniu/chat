@@ -34,8 +34,6 @@ class OtherView extends GetView<OtherController> {
 
     final _vip = _account.vip;
 
-    final _is_liked = _account.is_liked;
-
     final _imgList = List.from(_account.profile_images ?? []);
     if (_imgList.isEmpty) {
       _imgList.add(ProfileImageEntity.empty());
@@ -212,41 +210,48 @@ class OtherView extends GetView<OtherController> {
               ),
               padding: EdgeInsets.fromLTRB(30, 13, 30, 25),
               child: Row(children: [
-                Obx(() => _chatButton(
-                      text: _is_liked ? 'Liked' : 'Like',
-                      isLiked: _account.is_liked,
-                      onPressedLike: (bool increase) async {
-                        controller.likeAction(increase);
-                        if (increase) {
-                          try {
-                            await controller.postLikeCount(accountId);
-                            UIUtils.toast('okkk');
-                            final currentAccount =
-                                AuthProvider.to.simpleAccountMap[accountId]!;
-                            currentAccount.like_count += 1;
-                            AuthProvider.to.simpleAccountMap[accountId] =
-                                currentAccount;
-                          } catch (e) {
-                            UIUtils.showError(e);
-                            controller.likeAction(false);
-                          }
-                        } else {
-                          try {
-                            await controller.cancelLikeCount(accountId);
-                            UIUtils.toast('okkk-cancel');
-                            final currentAccount =
-                                AuthProvider.to.simpleAccountMap[accountId]!;
-                            currentAccount.like_count -= 1;
-                            AuthProvider.to.simpleAccountMap[accountId] =
-                                currentAccount;
-                          } catch (e) {
-                            UIUtils.showError(e);
-                            controller.likeAction(true);
-                          }
+                Obx(() {
+                  final _account =
+                      AuthProvider.to.simpleAccountMap[accountId] ??
+                          SimpleAccountEntity.empty();
+                  final _is_liked = _account.is_liked;
+
+                  return _chatButton(
+                    text: _is_liked ? 'Liked' : 'Like',
+                    isLiked: _account.is_liked,
+                    onPressedLike: (bool increase) async {
+                      controller.likeAction(increase);
+                      if (increase) {
+                        try {
+                          await controller.postLikeCount(accountId);
+                          UIUtils.toast('okkk');
+                          final currentAccount =
+                              AuthProvider.to.simpleAccountMap[accountId]!;
+                          currentAccount.like_count += 1;
+                          AuthProvider.to.simpleAccountMap[accountId] =
+                              currentAccount;
+                        } catch (e) {
+                          UIUtils.showError(e);
+                          controller.likeAction(false);
                         }
-                      },
-                      color: HexColor("#fd79a8"),
-                    )),
+                      } else {
+                        try {
+                          await controller.cancelLikeCount(accountId);
+                          UIUtils.toast('okkk-cancel');
+                          final currentAccount =
+                              AuthProvider.to.simpleAccountMap[accountId]!;
+                          currentAccount.like_count -= 1;
+                          AuthProvider.to.simpleAccountMap[accountId] =
+                              currentAccount;
+                        } catch (e) {
+                          UIUtils.showError(e);
+                          controller.likeAction(true);
+                        }
+                      }
+                    },
+                    color: HexColor("#fd79a8"),
+                  );
+                }),
                 SizedBox(width: 30),
                 _chatButton(
                     text: 'Chat',

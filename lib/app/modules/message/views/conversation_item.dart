@@ -45,7 +45,6 @@ Widget conversationItemView(
                 mainAxisSize: MainAxisSize.min,
                 children: [
               Flexible(
-                  fit: FlexFit.loose,
                   child: Container(
                       child: Text(name,
                           style: TextStyle(
@@ -58,21 +57,23 @@ Widget conversationItemView(
                 fontSize: 14,
                 backgroundColor: Colors.transparent,
               ),
+              SizedBox(width: 15),
             ])),
         TimeAgo(updatedAt: updatedAt),
       ]),
-      subtitle:
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Expanded(
-            child: Text(preview,
-                maxLines: 1,
-                style: TextStyle(
-                    fontSize: 15,
-                    overflow: TextOverflow.ellipsis,
-                    color: Theme.of(context).hintColor))),
-        SizedBox(height: 30),
-        CountBubble(count: unreadCount),
-      ]),
+      subtitle: Container(
+          padding: EdgeInsets.symmetric(vertical: 3),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Expanded(
+                child: Text(preview,
+                    maxLines: 1,
+                    style: TextStyle(
+                        fontSize: 15,
+                        overflow: TextOverflow.ellipsis,
+                        color: Theme.of(context).hintColor))),
+            CountBubble(count: unreadCount),
+          ])),
     ),
     !isLast ? Divider(height: 1) : SizedBox.shrink()
   ]);

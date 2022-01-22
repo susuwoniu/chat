@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../message/views/unread_count.dart';
+import 'package:get/get.dart';
 
 class ProfileViewersBubble extends StatelessWidget {
   final int totalViewersCount;
@@ -25,14 +26,14 @@ class ProfileViewersBubble extends StatelessWidget {
               Positioned(
                   right: newViewersCount > 9 ? -33 : -20,
                   top: -13,
-                  child: CountBubble(count: newViewersCount, type: "viewers")),
+                  child: CountBubble(count: newViewersCount, isUnread: false)),
               Text(totalViewersCount.toString(),
                   style: TextStyle(
                       fontSize: 18,
                       color: Colors.black87,
                       fontWeight: FontWeight.bold)),
             ]),
-            Text("看过我",
+            Text("Visitors".tr,
                 style: TextStyle(
                     fontSize: 12,
                     color: Colors.black54,

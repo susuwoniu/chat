@@ -7,6 +7,7 @@
 - [x]  首页名字溢出
 - [x]  other聊天按钮bug
 - [x]  other资料首次进入为null
+- [ ]  chat keyboard error
 - [ ]  拉黑
 - [ ]  post template 区分title content
 - [x]  square跳转到single post
