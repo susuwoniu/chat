@@ -34,12 +34,7 @@ class OtherView extends GetView<OtherController> {
 
     final _vip = _account.vip;
 
-    final _bio = _account.bio == '' ? 'Nothing...'.tr : _account.bio!;
-
     final _is_liked = _account.is_liked;
-
-    final _location =
-        _account.location == '' ? 'Unknown_place'.tr : _account.location!;
 
     final _imgList = List.from(_account.profile_images ?? []);
     if (_imgList.isEmpty) {
@@ -106,17 +101,33 @@ class OtherView extends GetView<OtherController> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          _bio,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              height: 1.4,
-                              fontSize: 18,
-                              color: Colors.grey.shade800),
-                        ),
+                        Obx(() {
+                          final _account =
+                              AuthProvider.to.simpleAccountMap[accountId] ??
+                                  SimpleAccountEntity.empty();
+                          final _bio = _account.bio == ''
+                              ? 'Nothing...'.tr
+                              : _account.bio!;
+
+                          return Text(_bio,
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  height: 1.4,
+                                  fontSize: 18,
+                                  color: Colors.grey.shade800));
+                        }),
                         SizedBox(height: 8),
-                        ProfileInfoText(
-                            text: _location, icon: Icons.location_on_outlined),
+                        Obx(() {
+                          final _account =
+                              AuthProvider.to.simpleAccountMap[accountId] ??
+                                  SimpleAccountEntity.empty();
+                          final _location = _account.location == ''
+                              ? 'Unknown_place'.tr
+                              : _account.location!;
+                          return ProfileInfoText(
+                              text: _location,
+                              icon: Icons.location_on_outlined);
+                        }),
                         SizedBox(height: 2)
                       ]),
                 )
@@ -203,12 +214,11 @@ class OtherView extends GetView<OtherController> {
               child: Row(children: [
                 Obx(() => _chatButton(
                       text: _is_liked ? 'Liked' : 'Like',
-                      onPressed: () {
-                        controller.toggleLike();
-
-                        if (_is_liked) {
+                      onPressed: (bool increase) async {
+                        controller.likeAction(increase);
+                        if (increase) {
                           try {
-                            controller.postLikeCount(accountId);
+                            await controller.postLikeCount(accountId);
                             UIUtils.toast('okkk');
                             final currentAccount =
                                 AuthProvider.to.simpleAccountMap[accountId]!;
@@ -217,10 +227,11 @@ class OtherView extends GetView<OtherController> {
                                 currentAccount;
                           } catch (e) {
                             UIUtils.showError(e);
+                            controller.likeAction(false);
                           }
                         } else {
                           try {
-                            controller.cancelLikeCount(accountId);
+                            await controller.cancelLikeCount(accountId);
                             UIUtils.toast('okkk-cancel');
                             final currentAccount =
                                 AuthProvider.to.simpleAccountMap[accountId]!;
@@ -229,6 +240,7 @@ class OtherView extends GetView<OtherController> {
                                 currentAccount;
                           } catch (e) {
                             UIUtils.showError(e);
+                            controller.likeAction(true);
                           }
                         }
                       },
@@ -257,7 +269,7 @@ class OtherView extends GetView<OtherController> {
     return Expanded(
         child: GestureDetector(
             onTap: () {
-              onPressed();
+              onPressed(!_is_liked);
             },
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 7),

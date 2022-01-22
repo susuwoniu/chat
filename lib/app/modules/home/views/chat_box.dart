@@ -48,10 +48,12 @@ class ChatBox extends StatelessWidget {
                     : const Image(image: AssetImage('assets/avatar.png')),
                 name: isLogin ? account.name : "--",
               )),
-          Text("私聊回应 @$postAuthorName:",
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              style: TextStyle(color: Colors.black54, fontSize: 15))
+          Expanded(
+              child: Text("私聊回应 @$postAuthorName:",
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: TextStyle(color: Colors.black54, fontSize: 15))),
+          SizedBox(width: 10)
         ]),
       ),
     );

@@ -3,10 +3,10 @@
 ## Todos
 
 - [x]  square跳转到room缺少content
-- [ ]  无限点赞bug
+- [x]  无限点赞bug
+- [x]  首页名字溢出
 - [ ]  other聊天按钮bug
-- [ ]  other资料首次进入为null
-- [ ]  name length
+- [x]  other资料首次进入为null
 - [ ]  拉黑
 - [ ]  post template 区分title content
 - [x]  square跳转到single post

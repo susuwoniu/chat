@@ -45,22 +45,32 @@ class CreateView extends GetView<CreateController> {
     String _text = postTemplate.content ?? '';
     TextAlign _textAlign = TextAlign.left;
     return Scaffold(
-      appBar: AppBar(title: Text('Create'.tr), centerTitle: true, actions: [
-        Container(
-          padding: EdgeInsets.only(right: 16, top: 10, bottom: 10),
-          child: Obx(() => ElevatedButton(
-                child: Text("Send".tr),
-                style: ButtonStyle(),
-                onPressed: controller.isComposing
-                    ? () async {
-                        _handleSubmitted();
-                      }
-                    : null,
-              )),
-        )
-      ]),
+      appBar: AppBar(
+          title: Text('Create'.tr),
+          centerTitle: true,
+          bottom: PreferredSize(
+              child: Container(
+                height: 0.5,
+                color: Colors.grey.shade400,
+              ),
+              preferredSize: Size.fromHeight(0)),
+          actions: [
+            Container(
+              padding: EdgeInsets.only(right: 16, top: 10, bottom: 10),
+              child: Obx(() => ElevatedButton(
+                    child: Text("Send".tr),
+                    style: ButtonStyle(),
+                    onPressed: controller.isComposing
+                        ? () async {
+                            _handleSubmitted();
+                          }
+                        : null,
+                  )),
+            )
+          ]),
       body: SafeArea(
           child: Column(children: [
+        SizedBox(height: 15),
         Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Container(
               padding: EdgeInsets.only(
@@ -73,63 +83,66 @@ class CreateView extends GetView<CreateController> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(currentAccount.name,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    SizedBox(height: 5),
-                    GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return VisibilitySheet(
-                                  onPressedVisibility: (String visibility) {
-                                controller.setIsVisibility(visibility);
-                              });
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Row(mainAxisSize: MainAxisSize.min, children: [
+                    Flexible(
+                        fit: FlexFit.loose,
+                        child: Container(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Text(currentAccount.name,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style:
+                                    TextStyle(fontWeight: FontWeight.bold)))),
+                  ]),
+                  SizedBox(height: 5),
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return VisibilitySheet(
+                                onPressedVisibility: (String visibility) {
+                              controller.setIsVisibility(visibility);
                             });
-                      },
-                      child: Obx(() => Row(children: [
-                            Text(VisibilityMap[controller.visibility]!.tr + ' ',
-                                style: TextStyle(
-                                    color: Colors.black54, fontSize: 13)),
-                            Icon(
-                                controller.visibility == 'public'
-                                    ? Icons.public
-                                    : Icons.lock_outline_rounded,
-                                size: 16,
-                                color: Colors.black54),
-                          ])),
-                    )
-                  ],
-                ),
-                Container(
-                    padding: EdgeInsets.only(right: 16),
-                    child: Row(children: [
-                      Text("Location".tr),
-                      Obx(() => Switch(
-                          value: ConfigProvider.to.listAtNearby,
-                          onChanged: (value) async {
-                            // check permission
-                            await ConfigProvider.to.toggleListAtNearby();
+                          });
+                    },
+                    child: Obx(() => Row(children: [
+                          Text(VisibilityMap[controller.visibility]!.tr + ' ',
+                              style: TextStyle(
+                                  color: Colors.black54, fontSize: 13)),
+                          Icon(
+                              controller.visibility == 'public'
+                                  ? Icons.public
+                                  : Icons.lock_outline_rounded,
+                              size: 16,
+                              color: Colors.black54),
+                        ])),
+                  )
+                ]),
+                Row(children: [
+                  Text("Location".tr),
+                  Obx(() => Switch(
+                      value: ConfigProvider.to.listAtNearby,
+                      onChanged: (value) async {
+                        // check permission
+                        await ConfigProvider.to.toggleListAtNearby();
 
-                            try {
-                              if (value == true) {
-                                await checkLocationPermission();
-                              }
-                            } catch (e) {
-                              UIUtils.showError(e);
-                              // change back
-                              await ConfigProvider.to.toggleListAtNearby();
-                            }
-                          })),
-                    ]))
+                        try {
+                          if (value == true) {
+                            await checkLocationPermission();
+                          }
+                        } catch (e) {
+                          UIUtils.showError(e);
+                          // change back
+                          await ConfigProvider.to.toggleListAtNearby();
+                        }
+                      })),
+                ])
               ])),
         ]),
         SizedBox(
-          height: 10,
+          height: 15,
         ),
         Expanded(
             child: TextEditor(

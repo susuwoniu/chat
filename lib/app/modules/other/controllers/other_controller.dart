@@ -103,11 +103,10 @@ class OtherController extends GetxController {
         body: {"like_count_action": 'decrease_one'});
   }
 
-  toggleLike() {
+  likeAction(bool increase) {
     final _account = AuthProvider.to.simpleAccountMap[accountId] ??
         SimpleAccountEntity.empty();
-    final _is_liked = _account.is_liked;
-
-    _account.is_liked = !_is_liked;
+    _account.is_liked = increase;
+    AuthProvider.to.simpleAccountMap[accountId] = _account;
   }
 }

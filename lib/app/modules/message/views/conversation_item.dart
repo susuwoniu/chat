@@ -19,9 +19,6 @@ Widget conversationItemView(
     String? avatar,
     int likeCount = 0,
     void Function(int index)? onTap}) {
-  final size = MediaQuery.of(context).size;
-  final paddingLeft = size.width * 0.022;
-
   return Column(children: [
     ListTile(
       onTap: () {

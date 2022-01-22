@@ -12,8 +12,9 @@ class TagWidget extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 10),
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: Colors.black.withOpacity(0.14)),
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.black.withOpacity(0.14),
+        ),
         child: GestureDetector(
           onTap: () {
             onPressed();
@@ -21,14 +22,13 @@ class TagWidget extends StatelessWidget {
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             Icon(Icons.style, size: 18, color: Colors.white),
             SizedBox(width: 4),
-            Text(text,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                style: (TextStyle(
-                    fontSize: 14,
-                    // fontStyle: FontStyle.italic,
-                    // fontWeight: FontWeight.bold,
-                    color: Colors.white))),
+            Flexible(
+                fit: FlexFit.loose,
+                child: Text(text,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: (TextStyle(fontSize: 14, color: Colors.white)))),
+            SizedBox(width: 10)
           ]),
         ));
   }

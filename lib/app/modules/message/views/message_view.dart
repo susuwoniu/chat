@@ -12,7 +12,6 @@ class MessageView extends GetView<MessageController> {
     final _chatProvider = ChatProvider.to;
     return Scaffold(
       // resizeToAvoidBottomInset: false,
-      // appBar: AppBar(),
       appBar: AppBar(
         bottom: PreferredSize(
             child: Container(

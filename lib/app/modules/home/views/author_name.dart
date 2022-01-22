@@ -34,11 +34,14 @@ class AuthorName extends StatelessWidget {
             }
           }),
       SizedBox(width: 15),
-      Text(
+      Expanded(
+          child: Text(
         authorName,
         key: Key('$index-text'),
-        style: const TextStyle(fontSize: 22, color: Colors.white),
-      ),
+        style: const TextStyle(
+            fontSize: 22, color: Colors.white, overflow: TextOverflow.ellipsis),
+      )),
+      SizedBox(width: 10)
     ]);
   }
 }
