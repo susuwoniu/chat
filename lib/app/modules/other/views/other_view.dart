@@ -148,7 +148,7 @@ class OtherView extends GetView<OtherController> {
                   return SmallPost(
                       onTap: () {
                         Get.toNamed(Routes.ROOM, arguments: {
-                          "id": "im$accountId@$imDomain",
+                          "id": "$accountId@$imDomain",
                           "quote": post.content
                         });
                       },
@@ -214,7 +214,8 @@ class OtherView extends GetView<OtherController> {
               child: Row(children: [
                 Obx(() => _chatButton(
                       text: _is_liked ? 'Liked' : 'Like',
-                      onPressed: (bool increase) async {
+                      isLiked: _account.is_liked,
+                      onPressedLike: (bool increase) async {
                         controller.likeAction(increase);
                         if (increase) {
                           try {
@@ -248,28 +249,31 @@ class OtherView extends GetView<OtherController> {
                     )),
                 SizedBox(width: 30),
                 _chatButton(
-                  text: 'Chat',
-                  onPressed: () {
-                    Get.toNamed(Routes.ROOM, arguments: {
-                      'id': "$accountId@$imDomain",
-                    });
-                  },
-                )
+                    text: 'Chat',
+                    onPressedChat: () {
+                      Get.toNamed(Routes.ROOM, arguments: {
+                        'id': "$accountId@$imDomain",
+                      });
+                    },
+                    isLiked: _account.is_liked)
               ]))),
     ]);
   }
 
   Widget _chatButton(
-      {required String text, required Function onPressed, Color? color}) {
-    final accountId = controller.accountId;
-    final _account = AuthProvider.to.simpleAccountMap[accountId] ??
-        SimpleAccountEntity.empty();
-    final _is_liked = _account.is_liked;
-
+      {required String text,
+      Function? onPressedLike,
+      Function? onPressedChat,
+      Color? color,
+      required bool isLiked}) {
     return Expanded(
         child: GestureDetector(
             onTap: () {
-              onPressed(!_is_liked);
+              if (text == 'Chat') {
+                onPressedChat!();
+              } else {
+                onPressedLike!(!isLiked);
+              }
             },
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 7),
@@ -278,17 +282,17 @@ class OtherView extends GetView<OtherController> {
                   border: Border.all(
                       color: color == null
                           ? Colors.black
-                          : _is_liked
+                          : isLiked
                               ? Colors.transparent
                               : color),
-                  color: _is_liked ? color : Colors.white,
+                  color: isLiked ? color : Colors.white,
                   borderRadius: BorderRadius.circular(20)),
               child: Text(
                 text.tr,
                 style: TextStyle(
                     color: color == null
                         ? Colors.black
-                        : _is_liked
+                        : isLiked
                             ? Colors.white
                             : color,
                     fontSize: 20),

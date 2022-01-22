@@ -5,7 +5,7 @@
 - [x]  square跳转到room缺少content
 - [x]  无限点赞bug
 - [x]  首页名字溢出
-- [ ]  other聊天按钮bug
+- [x]  other聊天按钮bug
 - [x]  other资料首次进入为null
 - [ ]  拉黑
 - [ ]  post template 区分title content
