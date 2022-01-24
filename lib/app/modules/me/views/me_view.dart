@@ -87,7 +87,10 @@ class MeView extends GetView<MeController> {
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                NicknameWidget(name: _name, vip: _vip),
+                                Container(
+                                    width: width * 0.8,
+                                    child:
+                                        NicknameWidget(name: _name, vip: _vip)),
                                 SizedBox(height: 10),
                                 AgeWidget(
                                     gender: _account.gender,
