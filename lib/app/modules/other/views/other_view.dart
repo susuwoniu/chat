@@ -68,24 +68,16 @@ class OtherView extends GetView<OtherController> {
                             SizedBox(height: 10),
                             AgeWidget(
                                 gender: AuthProvider
-                                    .to
-                                    .simpleAccountMap[
-                                        Get.arguments['accountId']]!
-                                    .gender,
-                                age: AuthProvider
-                                            .to
-                                            .simpleAccountMap[
-                                                Get.arguments['accountId']]!
-                                            .age ==
+                                    .to.simpleAccountMap[accountId]!.gender,
+                                age: AuthProvider.to
+                                            .simpleAccountMap[accountId]!.age ==
                                         null
                                     ? ' ???'
                                     : _account.age.toString()),
                             SizedBox(height: 15),
                             Obx(() {
                               final _likeCount = AuthProvider
-                                  .to
-                                  .simpleAccountMap[Get.arguments['accountId']]!
-                                  .like_count;
+                                  .to.simpleAccountMap[accountId]!.like_count;
                               return LikeCount(
                                 count: _likeCount,
                               );

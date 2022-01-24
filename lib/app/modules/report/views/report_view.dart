@@ -118,7 +118,9 @@ class ReportView extends GetView<ReportController> {
                           if (controller.reportType.value != '') {
                             try {
                               await controller.onPressReport(
-                                  content: _textController.text);
+                                  content: _textController.text.isEmpty
+                                      ? ''
+                                      : _textController.text);
                               UIUtils.toast('okk');
                               _textController.clear();
                               Get.back();

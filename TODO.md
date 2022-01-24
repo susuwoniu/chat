@@ -12,10 +12,10 @@
 - [ ]  square list 单条数据有时不存在
 - [ ]  room preview message 溢出！！！！！！
 - [ ]  other view name widget width
-- [ ]  举报页回退other view getX error
-- [ ]  other view chat button error
+- [x]  回退other view getX error
+- [ ]  other view chat button error???
 - [x]  举报页点击输入框后溢出
-- [ ]  chat keyboard error
+- [x]  chat keyboard error
 - [ ]  拉黑
 - [ ]  post template 区分title content
 - [x]  square跳转到single post

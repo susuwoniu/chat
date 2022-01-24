@@ -12,7 +12,15 @@ class ReportController extends GetxController {
   final reportType = ''.obs;
   final imgList = RxList([]);
   final isShowBlank = true.obs;
-  ProfileImageEntity imgEntity = ProfileImageEntity.empty();
+  ProfileImageEntity imgEntity = ProfileImageEntity(
+      mime_type: "image/jpg",
+      url: '',
+      width: 140,
+      height: 140,
+      size: 45,
+      order: 0,
+      thumbtail: ThumbtailEntity(
+          height: 140, width: 140, url: '', mime_type: "image/jpg"));
 
   @override
   void onInit() {
@@ -62,12 +70,16 @@ class ReportController extends GetxController {
   }
 
   onPressReport({String? content}) async {
-    await APIProvider.to.post('/report/reports', body: {
-      "type": reportType.value,
-      "content": content ?? '',
-      "related_post_id": _related_post_id,
-      "related_account_id": _related_account_id,
-      "images": [imgEntity.url]
-    });
+    final body = {};
+    body['type'] = reportType.value;
+    body['related_post_id'] = _related_post_id;
+    body['related_account_id'] = _related_account_id;
+    if (imgEntity.url != '') {
+      body['images'] = imgEntity.url;
+    }
+    if (content != '') {
+      body['content'] = content;
+    }
+    await APIProvider.to.post('/report/reports', body: body);
   }
 }
