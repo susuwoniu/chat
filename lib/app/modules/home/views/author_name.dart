@@ -9,11 +9,15 @@ class AuthorName extends StatelessWidget {
   final String? avatarUri;
   final int index;
   final String accountId;
+  final double avatarSize;
+  final double nameSize;
 
   AuthorName({
     Key? key,
     required this.authorName,
     this.avatarUri,
+    this.avatarSize = 24,
+    this.nameSize = 20,
     required this.index,
     required this.accountId,
   }) : super(key: key);
@@ -22,7 +26,7 @@ class AuthorName extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(children: [
       Avatar(
-          size: 24,
+          size: avatarSize,
           name: authorName,
           uri: avatarUri,
           onTap: () {
@@ -38,10 +42,12 @@ class AuthorName extends StatelessWidget {
           child: Text(
         authorName,
         key: Key('$index-text'),
-        style: const TextStyle(
-            fontSize: 22, color: Colors.white, overflow: TextOverflow.ellipsis),
+        style: TextStyle(
+            fontSize: nameSize,
+            color: Colors.white,
+            overflow: TextOverflow.ellipsis),
       )),
-      SizedBox(width: 10)
+      SizedBox(width: 50)
     ]);
   }
 }

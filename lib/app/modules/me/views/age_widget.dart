@@ -10,8 +10,8 @@ class AgeWidget extends StatelessWidget {
     Key? key,
     required this.age,
     required this.gender,
-    this.iconSize = 22,
-    this.fontSize = 17,
+    this.iconSize = 20,
+    this.fontSize = 16,
     this.background = Colors.white54,
   }) : super(key: key);
 

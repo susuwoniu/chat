@@ -105,7 +105,7 @@ class MeView extends GetView<MeController> {
                                   controller.totalViewedCount.value,
                               newViewersCount:
                                   controller.unreadViewedCount.value,
-                              onPressed: () {
+                              onPressed: () async {
                                 if (_vip) {
                                   Get.toNamed(Routes.PROFILE_VIEWERS);
                                 } else {
@@ -117,6 +117,11 @@ class MeView extends GetView<MeController> {
                                         return VipSheet(
                                             context: context, index: 1);
                                       });
+                                  try {
+                                    await controller.clearUnreadViewerCount();
+                                  } catch (e) {
+                                    print(e);
+                                  }
                                 }
                               })),
                       Positioned(

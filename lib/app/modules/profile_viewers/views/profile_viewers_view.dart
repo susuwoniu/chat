@@ -37,20 +37,4 @@ class ProfileViewersView extends GetView<ProfileViewersController> {
               })),
         ));
   }
-  // return Center(
-  //   child: Column(children: [
-  //     SizedBox(height: 20),
-  //     Icon(
-  //       Icons.lunch_dining_rounded,
-  //       color: Colors.yellow.shade700,
-  //       size: 60,
-  //     ),
-  //     SizedBox(height: 10),
-  //     Text(
-  //       'No_one_has_been_here.'.tr,
-  //       style: TextStyle(fontSize: 18, color: Colors.black87),
-  //     ),
-  //   ]),
-  // );
-
 }

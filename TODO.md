@@ -7,6 +7,14 @@
 - [x]  首页名字溢出
 - [x]  other聊天按钮bug
 - [x]  other资料首次进入为null
+- [ ]  发帖页无template内容时，dismiss键盘后很难再次弹出键盘
+- [ ]  广场发帖后nearby有时出错
+- [ ]  square list 单条数据有时不存在
+- [ ]  room preview message 溢出！！！！！！
+- [ ]  other view name widget width
+- [ ]  举报页回退other view getX error
+- [ ]  other view chat button error
+- [x]  举报页点击输入框后溢出
 - [ ]  chat keyboard error
 - [ ]  拉黑
 - [ ]  post template 区分title content

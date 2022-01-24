@@ -10,13 +10,13 @@ class LikeCount extends StatelessWidget {
       {Key? key,
       required this.count,
       this.backgroundColor = Colors.black38,
-      this.fontSize = 19,
-      this.iconSize = 19})
+      this.fontSize = 18,
+      this.iconSize = 18})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         child: Row(children: [
           Icon(
             Icons.favorite_rounded,

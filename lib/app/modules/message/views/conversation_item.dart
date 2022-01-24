@@ -57,7 +57,7 @@ Widget conversationItemView(
                 fontSize: 14,
                 backgroundColor: Colors.transparent,
               ),
-              SizedBox(width: 15),
+              SizedBox(width: 20),
             ])),
         TimeAgo(updatedAt: updatedAt),
       ]),

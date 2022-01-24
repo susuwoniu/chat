@@ -24,99 +24,106 @@ class RoomView extends GetView<RoomController> {
     final roomId = controller.roomId;
 
     return Scaffold(
-      appBar: roomAppBar(context: context, roomId: roomId),
-      body: Obx(() {
-        final room = messageController.entities[roomId];
+        appBar: roomAppBar(context: context, roomId: roomId),
+        body: Column(mainAxisSize: MainAxisSize.min, children: [
+          Flexible(
+            child: Obx(() {
+              final room = messageController.entities[roomId];
 
-        if (room == null || room.isLoading || !room.isInitDbMessages) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        final roomInfoId = messageController.entities[roomId]!.room_info_id;
-        final toAccount = roomInfoId != null
-            ? AuthProvider.to.simpleAccountMap[roomInfoId]
-            : null;
-        final roomMessageIndexes =
-            messageController.roomMessageIndexesMap[roomId];
+              if (room == null || room.isLoading || !room.isInitDbMessages) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              final roomInfoId =
+                  messageController.entities[roomId]!.room_info_id;
+              final toAccount = roomInfoId != null
+                  ? AuthProvider.to.simpleAccountMap[roomInfoId]
+                  : null;
+              final roomMessageIndexes =
+                  messageController.roomMessageIndexesMap[roomId];
 
-        final List<types.Message> emptyMessages = [];
-        final messages = roomMessageIndexes != null
-            ? roomMessageIndexes
-                .map<types.Message>(
-                    (id) => messageController.messageEntities[id]!)
-                .toList()
-            : emptyMessages;
+              final List<types.Message> emptyMessages = [];
+              final messages = roomMessageIndexes != null
+                  ? roomMessageIndexes
+                      .map<types.Message>(
+                          (id) => messageController.messageEntities[id]!)
+                      .toList()
+                  : emptyMessages;
 
-        return Chat(
-          isLastPage: room.isLastPage,
-          messages: messages,
-          bubbleBuilder: (
-            Widget child, {
-            required types.Message message,
-            required bool nextMessageInGroup,
-          }) {
-            return BubbleWidget(child,
-                message: message, nextMessageInGroup: nextMessageInGroup);
-          },
-          customBottomWidget: BottomWidget(
-              onCancelQuote: controller.handleCancelPreview,
-              quoteMessage: controller.previewMessage,
-              replyTo:
-                  controller.previewMessage != null ? toAccount?.name : null,
-              onAttachmentPressed: () {
-                _handleImageSelection();
-              },
-              onCameraPressed: () {
-                _handleCameraSelection();
-              },
-              onSendPressed: (types.PartialText message) async {
-                try {
-                  await controller.handleSendPressed(message);
-                } catch (e) {
-                  UIUtils.showError(e);
-                }
-              },
-              sendButtonVisibilityMode: SendButtonVisibilityMode.editing),
-          textMessageBuilder: (
-            types.TextMessage message, {
-            required int messageWidth,
-            required bool showName,
-          }) {
-            return TextMessage(
-              message: message,
-              showName: showName,
-              usePreviewData: false,
-              emojiEnlargementBehavior: EmojiEnlargementBehavior.multi,
-              hideBackgroundOnEmojiMessages: true,
-              onPreviewDataFetched:
-                  (types.Message message, types.PreviewData previewData) {
-                messageController.handlePreviewDataFetched(
-                    message.id, previewData);
-              },
-            );
-          },
-          imageMessageBuilder: (message, {required int messageWidth}) {
-            return ImageMessage(message: message, messageWidth: messageWidth);
-          },
-          emptyState:
-              ((room.isLoading)) ? Center(child: Loading()) : SizedBox.shrink(),
-          onAttachmentPressed: () {
-            _handleAtachmentPressed(context);
-          },
-          onSendPressed: (types.PartialText message) async {
-            try {
-              await controller.handleSendPressed(message);
-            } catch (e) {
-              UIUtils.showError(e);
-            }
-          },
-          onMessageTap: _handleMessageTap,
-          onEndReached: controller.handleEndReached,
-          user: ChatProvider.to.currentChatAccount.value!,
-        );
-      }),
-    );
+              return Chat(
+                isLastPage: room.isLastPage,
+                messages: messages,
+                bubbleBuilder: (
+                  Widget child, {
+                  required types.Message message,
+                  required bool nextMessageInGroup,
+                }) {
+                  return BubbleWidget(child,
+                      message: message, nextMessageInGroup: nextMessageInGroup);
+                },
+                customBottomWidget: BottomWidget(
+                    onCancelQuote: controller.handleCancelPreview,
+                    quoteMessage: controller.previewMessage,
+                    replyTo: controller.previewMessage != null
+                        ? toAccount?.name
+                        : null,
+                    onAttachmentPressed: () {
+                      _handleImageSelection();
+                    },
+                    onCameraPressed: () {
+                      _handleCameraSelection();
+                    },
+                    onSendPressed: (types.PartialText message) async {
+                      try {
+                        await controller.handleSendPressed(message);
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
+                    },
+                    sendButtonVisibilityMode: SendButtonVisibilityMode.editing),
+                textMessageBuilder: (
+                  types.TextMessage message, {
+                  required int messageWidth,
+                  required bool showName,
+                }) {
+                  return TextMessage(
+                    message: message,
+                    showName: showName,
+                    usePreviewData: false,
+                    emojiEnlargementBehavior: EmojiEnlargementBehavior.multi,
+                    hideBackgroundOnEmojiMessages: true,
+                    onPreviewDataFetched:
+                        (types.Message message, types.PreviewData previewData) {
+                      messageController.handlePreviewDataFetched(
+                          message.id, previewData);
+                    },
+                  );
+                },
+                imageMessageBuilder: (message, {required int messageWidth}) {
+                  return ImageMessage(
+                      message: message, messageWidth: messageWidth);
+                },
+                emptyState: ((room.isLoading))
+                    ? Center(child: Loading())
+                    : SizedBox.shrink(),
+                onAttachmentPressed: () {
+                  _handleAtachmentPressed(context);
+                },
+                onSendPressed: (types.PartialText message) async {
+                  try {
+                    await controller.handleSendPressed(message);
+                  } catch (e) {
+                    UIUtils.showError(e);
+                  }
+                },
+                onMessageTap: _handleMessageTap,
+                onEndReached: controller.handleEndReached,
+                user: ChatProvider.to.currentChatAccount.value!,
+              );
+            }),
+          )
+        ]));
   }
 
   void _handleAtachmentPressed(BuildContext context) {

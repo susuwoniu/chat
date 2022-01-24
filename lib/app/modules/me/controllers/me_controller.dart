@@ -46,6 +46,12 @@ class MeController extends GetxController {
     super.onReady();
   }
 
+  clearUnreadViewerCount() async {
+    await APIProvider.to.patch("/notification/me/notification-inbox",
+        body: {"type": "profile_viewed", "unread_count_action": "clear"});
+    MeController.to.unreadViewedCount.value = 0;
+  }
+
   Future<void> fetchPage(String? lastPostId) async {
     List<String> indexes = [];
     if (_isLastPage) {

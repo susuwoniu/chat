@@ -38,10 +38,8 @@ class PostSquareView extends GetView<PostSquareController> {
                       clipBehavior: Clip.none,
                       children: [
                         Container(
-                          alignment: Alignment.bottomCenter,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 100),
-                          // margin: EdgeInsets.only(top: 30),
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
                           height: _height * 0.35,
                           width: _width,
                           color: backgroundColor,

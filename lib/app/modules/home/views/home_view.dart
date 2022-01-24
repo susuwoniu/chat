@@ -124,6 +124,8 @@ class HomeView extends GetView<HomeController> {
             animationDuration: const Duration(milliseconds: 300),
             onScrollEvent: _handleCallbackEvent,
             builder: (BuildContext context, int index) {
+              final _height = MediaQuery.of(context).size.height;
+
               return Container(
                   color: index < postIndexes.length
                       ? Color(postMap[postIndexes[index]]!.backgroundColor)
@@ -155,8 +157,8 @@ class HomeView extends GetView<HomeController> {
                         return Stack(children: <Widget>[
                           Container(
                               alignment: Alignment.topLeft,
-                              padding: const EdgeInsets.only(
-                                  left: 16, right: 16, top: 16, bottom: 60),
+                              padding: EdgeInsets.fromLTRB(
+                                  16, 16, 16, _height * 0.21),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,7 +169,7 @@ class HomeView extends GetView<HomeController> {
                                             style: TextStyle(
                                               color: Colors.white,
                                               height: 1.6,
-                                              fontSize: 25.0,
+                                              fontSize: 22.0,
                                               fontWeight: FontWeight.bold,
                                             ))),
                                     TagWidget(
@@ -180,13 +182,11 @@ class HomeView extends GetView<HomeController> {
                                                     post.post_template_title
                                               });
                                         }),
-                                    SizedBox(height: 15),
                                     AuthorName(
                                         accountId: post.accountId,
                                         authorName: author.name,
                                         avatarUri: author.avatar,
                                         index: index),
-                                    SizedBox(height: 30),
                                   ])),
                           Align(
                               alignment: Alignment.bottomLeft,

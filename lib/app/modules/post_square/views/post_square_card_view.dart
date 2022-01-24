@@ -17,18 +17,20 @@ class PostSquareCardView extends GetView<PostSquareController> {
   Widget build(BuildContext context) {
     final imDomain = AppConfig().config.imDomain;
     final appBar = AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.transparent,
-        title: Text("CardView"),
         actions: <Widget>[
           Row(
             children: [
-              IconButton(
-                  icon: Icon(Icons.add, color: Colors.white, size: 36),
-                  onPressed: () {
-                    Get.toNamed(
-                      Routes.POST,
-                    );
-                  }),
+              Padding(
+                  padding: EdgeInsets.only(right: 15),
+                  child: IconButton(
+                      icon: Icon(Icons.add, color: Colors.white, size: 32),
+                      onPressed: () {
+                        Get.toNamed(
+                          Routes.POST,
+                        );
+                      })),
             ],
           )
         ]);
@@ -59,6 +61,8 @@ class PostSquareCardView extends GetView<PostSquareController> {
             animationDuration: const Duration(milliseconds: 300),
             onScrollEvent: _handleCallbackEvent,
             builder: (BuildContext context, int index) {
+              final _height = MediaQuery.of(context).size.height;
+
               return Container(
                   color: index < postIndexes.length
                       ? Color(postMap[postIndexes[index]]!.backgroundColor)
@@ -90,8 +94,8 @@ class PostSquareCardView extends GetView<PostSquareController> {
                         return Stack(children: <Widget>[
                           Container(
                               alignment: Alignment.topLeft,
-                              padding: const EdgeInsets.only(
-                                  left: 16, right: 16, top: 16, bottom: 60),
+                              padding:
+                                  EdgeInsets.fromLTRB(16, 0, 16, _height * 0.2),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +106,7 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                             style: TextStyle(
                                               color: Colors.white,
                                               height: 1.6,
-                                              fontSize: 30.0,
+                                              fontSize: 22.0,
                                               fontWeight: FontWeight.bold,
                                             ))),
                                     SizedBox(height: 15),
@@ -111,7 +115,6 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                         authorName: author.name,
                                         avatarUri: author.avatar,
                                         index: index),
-                                    SizedBox(height: 30),
                                   ])),
                           Align(
                               alignment: Alignment.bottomLeft,

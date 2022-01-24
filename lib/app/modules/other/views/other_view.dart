@@ -67,8 +67,17 @@ class OtherView extends GetView<OtherController> {
                             NicknameWidget(name: _name, vip: _vip),
                             SizedBox(height: 10),
                             AgeWidget(
-                                gender: _account.gender,
-                                age: _account.age == null
+                                gender: AuthProvider
+                                    .to
+                                    .simpleAccountMap[
+                                        Get.arguments['accountId']]!
+                                    .gender,
+                                age: AuthProvider
+                                            .to
+                                            .simpleAccountMap[
+                                                Get.arguments['accountId']]!
+                                            .age ==
+                                        null
                                     ? ' ???'
                                     : _account.age.toString()),
                             SizedBox(height: 15),

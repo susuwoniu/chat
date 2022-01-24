@@ -124,93 +124,90 @@ class TextMessage extends StatelessWidget {
         : enlargeEmojis
             ? theme.sentEmojiMessageTextStyle
             : theme.sentMessageBodyTextStyle;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (showName)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 6),
-            child: Text(
-              name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: theme.userNameTextStyle.copyWith(color: color),
-            ),
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      if (showName)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 6),
+          child: Text(
+            name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.userNameTextStyle.copyWith(color: color),
           ),
-        MarkdownBody(
-          data: message.text,
-          selectable: true,
-          onTapLink: (String text, String? href, String? title) async {
-            if (href != null && await canLaunch(href)) {
-              await launch(href);
-            }
-          },
-          styleSheet: MarkdownStyleSheet(
-            a: TextStyle(
-                decoration: TextDecoration.underline, color: defaultColor),
-            pPadding: EdgeInsets.zero,
-            code: theme.sentMessageBodyTextStyle.copyWith(
-                backgroundColor: Colors.transparent,
-                fontFamily: 'monospace',
-                fontSize: theme.sentMessageBodyTextStyle.fontSize! * 0.85,
-                color: defaultCodeColor),
-            codeblockPadding: const EdgeInsets.all(0),
-            codeblockDecoration: BoxDecoration(
-              color: Colors.transparent,
-            ),
-            h1: Theme.of(context)
-                .textTheme
-                .headline5!
-                .copyWith(color: defaultColor),
-            h2: Theme.of(context)
-                .textTheme
-                .headline6!
-                .copyWith(color: defaultColor),
-            h3: Theme.of(context)
-                .textTheme
-                .subtitle1!
-                .copyWith(color: defaultColor),
-            h4: defaultTextStyle,
-            h5: defaultTextStyle,
-            h6: defaultTextStyle,
-            em: TextStyle(fontStyle: FontStyle.italic, color: defaultColor),
-            strong: TextStyle(fontWeight: FontWeight.bold, color: defaultColor),
-            del: TextStyle(
-                decoration: TextDecoration.lineThrough, color: defaultColor),
-            img: defaultTextStyle,
-            checkbox: defaultTextStyle.copyWith(color: defaultCodeColor),
-            listBullet: defaultTextStyle,
-            tableHead:
-                TextStyle(fontWeight: FontWeight.w600, color: defaultColor),
-            tableBody: defaultTextStyle,
-            tableBorder: TableBorder.all(
-              color: Theme.of(context).dividerColor,
-              width: 1,
-            ),
-            blockquoteDecoration: BoxDecoration(
-              border: Border(
-                  left: BorderSide(
-                color: defaultColor,
-                width: 2,
-              )),
-            ),
-            blockquotePadding: EdgeInsets.only(left: 10),
-            p: defaultTextStyle,
+        ),
+      MarkdownBody(
+        data: message.text,
+        selectable: true,
+        onTapLink: (String text, String? href, String? title) async {
+          if (href != null && await canLaunch(href)) {
+            await launch(href);
+          }
+        },
+        styleSheet: MarkdownStyleSheet(
+          a: TextStyle(
+              decoration: TextDecoration.underline, color: defaultColor),
+          pPadding: EdgeInsets.zero,
+          code: theme.sentMessageBodyTextStyle.copyWith(
+              backgroundColor: Colors.transparent,
+              fontFamily: 'monospace',
+              fontSize: theme.sentMessageBodyTextStyle.fontSize! * 0.85,
+              color: defaultCodeColor),
+          codeblockPadding: const EdgeInsets.all(0),
+          codeblockDecoration: BoxDecoration(
+            color: Colors.transparent,
           ),
-        )
-        // SelectableText(
-        //   message.text,
-        //   style: user.id == message.author.id
-        //       ? enlargeEmojis
-        //           ? theme.sentEmojiMessageTextStyle
-        //           : theme.sentMessageBodyTextStyle
-        //       : enlargeEmojis
-        //           ? theme.receivedEmojiMessageTextStyle
-        //           : theme.receivedMessageBodyTextStyle,
-        //   textWidthBasis: TextWidthBasis.longestLine,
-        // ),
-      ],
-    );
+          h1: Theme.of(context)
+              .textTheme
+              .headline5!
+              .copyWith(color: defaultColor),
+          h2: Theme.of(context)
+              .textTheme
+              .headline6!
+              .copyWith(color: defaultColor),
+          h3: Theme.of(context)
+              .textTheme
+              .subtitle1!
+              .copyWith(color: defaultColor),
+          h4: defaultTextStyle,
+          h5: defaultTextStyle,
+          h6: defaultTextStyle,
+          em: TextStyle(fontStyle: FontStyle.italic, color: defaultColor),
+          strong: TextStyle(fontWeight: FontWeight.bold, color: defaultColor),
+          del: TextStyle(
+              decoration: TextDecoration.lineThrough, color: defaultColor),
+          img: defaultTextStyle,
+          checkbox: defaultTextStyle.copyWith(color: defaultCodeColor),
+          listBullet: defaultTextStyle,
+          tableHead:
+              TextStyle(fontWeight: FontWeight.w600, color: defaultColor),
+          tableBody: defaultTextStyle,
+          tableBorder: TableBorder.all(
+            color: Theme.of(context).dividerColor,
+            width: 1,
+          ),
+          blockquoteDecoration: BoxDecoration(
+            border: Border(
+                left: BorderSide(
+              color: defaultColor,
+              width: 2,
+            )),
+          ),
+          blockquotePadding: EdgeInsets.only(left: 10),
+          p: defaultTextStyle,
+        ),
+      )
+      // SelectableText(
+      //   message.text,
+      //   style: user.id == message.author.id
+      //       ? enlargeEmojis
+      //           ? theme.sentEmojiMessageTextStyle
+      //           : theme.sentMessageBodyTextStyle
+      //       : enlargeEmojis
+      //           ? theme.receivedEmojiMessageTextStyle
+      //           : theme.receivedMessageBodyTextStyle,
+      //   textWidthBasis: TextWidthBasis.longestLine,
+      // ),
+    ]);
   }
 
   @override
@@ -232,13 +229,16 @@ class TextMessage extends StatelessWidget {
     }
 
     return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: _enlargeEmojis && hideBackgroundOnEmojiMessages
-            ? 0.0
-            : _theme.messageInsetsHorizontal,
-        vertical: _theme.messageInsetsVertical,
-      ),
-      child: _textWidgetBuilder(_user, context, _enlargeEmojis),
-    );
+        margin: EdgeInsets.symmetric(
+          horizontal: _enlargeEmojis && hideBackgroundOnEmojiMessages
+              ? 0.0
+              : _theme.messageInsetsHorizontal,
+          vertical: _theme.messageInsetsVertical,
+        ),
+        child: Row(mainAxisSize: MainAxisSize.min, children: [
+          Flexible(
+            child: _textWidgetBuilder(_user, context, _enlargeEmojis),
+          ),
+        ]));
   }
 }
