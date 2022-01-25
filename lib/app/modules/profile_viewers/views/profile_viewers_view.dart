@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import '../controllers/profile_viewers_controller.dart';
 import 'single_viewer.dart';
-import '../../../widgets/loading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class ProfileViewersView extends GetView<ProfileViewersController> {
@@ -11,7 +10,7 @@ class ProfileViewersView extends GetView<ProfileViewersController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('ProfileViewersView'.tr),
+          title: Text('ProfileViewersView'.tr, style: TextStyle(fontSize: 18)),
           centerTitle: true,
           bottom: PreferredSize(
               child: Container(

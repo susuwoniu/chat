@@ -46,8 +46,6 @@ class CreateView extends GetView<CreateController> {
     TextAlign _textAlign = TextAlign.left;
     return Scaffold(
         appBar: AppBar(
-            title: Text('Create'.tr),
-            centerTitle: true,
             bottom: PreferredSize(
                 child: Container(
                   height: 0.5,

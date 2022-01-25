@@ -1,8 +1,6 @@
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../../edit_name/views/appbar_save.dart';
 import '../controllers/edit_bio_controller.dart';
 import '../../edit_name/views/input_widget.dart';
@@ -14,7 +12,8 @@ class EditBioView extends GetView<EditBioController> {
     return Scaffold(
       backgroundColor: Color(0xfff0eff4),
       appBar: AppBar(
-        title: Text("bio"),
+        toolbarHeight: 50,
+        title: Text("Bio".tr, style: TextStyle(fontSize: 18)),
         actions: [
           Obx(() {
             final _isActived = controller.isActived.value;
@@ -23,7 +22,8 @@ class EditBioView extends GetView<EditBioController> {
                 onPressed: () async {
                   try {
                     await AccountProvider.to.postAccountInfoChange(
-                        {"bio": controller.currentBio.value});
+                        {"bio": controller.currentBio.value},
+                        ignoreActions: true);
                   } catch (e) {
                     UIUtils.showError(e);
                   }
@@ -36,8 +36,8 @@ class EditBioView extends GetView<EditBioController> {
         padding: EdgeInsets.symmetric(vertical: 15),
         child: Obx(() {
           return InputWidget(
-              maxLength: 50,
-              maxLines: 5,
+              maxLength: 100,
+              maxLines: 10,
               initialContent: controller.initialContent,
               onChange: controller.onChangeTextValue);
         }),

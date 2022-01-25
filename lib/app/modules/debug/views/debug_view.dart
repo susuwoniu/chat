@@ -12,7 +12,7 @@ import 'package:chat/common.dart';
 
 class DebugView extends GetView<DebugController> {
   final String countryCode = "+86";
-  final String phone = "17955690865";
+  final String phone = "17955690860";
 
   @override
   Widget build(BuildContext context) {
@@ -160,6 +160,27 @@ class DebugView extends GetView<DebugController> {
                     //to close the drawer
                   },
                 ),
+                // ListTile(
+                //   title: Text('age'),
+                //   onTap: () {
+                //     Get.toNamed(Routes.AGE_PICKER);
+                //     //to close the drawer
+                //   },
+                // ),
+                // ListTile(
+                //   title: Text('gender'),
+                //   onTap: () {
+                //     Get.toNamed(Routes.GENDER_SELECT);
+                //     //to close the drawer
+                //   },
+                // ),
+                // ListTile(
+                //   title: Text('avatar'),
+                //   onTap: () {
+                //     Get.toNamed(Routes.ADD_PROFILE_IMAGE);
+                //     //to close the drawer
+                //   },
+                // ),
                 ListTile(
                   title: Text('Message'),
                   onTap: () {

@@ -10,14 +10,12 @@ class AgePickerView extends GetView<AgePickerController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('AgePickerView'),
-        centerTitle: true,
-      ),
-      body: Center(
+        body: SafeArea(
+      child: Center(
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          SizedBox(height: 30),
           Container(
-            padding: EdgeInsets.fromLTRB(20, 15, 0, 15),
+            padding: EdgeInsets.fromLTRB(20, 15, 0, 25),
             alignment: Alignment.topLeft,
             child: Text(
               'I_was_born_in'.tr,
@@ -29,6 +27,7 @@ class AgePickerView extends GetView<AgePickerController> {
               onChanged: (year) {
                 controller.setBirthYear(year.toString());
               }),
+          SizedBox(height: 30),
           NextButton(
               action: 'age',
               onPressed: () async {
@@ -40,6 +39,6 @@ class AgePickerView extends GetView<AgePickerController> {
               })
         ]),
       ),
-    );
+    ));
   }
 }

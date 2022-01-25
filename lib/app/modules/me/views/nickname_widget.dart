@@ -22,6 +22,7 @@ class NicknameWidget extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             )),
       ),
+      SizedBox(width: 8),
       vip
           ? Icon(Icons.stars_rounded, color: Colors.pink, size: 34)
           : SizedBox.shrink(),

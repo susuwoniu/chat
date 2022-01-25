@@ -14,7 +14,7 @@ class EditInfoView extends GetView<EditInfoController> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text('EditInfoView'.tr),
+          title: Text('EditInfoView'.tr, style: TextStyle(fontSize: 19)),
           centerTitle: true,
         ),
         body: SafeArea(
@@ -38,7 +38,7 @@ class EditInfoView extends GetView<EditInfoController> {
                     color: Colors.white,
                     child: Column(children: [
                       SettingsTile(
-                          title: "name".tr,
+                          title: "Nickname".tr,
                           subtitle: _account.name,
                           onPressed: (BuildContext context) {
                             Get.toNamed(Routes.EDIT_NAME, arguments: {
@@ -54,7 +54,7 @@ class EditInfoView extends GetView<EditInfoController> {
                                 arguments: {"mode": "back"});
                           }),
                       SettingsTile(
-                          title: "bio".tr,
+                          title: "Bio".tr,
                           subtitle: _bio!,
                           subtitleMaxLines: 5,
                           onPressed: (BuildContext context) {
@@ -74,7 +74,6 @@ class EditInfoView extends GetView<EditInfoController> {
                           title: "birth".tr,
                           subtitle: _birthday.substring(0, 4),
                           onPressed: (BuildContext context) {
-                            controller.setIsShowYearPicked(true);
                             showModalBottomSheet<void>(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -84,7 +83,7 @@ class EditInfoView extends GetView<EditInfoController> {
                                         await AccountProvider.to
                                             .postAccountInfoChange({
                                           "birthday": year.toString() + "-01-01"
-                                        });
+                                        }, ignoreActions: true);
                                         Navigator.pop(context);
                                       } catch (e) {
                                         Navigator.pop(context);

@@ -75,9 +75,10 @@ class AccountProvider extends GetxService {
     // Get.offAndToNamed(AppRoutes.Application);
   }
 
-  Future<void> postAccountInfoChange(Map<String, dynamic> data) async {
+  Future<void> postAccountInfoChange(Map<String, dynamic> data,
+      {bool ignoreActions = false}) async {
     final body = await APIProvider().patch("/account/me", body: data);
     final account = AuthProvider.to.formatMainAccount(body);
-    await AuthProvider.to.saveAccount(account);
+    await AuthProvider.to.saveAccount(account, ignoreActions: ignoreActions);
   }
 }

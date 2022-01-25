@@ -65,7 +65,7 @@ class OtherView extends GetView<OtherController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                                width: width * 0.8,
+                                width: width * 0.85,
                                 child: NicknameWidget(name: _name, vip: _vip)),
                             SizedBox(height: 10),
                             AgeWidget(
@@ -98,7 +98,7 @@ class OtherView extends GetView<OtherController> {
                       )),
                 ]),
                 Container(
-                  padding: EdgeInsets.fromLTRB(20, 17, 25, 0),
+                  padding: EdgeInsets.fromLTRB(15, 17, 25, 0),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
