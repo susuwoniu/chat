@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AppBarSave extends StatelessWidget {
   final bool isActived;
@@ -17,18 +18,16 @@ class AppBarSave extends StatelessWidget {
         onPressed: () {
           onPressed();
         },
-        style: ButtonStyle(
-          overlayColor: MaterialStateProperty.all(Colors.transparent),
-        ),
+        style: ButtonStyle(splashFactory: NoSplash.splashFactory),
         child: Container(
-          child: Text("save",
+          child: Text("Save".tr,
               style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 15,
                   color: isActived ? Colors.white : Colors.black38)),
-          padding: EdgeInsets.all(8),
-          margin: EdgeInsets.only(right: _width * 0.03),
+          padding: EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+          margin: EdgeInsets.only(right: 10),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
             color: isActived ? Colors.blue : Colors.black12,
           ),
         ));

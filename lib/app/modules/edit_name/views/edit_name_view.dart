@@ -14,7 +14,8 @@ class EditNameView extends GetView<EditNameController> {
     return Scaffold(
       backgroundColor: Color(0xfff0eff4),
       appBar: AppBar(
-        title: Text("name"),
+        toolbarHeight: 50,
+        title: Text("Name".tr, style: TextStyle(fontSize: 18)),
         actions: [
           Obx(() {
             final _isActived = controller.isActived.value;
@@ -23,20 +24,20 @@ class EditNameView extends GetView<EditNameController> {
                 onPressed: () async {
                   try {
                     await AccountProvider.to.postAccountInfoChange(
-                        {"name": controller.currentName.value});
+                        {"name": controller.currentName.value},
+                        ignoreActions: true);
                   } catch (e) {
                     UIUtils.showError(e);
                   }
                 });
           }),
         ],
-        centerTitle: true,
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 15),
         child: Obx(() {
           return InputWidget(
-              maxLength: 15,
+              maxLength: 14,
               maxLines: 1,
               initialContent: controller.initialContent,
               onChange: controller.onChangeTextValue);

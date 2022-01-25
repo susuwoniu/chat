@@ -88,7 +88,7 @@ class MeView extends GetView<MeController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                    width: width * 0.8,
+                                    width: width * 0.85,
                                     child:
                                         NicknameWidget(name: _name, vip: _vip)),
                                 SizedBox(height: 10),

@@ -170,10 +170,11 @@ class AuthProvider extends GetxService {
         .putObject(STORAGE_ACCOUNT_KEY, account.toJson());
   }
 
-  Future<void> saveAccount(AccountEntity accountEntity) async {
+  Future<void> saveAccount(AccountEntity accountEntity,
+      {bool ignoreActions = false}) async {
     await saveAccountToStore(accountEntity);
     final nextPage = RouterProvider.to.nextPage;
-    if (accountEntity.actions.isNotEmpty) {
+    if (accountEntity.actions.isNotEmpty && ignoreActions == false) {
       if (isNeedCompleteActions == false) {
         isNeedCompleteActions = true;
       }

@@ -35,7 +35,7 @@ class SingleViewer extends StatelessWidget {
         margin: EdgeInsets.fromLTRB(12, 0, 15, 0),
         child: Column(children: [
           ListTile(
-            contentPadding: EdgeInsets.symmetric(vertical: 6),
+            contentPadding: EdgeInsets.symmetric(vertical: 3),
             leading: Stack(clipBehavior: Clip.none, children: [
               Avatar(
                   name: viewerAccount.account.avatar ??

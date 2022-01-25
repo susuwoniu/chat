@@ -28,7 +28,7 @@ class Templates extends StatelessWidget {
           alignment: Alignment.topLeft,
           child: Text(
             question,
-            style: TextStyle(fontSize: 26.0, color: Colors.white),
+            style: TextStyle(fontSize: 22.0, color: Colors.white),
           ),
         ),
         Container(

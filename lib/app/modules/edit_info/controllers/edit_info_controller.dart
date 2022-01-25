@@ -82,10 +82,6 @@ class EditInfoController extends GetxController {
     _datePicked.value = _picked;
   }
 
-  void setIsShowYearPicked(bool value) {
-    isShowDatePicked.value = value;
-  }
-
   sendProfileImage(ProfileImageEntity img, {required int index}) async {
     final slot =
         await APIProvider.to.post("/account/me/profile-images/slot", body: {
