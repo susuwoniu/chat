@@ -7,15 +7,17 @@
 - [x]  首页名字溢出
 - [x]  other聊天按钮bug
 - [x]  other资料首次进入为null
+- [ ]  Liked 按钮是英文
 - [ ]  发帖页无template内容时，dismiss键盘后很难再次弹出键盘
 - [ ]  广场发帖后nearby有时出错
 - [ ]  square list 单条数据有时不存在
-- [ ]  room preview message 溢出！！！！！！
+- [x]  room preview message 溢出！！！！！！
 - [x]  回退other view getX error
 - [ ]  other view chat button error???
 - [x]  举报页点击输入框后溢出
 - [x]  chat keyboard error
 - [ ]  拉黑
+- [ ] 点赞列表，拉黑列表
 - [ ]  post template 区分title content
 - [x]  square跳转到single post
 - [x]  square假删除
