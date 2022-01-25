@@ -62,6 +62,8 @@ import '../modules/verification/views/verification_view.dart';
 import 'observers.dart';
 import '../modules/report/views/report_view.dart';
 import '../modules/report/bindings/report_binding.dart';
+import '../modules/block/views/block_view.dart';
+import '../modules/block/bindings/block_binding.dart';
 part 'app_routes.dart';
 
 class AppPages {
@@ -283,6 +285,15 @@ class AppPages {
       name: _Paths.REPORT,
       page: () => ReportView(),
       binding: ReportBinding(),
+    ),
+    GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
+      name: _Paths.BLOCK,
+      page: () => BlockView(),
+      binding: BlockBinding(),
     ),
   ];
 }

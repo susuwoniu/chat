@@ -29,13 +29,22 @@ class MySinglePostView extends GetView<MySinglePostController> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('MySinglePostView'.tr),
+          title: Text(
+            'MySinglePostView'.tr,
+            style: TextStyle(fontSize: 19),
+          ),
           centerTitle: true,
+          bottom: PreferredSize(
+              child: Container(
+                height: 0.5,
+                color: Colors.grey.shade400,
+              ),
+              preferredSize: Size.fromHeight(0)),
         ),
         body: SafeArea(
           child: ListView(children: [
             Container(
-                margin: EdgeInsets.fromLTRB(12, 6, 12, 20),
+                margin: EdgeInsets.fromLTRB(12, 15, 12, 20),
                 padding: EdgeInsets.fromLTRB(16, 5, 0, 25),
                 constraints: BoxConstraints(minHeight: _height * 0.4),
                 decoration: BoxDecoration(

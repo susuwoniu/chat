@@ -103,10 +103,20 @@ class OtherController extends GetxController {
         body: {"like_count_action": 'decrease_one'});
   }
 
-  likeAction(bool increase) {
+  accountAction({bool isLiked = true, required bool increase}) {
     final _account = AuthProvider.to.simpleAccountMap[accountId] ??
         SimpleAccountEntity.empty();
-    _account.is_liked = increase;
+    if (isLiked) {
+      _account.is_liked = increase;
+    } else {
+      _account.is_blocked = increase;
+    }
     AuthProvider.to.simpleAccountMap[accountId] = _account;
+  }
+
+  toggleBlock({required String id, required bool toBlocked}) async {
+    await APIProvider.to.patch("/account/accounts/$id", body: {
+      "block_count_action": toBlocked ? 'increase_one' : 'decrease_one'
+    });
   }
 }

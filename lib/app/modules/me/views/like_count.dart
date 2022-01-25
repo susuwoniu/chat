@@ -24,7 +24,7 @@ class LikeCount extends StatelessWidget {
             color: Colors.pink.shade300,
           ),
           SizedBox(width: 4),
-          Text(count > 999 ? '999+' : count.toString(),
+          Text(count > 99999 ? '99999+' : count.toString(),
               style: TextStyle(
                   fontSize: fontSize,
                   color: Colors.pink.shade300,

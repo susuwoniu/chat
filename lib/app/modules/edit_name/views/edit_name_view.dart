@@ -14,7 +14,6 @@ class EditNameView extends GetView<EditNameController> {
     return Scaffold(
       backgroundColor: Color(0xfff0eff4),
       appBar: AppBar(
-        toolbarHeight: 50,
         title: Text("Name".tr, style: TextStyle(fontSize: 18)),
         actions: [
           Obx(() {
@@ -33,16 +32,13 @@ class EditNameView extends GetView<EditNameController> {
           }),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        child: Obx(() {
-          return InputWidget(
-              maxLength: 14,
-              maxLines: 1,
-              initialContent: controller.initialContent,
-              onChange: controller.onChangeTextValue);
-        }),
-      ),
+      body: Obx(() {
+        return InputWidget(
+            maxLength: 14,
+            maxLines: 1,
+            initialContent: controller.initialContent,
+            onChange: controller.onChangeTextValue);
+      }),
     );
   }
 }

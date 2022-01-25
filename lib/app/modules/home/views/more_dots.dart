@@ -4,7 +4,9 @@ import 'package:flutter_share_me/flutter_share_me.dart';
 
 class MoreDots extends StatelessWidget {
   final void Function() onPressedReport;
-  final void Function() onPressedShare;
+  final void Function()? onPressedShare;
+  final void Function()? onPressedBlock;
+
   final BuildContext context;
   final String? bottomText;
   final IconData? bottomIcon;
@@ -12,7 +14,8 @@ class MoreDots extends StatelessWidget {
   MoreDots(
       {Key? key,
       required this.onPressedReport,
-      required this.onPressedShare,
+      this.onPressedShare,
+      this.onPressedBlock,
       required this.context,
       this.bottomText,
       this.bottomIcon})
@@ -51,11 +54,15 @@ class MoreDots extends StatelessWidget {
             GestureDetector(
               onTap: () async {
                 Navigator.pop(context);
-                final FlutterShareMe flutterShareMe = FlutterShareMe();
-                // TODO right share url
-                final response =
-                    await flutterShareMe.shareToSystem(msg: "test");
-                print(response);
+                if (bottomText != null) {
+                  onPressedBlock!();
+                } else {
+                  final FlutterShareMe flutterShareMe = FlutterShareMe();
+                  // TODO right share url
+                  final response =
+                      await flutterShareMe.shareToSystem(msg: "test");
+                  print(response);
+                }
               },
               child: Container(
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),

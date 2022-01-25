@@ -12,7 +12,6 @@ class EditBioView extends GetView<EditBioController> {
     return Scaffold(
       backgroundColor: Color(0xfff0eff4),
       appBar: AppBar(
-        toolbarHeight: 50,
         title: Text("Bio".tr, style: TextStyle(fontSize: 18)),
         actions: [
           Obx(() {
@@ -32,16 +31,13 @@ class EditBioView extends GetView<EditBioController> {
         ],
         centerTitle: true,
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        child: Obx(() {
-          return InputWidget(
-              maxLength: 100,
-              maxLines: 10,
-              initialContent: controller.initialContent,
-              onChange: controller.onChangeTextValue);
-        }),
-      ),
+      body: Obx(() {
+        return InputWidget(
+            maxLength: 100,
+            maxLines: 10,
+            initialContent: controller.initialContent,
+            onChange: controller.onChangeTextValue);
+      }),
     );
   }
 }

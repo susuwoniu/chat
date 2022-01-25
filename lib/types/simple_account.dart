@@ -5,17 +5,16 @@ part 'simple_account.g.dart';
 
 @JsonSerializable()
 class SimpleAccountEntity {
-  final String? avatar;
-  final int? age;
-  final String? bio;
-
-  final String name;
   int like_count;
   bool is_liked;
   String? location;
-
+  final String? avatar;
+  final int? age;
+  final String? bio;
+  final String name;
   final bool vip;
   final String gender;
+  bool is_blocked;
   List<ProfileImageEntity>? profile_images;
 
   SimpleAccountEntity({
@@ -29,6 +28,7 @@ class SimpleAccountEntity {
     required this.like_count,
     required this.vip,
     required this.gender,
+    required this.is_blocked,
   });
   static SimpleAccountEntity empty() {
     return SimpleAccountEntity(
@@ -36,13 +36,18 @@ class SimpleAccountEntity {
         gender: "Unknown",
         vip: false,
         like_count: 0,
-        is_liked: false);
+        is_liked: false,
+        is_blocked: false);
   }
 
   factory SimpleAccountEntity.fromJson(Map<String, dynamic> json) {
     if (json['is_liked'] == null) {
       json['is_liked'] = false;
     }
+    if (json['is_blocked'] == null) {
+      json['is_blocked'] = false;
+    }
+
     if (json['location'] == null) {
       json['location'] = '';
     }

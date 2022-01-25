@@ -177,18 +177,38 @@ class OtherView extends GetView<OtherController> {
               showModalBottomSheet(
                   context: context,
                   builder: (context) {
-                    return MoreDots(
-                        context: context,
-                        bottomIcon: Icons.face_retouching_off_rounded,
-                        bottomText: 'Ban'.tr,
-                        onPressedShare: () {
-                          Navigator.pop(context);
-                        },
-                        onPressedReport: () {
-                          Navigator.pop(context);
-                          Get.toNamed(Routes.REPORT,
-                              arguments: {"related_account_id": accountId});
-                        });
+                    return Obx(() {
+                      final _account =
+                          AuthProvider.to.simpleAccountMap[accountId] ??
+                              SimpleAccountEntity.empty();
+                      final is_blocked = _account.is_blocked;
+
+                      return MoreDots(
+                          context: context,
+                          bottomIcon: Icons.face_retouching_off_rounded,
+                          bottomText: is_blocked ? 'Unblock'.tr : 'Block'.tr,
+                          onPressedBlock: () async {
+                            controller.accountAction(
+                                isLiked: false, increase: !is_blocked);
+                            try {
+                              if (is_blocked) {
+                                await controller.toggleBlock(
+                                    id: accountId, toBlocked: false);
+                              } else {
+                                await controller.toggleBlock(
+                                    id: accountId, toBlocked: true);
+                              }
+                              UIUtils.toast('okkk');
+                            } catch (e) {
+                              UIUtils.showError(e);
+                            }
+                          },
+                          onPressedReport: () {
+                            Navigator.pop(context);
+                            Get.toNamed(Routes.REPORT,
+                                arguments: {"related_account_id": accountId});
+                          });
+                    });
                   });
             },
           )),
@@ -220,10 +240,10 @@ class OtherView extends GetView<OtherController> {
                   final _is_liked = _account.is_liked;
 
                   return _chatButton(
-                    text: _is_liked ? 'Liked' : 'Like',
+                    text: _is_liked ? 'Liked'.tr : 'Like'.tr,
                     isLiked: _account.is_liked,
                     onPressedLike: (bool increase) async {
-                      controller.likeAction(increase);
+                      controller.accountAction(increase: increase);
                       if (increase) {
                         try {
                           await controller.postLikeCount(accountId);
@@ -235,7 +255,7 @@ class OtherView extends GetView<OtherController> {
                               currentAccount;
                         } catch (e) {
                           UIUtils.showError(e);
-                          controller.likeAction(false);
+                          controller.accountAction(increase: false);
                         }
                       } else {
                         try {
@@ -248,7 +268,7 @@ class OtherView extends GetView<OtherController> {
                               currentAccount;
                         } catch (e) {
                           UIUtils.showError(e);
-                          controller.likeAction(true);
+                          controller.accountAction(increase: true);
                         }
                       }
                     },
@@ -257,7 +277,7 @@ class OtherView extends GetView<OtherController> {
                 }),
                 SizedBox(width: 30),
                 _chatButton(
-                    text: 'Chat',
+                    text: 'Chat'.tr,
                     onPressedChat: () {
                       Get.toNamed(Routes.ROOM, arguments: {
                         'id': "$accountId@$imDomain",
@@ -303,7 +323,8 @@ class OtherView extends GetView<OtherController> {
                         : isLiked
                             ? Colors.white
                             : color,
-                    fontSize: 20),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
               ),
             )));
   }

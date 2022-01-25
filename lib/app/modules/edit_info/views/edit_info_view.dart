@@ -16,6 +16,12 @@ class EditInfoView extends GetView<EditInfoController> {
         appBar: AppBar(
           title: Text('EditInfoView'.tr, style: TextStyle(fontSize: 19)),
           centerTitle: true,
+          bottom: PreferredSize(
+              child: Container(
+                height: 0.5,
+                color: Colors.grey.shade400,
+              ),
+              preferredSize: Size.fromHeight(0)),
         ),
         body: SafeArea(
             child: SingleChildScrollView(
@@ -32,7 +38,10 @@ class EditInfoView extends GetView<EditInfoController> {
 
                 return Column(children: [
                   ImageList(),
-                  Container(height: 0.3, color: Colors.black26),
+                  Container(
+                    height: 0.5,
+                    color: Colors.grey.shade400,
+                  ),
                   Container(
                     padding: EdgeInsets.only(top: 10),
                     color: Colors.white,
@@ -56,7 +65,7 @@ class EditInfoView extends GetView<EditInfoController> {
                       SettingsTile(
                           title: "Bio".tr,
                           subtitle: _bio!,
-                          subtitleMaxLines: 5,
+                          // subtitleMaxLines: 5,
                           onPressed: (BuildContext context) {
                             Get.toNamed(Routes.EDIT_BIO, arguments: {
                               "action": 'add_account_bio',

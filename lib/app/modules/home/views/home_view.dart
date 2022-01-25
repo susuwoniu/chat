@@ -255,8 +255,6 @@ class HomeView extends GetView<HomeController> {
                                                         return MoreDots(
                                                             context: context,
                                                             onPressedShare: () {
-                                                              Navigator.pop(
-                                                                  context);
                                                               showModalBottomSheet(
                                                                   context:
                                                                       context,

@@ -21,7 +21,7 @@ class SettingView extends GetView<SettingController> {
           //   ),
           //   onPressed: Get.popHistory,
           // ),
-          title: Text('SettingView'),
+          title: Text('SettingView'.tr),
           centerTitle: true,
         ),
         body: Obx(() => SettingsList(
@@ -65,6 +65,12 @@ class SettingView extends GetView<SettingController> {
                       onToggle: (bool value) {
                         print("value $value");
                         ConfigProvider.to.toggleNightMode(value);
+                      },
+                    ),
+                    SettingsTile(
+                      title: 'Block_list'.tr,
+                      onPressed: (BuildContext context) {
+                        Get.toNamed(Routes.BLOCK);
                       },
                     ),
                     SettingsTile(
