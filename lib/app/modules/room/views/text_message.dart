@@ -13,15 +13,17 @@ import 'package:url_launcher/url_launcher.dart';
 /// A class that represents text message widget with optional link preview
 class TextMessage extends StatelessWidget {
   /// Creates a text message widget from a [types.TextMessage] class
-  const TextMessage({
-    Key? key,
-    required this.emojiEnlargementBehavior,
-    required this.hideBackgroundOnEmojiMessages,
-    required this.message,
-    this.onPreviewDataFetched,
-    required this.usePreviewData,
-    required this.showName,
-  }) : super(key: key);
+  const TextMessage(
+      {Key? key,
+      required this.emojiEnlargementBehavior,
+      required this.hideBackgroundOnEmojiMessages,
+      required this.message,
+      this.onPreviewDataFetched,
+      required this.usePreviewData,
+      required this.showName,
+      this.maxTextLength})
+      : super(key: key);
+  final int? maxTextLength;
 
   /// See [Message.emojiEnlargementBehavior]
   final EmojiEnlargementBehavior emojiEnlargementBehavior;
@@ -124,6 +126,13 @@ class TextMessage extends StatelessWidget {
         : enlargeEmojis
             ? theme.sentEmojiMessageTextStyle
             : theme.sentMessageBodyTextStyle;
+    var finalText = message.text;
+    if (maxTextLength != null) {
+      if (message.text.length > maxTextLength!) {
+        finalText = message.text.substring(0, maxTextLength) + "...";
+      }
+    }
+
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       if (showName)
         Padding(
@@ -136,7 +145,7 @@ class TextMessage extends StatelessWidget {
           ),
         ),
       MarkdownBody(
-        data: message.text,
+        data: finalText,
         selectable: true,
         onTapLink: (String text, String? href, String? title) async {
           if (href != null && await canLaunch(href)) {
