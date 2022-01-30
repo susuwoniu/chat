@@ -44,7 +44,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
         body: SafeArea(
           child: ListView(children: [
             Container(
-                margin: EdgeInsets.fromLTRB(12, 15, 12, 20),
+                margin: EdgeInsets.fromLTRB(12, 20, 12, 20),
                 padding: EdgeInsets.fromLTRB(16, 5, 0, 25),
                 constraints: BoxConstraints(minHeight: _height * 0.4),
                 decoration: BoxDecoration(
@@ -74,8 +74,8 @@ class MySinglePostView extends GetView<MySinglePostController> {
                       child: Text(_content,
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 17.0,
-                              height: 1.6))),
+                              fontSize: 20.0,
+                              height: 1.4))),
                 ])),
             Obx(() {
               final post = _homeController.postMap[_postId]!;
@@ -103,7 +103,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                                   Text(
                                     "no_one_has_seen...".tr,
                                     style: TextStyle(
-                                        fontSize: 18, color: Colors.black87),
+                                        fontSize: 18, color: Colors.grey),
                                   ),
                                   Icon(
                                     Icons.lunch_dining_rounded,

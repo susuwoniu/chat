@@ -1,4 +1,3 @@
-import 'package:chat/app/modules/home/views/social_share.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktoklikescroller/tiktoklikescroller.dart';
@@ -14,7 +13,6 @@ import 'author_name.dart';
 import './action_buttons.dart';
 import 'more_dots.dart';
 import 'nearby_switch.dart';
-import 'social_share.dart';
 import 'vip_sheet.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -74,7 +72,7 @@ class HomeView extends GetView<HomeController> {
                     );
                   }),
               Padding(
-                  padding: EdgeInsets.only(right: 15),
+                  padding: EdgeInsets.only(right: 10),
                   child: IconButton(
                       icon: Icon(Icons.add, color: Colors.white, size: 36),
                       onPressed: () {
@@ -254,17 +252,6 @@ class HomeView extends GetView<HomeController> {
                                                       builder: (context) {
                                                         return MoreDots(
                                                             context: context,
-                                                            onPressedShare: () {
-                                                              showModalBottomSheet(
-                                                                  context:
-                                                                      context,
-                                                                  isScrollControlled:
-                                                                      true,
-                                                                  builder:
-                                                                      (context) {
-                                                                    return SocialShare();
-                                                                  });
-                                                            },
                                                             onPressedReport:
                                                                 () {
                                                               Navigator.pop(

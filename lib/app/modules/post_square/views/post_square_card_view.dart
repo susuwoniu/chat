@@ -19,13 +19,19 @@ class PostSquareCardView extends GetView<PostSquareController> {
     final appBar = AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.transparent,
+        leading: IconButton(
+            iconSize: 26,
+            icon: Icon(Icons.arrow_back_ios_new),
+            onPressed: () {
+              Get.back();
+            }),
         actions: <Widget>[
           Row(
             children: [
               Padding(
-                  padding: EdgeInsets.only(right: 15),
+                  padding: EdgeInsets.only(right: 10),
                   child: IconButton(
-                      icon: Icon(Icons.add, color: Colors.white, size: 32),
+                      icon: Icon(Icons.add, color: Colors.white, size: 36),
                       onPressed: () {
                         Get.toNamed(
                           Routes.POST,
@@ -95,7 +101,7 @@ class PostSquareCardView extends GetView<PostSquareController> {
                           Container(
                               alignment: Alignment.topLeft,
                               padding:
-                                  EdgeInsets.fromLTRB(16, 0, 16, _height * 0.2),
+                                  EdgeInsets.fromLTRB(16, 6, 16, _height * 0.2),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,19 +173,6 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                                       builder: (context) {
                                                         return MoreDots(
                                                             context: context,
-                                                            onPressedShare: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                              showModalBottomSheet(
-                                                                  context:
-                                                                      context,
-                                                                  isScrollControlled:
-                                                                      true,
-                                                                  builder:
-                                                                      (context) {
-                                                                    return SocialShare();
-                                                                  });
-                                                            },
                                                             onPressedReport:
                                                                 () {
                                                               Navigator.pop(

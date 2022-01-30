@@ -1,3 +1,4 @@
+import 'package:chat/app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/utils/random.dart';
 import 'package:get/get.dart';
@@ -5,8 +6,8 @@ import '../controllers/post_square_controller.dart';
 import 'package:chat/common.dart';
 import '../../me/views/small_post.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import '../../me/views/circle_widget.dart';
 import 'package:chat/app/routes/app_pages.dart';
+import 'package:flutter_share_me/flutter_share_me.dart';
 
 class PostSquareView extends GetView<PostSquareController> {
   final _title = Get.arguments['title'];
@@ -25,6 +26,24 @@ class PostSquareView extends GetView<PostSquareController> {
               () => controller.pagingController.refresh(),
             ),
         child: Scaffold(
+          appBar: AppBar(
+              iconTheme: IconThemeData(color: Colors.white),
+              backgroundColor: backgroundColor,
+              actions: [
+                Padding(
+                    padding: EdgeInsets.only(right: 5),
+                    child: IconButton(
+                      splashColor: Colors.transparent,
+                      icon: Icon(Icons.share_rounded, color: Colors.white),
+                      onPressed: () async {
+                        final FlutterShareMe flutterShareMe = FlutterShareMe();
+                        // TODO right share url
+                        final response =
+                            await flutterShareMe.shareToSystem(msg: "test");
+                        print(response);
+                      },
+                    ))
+              ]),
           body: Stack(alignment: AlignmentDirectional.topCenter, children: [
             CustomScrollView(slivers: [
               SliverToBoxAdapter(
@@ -33,38 +52,19 @@ class PostSquareView extends GetView<PostSquareController> {
                     () {},
                   ),
                   child: Column(children: [
-                    Stack(
-                      alignment: AlignmentDirectional.center,
-                      clipBehavior: Clip.none,
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
-                          height: _height * 0.35,
-                          width: _width,
-                          color: backgroundColor,
-                          child: Text(_title,
-                              style: TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white)),
-                        ),
-                        Positioned(
-                            bottom: -_width * 0.1,
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle),
-                                height: _width * 0.16,
-                                width: _width * 0.16,
-                                child: Icon(
-                                  Icons.face_outlined,
-                                  size: _width * 0.1.toDouble(),
-                                  color: Colors.black54,
-                                ))),
-                      ],
+                    Container(
+                      alignment: Alignment.topCenter,
+                      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                      height: _height * 0.2,
+                      width: _width,
+                      color: backgroundColor,
+                      child: Text('# ' + _title,
+                          style: TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)),
                     ),
-                    SizedBox(height: _height * 0.06),
+                    SizedBox(height: 10),
                     Obx(() {
                       final usedCount = controller.usedCount;
                       return Text(
@@ -103,22 +103,13 @@ class PostSquareView extends GetView<PostSquareController> {
                   })),
             ]),
             Positioned(
-                left: 20,
-                top: 50,
-                child: CircleWidget(
-                  icon: Icon(Icons.arrow_back_rounded, color: Colors.white),
-                  onPressed: () {
-                    Get.back();
-                  },
-                )),
-            Positioned(
                 bottom: 30,
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: Colors.black),
+                      color: Colors.black87),
                   child: GestureDetector(
                       onTap: () {
                         Get.toNamed(Routes.CREATE, arguments: {
@@ -126,7 +117,11 @@ class PostSquareView extends GetView<PostSquareController> {
                         });
                       },
                       child: Row(children: [
-                        Icon(Icons.tag_rounded, color: Colors.white, size: 20),
+                        Avatar(
+                            name: AuthProvider.to.account.value.name,
+                            uri: AuthProvider.to.account.value.avatar,
+                            size: 16),
+                        SizedBox(width: 8),
                         Text('Join_topic'.tr,
                             style: TextStyle(
                               color: Colors.white,

@@ -7,10 +7,10 @@
 - [x]  首页名字溢出
 - [x]  other聊天按钮bug
 - [x]  other资料首次进入为null
-- [ ]  Liked 按钮是英文
+- [x]  Liked 按钮是英文
 - [ ]  发帖页无template内容时，dismiss键盘后很难再次弹出键盘
 - [ ]  谁看过我没有按照最后访问时间排序
-- [ ]  广场发帖后nearby有时出错
+- [ ]  广场发帖后home&nearby内容为null
 - [ ]  square list 单条数据有时不存在
 - [x]  room preview message 溢出！！！！！！
 - [x]  回退other view getX error

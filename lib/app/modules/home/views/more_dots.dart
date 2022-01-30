@@ -4,7 +4,6 @@ import 'package:flutter_share_me/flutter_share_me.dart';
 
 class MoreDots extends StatelessWidget {
   final void Function() onPressedReport;
-  final void Function()? onPressedShare;
   final void Function()? onPressedBlock;
 
   final BuildContext context;
@@ -14,7 +13,6 @@ class MoreDots extends StatelessWidget {
   MoreDots(
       {Key? key,
       required this.onPressedReport,
-      this.onPressedShare,
       this.onPressedBlock,
       required this.context,
       this.bottomText,
