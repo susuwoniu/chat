@@ -40,131 +40,144 @@ class OtherView extends GetView<OtherController> {
       _imgList.add(ProfileImageEntity.empty());
     }
     return Stack(clipBehavior: Clip.antiAliasWithSaveLayer, children: [
-      CustomScrollView(
-          // controller: controller.listScrollController,
-          slivers: [
-            SliverToBoxAdapter(
-              child: Column(children: [
-                Container(
-                    color: Color(0xfff0eff4),
-                    child: Stack(children: [
-                      CarouselSlider(
-                        items: _imgList
-                            .map((img) => ImageSlider(
-                                img: img, height: height * 0.5, width: width))
-                            .toList(),
-                        carouselController: buttonCarouselController,
-                        options: CarouselOptions(
-                            height: height * 0.5,
-                            viewportFraction: 1,
-                            onPageChanged: (index, reason) {
-                              controller.setCurrent(index);
-                            }),
-                      ),
-                      Positioned(
-                          left: paddingLeft,
-                          bottom: height * 0.025,
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                    width: width * 0.85,
-                                    child:
-                                        NicknameWidget(name: _name, vip: _vip)),
-                                SizedBox(height: 10),
-                                AgeWidget(
-                                    gender: AuthProvider
-                                        .to.simpleAccountMap[accountId]!.gender,
-                                    age: AuthProvider
-                                                .to
-                                                .simpleAccountMap[accountId]!
-                                                .age ==
-                                            null
-                                        ? ' ???'
-                                        : _account.age.toString()),
-                                SizedBox(height: 15),
-                                Obx(() {
-                                  final _likeCount = AuthProvider.to
-                                      .simpleAccountMap[accountId]!.like_count;
-                                  return LikeCount(
-                                    count: _likeCount,
-                                  );
+      RefreshIndicator(
+          onRefresh: () => Future.sync(
+                () => controller.pagingController.refresh(),
+              ),
+          child: CustomScrollView(
+              // controller: controller.listScrollController,
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Column(children: [
+                    Container(
+                        color: Color(0xfff0eff4),
+                        child: Stack(children: [
+                          CarouselSlider(
+                            items: _imgList
+                                .map((img) => ImageSlider(
+                                    img: img,
+                                    height: height * 0.5,
+                                    width: width))
+                                .toList(),
+                            carouselController: buttonCarouselController,
+                            options: CarouselOptions(
+                                height: height * 0.5,
+                                viewportFraction: 1,
+                                onPageChanged: (index, reason) {
+                                  controller.setCurrent(index);
                                 }),
-                              ])),
-                      Positioned(
-                          bottom: 10,
-                          width: width,
-                          child: Obx(
-                            () => DotsWidget(
-                                current: controller.current,
-                                onTap: buttonCarouselController.animateToPage,
-                                count: _account.profile_images == null
-                                    ? 0
-                                    : _account.profile_images!.length),
-                          )),
-                    ])),
-                Container(
-                  padding: EdgeInsets.fromLTRB(15, 17, 25, 0),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Obx(() {
-                          final _account =
-                              AuthProvider.to.simpleAccountMap[accountId] ??
-                                  SimpleAccountEntity.empty();
-                          final _bio = _account.bio == ''
-                              ? 'Nothing...'.tr
-                              : _account.bio!;
+                          ),
+                          Positioned(
+                              left: paddingLeft,
+                              bottom: height * 0.025,
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                        width: width * 0.85,
+                                        child: NicknameWidget(
+                                            name: _name, vip: _vip)),
+                                    SizedBox(height: 10),
+                                    AgeWidget(
+                                        gender: AuthProvider
+                                            .to
+                                            .simpleAccountMap[accountId]!
+                                            .gender,
+                                        age: AuthProvider
+                                                    .to
+                                                    .simpleAccountMap[
+                                                        accountId]!
+                                                    .age ==
+                                                null
+                                            ? ' ???'
+                                            : _account.age.toString()),
+                                    SizedBox(height: 15),
+                                    Obx(() {
+                                      final _likeCount = AuthProvider
+                                          .to
+                                          .simpleAccountMap[accountId]!
+                                          .like_count;
+                                      return LikeCount(
+                                        count: _likeCount,
+                                      );
+                                    }),
+                                  ])),
+                          Positioned(
+                              bottom: 10,
+                              width: width,
+                              child: Obx(
+                                () => DotsWidget(
+                                    current: controller.current,
+                                    onTap:
+                                        buttonCarouselController.animateToPage,
+                                    count: _account.profile_images == null
+                                        ? 0
+                                        : _account.profile_images!.length),
+                              )),
+                        ])),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(15, 17, 25, 0),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Obx(() {
+                              final _account =
+                                  AuthProvider.to.simpleAccountMap[accountId] ??
+                                      SimpleAccountEntity.empty();
+                              final _bio = _account.bio == ''
+                                  ? 'Nothing...'.tr
+                                  : _account.bio!;
 
-                          return Text(_bio,
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  height: 1.5,
-                                  fontSize: 17,
-                                  color: Colors.grey.shade800));
-                        }),
-                        SizedBox(height: 8),
-                        Obx(() {
-                          final _account =
-                              AuthProvider.to.simpleAccountMap[accountId] ??
-                                  SimpleAccountEntity.empty();
-                          final _location = _account.location == ''
-                              ? 'Unknown_place'.tr
-                              : _account.location!;
-                          return ProfileInfoText(
-                              text: _location,
-                              icon: Icons.location_on_outlined);
-                        }),
-                        SizedBox(height: 2)
-                      ]),
-                )
-              ]),
-            ),
-            PagedSliverGrid<String?, String>(
-                showNewPageProgressIndicatorAsGridChild: false,
-                showNewPageErrorIndicatorAsGridChild: false,
-                showNoMoreItemsIndicatorAsGridChild: false,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 0.8,
-                  crossAxisCount: 2,
+                              return Text(_bio,
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      height: 1.5,
+                                      fontSize: 17,
+                                      color: Colors.grey.shade800));
+                            }),
+                            SizedBox(height: 8),
+                            Obx(() {
+                              final _account =
+                                  AuthProvider.to.simpleAccountMap[accountId] ??
+                                      SimpleAccountEntity.empty();
+                              final _location = _account.location == ''
+                                  ? 'Unknown_place'.tr
+                                  : _account.location!;
+                              return ProfileInfoText(
+                                  text: _location,
+                                  icon: Icons.location_on_outlined);
+                            }),
+                            SizedBox(height: 2)
+                          ]),
+                    )
+                  ]),
                 ),
-                pagingController: controller.pagingController,
-                builderDelegate: PagedChildBuilderDelegate<String>(
-                    itemBuilder: (context, id, index) {
-                  final post = postMap[id]!;
-                  return SmallPost(
-                      onTap: () {
-                        Get.toNamed(Routes.ROOM, arguments: {
-                          "id": "$accountId@$imDomain",
-                          "quote": post.content
-                        });
-                      },
-                      postId: id,
-                      content: post.content,
-                      backgroundColor: post.backgroundColor);
-                })),
-            SliverToBoxAdapter(child: Container(height: 80))
-          ]),
+                PagedSliverGrid<String?, String>(
+                    showNewPageProgressIndicatorAsGridChild: false,
+                    showNewPageErrorIndicatorAsGridChild: false,
+                    showNoMoreItemsIndicatorAsGridChild: false,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 0.8,
+                      crossAxisCount: 2,
+                    ),
+                    pagingController: controller.pagingController,
+                    builderDelegate: PagedChildBuilderDelegate<String>(
+                        itemBuilder: (context, id, index) {
+                      final post = postMap[id]!;
+                      return SmallPost(
+                          onTap: () {
+                            Get.toNamed(Routes.ROOM, arguments: {
+                              "id": "$accountId@$imDomain",
+                              "quote": post.content
+                            });
+                          },
+                          postId: id,
+                          content: post.content,
+                          backgroundColor: post.backgroundColor);
+                    })),
+                SliverToBoxAdapter(child: Container(height: 80))
+              ])),
       Positioned(
           left: width * 0.04,
           top: height * 0.06,
@@ -205,7 +218,7 @@ class OtherView extends GetView<OtherController> {
                                     id: accountId, toBlocked: true);
                               }
 
-                              UIUtils.toast('okkk');
+                              UIUtils.toast('Blocked.'.tr);
                             } catch (e) {
                               UIUtils.showError(e);
                               controller.accountAction(
@@ -256,7 +269,7 @@ class OtherView extends GetView<OtherController> {
                       if (increase) {
                         try {
                           await controller.postLikeCount(accountId);
-                          UIUtils.toast('okkk');
+                          UIUtils.toast('Liked!'.tr);
                           final currentAccount =
                               AuthProvider.to.simpleAccountMap[accountId]!;
                           currentAccount.like_count += 1;
@@ -269,7 +282,7 @@ class OtherView extends GetView<OtherController> {
                       } else {
                         try {
                           await controller.cancelLikeCount(accountId);
-                          UIUtils.toast('okkk-cancel');
+                          UIUtils.toast('Successfully_unliked.'.tr);
                           final currentAccount =
                               AuthProvider.to.simpleAccountMap[accountId]!;
                           currentAccount.like_count -= 1;

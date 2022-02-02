@@ -100,7 +100,7 @@ class AnswerView extends GetView<AnswerController> {
           backgroundColor: backgroundColor.value);
       _answerController.setIsSubmitting(false);
 
-      UIUtils.toast("send_successfully".tr);
+      UIUtils.toast("Succeeded!".tr);
       RouterProvider.to.toHome();
     } catch (e) {
       UIUtils.showError(e);

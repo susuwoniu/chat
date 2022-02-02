@@ -192,7 +192,7 @@ class CreateView extends GetView<CreateController> {
       controller.setIsSubmitting(false);
 
       UIUtils.hideLoading();
-      UIUtils.toast("send_successfully".tr);
+      UIUtils.toast("Succeeded!".tr);
       RouterProvider.to.toHome();
       AuthProvider.to.account.update((value) {
         if (value != null) {

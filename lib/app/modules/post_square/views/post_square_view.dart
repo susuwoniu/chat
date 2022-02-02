@@ -25,6 +25,8 @@ class PostSquareView extends GetView<PostSquareController> {
     final safePadding = MediaQuery.of(context).padding.top;
 
     return RefreshIndicator(
+        color: backgroundColor,
+        backgroundColor: Colors.white,
         onRefresh: () => Future.sync(
               () => controller.pagingController.refresh(),
             ),

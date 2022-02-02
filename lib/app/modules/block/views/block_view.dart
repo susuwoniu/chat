@@ -13,22 +13,22 @@ class BlockView extends GetView<BlockController> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-        onRefresh: () => Future.sync(
-              () => controller.pagingController.refresh(),
-            ),
-        child: Scaffold(
-          appBar: AppBar(
-            bottom: PreferredSize(
-                child: Container(
-                  height: 0.5,
-                  color: Colors.grey.shade400,
-                ),
-                preferredSize: Size.fromHeight(0)),
-            title: Text('Blocked_Users'.tr, style: TextStyle(fontSize: 17)),
-            centerTitle: true,
+    return Scaffold(
+        appBar: AppBar(
+          bottom: PreferredSize(
+              child: Container(
+                height: 0.5,
+                color: Colors.grey.shade400,
+              ),
+              preferredSize: Size.fromHeight(0)),
+          title: Text('Blocked_Users'.tr, style: TextStyle(fontSize: 17)),
+          centerTitle: true,
+        ),
+        body: RefreshIndicator(
+          onRefresh: () => Future.sync(
+            () => controller.pagingController.refresh(),
           ),
-          body: PagedListView(
+          child: PagedListView(
               pagingController: controller.pagingController,
               builderDelegate: PagedChildBuilderDelegate<String>(
                   itemBuilder: (context, id, index) {

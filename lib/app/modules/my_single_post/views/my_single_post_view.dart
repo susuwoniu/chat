@@ -145,7 +145,6 @@ class MySinglePostView extends GetView<MySinglePostController> {
                       UIUtils.showLoading();
                       await controller.postChange(
                           type: visibility, postId: postId);
-                      UIUtils.toast('okk');
                     } catch (e) {
                       UIUtils.showError(e);
                     }
@@ -160,7 +159,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                         UIUtils.showLoading();
                         await controller.postChange(
                             type: 'promote', postId: postId);
-                        UIUtils.toast('okk');
+                        UIUtils.toast('Successfully_polished'.tr);
                       } catch (e) {
                         UIUtils.showError(e);
                       }
@@ -179,7 +178,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                     try {
                       UIUtils.showLoading();
                       await controller.onDeletePost(postId);
-                      UIUtils.toast('okk');
+                      UIUtils.toast('Successfully_deleted'.tr);
                       Get.back();
                     } catch (e) {
                       UIUtils.showError(e);

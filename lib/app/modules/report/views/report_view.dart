@@ -121,14 +121,15 @@ class ReportView extends GetView<ReportController> {
                                   content: _textController.text.isEmpty
                                       ? ''
                                       : _textController.text);
-                              UIUtils.toast('okk');
+                              UIUtils.toast('Thank_you_for_reporting!'.tr);
                               _textController.clear();
                               Get.back();
                             } catch (e) {
                               UIUtils.showError(e);
                             }
                           } else {
-                            UIUtils.showError('choose type');
+                            UIUtils.showError(
+                                'Please_choose_a_report_type.'.tr);
                           }
                         })
                   ]),

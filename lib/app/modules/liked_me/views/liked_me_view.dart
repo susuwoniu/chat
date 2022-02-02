@@ -13,21 +13,21 @@ class LikedMeView extends GetView<LikedMeController> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-        onRefresh: () => Future.sync(
-              () => controller.pagingController.refresh(),
-            ),
-        child: Scaffold(
-          appBar: AppBar(
-              bottom: PreferredSize(
-                  child: Container(
-                    height: 0.5,
-                    color: Colors.grey.shade400,
-                  ),
-                  preferredSize: Size.fromHeight(0)),
-              title: Text('Who_Liked_Me'.tr, style: TextStyle(fontSize: 17)),
-              centerTitle: true),
-          body: PagedListView(
+    return Scaffold(
+        appBar: AppBar(
+            bottom: PreferredSize(
+                child: Container(
+                  height: 0.5,
+                  color: Colors.grey.shade400,
+                ),
+                preferredSize: Size.fromHeight(0)),
+            title: Text('Who_Liked_Me'.tr, style: TextStyle(fontSize: 17)),
+            centerTitle: true),
+        body: RefreshIndicator(
+          onRefresh: () => Future.sync(
+            () => controller.pagingController.refresh(),
+          ),
+          child: PagedListView(
               pagingController: controller.pagingController,
               builderDelegate: PagedChildBuilderDelegate<String>(
                   itemBuilder: (context, id, index) {

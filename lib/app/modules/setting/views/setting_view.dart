@@ -116,7 +116,7 @@ class SettingView extends GetView<SettingController> {
                           UIUtils.showLoading();
                           await AccountProvider.to.handleLogout();
                           UIUtils.hideLoading();
-                          UIUtils.toast("退出成功");
+                          UIUtils.toast("Logged_out.".tr);
                           RouterProvider.to.restart(context);
                         } catch (e) {
                           UIUtils.hideLoading();

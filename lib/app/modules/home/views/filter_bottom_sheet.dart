@@ -201,7 +201,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                     _currentAgeRangeValues.end &&
                                 widget.initialEndDistance ==
                                     _currentEndDistance) {
-                              UIUtils.toast('no changes');
                               Navigator.pop(context);
                             } else {
                               widget.onSubmitted(
@@ -210,7 +209,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                       _currentAgeRangeValues.start.round(),
                                   endAge: _currentAgeRangeValues.end.round(),
                                   endDistance: _currentEndDistance.round());
-                              UIUtils.toast('okkkk');
+                              UIUtils.toast('Successfully_filtered'.tr);
                               Navigator.pop(context);
                             }
                           } else {
@@ -231,7 +230,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                             _currentAgeRangeValues = RangeValues(18, 98);
                             selectedGender = 'all';
                             _currentEndDistance = 100;
-                            UIUtils.toast('okkkk');
+                            UIUtils.toast('Successfully_reset'.tr);
                           });
                         }),
                   ])

@@ -179,12 +179,14 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                   onPressed: () async {
                                     try {
                                       await controller.handleSendCode();
-                                      UIUtils.toast('验证码发送成功');
+                                      UIUtils.toast(
+                                          'A_verification_code_has_been_sent_to_your_phone.'
+                                              .tr);
                                     } catch (e) {
                                       UIUtils.showError(e);
                                     }
                                   },
-                                  child: Text("resend".tr,
+                                  child: Text("Resend".tr,
                                       style: TextStyle(
                                         fontSize: 16,
                                       )));
