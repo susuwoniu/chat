@@ -7,6 +7,7 @@ import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'image_list.dart';
 import 'year_picker.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:flutter/services.dart';
 
 class EditInfoView extends GetView<EditInfoController> {
   @override
@@ -15,6 +16,8 @@ class EditInfoView extends GetView<EditInfoController> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text('EditInfoView'.tr, style: TextStyle(fontSize: 19)),
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           centerTitle: true,
           bottom: PreferredSize(
               child: Container(

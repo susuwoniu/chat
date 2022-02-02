@@ -9,6 +9,7 @@ import 'package:chat/app/ui_utils/location.dart';
 import '../controllers/create_controller.dart';
 import 'package:location/location.dart';
 import '../../my_single_post/views/visibility_sheet.dart';
+import 'package:flutter/services.dart';
 
 final VisibilityMap = {'public': 'Public', 'private': 'Private'};
 
@@ -46,6 +47,9 @@ class CreateView extends GetView<CreateController> {
     TextAlign _textAlign = TextAlign.left;
     return Scaffold(
         appBar: AppBar(
+            title: Text('Create'.tr, style: TextStyle(fontSize: 18)),
+            systemOverlayStyle:
+                SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
             bottom: PreferredSize(
                 child: Container(
                   height: 0.5,

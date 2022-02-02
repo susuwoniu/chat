@@ -5,6 +5,7 @@ import '../../edit_name/views/appbar_save.dart';
 import '../controllers/edit_bio_controller.dart';
 import '../../edit_name/views/input_widget.dart';
 import 'package:chat/app/providers/providers.dart';
+import 'package:flutter/services.dart';
 
 class EditBioView extends GetView<EditBioController> {
   @override
@@ -13,6 +14,8 @@ class EditBioView extends GetView<EditBioController> {
       backgroundColor: Color(0xfff0eff4),
       appBar: AppBar(
         title: Text("Bio".tr, style: TextStyle(fontSize: 18)),
+        systemOverlayStyle:
+            SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
         actions: [
           Obx(() {
             final _isActived = controller.isActived.value;

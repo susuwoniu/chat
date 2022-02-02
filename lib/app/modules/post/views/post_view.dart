@@ -7,6 +7,7 @@ import 'package:tcard/tcard.dart';
 import './templates.dart';
 import 'package:chat/common.dart';
 import 'package:chat/utils/random.dart';
+import 'package:flutter/services.dart';
 
 class PostView extends GetView<PostController> {
   @override
@@ -17,7 +18,8 @@ class PostView extends GetView<PostController> {
         child: Scaffold(
             appBar: AppBar(
               title: Text("PostView".tr),
-              centerTitle: true,
+              systemOverlayStyle:
+                  SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
             ),
             body: Obx(() {
               final isLoading = controller.isLoading.value;

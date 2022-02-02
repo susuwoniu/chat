@@ -6,6 +6,7 @@ import '../controllers/gender_select_controller.dart';
 import 'gender_picker.dart';
 import '../../age_picker/views/next_button.dart';
 import 'package:chat/app/providers/providers.dart';
+import 'package:flutter/services.dart';
 
 class GenderSelectView extends GetView<GenderSelectController> {
   @override
@@ -17,6 +18,8 @@ class GenderSelectView extends GetView<GenderSelectController> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text('GenderSelect'),
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           centerTitle: true,
         ),
         body: SafeArea(

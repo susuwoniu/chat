@@ -6,14 +6,16 @@ import './conversation_item.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/types/types.dart';
 import 'package:xmpp_stone/xmpp_stone.dart' as xmpp;
+import 'package:flutter/services.dart';
 
 class MessageView extends GetView<MessageController> {
   @override
   Widget build(BuildContext context) {
     final _chatProvider = ChatProvider.to;
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        systemOverlayStyle:
+            SystemUiOverlayStyle(statusBarBrightness: Brightness.light), // 1
         bottom: PreferredSize(
             child: Container(
               height: 0.5,
@@ -22,11 +24,11 @@ class MessageView extends GetView<MessageController> {
             preferredSize: Size.fromHeight(0)),
         title: Obx(() => Text(
               controller.isLoadingRooms || !controller.isInitRooms
-                  ? "Loading..."
+                  ? "Loading...".tr
                   : _chatProvider.connectionState ==
                           xmpp.ConnectionState.connected
                       ? "Chats".tr
-                      : "连接失败",
+                      : "Network_error".tr,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
