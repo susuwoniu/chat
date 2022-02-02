@@ -11,6 +11,7 @@ import 'package:chat/app/modules/home/views/chat_box.dart';
 import 'package:chat/app/modules/home/views/author_name.dart';
 import 'package:chat/app/modules/home/views/action_buttons.dart';
 import 'package:chat/app/modules/home/views/more_dots.dart';
+import 'package:chat/app/common/quote_with_link.dart';
 
 class PostSquareCardView extends GetView<PostSquareController> {
   @override
@@ -150,8 +151,11 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                                                   "${post.accountId}@$imDomain",
                                                               "quote_background_color":
                                                                   post.backgroundColor,
-                                                              "quote":
-                                                                  post.content
+                                                              "reduce": "false",
+                                                              "quote": quoteWithLink(
+                                                                  post.content,
+                                                                  postIndexes[
+                                                                      index])
                                                             });
                                                       }
                                                     })),

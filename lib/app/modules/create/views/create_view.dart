@@ -10,6 +10,7 @@ import '../controllers/create_controller.dart';
 import 'package:location/location.dart';
 import '../../my_single_post/views/visibility_sheet.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/cupertino.dart';
 
 final VisibilityMap = {'public': 'Public', 'private': 'Private'};
 
@@ -128,22 +129,24 @@ class CreateView extends GetView<CreateController> {
                         ]),
                     Row(children: [
                       Text("Location".tr),
-                      Obx(() => Switch(
-                          value: ConfigProvider.to.listAtNearby,
-                          onChanged: (value) async {
-                            // check permission
-                            await ConfigProvider.to.toggleListAtNearby();
-
-                            try {
-                              if (value == true) {
-                                await checkLocationPermission();
-                              }
-                            } catch (e) {
-                              UIUtils.showError(e);
-                              // change back
-                              await ConfigProvider.to.toggleListAtNearby();
-                            }
-                          })),
+                      Obx(() => Transform.scale(
+                          transformHitTests: false,
+                          scale: .6,
+                          child: CupertinoSwitch(
+                              value: ConfigProvider.to.listAtNearby,
+                              onChanged: (value) async {
+                                // check permission
+                                await ConfigProvider.to.toggleListAtNearby();
+                                try {
+                                  if (value == true) {
+                                    await checkLocationPermission();
+                                  }
+                                } catch (e) {
+                                  UIUtils.showError(e);
+                                  // change back
+                                  await ConfigProvider.to.toggleListAtNearby();
+                                }
+                              }))),
                     ])
                   ])),
             ]),

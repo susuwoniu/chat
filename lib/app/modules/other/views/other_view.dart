@@ -18,6 +18,7 @@ import '../../home/views/more_dots.dart';
 import '../../me/views/profile_info_text.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:chat/app/common/block.dart';
+import 'package:chat/app/common/quote_with_link.dart';
 
 class OtherView extends GetView<OtherController> {
   final CarouselController buttonCarouselController = CarouselController();
@@ -169,7 +170,8 @@ class OtherView extends GetView<OtherController> {
                           onTap: () {
                             Get.toNamed(Routes.ROOM, arguments: {
                               "id": "$accountId@$imDomain",
-                              "quote": post.content,
+                              "reduce": "false",
+                              "quote": quoteWithLink(post.content, id),
                               "quote_background_color": post.backgroundColor,
                             });
                           },
