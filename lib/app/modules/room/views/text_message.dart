@@ -154,10 +154,10 @@ class TextMessage extends StatelessWidget {
         },
         styleSheet: MarkdownStyleSheet(
           a: TextStyle(
-            shadows: [Shadow(color: defaultColor, offset: Offset(0, -5))],
-            color: Colors.transparent,
+            // shadows: [Shadow(color: defaultColor, offset: Offset(0, -5))],
+            color: defaultColor,
             decoration: TextDecoration.underline,
-            decorationColor: defaultColor,
+            // decorationColor: defaultColor,
           ),
           pPadding: EdgeInsets.zero,
           code: theme.sentMessageBodyTextStyle.copyWith(

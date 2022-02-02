@@ -1,6 +1,7 @@
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter/material.dart';
 
-var BACKGROUND_COLORS = [
+final BACKGROUND_COLORS = [
   HexColor("#00b894"),
   HexColor("#4bcffa"),
   HexColor("#74b9ff"),
@@ -16,3 +17,5 @@ var BACKGROUND_COLORS = [
   HexColor("#F8CA47"),
   HexColor("#3A6CAF"),
 ];
+
+final TEXT_PRIMARY_COLOR = Color(0xFF212529);
