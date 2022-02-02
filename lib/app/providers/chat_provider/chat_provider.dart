@@ -2,19 +2,21 @@ import 'package:xmpp_stone/xmpp_stone.dart' as xmpp;
 import 'package:get/get.dart';
 import 'dart:async';
 import 'package:chat/common.dart';
-import 'package:chat/errors/errors.dart';
 import '../auth_provider.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:sqflite/sqflite.dart';
 
 class ChatProvider extends GetxService {
   static ChatProvider get to => Get.find();
-  final _isLoading = true.obs;
-  final _isConnected = false.obs;
+  // final _isLoading = true.obs;
+  // final _isConnected = false.obs;
   final currentChatAccount = Rxn<types.User>();
-  bool get isConnected => _isConnected.value;
-  bool get isLoading => _isLoading.value;
-  bool isInitConnection = false;
+  // bool get isConnected => _isConnected.value;
+  // bool get isLoading => _isLoading.value;
+  final rawConnectionState =
+      Rx<xmpp.ConnectionState>(xmpp.ConnectionState.connecting);
+  xmpp.ConnectionState get connectionState => rawConnectionState.value;
+  String connectionStateMessage = "";
+  bool _isInitingConnection = false;
   xmpp.DbProvider? get database => _connection?.db;
   xmpp.Connection? _connection;
   xmpp.Jid? _currentAccount;
@@ -22,12 +24,9 @@ class ChatProvider extends GetxService {
   xmpp.RoomManager? _roomManager;
   xmpp.RoomManager? get roomManager => _roomManager;
   xmpp.StreamManagementModule? streamManager;
-  StreamSubscription<AuthStatus>? _authStatusSubscription;
-  Stream<ConnectionState> get connectionUpdated =>
-      _connectionUpdatedStreamController.stream;
-  final StreamController<ConnectionState> _connectionUpdatedStreamController =
-      StreamController.broadcast();
-  StreamSubscription<xmpp.XmppConnectionState>? _connectionStateSubscription;
+  late StreamSubscription<AuthStatus> _authStatusSubscription;
+  StreamSubscription<xmpp.Event<xmpp.ConnectionState, String>>?
+      _connectionStateSubscription;
 
   bool get isOpened {
     if (_connection != null) {
@@ -38,15 +37,11 @@ class ChatProvider extends GetxService {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     // init im login
-    _authStatusSubscription = AuthProvider.to.authUpdated.listen((event) {
+    _authStatusSubscription = AuthProvider.to.authUpdated.listen((event) async {
       if (event == AuthStatus.loginSuccess) {
-        connect().then((_) {
-          _isLoading.value = false;
-        }).catchError((e) {
-          _isLoading.value = false;
-        });
+        await connect();
       } else if (event == AuthStatus.logoutSuccess) {
         dipose();
       }
@@ -55,6 +50,8 @@ class ChatProvider extends GetxService {
 
     super.onInit();
   }
+
+  Future<void> reconnect() async {}
 
   Future<void> connect() async {
     // init im login
@@ -87,7 +84,7 @@ class ChatProvider extends GetxService {
 
   @override
   onClose() {
-    _authStatusSubscription?.cancel();
+    _authStatusSubscription.cancel();
     super.onClose();
   }
 
@@ -96,33 +93,36 @@ class ChatProvider extends GetxService {
     // String? resourceId = await PlatformDeviceId.getDeviceId;
     // final resource = resourceId
     // final platform = Platform.isAndroid ? 'Android' : 'iOS';
+    if (_isInitingConnection) {
+      return;
+    }
+    _isInitingConnection = true;
     final jid = "$accountId@$domain/$device";
     final account = xmpp.XmppAccountSettings.fromJid(jid, token);
     account.reconnectionTimeout = 3000;
-    _isLoading.value = true;
-    _connection = xmpp.Connection(account);
-    // roomManager
-    _currentAccount = _connection!.fullJid;
-    currentChatAccount(types.User(id: _currentAccount!.userAtDomain));
-    _roomManager = xmpp.RoomManager.getInstance(_connection!);
-    if (AppConfig.to.isDev) {
-      xmpp.Log.logXmpp = true;
-      xmpp.Log.logLevel = xmpp.LogLevel.DEBUG;
-    }
+    rawConnectionState.value = xmpp.ConnectionState.connecting;
+    if (_connection == null) {
+      _connection = xmpp.Connection(account);
+      // roomManager
+      _currentAccount = _connection!.fullJid;
+      currentChatAccount(types.User(id: _currentAccount!.userAtDomain));
+      _roomManager = xmpp.RoomManager.getInstance(_connection!);
+      if (AppConfig.to.isDev) {
+        xmpp.Log.logXmpp = true;
+        xmpp.Log.logLevel = xmpp.LogLevel.DEBUG;
+      }
 
-    if (!isInitConnection) {
-      await _connection!.init();
+      try {
+        await _connection!.init();
+      } catch (e) {
+        _isInitingConnection = false;
+        rethrow;
+      }
+      _connectionStateSubscription =
+          _roomManager!.connectionUpdated.listen((event) {
+        rawConnectionState.value = event.id;
+      });
     }
-    Completer<void> completer = Completer();
-
-    if (_connectionStateSubscription != null) {
-      _connectionStateSubscription!.cancel();
-    }
-
-    _connectionStateSubscription =
-        _connection!.connectionStateStream.listen((state) {
-      _onConnectionStateChangedInternal(state, completer);
-    });
 
     if (_connection!.state == xmpp.XmppConnectionState.ForcefullyClosed ||
         _connection!.state == xmpp.XmppConnectionState.Closed) {
@@ -130,103 +130,12 @@ class ChatProvider extends GetxService {
     } else {
       _connection!.connect();
     }
-    return completer.future;
-  }
-
-  void _throwExceptiohn(Completer completer, ServiceException exception) {
-    _isConnected.value = false;
-    if (!completer.isCompleted) {
-      completer.completeError(exception);
-    }
-    if ((_connection != null &&
-            (_connection!.state == xmpp.XmppConnectionState.ForcefullyClosed ||
-                _connection!.state == xmpp.XmppConnectionState.Closed)) ||
-        _connection == null) {
-      _isLoading.value = false;
-      _connectionUpdatedStreamController.add(ConnectionState.disconnected);
-    } else {
-      _isLoading.value = true;
-      _connectionUpdatedStreamController.add(ConnectionState.connecting);
-    }
-  }
-
-  void _onConnectionStateChangedInternal(
-    xmpp.XmppConnectionState state,
-    Completer<void> completer,
-  ) {
-    switch (state) {
-      case xmpp.XmppConnectionState.StartTlsFailed:
-        Log.debug("Chat connection StartTlsFailed");
-        _throwExceptiohn(
-            completer,
-            ServiceException("Chat connection StartTlsFailed",
-                code: "StartTlsFailed"));
-        break;
-      case xmpp.XmppConnectionState.AuthenticationNotSupported:
-        Log.debug("Chat connection AuthenticationNotSupported");
-        _throwExceptiohn(
-            completer,
-            ServiceException("Chat connection AuthenticationNotSupported",
-                code: "AuthenticationNotSupported"));
-        break;
-
-      case xmpp.XmppConnectionState.AuthenticationFailure:
-        Log.debug("Chat connection AuthenticationFailure");
-
-        _throwExceptiohn(
-            completer,
-            ServiceException("Chat connection AuthenticationFailure",
-                code: "AuthenticationFailure"));
-        break;
-      case xmpp.XmppConnectionState.ForcefullyClosed:
-        Log.debug("Chat connection ForcefullyClosed");
-
-        _throwExceptiohn(
-            completer,
-            ServiceException("Open connection error: ForcefullyClosed",
-                code: "ForceClosed"));
-
-        break;
-      case xmpp.XmppConnectionState.Closed:
-        Log.debug("Chat connection Closed");
-
-        _throwExceptiohn(
-            completer,
-            ServiceException("Open connection Closed",
-                code: "ConnectionClosed"));
-
-        break;
-      case xmpp.XmppConnectionState.Ready:
-        Log.debug("Chat connection Ready");
-        streamManager = _connection!.streamManagementModule;
-
-        _isLoading.value = false;
-        if (!completer.isCompleted) {
-          completer.complete();
-        }
-        _isConnected.value = true;
-        _connectionUpdatedStreamController.add(ConnectionState.connected);
-
-        break;
-
-      default:
-    }
+    _isInitingConnection = false;
   }
 
   void logout() {
     if (_connection != null) {
-      _connection!.close();
+      _connection!.dispose();
     }
   }
-
-  void setIsLoading(bool value) {
-    _isLoading.value = value;
-  }
-}
-
-enum ConnectionState {
-  connecting,
-  connected,
-  disconnected,
-  error,
 }

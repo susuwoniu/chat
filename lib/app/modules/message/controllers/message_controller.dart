@@ -1,4 +1,3 @@
-import 'package:chat/app/widgets/main_bottom_navigation_bar.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 import 'package:flutter/material.dart' hide ConnectionState;
@@ -133,59 +132,43 @@ class MessageController extends GetxController {
 
   final _currentRoomId = RxnString();
   String? get currentRoomId => _currentRoomId.value;
-  StreamSubscription<ConnectionState>? _chatConnectionUpdatedSubscription;
-  StreamSubscription<xmpp.Event<xmpp.Message>>? _roomMessageUpdatedSubscription;
+  StreamSubscription<xmpp.Event<String, xmpp.Message>>?
+      _roomMessageUpdatedSubscription;
+
   Stream<RoomsState> get roomsStateStream => _roomsStateStreamController.stream;
   final StreamController<RoomsState> _roomsStateStreamController =
       StreamController.broadcast();
   @override
-  Future<void> onReady() async {
-    _chatConnectionUpdatedSubscription =
-        ChatProvider.to.connectionUpdated.listen((event) {
-      if (event == ConnectionState.connected) {
+  void onInit() {
+    ever<xmpp.ConnectionState>(ChatProvider.to.rawConnectionState, (event) {
+      if (event == xmpp.ConnectionState.connected ||
+          event == xmpp.ConnectionState.disconnected) {
         // 初始化房间列表
-        ChatProvider.to.setIsLoading(true);
         init().catchError((e) {
           print(e);
-          ChatProvider.to.setIsLoading(false);
-
           UIUtils.showError(e);
-        }).then((_) {
-          ChatProvider.to.setIsLoading(false);
-        });
-      } else if (event == ConnectionState.disconnected) {
-        // 离线初始化
-        ChatProvider.to.setIsLoading(true);
-
-        initRooms().catchError((e) {
-          Log.error("offline init rooms failed $e");
-          // 断开连接
-          ChatProvider.to.setIsLoading(false);
-          cancelSubscription();
-        }).then((_) {
-          // 断开连接
-          ChatProvider.to.setIsLoading(false);
-          cancelSubscription();
         });
       }
     });
 
+    super.onInit();
+  }
+
+  @override
+  Future<void> onReady() async {
     super.onReady();
   }
 
   Future<void> init() async {
     if (ChatProvider.to.roomManager != null) {
+      if (_roomMessageUpdatedSubscription != null) {
+        _roomMessageUpdatedSubscription!.cancel();
+      }
       _roomMessageUpdatedSubscription =
           ChatProvider.to.roomManager!.roomMessageUpdated.listen((event) async {
         await updateRoomMessage(event);
       });
-      // stream listener
-      ChatProvider.to.streamManager!.deliveredStanzasStream
-          .listen((xmpp.AbstractStanza event) {
-        if (event.id != null) {
-          updateMessageStatusAsDelivered(event.id!);
-        }
-      });
+
       await initRooms();
     }
   }
@@ -319,6 +302,23 @@ class MessageController extends GetxController {
       roomManager.sendMessage(roomId, message);
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<void> resendMessage(String roomId, types.Message rawMessage) async {
+    var message = messageEntities[rawMessage.id];
+
+    if (message != null) {
+      message = message.copyWith(status: types.Status.sending);
+
+      messageEntities[rawMessage.id] = message;
+      final roomManager = ChatProvider.to.roomManager!;
+
+      try {
+        await roomManager.resendMessage(rawMessage.id);
+      } catch (e) {
+        rethrow;
+      }
     }
   }
 
@@ -506,14 +506,6 @@ class MessageController extends GetxController {
     }
   }
 
-  void addRoom(xmpp.Event<xmpp.Room> event) {
-    entities[event.id] = Room.fromXmppRoom(event.data);
-    if (indexes.contains(event.id)) {
-      indexes.remove(event.id);
-    }
-    indexes.insert(0, event.id);
-  }
-
   static String getPreview(xmpp.Message message) {
     return message.text;
   }
@@ -521,12 +513,12 @@ class MessageController extends GetxController {
   void updateMessageStatusAsDelivered(String messageId) {
     var message = messageEntities[messageId];
     if (message != null) {
-      message = message.copyWith(status: types.Status.delivered);
+      message = message.copyWith(status: types.Status.sent);
       messageEntities[messageId] = message;
     }
   }
 
-  Future<void> updateRoomMessage(xmpp.Event<xmpp.Message> event) async {
+  Future<void> updateRoomMessage(xmpp.Event<String, xmpp.Message> event) async {
     final roomFullJid = event.id;
     final message = event.data;
     final messageId = event.data.id;
@@ -627,12 +619,10 @@ class MessageController extends GetxController {
   }
 
   void cancelSubscription() {
-    if (_chatConnectionUpdatedSubscription != null) {
-      _chatConnectionUpdatedSubscription!.cancel();
-    }
     if (_roomMessageUpdatedSubscription != null) {
       _roomMessageUpdatedSubscription!.cancel();
     }
+
     _roomsStateStreamController.close();
   }
 

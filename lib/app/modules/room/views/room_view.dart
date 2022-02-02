@@ -118,6 +118,7 @@ class RoomView extends GetView<RoomController> {
                   }
                 },
                 onMessageTap: _handleMessageTap,
+                onMessageStatusTap: _handleMessageStatusTap,
                 onEndReached: controller.handleEndReached,
                 user: ChatProvider.to.currentChatAccount.value!,
               );
@@ -229,6 +230,14 @@ class RoomView extends GetView<RoomController> {
     }
   }
 
+  void _handleMessageStatusTap(types.Message message) async {
+    if (message.status == types.Status.error) {
+      // retry message
+      // await MessageController.to.cancelMessage(message);
+      await MessageController.to.resendMessage(controller.roomId, message);
+    }
+  }
+
   PreferredSizeWidget roomAppBar(
       {required BuildContext context, required String roomId}) {
     final _width = MediaQuery.of(context).size.width;
@@ -251,7 +260,7 @@ class RoomView extends GetView<RoomController> {
                         elevation: 0,
                         size: 20,
                         uri: roomAccount?.avatar,
-                        name: roomAccount?.name ?? '--',
+                        name: roomAccount?.name ?? jidToName(room!.id),
                         onTap: () {
                           if (roomInfoId == AuthProvider.to.accountId) {
                             RouterProvider.to.toMe();
@@ -267,7 +276,8 @@ class RoomView extends GetView<RoomController> {
                       : Container(
                           width: _width * 0.45,
                           child: Flexible(
-                              child: Text(roomAccount?.name ?? "Room".tr,
+                              child: Text(
+                                  roomAccount?.name ?? jidToName(room!.id),
                                   style: TextStyle(fontSize: 16)))),
                 ]),
                 LikeCount(
