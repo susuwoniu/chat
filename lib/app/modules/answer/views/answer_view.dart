@@ -22,7 +22,6 @@ class AnswerView extends GetView<AnswerController> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('AnswerView'),
-        centerTitle: true,
       ),
       body: Obx(
         () {

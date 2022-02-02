@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 AppBar roomAppBar(BuildContext context, String st) {
   return AppBar(
-      centerTitle: true,
       leadingWidth: 30,
       title: Container(
           padding: EdgeInsets.fromLTRB(0, 0, 15, 5),

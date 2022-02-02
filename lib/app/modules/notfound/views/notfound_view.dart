@@ -10,7 +10,6 @@ class NotfoundView extends GetView<NotfoundController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('NotfoundView'),
-        centerTitle: true,
       ),
       body: Center(
         child: Text(

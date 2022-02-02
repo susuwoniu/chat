@@ -12,7 +12,6 @@ class ProfileViewersView extends GetView<ProfileViewersController> {
     return Scaffold(
         appBar: AppBar(
           title: Text('ProfileViewersView'.tr, style: TextStyle(fontSize: 17)),
-          centerTitle: true,
           systemOverlayStyle:
               SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           bottom: PreferredSize(

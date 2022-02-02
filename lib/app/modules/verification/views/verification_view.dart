@@ -55,7 +55,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Verification".tr),
-          centerTitle: true,
         ),
         body: GestureDetector(
             behavior: HitTestBehavior.opaque,

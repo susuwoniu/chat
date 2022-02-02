@@ -32,7 +32,6 @@ class EditBioView extends GetView<EditBioController> {
                 });
           }),
         ],
-        centerTitle: true,
       ),
       body: Obx(() {
         return InputWidget(

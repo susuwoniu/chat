@@ -34,7 +34,6 @@ class MessageView extends GetView<MessageController> {
                 fontWeight: FontWeight.bold,
               ),
             )),
-        centerTitle: true,
       ),
       body: Obx(
         () => CustomScrollView(

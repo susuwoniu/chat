@@ -12,6 +12,7 @@ import 'dart:io';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'report_sheet.dart';
 import '../../edit_info/views/single_image.dart';
+import 'package:flutter/services.dart';
 
 const Map<String, String> Type = {
   "spam": "Fraud",
@@ -28,8 +29,15 @@ class ReportView extends GetView<ReportController> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('ReportView'.tr),
-          centerTitle: true,
+          title: Text('ReportView'.tr, style: TextStyle(fontSize: 18)),
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
+          bottom: PreferredSize(
+              child: Container(
+                height: 0.5,
+                color: Colors.grey.shade400,
+              ),
+              preferredSize: Size.fromHeight(0)),
         ),
         body: GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -39,6 +47,7 @@ class ReportView extends GetView<ReportController> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 10),
                     GestureDetector(
                         onTap: () {
                           showModalBottomSheet(

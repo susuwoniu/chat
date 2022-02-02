@@ -70,7 +70,6 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: Text('Login'.tr),
-          centerTitle: true,
         ),
         body: GestureDetector(
             behavior: HitTestBehavior.opaque,

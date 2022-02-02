@@ -20,7 +20,6 @@ class GenderSelectView extends GetView<GenderSelectController> {
           title: Text('GenderSelect'),
           systemOverlayStyle:
               SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
-          centerTitle: true,
         ),
         body: SafeArea(
           child: Container(

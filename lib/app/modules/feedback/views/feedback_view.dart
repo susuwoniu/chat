@@ -11,7 +11,6 @@ class FeedbackView extends GetView<FeedbackController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('FeedbackView'),
-        centerTitle: true,
       ),
       body: Center(
         child: Text(

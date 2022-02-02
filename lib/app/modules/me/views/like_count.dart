@@ -9,11 +9,13 @@ class LikeCount extends StatelessWidget {
   final Color? backgroundColor;
   final double? fontSize;
   final double? iconSize;
+  final bool isMe;
 
   LikeCount(
       {Key? key,
       required this.count,
       this.backgroundColor = Colors.black38,
+      this.isMe = false,
       this.fontSize = 18,
       this.iconSize = 18})
       : super(key: key);
@@ -21,16 +23,18 @@ class LikeCount extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          if (AuthProvider.to.account.value.vip) {
-            Get.toNamed(Routes.LIKEDME);
-          } else {
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                enableDrag: false,
-                builder: (context) {
-                  return VipSheet(context: context, index: 1);
-                });
+          if (isMe) {
+            if (AuthProvider.to.account.value.vip) {
+              Get.toNamed(Routes.LIKEDME);
+            } else {
+              showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  enableDrag: false,
+                  builder: (context) {
+                    return VipSheet(context: context, index: 1);
+                  });
+            }
           }
         },
         child: Container(

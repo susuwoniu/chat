@@ -18,7 +18,6 @@ class EditInfoView extends GetView<EditInfoController> {
           title: Text('EditInfoView'.tr, style: TextStyle(fontSize: 18)),
           systemOverlayStyle:
               SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
-          centerTitle: true,
           bottom: PreferredSize(
               child: Container(
                 height: 0.5,

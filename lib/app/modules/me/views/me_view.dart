@@ -67,7 +67,7 @@ class MeView extends GetView<MeController> {
                   }
                   return Column(children: [
                     Container(
-                        color: Color(0xfff0eff4),
+                        color: Colors.grey.shade200,
                         child: Stack(children: [
                           CarouselSlider(
                             items: _imgList
@@ -100,9 +100,7 @@ class MeView extends GetView<MeController> {
                                         gender: _account.gender,
                                         age: _account.age.toString()),
                                     SizedBox(height: 15),
-                                    LikeCount(
-                                      count: _likeCount,
-                                    ),
+                                    LikeCount(count: _likeCount, isMe: true),
                                   ])),
                           Positioned(
                               right: paddingLeft,

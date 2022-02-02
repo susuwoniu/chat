@@ -22,7 +22,6 @@ class BlockView extends GetView<BlockController> {
               ),
               preferredSize: Size.fromHeight(0)),
           title: Text('Blocked_Users'.tr, style: TextStyle(fontSize: 17)),
-          centerTitle: true,
         ),
         body: RefreshIndicator(
           onRefresh: () => Future.sync(

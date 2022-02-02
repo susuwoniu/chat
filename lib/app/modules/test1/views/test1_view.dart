@@ -11,7 +11,6 @@ class Test1View extends GetView<Test1Controller> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Title'),
-        centerTitle: true,
       ),
       body: SafeArea(
           child: Container(

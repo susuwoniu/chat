@@ -36,7 +36,6 @@ class MySinglePostView extends GetView<MySinglePostController> {
           ),
           systemOverlayStyle:
               SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
-          centerTitle: true,
           bottom: PreferredSize(
               child: Container(
                 height: 0.5,

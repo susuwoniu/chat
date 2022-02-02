@@ -18,8 +18,9 @@
 - [x]  举报页点击输入框后溢出
 - [x]  chat keyboard error
 - [x]  拉黑
-- [ ]  点赞列表，拉黑列表
-- [ ]  square背景色
+- [x]  点赞列表，拉黑列表
+- [x]  square背景色
+- [ ]  点赞列表查看用户为null
 - [ ]  post template 区分title content
 - [x]  square跳转到single post
 - [x]  square假删除
@@ -100,7 +101,7 @@
 - [ ] 每次重启还是要刷新下me的信息，防止会员信息不同步
 - [x] 验证码submit 汉化
 - [x] 谁看过我页面，标题汉化，空状态优化
-- [ ] okkk去掉
+- [x] okkk去掉
 - [ ] 删除帖子后请求下一页出错
 ## 上线前Check
 

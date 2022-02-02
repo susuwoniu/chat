@@ -19,7 +19,6 @@ class DebugView extends GetView<DebugController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('DebugView'),
-        centerTitle: true,
       ),
       body: Obx(() => SingleChildScrollView(
             child: Column(

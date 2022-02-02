@@ -10,7 +10,6 @@ class AboutView extends GetView<AboutController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('AboutView'),
-        centerTitle: true,
       ),
       body: Center(
         child: Text(

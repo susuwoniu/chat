@@ -12,7 +12,6 @@ class AddProfileImageView extends GetView<AddProfileImageController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('AddProfileImageView'),
-        centerTitle: true,
       ),
       body: Column(children: [
         Text(

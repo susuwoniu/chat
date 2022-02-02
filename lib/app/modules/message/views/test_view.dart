@@ -10,7 +10,6 @@ class MessageView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('SplashView'),
-        centerTitle: true,
       ),
       body: Center(
         child: Text(

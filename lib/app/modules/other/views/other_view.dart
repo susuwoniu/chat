@@ -50,7 +50,7 @@ class OtherView extends GetView<OtherController> {
                 SliverToBoxAdapter(
                   child: Column(children: [
                     Container(
-                        color: Color(0xfff0eff4),
+                        color: Colors.grey.shade200,
                         child: Stack(children: [
                           CarouselSlider(
                             items: _imgList
