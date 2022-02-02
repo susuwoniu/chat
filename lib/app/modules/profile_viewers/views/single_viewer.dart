@@ -18,7 +18,7 @@ class SingleViewer extends StatelessWidget {
     required this.viewerAccount,
     required this.isLast,
   }) : super(key: key);
-  final DateFormat formatter = DateFormat('yyyy-MM-dd  H:mm');
+  final DateFormat formatter = DateFormat('yyyy-MM-dd  HH:mm');
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +31,11 @@ class SingleViewer extends StatelessWidget {
         : _gender == 'female'
             ? Colors.pink.shade300
             : Colors.blue;
+
+    final times = viewerAccount.viewedCount > 9999
+        ? '9999+'
+        : viewerAccount.viewedCount.toString();
+
     return Container(
         margin: EdgeInsets.fromLTRB(12, 0, 15, 0),
         child: Column(children: [
@@ -76,8 +81,8 @@ class SingleViewer extends StatelessWidget {
                         ]),
                       ),
                       SizedBox(width: 15),
-                      Text(viewerAccount.viewedCount.toString() + "times".tr,
-                          style: TextStyle(color: Colors.black, fontSize: 17)),
+                      Text(times + "times".tr,
+                          style: TextStyle(color: Colors.black, fontSize: 16)),
                     ])),
             subtitle: Container(
                 padding: EdgeInsets.symmetric(vertical: 3),

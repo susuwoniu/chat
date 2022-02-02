@@ -24,7 +24,7 @@ class SettingView extends GetView<SettingController> {
           // ),
           systemOverlayStyle:
               SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
-          title: Text('SettingView'.tr),
+          title: Text('SettingView'.tr, style: TextStyle(fontSize: 17)),
           centerTitle: true,
         ),
         body: Obx(() => SettingsList(

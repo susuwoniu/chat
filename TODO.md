@@ -18,7 +18,7 @@
 - [x]  举报页点击输入框后溢出
 - [x]  chat keyboard error
 - [ ]  拉黑
-- [ ] 点赞列表，拉黑列表
+- [ ]  点赞列表，拉黑列表
 - [ ]  post template 区分title content
 - [x]  square跳转到single post
 - [x]  square假删除
@@ -31,6 +31,7 @@
 - [x]  重新获取验证码逻辑没有
 - [x]  验证码返回上一页，无法删除手机号
 - [x]  登录页没有导航 
+- [ ]  vip无限发帖
 - [ ]  xmpp 增加query all超时判断，错误判断
 - [ ]  send message id use uuid
 - [ ]  默认信息条数20/50
@@ -41,7 +42,6 @@
 - [ ]  应用更新后，缓存的数据结构的变化如何处理？
 - [ ]  device id
 - [ ]  stream resume chat
-- [ ]  设置页面
 - [x]  发送帖子页面，模版优化
 - [x]  消息页面引用样式？markdown？
 - [ ]  帖子markdown？

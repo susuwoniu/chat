@@ -44,59 +44,64 @@ class OtherView extends GetView<OtherController> {
           slivers: [
             SliverToBoxAdapter(
               child: Column(children: [
-                Stack(children: [
-                  CarouselSlider(
-                    items: _imgList
-                        .map((img) => ImageSlider(
-                            img: img, height: height * 0.5, width: width))
-                        .toList(),
-                    carouselController: buttonCarouselController,
-                    options: CarouselOptions(
-                        height: height * 0.5,
-                        viewportFraction: 1,
-                        onPageChanged: (index, reason) {
-                          controller.setCurrent(index);
-                        }),
-                  ),
-                  Positioned(
-                      left: paddingLeft,
-                      bottom: height * 0.025,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                                width: width * 0.85,
-                                child: NicknameWidget(name: _name, vip: _vip)),
-                            SizedBox(height: 10),
-                            AgeWidget(
-                                gender: AuthProvider
-                                    .to.simpleAccountMap[accountId]!.gender,
-                                age: AuthProvider.to
-                                            .simpleAccountMap[accountId]!.age ==
-                                        null
-                                    ? ' ???'
-                                    : _account.age.toString()),
-                            SizedBox(height: 15),
-                            Obx(() {
-                              final _likeCount = AuthProvider
-                                  .to.simpleAccountMap[accountId]!.like_count;
-                              return LikeCount(
-                                count: _likeCount,
-                              );
+                Container(
+                    color: Color(0xfff0eff4),
+                    child: Stack(children: [
+                      CarouselSlider(
+                        items: _imgList
+                            .map((img) => ImageSlider(
+                                img: img, height: height * 0.5, width: width))
+                            .toList(),
+                        carouselController: buttonCarouselController,
+                        options: CarouselOptions(
+                            height: height * 0.5,
+                            viewportFraction: 1,
+                            onPageChanged: (index, reason) {
+                              controller.setCurrent(index);
                             }),
-                          ])),
-                  Positioned(
-                      bottom: 10,
-                      width: width,
-                      child: Obx(
-                        () => DotsWidget(
-                            current: controller.current,
-                            onTap: buttonCarouselController.animateToPage,
-                            count: _account.profile_images == null
-                                ? 0
-                                : _account.profile_images!.length),
-                      )),
-                ]),
+                      ),
+                      Positioned(
+                          left: paddingLeft,
+                          bottom: height * 0.025,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                    width: width * 0.85,
+                                    child:
+                                        NicknameWidget(name: _name, vip: _vip)),
+                                SizedBox(height: 10),
+                                AgeWidget(
+                                    gender: AuthProvider
+                                        .to.simpleAccountMap[accountId]!.gender,
+                                    age: AuthProvider
+                                                .to
+                                                .simpleAccountMap[accountId]!
+                                                .age ==
+                                            null
+                                        ? ' ???'
+                                        : _account.age.toString()),
+                                SizedBox(height: 15),
+                                Obx(() {
+                                  final _likeCount = AuthProvider.to
+                                      .simpleAccountMap[accountId]!.like_count;
+                                  return LikeCount(
+                                    count: _likeCount,
+                                  );
+                                }),
+                              ])),
+                      Positioned(
+                          bottom: 10,
+                          width: width,
+                          child: Obx(
+                            () => DotsWidget(
+                                current: controller.current,
+                                onTap: buttonCarouselController.animateToPage,
+                                count: _account.profile_images == null
+                                    ? 0
+                                    : _account.profile_images!.length),
+                          )),
+                    ])),
                 Container(
                   padding: EdgeInsets.fromLTRB(15, 17, 25, 0),
                   child: Column(

@@ -66,77 +66,83 @@ class MeView extends GetView<MeController> {
                     _imgList.add(ProfileImageEntity.empty());
                   }
                   return Column(children: [
-                    Stack(children: [
-                      CarouselSlider(
-                        items: _imgList
-                            .map((img) => ImageSlider(
-                                img: img, height: height * 0.5, width: width))
-                            .toList(),
-                        carouselController: buttonCarouselController,
-                        options: CarouselOptions(
-                            height: height * 0.5,
-                            viewportFraction: 1,
-                            initialPage: controller.current,
-                            onPageChanged: (index, reason) {
-                              controller.setCurrent(index);
-                            }),
-                      ),
-                      Positioned(
-                          left: paddingLeft,
-                          bottom: height * 0.025,
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                    width: width * 0.85,
-                                    child:
-                                        NicknameWidget(name: _name, vip: _vip)),
-                                SizedBox(height: 10),
-                                AgeWidget(
-                                    gender: _account.gender,
-                                    age: _account.age.toString()),
-                                SizedBox(height: 15),
-                                LikeCount(
-                                  count: _likeCount,
-                                ),
-                              ])),
-                      Positioned(
-                          right: paddingLeft,
-                          bottom: height * 0.025,
-                          child: ProfileViewersBubble(
-                              totalViewersCount:
-                                  controller.totalViewedCount.value,
-                              newViewersCount:
-                                  controller.unreadViewedCount.value,
-                              onPressed: () async {
-                                if (_vip) {
-                                  Get.toNamed(Routes.PROFILE_VIEWERS);
-                                } else {
-                                  showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      enableDrag: false,
-                                      builder: (context) {
-                                        return VipSheet(
-                                            context: context, index: 1);
-                                      });
-                                  try {
-                                    await controller.clearUnreadViewerCount();
-                                  } catch (e) {
-                                    print(e);
-                                  }
-                                }
-                              })),
-                      Positioned(
-                          bottom: 10,
-                          width: width,
-                          child: Obx(
-                            () => DotsWidget(
-                                current: controller.current,
-                                onTap: buttonCarouselController.animateToPage,
-                                count: _account.profile_images.length),
-                          )),
-                    ]),
+                    Container(
+                        color: Color(0xfff0eff4),
+                        child: Stack(children: [
+                          CarouselSlider(
+                            items: _imgList
+                                .map((img) => ImageSlider(
+                                    img: img,
+                                    height: height * 0.5,
+                                    width: width))
+                                .toList(),
+                            carouselController: buttonCarouselController,
+                            options: CarouselOptions(
+                                height: height * 0.5,
+                                viewportFraction: 1,
+                                initialPage: controller.current,
+                                onPageChanged: (index, reason) {
+                                  controller.setCurrent(index);
+                                }),
+                          ),
+                          Positioned(
+                              left: paddingLeft,
+                              bottom: height * 0.025,
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                        width: width * 0.85,
+                                        child: NicknameWidget(
+                                            name: _name, vip: _vip)),
+                                    SizedBox(height: 10),
+                                    AgeWidget(
+                                        gender: _account.gender,
+                                        age: _account.age.toString()),
+                                    SizedBox(height: 15),
+                                    LikeCount(
+                                      count: _likeCount,
+                                    ),
+                                  ])),
+                          Positioned(
+                              right: paddingLeft,
+                              bottom: height * 0.025,
+                              child: ProfileViewersBubble(
+                                  totalViewersCount:
+                                      controller.totalViewedCount.value,
+                                  newViewersCount:
+                                      controller.unreadViewedCount.value,
+                                  onPressed: () async {
+                                    if (_vip) {
+                                      Get.toNamed(Routes.PROFILE_VIEWERS);
+                                    } else {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          enableDrag: false,
+                                          builder: (context) {
+                                            return VipSheet(
+                                                context: context, index: 1);
+                                          });
+                                      try {
+                                        await controller
+                                            .clearUnreadViewerCount();
+                                      } catch (e) {
+                                        print(e);
+                                      }
+                                    }
+                                  })),
+                          Positioned(
+                              bottom: 10,
+                              width: width,
+                              child: Obx(
+                                () => DotsWidget(
+                                    current: controller.current,
+                                    onTap:
+                                        buttonCarouselController.animateToPage,
+                                    count: _account.profile_images.length),
+                              )),
+                        ])),
                     Container(
                       padding: EdgeInsets.fromLTRB(20, 17, 25, 0),
                       child: Column(

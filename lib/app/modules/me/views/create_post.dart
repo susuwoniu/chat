@@ -1,4 +1,3 @@
-import 'package:chat/app/modules/create/views/create_view.dart';
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

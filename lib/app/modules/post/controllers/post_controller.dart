@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:chat/types/types.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/common.dart';
 import 'package:tcard/tcard.dart';

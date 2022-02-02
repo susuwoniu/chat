@@ -15,7 +15,7 @@ class EditInfoView extends GetView<EditInfoController> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text('EditInfoView'.tr, style: TextStyle(fontSize: 19)),
+          title: Text('EditInfoView'.tr, style: TextStyle(fontSize: 18)),
           systemOverlayStyle:
               SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           centerTitle: true,

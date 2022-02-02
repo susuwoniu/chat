@@ -1,7 +1,6 @@
 import 'package:chat/app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import '../../profile_viewers/controllers/profile_viewers_controller.dart';
-import '../../message/views/time_ago.dart';
+import 'package:chat/types/types.dart';
 import 'package:get/get.dart';
 import '../../me/views/age_widget.dart';
 import '../../me/views/like_count.dart';
@@ -9,20 +8,22 @@ import 'package:intl/intl.dart';
 
 class SingleBlock extends StatelessWidget {
   final Function() onPressed;
-  final ViewerEntity viewerAccount;
+  final SimpleAccountEntity blockAccount;
   final bool isLast;
+  final Function onPressedUnblock;
 
-  SingleBlock({
-    Key? key,
-    required this.onPressed,
-    required this.viewerAccount,
-    required this.isLast,
-  }) : super(key: key);
-  final DateFormat formatter = DateFormat('yyyy-MM-dd  H:mm');
+  SingleBlock(
+      {Key? key,
+      required this.onPressed,
+      required this.blockAccount,
+      required this.isLast,
+      required this.onPressedUnblock})
+      : super(key: key);
+  final DateFormat formatter = DateFormat('yyyy-MM-dd  HH:mm');
 
   @override
   Widget build(BuildContext context) {
-    final _gender = viewerAccount.account.gender;
+    final _gender = blockAccount.gender;
 
     final _genderColor = _gender == 'unknown'
         ? Colors.black12
@@ -36,8 +37,7 @@ class SingleBlock extends StatelessWidget {
               contentPadding: EdgeInsets.symmetric(vertical: 3),
               leading: Stack(clipBehavior: Clip.none, children: [
                 Avatar(
-                    name: viewerAccount.account.avatar ??
-                        viewerAccount.account.name,
+                    name: blockAccount.avatar ?? blockAccount.name,
                     size: 28,
                     onTap: () {
                       onPressed();
@@ -45,7 +45,7 @@ class SingleBlock extends StatelessWidget {
                 Positioned(
                   bottom: -2,
                   right: -4,
-                  child: viewerAccount.account.vip
+                  child: blockAccount.vip
                       ? Icon(Icons.stars_rounded,
                           color: Colors.pink.shade300, size: 28)
                       : SizedBox.shrink(),
@@ -60,14 +60,13 @@ class SingleBlock extends StatelessWidget {
                         Expanded(
                           child: Row(children: [
                             Flexible(
-                                child: Text(viewerAccount.account.name,
+                                child: Text(blockAccount.name,
                                     style: TextStyle(
                                       fontSize: 15,
                                       overflow: TextOverflow.ellipsis,
                                     ))),
                           ]),
                         ),
-                        SizedBox(width: 15),
                       ])),
               subtitle: Container(
                   padding: EdgeInsets.symmetric(vertical: 3),
@@ -75,15 +74,15 @@ class SingleBlock extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         AgeWidget(
-                          age: viewerAccount.account.age.toString(),
-                          gender: viewerAccount.account.gender,
+                          age: blockAccount.age.toString(),
+                          gender: blockAccount.gender,
                           background: _genderColor,
                           iconSize: 14,
                           fontSize: 13,
                         ),
                         SizedBox(width: 10),
                         LikeCount(
-                          count: viewerAccount.account.like_count,
+                          count: blockAccount.like_count,
                           iconSize: 14,
                           fontSize: 14,
                           backgroundColor: Colors.black12,
@@ -99,7 +98,9 @@ class SingleBlock extends StatelessWidget {
                         'Unblock'.tr,
                         style: TextStyle(color: Colors.black54),
                       ),
-                      onPressed: () {}))),
+                      onPressed: () {
+                        onPressedUnblock();
+                      }))),
           !isLast ? Divider(height: 1) : SizedBox.shrink()
         ]));
   }

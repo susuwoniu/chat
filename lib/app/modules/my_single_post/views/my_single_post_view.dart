@@ -14,7 +14,7 @@ final VisibilityMap = {'public': 'Public', 'private': 'Private'};
 
 class MySinglePostView extends GetView<MySinglePostController> {
   final _postId = (Get.arguments['postId']);
-  final DateFormat formatter = DateFormat('yyyy-MM-dd  H:mm');
+  final DateFormat formatter = DateFormat('yyyy-MM-dd  HH:mm');
 
   @override
   Widget build(BuildContext context) {

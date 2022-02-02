@@ -28,6 +28,7 @@ class CircleWidget extends StatelessWidget {
       ),
       child: IconButton(
         icon: icon,
+        splashColor: Colors.transparent,
         padding: EdgeInsets.all(0),
         color: iconColor,
         iconSize: iconSize!,

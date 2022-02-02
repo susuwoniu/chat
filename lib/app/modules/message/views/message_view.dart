@@ -28,7 +28,7 @@ class MessageView extends GetView<MessageController> {
                       ? "Chats".tr
                       : "Network_error".tr,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             )),

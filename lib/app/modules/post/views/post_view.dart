@@ -17,7 +17,6 @@ class PostView extends GetView<PostController> {
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
-              title: Text("PostView".tr),
               systemOverlayStyle:
                   SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
             ),

@@ -36,7 +36,7 @@ class _NearbySwitchState extends State<NearbySwitch> {
       innerColor: Colors.white38,
       current: page,
       values: ["home", 'nearby'],
-      iconOpacity: 0.3,
+      iconOpacity: 0.5,
       indicatorSize: Size.fromWidth(_width * 0.2),
       indicatorType: IndicatorType.roundedRectangle,
       iconAnimationType: AnimationType.onHover,
@@ -47,15 +47,13 @@ class _NearbySwitchState extends State<NearbySwitch> {
           Text(
             Page[value]!.tr,
             style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue.shade500),
+                fontSize: 17, fontWeight: FontWeight.bold, color: Colors.blue),
           ),
         ]);
       },
       borderWidth: 0.0,
       borderColor: Colors.transparent,
-      colorBuilder: (value) => Colors.white70,
+      colorBuilder: (value) => Colors.white,
       onChanged: (value) => setState(() {
         page = value;
         widget.onPressedTabSwitch(value);
