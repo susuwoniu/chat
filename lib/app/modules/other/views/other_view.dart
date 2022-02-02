@@ -319,10 +319,10 @@ class OtherView extends GetView<OtherController> {
     return Expanded(
         child: GestureDetector(
             onTap: () {
-              if (text == 'Chat') {
-                onPressedChat!();
-              } else {
-                onPressedLike!(!isLiked);
+              if (onPressedChat != null) {
+                onPressedChat();
+              } else if (onPressedLike != null) {
+                onPressedLike(!isLiked);
               }
             },
             child: Container(
