@@ -280,10 +280,8 @@ class RoomView extends GetView<RoomController> {
                       ? Text("Loading".tr, style: TextStyle(fontSize: 16))
                       : Container(
                           width: _width * 0.45,
-                          child: Flexible(
-                              child: Text(
-                                  roomAccount?.name ?? jidToName(room!.id),
-                                  style: TextStyle(fontSize: 16)))),
+                          child: Text(roomAccount?.name ?? jidToName(room!.id),
+                              style: TextStyle(fontSize: 16))),
                 ]),
                 LikeCount(
                   count: roomAccount?.like_count != null
