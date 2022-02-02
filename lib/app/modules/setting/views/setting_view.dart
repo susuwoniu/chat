@@ -35,49 +35,51 @@ class SettingView extends GetView<SettingController> {
                     subtitle: _account.phone_number,
                   ),
                 ]),
+                SettingsSection(title: 'General'.tr, tiles: [
+                  SettingsTile(
+                    title: 'Language'.tr,
+                    subtitle: 'English',
+                    // leading: Icon(Icons.language),
+                    onPressed: (BuildContext context) {
+                      Get.bottomSheet(
+                          Container(
+                            child: Wrap(
+                              children: <Widget>[
+                                ListTile(
+                                    title: Text('simplified-chinese'.tr),
+                                    onTap: () {}),
+                                ListTile(
+                                  title: Text('English'.tr),
+                                  onTap: () {},
+                                ),
+                              ],
+                            ),
+                          ),
+                          ignoreSafeArea: false,
+                          backgroundColor: context.theme.backgroundColor);
+                    },
+                  ),
+                  SettingsTile.switchTile(
+                    title: 'Night-mode'.tr,
+                    // leading: Icon(Icons.mode_night),
+                    switchValue: ConfigProvider.to.nightMode.value,
+                    onToggle: (bool value) {
+                      print("value $value");
+                      ConfigProvider.to.toggleNightMode(value);
+                    },
+                  ),
+                ]),
                 SettingsSection(
-                  title: 'general'.tr,
+                  title: 'Privacy'.tr,
                   tiles: [
                     SettingsTile(
-                      title: 'language'.tr,
-                      subtitle: 'English',
-                      // leading: Icon(Icons.language),
-                      onPressed: (BuildContext context) {
-                        Get.bottomSheet(
-                            Container(
-                              child: Wrap(
-                                children: <Widget>[
-                                  ListTile(
-                                      title: Text('simplified-chinese'.tr),
-                                      onTap: () {}),
-                                  ListTile(
-                                    title: Text('english'.tr),
-                                    onTap: () {},
-                                  ),
-                                ],
-                              ),
-                            ),
-                            ignoreSafeArea: false,
-                            backgroundColor: context.theme.backgroundColor);
-                      },
-                    ),
-                    SettingsTile.switchTile(
-                      title: 'night-mode'.tr,
-                      // leading: Icon(Icons.mode_night),
-                      switchValue: ConfigProvider.to.nightMode.value,
-                      onToggle: (bool value) {
-                        print("value $value");
-                        ConfigProvider.to.toggleNightMode(value);
-                      },
-                    ),
-                    SettingsTile(
-                      title: 'Block_list'.tr,
+                      title: 'Blocked_Users'.tr,
                       onPressed: (BuildContext context) {
                         Get.toNamed(Routes.BLOCK);
                       },
                     ),
                     SettingsTile(
-                      title: 'Clear'.tr,
+                      title: 'Clear_Cache'.tr,
                       onPressed: (BuildContext context) {
                         CacheProvider.to.clear();
                       },

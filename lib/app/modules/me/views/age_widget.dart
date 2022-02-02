@@ -6,14 +6,16 @@ class AgeWidget extends StatelessWidget {
   final double? iconSize;
   final double? fontSize;
   final Color? background;
-  AgeWidget({
-    Key? key,
-    required this.age,
-    required this.gender,
-    this.iconSize = 20,
-    this.fontSize = 16,
-    this.background = Colors.white54,
-  }) : super(key: key);
+  final Color? color;
+  AgeWidget(
+      {Key? key,
+      required this.age,
+      required this.gender,
+      this.iconSize = 20,
+      this.fontSize = 16,
+      this.background = Colors.white54,
+      this.color = Colors.black54})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +29,13 @@ class AgeWidget extends StatelessWidget {
         child: Row(children: [
           Icon(
             _genderIcon,
-            color: Colors.black54,
+            color: color,
             size: iconSize!,
           ),
           Text(age,
               style: TextStyle(
                   fontSize: fontSize!,
-                  color: Colors.black54,
+                  color: color,
                   fontWeight: FontWeight.bold))
         ]),
         decoration: BoxDecoration(

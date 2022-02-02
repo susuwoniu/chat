@@ -30,9 +30,9 @@ class SingleBlock extends StatelessWidget {
         ? Colors.black12
         : _gender == 'female'
             ? Colors.pink.shade300
-            : Colors.blue;
+            : Colors.blue.shade400;
     return Container(
-        margin: EdgeInsets.fromLTRB(12, 0, 15, 0),
+        margin: EdgeInsets.symmetric(horizontal: 12),
         child: Column(children: [
           ListTile(
               contentPadding: EdgeInsets.symmetric(vertical: 3),
@@ -78,6 +78,7 @@ class SingleBlock extends StatelessWidget {
                           age: blockAccount.age.toString(),
                           gender: blockAccount.gender,
                           background: _genderColor,
+                          color: Colors.white,
                           iconSize: 14,
                           fontSize: 13,
                         ),

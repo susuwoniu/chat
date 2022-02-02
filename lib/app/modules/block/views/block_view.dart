@@ -21,7 +21,7 @@ class BlockView extends GetView<BlockController> {
               color: Colors.grey.shade400,
             ),
             preferredSize: Size.fromHeight(0)),
-        title: Text('Block_list'.tr, style: TextStyle(fontSize: 17)),
+        title: Text('Blocked_Users'.tr, style: TextStyle(fontSize: 17)),
         centerTitle: true,
       ),
       body: PagedListView(
