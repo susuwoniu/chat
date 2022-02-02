@@ -60,7 +60,7 @@ class MessageView extends GetView<MessageController> {
                           onPressed: () async {
                             controller.setIsLoading(true);
                             try {
-                              await _chatProvider.connect();
+                              await _chatProvider.reconnect();
                               controller.setIsLoading(false);
                             } catch (e) {
                               UIUtils.showError(e);
