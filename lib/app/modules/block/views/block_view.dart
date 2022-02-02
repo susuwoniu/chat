@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/block_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import '../../other/controllers/other_controller.dart';
 import 'single_block.dart';
+import 'package:chat/app/common/block.dart';
 
 // TODO use constans or config
 class BlockView extends GetView<BlockController> {
@@ -31,8 +31,7 @@ class BlockView extends GetView<BlockController> {
             return SingleBlock(
                 onPressedUnblock: () async {
                   try {
-                    await OtherController.to
-                        .toggleBlock(id: id, toBlocked: false);
+                    await toggleBlock(id: id, toBlocked: false);
                   } catch (e) {
                     UIUtils.showError(e);
                   }
