@@ -164,6 +164,7 @@ class HomeView extends GetView<HomeController> {
                                     Container(
                                         child: MaxText(post.content, context,
                                             textAlign: TextAlign.center,
+                                            id: postIndexes[index],
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 26.0,

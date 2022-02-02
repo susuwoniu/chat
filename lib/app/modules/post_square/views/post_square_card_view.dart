@@ -67,8 +67,6 @@ class PostSquareCardView extends GetView<PostSquareController> {
             animationDuration: const Duration(milliseconds: 300),
             onScrollEvent: _handleCallbackEvent,
             builder: (BuildContext context, int index) {
-              final _height = MediaQuery.of(context).size.height;
-
               return Container(
                   color: index < postIndexes.length
                       ? Color(postMap[postIndexes[index]]!.backgroundColor)
@@ -96,12 +94,11 @@ class PostSquareCardView extends GetView<PostSquareController> {
                       return Builder(builder: (BuildContext context) {
                         final post = postMap[postIndexes[index]]!;
                         final author =
-                            AuthProvider.to.simpleAccountMap[post.accountId]!;
+                            AuthProvider.to.simpleAccountMap[post.accountId];
                         return Stack(children: <Widget>[
                           Container(
                               alignment: Alignment.topLeft,
-                              padding:
-                                  EdgeInsets.fromLTRB(16, 6, 16, _height * 0.2),
+                              padding: EdgeInsets.fromLTRB(16, 6, 16, 100),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,17 +106,17 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                     Container(
                                         child: MaxText(post.content, context,
                                             textAlign: TextAlign.center,
+                                            id: postIndexes[index],
                                             style: TextStyle(
                                               color: Colors.white,
-                                              height: 1.6,
-                                              fontSize: 22.0,
-                                              fontWeight: FontWeight.bold,
+                                              fontSize: 26.0,
+                                              fontWeight: FontWeight.w500,
                                             ))),
                                     SizedBox(height: 15),
                                     AuthorName(
                                         accountId: post.accountId,
-                                        authorName: author.name,
-                                        avatarUri: author.avatar,
+                                        authorName: author?.name ?? "--",
+                                        avatarUri: author?.avatar,
                                         index: index),
                                   ])),
                           Align(
@@ -138,7 +135,8 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                           children: [
                                             Expanded(
                                                 child: ChatBox(
-                                                    postAuthorName: author.name,
+                                                    postAuthorName:
+                                                        author?.name ?? "--",
                                                     account: account,
                                                     isLogin: isLogin,
                                                     postId: postIndexes[index],
