@@ -203,9 +203,12 @@ class OtherView extends GetView<OtherController> {
                                 await controller.toggleBlock(
                                     id: accountId, toBlocked: true);
                               }
+
                               UIUtils.toast('okkk');
                             } catch (e) {
                               UIUtils.showError(e);
+                              controller.accountAction(
+                                  isLiked: false, increase: is_blocked);
                             }
                           },
                           onPressedReport: () {

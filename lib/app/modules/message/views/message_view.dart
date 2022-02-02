@@ -5,6 +5,7 @@ import '../controllers/message_controller.dart';
 import './conversation_item.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/types/types.dart';
+import 'package:xmpp_stone/xmpp_stone.dart' as xmpp;
 import 'package:flutter/services.dart';
 
 class MessageView extends GetView<MessageController> {
@@ -24,7 +25,8 @@ class MessageView extends GetView<MessageController> {
         title: Obx(() => Text(
               controller.isLoadingRooms || !controller.isInitRooms
                   ? "Loading...".tr
-                  : _chatProvider.isConnected
+                  : _chatProvider.connectionState ==
+                          xmpp.ConnectionState.connected
                       ? "Chats".tr
                       : "Network_error".tr,
               style: TextStyle(
@@ -41,7 +43,10 @@ class MessageView extends GetView<MessageController> {
                 child: Container(
               color: Colors.black.withOpacity(0.06),
               // child: Container(color: Colors.red, height: 50)
-              child: !_chatProvider.isConnected &&
+              child: (_chatProvider.connectionState ==
+                              xmpp.ConnectionState.connecting ||
+                          _chatProvider.connectionState ==
+                              xmpp.ConnectionState.disconnected) &&
                       controller.isInitRooms &&
                       !controller.isLoadingRooms
                   ? SizedBox(

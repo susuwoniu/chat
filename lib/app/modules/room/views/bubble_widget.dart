@@ -35,34 +35,20 @@ class BubbleWidget extends StatelessWidget {
       topLeft: Radius.circular(_messageBorderRadius),
       topRight: Radius.circular(_messageBorderRadius),
     );
-    return Stack(
-      children: [
-        Container(
-          alignment: Alignment.topLeft,
-          decoration: BoxDecoration(
-            borderRadius: _borderRadius,
-            color: message.id == "preview"
-                ? InheritedChatTheme.of(context)
-                    .theme
-                    .primaryColor
-                    .withOpacity(0.7)
-                : (!_currentUserIsAuthor ||
-                        message.type == types.MessageType.image
-                    ? InheritedChatTheme.of(context).theme.secondaryColor
-                    : InheritedChatTheme.of(context).theme.primaryColor),
-          ),
-          child: ClipRRect(
-            borderRadius: _borderRadius,
-            child: thechild,
-          ),
-        ),
-        // Positioned(
-        //   bottom: 6.0,
-        //   right: 0,
-        //   child: IconButton(
-        //       onPressed: () {}, icon: Icon(Icons.close, color: Colors.white)),
-        // )
-      ],
+    // if (message.type == types.MessageType.image) {
+    //   return thechild;
+    // }
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: _borderRadius,
+        color: (!_currentUserIsAuthor || message.type == types.MessageType.image
+            ? InheritedChatTheme.of(context).theme.secondaryColor
+            : InheritedChatTheme.of(context).theme.primaryColor),
+      ),
+      child: ClipRRect(
+        borderRadius: _borderRadius,
+        child: thechild,
+      ),
     );
   }
 }

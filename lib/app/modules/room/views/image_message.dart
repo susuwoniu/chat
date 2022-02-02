@@ -85,7 +85,7 @@ class _ImageMessageState extends State<ImageMessage> {
   @override
   Widget build(BuildContext context) {
     final _user = InheritedUser.of(context).user;
-
+    print("ratio: ${_size.aspectRatio}");
     if (_size.aspectRatio == 0) {
       return Container(
         color: InheritedChatTheme.of(context).theme.secondaryColor,
@@ -165,7 +165,7 @@ class _ImageMessageState extends State<ImageMessage> {
       return Container(
         constraints: BoxConstraints(
           maxHeight: widget.messageWidth.toDouble(),
-          minWidth: 170,
+          minWidth: 64,
         ),
         decoration: BoxDecoration(
           image: DecorationImage(
