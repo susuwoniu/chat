@@ -50,36 +50,31 @@ class PostSquareView extends GetView<PostSquareController> {
           body: Stack(alignment: AlignmentDirectional.topCenter, children: [
             CustomScrollView(slivers: [
               SliverToBoxAdapter(
-                child: RefreshIndicator(
-                  onRefresh: () => Future.sync(
-                    () {},
+                child: Column(children: [
+                  Container(
+                    alignment: Alignment.topCenter,
+                    padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                    height: _height * 0.2,
+                    width: _width,
+                    color: backgroundColor,
+                    child: Text('# ' + _title,
+                        style: TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
                   ),
-                  child: Column(children: [
-                    Container(
-                      alignment: Alignment.topCenter,
-                      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                      height: _height * 0.2,
-                      width: _width,
-                      color: backgroundColor,
-                      child: Text('# ' + _title,
-                          style: TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white)),
-                    ),
-                    SizedBox(height: 10),
-                    Obx(() {
-                      final usedCount = controller.usedCount;
-                      return Text(
-                          usedCount > 1
-                              ? usedCount.toString() + ' Posts'.tr
-                              : usedCount.toString() + ' Post'.tr,
-                          style:
-                              TextStyle(fontSize: 17.0, color: Colors.black54));
-                    }),
-                    SizedBox(height: 5),
-                  ]),
-                ),
+                  SizedBox(height: 10),
+                  Obx(() {
+                    final usedCount = controller.usedCount;
+                    return Text(
+                        usedCount > 1
+                            ? usedCount.toString() + ' Posts'.tr
+                            : usedCount.toString() + ' Post'.tr,
+                        style:
+                            TextStyle(fontSize: 17.0, color: Colors.black54));
+                  }),
+                  SizedBox(height: 5),
+                ]),
               ),
               PagedSliverGrid<String?, String>(
                   showNewPageProgressIndicatorAsGridChild: false,
