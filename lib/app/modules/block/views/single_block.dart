@@ -12,13 +12,15 @@ class SingleBlock extends StatelessWidget {
   final bool isLast;
   final Function onPressedUnblock;
   final String id;
+  final bool isBlock;
 
   SingleBlock(
       {Key? key,
       required this.blockAccount,
       required this.id,
       required this.isLast,
-      required this.onPressedUnblock})
+      required this.onPressedUnblock,
+      this.isBlock = true})
       : super(key: key);
   final DateFormat formatter = DateFormat('yyyy-MM-dd  HH:mm');
 
@@ -27,7 +29,7 @@ class SingleBlock extends StatelessWidget {
     final _gender = blockAccount.gender;
 
     final _genderColor = _gender == 'unknown'
-        ? Colors.black12
+        ? Colors.black26
         : _gender == 'female'
             ? Colors.pink.shade300
             : Colors.blue.shade400;
@@ -90,20 +92,23 @@ class SingleBlock extends StatelessWidget {
                           backgroundColor: Colors.black12,
                         ),
                       ])),
-              trailing: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 4, vertical: 11),
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(5)),
-                  child: TextButton(
-                      style: ButtonStyle(splashFactory: NoSplash.splashFactory),
-                      child: Text(
-                        'Unblock'.tr,
-                        style: TextStyle(color: Colors.black54),
-                      ),
-                      onPressed: () {
-                        onPressedUnblock();
-                      }))),
+              trailing: isBlock
+                  ? Container(
+                      margin: EdgeInsets.symmetric(horizontal: 4, vertical: 11),
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: TextButton(
+                          style: ButtonStyle(
+                              splashFactory: NoSplash.splashFactory),
+                          child: Text(
+                            'Unblock'.tr,
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                          onPressed: () {
+                            onPressedUnblock();
+                          }))
+                  : SizedBox.shrink()),
           !isLast ? Divider(height: 1) : SizedBox.shrink()
         ]));
   }

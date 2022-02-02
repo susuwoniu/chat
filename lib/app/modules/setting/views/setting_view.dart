@@ -16,6 +16,12 @@ class SettingView extends GetView<SettingController> {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: true,
+          bottom: PreferredSize(
+              child: Container(
+                height: 0.5,
+                color: Colors.grey.shade400,
+              ),
+              preferredSize: Size.fromHeight(0)),
           // leading: IconButton(
           //   icon: Icon(
           //     Icons.arrow_back,
@@ -97,24 +103,27 @@ class SettingView extends GetView<SettingController> {
                     },
                   ),
                 ]),
-                SettingsSection(
-                  tiles: [
-                    SettingsTile(
-                        title: 'Log_out'.tr,
-                        onPressed: (BuildContext context) async {
-                          try {
-                            UIUtils.showLoading();
-                            await AccountProvider.to.handleLogout();
-                            UIUtils.hideLoading();
-                            UIUtils.toast("退出成功");
-                            RouterProvider.to.restart(context);
-                          } catch (e) {
-                            UIUtils.hideLoading();
-                            UIUtils.showError(e);
-                          }
-                        }),
-                  ],
-                ),
+                SettingsSection(tiles: [
+                  SettingsTile(
+                      iosChevron: null,
+                      titleWidget: Container(
+                          alignment: Alignment.center,
+                          child: Text('Log_out'.tr,
+                              style:
+                                  TextStyle(color: Colors.red, fontSize: 17))),
+                      onPressed: (BuildContext context) async {
+                        try {
+                          UIUtils.showLoading();
+                          await AccountProvider.to.handleLogout();
+                          UIUtils.hideLoading();
+                          UIUtils.toast("退出成功");
+                          RouterProvider.to.restart(context);
+                        } catch (e) {
+                          UIUtils.hideLoading();
+                          UIUtils.showError(e);
+                        }
+                      }),
+                ]),
               ],
             )));
   }

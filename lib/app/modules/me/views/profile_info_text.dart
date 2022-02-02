@@ -22,7 +22,7 @@ class ProfileInfoText extends StatelessWidget {
         text,
         textAlign: TextAlign.start,
         style:
-            TextStyle(height: 1.4, fontSize: 18, color: Colors.grey.shade700),
+            TextStyle(height: 1.4, fontSize: 16, color: Colors.grey.shade700),
       ),
       // SizedBox(height: 30),
     ]);

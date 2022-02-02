@@ -64,6 +64,8 @@ import '../modules/report/views/report_view.dart';
 import '../modules/report/bindings/report_binding.dart';
 import '../modules/block/views/block_view.dart';
 import '../modules/block/bindings/block_binding.dart';
+import '../modules/liked_me/views/liked_me_view.dart';
+import '../modules/liked_me/bindings/liked_me_binding.dart';
 part 'app_routes.dart';
 
 class AppPages {
@@ -285,6 +287,15 @@ class AppPages {
       name: _Paths.REPORT,
       page: () => ReportView(),
       binding: ReportBinding(),
+    ),
+    GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
+      name: _Paths.LIKEDME,
+      page: () => LikedMeView(),
+      binding: LikedMeBinding(),
     ),
     GetPage(
       middlewares: [

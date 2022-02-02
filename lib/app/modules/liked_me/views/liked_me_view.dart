@@ -1,13 +1,13 @@
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/block_controller.dart';
+import '../controllers/liked_me_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'single_block.dart';
+import '../../block/views/single_block.dart';
 import 'package:chat/app/common/block.dart';
 
 // TODO use constans or config
-class BlockView extends GetView<BlockController> {
+class LikedMeView extends GetView<LikedMeController> {
   final PagingController<String?, String> pagingController =
       PagingController(firstPageKey: null);
 
@@ -19,15 +19,14 @@ class BlockView extends GetView<BlockController> {
             ),
         child: Scaffold(
           appBar: AppBar(
-            bottom: PreferredSize(
-                child: Container(
-                  height: 0.5,
-                  color: Colors.grey.shade400,
-                ),
-                preferredSize: Size.fromHeight(0)),
-            title: Text('Blocked_Users'.tr, style: TextStyle(fontSize: 17)),
-            centerTitle: true,
-          ),
+              bottom: PreferredSize(
+                  child: Container(
+                    height: 0.5,
+                    color: Colors.grey.shade400,
+                  ),
+                  preferredSize: Size.fromHeight(0)),
+              title: Text('Who_Liked_Me'.tr, style: TextStyle(fontSize: 17)),
+              centerTitle: true),
           body: PagedListView(
               pagingController: controller.pagingController,
               builderDelegate: PagedChildBuilderDelegate<String>(
@@ -40,9 +39,10 @@ class BlockView extends GetView<BlockController> {
                         UIUtils.showError(e);
                       }
                     },
+                    isBlock: false,
                     id: id,
-                    isLast: index == controller.blockIdList.length - 1,
-                    blockAccount: controller.blockMap[id]!);
+                    isLast: index == controller.likedIdList.length - 1,
+                    blockAccount: controller.likedMap[id]!);
               })),
         ));
   }

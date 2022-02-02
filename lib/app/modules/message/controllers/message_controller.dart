@@ -413,7 +413,7 @@ class MessageController extends GetxController {
         final limit = 8;
         final messages = await roomManager.getMessages(
             roomId: roomId, beforeId: currentEarliestDbMessageId);
-        if (messages.length < 8) {
+        if (messages.length < limit) {
           room.isLastPage = true;
         }
         Map<String, types.Message> newEntities = {};

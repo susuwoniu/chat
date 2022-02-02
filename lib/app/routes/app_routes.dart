@@ -14,7 +14,7 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const ME = _Paths.ME;
   static const BLOCK = _Paths.BLOCK;
-
+  static const LIKEDME = _Paths.LIKEDME;
   static const SETTING = _Paths.SETTING;
   static const ROOM = _Paths.ROOM;
   static const TEST3 = _Paths.TEST3;
@@ -70,5 +70,6 @@ abstract class _Paths {
   static const OTHER = '/other';
   static const CREATE = '/create';
   static const REPORT = '/report';
+  static const LIKEDME = '/liked-me';
   static const BLOCK = '/block';
 }

@@ -119,8 +119,8 @@ class OtherView extends GetView<OtherController> {
                           return Text(_bio,
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                  height: 1.4,
-                                  fontSize: 18,
+                                  height: 1.5,
+                                  fontSize: 17,
                                   color: Colors.grey.shade800));
                         }),
                         SizedBox(height: 8),
