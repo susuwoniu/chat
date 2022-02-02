@@ -3,7 +3,7 @@ import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-
+import 'package:flutter/services.dart';
 import '../controllers/edit_name_controller.dart';
 import 'appbar_save.dart';
 import 'input_widget.dart';
@@ -15,6 +15,8 @@ class EditNameView extends GetView<EditNameController> {
       backgroundColor: Color(0xfff0eff4),
       appBar: AppBar(
         title: Text("Name".tr, style: TextStyle(fontSize: 18)),
+        systemOverlayStyle:
+            SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
         actions: [
           Obx(() {
             final _isActived = controller.isActived.value;

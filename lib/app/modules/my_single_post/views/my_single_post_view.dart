@@ -8,6 +8,7 @@ import 'viewers_list.dart';
 import 'package:intl/intl.dart';
 import 'single_post_dot.dart';
 import '../../home/views/vip_sheet.dart';
+import 'package:flutter/services.dart';
 
 final VisibilityMap = {'public': 'Public', 'private': 'Private'};
 
@@ -33,6 +34,8 @@ class MySinglePostView extends GetView<MySinglePostController> {
             'MySinglePostView'.tr,
             style: TextStyle(fontSize: 19),
           ),
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           centerTitle: true,
           bottom: PreferredSize(
               child: Container(

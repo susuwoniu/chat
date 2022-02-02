@@ -8,6 +8,7 @@ import '../../me/views/small_post.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
+import 'package:flutter/services.dart';
 
 class PostSquareView extends GetView<PostSquareController> {
   final _title = Get.arguments['title'];
@@ -27,6 +28,8 @@ class PostSquareView extends GetView<PostSquareController> {
             ),
         child: Scaffold(
           appBar: AppBar(
+              systemOverlayStyle:
+                  SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
               iconTheme: IconThemeData(color: Colors.white),
               backgroundColor: backgroundColor,
               actions: [

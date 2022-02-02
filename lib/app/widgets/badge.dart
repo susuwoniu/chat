@@ -19,9 +19,9 @@ class Badge extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: 60,
-        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Stack(
           alignment: Alignment.center,
+          clipBehavior: Clip.none,
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -30,7 +30,7 @@ class Badge extends StatelessWidget {
               ],
             ),
             Positioned(
-                top: 0, right: 0, child: CountBubble(count: notificationCount))
+                top: -5, right: 0, child: CountBubble(count: notificationCount))
           ],
         ),
       ),

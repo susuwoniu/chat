@@ -16,6 +16,7 @@ import './text_message.dart';
 import './bottom_widget.dart';
 import './bubble_widget.dart';
 import '../../me/views/like_count.dart';
+import 'package:flutter/services.dart';
 
 class RoomView extends GetView<RoomController> {
   @override
@@ -24,7 +25,10 @@ class RoomView extends GetView<RoomController> {
     final roomId = controller.roomId;
 
     return Scaffold(
-        appBar: roomAppBar(context: context, roomId: roomId),
+        appBar: roomAppBar(
+          context: context,
+          roomId: roomId,
+        ),
         body: Column(mainAxisSize: MainAxisSize.min, children: [
           Flexible(
             child: Obx(() {
@@ -229,11 +233,12 @@ class RoomView extends GetView<RoomController> {
     }
   }
 
-  PreferredSizeWidget roomAppBar(
-      {required BuildContext context, required String roomId}) {
+  AppBar roomAppBar({required BuildContext context, required String roomId}) {
     final _width = MediaQuery.of(context).size.width;
 
     return AppBar(
+        systemOverlayStyle:
+            SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
         title: Obx(() {
           final roomInfoId =
               MessageController.to.entities[roomId]!.room_info_id;

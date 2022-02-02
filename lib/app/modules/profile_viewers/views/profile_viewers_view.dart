@@ -4,6 +4,7 @@ import 'package:chat/app/routes/app_pages.dart';
 import '../controllers/profile_viewers_controller.dart';
 import 'single_viewer.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:flutter/services.dart';
 
 class ProfileViewersView extends GetView<ProfileViewersController> {
   @override
@@ -12,6 +13,8 @@ class ProfileViewersView extends GetView<ProfileViewersController> {
         appBar: AppBar(
           title: Text('ProfileViewersView'.tr, style: TextStyle(fontSize: 18)),
           centerTitle: true,
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           bottom: PreferredSize(
               child: Container(
                 height: 0.5,

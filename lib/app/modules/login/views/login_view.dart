@@ -63,166 +63,179 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final _controller = LoginController.to;
+    final _height = MediaQuery.of(context).size.height;
+
     return Scaffold(
-        backgroundColor: Color.fromRGBO(93, 142, 155, 1.0),
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('LoginView'),
+          backgroundColor: Colors.white,
+          title: Text('Login'.tr),
           centerTitle: true,
         ),
-        body: Container(
-            child: Stack(children: <Widget>[
-          Positioned.fill(
-              child: Container(
-                  decoration: BoxDecoration(
-            // Box decoration takes a gradient
-            gradient: LinearGradient(
-              // Where the linear gradient begins and ends
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              // Add one stop for each color. Stops should increase from 0 to 1
-              stops: [0.0, 1.0],
-              colors: [
-                Color(0xff00BFA5),
-                Color(0xff64FFDA),
-              ],
-            ),
-          ))),
-          Positioned.fill(
-              child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        TextButton(
-                            onPressed: () {
-                              Get.toNamed("/test2");
-                            },
-                            child: Text("other")),
-                        Container(
-                            height: 200,
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: FlareActor(
-                              "assets/Teddy.flr",
-                              shouldClip: false,
-                              alignment: Alignment.bottomCenter,
-                              fit: BoxFit.contain,
-                              controller: _bear_log_inController,
-                            )),
-                        Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25.0),
-                                )),
-                            child: Padding(
-                                padding: const EdgeInsets.all(30.0),
-                                child: Form(
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        InternationalPhoneNumberInput(
-                                          inputKey: _fieldKey,
-                                          focusNode: _focusNode,
-                                          onInputChanged: (PhoneNumber number) {
-                                            _controller.setPhoneNumber(
-                                                number.phoneNumber ?? '',
-                                                number.dialCode ?? '');
-                                            _controller.setCountryCode(
-                                                number.dialCode ?? '');
-                                          },
-                                          onInputValidated: (bool value) {
-                                            print("validated?: $value");
-                                          },
-                                          selectorConfig: SelectorConfig(
-                                            selectorType:
-                                                PhoneInputSelectorType.DIALOG,
-                                            useEmoji: true,
-                                            trailingSpace: false,
-                                          ),
-                                          ignoreBlank: false,
-                                          autoValidateMode:
-                                              AutovalidateMode.disabled,
-                                          selectorTextStyle: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                          initialValue: PhoneNumber(
-                                              isoCode: "CN",
-                                              dialCode:
-                                                  _controller.countryCode.value,
-                                              phoneNumber: _controller
-                                                  .phoneNumber.value),
-                                          textFieldController:
-                                              textEditingController,
-                                          formatInput: false,
-                                          textAlignVertical:
-                                              TextAlignVertical.top,
-                                          textStyle: (TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 17,
-                                          )),
-                                          keyboardType:
-                                              TextInputType.numberWithOptions(
-                                                  signed: true, decimal: true),
-                                          inputBorder: null,
-                                          hintText:
-                                              "what_s_your_phone_number".tr,
-                                          autoFocus: true,
-                                          onSaved: (PhoneNumber number) {
-                                            print('On Saved: $number');
-                                          },
-                                        ),
-                                        Container(
-                                            margin: EdgeInsets.only(top: 35),
-                                            child: SigninButton(
-                                                child: Text("next".tr,
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          "RobotoMedium",
-                                                      fontSize: 16,
-                                                      color: Colors.white,
-                                                    )),
-                                                onPressed: () async {
-                                                  // first set Phonnumber with latest value
+        body: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: Container(
+              child: Stack(children: <Widget>[
+                Positioned.fill(
+                    child: Container(
+                        decoration: BoxDecoration(
+                  // Box decoration takes a gradient
+                  gradient: LinearGradient(
+                    // Where the linear gradient begins and ends
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    // Add one stop for each color. Stops should increase from 0 to 1
+                    stops: [0.0, 1.0],
+                    colors: [
+                      Color(0xff00BFA5),
+                      Color(0xff64FFDA),
+                    ],
+                  ),
+                ))),
+                Positioned.fill(
+                    child: SingleChildScrollView(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                  height: _height * 0.2,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30),
+                                  child: FlareActor(
+                                    "assets/Teddy.flr",
+                                    shouldClip: false,
+                                    alignment: Alignment.bottomCenter,
+                                    fit: BoxFit.contain,
+                                    controller: _bear_log_inController,
+                                  )),
+                              Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(25.0),
+                                      )),
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Form(
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              InternationalPhoneNumberInput(
+                                                inputKey: _fieldKey,
+                                                focusNode: _focusNode,
+                                                onInputChanged:
+                                                    (PhoneNumber number) {
+                                                  _controller.setPhoneNumber(
+                                                      number.phoneNumber ?? '',
+                                                      number.dialCode ?? '');
+                                                  _controller.setCountryCode(
+                                                      number.dialCode ?? '');
+                                                },
+                                                onInputValidated: (bool value) {
+                                                  print("validated?: $value");
+                                                },
+                                                selectorConfig: SelectorConfig(
+                                                  selectorType:
+                                                      PhoneInputSelectorType
+                                                          .DIALOG,
+                                                  useEmoji: true,
+                                                  trailingSpace: false,
+                                                ),
+                                                ignoreBlank: false,
+                                                autoValidateMode:
+                                                    AutovalidateMode.disabled,
+                                                selectorTextStyle: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                initialValue: PhoneNumber(
+                                                    isoCode: "CN",
+                                                    dialCode: _controller
+                                                        .countryCode.value,
+                                                    phoneNumber: _controller
+                                                        .phoneNumber.value),
+                                                textFieldController:
+                                                    textEditingController,
+                                                formatInput: false,
+                                                textAlignVertical:
+                                                    TextAlignVertical.top,
+                                                textStyle: (TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17,
+                                                )),
+                                                keyboardType: TextInputType
+                                                    .numberWithOptions(
+                                                        signed: true,
+                                                        decimal: true),
+                                                inputBorder: null,
+                                                hintText:
+                                                    "what_s_your_phone_number"
+                                                        .tr,
+                                                autoFocus: true,
+                                                onSaved: (PhoneNumber number) {
+                                                  print('On Saved: $number');
+                                                },
+                                              ),
+                                              Container(
+                                                  margin:
+                                                      EdgeInsets.only(top: 35),
+                                                  child: SigninButton(
+                                                      child: Text("next".tr,
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                "RobotoMedium",
+                                                            fontSize: 16,
+                                                            color: Colors.white,
+                                                          )),
+                                                      onPressed: () async {
+                                                        // first set Phonnumber with latest value
 
-                                                  if (!_controller
-                                                      .isNumberValid.value) {
-                                                    UIUtils.toast(
-                                                        "please_enter_correct_phone_number"
-                                                            .tr);
-                                                    return;
-                                                  }
+                                                        if (!_controller
+                                                            .isNumberValid
+                                                            .value) {
+                                                          UIUtils.toast(
+                                                              "please_enter_correct_phone_number"
+                                                                  .tr);
+                                                          return;
+                                                        }
 
-                                                  _focusNode.unfocus();
-                                                  try {
-                                                    await _controller
-                                                        .handleSendCode();
-                                                    UIUtils.toast('验证码发送成功');
-                                                    Get.toNamed(
-                                                        Routes.VERIFICATION,
-                                                        arguments: {
-                                                          ...Get.arguments,
-                                                          "countryCode":
-                                                              _controller
-                                                                  .countryCode
-                                                                  .value,
-                                                          "phoneNumber":
-                                                              _controller
-                                                                  .phoneNumber
-                                                                  .value
-                                                        });
-                                                  } catch (e) {
-                                                    UIUtils.showError(e);
-                                                  }
-                                                })),
-                                      ]),
-                                ))),
-                      ])))
-        ])));
+                                                        _focusNode.unfocus();
+                                                        try {
+                                                          await _controller
+                                                              .handleSendCode();
+                                                          UIUtils.toast(
+                                                              '验证码发送成功');
+                                                          Get.toNamed(
+                                                              Routes
+                                                                  .VERIFICATION,
+                                                              arguments: {
+                                                                ...Get
+                                                                    .arguments,
+                                                                "countryCode":
+                                                                    _controller
+                                                                        .countryCode
+                                                                        .value,
+                                                                "phoneNumber":
+                                                                    _controller
+                                                                        .phoneNumber
+                                                                        .value
+                                                              });
+                                                        } catch (e) {
+                                                          UIUtils.showError(e);
+                                                        }
+                                                      })),
+                                            ]),
+                                      ))),
+                            ])))
+              ]),
+            )));
   }
 
   @override

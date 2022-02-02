@@ -24,8 +24,8 @@ class ProfileViewersBubble extends StatelessWidget {
           child: Column(children: [
             Stack(clipBehavior: Clip.none, children: [
               Positioned(
-                  right: newViewersCount > 9 ? -33 : -20,
-                  top: -13,
+                  right: newViewersCount > 9 ? -33 : -23,
+                  top: -14,
                   child: CountBubble(count: newViewersCount, isUnread: false)),
               Text(totalViewersCount.toString(),
                   style: TextStyle(

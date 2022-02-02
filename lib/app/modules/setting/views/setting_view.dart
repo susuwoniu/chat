@@ -6,6 +6,7 @@ import 'package:settings_ui/settings_ui.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import '../controllers/setting_controller.dart';
 import 'package:chat/app/providers/providers.dart';
+import 'package:flutter/services.dart';
 
 class SettingView extends GetView<SettingController> {
   @override
@@ -21,6 +22,8 @@ class SettingView extends GetView<SettingController> {
           //   ),
           //   onPressed: Get.popHistory,
           // ),
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           title: Text('SettingView'.tr),
           centerTitle: true,
         ),

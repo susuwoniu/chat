@@ -240,7 +240,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         ))),
                   ),
                   decoration: BoxDecoration(
-                      color: Colors.blue.shade300,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(5),
                       boxShadow: [
                         BoxShadow(
