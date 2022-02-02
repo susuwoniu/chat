@@ -1,7 +1,6 @@
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:chat/app/routes/app_pages.dart';
 import '../controllers/block_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../other/controllers/other_controller.dart';
@@ -30,17 +29,15 @@ class BlockView extends GetView<BlockController> {
           builderDelegate: PagedChildBuilderDelegate<String>(
               itemBuilder: (context, id, index) {
             return SingleBlock(
-                onPressed: () {
-                  Get.toNamed(Routes.OTHER, arguments: {"accountId": id});
-                },
-                onPressedUnblock: () {
+                onPressedUnblock: () async {
                   try {
-                    OtherController.to
-                        .accountAction(isLiked: false, increase: false);
+                    await OtherController.to
+                        .toggleBlock(id: id, toBlocked: false);
                   } catch (e) {
                     UIUtils.showError(e);
                   }
                 },
+                id: id,
                 isLast: index == controller.blockIdList.length - 1,
                 blockAccount: controller.blockMap[id]!);
           })),

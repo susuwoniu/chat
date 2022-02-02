@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../controllers/block_controller.dart';
-import '../../profile_viewers/controllers/profile_viewers_controller.dart';
+import '../../other/controllers/other_controller.dart';
 
 class BlockBinding extends Bindings {
   @override
@@ -9,8 +9,8 @@ class BlockBinding extends Bindings {
     Get.lazyPut<BlockController>(
       () => BlockController(),
     );
-    Get.put<ProfileViewersController>(
-      ProfileViewersController(),
+    Get.lazyPut<OtherController>(
+      () => OtherController(),
     );
   }
 }

@@ -5,17 +5,18 @@ import 'package:get/get.dart';
 import '../../me/views/age_widget.dart';
 import '../../me/views/like_count.dart';
 import 'package:intl/intl.dart';
+import 'package:chat/app/routes/app_pages.dart';
 
 class SingleBlock extends StatelessWidget {
-  final Function() onPressed;
   final SimpleAccountEntity blockAccount;
   final bool isLast;
   final Function onPressedUnblock;
+  final String id;
 
   SingleBlock(
       {Key? key,
-      required this.onPressed,
       required this.blockAccount,
+      required this.id,
       required this.isLast,
       required this.onPressedUnblock})
       : super(key: key);
@@ -40,7 +41,7 @@ class SingleBlock extends StatelessWidget {
                     name: blockAccount.avatar ?? blockAccount.name,
                     size: 28,
                     onTap: () {
-                      onPressed();
+                      Get.toNamed(Routes.OTHER, arguments: {"accountId": id});
                     }),
                 Positioned(
                   bottom: -2,
@@ -94,6 +95,7 @@ class SingleBlock extends StatelessWidget {
                       color: Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(5)),
                   child: TextButton(
+                      style: ButtonStyle(splashFactory: NoSplash.splashFactory),
                       child: Text(
                         'Unblock'.tr,
                         style: TextStyle(color: Colors.black54),

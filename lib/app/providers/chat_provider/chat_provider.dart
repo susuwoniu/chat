@@ -51,7 +51,11 @@ class ChatProvider extends GetxService {
     super.onInit();
   }
 
-  Future<void> reconnect() async {}
+  Future<void> reconnect() async {
+    if (_connection != null) {
+      _connection!.reconnect();
+    }
+  }
 
   Future<void> connect() async {
     // init im login
