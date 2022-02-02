@@ -21,61 +21,66 @@ class PostSquareView extends GetView<PostSquareController> {
     final _width = MediaQuery.of(context).size.width;
     final backgroundColor = BACKGROUND_COLORS[backgroundColorIndex];
     final postMap = controller.postMap;
+    final height = AppBar().preferredSize.height;
+    final safePadding = MediaQuery.of(context).padding.top;
 
     return RefreshIndicator(
         onRefresh: () => Future.sync(
               () => controller.pagingController.refresh(),
             ),
         child: Scaffold(
-          appBar: AppBar(
-              systemOverlayStyle:
-                  SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
-              iconTheme: IconThemeData(color: Colors.white),
-              backgroundColor: backgroundColor,
-              actions: [
-                Padding(
-                    padding: EdgeInsets.only(right: 5),
-                    child: IconButton(
-                      splashColor: Colors.transparent,
-                      icon: Icon(Icons.share_rounded, color: Colors.white),
-                      onPressed: () async {
-                        final FlutterShareMe flutterShareMe = FlutterShareMe();
-                        // TODO right share url
-                        final response =
-                            await flutterShareMe.shareToSystem(msg: "test");
-                        print(response);
-                      },
-                    ))
-              ]),
           body: Stack(alignment: AlignmentDirectional.topCenter, children: [
             CustomScrollView(slivers: [
-              SliverToBoxAdapter(
-                child: Column(children: [
-                  Container(
+              SliverAppBar(
+                systemOverlayStyle:
+                    SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
+                iconTheme: IconThemeData(color: Colors.white),
+                stretch: true,
+                pinned: true,
+                backgroundColor: backgroundColor,
+                actions: [
+                  Padding(
+                      padding: EdgeInsets.only(right: 5),
+                      child: IconButton(
+                        splashColor: Colors.transparent,
+                        icon: Icon(Icons.share_rounded, color: Colors.white),
+                        onPressed: () async {
+                          final FlutterShareMe flutterShareMe =
+                              FlutterShareMe();
+                          // TODO right share url
+                          final response =
+                              await flutterShareMe.shareToSystem(msg: "test");
+                          print(response);
+                        },
+                      ))
+                ],
+                expandedHeight: _height * 0.3,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Container(
                     alignment: Alignment.topCenter,
-                    padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    height: _height * 0.2,
+                    padding: EdgeInsets.fromLTRB(
+                        20, safePadding + height + 20, 20, 0),
                     width: _width,
-                    color: backgroundColor,
                     child: Text('# ' + _title,
                         style: TextStyle(
                             fontSize: 24.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.white)),
                   ),
-                  SizedBox(height: 10),
-                  Obx(() {
-                    final usedCount = controller.usedCount;
-                    return Text(
+                ),
+              ),
+              SliverToBoxAdapter(child: Obx(() {
+                final usedCount = controller.usedCount;
+                return Container(
+                    alignment: Alignment.topCenter,
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    child: Text(
                         usedCount > 1
                             ? usedCount.toString() + ' Posts'.tr
                             : usedCount.toString() + ' Post'.tr,
                         style:
-                            TextStyle(fontSize: 17.0, color: Colors.black54));
-                  }),
-                  SizedBox(height: 5),
-                ]),
-              ),
+                            TextStyle(fontSize: 17.0, color: Colors.black54)));
+              })),
               PagedSliverGrid<String?, String>(
                   showNewPageProgressIndicatorAsGridChild: false,
                   showNewPageErrorIndicatorAsGridChild: false,
