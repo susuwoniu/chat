@@ -156,8 +156,7 @@ class HomeView extends GetView<HomeController> {
                         return Stack(children: <Widget>[
                           Container(
                               alignment: Alignment.topLeft,
-                              padding: EdgeInsets.fromLTRB(
-                                  16, 16, 16, _height * 0.21),
+                              padding: EdgeInsets.fromLTRB(16, 16, 16, 100),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,9 +166,8 @@ class HomeView extends GetView<HomeController> {
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: Colors.white,
-                                              height: 1.6,
-                                              fontSize: 22.0,
-                                              fontWeight: FontWeight.bold,
+                                              fontSize: 26.0,
+                                              fontWeight: FontWeight.w500,
                                             ))),
                                     TagWidget(
                                         text: post.post_template_title,

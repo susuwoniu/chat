@@ -88,6 +88,7 @@ dependencies:
   #     ref: main
   xmpp_stone:
     path: ../xmpp_client
+  auto_size_text: ^3.0.0
 dev_dependencies:
   flutter_lints: ^1.0.0
   lints: ^1.0.1
