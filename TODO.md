@@ -106,8 +106,9 @@
 - [ ] 删除帖子后请求下一页出错
 - [ ] gender为null的时候，主页图标出错
 - [ ] 筛选的时候不记录skip id
-- [ ] text editor, bottom padding
+- [x] text editor, bottom padding
 - [ ] Single post 应该判断是否缓存里有，如果没有的话，要主动请求帖子数据。比如广场页面进入，
+- [ ] 发布问题应该返回随机的顺序，+优先级的帖子
 ## 上线前Check
 
 ## 二期功能
