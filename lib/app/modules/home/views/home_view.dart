@@ -14,6 +14,7 @@ import './action_buttons.dart';
 import 'more_dots.dart';
 import 'nearby_switch.dart';
 import 'vip_sheet.dart';
+import 'package:chat/app/common/quote_with_link.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -216,8 +217,11 @@ class HomeView extends GetView<HomeController> {
                                                                   "${post.accountId}@$imDomain",
                                                               "quote_background_color":
                                                                   post.backgroundColor,
-                                                              "quote":
-                                                                  post.content
+                                                              "reduce": "false",
+                                                              "quote": quoteWithLink(
+                                                                  post.content,
+                                                                  postIndexes[
+                                                                      index])
                                                             });
                                                       }
                                                     })),

@@ -9,6 +9,7 @@ import 'package:flutter_chat_ui/src/widgets/inherited_user.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:chat/common.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:chat/app/common/link.dart';
 
 /// A class that represents text message widget with optional link preview
 class TextMessage extends StatelessWidget {
@@ -148,13 +149,16 @@ class TextMessage extends StatelessWidget {
         data: finalText,
         selectable: true,
         onTapLink: (String text, String? href, String? title) async {
-          if (href != null && await canLaunch(href)) {
-            await launch(href);
-          }
+          // if internal link
+          await openLink(href);
         },
         styleSheet: MarkdownStyleSheet(
           a: TextStyle(
-              decoration: TextDecoration.underline, color: defaultColor),
+            shadows: [Shadow(color: defaultColor, offset: Offset(0, -5))],
+            color: Colors.transparent,
+            decoration: TextDecoration.underline,
+            decorationColor: defaultColor,
+          ),
           pPadding: EdgeInsets.zero,
           code: theme.sentMessageBodyTextStyle.copyWith(
               backgroundColor: Colors.transparent,

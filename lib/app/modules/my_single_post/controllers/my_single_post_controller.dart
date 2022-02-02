@@ -9,9 +9,9 @@ class MySinglePostController extends GetxController {
   static MySinglePostController get to => Get.find();
 
   final _homeController = HomeController.to;
-  final _postId = Get.arguments['postId'];
+  final _postId = Get.arguments['id'];
   final _visibility =
-      HomeController.to.postMap[Get.arguments['postId']]!.visibility.obs;
+      HomeController.to.postMap[Get.arguments['id']]!.visibility.obs;
   String get visibility => _visibility.value;
 
   final count = 0.obs;

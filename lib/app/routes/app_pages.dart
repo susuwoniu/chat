@@ -252,6 +252,10 @@ class AppPages {
       binding: AboutBinding(),
     ),
     GetPage(
+      middlewares: [
+        //only enter this route when authed
+        EnsureAuthMiddleware(),
+      ],
       name: _Paths.FEEDBACK,
       page: () => FeedbackView(),
       binding: FeedbackBinding(),

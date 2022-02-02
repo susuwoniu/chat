@@ -43,7 +43,7 @@ abstract class _Paths {
   static const SPLASH = '/splash';
   static const NOTFOUND = '/notfound';
   static const MAIN = '/app';
-  static const POST = '/post';
+  static const POST = '/new';
   static const TEST1 = '/test1';
   static const TEST2 = '/test2';
   static const LOGIN = "/login";
@@ -57,7 +57,7 @@ abstract class _Paths {
   static const EDIT_INFO = '/edit-info';
   static const EDIT_NAME = '/edit-input';
   static const GENDER_SELECT = '/gender-view';
-  static const MY_SINGLE_POST = '/my-single-post';
+  static const MY_SINGLE_POST = '/post';
   static const AGE_PICKER = '/age-picker';
   static const ADD_PROFILE_IMAGE = '/add-profile-image';
   static const EDIT_BIO = '/edit-bio';

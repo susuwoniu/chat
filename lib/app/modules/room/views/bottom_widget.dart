@@ -263,7 +263,6 @@ class _InputState extends State<BottomWidget> {
                                 child: ClipRRect(
                                     borderRadius: _borderRadius,
                                     child: TextMessage(
-                                      maxTextLength: 100,
                                       message: widget.quoteMessage!,
                                       showName: false,
                                       usePreviewData: false,

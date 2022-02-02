@@ -188,7 +188,7 @@ class MeView extends GetView<MeController> {
                   return SmallPost(
                       onTap: () {
                         Get.toNamed(Routes.MY_SINGLE_POST, arguments: {
-                          'postId': id,
+                          'id': id,
                         });
                       },
                       postId: id,

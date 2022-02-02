@@ -13,7 +13,7 @@ import 'package:flutter/services.dart';
 final VisibilityMap = {'public': 'Public', 'private': 'Private'};
 
 class MySinglePostView extends GetView<MySinglePostController> {
-  final _postId = (Get.arguments['postId']);
+  final _postId = (Get.arguments['id']);
   final DateFormat formatter = DateFormat('yyyy-MM-dd  HH:mm');
 
   @override

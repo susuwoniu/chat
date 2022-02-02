@@ -169,7 +169,8 @@ class OtherView extends GetView<OtherController> {
                           onTap: () {
                             Get.toNamed(Routes.ROOM, arguments: {
                               "id": "$accountId@$imDomain",
-                              "quote": post.content
+                              "quote": post.content,
+                              "quote_background_color": post.backgroundColor,
                             });
                           },
                           postId: id,

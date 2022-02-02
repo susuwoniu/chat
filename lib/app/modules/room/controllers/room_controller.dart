@@ -63,8 +63,14 @@ class RoomController extends GetxController {
   }
 
   initQuote() {
-    final quote = Get.arguments["quote"];
+    var quote = Get.arguments["quote"];
+    var reduce = Get.arguments["reduce"] ?? "true";
+
     if (quote != null && ChatProvider.to.currentChatAccount.value != null) {
+      if (reduce == 'true' && quote.length > 144) {
+        quote = quote.substring(0, 144);
+        quote += "...";
+      }
       var backgroundColor = Get.arguments["quote_background_color"];
       if (backgroundColor is String) {
         backgroundColor = int.parse(backgroundColor);
@@ -142,13 +148,17 @@ class RoomController extends GetxController {
     // check is has preview message
     try {
       if (_previewMessage.value != null) {
+        // messageController.sendTextMessage(
+        //     _roomId,
+        //     types.PartialText(
+        //       text: _previewMessage.value!.text,
+        //     ));
+
         messageController.sendTextMessage(
             _roomId,
             types.PartialText(
-              text: _previewMessage.value!.text,
-            ));
+                text: _previewMessage.value!.text + "\n\n" + message.text));
         _previewMessage.value = null;
-        messageController.sendTextMessage(_roomId, message);
       } else {
         messageController.sendTextMessage(_roomId, message);
       }

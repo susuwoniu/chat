@@ -2,6 +2,7 @@ const String DEV_API_HOST = "https://chat.scuinfo.com";
 const String PROD_API_HOST = "https://chat.scuinfo.com";
 const String DEV_IM_DOMAIN = "xmpp.scuinfo.com";
 const String PROD_IM_DOMAIN = "xmpp.scuinfo.com";
+const String MAIN_HOST = "https://www.scuinfo.com";
 const String API_PATH_PREFIX = "/api/v1";
 const String DEV_IOS_CLIENT_ID = "377827351943197187";
 const String DEV_ANDROID_CLIENT_ID = "377844742802649603";
