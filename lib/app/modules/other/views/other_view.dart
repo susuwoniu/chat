@@ -17,6 +17,7 @@ import 'package:chat/types/types.dart';
 import '../../home/views/more_dots.dart';
 import '../../me/views/profile_info_text.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:chat/app/common/block.dart';
 
 class OtherView extends GetView<OtherController> {
   final CarouselController buttonCarouselController = CarouselController();
@@ -197,10 +198,10 @@ class OtherView extends GetView<OtherController> {
                                 isLiked: false, increase: !is_blocked);
                             try {
                               if (is_blocked) {
-                                await controller.toggleBlock(
+                                await toggleBlock(
                                     id: accountId, toBlocked: false);
                               } else {
-                                await controller.toggleBlock(
+                                await toggleBlock(
                                     id: accountId, toBlocked: true);
                               }
 
