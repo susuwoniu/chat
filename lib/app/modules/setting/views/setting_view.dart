@@ -69,33 +69,36 @@ class SettingView extends GetView<SettingController> {
                     },
                   ),
                 ]),
+                SettingsSection(title: 'Privacy'.tr, tiles: [
+                  SettingsTile(
+                    title: 'Blocked_Users'.tr,
+                    onPressed: (BuildContext context) {
+                      Get.toNamed(Routes.BLOCK);
+                    },
+                  ),
+                ]),
+                SettingsSection(tiles: [
+                  SettingsTile(
+                    title: 'Clear_Cache'.tr,
+                    onPressed: (BuildContext context) {
+                      CacheProvider.to.clear();
+                    },
+                  ),
+                  SettingsTile(
+                    title: 'Help&Feedback'.tr,
+                    onPressed: (BuildContext context) {
+                      Get.toNamed(Routes.FEEDBACK);
+                    },
+                  ),
+                  SettingsTile(
+                    title: 'About'.tr,
+                    onPressed: (BuildContext context) {
+                      Get.toNamed(Routes.ABOUT);
+                    },
+                  ),
+                ]),
                 SettingsSection(
-                  title: 'Privacy'.tr,
                   tiles: [
-                    SettingsTile(
-                      title: 'Blocked_Users'.tr,
-                      onPressed: (BuildContext context) {
-                        Get.toNamed(Routes.BLOCK);
-                      },
-                    ),
-                    SettingsTile(
-                      title: 'Clear_Cache'.tr,
-                      onPressed: (BuildContext context) {
-                        CacheProvider.to.clear();
-                      },
-                    ),
-                    SettingsTile(
-                      title: 'Help&Feedback'.tr,
-                      onPressed: (BuildContext context) {
-                        Get.toNamed(Routes.FEEDBACK);
-                      },
-                    ),
-                    SettingsTile(
-                      title: 'About'.tr,
-                      onPressed: (BuildContext context) {
-                        Get.toNamed(Routes.ABOUT);
-                      },
-                    ),
                     SettingsTile(
                         title: 'Log_out'.tr,
                         onPressed: (BuildContext context) async {
