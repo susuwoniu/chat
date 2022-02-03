@@ -185,6 +185,9 @@ class HomeView extends GetView<HomeController> {
                                         authorName: author.name,
                                         avatarUri: author.avatar,
                                         index: index),
+                                    SizedBox(
+                                      height: 30,
+                                    )
                                   ])),
                           Align(
                               alignment: Alignment.bottomLeft,

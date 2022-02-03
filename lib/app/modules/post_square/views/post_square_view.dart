@@ -56,7 +56,7 @@ class PostSquareView extends GetView<PostSquareController> {
                         },
                       ))
                 ],
-                expandedHeight: _height * 0.3,
+                expandedHeight: _height * 0.25,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
                     alignment: Alignment.topCenter,
