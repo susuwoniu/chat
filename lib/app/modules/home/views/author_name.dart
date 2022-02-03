@@ -30,8 +30,7 @@ class AuthorName extends StatelessWidget {
           name: authorName,
           uri: avatarUri,
           onTap: () {
-            if (AccountStoreProvider.to.getString(STORAGE_ACCOUNT_ID_KEY) ==
-                accountId) {
+            if (AuthProvider.to.accountId == accountId) {
               RouterProvider.to.toMe();
             } else {
               Get.toNamed(Routes.OTHER, arguments: {"accountId": accountId});

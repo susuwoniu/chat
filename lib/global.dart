@@ -8,10 +8,12 @@ import 'package:chat/config/config.dart';
 import 'package:chat/utils/log.dart';
 import 'dart:developer';
 import 'package:get_storage/get_storage.dart';
+import 'dart:async';
 
 /// 全局静态数据
 class Global {
   /// 初始化
+
   static Future init() async {
     Timeline.startSync('global init function');
 
@@ -69,5 +71,27 @@ class Global {
       );
       SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
     }
+  }
+
+  Timer? _globalTaskTimer;
+  runGlobalTask() async {
+    // check refresh token
+    // refresh token
+    if (AuthProvider.to.isNeedRenewToken() &&
+        AuthProvider.to.refreshToken != null) {
+      try {
+        await APIProvider.to.renewToken();
+      } catch (e) {
+        // ignore
+        print("renew token failed, $e");
+      }
+    }
+    _globalTaskTimer = Timer(const Duration(minutes: 1), () async {
+      await runGlobalTask();
+    });
+  }
+
+  dispose() {
+    _globalTaskTimer?.cancel();
   }
 }

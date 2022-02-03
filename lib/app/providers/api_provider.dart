@@ -53,23 +53,10 @@ class APIProvider {
     client = GetClient();
   }
 
-  Future<void> init() async {
-    // refresh token
-    if (await AuthProvider.to.isNeedRenewToken() &&
-        AuthProvider.to.hasRefreshToken) {
-      try {
-        await renewToken();
-      } catch (e) {
-        // ignore
-        print("renew token failed, $e");
-      }
-    }
-  }
-
   Future<TokenEntity> renewToken() async {
     // refresh token
-    if (await AuthProvider.to.isNeedRenewToken() &&
-        AuthProvider.to.hasRefreshToken) {
+    if (AuthProvider.to.isNeedRenewToken() &&
+        AuthProvider.to.refreshToken != null) {
       // 续期token
       // /account/access-tokens
       try {
@@ -160,8 +147,7 @@ class APIProvider {
     }
     if (options.withAuthorization) {
       final authProvider = AuthProvider.to;
-      final accessToken =
-          authProvider.hasAccessToken ? authProvider.accessToken : null;
+      final accessToken = authProvider.accessToken;
       if (accessToken != null) {
         headers['Authorization'] = "Bearer $accessToken";
       } else {

@@ -31,8 +31,9 @@ class AccountProvider extends GetxService {
     final token = TokenEntity.fromJson(body["data"]["attributes"]);
     final account = AuthProvider.to.formatTokenAccount(body);
     // login im service
+    // 不为空，则暂时不保存token到本地
 
-    await AuthProvider.to.saveToken(token);
+    await AuthProvider.to.saveToken(token, persist: account.actions.isEmpty);
     await AuthProvider.to.saveAccountToStore(account);
     await AuthProvider.to.init();
     if (closePageCount != null && closePageCount > 0) {

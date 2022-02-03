@@ -91,6 +91,38 @@ class StoreProvider {
     }
   }
 
+  Future<Map<String, dynamic>?> getExpiredObject(String key) async {
+    // Guard
+    final value = getObject(key);
+    if (value == null) return null;
+
+    final expiresAt = getInt(STORAGE_EXPIRING_PREFIX_KEY + key);
+    final ms = DateTime.now().millisecondsSinceEpoch;
+    if (expiresAt > ms) {
+      return value;
+    } else {
+      await _prefs.remove(key);
+      await _prefs.remove(STORAGE_EXPIRING_PREFIX_KEY + key);
+      return null;
+    }
+  }
+
+  Future<bool> setExpiredObject(
+      String key, Map<String, dynamic> value, DateTime expiresAt) async {
+    await putObject(key, value);
+    await setInt(
+        STORAGE_EXPIRING_PREFIX_KEY + key, expiresAt.millisecondsSinceEpoch);
+    return true;
+  }
+
+  Future<bool> removeExpired(
+    String key,
+  ) async {
+    await _prefs.remove(key);
+    await _prefs.remove(STORAGE_EXPIRING_PREFIX_KEY + key);
+    return true;
+  }
+
   Future<void> putObjectList(String key, List<Object>? list) async {
     if (list == null) return;
     String data = json.encode(list);
