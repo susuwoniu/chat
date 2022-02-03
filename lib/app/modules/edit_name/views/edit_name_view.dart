@@ -25,8 +25,8 @@ class EditNameView extends GetView<EditNameController> {
                 onPressed: () async {
                   try {
                     await AccountProvider.to.postAccountInfoChange(
-                        {"name": controller.currentName.value},
-                        ignoreActions: true);
+                      {"name": controller.currentName.value},
+                    );
                   } catch (e) {
                     UIUtils.showError(e);
                   }

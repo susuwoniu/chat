@@ -24,8 +24,8 @@ class EditBioView extends GetView<EditBioController> {
                 onPressed: () async {
                   try {
                     await AccountProvider.to.postAccountInfoChange(
-                        {"bio": controller.currentBio.value},
-                        ignoreActions: true);
+                      {"bio": controller.currentBio.value},
+                    );
                   } catch (e) {
                     UIUtils.showError(e);
                   }

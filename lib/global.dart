@@ -77,6 +77,7 @@ class Global {
   runGlobalTask() async {
     // check refresh token
     // refresh token
+    print("run runGlobalTask...");
     if (AuthProvider.to.isNeedRenewToken() &&
         AuthProvider.to.refreshToken != null) {
       try {

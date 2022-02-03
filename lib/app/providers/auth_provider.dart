@@ -175,7 +175,7 @@ class AuthProvider extends GetxService {
       {bool ignoreActions = false}) async {
     await saveAccountToStore(accountEntity);
 
-    final nextPage = RouterProvider.to.nextPage;
+    final nextAction = RouterProvider.to.nextAction;
     //
     // AgreeCommunityRules,
     // AddAccountName,
@@ -209,52 +209,37 @@ class AuthProvider extends GetxService {
       }
       final actionType = validActions[0].type;
       if (actionType == 'add_account_birthday') {
-        if (nextPage != null) {
-          RouterProvider.to.setClosePageCountBeforeNextPage(
-              nextPage.closePageCountBeforeNextPage + 1);
-        }
+        RouterProvider.to.setClosePageCountBeforeNextPage(
+            RouterProvider.to.closePageCountBeforeNextPage + 1);
 
         Get.toNamed(Routes.AGE_PICKER);
       } else if (actionType == 'add_account_gender') {
-        if (nextPage != null) {
-          RouterProvider.to.setClosePageCountBeforeNextPage(
-              nextPage.closePageCountBeforeNextPage + 1);
-        }
+        RouterProvider.to.setClosePageCountBeforeNextPage(
+            RouterProvider.to.closePageCountBeforeNextPage + 1);
+
         Get.toNamed(Routes.GENDER_SELECT);
       } else if (actionType == 'add_account_name') {
-        if (nextPage != null) {
-          RouterProvider.to.setClosePageCountBeforeNextPage(
-              nextPage.closePageCountBeforeNextPage + 1);
-        }
+        RouterProvider.to.setClosePageCountBeforeNextPage(
+            RouterProvider.to.closePageCountBeforeNextPage + 1);
+
         Get.toNamed(Routes.EDIT_NAME, arguments: {'action': actionType});
       } else if (actionType == 'add_account_bio') {
-        if (nextPage != null) {
-          RouterProvider.to.setClosePageCountBeforeNextPage(
-              nextPage.closePageCountBeforeNextPage + 1);
-        }
+        RouterProvider.to.setClosePageCountBeforeNextPage(
+            RouterProvider.to.closePageCountBeforeNextPage + 1);
+
         Get.toNamed(Routes.EDIT_BIO, arguments: {'action': actionType});
       } else if (actionType == 'add_account_profile_image') {
-        if (nextPage != null) {
-          RouterProvider.to.setClosePageCountBeforeNextPage(
-              nextPage.closePageCountBeforeNextPage + 1);
-        }
+        RouterProvider.to.setClosePageCountBeforeNextPage(
+            RouterProvider.to.closePageCountBeforeNextPage + 1);
 
         Get.toNamed(Routes.ADD_PROFILE_IMAGE,
             arguments: {'action': actionType});
-      } else {
-        if (isNeedCompleteActions && nextPage != null) {
-          // 需要减去1页，因为这个需要保留一个登录页
-          RouterProvider.to.setClosePageCountBeforeNextPage(
-              nextPage.closePageCountBeforeNextPage - 1);
-          isNeedCompleteActions = false;
-        }
-        RouterProvider.to.toNextPage();
       }
     } else {
-      if (isNeedCompleteActions && nextPage != null) {
+      if (isNeedCompleteActions && nextAction != null) {
         // 需要减去1页，因为这个需要保留一个登录页
         RouterProvider.to.setClosePageCountBeforeNextPage(
-            nextPage.closePageCountBeforeNextPage - 1);
+            RouterProvider.to.closePageCountBeforeNextPage - 1);
         isNeedCompleteActions = false;
       }
       // now we can persistToken;
