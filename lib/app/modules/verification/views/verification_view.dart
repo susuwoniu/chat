@@ -181,6 +181,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           : TextButton(
                               style: ButtonStyle(
                                 splashFactory: NoSplash.splashFactory,
+                                foregroundColor: MaterialStateProperty.all<
+                                        Color>(
+                                    Theme.of(context).colorScheme.onBackground),
                               ),
                               onPressed: () async {
                                 try {
@@ -241,18 +244,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         ))),
                   ),
                   decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.blue.shade200,
-                            offset: Offset(1, -2),
-                            blurRadius: 5),
-                        BoxShadow(
-                            color: Colors.blue.shade200,
-                            offset: Offset(-1, 2),
-                            blurRadius: 5)
-                      ]),
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
                 ),
               ]),
             )));
