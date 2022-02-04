@@ -47,7 +47,9 @@ class _NearbySwitchState extends State<NearbySwitch> {
           Text(
             Page[value]!.tr,
             style: TextStyle(
-                fontSize: 17, fontWeight: FontWeight.bold, color: Colors.blue),
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey.shade800),
           ),
         ]);
       },

@@ -58,9 +58,9 @@ class MeView extends GetView<MeController> {
                   final _bio =
                       _account.bio == '' ? 'Nothing...'.tr : _account.bio!;
 
-                  final _location = _account.location == ''
-                      ? 'Unknown_place'.tr
-                      : _account.location!;
+                  // final _location = _account.location == ''
+                  //     ? 'Unknown_place'.tr
+                  //     : _account.location!;
                   final _imgList = List.from(_account.profile_images);
 
                   if (_imgList.isEmpty) {
@@ -156,10 +156,10 @@ class MeView extends GetView<MeController> {
                                   color: Colors.grey.shade900),
                             ),
                             SizedBox(height: 8),
-                            ProfileInfoText(
-                                text: _location,
-                                icon: Icons.location_on_outlined),
-                            SizedBox(height: 2),
+                            // ProfileInfoText(
+                            //     text: _location,
+                            //     icon: Icons.location_on_outlined),
+                            // SizedBox(height: 2),
                           ]),
                     )
                   ]);

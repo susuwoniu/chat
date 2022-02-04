@@ -33,9 +33,9 @@ class EditInfoView extends GetView<EditInfoController> {
                 final _account = AuthProvider.to.account.value;
                 final _bio =
                     _account.bio == '' ? 'Nothing...'.tr : _account.bio;
-                final _location = _account.location == ''
-                    ? 'Unknown_place'.tr
-                    : _account.location;
+                // final _location = _account.location == ''
+                //     ? 'Unknown_place'.tr
+                //     : _account.location;
                 final _birthday = _account.birthday ?? '????';
 
                 return Column(children: [
@@ -74,15 +74,16 @@ class EditInfoView extends GetView<EditInfoController> {
                               "mode": "back"
                             });
                           }),
-                      SettingsTile(
-                          title: "location".tr,
-                          subtitle: _location,
-                          onPressed: (BuildContext context) {
-                            Get.toNamed(Routes.AGE_PICKER,
-                                arguments: {"mode": "back"});
-                          }),
+                      // SettingsTile(
+                      //     title: "location".tr,
+                      //     subtitle: _location,
+                      //     onPressed: (BuildContext context) {
+                      //       Get.toNamed(Routes.AGE_PICKER,
+                      //           arguments: {"mode": "back"});
+                      //     }),
                       SettingsTile(
                           title: "birth".tr,
+                          titleTextStyle: TextStyle(fontSize: 16),
                           subtitle: _birthday.substring(0, 4),
                           onPressed: (BuildContext context) {
                             showModalBottomSheet<void>(

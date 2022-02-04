@@ -137,18 +137,18 @@ class OtherView extends GetView<OtherController> {
                                       color: Colors.grey.shade900));
                             }),
                             SizedBox(height: 8),
-                            Obx(() {
-                              final _account =
-                                  AuthProvider.to.simpleAccountMap[accountId] ??
-                                      SimpleAccountEntity.empty();
-                              final _location = _account.location == ''
-                                  ? 'Unknown_place'.tr
-                                  : _account.location!;
-                              return ProfileInfoText(
-                                  text: _location,
-                                  icon: Icons.location_on_outlined);
-                            }),
-                            SizedBox(height: 2)
+                            // Obx(() {
+                            //   final _account =
+                            //       AuthProvider.to.simpleAccountMap[accountId] ??
+                            //           SimpleAccountEntity.empty();
+                            //   final _location = _account.location == ''
+                            //       ? 'Unknown_place'.tr
+                            //       : _account.location!;
+                            //   return ProfileInfoText(
+                            //       text: _location,
+                            //       icon: Icons.location_on_outlined);
+                            // }),
+                            // SizedBox(height: 2)
                           ]),
                     )
                   ]),

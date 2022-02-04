@@ -56,41 +56,43 @@ class HomeView extends GetView<HomeController> {
         actions: <Widget>[
           Row(
             children: [
-              IconButton(
-                  icon:
-                      Text("🐱", style: Theme.of(context).textTheme.headline6),
-                  onPressed: () {
-                    Get.toNamed(
-                      Routes.ADD_PROFILE_IMAGE,
-                    );
-                  }),
-              IconButton(
-                  icon:
-                      Text("🔑", style: Theme.of(context).textTheme.headline6),
-                  onPressed: () {
-                    Get.toNamed(
-                      Routes.DEBUG,
-                    );
-                  }),
+              // IconButton(
+              //     icon:
+              //         Text("🐱", style: Theme.of(context).textTheme.headline6),
+              //     onPressed: () {
+              //       Get.toNamed(
+              //         Routes.ADD_PROFILE_IMAGE,
+              //       );
+              //     }),
+
               Padding(
-                  padding: EdgeInsets.only(right: 10),
-                  child: IconButton(
-                      icon: Icon(Icons.add, color: Colors.white, size: 36),
-                      onPressed: () {
-                        if (isCreate) {
-                          Get.toNamed(
-                            Routes.POST,
-                          );
-                        } else {
-                          showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              enableDrag: false,
-                              builder: (context) {
-                                return VipSheet(context: context, index: 4);
-                              });
-                        }
-                      })),
+                padding: EdgeInsets.only(right: 10),
+                child: IconButton(
+                    icon: Text("🔑",
+                        style: Theme.of(context).textTheme.headline6),
+                    onPressed: () {
+                      Get.toNamed(
+                        Routes.DEBUG,
+                      );
+                    }),
+                // IconButton(
+                //     icon: Icon(Icons.add, color: Colors.white, size: 36),
+                //     onPressed: () {
+                //       if (isCreate) {
+                //         Get.toNamed(
+                //           Routes.POST,
+                //         );
+                //       } else {
+                //         showModalBottomSheet(
+                //             context: context,
+                //             isScrollControlled: true,
+                //             enableDrag: false,
+                //             builder: (context) {
+                //               return VipSheet(context: context, index: 4);
+                //             });
+                //       }
+                //     })
+              ),
             ],
           )
         ]);
@@ -156,7 +158,7 @@ class HomeView extends GetView<HomeController> {
                         return Stack(children: <Widget>[
                           Container(
                               alignment: Alignment.topLeft,
-                              padding: EdgeInsets.fromLTRB(16, 16, 16, 100),
+                              padding: EdgeInsets.fromLTRB(16, 0, 16, 90),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,8 +170,10 @@ class HomeView extends GetView<HomeController> {
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 26.0,
+                                              height: 1.6,
                                               fontWeight: FontWeight.w500,
                                             ))),
+                                    SizedBox(height: 4),
                                     TagWidget(
                                         text: post.post_template_title,
                                         onPressed: () {
@@ -180,6 +184,7 @@ class HomeView extends GetView<HomeController> {
                                                     post.post_template_title
                                               });
                                         }),
+                                    SizedBox(height: 4),
                                     AuthorName(
                                         accountId: post.accountId,
                                         authorName: author.name,
