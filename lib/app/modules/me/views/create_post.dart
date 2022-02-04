@@ -22,18 +22,18 @@ class CreatePost extends StatelessWidget {
     final double paddingTop = 12;
     final _createText = Text("Create_Post".tr,
         style: TextStyle(
-            color: Colors.black54, fontSize: 16, fontWeight: FontWeight.bold));
+            color: Colors.black54, fontSize: 16, fontWeight: FontWeight.w500));
 
     final _lockText = Wrap(alignment: WrapAlignment.center, children: [
       Text('Unlocks_at: ',
-          style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold)),
+          style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500)),
       SizedBox(height: 6),
       Countdown(
         seconds: getTimeStop() ?? 0,
         build: (BuildContext context, double time) {
           return Text(getCountDown(time),
               style: TextStyle(
-                  color: Colors.black54, fontWeight: FontWeight.bold));
+                  color: Colors.black54, fontWeight: FontWeight.w500));
         },
         interval: Duration(milliseconds: 1000),
         onFinished: () {

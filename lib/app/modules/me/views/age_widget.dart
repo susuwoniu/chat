@@ -11,9 +11,9 @@ class AgeWidget extends StatelessWidget {
       {Key? key,
       required this.age,
       required this.gender,
-      this.iconSize = 20,
-      this.fontSize = 16,
-      this.background = Colors.white54,
+      this.iconSize = 18,
+      this.fontSize = 15,
+      this.background = Colors.white70,
       this.color = Colors.black54})
       : super(key: key);
 
@@ -39,6 +39,6 @@ class AgeWidget extends StatelessWidget {
                   fontWeight: FontWeight.bold))
         ]),
         decoration: BoxDecoration(
-            color: background!, borderRadius: BorderRadius.circular(6)));
+            color: background!, borderRadius: BorderRadius.circular(5)));
   }
 }

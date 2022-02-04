@@ -6,11 +6,7 @@ import '../../me/views/dots_widget.dart';
 import '../../age_picker/views/next_button.dart';
 
 final List<Map<String, dynamic>> _cardList = [
-  {
-    'icon': Icons.star_border_purple500_rounded,
-    'title': '会员标识',
-    'detail': '展示会员专属标识'
-  },
+  {'icon': Icons.local_florist, 'title': '会员标识', 'detail': '展示会员专属标识'},
   {'icon': Icons.catching_pokemon_rounded, 'title': '查看访客', 'detail': '查看主页访客'},
   {
     'icon': Icons.auto_fix_high_outlined,
@@ -152,7 +148,7 @@ class _VipSheetState extends State<VipSheet> {
           Text(title,
               style: TextStyle(
                   fontSize: 19,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
                   color: Theme.of(context).colorScheme.onPrimary)),
           SizedBox(height: 5),
           Text(detail,
@@ -250,7 +246,7 @@ class _VipSheetState extends State<VipSheet> {
               Text(price.toString(),
                   style: TextStyle(
                       fontSize: 25,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                       color: isSelected
                           ? Theme.of(context).colorScheme.onPrimary
                           : Colors.black87)),

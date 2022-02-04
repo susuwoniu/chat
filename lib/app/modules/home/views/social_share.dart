@@ -33,19 +33,33 @@ class _SocialShareState extends State<SocialShare> {
                   scrollDirection: Axis.horizontal,
                   children: <Widget>[
                 _socialButton(
-                    icon: Icons.star, text: 'wechat', onPressed: () {}),
+                    icon: Icons.local_florist,
+                    text: 'wechat',
+                    onPressed: () {}),
                 _socialButton(
-                    icon: Icons.star, text: 'wechat', onPressed: () {}),
+                    icon: Icons.local_florist,
+                    text: 'wechat',
+                    onPressed: () {}),
                 _socialButton(
-                    icon: Icons.star, text: 'wechat', onPressed: () {}),
+                    icon: Icons.local_florist,
+                    text: 'wechat',
+                    onPressed: () {}),
                 _socialButton(
-                    icon: Icons.star, text: 'wechat', onPressed: () {}),
+                    icon: Icons.local_florist,
+                    text: 'wechat',
+                    onPressed: () {}),
                 _socialButton(
-                    icon: Icons.star, text: 'wechat', onPressed: () {}),
+                    icon: Icons.local_florist,
+                    text: 'wechat',
+                    onPressed: () {}),
                 _socialButton(
-                    icon: Icons.star, text: 'wechat', onPressed: () {}),
+                    icon: Icons.local_florist,
+                    text: 'wechat',
+                    onPressed: () {}),
                 _socialButton(
-                    icon: Icons.star, text: 'wechat', onPressed: () {}),
+                    icon: Icons.local_florist,
+                    text: 'wechat',
+                    onPressed: () {}),
               ])),
           Expanded(
               child: ListView(
@@ -53,15 +67,25 @@ class _SocialShareState extends State<SocialShare> {
                   scrollDirection: Axis.horizontal,
                   children: <Widget>[
                 _socialButton(
-                    icon: Icons.star, text: 'wechat', onPressed: () {}),
+                    icon: Icons.local_florist,
+                    text: 'wechat',
+                    onPressed: () {}),
                 _socialButton(
-                    icon: Icons.star, text: 'wechat', onPressed: () {}),
+                    icon: Icons.local_florist,
+                    text: 'wechat',
+                    onPressed: () {}),
                 _socialButton(
-                    icon: Icons.star, text: 'wechat', onPressed: () {}),
+                    icon: Icons.local_florist,
+                    text: 'wechat',
+                    onPressed: () {}),
                 _socialButton(
-                    icon: Icons.star, text: 'wechat', onPressed: () {}),
+                    icon: Icons.local_florist,
+                    text: 'wechat',
+                    onPressed: () {}),
                 _socialButton(
-                    icon: Icons.star, text: 'wechat', onPressed: () {}),
+                    icon: Icons.local_florist,
+                    text: 'wechat',
+                    onPressed: () {}),
               ])),
           NextButton(text: 'Cancel', onPressed: () {}),
         ]),

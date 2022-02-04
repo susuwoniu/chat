@@ -183,7 +183,7 @@ class TextMessage extends StatelessWidget {
           h5: defaultTextStyle,
           h6: defaultTextStyle,
           em: TextStyle(fontStyle: FontStyle.italic, color: defaultColor),
-          strong: TextStyle(fontWeight: FontWeight.bold, color: defaultColor),
+          strong: TextStyle(fontWeight: FontWeight.w500, color: defaultColor),
           del: TextStyle(
               decoration: TextDecoration.lineThrough, color: defaultColor),
           img: defaultTextStyle,

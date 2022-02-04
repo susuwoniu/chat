@@ -92,7 +92,7 @@ class _YearPickerState extends State<YearPicker> {
                           style: TextStyle(
                               color: Colors.black87,
                               fontSize: 18,
-                              fontWeight: FontWeight.bold))),
+                              fontWeight: FontWeight.w500))),
                 )
                 .toList(),
             itemExtent: 45,

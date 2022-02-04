@@ -160,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     color: Colors.black,
                                                     fontSize: 16,
                                                     fontWeight:
-                                                        FontWeight.bold),
+                                                        FontWeight.w500),
                                                 initialValue: PhoneNumber(
                                                     isoCode: "CN",
                                                     dialCode: _controller
@@ -173,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 textAlignVertical:
                                                     TextAlignVertical.top,
                                                 textStyle: (TextStyle(
-                                                  fontWeight: FontWeight.bold,
+                                                  fontWeight: FontWeight.w500,
                                                   fontSize: 17,
                                                 )),
                                                 keyboardAction:

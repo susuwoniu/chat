@@ -99,7 +99,7 @@ class CreateView extends GetView<CreateController> {
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold)))),
+                                            fontWeight: FontWeight.w500)))),
                           ]),
                           SizedBox(height: 5),
                           GestureDetector(

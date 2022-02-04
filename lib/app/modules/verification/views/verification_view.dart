@@ -95,7 +95,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     Text(
                       "${controller.countryCode}${controller.phoneNumber}",
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                           fontSize: 15,
                           color: Colors.black,
                           height: 1.8),
@@ -111,7 +111,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           appContext: context,
                           pastedTextStyle: TextStyle(
                             color: Colors.blue.shade600,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                           ),
                           length: 6,
                           blinkWhenObscuring: true,

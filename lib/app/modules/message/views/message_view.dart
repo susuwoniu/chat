@@ -31,7 +31,7 @@ class MessageView extends GetView<MessageController> {
                       : "Network_error".tr,
               style: TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
               ),
             )),
       ),

@@ -126,7 +126,8 @@ class HomeView extends GetView<HomeController> {
             onScrollEvent: _handleCallbackEvent,
             builder: (BuildContext context, int index) {
               final _height = MediaQuery.of(context).size.height;
-
+              final backgroundColor =
+                  Color(postMap[postIndexes[index]]!.backgroundColor);
               return Container(
                   color: index < postIndexes.length
                       ? Color(postMap[postIndexes[index]]!.backgroundColor)

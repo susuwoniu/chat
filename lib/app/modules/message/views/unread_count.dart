@@ -47,7 +47,7 @@ class CountBubble extends StatelessWidget {
     return Text(count,
         style: TextStyle(
             fontSize: 11,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w500,
             color: Theme.of(context).colorScheme.onPrimary));
   }
 }

@@ -81,7 +81,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.blue.shade400,
+                color: Theme.of(context).colorScheme.primary,
               ),
               child: Stack(children: [
                 Positioned(
@@ -112,8 +112,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         max: 100,
                         min: 18,
                         divisions: 8,
-                        activeColor: Colors.pinkAccent,
-                        inactiveColor: Theme.of(context).colorScheme.onPrimary,
+                        activeColor: Theme.of(context).colorScheme.onPrimary,
+                        inactiveColor: Theme.of(context).colorScheme.primary,
                         labels: RangeLabels(
                           _currentAgeRangeValues.start.toInt().toString() +
                               'years_old'.tr,
@@ -136,7 +136,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           height: 45,
                           current: selectedGender,
                           values: ['all', 'female', 'male'],
-                          iconOpacity: 0.2,
+                          iconOpacity: 0.9,
                           indicatorSize: Size.fromWidth(100),
                           indicatorType: IndicatorType.roundedRectangle,
                           iconAnimationType: AnimationType.onHover,
@@ -150,16 +150,17 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                     genderMap[value]!.tr,
                                     style: TextStyle(
                                         fontSize: 16,
-                                        fontWeight: FontWeight.bold,
+                                        fontWeight: FontWeight.w500,
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .onPrimary),
+                                            .primary),
                                   ),
                                 ]);
                           },
                           borderWidth: 0.0,
                           borderColor: Colors.transparent,
-                          colorBuilder: (value) => Colors.pink.shade400,
+                          colorBuilder: (value) =>
+                              Theme.of(context).colorScheme.onPrimary,
                           onChanged: (value) => setState(() {
                             selectedGender = value;
                           }),
@@ -179,9 +180,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               max: 100,
                               min: 0,
                               divisions: 5,
-                              activeColor: Colors.lightGreen,
-                              inactiveColor:
+                              activeColor:
                                   Theme.of(context).colorScheme.onPrimary,
+                              inactiveColor:
+                                  Theme.of(context).colorScheme.primary,
                               label:
                                   _currentEndDistance.toInt().toString() + 'KM',
                               onChanged: (double value) {
@@ -195,6 +197,16 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   ]),
                   SizedBox(height: _paddingTop4),
                   Row(children: [
+                    _buttons(
+                        text: 'Reset',
+                        onPressed: () {
+                          setState(() {
+                            _currentAgeRangeValues = RangeValues(18, 98);
+                            selectedGender = 'all';
+                            _currentEndDistance = 100;
+                            UIUtils.toast('Successfully_reset'.tr);
+                          });
+                        }),
                     _buttons(
                         text: 'Ok',
                         onPressed: () {
@@ -228,16 +240,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                 });
                           }
                         }),
-                    _buttons(
-                        text: 'Reset',
-                        onPressed: () {
-                          setState(() {
-                            _currentAgeRangeValues = RangeValues(18, 98);
-                            selectedGender = 'all';
-                            _currentEndDistance = 100;
-                            UIUtils.toast('Successfully_reset'.tr);
-                          });
-                        }),
                   ])
                 ])
               ])),
@@ -254,8 +256,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       Text(titleMap[text]!.tr,
           style: TextStyle(
               fontSize: 17, color: Theme.of(context).colorScheme.onPrimary)),
-      SizedBox(width: 6),
-      Icon(Icons.stars_rounded, color: Colors.pink.shade300, size: 22),
+      // SizedBox(width: 6),
+      // Icon(Icons.local_florist,
+      //     color: Theme.of(context).colorScheme.onPrimary, size: 25),
     ]);
   }
 
@@ -267,9 +270,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       margin: EdgeInsets.symmetric(horizontal: _width * 0.04),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          color: text == 'Ok'
-              ? Colors.pinkAccent
-              : Theme.of(context).colorScheme.onPrimary),
+          color: Theme.of(context).colorScheme.onPrimary),
       child: TextButton(
           style: ButtonStyle(splashFactory: NoSplash.splashFactory),
           onPressed: () {
@@ -277,10 +278,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           },
           child: Text(text.tr,
               style: TextStyle(
-                  color: text == 'Ok'
-                      ? Theme.of(context).colorScheme.onPrimary
-                      : Colors.blue,
-                  fontSize: 16))),
+                  color: Theme.of(context).colorScheme.primary, fontSize: 16))),
     ));
   }
 }

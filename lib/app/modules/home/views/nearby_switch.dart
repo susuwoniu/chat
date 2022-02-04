@@ -32,8 +32,8 @@ class _NearbySwitchState extends State<NearbySwitch> {
     final _width = MediaQuery.of(context).size.width;
 
     return AnimatedToggleSwitch<String>.size(
-      height: 40,
-      innerColor: Theme.of(context).colorScheme.onPrimary,
+      height: 37,
+      innerColor: Colors.white38,
       current: page,
       values: ["home", 'nearby'],
       iconOpacity: 0.5,
@@ -47,9 +47,9 @@ class _NearbySwitchState extends State<NearbySwitch> {
           Text(
             Page[value]!.tr,
             style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey.shade800),
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey.shade700),
           ),
         ]);
       },
