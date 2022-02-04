@@ -148,8 +148,7 @@ class CreateView extends GetView<CreateController> {
               minFontSize: 10,
               onChange: controller.handleChange,
               backgroundColorPaletteColors: BACKGROUND_COLORS,
-              paletteColors: List.generate(BACKGROUND_COLORS.length,
-                  (index) => Theme.of(context).colorScheme.onPrimary),
+              paletteColors: FRONT_COLORS,
               defaultBackgroundColorIndex: controller.backgroundColorIndex,
             ))
           ])),
