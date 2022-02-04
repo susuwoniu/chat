@@ -250,16 +250,11 @@ class _InputState extends State<BottomWidget> {
                                 margin: EdgeInsets.only(right: 24, bottom: 12),
                                 width: messageMaxWidth.toDouble(),
                                 decoration: BoxDecoration(
-                                    borderRadius: _borderRadius,
-                                    color: widget.quoteMessage?.metadata?[
-                                                "background_color"] !=
-                                            null
-                                        ? Color(widget.quoteMessage!
-                                                .metadata!["background_color"]!
-                                            as int)
-                                        : InheritedChatTheme.of(context)
-                                            .theme
-                                            .primaryColor),
+                                  borderRadius: _borderRadius,
+                                  color: InheritedChatTheme.of(context)
+                                      .theme
+                                      .primaryColor,
+                                ),
                                 child: ClipRRect(
                                     borderRadius: _borderRadius,
                                     child: TextMessage(

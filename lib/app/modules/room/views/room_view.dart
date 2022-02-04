@@ -30,7 +30,6 @@ class RoomView extends GetView<RoomController> {
           roomId: roomId,
         ),
         body: Column(mainAxisSize: MainAxisSize.min, children: [
-          Text("test", style: TextStyle(color: Theme.of(context).primaryColor)),
           Flexible(
             child: Obx(() {
               final room = messageController.entities[roomId];

@@ -172,7 +172,6 @@ class HomeView extends GetView<HomeController> {
                                                   .colorScheme
                                                   .onPrimary,
                                               fontSize: 26.0,
-                                              height: 1.6,
                                               fontWeight: FontWeight.w500,
                                             ))),
                                     SizedBox(height: 4),
