@@ -62,6 +62,10 @@ class HomeController extends GetxController {
   final isLoadingHomePosts = false.obs;
 
   final _currentPage = 'home'.obs;
+  int get currentBackgroundColor => _currentBackgroundColor.value;
+  int get currentFrontColor => _currentFrontColor.value;
+  final _currentBackgroundColor = BACKGROUND_COLORS[0].value.obs;
+  final _currentFrontColor = FRONT_COLORS[0].value.obs;
   String get currentPage => _currentPage.value;
 
   final isMeInitial = false.obs;
@@ -270,8 +274,6 @@ class HomeController extends GetxController {
   insertEntity() async {}
 
   void setIndex({required int index}) {
-    var backgroundColor = BACKGROUND_COLORS[0].value;
-
     pageState[currentPage]!.currentIndex = index;
 
     if (index >= pageState[currentPage]!.postIndexes.length) {
@@ -279,7 +281,9 @@ class HomeController extends GetxController {
     } else {
       final post = postMap[pageState[currentPage]!.postIndexes[index]];
       if (post != null) {
-        backgroundColor = post.backgroundColor;
+        _currentBackgroundColor.value = post.backgroundColor;
+        _currentFrontColor.value = post.color;
+
         patchPostCountView(pageState[currentPage]!.postIndexes[index])
             .catchError((e) {
           report(e);
@@ -287,7 +291,8 @@ class HomeController extends GetxController {
       }
     }
 
-    BottomNavigationBarController.to.changeBackgroundColor(backgroundColor);
+    BottomNavigationBarController.to
+        .changeBackgroundColor(currentBackgroundColor, currentFrontColor);
 
     if (pageState[currentPage]!.postIndexes.length >= 3 &&
         pageState[currentPage]!.postIndexes.length - index < 3) {

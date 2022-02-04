@@ -11,16 +11,18 @@ class AuthorName extends StatelessWidget {
   final String accountId;
   final double avatarSize;
   final double nameSize;
+  final Color color;
 
-  AuthorName({
-    Key? key,
-    required this.authorName,
-    this.avatarUri,
-    this.avatarSize = 24,
-    this.nameSize = 20,
-    required this.index,
-    required this.accountId,
-  }) : super(key: key);
+  AuthorName(
+      {Key? key,
+      required this.authorName,
+      this.avatarUri,
+      this.avatarSize = 24,
+      this.nameSize = 20,
+      required this.index,
+      required this.accountId,
+      required this.color})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +44,7 @@ class AuthorName extends StatelessWidget {
         authorName,
         key: Key('$index-text'),
         style: TextStyle(
-            fontSize: nameSize,
-            color: Theme.of(context).colorScheme.onPrimary,
-            overflow: TextOverflow.ellipsis),
+            fontSize: nameSize, color: color, overflow: TextOverflow.ellipsis),
       )),
       SizedBox(width: 50)
     ]);

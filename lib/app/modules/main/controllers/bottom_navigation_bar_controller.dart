@@ -7,6 +7,7 @@ import 'package:chat/app/providers/providers.dart';
 class BottomNavigationBarController extends GetxController {
   static BottomNavigationBarController get to => Get.find(); // add this line
   final backgroundColor = BACKGROUND_COLORS[0].value.obs;
+  final frontColor = FRONT_COLORS[0].value.obs;
   // 页控制器
   late final PageController pageController;
 
@@ -75,8 +76,9 @@ class BottomNavigationBarController extends GetxController {
     }
   }
 
-  void changeBackgroundColor(int value) {
+  void changeBackgroundColor(int value, int theFrontColor) {
     backgroundColor.value = value;
+    frontColor.value = theFrontColor;
   }
 
   @override

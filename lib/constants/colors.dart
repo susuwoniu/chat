@@ -1,6 +1,21 @@
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter/material.dart';
 
+final FRONT_COLORS = [
+  Colors.white,
+  Colors.white,
+  Colors.white,
+  Colors.white,
+  Colors.white,
+  Colors.white,
+  Colors.white,
+  Colors.white,
+  Colors.white,
+  Colors.white,
+  Colors.white,
+  Colors.black,
+  Colors.white,
+];
 final BACKGROUND_COLORS = [
   HexColor("#00b894"),
   HexColor("#4bcffa"),
@@ -13,7 +28,6 @@ final BACKGROUND_COLORS = [
   HexColor("#FBDF4C"),
   HexColor("#FFB3A7"),
   HexColor("#89729E"),
-  // HexColor("#DB3832"),
   HexColor("#F8CA47"),
   HexColor("#3A6CAF"),
 ];

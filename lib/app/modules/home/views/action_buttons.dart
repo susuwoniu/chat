@@ -6,8 +6,13 @@ class ActionButtons extends StatelessWidget {
   final Function? onRefresh;
   final Function? onAdd;
   final Function? onMore;
+  final Color color;
   ActionButtons(
-      {this.isRefreshing = false, this.onRefresh, this.onAdd, this.onMore});
+      {this.isRefreshing = false,
+      this.onRefresh,
+      this.onAdd,
+      this.onMore,
+      required this.color});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -17,8 +22,7 @@ class ActionButtons extends StatelessWidget {
               backgroundColor: Colors.black.withOpacity(0.12),
               shape: CircleBorder(),
             ),
-            child: Icon(Icons.add,
-                color: Theme.of(context).colorScheme.onPrimary, size: 28),
+            child: Icon(Icons.add, color: color, size: 28),
             onPressed: () {
               if (onAdd != null) {
                 onAdd!();
@@ -33,12 +37,8 @@ class ActionButtons extends StatelessWidget {
               shape: CircleBorder(),
             ),
             child: isRefreshing
-                ? Spinner(
-                    child: Icon(Icons.refresh,
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        size: 28))
-                : Icon(Icons.refresh,
-                    color: Theme.of(context).colorScheme.onPrimary, size: 28),
+                ? Spinner(child: Icon(Icons.refresh, color: color, size: 28))
+                : Icon(Icons.refresh, color: color, size: 28),
             onPressed: () {
               if (onRefresh != null && !isRefreshing) {
                 onRefresh!();
@@ -52,8 +52,7 @@ class ActionButtons extends StatelessWidget {
               backgroundColor: Colors.black.withOpacity(0.12),
               shape: CircleBorder(),
             ),
-            child: Icon(Icons.more_horiz_outlined,
-                color: Theme.of(context).colorScheme.onPrimary, size: 28),
+            child: Icon(Icons.more_horiz_outlined, color: color, size: 28),
             onPressed: () {
               if (onMore != null) {
                 onMore!();
