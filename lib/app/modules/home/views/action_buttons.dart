@@ -17,7 +17,8 @@ class ActionButtons extends StatelessWidget {
               backgroundColor: Colors.black.withOpacity(0.12),
               shape: CircleBorder(),
             ),
-            child: Icon(Icons.add, color: Colors.white, size: 28),
+            child: Icon(Icons.add,
+                color: Theme.of(context).colorScheme.onPrimary, size: 28),
             onPressed: () {
               if (onAdd != null) {
                 onAdd!();
@@ -33,8 +34,11 @@ class ActionButtons extends StatelessWidget {
             ),
             child: isRefreshing
                 ? Spinner(
-                    child: Icon(Icons.refresh, color: Colors.white, size: 28))
-                : Icon(Icons.refresh, color: Colors.white, size: 28),
+                    child: Icon(Icons.refresh,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        size: 28))
+                : Icon(Icons.refresh,
+                    color: Theme.of(context).colorScheme.onPrimary, size: 28),
             onPressed: () {
               if (onRefresh != null && !isRefreshing) {
                 onRefresh!();
@@ -48,8 +52,8 @@ class ActionButtons extends StatelessWidget {
               backgroundColor: Colors.black.withOpacity(0.12),
               shape: CircleBorder(),
             ),
-            child:
-                Icon(Icons.more_horiz_outlined, color: Colors.white, size: 28),
+            child: Icon(Icons.more_horiz_outlined,
+                color: Theme.of(context).colorScheme.onPrimary, size: 28),
             onPressed: () {
               if (onMore != null) {
                 onMore!();

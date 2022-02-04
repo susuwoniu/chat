@@ -32,7 +32,7 @@ class HomeView extends GetView<HomeController> {
                 icon: Icon(
                   Icons.filter_list_rounded,
                   size: 36,
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
                 onPressed: () {
                   showModalBottomSheet(
@@ -76,7 +76,7 @@ class HomeView extends GetView<HomeController> {
                       );
                     }),
                 // IconButton(
-                //     icon: Icon(Icons.add, color: Colors.white, size: 36),
+                //     icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onPrimary, size: 36),
                 //     onPressed: () {
                 //       if (isCreate) {
                 //         Get.toNamed(
@@ -168,7 +168,9 @@ class HomeView extends GetView<HomeController> {
                                             textAlign: TextAlign.center,
                                             id: postIndexes[index],
                                             style: TextStyle(
-                                              color: Colors.white,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimary,
                                               fontSize: 26.0,
                                               height: 1.6,
                                               fontWeight: FontWeight.w500,

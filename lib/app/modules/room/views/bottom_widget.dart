@@ -274,7 +274,7 @@ class _InputState extends State<BottomWidget> {
                     : SizedBox.shrink(),
                 widget.replyTo != null
                     ? Container(
-                        // color: Colors.white38,
+                        // color: Theme.of(context).colorScheme.onPrimary38,
                         decoration: BoxDecoration(
                             border: Border(
                                 top: BorderSide(

@@ -29,7 +29,7 @@ class MoreDots extends StatelessWidget {
           width: _width * 0.96,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimary,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(children: [

@@ -28,7 +28,8 @@ class Templates extends StatelessWidget {
           alignment: Alignment.topLeft,
           child: Text(
             question,
-            style: TextStyle(fontSize: 22.0, color: Colors.white),
+            style: TextStyle(
+                fontSize: 22.0, color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
         Container(
@@ -39,17 +40,21 @@ class Templates extends StatelessWidget {
             keyboardType: TextInputType.multiline,
             minLines: 1,
             maxLines: 4,
-            style: TextStyle(fontSize: 26.0, color: Colors.white),
-            cursorColor: Colors.white,
+            style: TextStyle(
+                fontSize: 26.0, color: Theme.of(context).colorScheme.onPrimary),
+            cursorColor: Theme.of(context).colorScheme.onPrimary,
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white, width: 2),
+                borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.onPrimary, width: 2),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white, width: 2),
+                borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.onPrimary, width: 2),
               ),
               disabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white, width: 2),
+                borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.onPrimary, width: 2),
               ),
             ),
             onChanged: (String text) {

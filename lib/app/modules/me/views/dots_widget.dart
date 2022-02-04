@@ -30,8 +30,8 @@ class DotsWidget extends StatelessWidget {
               margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color:
-                      (Colors.white).withOpacity(current == index ? 0.9 : 0.4)),
+                  color: (Theme.of(context).colorScheme.onPrimary)
+                      .withOpacity(current == index ? 0.9 : 0.4)),
             ));
       }).toList(),
     );

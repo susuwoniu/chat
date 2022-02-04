@@ -68,7 +68,7 @@ class _InputWidgetState extends State<InputWidget> {
               )
             : null,
         filled: true,
-        fillColor: Colors.white,
+        fillColor: Theme.of(context).colorScheme.onPrimary,
         border: InputBorder.none,
         contentPadding: EdgeInsets.all(17),
       ),

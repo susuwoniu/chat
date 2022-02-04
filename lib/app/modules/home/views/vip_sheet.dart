@@ -98,7 +98,8 @@ class _VipSheetState extends State<VipSheet> {
                   top: 0,
                   child: IconButton(
                     icon: Icon(Icons.close_outlined,
-                        size: 26, color: Colors.white),
+                        size: 26,
+                        color: Theme.of(context).colorScheme.onPrimary),
                     onPressed: () {
                       Get.back();
                     },
@@ -144,16 +145,20 @@ class _VipSheetState extends State<VipSheet> {
               height: 40,
               width: 40,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20), color: Colors.white),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Theme.of(context).colorScheme.onPrimary),
               child: Icon(icon, size: 26, color: Colors.purple.shade300)),
           SizedBox(height: 10),
           Text(title,
               style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white)),
+                  color: Theme.of(context).colorScheme.onPrimary)),
           SizedBox(height: 5),
-          Text(detail, style: TextStyle(fontSize: 14, color: Colors.white)),
+          Text(detail,
+              style: TextStyle(
+                  fontSize: 14,
+                  color: Theme.of(context).colorScheme.onPrimary)),
           SizedBox(height: 20),
         ]));
   }
@@ -222,25 +227,33 @@ class _VipSheetState extends State<VipSheet> {
           decoration: BoxDecoration(
               color: isSelected ? Colors.blue.shade400 : Colors.transparent,
               border: Border.all(
-                  color: isSelected ? Colors.white : Colors.grey.shade900,
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Colors.grey.shade900,
                   width: 2),
               borderRadius: BorderRadius.circular(8)),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(time,
                 style: TextStyle(
                     fontSize: 16,
-                    color: isSelected ? Colors.white : Colors.grey.shade900)),
+                    color: isSelected
+                        ? Theme.of(context).colorScheme.onPrimary
+                        : Colors.grey.shade900)),
             SizedBox(height: 10),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text('¥',
                   style: TextStyle(
                       fontSize: 15,
-                      color: isSelected ? Colors.white : Colors.grey.shade800)),
+                      color: isSelected
+                          ? Theme.of(context).colorScheme.onPrimary
+                          : Colors.grey.shade800)),
               Text(price.toString(),
                   style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: isSelected ? Colors.white : Colors.black87)),
+                      color: isSelected
+                          ? Theme.of(context).colorScheme.onPrimary
+                          : Colors.black87)),
             ]),
           ]),
         ));

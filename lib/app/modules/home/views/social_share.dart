@@ -84,9 +84,12 @@ class _SocialShareState extends State<SocialShare> {
             height: 45,
             margin: EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-                color: color ?? Colors.white, shape: BoxShape.circle),
+                color: color ?? Theme.of(context).colorScheme.onPrimary,
+                shape: BoxShape.circle),
             child: Icon(icon,
-                color: color == null ? Colors.black87 : Colors.white),
+                color: color == null
+                    ? Colors.black87
+                    : Theme.of(context).colorScheme.onPrimary),
           ),
           SizedBox(height: 10),
           Text(text,

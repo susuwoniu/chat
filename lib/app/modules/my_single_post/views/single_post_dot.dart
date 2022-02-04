@@ -27,12 +27,13 @@ class SinglePostDot extends StatelessWidget {
         padding: EdgeInsets.only(bottom: 30),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.onPrimary,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(children: [
           Row(children: [
             _buttons(
+                context: context,
                 icon: Icons.lock_outline_rounded,
                 text: 'Visibility',
                 onPressed: () {
@@ -48,12 +49,14 @@ class SinglePostDot extends StatelessWidget {
               final is_can_promote =
                   HomeController.to.postMap[postId]!.is_can_promote;
               return _buttons(
+                  context: context,
                   icon: Icons.auto_fix_high_outlined,
                   text: 'Polish',
                   onPressed: onPressedPolish,
                   is_can_promote: is_can_promote);
             }),
             _buttons(
+                context: context,
                 icon: Icons.delete_forever_rounded,
                 text: 'Delete',
                 onPressed: onPressedDelete)
@@ -77,6 +80,7 @@ class SinglePostDot extends StatelessWidget {
     required IconData icon,
     required String text,
     required Function onPressed,
+    required BuildContext context,
     bool? is_can_promote,
   }) {
     final _is_can_promote = is_can_promote ?? false;
@@ -107,7 +111,9 @@ class SinglePostDot extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50)),
               child: Icon(icon,
                   size: 30,
-                  color: isColorful ? Colors.white : Colors.grey.shade600),
+                  color: isColorful
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Colors.grey.shade600),
             ),
             SizedBox(height: 14),
             Text(text.tr,

@@ -12,7 +12,7 @@ class ReportSheet extends StatelessWidget {
       Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimary,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(children: [
