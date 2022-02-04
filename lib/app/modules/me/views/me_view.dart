@@ -19,6 +19,7 @@ import 'small_post.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../home/controllers/home_controller.dart';
 import './create_post.dart';
+import 'package:flutter/services.dart';
 
 class MeView extends GetView<MeController> {
   final CarouselController buttonCarouselController = CarouselController();
@@ -152,7 +153,7 @@ class MeView extends GetView<MeController> {
                               style: TextStyle(
                                   height: 1.5,
                                   fontSize: 17,
-                                  color: Colors.grey.shade800),
+                                  color: Colors.grey.shade900),
                             ),
                             SizedBox(height: 8),
                             ProfileInfoText(
@@ -200,12 +201,14 @@ class MeView extends GetView<MeController> {
             ])));
   }
 
-  PreferredSizeWidget _appbar(
+  AppBar _appbar(
       {required IconData iconLeft,
       required Function leftTap,
       IconData? iconRight,
       Function? rightTap}) {
     return AppBar(
+        systemOverlayStyle:
+            SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
         leading: Container(
             padding: EdgeInsets.only(left: 16),
             child: CircleWidget(

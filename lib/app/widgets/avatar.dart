@@ -1,5 +1,7 @@
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:chat/utils/random.dart';
+import 'package:chat/common.dart';
 
 Widget Avatar(
     {required String name,
@@ -13,11 +15,11 @@ Widget Avatar(
         '', //sets image path, it should be a URL string. default value is empty string, if path is empty it will display only initials
     child: child,
     radius: size ?? 24, // sets radius, default 50.0
-    backgroundColor:
-        Colors.lightBlueAccent, // sets background color, default Colors.white
+    backgroundColor: BACKGROUND_COLORS[get_random_index(BACKGROUND_COLORS
+        .length)], // sets background color, default Colors.white
     borderWidth: 0, // sets border, default 0.0
     initialsText: Text(
-      name.substring(0, 2),
+      name.substring(0, 1),
       style: TextStyle(
           fontSize: size != null ? size - 8 : 15, color: Colors.white),
     ), // sets initials text, set your own style, default Text('')

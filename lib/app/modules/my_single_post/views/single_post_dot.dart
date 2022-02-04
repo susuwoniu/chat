@@ -110,7 +110,8 @@ class SinglePostDot extends StatelessWidget {
                   color: isColorful ? Colors.white : Colors.grey.shade600),
             ),
             SizedBox(height: 14),
-            Text(text.tr, style: TextStyle(fontSize: 16)),
+            Text(text.tr,
+                style: TextStyle(fontSize: 15, color: Colors.grey.shade800)),
           ]),
         ));
   }

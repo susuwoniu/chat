@@ -30,7 +30,7 @@ class SettingView extends GetView<SettingController> {
           // ),
           systemOverlayStyle:
               SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
-          title: Text('SettingView'.tr, style: TextStyle(fontSize: 17)),
+          title: Text('SettingView'.tr, style: TextStyle(fontSize: 18)),
         ),
         body: Obx(() => SettingsList(
               sections: [

@@ -28,7 +28,7 @@ class ChatThemeData {
   }
 
   static const ColorScheme lightColorScheme = ColorScheme(
-    primary: Color.fromRGBO(0, 132, 255, 1),
+    primary: Color(0xFF7371fc),
     primaryVariant: Color(0xff000088),
     secondary: Color(0xff66fff9),
     secondaryVariant: Color(0xff018786),
@@ -44,7 +44,7 @@ class ChatThemeData {
   );
 
   static const ColorScheme darkColorScheme = ColorScheme(
-    primary: Color(0xffbb86fc),
+    primary: Color(0xFF9d4edd),
     primaryVariant: Color(0xff3700B3),
     secondary: Color(0xff03dac6),
     secondaryVariant: Color(0xff03dac6),

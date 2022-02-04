@@ -134,7 +134,7 @@ class OtherView extends GetView<OtherController> {
                                   style: TextStyle(
                                       height: 1.5,
                                       fontSize: 17,
-                                      color: Colors.grey.shade800));
+                                      color: Colors.grey.shade900));
                             }),
                             SizedBox(height: 8),
                             Obx(() {
@@ -216,12 +216,12 @@ class OtherView extends GetView<OtherController> {
                               if (is_blocked) {
                                 await toggleBlock(
                                     id: accountId, toBlocked: false);
+                                UIUtils.toast('Unblocked.'.tr);
                               } else {
                                 await toggleBlock(
                                     id: accountId, toBlocked: true);
+                                UIUtils.toast('Blocked.'.tr);
                               }
-
-                              UIUtils.toast('Blocked.'.tr);
                             } catch (e) {
                               UIUtils.showError(e);
                               controller.accountAction(

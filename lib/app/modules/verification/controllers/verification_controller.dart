@@ -10,6 +10,8 @@ class VerificationController extends GetxController {
   final count = 0.obs;
   final countryCode = Get.arguments['countryCode'];
   final phoneNumber = Get.arguments['phoneNumber'];
+  final isShowCount = true.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -30,4 +32,8 @@ class VerificationController extends GetxController {
   }
 
   void increment() => count.value++;
+
+  setShowCount(bool show) {
+    isShowCount.value = show;
+  }
 }

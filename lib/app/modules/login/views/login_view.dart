@@ -69,7 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Text('Login'.tr),
+          title: Text(
+            'Login'.tr,
+            style: TextStyle(fontSize: 19),
+          ),
         ),
         body: GestureDetector(
             behavior: HitTestBehavior.opaque,

@@ -28,22 +28,23 @@ Widget MaxText(String text, BuildContext context,
           ),
           SizedBox(height: 12),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
                   padding: EdgeInsets.only(right: 16),
                   child: GestureDetector(
                     onTap: () => Get.toNamed(Routes.MY_SINGLE_POST,
                         arguments: {"id": id}),
-                    child: Text("查看全文 >>",
+                    child: Text("More".tr + " >>",
                         style: TextStyle(
-                            shadows: [
-                              Shadow(color: Colors.white, offset: Offset(0, -5))
-                            ],
-                            color: Colors.transparent,
-                            fontSize: minFontsize - 6,
-                            decorationColor: Colors.white,
-                            decoration: TextDecoration.underline)),
+                          shadows: [
+                            Shadow(color: Colors.white, offset: Offset(0, -5))
+                          ],
+                          color: Colors.transparent,
+                          fontSize: minFontsize - 8,
+                          decorationColor: Colors.white,
+                          decoration: TextDecoration.underline,
+                        )),
                   ))
             ],
           )
