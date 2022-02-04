@@ -11,7 +11,7 @@ class ProfileViewersView extends GetView<ProfileViewersController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('ProfileViewersView'.tr, style: TextStyle(fontSize: 17)),
+          title: Text('ProfileViewersView'.tr, style: TextStyle(fontSize: 16)),
           systemOverlayStyle:
               SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           bottom: PreferredSize(

@@ -17,15 +17,15 @@ class NicknameWidget extends StatelessWidget {
             maxLines: 1,
             style: TextStyle(
               fontSize: 22,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w500,
               color: Theme.of(context).colorScheme.onPrimary,
               overflow: TextOverflow.ellipsis,
             )),
       ),
-      SizedBox(width: 8),
+      SizedBox(width: 6),
       vip
-          ? Icon(Icons.stars_rounded,
-              color: Theme.of(context).primaryColor, size: 34)
+          ? Icon(Icons.local_florist,
+              color: Theme.of(context).primaryColor, size: 32)
           : SizedBox.shrink(),
     ]);
   }

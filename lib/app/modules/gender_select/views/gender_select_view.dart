@@ -16,7 +16,7 @@ class GenderSelectView extends GetView<GenderSelectController> {
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         appBar: AppBar(
-          title: Text('GenderSelect'),
+          title: Text('GenderSelect', style: TextStyle(fontSize: 16)),
           systemOverlayStyle:
               SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
         ),

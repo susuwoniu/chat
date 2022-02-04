@@ -37,7 +37,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
         appBar: AppBar(
           title: Text(
             'SinglePost'.tr,
-            style: TextStyle(fontSize: 18, color: Colors.grey.shade800),
+            style: TextStyle(fontSize: 16, color: Colors.grey.shade800),
           ),
           systemOverlayStyle:
               SystemUiOverlayStyle(statusBarBrightness: Brightness.light),

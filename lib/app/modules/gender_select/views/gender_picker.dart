@@ -40,7 +40,7 @@ class GenderPicker extends StatelessWidget {
                 ),
                 Text(gender == 'female' ? 'female'.tr : 'male'.tr,
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
                         fontSize: 15,
                         color: selectedGender == gender
                             ? Colors.pink.shade300

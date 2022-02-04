@@ -58,7 +58,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           title: Text(
             "Verification".tr,
-            style: TextStyle(fontSize: 19),
+            style: TextStyle(fontSize: 16),
           ),
           bottom: PreferredSize(
               child: Container(
@@ -87,7 +87,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           controller: _bear_log_inController,
                         ))),
                 Container(
-                  padding: EdgeInsets.fromLTRB(30, 25, 30, 5),
+                  padding: EdgeInsets.fromLTRB(30, 25, 30, 0),
                   child: Column(children: [
                     Text(
                       "we_have_sent_the_code_to_your_phone".tr,
@@ -95,7 +95,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     Text(
                       "${controller.countryCode}${controller.phoneNumber}",
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                           fontSize: 15,
                           color: Colors.black,
                           height: 1.8),
@@ -111,7 +111,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           appContext: context,
                           pastedTextStyle: TextStyle(
                             color: Colors.blue.shade600,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                           ),
                           length: 6,
                           blinkWhenObscuring: true,
@@ -198,7 +198,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                               },
                               child: Text("Resend".tr,
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 15,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                   ))),
                     )),
                 SizedBox(height: 10),
@@ -238,9 +241,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                             child: Text(
                           "Submit".tr,
                           style: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                            color: Theme.of(context).colorScheme.onPrimary,
+                            fontSize: 16,
+                          ),
                         ))),
                   ),
                   decoration: BoxDecoration(

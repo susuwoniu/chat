@@ -9,7 +9,10 @@ class AboutView extends GetView<AboutController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('AboutView'),
+        title: Text(
+          'AboutView',
+          style: TextStyle(fontSize: 16),
+        ),
       ),
       body: Center(
         child: Text(

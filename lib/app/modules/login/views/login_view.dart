@@ -72,9 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           title: Text(
             'Login'.tr,
-            style: TextStyle(
-              fontSize: 18,
-            ),
+            style: TextStyle(fontSize: 16),
           ),
         ),
         body: GestureDetector(
@@ -89,12 +87,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   gradient: LinearGradient(
                     // Where the linear gradient begins and ends
                     begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
+                    end: Alignment.bottomRight,
                     // Add one stop for each color. Stops should increase from 0 to 1
                     stops: [0.0, 1.0],
                     colors: [
-                      Theme.of(context).colorScheme.primaryVariant,
                       Theme.of(context).colorScheme.primary,
+                      Theme.of(context).colorScheme.primaryVariant,
                     ],
                   ),
                 ))),
@@ -162,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     color: Colors.black,
                                                     fontSize: 16,
                                                     fontWeight:
-                                                        FontWeight.bold),
+                                                        FontWeight.w500),
                                                 initialValue: PhoneNumber(
                                                     isoCode: "CN",
                                                     dialCode: _controller
@@ -175,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 textAlignVertical:
                                                     TextAlignVertical.top,
                                                 textStyle: (TextStyle(
-                                                  fontWeight: FontWeight.bold,
+                                                  fontWeight: FontWeight.w500,
                                                   fontSize: 17,
                                                 )),
                                                 keyboardAction:

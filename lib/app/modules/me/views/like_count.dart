@@ -16,8 +16,8 @@ class LikeCount extends StatelessWidget {
       required this.count,
       this.backgroundColor = Colors.black38,
       this.isMe = false,
-      this.fontSize = 18,
-      this.iconSize = 18})
+      this.fontSize = 17,
+      this.iconSize = 17})
       : super(key: key);
   @override
   Widget build(BuildContext context) {

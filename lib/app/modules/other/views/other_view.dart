@@ -92,7 +92,7 @@ class OtherView extends GetView<OtherController> {
                                                 null
                                             ? ' ???'
                                             : _account.age.toString()),
-                                    SizedBox(height: 15),
+                                    SizedBox(height: 10),
                                     Obx(() {
                                       final _likeCount = AuthProvider
                                           .to
@@ -104,7 +104,7 @@ class OtherView extends GetView<OtherController> {
                                     }),
                                   ])),
                           Positioned(
-                              bottom: 10,
+                              bottom: 6,
                               width: width,
                               child: Obx(
                                 () => DotsWidget(
@@ -355,7 +355,7 @@ class OtherView extends GetView<OtherController> {
                             ? Theme.of(context).colorScheme.onPrimary
                             : color,
                     fontSize: 16,
-                    fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.w500),
               ),
             )));
   }

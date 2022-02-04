@@ -31,7 +31,7 @@ class ViewersList extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 18,
                     color: Colors.black87,
-                    fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.w500),
               ),
               SizedBox(
                 width: 10,

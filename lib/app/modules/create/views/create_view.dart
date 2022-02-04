@@ -31,7 +31,8 @@ class CreateView extends GetView<CreateController> {
     TextAlign _textAlign = TextAlign.left;
     return Scaffold(
         appBar: AppBar(
-            title: Text('Create'.tr, style: TextStyle(fontSize: 18)),
+            title: Text('Create'.tr,
+                style: TextStyle(fontSize: 16, color: Colors.grey.shade800)),
             systemOverlayStyle:
                 SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
             bottom: PreferredSize(

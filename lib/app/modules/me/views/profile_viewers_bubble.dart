@@ -40,7 +40,7 @@ class ProfileViewersBubble extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 12,
                     color: Colors.black54,
-                    fontWeight: FontWeight.bold))
+                    fontWeight: FontWeight.w500))
           ]),
           decoration: BoxDecoration(
               color: Colors.white54, borderRadius: BorderRadius.circular(30)),

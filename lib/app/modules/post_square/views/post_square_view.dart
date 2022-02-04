@@ -68,7 +68,7 @@ class PostSquareView extends GetView<PostSquareController> {
                         Text('# ' + _title,
                             style: TextStyle(
                                 fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                                 color:
                                     Theme.of(context).colorScheme.onPrimary)),
                         SizedBox(height: 20),
