@@ -26,11 +26,11 @@ Widget conversationItemView(
           onTap(index);
         }
       },
-      contentPadding: EdgeInsets.fromLTRB(10, 0, 13, 0),
+      contentPadding: EdgeInsets.fromLTRB(10, 3, 13, 3),
       leading: Avatar(
           name: name,
           uri: avatar,
-          size: 25,
+          size: 27,
           onTap: () {
             if (id == AuthProvider.to.accountId) {
               RouterProvider.to.toMe();
@@ -48,9 +48,10 @@ Widget conversationItemView(
                   child: Container(
                       child: Text(name,
                           style: TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold)))),
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 16,
+                            color: Colors.black,
+                          )))),
               LikeCount(
                 count: likeCount,
                 iconSize: 16,
@@ -62,16 +63,16 @@ Widget conversationItemView(
         TimeAgo(updatedAt: updatedAt),
       ]),
       subtitle: Container(
-          padding: EdgeInsets.symmetric(vertical: 3),
+          padding: EdgeInsets.symmetric(vertical: 6),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Expanded(
                 child: Text(preview,
                     maxLines: 1,
                     style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 14,
                         overflow: TextOverflow.ellipsis,
-                        color: Theme.of(context).hintColor))),
+                        color: Colors.grey.shade600))),
             CountBubble(count: unreadCount),
           ])),
     ),

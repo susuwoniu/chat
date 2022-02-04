@@ -34,7 +34,7 @@ class MoreDots extends StatelessWidget {
           ),
           child: Column(children: [
             Container(
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
                 width: _width,
                 decoration: BoxDecoration(
                     border: Border(
@@ -47,7 +47,7 @@ class MoreDots extends StatelessWidget {
                     onPressedReport();
                   },
                   child: Text('Report'.tr,
-                      style: TextStyle(fontSize: 18, color: Colors.red)),
+                      style: TextStyle(fontSize: 17, color: Colors.red)),
                 )),
             GestureDetector(
               onTap: () async {
@@ -63,14 +63,14 @@ class MoreDots extends StatelessWidget {
                 }
               },
               child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
                   color: Colors.transparent,
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           bottomText ?? 'Share'.tr,
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 17),
                         ),
                         Icon(
                           bottomIcon ?? Icons.send_rounded,

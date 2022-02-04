@@ -57,12 +57,13 @@ class RoomView extends GetView<RoomController> {
 
               return Chat(
                 theme: DefaultChatTheme(
+                    primaryColor: Theme.of(context).primaryColor,
                     receivedMessageBodyTextStyle: TextStyle(
-                  color: TEXT_PRIMARY_COLOR,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  height: 1.5,
-                )),
+                      color: TEXT_PRIMARY_COLOR,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      height: 1.5,
+                    )),
                 isLastPage: room.isLastPage,
                 messages: messages,
                 bubbleBuilder: (

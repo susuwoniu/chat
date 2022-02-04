@@ -9,6 +9,8 @@ import 'package:intl/intl.dart';
 import 'single_post_dot.dart';
 import '../../home/views/vip_sheet.dart';
 import 'package:flutter/services.dart';
+import '../../home/views/more_dots.dart';
+import 'package:chat/app/routes/app_pages.dart';
 
 final VisibilityMap = {'public': 'Public', 'private': 'Private'};
 
@@ -23,6 +25,9 @@ class MySinglePostView extends GetView<MySinglePostController> {
     final _homeController = HomeController.to;
 
     final _post = HomeController.to.postMap[_postId]!;
+    final authorId = _post.accountId;
+    final isMe = authorId == AuthProvider.to.accountId;
+
     final _content = _post.content;
     final _backgroundColor = _post.backgroundColor;
 
@@ -31,8 +36,8 @@ class MySinglePostView extends GetView<MySinglePostController> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'MySinglePostView'.tr,
-            style: TextStyle(fontSize: 19),
+            'SinglePost'.tr,
+            style: TextStyle(fontSize: 18, color: Colors.grey.shade800),
           ),
           systemOverlayStyle:
               SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
@@ -60,15 +65,18 @@ class MySinglePostView extends GetView<MySinglePostController> {
                       children: [
                         Text(
                           _createAt,
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                         Row(children: [
-                          Obx(() => Text(
-                                VisibilityMap[controller.visibility]!.tr,
-                                style: TextStyle(color: Colors.white),
-                              )),
-                          _dotIcon(context: context, postId: _postId)
-                        ]),
+                          isMe
+                              ? Obx(() => Text(
+                                    VisibilityMap[controller.visibility]!.tr,
+                                    style: TextStyle(color: Colors.white),
+                                  ))
+                              : SizedBox.shrink(),
+                          _dotIcon(
+                              context: context, postId: _postId, isMe: isMe)
+                        ])
                       ]),
                   Container(
                       padding: EdgeInsets.only(right: 16),
@@ -76,8 +84,8 @@ class MySinglePostView extends GetView<MySinglePostController> {
                       child: Text(_content,
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 20.0,
-                              height: 1.4))),
+                              fontSize: 19.0,
+                              height: 1.6))),
                 ])),
             Obx(() {
               final post = _homeController.postMap[_postId]!;
@@ -128,64 +136,79 @@ class MySinglePostView extends GetView<MySinglePostController> {
         ));
   }
 
-  Widget _dotIcon({required BuildContext context, required String postId}) {
+  Widget _dotIcon(
+      {required BuildContext context,
+      required String postId,
+      required bool isMe,
+      String? authorId}) {
     final isVip = AuthProvider.to.account.value.vip;
     final is_can_promote = HomeController.to.postMap[postId]!.is_can_promote;
 
     return IconButton(
+        padding: EdgeInsets.all(0),
         onPressed: () {
           showModalBottomSheet(
               context: context,
               builder: (context) {
-                return SinglePostDot(
-                  postId: postId,
-                  onPressedVisibility: (String visibility) async {
-                    try {
-                      UIUtils.showLoading();
-                      await controller.postChange(
-                          type: visibility, postId: postId);
-                    } catch (e) {
-                      UIUtils.showError(e);
-                    }
-                    UIUtils.hideLoading();
-                    Navigator.pop(context);
-                  },
-                  onPressedPolish: () async {
-                    Navigator.pop(context);
+                return isMe
+                    ? SinglePostDot(
+                        postId: postId,
+                        onPressedVisibility: (String visibility) async {
+                          try {
+                            UIUtils.showLoading();
+                            await controller.postChange(
+                                type: visibility, postId: postId);
+                          } catch (e) {
+                            UIUtils.showError(e);
+                          }
+                          UIUtils.hideLoading();
+                          Navigator.pop(context);
+                        },
+                        onPressedPolish: () async {
+                          Navigator.pop(context);
 
-                    if (isVip && is_can_promote) {
-                      try {
-                        UIUtils.showLoading();
-                        await controller.postChange(
-                            type: 'promote', postId: postId);
-                        UIUtils.toast('Successfully_polished'.tr);
-                      } catch (e) {
-                        UIUtils.showError(e);
-                      }
-                      UIUtils.hideLoading();
-                    } else {
-                      showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          enableDrag: false,
-                          builder: (context) {
-                            return VipSheet(context: context, index: 2);
+                          if (isVip && is_can_promote) {
+                            try {
+                              UIUtils.showLoading();
+                              await controller.postChange(
+                                  type: 'promote', postId: postId);
+                              UIUtils.toast('Successfully_polished'.tr);
+                            } catch (e) {
+                              UIUtils.showError(e);
+                            }
+                            UIUtils.hideLoading();
+                          } else {
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                enableDrag: false,
+                                builder: (context) {
+                                  return VipSheet(context: context, index: 2);
+                                });
+                          }
+                        },
+                        onPressedDelete: () async {
+                          try {
+                            UIUtils.showLoading();
+                            await controller.onDeletePost(postId);
+                            UIUtils.toast('Successfully_deleted'.tr);
+                            Get.back();
+                          } catch (e) {
+                            UIUtils.showError(e);
+                          }
+                          UIUtils.hideLoading();
+                          Navigator.pop(context);
+                        },
+                      )
+                    : MoreDots(
+                        context: context,
+                        onPressedReport: () {
+                          Navigator.pop(context);
+                          Get.toNamed(Routes.REPORT, arguments: {
+                            "related_post_id": postId,
+                            "related_account_id": authorId
                           });
-                    }
-                  },
-                  onPressedDelete: () async {
-                    try {
-                      UIUtils.showLoading();
-                      await controller.onDeletePost(postId);
-                      UIUtils.toast('Successfully_deleted'.tr);
-                      Get.back();
-                    } catch (e) {
-                      UIUtils.showError(e);
-                    }
-                    UIUtils.hideLoading();
-                    Navigator.pop(context);
-                  },
-                );
+                        });
               });
         },
         icon: Icon(

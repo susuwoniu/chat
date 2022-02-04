@@ -32,7 +32,7 @@ class SingleBlock extends StatelessWidget {
         ? Colors.black26
         : _gender == 'female'
             ? Colors.pink.shade300
-            : Colors.blue.shade400;
+            : Colors.lightBlue;
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 12),
         child: Column(children: [

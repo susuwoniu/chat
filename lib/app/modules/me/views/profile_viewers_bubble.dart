@@ -24,10 +24,13 @@ class ProfileViewersBubble extends StatelessWidget {
           child: Column(children: [
             Stack(clipBehavior: Clip.none, children: [
               Positioned(
-                  right: newViewersCount > 9 ? -33 : -23,
+                  right: newViewersCount > 9 ? -31 : -21,
                   top: -14,
                   child: CountBubble(count: newViewersCount, isUnread: false)),
-              Text(totalViewersCount.toString(),
+              Text(
+                  totalViewersCount > 9999
+                      ? '9999+'
+                      : totalViewersCount.toString(),
                   style: TextStyle(
                       fontSize: 18,
                       color: Colors.black87,

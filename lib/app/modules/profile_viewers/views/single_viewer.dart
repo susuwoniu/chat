@@ -30,7 +30,7 @@ class SingleViewer extends StatelessWidget {
         ? Colors.black
         : _gender == 'female'
             ? Colors.pink.shade300
-            : Colors.blue;
+            : Colors.lightBlue;
 
     final times = viewerAccount.viewedCount > 9999
         ? '9999+'
