@@ -97,10 +97,16 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 ),
                 Column(children: [
                   SizedBox(height: _paddingTop3),
-                  Text('Filter'.tr,
-                      style: TextStyle(
-                          fontSize: 21,
-                          color: Theme.of(context).colorScheme.onPrimary)),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Text('Filter'.tr,
+                        style: TextStyle(
+                            fontSize: 21,
+                            color: Theme.of(context).colorScheme.onPrimary)),
+                    SizedBox(width: 6),
+                    Icon(Icons.local_florist,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        size: 25)
+                  ]),
                   SizedBox(height: 15),
                   Column(children: [
                     Row(children: [
@@ -208,7 +214,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           });
                         }),
                     _buttons(
-                        text: 'Ok',
+                        text: 'OK',
                         onPressed: () {
                           if (AuthProvider.to.account.value.vip) {
                             if (widget.initialGender == selectedGender &&
@@ -256,9 +262,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       Text(titleMap[text]!.tr,
           style: TextStyle(
               fontSize: 17, color: Theme.of(context).colorScheme.onPrimary)),
-      // SizedBox(width: 6),
-      // Icon(Icons.local_florist,
-      //     color: Theme.of(context).colorScheme.onPrimary, size: 25),
     ]);
   }
 
@@ -267,7 +270,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
     return Expanded(
         child: Container(
-      margin: EdgeInsets.symmetric(horizontal: _width * 0.04),
+      margin: EdgeInsets.symmetric(horizontal: _width * 0.05),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
           color: Theme.of(context).colorScheme.onPrimary),
@@ -278,7 +281,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           },
           child: Text(text.tr,
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary, fontSize: 16))),
+                  color: text == 'OK'
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.secondary,
+                  fontSize: 16))),
     ));
   }
 }

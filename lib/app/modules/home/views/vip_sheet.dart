@@ -111,7 +111,7 @@ class _VipSheetState extends State<VipSheet> {
             ]),
           ),
           _priceList(context: context),
-          _toBuyButton(height: height, width: width),
+          _toBuyButton(),
         ]),
       )
     ]);
@@ -130,9 +130,12 @@ class _VipSheetState extends State<VipSheet> {
         padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Colors.purple, Colors.blue.shade800]),
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.purple,
+                Colors.blue.shade800,
+              ]),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(8), topRight: Radius.circular(8)),
         ),
@@ -143,7 +146,8 @@ class _VipSheetState extends State<VipSheet> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Theme.of(context).colorScheme.onPrimary),
-              child: Icon(icon, size: 26, color: Colors.purple.shade300)),
+              child: Icon(icon,
+                  size: 26, color: Theme.of(context).colorScheme.primary)),
           SizedBox(height: 10),
           Text(title,
               style: TextStyle(
@@ -159,12 +163,11 @@ class _VipSheetState extends State<VipSheet> {
         ]));
   }
 
-  Widget _toBuyButton({required double height, required double width}) {
+  Widget _toBuyButton() {
     return Container(
       child: NextButton(text: 'To_Purchase'.tr, onPressed: () {}),
       alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      width: width * 0.9,
+      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
       decoration: BoxDecoration(
           color: Colors.grey.shade100,
           borderRadius: BorderRadius.only(
@@ -221,11 +224,13 @@ class _VipSheetState extends State<VipSheet> {
           padding: EdgeInsets.symmetric(horizontal: 2),
           width: width,
           decoration: BoxDecoration(
-              color: isSelected ? Colors.blue.shade400 : Colors.transparent,
+              color: isSelected
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.transparent,
               border: Border.all(
                   color: isSelected
                       ? Theme.of(context).colorScheme.onPrimary
-                      : Colors.grey.shade900,
+                      : Theme.of(context).colorScheme.secondary,
                   width: 2),
               borderRadius: BorderRadius.circular(8)),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -234,7 +239,7 @@ class _VipSheetState extends State<VipSheet> {
                     fontSize: 16,
                     color: isSelected
                         ? Theme.of(context).colorScheme.onPrimary
-                        : Colors.grey.shade900)),
+                        : Theme.of(context).colorScheme.secondary)),
             SizedBox(height: 10),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text('¥',
@@ -249,7 +254,7 @@ class _VipSheetState extends State<VipSheet> {
                       fontWeight: FontWeight.w500,
                       color: isSelected
                           ? Theme.of(context).colorScheme.onPrimary
-                          : Colors.black87)),
+                          : Theme.of(context).colorScheme.secondary)),
             ]),
           ]),
         ));

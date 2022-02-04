@@ -14,11 +14,11 @@ class NextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        minimumSize: Size.fromHeight(
-            40), // fromHeight use double.infinity as width and 40 is the height
-      ),
+          minimumSize: Size.fromHeight(48),
+          splashFactory: NoSplash.splashFactory),
       onPressed: onPressed,
-      child: Text(text ?? 'Next'.tr),
+      child: Text(text == null ? 'Next'.tr : text!.tr,
+          style: TextStyle(fontSize: 16)),
     );
   }
 }

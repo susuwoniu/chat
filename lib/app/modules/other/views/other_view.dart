@@ -117,39 +117,22 @@ class OtherView extends GetView<OtherController> {
                               )),
                         ])),
                     Container(
-                      padding: EdgeInsets.fromLTRB(15, 17, 25, 0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Obx(() {
-                              final _account =
-                                  AuthProvider.to.simpleAccountMap[accountId] ??
-                                      SimpleAccountEntity.empty();
-                              final _bio = _account.bio == ''
-                                  ? 'Nothing...'.tr
-                                  : _account.bio!;
+                      alignment: Alignment.topLeft,
+                      padding: EdgeInsets.fromLTRB(16, 15, 25, 0),
+                      child: Obx(() {
+                        final _account =
+                            AuthProvider.to.simpleAccountMap[accountId] ??
+                                SimpleAccountEntity.empty();
+                        final _bio = _account.bio == ''
+                            ? 'Nothing...'.tr
+                            : _account.bio!;
 
-                              return Text(_bio,
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      height: 1.5,
-                                      fontSize: 17,
-                                      color: Colors.grey.shade900));
-                            }),
-                            SizedBox(height: 8),
-                            // Obx(() {
-                            //   final _account =
-                            //       AuthProvider.to.simpleAccountMap[accountId] ??
-                            //           SimpleAccountEntity.empty();
-                            //   final _location = _account.location == ''
-                            //       ? 'Unknown_place'.tr
-                            //       : _account.location!;
-                            //   return ProfileInfoText(
-                            //       text: _location,
-                            //       icon: Icons.location_on_outlined);
-                            // }),
-                            // SizedBox(height: 2)
-                          ]),
+                        return Text(_bio,
+                            style: TextStyle(
+                                height: 1.5,
+                                fontSize: 17,
+                                color: Colors.grey.shade900));
+                      }),
                     )
                   ]),
                 ),

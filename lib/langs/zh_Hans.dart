@@ -115,7 +115,7 @@ const Map<String, String> zh_Hans = {
   "Gender": "性别",
   "Location": "位置",
   "Distance": "距离",
-  "Ok": "提交",
+  "OK": "提交",
   "Reset": "重置",
   "All": "所有",
   "Female": "女性",

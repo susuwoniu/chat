@@ -100,11 +100,11 @@ class SinglePostDot extends StatelessWidget {
               decoration: BoxDecoration(
                   gradient: isColorful
                       ? LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.topRight,
+                          begin: Alignment.topRight,
+                          end: Alignment.centerLeft,
                           colors: [
-                              Colors.purple.shade400,
-                              Colors.blue.shade600
+                              Theme.of(context).colorScheme.primary,
+                              Theme.of(context).colorScheme.primaryVariant
                             ])
                       : null,
                   color: isColorful ? null : Colors.grey.shade200,

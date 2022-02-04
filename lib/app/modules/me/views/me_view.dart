@@ -101,7 +101,7 @@ class MeView extends GetView<MeController> {
                                     AgeWidget(
                                         gender: _account.gender,
                                         age: _account.age.toString()),
-                                    SizedBox(height: 15),
+                                    SizedBox(height: 10),
                                     LikeCount(count: _likeCount, isMe: true),
                                   ])),
                           Positioned(
@@ -133,7 +133,7 @@ class MeView extends GetView<MeController> {
                                     }
                                   })),
                           Positioned(
-                              bottom: 10,
+                              bottom: 6,
                               width: width,
                               child: Obx(
                                 () => DotsWidget(
@@ -144,25 +144,16 @@ class MeView extends GetView<MeController> {
                               )),
                         ])),
                     Container(
-                      padding: EdgeInsets.fromLTRB(20, 17, 25, 0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _bio,
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  height: 1.5,
-                                  fontSize: 17,
-                                  color: Colors.grey.shade900),
-                            ),
-                            SizedBox(height: 8),
-                            // ProfileInfoText(
-                            //     text: _location,
-                            //     icon: Icons.location_on_outlined),
-                            // SizedBox(height: 2),
-                          ]),
-                    )
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.fromLTRB(16, 10, 25, 0),
+                        child: Text(
+                          _bio,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              height: 1.5,
+                              fontSize: 17,
+                              color: Colors.grey.shade900),
+                        ))
                   ]);
                 }),
               ),

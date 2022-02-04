@@ -55,6 +55,7 @@ class _YearPickerState extends State<YearPicker> {
                       },
                       child: Icon(
                         Icons.close_rounded,
+                        color: Theme.of(context).colorScheme.onBackground,
                         size: 28,
                       )),
                   TextButton(

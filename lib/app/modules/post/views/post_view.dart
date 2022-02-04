@@ -49,7 +49,10 @@ class PostView extends GetView<PostController> {
                         padding: EdgeInsets.only(left: _width * 0.075),
                         child: Text("Select_a_question".tr,
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w500)),
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color:
+                                    Theme.of(context).colorScheme.secondary)),
                       ),
                       SizedBox(height: 10),
                       TCard(

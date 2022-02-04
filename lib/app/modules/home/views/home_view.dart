@@ -236,7 +236,9 @@ class HomeView extends GetView<HomeController> {
                                                     })),
                                             SizedBox(width: 8),
                                             ActionButtons(
-                                                color: Color(post.color),
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onPrimary,
                                                 onAdd: () {
                                                   if (isCreate) {
                                                     Get.toNamed(

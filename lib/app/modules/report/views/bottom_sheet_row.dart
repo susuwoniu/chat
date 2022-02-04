@@ -23,7 +23,8 @@ class BottomSheetRow extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 20),
           child: Text(
             text,
-            style: TextStyle(fontSize: 17, color: Colors.blue),
+            style: TextStyle(
+                fontSize: 17, color: Theme.of(context).colorScheme.secondary),
           ),
         ));
   }

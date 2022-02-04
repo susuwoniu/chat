@@ -73,6 +73,7 @@ Widget conversationItemView(
                         fontSize: 14,
                         overflow: TextOverflow.ellipsis,
                         color: Colors.grey.shade600))),
+            SizedBox(width: 15),
             CountBubble(count: unreadCount),
           ])),
     ),

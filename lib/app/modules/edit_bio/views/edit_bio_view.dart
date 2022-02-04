@@ -13,7 +13,7 @@ class EditBioView extends GetView<EditBioController> {
     return Scaffold(
       backgroundColor: Color(0xfff0eff4),
       appBar: AppBar(
-        title: Text("Bio".tr, style: TextStyle(fontSize: 18)),
+        title: Text("Bio".tr, style: TextStyle(fontSize: 16)),
         systemOverlayStyle:
             SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
         actions: [

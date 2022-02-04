@@ -15,14 +15,16 @@ class ProfileInfoText extends StatelessWidget {
     return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Icon(
         icon,
-        color: Colors.grey.shade700,
+        color: Theme.of(context).colorScheme.secondary,
         size: 20,
       ),
       Text(
         text,
         textAlign: TextAlign.start,
-        style:
-            TextStyle(height: 1.4, fontSize: 16, color: Colors.grey.shade700),
+        style: TextStyle(
+            height: 1.4,
+            fontSize: 16,
+            color: Theme.of(context).colorScheme.secondary),
       ),
       // SizedBox(height: 30),
     ]);

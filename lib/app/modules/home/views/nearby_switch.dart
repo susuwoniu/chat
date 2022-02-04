@@ -49,7 +49,7 @@ class _NearbySwitchState extends State<NearbySwitch> {
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: Colors.grey.shade700),
+                color: Theme.of(context).colorScheme.secondary),
           ),
         ]);
       },

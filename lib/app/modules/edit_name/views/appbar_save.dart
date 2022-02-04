@@ -12,8 +12,6 @@ class AppBarSave extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _width = MediaQuery.of(context).size.width;
-
     return TextButton(
         onPressed: () {
           onPressed();
@@ -30,7 +28,9 @@ class AppBarSave extends StatelessWidget {
           margin: EdgeInsets.only(right: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: isActived ? Colors.blue : Colors.black12,
+            color: isActived
+                ? Theme.of(context).colorScheme.primary
+                : Colors.black12,
           ),
         ));
   }

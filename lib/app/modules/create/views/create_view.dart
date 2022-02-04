@@ -118,6 +118,8 @@ class CreateView extends GetView<CreateController> {
                           scale: .6,
                           child: CupertinoSwitch(
                               value: ConfigProvider.to.listAtNearby,
+                              activeColor:
+                                  Theme.of(context).colorScheme.primary,
                               onChanged: (value) async {
                                 // check permission
                                 await ConfigProvider.to.toggleListAtNearby();

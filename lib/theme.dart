@@ -31,7 +31,7 @@ class ChatThemeData {
   static const ColorScheme lightColorScheme = ColorScheme(
     primary: Color(0xFF7371fc),
     primaryVariant: Color(0xFFc19bff),
-    secondary: Color(0xff354F52),
+    secondary: Color(0xff46494c),
     secondaryVariant: Color(0xff018786),
     surface: Colors.white,
     background: Colors.white,

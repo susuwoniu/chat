@@ -25,7 +25,8 @@ class _SocialShareState extends State<SocialShare> {
             borderRadius: BorderRadius.circular(6)),
         height: height * 0.4,
         child: Column(children: [
-          Text('share_to', style: TextStyle(color: Colors.grey.shade700)),
+          Text('share_to',
+              style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
           SizedBox(height: 18),
           Expanded(
               child: ListView(
