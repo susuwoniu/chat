@@ -9,12 +9,14 @@ part of 'account.dart';
 ActionEntity _$ActionEntityFromJson(Map<String, dynamic> json) => ActionEntity(
       type: json['type'] as String,
       required: json['required'] as bool,
+      content: json['content'] as String?,
     );
 
 Map<String, dynamic> _$ActionEntityToJson(ActionEntity instance) =>
     <String, dynamic>{
       'type': instance.type,
       'required': instance.required,
+      'content': instance.content,
     };
 
 ThumbtailEntity _$ThumbtailEntityFromJson(Map<String, dynamic> json) =>

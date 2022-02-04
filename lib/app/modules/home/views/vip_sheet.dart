@@ -160,12 +160,7 @@ class _VipSheetState extends State<VipSheet> {
 
   Widget _toBuyButton({required double height, required double width}) {
     return Container(
-      child: NextButton(
-          size: 17,
-          height: height * 0.06,
-          width: width * 0.8,
-          text: 'To_Purchase'.tr,
-          onPressed: () {}),
+      child: NextButton(text: 'To_Purchase'.tr, onPressed: () {}),
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(vertical: 15),
       width: width * 0.9,

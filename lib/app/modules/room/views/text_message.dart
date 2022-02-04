@@ -7,8 +7,6 @@ import 'package:flutter_chat_ui/src/util.dart';
 import 'package:flutter_chat_ui/src/widgets/inherited_chat_theme.dart';
 import 'package:flutter_chat_ui/src/widgets/inherited_user.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:chat/common.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:chat/app/common/link.dart';
 
 /// A class that represents text message widget with optional link preview

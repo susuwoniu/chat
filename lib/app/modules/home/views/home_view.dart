@@ -60,9 +60,7 @@ class HomeView extends GetView<HomeController> {
                   icon:
                       Text("🐱", style: Theme.of(context).textTheme.headline6),
                   onPressed: () {
-                    Get.toNamed(
-                      Routes.ADD_PROFILE_IMAGE,
-                    );
+                    Get.toNamed(Routes.RULE, arguments: {"content": "Test"});
                   }),
               IconButton(
                   icon:

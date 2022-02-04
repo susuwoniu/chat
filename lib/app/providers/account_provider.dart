@@ -1,3 +1,4 @@
+import 'package:chat/app/providers/chat_provider/chat_provider.dart';
 import 'package:chat/common.dart';
 import 'package:get/get.dart';
 import './api_provider.dart';
@@ -60,7 +61,9 @@ class AccountProvider extends GetxService {
     // Get.offAndToNamed(AppRoutes.Application);
   }
 
-  handleLogout() async {
+  Future<void> handleLogout() async {
+    // remove xmpp session
+    await ChatProvider.to.dipose();
     await APIProvider().delete("/account/sessions");
     await AuthProvider.to.cleanToken();
     // await ImProvider.to.logout();
