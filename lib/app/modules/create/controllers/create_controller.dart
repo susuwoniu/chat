@@ -49,9 +49,14 @@ class CreateController extends GetxController {
   }
 
   handleChange(
-      TextStyle style, TextAlign align, Color theBackgroundColor, String text) {
+    TextStyle style,
+    TextAlign align,
+    Color theBackgroundColor,
+    String text,
+  ) {
     answer = text;
     backgroundColor = theBackgroundColor;
+    frontColor = style.color ?? Colors.white;
     _isComposing.value = answer.isNotEmpty;
   }
 
