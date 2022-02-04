@@ -30,7 +30,9 @@ class Badge extends StatelessWidget {
               ],
             ),
             Positioned(
-                top: -5, right: 0, child: CountBubble(count: notificationCount))
+                top: -10,
+                left: 35,
+                child: CountBubble(count: notificationCount))
           ],
         ),
       ),

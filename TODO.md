@@ -5,6 +5,7 @@
 - [x]  square跳转到room缺少content
 - [ ]  聊天气泡padding太大
 - [ ]  编辑帖子权限
+- [ ]  帖子无访客bug
 - [x]  无限点赞bug
 - [x]  首页名字溢出
 - [x]  other聊天按钮bug

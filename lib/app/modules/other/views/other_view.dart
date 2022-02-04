@@ -131,7 +131,8 @@ class OtherView extends GetView<OtherController> {
                             style: TextStyle(
                                 height: 1.5,
                                 fontSize: 17,
-                                color: Colors.grey.shade900));
+                                color:
+                                    Theme.of(context).colorScheme.secondary));
                       }),
                     )
                   ]),
@@ -283,7 +284,7 @@ class OtherView extends GetView<OtherController> {
                         }
                       }
                     },
-                    color: HexColor("#fd79a8"),
+                    color: Color(0xFFfd79a8),
                   );
                 }),
                 SizedBox(width: 30),
@@ -322,7 +323,7 @@ class OtherView extends GetView<OtherController> {
               decoration: BoxDecoration(
                   border: Border.all(
                       color: color == null
-                          ? Colors.black
+                          ? Theme.of(context).colorScheme.secondary
                           : isLiked
                               ? Colors.transparent
                               : color),

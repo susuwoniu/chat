@@ -35,7 +35,7 @@ class ChatThemeData {
     secondaryVariant: Color(0xff018786),
     surface: Colors.white,
     background: Colors.white,
-    error: Color(0xff790000),
+    error: Color(0xffd91e36),
     onPrimary: Colors.white,
     onSecondary: Colors.black,
     onSurface: Colors.black,

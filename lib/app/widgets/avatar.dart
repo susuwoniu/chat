@@ -23,7 +23,8 @@ Widget Avatar(
       style: TextStyle(
           fontSize: size != null ? size - 8 : 15, color: Colors.white),
     ), // sets initials text, set your own style, default Text('')
-    // borderColor: Colors.pink, // sets border color, default Theme.of(context).colorScheme.onPrimary
+    borderColor: Colors
+        .transparent, // sets border color, default Theme.of(context).colorScheme.onPrimary
     elevation: elevation ??
         0.0, // sets elevation (shadow of the profile picture), default value is 0.0
     foregroundColor: Colors.brown.withOpacity(

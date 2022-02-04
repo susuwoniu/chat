@@ -152,7 +152,7 @@ class MeView extends GetView<MeController> {
                           style: TextStyle(
                               height: 1.5,
                               fontSize: 17,
-                              color: Colors.grey.shade900),
+                              color: Theme.of(context).colorScheme.secondary),
                         ))
                   ]);
                 }),

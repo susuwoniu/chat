@@ -77,7 +77,7 @@ class CreatePost extends StatelessWidget {
                 isCreate
                     ? Icons.add_circle_outline_rounded
                     : Icons.timer_outlined,
-                size: 52,
+                size: 44,
                 color: Colors.black54,
               ),
               SizedBox(height: 10),
