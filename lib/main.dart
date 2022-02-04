@@ -19,8 +19,7 @@ Future<void> main() async {
   await Global.init();
   // run global timer task
   await Global().runGlobalTask();
-  final primary = ChatThemeData.lightThemeData.primaryColor;
-  print("primary: $primary");
+
   runApp(Phoenix(
     child: GetMaterialApp(
       title: "Application",
@@ -36,8 +35,6 @@ Future<void> main() async {
           ConfigProvider.to.nightMode.isTrue ? ThemeMode.dark : ThemeMode.light,
       enableLog: env == "prod" ? false : true,
       builder: EasyLoading.init(builder: (context, widget) {
-        final primaryColor = Theme.of(context).primaryColor;
-        print("primary Color: $primaryColor");
         return ResponsiveWrapper.builder(
           widget,
           maxWidth: 1024,
