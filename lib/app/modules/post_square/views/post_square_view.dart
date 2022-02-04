@@ -59,30 +59,32 @@ class PostSquareView extends GetView<PostSquareController> {
                 expandedHeight: _height * 0.25,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
-                    alignment: Alignment.topCenter,
-                    padding: EdgeInsets.fromLTRB(
-                        20, safePadding + height + 20, 20, 0),
-                    width: _width,
-                    child: Text('# ' + _title,
-                        style: TextStyle(
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)),
-                  ),
+                      padding: EdgeInsets.fromLTRB(
+                          20, safePadding + height + 20, 20, 0),
+                      width: _width,
+                      child: Column(children: [
+                        Text('# ' + _title,
+                            style: TextStyle(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                        SizedBox(height: 15),
+                        Obx(() {
+                          final usedCount = controller.usedCount;
+                          return Text(
+                              usedCount > 1
+                                  ? usedCount > 9999
+                                      ? '9999+' + ' Posts'.tr
+                                      : usedCount.toString() + ' Posts'.tr
+                                  : usedCount.toString() + ' Post'.tr,
+                              style: TextStyle(
+                                  fontSize: 16.0, color: Colors.white));
+                        }),
+                      ])),
                 ),
               ),
-              SliverToBoxAdapter(child: Obx(() {
-                final usedCount = controller.usedCount;
-                return Container(
-                    alignment: Alignment.topCenter,
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    child: Text(
-                        usedCount > 1
-                            ? usedCount.toString() + ' Posts'.tr
-                            : usedCount.toString() + ' Post'.tr,
-                        style:
-                            TextStyle(fontSize: 17.0, color: Colors.black54)));
-              })),
+              // SliverToBoxAdapter(child:
+              // ),
               PagedSliverGrid<String?, String>(
                   showNewPageProgressIndicatorAsGridChild: false,
                   showNewPageErrorIndicatorAsGridChild: false,
@@ -110,11 +112,11 @@ class PostSquareView extends GetView<PostSquareController> {
             Positioned(
                 bottom: 30,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: Colors.black),
+                      color: Theme.of(context).colorScheme.primaryVariant),
                   child: GestureDetector(
                       onTap: () {
                         Get.toNamed(Routes.CREATE, arguments: {
@@ -130,7 +132,7 @@ class PostSquareView extends GetView<PostSquareController> {
                         Text('Join_topic'.tr,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 15,
                             )),
                       ])),
                 )),
