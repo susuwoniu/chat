@@ -71,12 +71,7 @@ class ImageList extends StatelessWidget {
       return Container(
           margin: EdgeInsets.fromLTRB(
               _paddingLeft, _width * 0.05, _paddingRight, _width * 0.03),
-          child: Wrap(direction: Axis.horizontal, children: [
-            Expanded(
-              flex: 1,
-              child: Wrap(children: _fullList),
-            ),
-          ]));
+          child: Wrap(direction: Axis.horizontal, children: _fullList));
     });
   }
 

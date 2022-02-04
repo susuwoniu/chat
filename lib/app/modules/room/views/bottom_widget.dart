@@ -356,7 +356,9 @@ class _InputState extends State<BottomWidget> {
                                 .theme
                                 .inputTextStyle
                                 .copyWith(
-                                  color: Colors.black,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
                                 ),
                             textCapitalization: TextCapitalization.sentences,
                           ),

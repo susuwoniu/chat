@@ -18,7 +18,7 @@ class LikedMeView extends GetView<LikedMeController> {
             bottom: PreferredSize(
                 child: Container(
                   height: 0.5,
-                  color: Colors.grey.shade400,
+                  color: Theme.of(context).dividerColor,
                 ),
                 preferredSize: Size.fromHeight(0)),
             title: Text('Who_Liked_Me'.tr, style: TextStyle(fontSize: 16)),

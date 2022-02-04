@@ -44,7 +44,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
           bottom: PreferredSize(
               child: Container(
                 height: 0.5,
-                color: Colors.grey.shade400,
+                color: Theme.of(context).dividerColor,
               ),
               preferredSize: Size.fromHeight(0)),
         ),

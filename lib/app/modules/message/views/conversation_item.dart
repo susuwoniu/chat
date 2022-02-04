@@ -50,7 +50,7 @@ Widget conversationItemView(
                           style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: 16,
-                            color: Colors.black,
+                            color: Theme.of(context).colorScheme.onBackground,
                           )))),
               LikeCount(
                 count: likeCount,

@@ -19,7 +19,7 @@ class SettingView extends GetView<SettingController> {
           bottom: PreferredSize(
               child: Container(
                 height: 0.5,
-                color: Colors.grey.shade400,
+                color: Theme.of(context).dividerColor,
               ),
               preferredSize: Size.fromHeight(0)),
           // leading: IconButton(
@@ -34,16 +34,16 @@ class SettingView extends GetView<SettingController> {
         ),
         body: Obx(() => SettingsList(
               sections: [
-                SettingsSection(title: 'Account_Security'.tr, tiles: [
+                SettingsSection(title: Text('Account_Security'.tr), tiles: [
                   SettingsTile(
-                    title: 'Phone'.tr,
-                    subtitle: _account.phone_number,
+                    title: Text('Phone'.tr),
+                    value: Text(_account.phone_number ?? ""),
                   ),
                 ]),
-                SettingsSection(title: 'General'.tr, tiles: [
+                SettingsSection(title: Text('General'.tr), tiles: [
                   SettingsTile(
-                    title: 'Language'.tr,
-                    subtitle: 'English',
+                    title: Text('Language'.tr),
+                    value: Text('English'),
                     // leading: Icon(Icons.language),
                     onPressed: (BuildContext context) {
                       Get.bottomSheet(
@@ -65,18 +65,18 @@ class SettingView extends GetView<SettingController> {
                     },
                   ),
                   SettingsTile.switchTile(
-                    title: 'Night-mode'.tr,
+                    initialValue: ConfigProvider.to.nightMode.value,
+                    title: Text('Night-mode'.tr),
                     // leading: Icon(Icons.mode_night),
-                    switchValue: ConfigProvider.to.nightMode.value,
                     onToggle: (bool value) {
                       print("value $value");
                       ConfigProvider.to.toggleNightMode(value);
                     },
                   ),
                 ]),
-                SettingsSection(title: 'Privacy'.tr, tiles: [
+                SettingsSection(title: Text('Privacy'.tr), tiles: [
                   SettingsTile(
-                    title: 'Blocked_Users'.tr,
+                    title: Text('Blocked_Users'.tr),
                     onPressed: (BuildContext context) {
                       Get.toNamed(Routes.BLOCK);
                     },
@@ -84,19 +84,19 @@ class SettingView extends GetView<SettingController> {
                 ]),
                 SettingsSection(tiles: [
                   SettingsTile(
-                    title: 'Clear_Cache'.tr,
+                    title: Text('Clear_Cache'.tr),
                     onPressed: (BuildContext context) {
                       CacheProvider.to.clear();
                     },
                   ),
                   SettingsTile(
-                    title: 'Help&Feedback'.tr,
+                    title: Text('Help&Feedback'.tr),
                     onPressed: (BuildContext context) {
                       Get.toNamed(Routes.FEEDBACK);
                     },
                   ),
                   SettingsTile(
-                    title: 'About'.tr,
+                    title: Text('About'.tr),
                     onPressed: (BuildContext context) {
                       Get.toNamed(Routes.ABOUT);
                     },
@@ -104,8 +104,7 @@ class SettingView extends GetView<SettingController> {
                 ]),
                 SettingsSection(tiles: [
                   SettingsTile(
-                      iosChevron: null,
-                      titleWidget: Container(
+                      title: Container(
                           alignment: Alignment.center,
                           child: Text('Log_out'.tr,
                               style:

@@ -1047,12 +1047,10 @@ packages:
   settings_ui:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "98070379a075c8c5823a569bcee8d02d82bcb118"
-      url: "git@github.com:beerstorm-net/flutter-settings-ui.git"
-    source: git
-    version: "1.0.1"
+      name: settings_ui
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -1417,4 +1415,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.15.0-7.0.dev <3.0.0"
-  flutter: ">=2.8.0"
+  flutter: ">=2.5.0"

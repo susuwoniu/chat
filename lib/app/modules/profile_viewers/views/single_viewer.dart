@@ -82,7 +82,9 @@ class SingleViewer extends StatelessWidget {
                       ),
                       SizedBox(width: 15),
                       Text(times + "times".tr,
-                          style: TextStyle(color: Colors.black, fontSize: 16)),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onBackground,
+                              fontSize: 16)),
                     ])),
             subtitle: Container(
                 padding: EdgeInsets.symmetric(vertical: 3),

@@ -88,166 +88,196 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   right: 5,
                   top: 0,
                   child: IconButton(
-                      icon: Icon(Icons.cancel),
+                      icon: Icon(Icons.cancel,
+                          color: Theme.of(context).colorScheme.background),
                       iconSize: 32,
-                      color: Theme.of(context).colorScheme.onPrimary,
+                      color: Theme.of(context).colorScheme.background,
                       onPressed: () {
                         Navigator.pop(context);
                       }),
                 ),
-                Column(children: [
-                  SizedBox(height: _paddingTop3),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Text('Filter'.tr,
-                        style: TextStyle(
-                            fontSize: 21,
-                            color: Theme.of(context).colorScheme.onPrimary)),
-                    SizedBox(width: 6),
-                    Icon(Icons.local_florist,
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        size: 25)
-                  ]),
-                  SizedBox(height: 15),
-                  Column(children: [
-                    Row(children: [
-                      _title('age'),
-                      Expanded(
-                          child: RangeSlider(
-                        values: RangeValues(_currentAgeRangeValues.start,
-                            _currentAgeRangeValues.end),
-                        max: 100,
-                        min: 18,
-                        divisions: 8,
-                        activeColor: Theme.of(context).colorScheme.onPrimary,
-                        inactiveColor: Theme.of(context).colorScheme.primary,
-                        labels: RangeLabels(
-                          _currentAgeRangeValues.start.toInt().toString() +
-                              'years_old'.tr,
-                          _currentAgeRangeValues.end.toInt().toString() +
-                              'years_old'.tr,
-                        ),
-                        onChanged: (RangeValues values) {
-                          setState(() {
-                            _currentAgeRangeValues = values;
-                          });
-                        },
-                      )),
-                    ]),
-                    SizedBox(height: _paddingTop3),
-                    Row(children: [
-                      _title('gender'),
-                      SizedBox(width: 20),
-                      Expanded(
-                        child: AnimatedToggleSwitch<String>.size(
-                          height: 45,
-                          current: selectedGender,
-                          values: ['all', 'female', 'male'],
-                          iconOpacity: 0.9,
-                          indicatorSize: Size.fromWidth(100),
-                          indicatorType: IndicatorType.roundedRectangle,
-                          iconAnimationType: AnimationType.onHover,
-                          indicatorAnimationType: AnimationType.onHover,
-                          animationDuration: const Duration(milliseconds: 250),
-                          iconBuilder: (value, size, active) {
-                            return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    genderMap[value]!.tr,
+                Container(
+                    padding: EdgeInsets.only(left: 16, right: 16),
+                    child: Column(children: [
+                      SizedBox(height: _paddingTop3),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Filter'.tr,
+                                style: TextStyle(
+                                    fontSize: 21,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimary)),
+                            SizedBox(width: 6),
+                            Icon(Icons.local_florist,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                size: 25)
+                          ]),
+                      SizedBox(height: 15),
+                      Column(children: [
+                        Row(children: [
+                          _title('age'),
+                          Expanded(
+                              child: RangeSlider(
+                            values: RangeValues(_currentAgeRangeValues.start,
+                                _currentAgeRangeValues.end),
+                            max: 100,
+                            min: 18,
+                            divisions: 8,
+                            activeColor:
+                                Theme.of(context).colorScheme.background,
+                            inactiveColor: Theme.of(context).dividerColor,
+                            labels: RangeLabels(
+                              _currentAgeRangeValues.start.toInt().toString() +
+                                  'years_old'.tr,
+                              _currentAgeRangeValues.end.toInt().toString() +
+                                  'years_old'.tr,
+                            ),
+                            onChanged: (RangeValues values) {
+                              setState(() {
+                                _currentAgeRangeValues = values;
+                              });
+                            },
+                          )),
+                        ]),
+                        SizedBox(height: _paddingTop3),
+                        Row(children: [
+                          _title('gender'),
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: AnimatedToggleSwitch<String>.size(
+                              height: 45,
+                              current: selectedGender,
+                              values: ['all', 'female', 'male'],
+                              iconOpacity: 0.5,
+                              indicatorSize: Size.fromWidth(100),
+                              indicatorType: IndicatorType.roundedRectangle,
+                              iconAnimationType: AnimationType.onHover,
+                              indicatorAnimationType: AnimationType.onHover,
+                              animationDuration:
+                                  const Duration(milliseconds: 250),
+                              iconBuilder: (value, size, active) {
+                                return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        genderMap[value]!.tr,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground),
+                                      ),
+                                    ]);
+                              },
+                              borderWidth: 0.0,
+                              borderColor: Colors.transparent,
+                              colorBuilder: (value) =>
+                                  Theme.of(context).colorScheme.onPrimary,
+                              onChanged: (value) => setState(() {
+                                selectedGender = value;
+                              }),
+                            ),
+                          ),
+                        ]),
+                        widget.isNearby
+                            ? SizedBox(height: _paddingTop3)
+                            : SizedBox.shrink(),
+                        widget.isNearby
+                            ? Row(children: [
+                                _title('location'),
+                                Expanded(
+                                    child: Slider(
+                                  value: _currentEndDistance.toDouble(),
+                                  max: 100,
+                                  min: 0,
+                                  divisions: 5,
+                                  activeColor:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  inactiveColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  label:
+                                      _currentEndDistance.toInt().toString() +
+                                          'KM',
+                                  onChanged: (double value) {
+                                    setState(() {
+                                      _currentEndDistance = value;
+                                    });
+                                  },
+                                )),
+                              ])
+                            : SizedBox.shrink(),
+                      ]),
+                      SizedBox(height: _paddingTop4),
+                      Row(children: [
+                        Expanded(
+                            child: TextButton(
+                                child: Text('Reset'.tr,
                                     style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .primary),
-                                  ),
-                                ]);
-                          },
-                          borderWidth: 0.0,
-                          borderColor: Colors.transparent,
-                          colorBuilder: (value) =>
-                              Theme.of(context).colorScheme.onPrimary,
-                          onChanged: (value) => setState(() {
-                            selectedGender = value;
-                          }),
-                        ),
-                      ),
-                      SizedBox(width: _width * 0.04),
-                    ]),
-                    widget.isNearby
-                        ? SizedBox(height: _paddingTop3)
-                        : SizedBox.shrink(),
-                    widget.isNearby
-                        ? Row(children: [
-                            _title('location'),
-                            Expanded(
-                                child: Slider(
-                              value: _currentEndDistance.toDouble(),
-                              max: 100,
-                              min: 0,
-                              divisions: 5,
-                              activeColor:
-                                  Theme.of(context).colorScheme.onPrimary,
-                              inactiveColor:
-                                  Theme.of(context).colorScheme.primary,
-                              label:
-                                  _currentEndDistance.toInt().toString() + 'KM',
-                              onChanged: (double value) {
-                                setState(() {
-                                  _currentEndDistance = value;
-                                });
-                              },
-                            )),
-                          ])
-                        : SizedBox.shrink(),
-                  ]),
-                  SizedBox(height: _paddingTop4),
-                  Row(children: [
-                    _buttons(
-                        text: 'Reset',
-                        onPressed: () {
-                          setState(() {
-                            _currentAgeRangeValues = RangeValues(18, 98);
-                            selectedGender = 'all';
-                            _currentEndDistance = 100;
-                            UIUtils.toast('Successfully_reset'.tr);
-                          });
-                        }),
-                    _buttons(
-                        text: 'OK',
-                        onPressed: () {
-                          if (AuthProvider.to.account.value.vip) {
-                            if (widget.initialGender == selectedGender &&
-                                widget.initialStartAge ==
-                                    _currentAgeRangeValues.start &&
-                                widget.initialEndAge ==
-                                    _currentAgeRangeValues.end &&
-                                widget.initialEndDistance ==
-                                    _currentEndDistance) {
-                              Navigator.pop(context);
+                                            .onPrimary)),
+                                onPressed: () {
+                                  setState(() {
+                                    _currentAgeRangeValues =
+                                        RangeValues(18, 98);
+                                    selectedGender = 'all';
+                                    _currentEndDistance = 100;
+                                    UIUtils.toast('Successfully_reset'.tr);
+                                  });
+                                })),
+                        SizedBox(width: 20),
+                        Expanded(
+                            child: ElevatedButton(
+                          onPressed: () {
+                            if (AuthProvider.to.account.value.vip) {
+                              if (widget.initialGender == selectedGender &&
+                                  widget.initialStartAge ==
+                                      _currentAgeRangeValues.start &&
+                                  widget.initialEndAge ==
+                                      _currentAgeRangeValues.end &&
+                                  widget.initialEndDistance ==
+                                      _currentEndDistance) {
+                                Navigator.pop(context);
+                              } else {
+                                widget.onSubmitted(
+                                    selectedGender: selectedGender,
+                                    startAge:
+                                        _currentAgeRangeValues.start.round(),
+                                    endAge: _currentAgeRangeValues.end.round(),
+                                    endDistance: _currentEndDistance.round());
+                                UIUtils.toast('Successfully_filtered'.tr);
+                                Navigator.pop(context);
+                              }
                             } else {
-                              widget.onSubmitted(
-                                  selectedGender: selectedGender,
-                                  startAge:
-                                      _currentAgeRangeValues.start.round(),
-                                  endAge: _currentAgeRangeValues.end.round(),
-                                  endDistance: _currentEndDistance.round());
-                              UIUtils.toast('Successfully_filtered'.tr);
                               Navigator.pop(context);
+                              showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  enableDrag: false,
+                                  builder: (context) {
+                                    return VipSheet(context: context, index: 3);
+                                  });
                             }
-                          } else {
-                            Navigator.pop(context);
-                            showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                enableDrag: false,
-                                builder: (context) {
-                                  return VipSheet(context: context, index: 3);
-                                });
-                          }
-                        }),
-                  ])
-                ])
+                          },
+                          child: Text('OK'.tr,
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground)),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: 14),
+                            primary: Theme.of(context).colorScheme.background,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(100), // <-- Radius
+                            ),
+                          ),
+                        )),
+                      ])
+                    ]))
               ])),
         ]);
       },
@@ -256,35 +286,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
   Widget _title(String text) {
     final titleMap = {'age': 'Age', 'gender': 'Gender', 'location': 'Distance'};
-    final _width = MediaQuery.of(context).size.width;
     return Row(children: [
-      SizedBox(width: _width * 0.05),
       Text(titleMap[text]!.tr,
           style: TextStyle(
               fontSize: 17, color: Theme.of(context).colorScheme.onPrimary)),
     ]);
-  }
-
-  Widget _buttons({required String text, required Function onPressed}) {
-    final _width = MediaQuery.of(context).size.width;
-
-    return Expanded(
-        child: Container(
-      margin: EdgeInsets.symmetric(horizontal: _width * 0.05),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          color: Theme.of(context).colorScheme.onPrimary),
-      child: TextButton(
-          style: ButtonStyle(splashFactory: NoSplash.splashFactory),
-          onPressed: () {
-            onPressed();
-          },
-          child: Text(text.tr,
-              style: TextStyle(
-                  color: text == 'OK'
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.secondary,
-                  fontSize: 16))),
-    ));
   }
 }

@@ -6,7 +6,6 @@ import '../controllers/edit_info_controller.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'image_list.dart';
 import 'year_picker.dart';
-import 'package:settings_ui/settings_ui.dart';
 import 'package:flutter/services.dart';
 
 class EditInfoView extends GetView<EditInfoController> {
@@ -21,7 +20,7 @@ class EditInfoView extends GetView<EditInfoController> {
           bottom: PreferredSize(
               child: Container(
                 height: 0.5,
-                color: Colors.grey.shade400,
+                color: Theme.of(context).dividerColor,
               ),
               preferredSize: Size.fromHeight(0)),
         ),
@@ -33,6 +32,7 @@ class EditInfoView extends GetView<EditInfoController> {
                 final _account = AuthProvider.to.account.value;
                 final _bio =
                     _account.bio == '' ? 'Nothing...'.tr : _account.bio;
+                print("_bio: $_bio");
                 // final _location = _account.location == ''
                 //     ? 'Unknown_place'.tr
                 //     : _account.location;
@@ -42,50 +42,48 @@ class EditInfoView extends GetView<EditInfoController> {
                   ImageList(),
                   Container(
                     height: 0.5,
-                    color: Colors.grey.shade400,
+                    color: Theme.of(context).dividerColor,
                   ),
                   Container(
                     padding: EdgeInsets.only(top: 10),
                     color: Theme.of(context).colorScheme.onPrimary,
                     child: Column(children: [
-                      SettingsTile(
-                          title: "Nickname".tr,
-                          subtitle: _account.name,
-                          onPressed: (BuildContext context) {
+                      ListTile(
+                          title: Text("Nickname".tr),
+                          trailing: Text(_account.name),
+                          onTap: () {
                             Get.toNamed(Routes.EDIT_NAME, arguments: {
                               "action": 'add_account_name',
                               "mode": "back"
                             });
                           }),
-                      SettingsTile(
-                          title: "gender".tr,
-                          subtitle: _account.gender.tr,
-                          onPressed: (BuildContext context) {
+                      ListTile(
+                          title: Text("gender".tr),
+                          trailing: Text(_account.gender.tr),
+                          onTap: () {
                             Get.toNamed(Routes.GENDER_SELECT,
                                 arguments: {"mode": "back"});
                           }),
-                      SettingsTile(
-                          title: "Bio".tr,
-                          subtitle: _bio!,
+                      ListTile(
+                          title: Text("Bio".tr),
+                          subtitle: Container(
+                              child: Text(
+                            _bio ?? "",
+                            // maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )),
                           // subtitleMaxLines: 5,
-                          onPressed: (BuildContext context) {
+                          onTap: () {
                             Get.toNamed(Routes.EDIT_BIO, arguments: {
                               "action": 'add_account_bio',
                               "mode": "back"
                             });
                           }),
-                      // SettingsTile(
-                      //     title: "location".tr,
-                      //     subtitle: _location,
-                      //     onPressed: (BuildContext context) {
-                      //       Get.toNamed(Routes.AGE_PICKER,
-                      //           arguments: {"mode": "back"});
-                      //     }),
-                      SettingsTile(
-                          title: "birth".tr,
-                          titleTextStyle: TextStyle(fontSize: 16),
-                          subtitle: _birthday.substring(0, 4),
-                          onPressed: (BuildContext context) {
+                      ListTile(
+                          title:
+                              Text("birth".tr, style: TextStyle(fontSize: 16)),
+                          trailing: Text(_birthday.substring(0, 4)),
+                          onTap: () {
                             showModalBottomSheet<void>(
                                 context: context,
                                 builder: (BuildContext context) {

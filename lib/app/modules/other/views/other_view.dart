@@ -334,7 +334,7 @@ class OtherView extends GetView<OtherController> {
                 text.tr,
                 style: TextStyle(
                     color: color == null
-                        ? Colors.black
+                        ? Theme.of(context).colorScheme.onBackground
                         : isLiked
                             ? Theme.of(context).colorScheme.onPrimary
                             : color,

@@ -62,11 +62,11 @@ dependencies:
   date_format: ^2.0.4
   json_annotation: ^4.3.0
   shared_preferences: ^2.0.8
-  # settings_ui: ^1.0.0
+  settings_ui: ^2.0.2
   # 2.8 fix, wait https://github.com/yako-dev/flutter-settings-ui/pull/101 merged
-  settings_ui:
-    git:
-      url: git@github.com:beerstorm-net/flutter-settings-ui.git
+  # settings_ui:
+  #   git:
+  #     url: git@github.com:beerstorm-net/flutter-settings-ui.git
   responsive_framework: ^0.1.5
   scrollable_positioned_list: ^0.2.2
   permission_handler: ^8.3.0

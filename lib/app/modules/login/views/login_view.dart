@@ -157,7 +157,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 autoValidateMode:
                                                     AutovalidateMode.disabled,
                                                 selectorTextStyle: TextStyle(
-                                                    color: Colors.black,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onBackground,
                                                     fontSize: 16,
                                                     fontWeight:
                                                         FontWeight.w500),

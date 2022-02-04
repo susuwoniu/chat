@@ -78,7 +78,7 @@ class MoreDots extends StatelessWidget {
                           bottomIcon ?? Icons.send_rounded,
                           color: bottomText == null
                               ? Theme.of(context).colorScheme.primary
-                              : Colors.black,
+                              : Theme.of(context).colorScheme.onBackground,
                           size: 30,
                         ),
                       ])),

@@ -19,7 +19,7 @@ class MessageView extends GetView<MessageController> {
         bottom: PreferredSize(
             child: Container(
               height: 0.5,
-              color: Colors.grey.shade400,
+              color: Theme.of(context).dividerColor,
             ),
             preferredSize: Size.fromHeight(0)),
         title: Obx(() => Text(
@@ -55,7 +55,10 @@ class MessageView extends GetView<MessageController> {
                               primary: Colors.white38,
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               shadowColor: Colors.white38,
-                              textStyle: TextStyle(color: Colors.black)),
+                              textStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground)),
                           onPressed: () async {
                             controller.setIsLoading(true);
                             try {

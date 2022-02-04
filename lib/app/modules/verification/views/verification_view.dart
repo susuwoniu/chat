@@ -60,12 +60,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
             "Verification".tr,
             style: TextStyle(fontSize: 16),
           ),
-          bottom: PreferredSize(
-              child: Container(
-                height: 0.5,
-                color: Colors.grey.shade400,
-              ),
-              preferredSize: Size.fromHeight(0)),
         ),
         body: GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -97,7 +91,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 15,
-                          color: Colors.black,
+                          color: Theme.of(context).colorScheme.onBackground,
                           height: 1.8),
                     ),
                   ]),

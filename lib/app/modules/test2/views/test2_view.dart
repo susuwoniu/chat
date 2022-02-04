@@ -36,7 +36,7 @@ class _MyHomePageState extends State<Test2View> {
                   text: "Work",
                 ),
               ],
-              labelColor: Colors.black,
+              labelColor: Theme.of(context).colorScheme.onBackground,
               indicator: DotIndicator(
                 color: Colors.red,
                 distanceFromCenter: 16,
