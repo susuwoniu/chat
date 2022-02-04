@@ -125,9 +125,6 @@ class HomeView extends GetView<HomeController> {
             animationDuration: const Duration(milliseconds: 300),
             onScrollEvent: _handleCallbackEvent,
             builder: (BuildContext context, int index) {
-              final _height = MediaQuery.of(context).size.height;
-              final backgroundColor =
-                  Color(postMap[postIndexes[index]]!.backgroundColor);
               return Container(
                   color: index < postIndexes.length
                       ? Color(postMap[postIndexes[index]]!.backgroundColor)
@@ -170,6 +167,7 @@ class HomeView extends GetView<HomeController> {
                                             id: postIndexes[index],
                                             style: TextStyle(
                                               fontSize: 26.0,
+                                              color: Color(post.color),
                                               fontWeight: FontWeight.w500,
                                             ))),
                                     SizedBox(height: 4),
