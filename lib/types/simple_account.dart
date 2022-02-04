@@ -30,6 +30,21 @@ class SimpleAccountEntity {
     required this.gender,
     required this.is_blocked,
   });
+  static SimpleAccountEntity fromAccount(AccountEntity account) {
+    return SimpleAccountEntity(
+        avatar: account.avatar,
+        profile_images: account.profile_images,
+        age: account.age,
+        bio: account.bio,
+        location: account.location,
+        is_liked: false,
+        name: account.name,
+        like_count: 0,
+        vip: account.vip,
+        gender: account.gender,
+        is_blocked: false);
+  }
+
   static SimpleAccountEntity empty() {
     return SimpleAccountEntity(
         name: "-",

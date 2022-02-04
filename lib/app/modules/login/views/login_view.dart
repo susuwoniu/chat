@@ -136,6 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   _controller.setCountryCode(
                                                       number.dialCode ?? '');
                                                 },
+                                                onSubmit: handleSubmit,
                                                 onInputValidated: (bool value) {
                                                   print("validated?: $value");
                                                 },
@@ -169,6 +170,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 17,
                                                 )),
+                                                keyboardAction:
+                                                    TextInputAction.done,
                                                 keyboardType: TextInputType
                                                     .numberWithOptions(
                                                         signed: true,
@@ -193,48 +196,36 @@ class _MyHomePageState extends State<MyHomePage> {
                                                             fontSize: 16,
                                                             color: Colors.white,
                                                           )),
-                                                      onPressed: () async {
-                                                        // first set Phonnumber with latest value
-
-                                                        if (!_controller
-                                                            .isNumberValid
-                                                            .value) {
-                                                          UIUtils.toast(
-                                                              "please_enter_correct_phone_number"
-                                                                  .tr);
-                                                          return;
-                                                        }
-
-                                                        _focusNode.unfocus();
-                                                        try {
-                                                          await _controller
-                                                              .handleSendCode();
-                                                          UIUtils.toast(
-                                                              '验证码发送成功');
-                                                          Get.toNamed(
-                                                              Routes
-                                                                  .VERIFICATION,
-                                                              arguments: {
-                                                                ...Get
-                                                                    .arguments,
-                                                                "countryCode":
-                                                                    _controller
-                                                                        .countryCode
-                                                                        .value,
-                                                                "phoneNumber":
-                                                                    _controller
-                                                                        .phoneNumber
-                                                                        .value
-                                                              });
-                                                        } catch (e) {
-                                                          UIUtils.showError(e);
-                                                        }
-                                                      })),
+                                                      onPressed: handleSubmit)),
                                             ]),
                                       ))),
                             ])))
               ]),
             )));
+  }
+
+  Future<void> handleSubmit() async {
+    final _controller = LoginController.to;
+
+    // first set Phonnumber with latest value
+
+    if (!_controller.isNumberValid.value) {
+      UIUtils.toast("please_enter_correct_phone_number".tr);
+      return;
+    }
+
+    _focusNode.unfocus();
+    try {
+      await _controller.handleSendCode();
+      UIUtils.toast('验证码发送成功');
+      Get.toNamed(Routes.VERIFICATION, arguments: {
+        ...Get.arguments,
+        "countryCode": _controller.countryCode.value,
+        "phoneNumber": _controller.phoneNumber.value
+      });
+    } catch (e) {
+      UIUtils.showError(e);
+    }
   }
 
   @override

@@ -17,7 +17,8 @@ Future<void> main() async {
     defaultValue: AppConfig.DEV,
   );
   await Global.init();
-
+  // run global timer task
+  await Global().runGlobalTask();
   runApp(Phoenix(
     child: GetMaterialApp(
       title: "Application",

@@ -17,6 +17,9 @@ class RouterProvider extends GetxService {
   StreamSubscription? uriSub;
   NextPage? _nextPage;
   NextPage? get nextPage => _nextPage;
+  NextPage? _nextAction;
+  NextPage? get nextAction => _nextAction;
+  int closePageCountBeforeNextPage = 0;
   // 第一次打开
   Future<void> handleInitialUri() async {
     if (!isInitialUriIsHandled) {
@@ -128,8 +131,8 @@ class RouterProvider extends GetxService {
     if (next != null) {
       _nextPage = null;
 
-      if (next.closePageCountBeforeNextPage > 0) {
-        Get.close(next.closePageCountBeforeNextPage);
+      if (closePageCountBeforeNextPage > 0) {
+        Get.close(closePageCountBeforeNextPage);
       }
       final mode = next.mode;
 
@@ -153,7 +156,7 @@ class RouterProvider extends GetxService {
   }
 
   void setClosePageCountBeforeNextPage(int count) {
-    _nextPage?.closePageCountBeforeNextPage = count;
+    closePageCountBeforeNextPage = count;
   }
 
   void handleNextPageArguments(dynamic arguments) {
@@ -178,18 +181,16 @@ class NextPage {
   String route;
   dynamic arguments;
   NextMode mode;
-  int closePageCountBeforeNextPage;
-  NextPage(
-      {required this.route,
-      this.arguments,
-      required this.mode,
-      this.closePageCountBeforeNextPage = 0});
+  NextPage({
+    required this.route,
+    this.arguments,
+    required this.mode,
+  });
   static NextPage fromDefault() {
     return NextPage(
       route: Routes.MAIN,
       arguments: null,
       mode: NextMode.SwitchTo,
-      closePageCountBeforeNextPage: 0,
     );
   }
 
@@ -198,7 +199,6 @@ class NextPage {
       route: Routes.ROOT,
       arguments: null,
       mode: NextMode.Back,
-      closePageCountBeforeNextPage: 0,
     );
   }
 
@@ -216,18 +216,12 @@ class NextPage {
         : nextPageMode == 'off'
             ? NextMode.Off
             : NextMode.SwitchTo;
-    final closePageCountBeforeNextPageValue =
-        arguments['closePageCountBeforeNextPage'];
-    final closePageCountBeforeNextPage =
-        closePageCountBeforeNextPageValue == null
-            ? 0
-            : int.parse(closePageCountBeforeNextPageValue);
 
     return NextPage(
-        route: nextRoute,
-        arguments: nextArguments,
-        mode: nextMode,
-        closePageCountBeforeNextPage: closePageCountBeforeNextPage);
+      route: nextRoute,
+      arguments: nextArguments,
+      mode: nextMode,
+    );
   }
 
   Map<String, String> toArguments() {
@@ -236,7 +230,6 @@ class NextPage {
     return <String, String>{
       'next': nextUri.toString(),
       'mode': camel(mode.toString().toLowerCase()),
-      'closePageCountBeforeNextPage': closePageCountBeforeNextPage.toString()
     };
   }
 }

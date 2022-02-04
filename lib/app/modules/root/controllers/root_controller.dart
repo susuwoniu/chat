@@ -26,7 +26,6 @@ class RootController extends GetxController {
     super.onReady();
     try {
       await AuthProvider.to.init();
-      await APIProvider.to.init();
       _isLoading.value = false;
 
       _isInit.value = true;

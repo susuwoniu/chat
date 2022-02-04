@@ -1,4 +1,3 @@
-import 'package:chat/types/types.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/providers/cache_provider.dart';
 import 'package:chat/app/providers/account_store_provider.dart';
@@ -15,23 +14,40 @@ class AuthProvider extends GetxService {
 
   // 是否登录
   final _isLogin = false.obs;
-
-  // 令牌 token
-  String? _accessToken;
-  // refresh token
-  String? _refreshToken;
-  // im token
-  String? _imAccessToken;
-  // current account id
-  String? _accountId;
-  String? get accountId => _accountId;
+  TokenEntity? tokenEntity;
+  String? get accountId => tokenEntity?.accountId;
   bool get isLogin => _isLogin.value;
-  bool get hasAccessToken => _accessToken != null;
-  bool get hasImAccessToken => _imAccessToken != null;
-  String? get imAccessToken => _imAccessToken;
-  bool get hasRefreshToken => _refreshToken != null;
-  String? get accessToken => _accessToken;
-  String? get refreshToken => _refreshToken;
+
+  String? get accessToken {
+    if (tokenEntity?.accessToken != null &&
+        tokenEntity?.accessTokenExpiresAt != null) {
+      if (tokenEntity!.accessTokenExpiresAt.isAfter(DateTime.now())) {
+        return tokenEntity!.accessToken;
+      }
+    }
+    return null;
+  }
+
+  String? get refreshToken {
+    if (tokenEntity?.refreshToken != null &&
+        tokenEntity?.refreshTokenExpiresAt != null) {
+      if (tokenEntity!.refreshTokenExpiresAt.isAfter(DateTime.now())) {
+        return tokenEntity!.refreshToken;
+      }
+    }
+    return null;
+  }
+
+  String? get imAccessToken {
+    if (tokenEntity?.imAccessToken != null &&
+        tokenEntity?.imAccessTokenExpiresAt != null) {
+      if (tokenEntity!.imAccessTokenExpiresAt.isAfter(DateTime.now())) {
+        return tokenEntity!.imAccessToken;
+      }
+    }
+    return null;
+  }
+
   Stream<AuthStatus> get authUpdated => _authUpdatedStreamController.stream;
   final StreamController<AuthStatus> _authUpdatedStreamController =
       StreamController.broadcast();
@@ -39,13 +55,11 @@ class AuthProvider extends GetxService {
   Rx<AccountEntity> account = AccountEntity.empty().obs;
   bool isNeedCompleteActions = false;
   Future<void> init() async {
-    _accessToken = await AccountStoreProvider.to
-        .getExpiredString(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
-    _imAccessToken = await AccountStoreProvider.to
-        .getExpiredString(STORAGE_ACCOUNT_IM_ACCESS_TOKEN_KEY);
-    _refreshToken = await AccountStoreProvider.to
-        .getExpiredString(STORAGE_ACCOUNT_REFRESH_TOKEN_KEY);
-    _accountId = AccountStoreProvider.to.getString(STORAGE_ACCOUNT_ID_KEY);
+    final tokenEntityJson = await AccountStoreProvider.to
+        .getExpiredObject(STORAGE_ACCOUNT_TOKEN_KEY);
+    if (tokenEntity == null && tokenEntityJson != null) {
+      tokenEntity = TokenEntity.fromJson(tokenEntityJson);
+    }
     final _accountObj = AccountStoreProvider.to.getObject(STORAGE_ACCOUNT_KEY);
     if (_accountObj != null) {
       account(AccountEntity.fromJson(_accountObj));
@@ -55,7 +69,7 @@ class AuthProvider extends GetxService {
       simpleAccountMap.addAll(_simpleAccountMap);
     }
     //todo refresh token to access token
-    if (_accessToken != null && _imAccessToken != null && _accountId != null) {
+    if (accessToken != null && imAccessToken != null && accountId != null) {
       // await ImProvider.to.login(_accountId!, _imAccessToken!);
       _isLogin.value = true;
       _authUpdatedStreamController.add(AuthStatus.loginSuccess);
@@ -64,56 +78,40 @@ class AuthProvider extends GetxService {
     }
   }
 
-  Future<bool> isNeedRenewToken() async {
-    final accessTokenExpiresMs = await AccountStoreProvider.to
-        .getExpiredMs(STORAGE_ACCOUNT_ACCESS_TOKEN_KEY);
-    final imAccessTokenExpiresMs = await AccountStoreProvider.to
-        .getExpiredMs(STORAGE_ACCOUNT_IM_ACCESS_TOKEN_KEY);
-    if (accessTokenExpiresMs == null ||
-        imAccessTokenExpiresMs == null ||
-        accessTokenExpiresMs < 30 * 60 * 1000 ||
-        imAccessTokenExpiresMs < 30 * 60 * 1000) {
+  bool isNeedRenewToken() {
+    final accessTokenExpiresMs =
+        tokenEntity?.accessTokenExpiresAt.millisecondsSinceEpoch;
+    if (accessTokenExpiresMs == null || accessTokenExpiresMs < 30 * 60 * 1000) {
       return true;
     } else {
       return false;
     }
   }
 
-  Future<void> saveToken(TokenEntity token) async {
+  Future<void> saveToken(TokenEntity token, {bool persist = true}) async {
     Log.debug(token);
     // 保存access token
-    _accessToken = token.accessToken;
-    _refreshToken = token.refreshToken;
-    _imAccessToken = token.imAccessToken;
-    _accountId = token.accountId;
-    await AccountStoreProvider.to.setExpiredString(
-        STORAGE_ACCOUNT_ACCESS_TOKEN_KEY,
-        _accessToken!,
-        token.accessTokenExpiresAt);
-    await AccountStoreProvider.to.setExpiredString(
-        STORAGE_ACCOUNT_IM_ACCESS_TOKEN_KEY,
-        _imAccessToken!,
-        token.imAccessTokenExpiresAt);
+    tokenEntity = token;
+    if (persist) {
+      await AccountStoreProvider.to.setExpiredObject(STORAGE_ACCOUNT_TOKEN_KEY,
+          token.toJson(), token.accessTokenExpiresAt);
+    }
+  }
 
-    await AccountStoreProvider.to.setExpiredString(
-        STORAGE_ACCOUNT_REFRESH_TOKEN_KEY,
-        _accessToken!,
-        token.refreshTokenExpiresAt);
-    await AccountStoreProvider.to
-        .setString(STORAGE_ACCOUNT_ID_KEY, token.accountId);
+  Future<void> persistToken() async {
+    if (tokenEntity != null) {
+      await AccountStoreProvider.to.setExpiredObject(STORAGE_ACCOUNT_TOKEN_KEY,
+          tokenEntity!.toJson(), tokenEntity!.accessTokenExpiresAt);
+    }
   }
 
   // 注销
   Future<void> cleanToken() async {
     _isLogin.value = false;
-    _accessToken = null;
-    _imAccessToken = null;
-    _accountId = null;
-    _refreshToken = null;
+    tokenEntity = null;
     account(AccountEntity.empty());
     await CacheProvider.to.clear();
     await AccountStoreProvider.to.clear();
-
     _authUpdatedStreamController.add(AuthStatus.logoutSuccess);
   }
 
@@ -166,6 +164,9 @@ class AuthProvider extends GetxService {
 
   Future<void> saveAccountToStore(AccountEntity accountEntity) async {
     account(accountEntity);
+    // save to simple account map same time.
+    await saveSimpleAccounts(
+        {accountId!: SimpleAccountEntity.fromAccount(accountEntity)});
     await AccountStoreProvider.to
         .putObject(STORAGE_ACCOUNT_KEY, account.toJson());
   }
@@ -173,61 +174,76 @@ class AuthProvider extends GetxService {
   Future<void> saveAccount(AccountEntity accountEntity,
       {bool ignoreActions = false}) async {
     await saveAccountToStore(accountEntity);
-    final nextPage = RouterProvider.to.nextPage;
-    if (accountEntity.actions.isNotEmpty && ignoreActions == false) {
+
+    final nextAction = RouterProvider.to.nextAction;
+    //
+    // AgreeCommunityRules,
+    // AddAccountName,
+    // AddAccountBio,
+    // AddAccountBirthday,
+    // AddAccountProfileImage,
+    // AddAccountGender,
+    final validActionsMap = {
+      // "agree_community_rules": true,
+      "add_account_name": true,
+      "add_account_bio": true,
+      "add_account_birthday": true,
+      "add_account_profile_image": true,
+      "add_account_gender": true
+    };
+    // other unknow actions, we don't care.
+    final List<ActionEntity> validActions = [];
+
+    if (accountEntity.actions.isNotEmpty) {
+      for (var element in accountEntity.actions) {
+        if (validActionsMap[element.type] != null &&
+            validActionsMap[element.type] == true) {
+          validActions.add(element);
+        }
+      }
+    }
+
+    if (validActions.isNotEmpty && ignoreActions == false) {
       if (isNeedCompleteActions == false) {
         isNeedCompleteActions = true;
       }
-      final actionType = accountEntity.actions[0].type;
+      final actionType = validActions[0].type;
       if (actionType == 'add_account_birthday') {
-        if (nextPage != null) {
-          RouterProvider.to.setClosePageCountBeforeNextPage(
-              nextPage.closePageCountBeforeNextPage + 1);
-        }
+        RouterProvider.to.setClosePageCountBeforeNextPage(
+            RouterProvider.to.closePageCountBeforeNextPage + 1);
 
         Get.toNamed(Routes.AGE_PICKER);
       } else if (actionType == 'add_account_gender') {
-        if (nextPage != null) {
-          RouterProvider.to.setClosePageCountBeforeNextPage(
-              nextPage.closePageCountBeforeNextPage + 1);
-        }
+        RouterProvider.to.setClosePageCountBeforeNextPage(
+            RouterProvider.to.closePageCountBeforeNextPage + 1);
+
         Get.toNamed(Routes.GENDER_SELECT);
       } else if (actionType == 'add_account_name') {
-        if (nextPage != null) {
-          RouterProvider.to.setClosePageCountBeforeNextPage(
-              nextPage.closePageCountBeforeNextPage + 1);
-        }
+        RouterProvider.to.setClosePageCountBeforeNextPage(
+            RouterProvider.to.closePageCountBeforeNextPage + 1);
+
         Get.toNamed(Routes.EDIT_NAME, arguments: {'action': actionType});
       } else if (actionType == 'add_account_bio') {
-        if (nextPage != null) {
-          RouterProvider.to.setClosePageCountBeforeNextPage(
-              nextPage.closePageCountBeforeNextPage + 1);
-        }
+        RouterProvider.to.setClosePageCountBeforeNextPage(
+            RouterProvider.to.closePageCountBeforeNextPage + 1);
+
         Get.toNamed(Routes.EDIT_BIO, arguments: {'action': actionType});
       } else if (actionType == 'add_account_profile_image') {
-        if (nextPage != null) {
-          RouterProvider.to.setClosePageCountBeforeNextPage(
-              nextPage.closePageCountBeforeNextPage + 1);
-        }
+        RouterProvider.to.setClosePageCountBeforeNextPage(
+            RouterProvider.to.closePageCountBeforeNextPage + 1);
 
         Get.toNamed(Routes.ADD_PROFILE_IMAGE,
             arguments: {'action': actionType});
-      } else {
-        if (isNeedCompleteActions && nextPage != null) {
-          // 需要减去1页，因为这个需要保留一个登录页
-          RouterProvider.to.setClosePageCountBeforeNextPage(
-              nextPage.closePageCountBeforeNextPage - 1);
-          isNeedCompleteActions = false;
-        }
-        RouterProvider.to.toNextPage();
       }
     } else {
-      if (isNeedCompleteActions && nextPage != null) {
+      if (isNeedCompleteActions && nextAction != null) {
         // 需要减去1页，因为这个需要保留一个登录页
         RouterProvider.to.setClosePageCountBeforeNextPage(
-            nextPage.closePageCountBeforeNextPage - 1);
+            RouterProvider.to.closePageCountBeforeNextPage - 1);
         isNeedCompleteActions = false;
       }
+      // now we can persistToken;
+      await persistToken();
       RouterProvider.to.toNextPage();
     }
   }
