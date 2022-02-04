@@ -21,12 +21,13 @@ class SigninButton extends StatelessWidget {
       height: 50.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25.0),
-        gradient: LinearGradient(
-          colors: <Color>[
-            Theme.of(context).colorScheme.primaryVariant,
-            Theme.of(context).colorScheme.primary,
-          ],
-        ),
+        // gradient: LinearGradient(
+        //   colors: <Color>[
+        //     Theme.of(context).colorScheme.primaryVariant,
+        //     Theme.of(context).colorScheme.primary,
+        //   ],
+        // ),
+        color: Theme.of(context).colorScheme.primary,
       ),
       child: Material(
         color: Colors.transparent,
