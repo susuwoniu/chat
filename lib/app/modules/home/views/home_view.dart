@@ -158,7 +158,7 @@ class HomeView extends GetView<HomeController> {
                         return Stack(children: <Widget>[
                           Container(
                               alignment: Alignment.topLeft,
-                              padding: EdgeInsets.fromLTRB(16, 0, 16, 90),
+                              padding: EdgeInsets.fromLTRB(16, 5, 16, 90),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,

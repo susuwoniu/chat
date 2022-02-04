@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:get/get.dart';
-import '../../login/controllers/login_controller.dart';
 import '../controllers/gender_select_controller.dart';
 import 'gender_picker.dart';
 import '../../age_picker/views/next_button.dart';
@@ -45,16 +44,14 @@ class GenderSelectView extends GetView<GenderSelectController> {
                   ),
                 ]),
                 SizedBox(height: _height * 0.05),
-                NextButton(
-                    action: 'gender',
-                    onPressed: () async {
-                      try {
-                        await AccountProvider.to.postAccountInfoChange(
-                            {"gender": controller.selectedGender.value});
-                      } catch (e) {
-                        UIUtils.showError(e);
-                      }
-                    })
+                NextButton(onPressed: () async {
+                  try {
+                    await AccountProvider.to.postAccountInfoChange(
+                        {"gender": controller.selectedGender.value});
+                  } catch (e) {
+                    UIUtils.showError(e);
+                  }
+                })
               ],
             ),
           ),

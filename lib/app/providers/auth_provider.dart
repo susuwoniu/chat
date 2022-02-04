@@ -184,7 +184,7 @@ class AuthProvider extends GetxService {
     // AddAccountProfileImage,
     // AddAccountGender,
     final validActionsMap = {
-      // "agree_community_rules": true,
+      "agree_community_rules": true,
       "add_account_name": true,
       "add_account_bio": true,
       "add_account_birthday": true,
@@ -208,7 +208,13 @@ class AuthProvider extends GetxService {
         isNeedCompleteActions = true;
       }
       final actionType = validActions[0].type;
-      if (actionType == 'add_account_birthday') {
+      if (actionType == 'agree_community_rules') {
+        RouterProvider.to.setClosePageCountBeforeNextPage(
+            RouterProvider.to.closePageCountBeforeNextPage + 1);
+        Get.toNamed(Routes.RULE, arguments: {
+          "content": validActions[0].content,
+        });
+      } else if (actionType == 'add_account_birthday') {
         RouterProvider.to.setClosePageCountBeforeNextPage(
             RouterProvider.to.closePageCountBeforeNextPage + 1);
 
@@ -217,7 +223,7 @@ class AuthProvider extends GetxService {
         RouterProvider.to.setClosePageCountBeforeNextPage(
             RouterProvider.to.closePageCountBeforeNextPage + 1);
 
-        Get.toNamed(Routes.GENDER_SELECT);
+        Get.toNamed(Routes.COMPLETE_GENDER);
       } else if (actionType == 'add_account_name') {
         RouterProvider.to.setClosePageCountBeforeNextPage(
             RouterProvider.to.closePageCountBeforeNextPage + 1);

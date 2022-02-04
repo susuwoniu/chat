@@ -11,6 +11,10 @@ import '../modules/age_picker/bindings/age_picker_binding.dart';
 import '../modules/age_picker/views/age_picker_view.dart';
 import '../modules/answer/bindings/answer_binding.dart';
 import '../modules/answer/views/answer_view.dart';
+import '../modules/block/bindings/block_binding.dart';
+import '../modules/block/views/block_view.dart';
+import '../modules/complete_gender/bindings/complete_gender_binding.dart';
+import '../modules/complete_gender/views/complete_gender_view.dart';
 import '../modules/create/bindings/create_binding.dart';
 import '../modules/create/views/create_view.dart';
 import '../modules/debug/bindings/debug_binding.dart';
@@ -25,6 +29,8 @@ import '../modules/feedback/bindings/feedback_binding.dart';
 import '../modules/feedback/views/feedback_view.dart';
 import '../modules/gender_select/bindings/gender_select_binding.dart';
 import '../modules/gender_select/views/gender_select_view.dart';
+import '../modules/liked_me/bindings/liked_me_binding.dart';
+import '../modules/liked_me/views/liked_me_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/main/bindings/main_binding.dart';
@@ -40,14 +46,18 @@ import '../modules/other/views/other_view.dart';
 import '../modules/post/bindings/post_binding.dart';
 import '../modules/post/views/post_view.dart';
 import '../modules/post_square/bindings/post_square_binding.dart';
-import '../modules/post_square/views/post_square_view.dart';
 import '../modules/post_square/views/post_square_card_view.dart';
+import '../modules/post_square/views/post_square_view.dart';
 import '../modules/profile_viewers/bindings/profile_viewers_binding.dart';
 import '../modules/profile_viewers/views/profile_viewers_view.dart';
+import '../modules/report/bindings/report_binding.dart';
+import '../modules/report/views/report_view.dart';
 import '../modules/room/bindings/room_binding.dart';
 import '../modules/room/views/room_view.dart';
 import '../modules/root/bindings/root_binding.dart';
 import '../modules/root/views/root_view.dart';
+import '../modules/rule/bindings/rule_binding.dart';
+import '../modules/rule/views/rule_view.dart';
 import '../modules/setting/bindings/setting_binding.dart';
 import '../modules/setting/views/setting_view.dart';
 import '../modules/splash/views/splash_view.dart';
@@ -60,12 +70,7 @@ import '../modules/test3/views/test3_view.dart';
 import '../modules/verification/bindings/verification_binding.dart';
 import '../modules/verification/views/verification_view.dart';
 import 'observers.dart';
-import '../modules/report/views/report_view.dart';
-import '../modules/report/bindings/report_binding.dart';
-import '../modules/block/views/block_view.dart';
-import '../modules/block/bindings/block_binding.dart';
-import '../modules/liked_me/views/liked_me_view.dart';
-import '../modules/liked_me/bindings/liked_me_binding.dart';
+
 part 'app_routes.dart';
 
 class AppPages {
@@ -309,6 +314,16 @@ class AppPages {
       name: _Paths.BLOCK,
       page: () => BlockView(),
       binding: BlockBinding(),
+    ),
+    GetPage(
+      name: _Paths.RULE,
+      page: () => RuleView(),
+      binding: RuleBinding(),
+    ),
+    GetPage(
+      name: _Paths.COMPLETE_GENDER,
+      page: () => CompleteGenderView(),
+      binding: CompleteGenderBinding(),
     ),
   ];
 }

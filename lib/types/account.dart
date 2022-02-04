@@ -6,10 +6,8 @@ part 'account.g.dart';
 class ActionEntity {
   final String type;
   final bool required;
-  ActionEntity({
-    required this.type,
-    required this.required,
-  });
+  final String? content;
+  ActionEntity({required this.type, required this.required, this.content});
   factory ActionEntity.fromJson(Map<String, dynamic> json) =>
       _$ActionEntityFromJson(json);
   Map<String, dynamic> toJson() => _$ActionEntityToJson(this);

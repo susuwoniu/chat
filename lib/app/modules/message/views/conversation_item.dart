@@ -26,7 +26,7 @@ Widget conversationItemView(
           onTap(index);
         }
       },
-      contentPadding: EdgeInsets.fromLTRB(10, 0, 13, 1),
+      contentPadding: EdgeInsets.fromLTRB(10, 1, 13, 2),
       leading: Avatar(
           name: name,
           uri: avatar,

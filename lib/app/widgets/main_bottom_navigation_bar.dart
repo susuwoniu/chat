@@ -32,7 +32,11 @@ mainBottomNavigationBar(BuildContext context,
             items: [
               // _Paths.Main + [Empty]
               BottomNavigationBarItem(
-                icon: Icon(Icons.home_rounded, size: 36),
+                icon: Icon(
+                  Icons.home_rounded,
+                  size: 36,
+                  color: Colors.white,
+                ),
                 label: 'Home',
               ),
               // _Paths.Main + Routes.POST

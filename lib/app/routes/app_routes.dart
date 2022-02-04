@@ -36,6 +36,8 @@ abstract class Routes {
   static const OTHER = _Paths.OTHER;
   static const CREATE = _Paths.CREATE;
   static const POST_SQUARE_CARD_VIEW = _Paths.POST_SQUARE_CARD_VIEW;
+  static const RULE = _Paths.RULE;
+  static const COMPLETE_GENDER = _Paths.COMPLETE_GENDER;
 }
 
 abstract class _Paths {
@@ -72,4 +74,6 @@ abstract class _Paths {
   static const REPORT = '/report';
   static const LIKEDME = '/liked-me';
   static const BLOCK = '/block';
+  static const RULE = '/rule';
+  static const COMPLETE_GENDER = '/complete-gender';
 }

@@ -28,15 +28,13 @@ class AgePickerView extends GetView<AgePickerController> {
                 controller.setBirthYear(year.toString());
               }),
           SizedBox(height: 30),
-          NextButton(
-              action: 'age',
-              onPressed: () async {
-                try {
-                  await controller.updateAge();
-                } catch (e) {
-                  UIUtils.showError(e);
-                }
-              })
+          NextButton(onPressed: () async {
+            try {
+              await controller.updateAge();
+            } catch (e) {
+              UIUtils.showError(e);
+            }
+          })
         ]),
       ),
     ));

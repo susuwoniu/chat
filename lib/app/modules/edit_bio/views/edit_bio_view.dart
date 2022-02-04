@@ -37,6 +37,7 @@ class EditBioView extends GetView<EditBioController> {
         return InputWidget(
             maxLength: 100,
             maxLines: 10,
+            minLines: 3,
             initialContent: controller.initialContent,
             onChange: controller.onChangeTextValue);
       }),

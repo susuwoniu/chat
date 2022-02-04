@@ -46,6 +46,8 @@ print("permission statuses: $statuses");
 
 ### 创建页面
 
+> Note: First run `dart pub global activate get_cli`
+
 ```bash
 get create page:home
 ```

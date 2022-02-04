@@ -5,10 +5,11 @@ class InputWidget extends StatefulWidget {
   final int maxLength;
   final String initialContent;
   final Function(String value) onChange;
-
+  final int minLines;
   const InputWidget(
       {Key? key,
       required this.maxLines,
+      this.minLines = 1,
       required this.maxLength,
       required this.initialContent,
       required this.onChange});
@@ -52,7 +53,7 @@ class _InputWidgetState extends State<InputWidget> {
       controller: textController,
       maxLines: widget.maxLines,
       keyboardType: TextInputType.multiline,
-      minLines: 1,
+      minLines: widget.minLines,
       autofocus: true,
       style: TextStyle(
         fontSize: 17,
