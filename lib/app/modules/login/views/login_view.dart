@@ -68,7 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.onPrimary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
           title: Text(
             'Login'.tr,
             style: TextStyle(fontSize: 16),
@@ -90,8 +91,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     // Add one stop for each color. Stops should increase from 0 to 1
                     stops: [0.0, 1.0],
                     colors: [
-                      Color(0xff00BFA5),
-                      Color(0xff64FFDA),
+                      Theme.of(context).colorScheme.primaryVariant,
+                      Theme.of(context).colorScheme.primary,
                     ],
                   ),
                 ))),
