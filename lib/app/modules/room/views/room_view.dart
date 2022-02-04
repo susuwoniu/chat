@@ -23,13 +23,15 @@ class RoomView extends GetView<RoomController> {
   Widget build(BuildContext context) {
     final messageController = MessageController.to;
     final roomId = controller.roomId;
-
+    final primaryColor = Theme.of(context).primaryColor;
+    print("primary Color: $primaryColor");
     return Scaffold(
         appBar: roomAppBar(
           context: context,
           roomId: roomId,
         ),
         body: Column(mainAxisSize: MainAxisSize.min, children: [
+          Text("test", style: TextStyle(color: Theme.of(context).primaryColor)),
           Flexible(
             child: Obx(() {
               final room = messageController.entities[roomId];

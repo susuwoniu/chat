@@ -19,6 +19,8 @@ Future<void> main() async {
   await Global.init();
   // run global timer task
   await Global().runGlobalTask();
+  final primary = ChatThemeData.lightThemeData.primaryColor;
+  print("primary: $primary");
   runApp(Phoenix(
     child: GetMaterialApp(
       title: "Application",
@@ -33,19 +35,22 @@ Future<void> main() async {
       themeMode:
           ConfigProvider.to.nightMode.isTrue ? ThemeMode.dark : ThemeMode.light,
       enableLog: env == "prod" ? false : true,
-      builder: EasyLoading.init(
-          builder: (context, widget) => ResponsiveWrapper.builder(
-                widget,
-                maxWidth: 1024,
-                minWidth: 390,
-                defaultScale: true,
-                breakpoints: [
-                  ResponsiveBreakpoint.resize(390, name: MOBILE),
-                  ResponsiveBreakpoint.autoScale(480, name: MOBILE),
-                  ResponsiveBreakpoint.resize(768, name: TABLET),
-                  ResponsiveBreakpoint.autoScale(1024, name: DESKTOP),
-                ],
-              )),
+      builder: EasyLoading.init(builder: (context, widget) {
+        final primaryColor = Theme.of(context).primaryColor;
+        print("primary Color: $primaryColor");
+        return ResponsiveWrapper.builder(
+          widget,
+          maxWidth: 1024,
+          minWidth: 390,
+          defaultScale: true,
+          breakpoints: [
+            ResponsiveBreakpoint.resize(390, name: MOBILE),
+            ResponsiveBreakpoint.autoScale(480, name: MOBILE),
+            ResponsiveBreakpoint.resize(768, name: TABLET),
+            ResponsiveBreakpoint.autoScale(1024, name: DESKTOP),
+          ],
+        );
+      }),
       // builder: EasyLoading.init(builder:),
       unknownRoute: AppPages.routes[0],
       translations: TranslationService(),
