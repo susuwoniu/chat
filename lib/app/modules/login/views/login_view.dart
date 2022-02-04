@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
           title: Text(
             'Login'.tr,
-            style: TextStyle(fontSize: 19),
+            style: TextStyle(fontSize: 16),
           ),
         ),
         body: GestureDetector(

@@ -21,7 +21,7 @@ class LikedMeView extends GetView<LikedMeController> {
                   color: Colors.grey.shade400,
                 ),
                 preferredSize: Size.fromHeight(0)),
-            title: Text('Who_Liked_Me'.tr, style: TextStyle(fontSize: 17)),
+            title: Text('Who_Liked_Me'.tr, style: TextStyle(fontSize: 16)),
             centerTitle: true),
         body: RefreshIndicator(
           onRefresh: () => Future.sync(

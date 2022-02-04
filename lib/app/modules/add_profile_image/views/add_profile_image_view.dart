@@ -11,7 +11,7 @@ class AddProfileImageView extends GetView<AddProfileImageController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('AddProfileImageView'),
+        title: Text('AddProfileImageView', style: TextStyle(fontSize: 16)),
       ),
       body: Column(children: [
         Text(
