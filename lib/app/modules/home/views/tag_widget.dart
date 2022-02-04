@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 class TagWidget extends StatelessWidget {
   final String text;
   final Function onPressed;
-
-  TagWidget({Key? key, required this.text, required this.onPressed})
+  final Color color;
+  TagWidget(
+      {Key? key,
+      required this.text,
+      required this.onPressed,
+      required this.color})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -20,16 +24,13 @@ class TagWidget extends StatelessWidget {
             onPressed();
           },
           child: Row(mainAxisSize: MainAxisSize.min, children: [
-            Icon(Icons.style,
-                size: 18, color: Theme.of(context).colorScheme.onPrimary),
+            Icon(Icons.style, size: 18, color: color),
             SizedBox(width: 4),
             Flexible(
                 child: Text(text,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
-                    style: (TextStyle(
-                        fontSize: 14,
-                        color: Theme.of(context).colorScheme.onPrimary)))),
+                    style: (TextStyle(fontSize: 14, color: color)))),
             SizedBox(width: 10)
           ]),
         ));

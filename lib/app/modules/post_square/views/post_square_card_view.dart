@@ -112,16 +112,16 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                             textAlign: TextAlign.center,
                                             id: postIndexes[index],
                                             style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onPrimary,
+                                              color: Color(post.color),
                                               fontSize: 26.0,
                                               fontWeight: FontWeight.w500,
                                             ))),
                                     SizedBox(height: 15),
                                     AuthorName(
+                                        color: Color(post.color),
                                         accountId: post.accountId,
                                         authorName: author?.name ?? "--",
+                                        nameSize: 18,
                                         avatarUri: author?.avatar,
                                         index: index),
                                   ])),
@@ -166,6 +166,7 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                                     })),
                                             SizedBox(width: 8),
                                             ActionButtons(
+                                                color: Color(post.color),
                                                 onAdd: () {
                                                   Get.toNamed(Routes.POST);
                                                 },

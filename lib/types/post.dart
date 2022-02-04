@@ -8,6 +8,8 @@ class PostEntity {
   final String content;
   @JsonKey(name: 'background_color')
   final int backgroundColor;
+  @JsonKey(name: 'color')
+  final int color;
   @JsonKey(name: 'account_id')
   final String accountId;
   final String cursor;
@@ -22,6 +24,7 @@ class PostEntity {
   PostEntity({
     required this.content,
     required this.backgroundColor,
+    required this.color,
     required this.accountId,
     required this.cursor,
     required this.post_template_id,

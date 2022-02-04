@@ -32,7 +32,7 @@ class HomeView extends GetView<HomeController> {
                 icon: Icon(
                   Icons.filter_list_rounded,
                   size: 36,
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: Color(controller.currentFrontColor),
                 ),
                 onPressed: () {
                   showModalBottomSheet(
@@ -131,7 +131,7 @@ class HomeView extends GetView<HomeController> {
               return Container(
                   color: index < postIndexes.length
                       ? Color(postMap[postIndexes[index]]!.backgroundColor)
-                      : Colors.orangeAccent,
+                      : BACKGROUND_COLORS[0],
                   child: SafeArea(child: Builder(builder: (context) {
                     if (!isInit || (index == postIndexes.length && isLoading)) {
                       return Center(child: Loading());
@@ -169,14 +169,13 @@ class HomeView extends GetView<HomeController> {
                                             textAlign: TextAlign.center,
                                             id: postIndexes[index],
                                             style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onPrimary,
                                               fontSize: 26.0,
                                               fontWeight: FontWeight.w500,
                                             ))),
                                     SizedBox(height: 4),
                                     TagWidget(
+                                        color:
+                                            Color(controller.currentFrontColor),
                                         text: post.post_template_title,
                                         onPressed: () {
                                           Get.toNamed(Routes.POST_SQUARE,
@@ -188,9 +187,12 @@ class HomeView extends GetView<HomeController> {
                                         }),
                                     SizedBox(height: 4),
                                     AuthorName(
+                                        color:
+                                            Color(controller.currentFrontColor),
                                         accountId: post.accountId,
                                         authorName: author.name,
                                         avatarUri: author.avatar,
+                                        nameSize: 18,
                                         index: index),
                                     SizedBox(
                                       height: 30,
@@ -236,6 +238,7 @@ class HomeView extends GetView<HomeController> {
                                                     })),
                                             SizedBox(width: 8),
                                             ActionButtons(
+                                                color: Color(post.color),
                                                 onAdd: () {
                                                   if (isCreate) {
                                                     Get.toNamed(
