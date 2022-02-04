@@ -23,8 +23,10 @@ class ImageButton extends StatelessWidget {
         ]),
         child: CircleWidget(
           icon: Icon(isAdd ? Icons.add_rounded : Icons.close_rounded),
-          backgroundColor: isAdd ? Colors.blue : Colors.white,
-          iconColor: isAdd ? Colors.white : Colors.blue,
+          backgroundColor:
+              isAdd ? Colors.blue : Theme.of(context).colorScheme.onPrimary,
+          iconColor:
+              isAdd ? Theme.of(context).colorScheme.onPrimary : Colors.blue,
           height: 32,
           iconSize: 23,
           onPressed: onPressed,

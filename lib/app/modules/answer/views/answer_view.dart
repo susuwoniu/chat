@@ -64,13 +64,17 @@ class AnswerView extends GetView<AnswerController> {
                             decoration: BoxDecoration(
                               border: Border.all(
                                 width: 3,
-                                color: isCanSend ? Colors.white : Colors.grey,
+                                color: isCanSend
+                                    ? Theme.of(context).colorScheme.onPrimary
+                                    : Colors.grey,
                               ),
                               borderRadius: BorderRadius.circular(20),
                               color: isCanSend ? Colors.blue : backgroundColor,
                             ),
                             child: IconButton(
-                                color: isCanSend ? Colors.white : Colors.grey,
+                                color: isCanSend
+                                    ? Theme.of(context).colorScheme.onPrimary
+                                    : Colors.grey,
                                 iconSize: 26,
                                 icon: const Icon(Icons.send),
                                 padding: const EdgeInsets.all(0),

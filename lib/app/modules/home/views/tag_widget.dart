@@ -20,13 +20,16 @@ class TagWidget extends StatelessWidget {
             onPressed();
           },
           child: Row(mainAxisSize: MainAxisSize.min, children: [
-            Icon(Icons.style, size: 18, color: Colors.white),
+            Icon(Icons.style,
+                size: 18, color: Theme.of(context).colorScheme.onPrimary),
             SizedBox(width: 4),
             Flexible(
                 child: Text(text,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
-                    style: (TextStyle(fontSize: 14, color: Colors.white)))),
+                    style: (TextStyle(
+                        fontSize: 14,
+                        color: Theme.of(context).colorScheme.onPrimary)))),
             SizedBox(width: 10)
           ]),
         ));

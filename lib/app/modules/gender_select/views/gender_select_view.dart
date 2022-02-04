@@ -14,7 +14,7 @@ class GenderSelectView extends GetView<GenderSelectController> {
     final _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
         appBar: AppBar(
           title: Text('GenderSelect'),
           systemOverlayStyle:

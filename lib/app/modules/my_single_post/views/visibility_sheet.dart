@@ -16,7 +16,7 @@ class VisibilitySheet extends StatelessWidget {
         alignment: Alignment.center,
         padding: EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.onPrimary,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(children: [

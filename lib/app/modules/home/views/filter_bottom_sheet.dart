@@ -90,7 +90,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   child: IconButton(
                       icon: Icon(Icons.cancel),
                       iconSize: 32,
-                      color: Colors.white60,
+                      color: Theme.of(context).colorScheme.onPrimary,
                       onPressed: () {
                         Navigator.pop(context);
                       }),
@@ -98,7 +98,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 Column(children: [
                   SizedBox(height: _paddingTop3),
                   Text('Filter'.tr,
-                      style: TextStyle(fontSize: 21, color: Colors.white)),
+                      style: TextStyle(
+                          fontSize: 21,
+                          color: Theme.of(context).colorScheme.onPrimary)),
                   SizedBox(height: 15),
                   Column(children: [
                     Row(children: [
@@ -111,7 +113,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         min: 18,
                         divisions: 8,
                         activeColor: Colors.pinkAccent,
-                        inactiveColor: Colors.white,
+                        inactiveColor: Theme.of(context).colorScheme.onPrimary,
                         labels: RangeLabels(
                           _currentAgeRangeValues.start.toInt().toString() +
                               'years_old'.tr,
@@ -149,7 +151,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.white),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary),
                                   ),
                                 ]);
                           },
@@ -176,7 +180,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               min: 0,
                               divisions: 5,
                               activeColor: Colors.lightGreen,
-                              inactiveColor: Colors.white,
+                              inactiveColor:
+                                  Theme.of(context).colorScheme.onPrimary,
                               label:
                                   _currentEndDistance.toInt().toString() + 'KM',
                               onChanged: (double value) {
@@ -247,7 +252,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     return Row(children: [
       SizedBox(width: _width * 0.05),
       Text(titleMap[text]!.tr,
-          style: TextStyle(fontSize: 17, color: Colors.white)),
+          style: TextStyle(
+              fontSize: 17, color: Theme.of(context).colorScheme.onPrimary)),
       SizedBox(width: 6),
       Icon(Icons.stars_rounded, color: Colors.pink.shade300, size: 22),
     ]);
@@ -261,7 +267,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       margin: EdgeInsets.symmetric(horizontal: _width * 0.04),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          color: text == 'Ok' ? Colors.pinkAccent : Colors.white60),
+          color: text == 'Ok'
+              ? Colors.pinkAccent
+              : Theme.of(context).colorScheme.onPrimary),
       child: TextButton(
           style: ButtonStyle(splashFactory: NoSplash.splashFactory),
           onPressed: () {
@@ -269,7 +277,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           },
           child: Text(text.tr,
               style: TextStyle(
-                  color: text == 'Ok' ? Colors.white : Colors.blue,
+                  color: text == 'Ok'
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Colors.blue,
                   fontSize: 16))),
     ));
   }

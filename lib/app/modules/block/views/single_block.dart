@@ -80,7 +80,7 @@ class SingleBlock extends StatelessWidget {
                           age: blockAccount.age.toString(),
                           gender: blockAccount.gender,
                           background: _genderColor,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onPrimary,
                           iconSize: 14,
                           fontSize: 13,
                         ),

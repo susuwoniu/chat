@@ -38,7 +38,7 @@ class _YearPickerState extends State<YearPicker> {
       widget.isShowBar
           ? Container(
               decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onPrimary,
                   border: Border(
                     top: BorderSide(
                       color: Colors.grey.shade200,
@@ -76,7 +76,7 @@ class _YearPickerState extends State<YearPicker> {
         height: _height * 0.35,
         alignment: Alignment.center,
         child: CupertinoPicker(
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).colorScheme.onPrimary,
             squeeze: 1.2,
             scrollController: FixedExtentScrollController(initialItem: 6),
             selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(

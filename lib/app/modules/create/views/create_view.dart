@@ -42,7 +42,7 @@ class CreateView extends GetView<CreateController> {
     ];
     TextStyle _textStyle = TextStyle(
       fontSize: 25,
-      color: Colors.white,
+      color: Theme.of(context).colorScheme.onPrimary,
     );
     String _text = postTemplate.content ?? '';
     TextAlign _textAlign = TextAlign.left;
@@ -164,8 +164,8 @@ class CreateView extends GetView<CreateController> {
               minFontSize: 10,
               onChange: controller.handleChange,
               backgroundColorPaletteColors: BACKGROUND_COLORS,
-              paletteColors: List.generate(
-                  BACKGROUND_COLORS.length, (index) => Colors.white),
+              paletteColors: List.generate(BACKGROUND_COLORS.length,
+                  (index) => Theme.of(context).colorScheme.onPrimary),
               defaultBackgroundColorIndex: controller.backgroundColorIndex,
             ))
           ])),

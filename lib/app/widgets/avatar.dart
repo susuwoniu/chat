@@ -16,14 +16,14 @@ Widget Avatar(
     child: child,
     radius: size ?? 24, // sets radius, default 50.0
     backgroundColor: BACKGROUND_COLORS[get_random_index(BACKGROUND_COLORS
-        .length)], // sets background color, default Colors.white
+        .length)], // sets background color, default Theme.of(context).colorScheme.onPrimary
     borderWidth: 0, // sets border, default 0.0
     initialsText: Text(
       name.substring(0, 1),
       style: TextStyle(
           fontSize: size != null ? size - 8 : 15, color: Colors.white),
     ), // sets initials text, set your own style, default Text('')
-    // borderColor: Colors.pink, // sets border color, default Colors.white
+    // borderColor: Colors.pink, // sets border color, default Theme.of(context).colorScheme.onPrimary
     elevation: elevation ??
         0.0, // sets elevation (shadow of the profile picture), default value is 0.0
     foregroundColor: Colors.brown.withOpacity(

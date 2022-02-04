@@ -65,13 +65,18 @@ class MySinglePostView extends GetView<MySinglePostController> {
                       children: [
                         Text(
                           _createAt,
-                          style: TextStyle(color: Colors.white, fontSize: 15),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              fontSize: 15),
                         ),
                         Row(children: [
                           isMe
                               ? Obx(() => Text(
                                     VisibilityMap[controller.visibility]!.tr,
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary),
                                   ))
                               : SizedBox.shrink(),
                           _dotIcon(
@@ -83,7 +88,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                       alignment: Alignment.centerLeft,
                       child: Text(_content,
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.onPrimary,
                               fontSize: 19.0,
                               height: 1.6))),
                 ])),
@@ -214,7 +219,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
         icon: Icon(
           Icons.more_vert_rounded,
           size: 26,
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.onPrimary,
         ));
   }
 }

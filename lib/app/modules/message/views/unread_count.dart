@@ -32,20 +32,22 @@ class CountBubble extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: Colors.red[400],
                     borderRadius: BorderRadius.circular(20)),
-                child: TextCount(text))
+                child: TextCount(text, context: context))
             : Container(
                 padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     color: Colors.red[400],
                     borderRadius: BorderRadius.circular(20)),
-                child: TextCount(text))
+                child: TextCount(text, context: context))
         : SizedBox.shrink();
   }
 
-  Widget TextCount(String count) {
+  Widget TextCount(String count, {required BuildContext context}) {
     return Text(count,
         style: TextStyle(
-            fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white));
+            fontSize: 11,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onPrimary));
   }
 }

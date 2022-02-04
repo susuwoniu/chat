@@ -185,7 +185,8 @@ class OtherView extends GetView<OtherController> {
           left: width * 0.04,
           top: height * 0.06,
           child: CircleWidget(
-            icon: Icon(Icons.arrow_back_rounded, color: Colors.white),
+            icon: Icon(Icons.arrow_back_rounded,
+                color: Theme.of(context).colorScheme.onPrimary),
             onPressed: () {
               Get.back();
             },
@@ -194,7 +195,8 @@ class OtherView extends GetView<OtherController> {
           right: width * 0.04,
           top: height * 0.06,
           child: CircleWidget(
-            icon: Icon(Icons.more_horiz_rounded, color: Colors.white),
+            icon: Icon(Icons.more_horiz_rounded,
+                color: Theme.of(context).colorScheme.onPrimary),
             onPressed: () {
               showModalBottomSheet(
                   context: context,
@@ -254,7 +256,7 @@ class OtherView extends GetView<OtherController> {
                       offset: Offset(0, 3) // changes position of shadow
                       )
                 ],
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
               padding: EdgeInsets.fromLTRB(30, 13, 30, 25),
               child: Row(children: [
@@ -265,6 +267,7 @@ class OtherView extends GetView<OtherController> {
                   final _is_liked = _account.is_liked;
 
                   return _chatButton(
+                    context: context,
                     text: _is_liked ? 'Liked'.tr : 'Like'.tr,
                     isLiked: _account.is_liked,
                     onPressedLike: (bool increase) async {
@@ -302,6 +305,7 @@ class OtherView extends GetView<OtherController> {
                 }),
                 SizedBox(width: 30),
                 _chatButton(
+                    context: context,
                     text: 'Chat'.tr,
                     onPressedChat: () {
                       Get.toNamed(Routes.ROOM, arguments: {
@@ -315,6 +319,7 @@ class OtherView extends GetView<OtherController> {
 
   Widget _chatButton(
       {required String text,
+      required BuildContext context,
       Function? onPressedLike,
       Function? onPressedChat,
       Color? color,
@@ -338,7 +343,8 @@ class OtherView extends GetView<OtherController> {
                           : isLiked
                               ? Colors.transparent
                               : color),
-                  color: isLiked ? color : Colors.white,
+                  color:
+                      isLiked ? color : Theme.of(context).colorScheme.onPrimary,
                   borderRadius: BorderRadius.circular(20)),
               child: Text(
                 text.tr,
@@ -346,7 +352,7 @@ class OtherView extends GetView<OtherController> {
                     color: color == null
                         ? Colors.black
                         : isLiked
-                            ? Colors.white
+                            ? Theme.of(context).colorScheme.onPrimary
                             : color,
                     fontSize: 16,
                     fontWeight: FontWeight.bold),

@@ -42,7 +42,9 @@ class ChatMessage extends StatelessWidget {
                         bottomRight: Radius.circular(2.0),
                       )
                     : BorderRadius.circular(24),
-                color: isMe ? Colors.blue : Colors.white,
+                color: isMe
+                    ? Colors.blue
+                    : Theme.of(context).colorScheme.onPrimary,
               ),
               child: Text(text,
                   style: (const TextStyle(

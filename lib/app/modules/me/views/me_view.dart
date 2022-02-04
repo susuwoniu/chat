@@ -39,6 +39,7 @@ class MeView extends GetView<MeController> {
             extendBody: true,
             extendBodyBehindAppBar: true,
             appBar: _appbar(
+                context: context,
                 iconLeft: Icons.settings_rounded,
                 leftTap: () {
                   Get.toNamed(Routes.SETTING, arguments: {"phone": phone});
@@ -204,6 +205,7 @@ class MeView extends GetView<MeController> {
   AppBar _appbar(
       {required IconData iconLeft,
       required Function leftTap,
+      required BuildContext context,
       IconData? iconRight,
       Function? rightTap}) {
     return AppBar(
@@ -212,7 +214,8 @@ class MeView extends GetView<MeController> {
         leading: Container(
             padding: EdgeInsets.only(left: 16),
             child: CircleWidget(
-              icon: Icon(iconLeft, color: Colors.white),
+              icon: Icon(iconLeft,
+                  color: Theme.of(context).colorScheme.onPrimary),
               onPressed: () {
                 leftTap();
               },
@@ -221,7 +224,8 @@ class MeView extends GetView<MeController> {
           Container(
               margin: EdgeInsets.only(right: 17),
               child: CircleWidget(
-                icon: Icon(iconRight, color: Colors.white),
+                icon: Icon(iconRight,
+                    color: Theme.of(context).colorScheme.onPrimary),
                 onPressed: () {
                   if (rightTap != null) {
                     rightTap();

@@ -13,7 +13,7 @@ class EditInfoView extends GetView<EditInfoController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
         appBar: AppBar(
           title: Text('EditInfoView'.tr, style: TextStyle(fontSize: 18)),
           systemOverlayStyle:
@@ -46,7 +46,7 @@ class EditInfoView extends GetView<EditInfoController> {
                   ),
                   Container(
                     padding: EdgeInsets.only(top: 10),
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onPrimary,
                     child: Column(children: [
                       SettingsTile(
                           title: "Nickname".tr,

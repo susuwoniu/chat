@@ -26,7 +26,7 @@ class PostSquareView extends GetView<PostSquareController> {
 
     return RefreshIndicator(
         color: backgroundColor,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
         onRefresh: () => Future.sync(
               () => controller.pagingController.refresh(),
             ),
@@ -36,7 +36,8 @@ class PostSquareView extends GetView<PostSquareController> {
               SliverAppBar(
                 systemOverlayStyle:
                     SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
-                iconTheme: IconThemeData(color: Colors.white),
+                iconTheme: IconThemeData(
+                    color: Theme.of(context).colorScheme.onPrimary),
                 stretch: true,
                 pinned: true,
                 backgroundColor: backgroundColor,
@@ -45,7 +46,8 @@ class PostSquareView extends GetView<PostSquareController> {
                       padding: EdgeInsets.only(right: 5),
                       child: IconButton(
                         splashColor: Colors.transparent,
-                        icon: Icon(Icons.share_rounded, color: Colors.white),
+                        icon: Icon(Icons.share_rounded,
+                            color: Theme.of(context).colorScheme.onPrimary),
                         onPressed: () async {
                           final FlutterShareMe flutterShareMe =
                               FlutterShareMe();
@@ -67,8 +69,9 @@ class PostSquareView extends GetView<PostSquareController> {
                             style: TextStyle(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white)),
-                        SizedBox(height: 15),
+                                color:
+                                    Theme.of(context).colorScheme.onPrimary)),
+                        SizedBox(height: 20),
                         Obx(() {
                           final usedCount = controller.usedCount;
                           return Text(
@@ -78,13 +81,13 @@ class PostSquareView extends GetView<PostSquareController> {
                                       : usedCount.toString() + ' Posts'.tr
                                   : usedCount.toString() + ' Post'.tr,
                               style: TextStyle(
-                                  fontSize: 16.0, color: Colors.white));
+                                  fontSize: 16.0,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary));
                         }),
                       ])),
                 ),
               ),
-              // SliverToBoxAdapter(child:
-              // ),
               PagedSliverGrid<String?, String>(
                   showNewPageProgressIndicatorAsGridChild: false,
                   showNewPageErrorIndicatorAsGridChild: false,
@@ -131,7 +134,7 @@ class PostSquareView extends GetView<PostSquareController> {
                         SizedBox(width: 8),
                         Text('Join_topic'.tr,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.onPrimary,
                               fontSize: 15,
                             )),
                       ])),

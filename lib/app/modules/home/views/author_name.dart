@@ -43,7 +43,7 @@ class AuthorName extends StatelessWidget {
         key: Key('$index-text'),
         style: TextStyle(
             fontSize: nameSize,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimary,
             overflow: TextOverflow.ellipsis),
       )),
       SizedBox(width: 50)

@@ -31,7 +31,7 @@ class BlankImage extends StatelessWidget {
                         color: Colors.black38, size: 32),
                   )
                 : Text(''),
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimary,
             radius: Radius.circular(8),
             dashPattern: [6, 6],
             borderType: BorderType.RRect,

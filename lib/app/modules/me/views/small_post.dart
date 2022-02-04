@@ -45,7 +45,7 @@ class SmallPost extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onPrimary,
                   )),
             )));
 

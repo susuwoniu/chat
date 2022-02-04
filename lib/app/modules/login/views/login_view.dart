@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).colorScheme.onPrimary,
           title: Text(
             'Login'.tr,
             style: TextStyle(fontSize: 19),
@@ -115,7 +115,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   )),
                               Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(25.0),
                                       )),
@@ -197,7 +199,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                                             fontFamily:
                                                                 "RobotoMedium",
                                                             fontSize: 16,
-                                                            color: Colors.white,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .onPrimary,
                                                           )),
                                                       onPressed: handleSubmit)),
                                             ]),

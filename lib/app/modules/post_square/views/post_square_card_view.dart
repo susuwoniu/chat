@@ -18,7 +18,8 @@ class PostSquareCardView extends GetView<PostSquareController> {
   Widget build(BuildContext context) {
     final imDomain = AppConfig().config.imDomain;
     final appBar = AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme:
+            IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
         backgroundColor: Colors.transparent,
         leading: IconButton(
             iconSize: 26,
@@ -32,7 +33,9 @@ class PostSquareCardView extends GetView<PostSquareController> {
               Padding(
                   padding: EdgeInsets.only(right: 10),
                   child: IconButton(
-                      icon: Icon(Icons.add, color: Colors.white, size: 36),
+                      icon: Icon(Icons.add,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          size: 36),
                       onPressed: () {
                         Get.toNamed(
                           Routes.POST,
@@ -109,7 +112,9 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                             textAlign: TextAlign.center,
                                             id: postIndexes[index],
                                             style: TextStyle(
-                                              color: Colors.white,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimary,
                                               fontSize: 26.0,
                                               fontWeight: FontWeight.w500,
                                             ))),

@@ -38,11 +38,14 @@ Widget MaxText(String text, BuildContext context,
                     child: Text("More".tr + " >>",
                         style: TextStyle(
                           shadows: [
-                            Shadow(color: Colors.white, offset: Offset(0, -5))
+                            Shadow(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                offset: Offset(0, -5))
                           ],
                           color: Colors.transparent,
                           fontSize: minFontsize - 8,
-                          decorationColor: Colors.white,
+                          decorationColor:
+                              Theme.of(context).colorScheme.onPrimary,
                           decoration: TextDecoration.underline,
                         )),
                   ))

@@ -27,7 +27,9 @@ mainBottomNavigationBar(BuildContext context,
             elevation: 0,
             showSelectedLabels: false,
             showUnselectedLabels: false,
-            backgroundColor: index == 0 ? Colors.transparent : Colors.white,
+            backgroundColor: index == 0
+                ? Colors.transparent
+                : Theme.of(context).colorScheme.onPrimary,
             onTap: onTap,
             items: [
               // _Paths.Main + [Empty]
@@ -35,7 +37,7 @@ mainBottomNavigationBar(BuildContext context,
                 icon: Icon(
                   Icons.home_rounded,
                   size: 36,
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
                 label: 'Home',
               ),
