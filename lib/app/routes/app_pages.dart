@@ -9,8 +9,6 @@ import '../modules/add_profile_image/bindings/add_profile_image_binding.dart';
 import '../modules/add_profile_image/views/add_profile_image_view.dart';
 import '../modules/age_picker/bindings/age_picker_binding.dart';
 import '../modules/age_picker/views/age_picker_view.dart';
-import '../modules/answer/bindings/answer_binding.dart';
-import '../modules/answer/views/answer_view.dart';
 import '../modules/block/bindings/block_binding.dart';
 import '../modules/block/views/block_view.dart';
 import '../modules/complete_gender/bindings/complete_gender_binding.dart';
@@ -159,15 +157,6 @@ class AppPages {
       name: _Paths.VERIFICATION,
       page: () => VerificationView(),
       binding: VerificationBinding(),
-    ),
-    GetPage(
-      middlewares: [
-        //only enter this route when authed
-        EnsureAuthMiddleware(),
-      ],
-      name: _Paths.ANSWER,
-      page: () => AnswerView(),
-      binding: AnswerBinding(),
     ),
     GetPage(
       middlewares: [

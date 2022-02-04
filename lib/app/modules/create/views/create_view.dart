@@ -22,27 +22,10 @@ class CreateView extends GetView<CreateController> {
     final currentAccount = AuthProvider.to.account.value;
     final fonts = [
       'OpenSans',
-      'Billabong',
-      'GrandHotel',
-      'Oswald',
-      'Quicksand',
-      'BeautifulPeople',
-      'BeautyMountains',
-      'BiteChocolate',
-      'BlackberryJam',
-      'BunchBlossoms',
-      'CinderelaRegular',
-      'Countryside',
-      'Halimun',
-      'LemonJelly',
-      'QuiteMagicalRegular',
-      'Tomatoes',
-      'TropicalAsianDemoRegular',
-      'VeganStyle',
     ];
     TextStyle _textStyle = TextStyle(
       fontSize: 25,
-      color: Theme.of(context).colorScheme.onPrimary,
+      color: controller.frontColor,
     );
     String _text = postTemplate.content ?? '';
     TextAlign _textAlign = TextAlign.left;
@@ -98,7 +81,7 @@ class CreateView extends GetView<CreateController> {
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold)))),
+                                            fontWeight: FontWeight.w500)))),
                           ]),
                           SizedBox(height: 5),
                           GestureDetector(

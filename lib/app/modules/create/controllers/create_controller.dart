@@ -20,6 +20,7 @@ class CreateController extends GetxController {
   String answer = '';
   late int backgroundColorIndex;
   late Color backgroundColor;
+  late Color frontColor;
   String postTemplateId = "";
   String postTemplateFormattedText = "";
   late int defaultTextPosition;
@@ -34,6 +35,7 @@ class CreateController extends GetxController {
   void onInit() {
     backgroundColorIndex = Get.arguments["background-color-index"] ?? 0;
     backgroundColor = BACKGROUND_COLORS[backgroundColorIndex];
+    frontColor = FRONT_COLORS[backgroundColorIndex];
     postTemplateId = Get.arguments["id"] ?? "";
     final postTemplate = PostController.to.postTemplatesMap[postTemplateId]!;
     postTemplateFormattedText = formatEditorContent(postTemplate.content ?? '');
@@ -58,6 +60,7 @@ class CreateController extends GetxController {
       "content": answer,
       "post_template_id": postTemplateId,
       "background_color": backgroundColor.value,
+      "color": frontColor.value,
       "visibility": visibility
     };
     if (location != null) {

@@ -64,6 +64,8 @@ class PostView extends GetView<PostController> {
                                 get_random_index(BACKGROUND_COLORS.length);
                             final backgroundColor =
                                 BACKGROUND_COLORS[backgroundColorIndex];
+                            final frontColor =
+                                FRONT_COLORS[backgroundColorIndex];
                             return GestureDetector(
                                 onTap: () {
                                   Get.toNamed(Routes.CREATE, arguments: {
@@ -81,6 +83,7 @@ class PostView extends GetView<PostController> {
                                     color: backgroundColor,
                                   ),
                                   child: Templates(
+                                      color: frontColor,
                                       question: _item!.content ?? _item.title,
                                       enabled: false,
                                       id: PostController
