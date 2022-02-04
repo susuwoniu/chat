@@ -54,7 +54,18 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Verification".tr),
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
+          title: Text(
+            "Verification".tr,
+            style: TextStyle(fontSize: 19),
+          ),
+          bottom: PreferredSize(
+              child: Container(
+                height: 0.5,
+                color: Colors.grey.shade400,
+              ),
+              preferredSize: Size.fromHeight(0)),
         ),
         body: GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -75,24 +86,23 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           fit: BoxFit.contain,
                           controller: _bear_log_inController,
                         ))),
-                Padding(
-                    padding: EdgeInsets.fromLTRB(30, 30, 30, 5),
-                    child: Container(
-                      child: Column(children: [
-                        Text(
-                          "we_have_sent_the_code_to_your_phone".tr,
-                        ),
-                        Text(
-                          "${controller.countryCode}${controller.phoneNumber}",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: Colors.black,
-                              height: 1.8),
-                        ),
-                      ]),
-                    )),
-                SizedBox(height: 15),
+                Container(
+                  padding: EdgeInsets.fromLTRB(30, 25, 30, 5),
+                  child: Column(children: [
+                    Text(
+                      "we_have_sent_the_code_to_your_phone".tr,
+                    ),
+                    Text(
+                      "${controller.countryCode}${controller.phoneNumber}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: Colors.black,
+                          height: 1.8),
+                    ),
+                  ]),
+                ),
+                SizedBox(height: 10),
                 Form(
                     key: formKey,
                     child: Padding(
@@ -107,13 +117,16 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           blinkWhenObscuring: true,
                           animationType: AnimationType.fade,
                           pinTheme: PinTheme(
-                            shape: PinCodeFieldShape.box,
-                            borderRadius: BorderRadius.circular(5),
-                            fieldHeight: 50,
-                            fieldWidth: 40,
-                            activeFillColor: Colors.white,
-                            inactiveFillColor: Colors.white,
-                            selectedFillColor: Colors.white,
+                            borderWidth: 1,
+                            shape: PinCodeFieldShape.underline,
+                            activeColor: Colors.grey.shade600,
+                            inactiveColor: Colors.grey.shade600,
+                            selectedColor: Colors.grey.shade600,
+                            disabledColor: Colors.transparent,
+                            errorBorderColor: Colors.grey.shade600,
+                            activeFillColor: Colors.transparent,
+                            inactiveFillColor: Colors.transparent,
+                            selectedFillColor: Colors.transparent,
                           ),
                           cursorColor: Colors.black54,
                           animationDuration: Duration(milliseconds: 300),
@@ -125,16 +138,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                           ],
-                          boxShadows: [
-                            BoxShadow(
-                              offset: Offset(0, 1),
-                              color: Colors.black12,
-                              blurRadius: 10,
-                            )
-                          ],
-                          onCompleted: (v) {
-                            print("Completed");
-                          },
                           onChanged: (value) {
                             print(value);
                             if (value.isNotEmpty) {
@@ -148,56 +151,53 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           },
                           beforeTextPaste: (text) {
                             print("Allowing to paste $text");
-                            //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                            //but you can show anything you want here, like your pop up saying wrong paste format or etc
                             return true;
                           },
                         ))),
-                Container(
-                  padding: const EdgeInsets.only(left: 23),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Countdown(
-                          seconds: 5,
-                          build: (BuildContext context, double time) {
-                            if (time > 0) {
-                              return TextButton(
-                                  style: ButtonStyle(),
-                                  onPressed: null,
-                                  child: Text(
-                                      time.round().toString() +
-                                          "secends".tr +
-                                          "resend".tr,
-                                      style: TextStyle(
-                                        color: Colors.blue.shade300,
-                                        fontSize: 15,
-                                      )));
-                            } else {
-                              return TextButton(
-                                  onPressed: () async {
-                                    try {
-                                      await controller.handleSendCode();
-                                      UIUtils.toast(
-                                          'A_verification_code_has_been_sent_to_your_phone.'
-                                              .tr);
-                                    } catch (e) {
-                                      UIUtils.showError(e);
-                                    }
-                                  },
-                                  child: Text("Resend".tr,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      )));
-                            }
-                          },
-                          interval: Duration(milliseconds: 1000),
-                          onFinished: () {
-                            print('Timer is done!');
-                          },
-                        ),
-                      ]),
-                ),
+                Obx(() => Container(
+                      alignment: Alignment.topLeft,
+                      padding: EdgeInsets.only(left: 20),
+                      child: controller.isShowCount.value
+                          ? Countdown(
+                              seconds: 5,
+                              onFinished: () {
+                                controller.setShowCount(false);
+                              },
+                              build: (BuildContext context, double time) {
+                                return TextButton(
+                                    style: ButtonStyle(
+                                      splashFactory: NoSplash.splashFactory,
+                                    ),
+                                    onPressed: null,
+                                    child: Text(
+                                        time.round().toString() +
+                                            " secends".tr +
+                                            "resend".tr,
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 15,
+                                        )));
+                              })
+                          : TextButton(
+                              style: ButtonStyle(
+                                splashFactory: NoSplash.splashFactory,
+                              ),
+                              onPressed: () async {
+                                try {
+                                  await controller.handleSendCode();
+                                  controller.setShowCount(true);
+                                  UIUtils.toast(
+                                      'A_verification_code_has_been_sent_to_your_phone.'
+                                          .tr);
+                                } catch (e) {
+                                  UIUtils.showError(e);
+                                }
+                              },
+                              child: Text("Resend".tr,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ))),
+                    )),
                 SizedBox(height: 10),
                 Container(
                   margin:
@@ -242,7 +242,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   ),
                   decoration: BoxDecoration(
                       color: Colors.blue,
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(30),
                       boxShadow: [
                         BoxShadow(
                             color: Colors.blue.shade200,
