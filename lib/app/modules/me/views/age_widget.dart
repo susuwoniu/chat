@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:chat/common.dart';
 
 class AgeWidget extends StatelessWidget {
   final String age;
@@ -29,13 +30,13 @@ class AgeWidget extends StatelessWidget {
         child: Row(children: [
           Icon(
             _genderIcon,
-            color: color ?? Theme.of(context).colorScheme.secondary,
+            color: color ?? ChatThemeData.secondaryBlack,
             size: iconSize!,
           ),
           Text(age,
               style: TextStyle(
                   fontSize: fontSize!,
-                  color: color ?? Theme.of(context).colorScheme.secondary,
+                  color: color ?? ChatThemeData.secondaryBlack,
                   fontWeight: FontWeight.bold))
         ]),
         decoration: BoxDecoration(

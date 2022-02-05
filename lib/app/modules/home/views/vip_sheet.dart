@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../me/views/dots_widget.dart';
 import '../../age_picker/views/next_button.dart';
+import 'package:chat/common.dart';
 
 final List<Map<String, dynamic>> _cardList = [
   {'icon': Icons.local_florist, 'title': '会员标识', 'detail': '展示会员专属标识'},
@@ -230,7 +231,7 @@ class _VipSheetState extends State<VipSheet> {
               border: Border.all(
                   color: isSelected
                       ? Theme.of(context).colorScheme.onPrimary
-                      : Theme.of(context).colorScheme.secondary,
+                      : ChatThemeData.secondaryBlack,
                   width: 2),
               borderRadius: BorderRadius.circular(8)),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -239,7 +240,7 @@ class _VipSheetState extends State<VipSheet> {
                     fontSize: 16,
                     color: isSelected
                         ? Theme.of(context).colorScheme.onPrimary
-                        : Theme.of(context).colorScheme.secondary)),
+                        : ChatThemeData.secondaryBlack)),
             SizedBox(height: 10),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text('¥',
@@ -254,7 +255,7 @@ class _VipSheetState extends State<VipSheet> {
                       fontWeight: FontWeight.w500,
                       color: isSelected
                           ? Theme.of(context).colorScheme.onPrimary
-                          : Theme.of(context).colorScheme.secondary)),
+                          : ChatThemeData.secondaryBlack)),
             ]),
           ]),
         ));

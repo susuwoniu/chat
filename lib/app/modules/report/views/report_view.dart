@@ -86,7 +86,6 @@ class ReportView extends GetView<ReportController> {
                       maxLines: 5,
                       keyboardType: TextInputType.multiline,
                       style: TextStyle(fontSize: 16, height: 1.6),
-                      cursorColor: Theme.of(context).colorScheme.secondary,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 5),
                         hintText: 'Enter_report_description(Optional)'.tr,

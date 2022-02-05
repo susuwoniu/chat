@@ -32,17 +32,20 @@ class ChatThemeData {
   }
 
   static const Color baseBlack = Color(0xff121212);
+  static const Color secondaryBlack = Color(0xff46494c);
   static const ColorScheme lightColorScheme = ColorScheme(
     primary: Color(0xFF7371fc),
     primaryVariant: Color(0xFFc19bff),
-    secondary: Color(0xff46494c),
-    secondaryVariant: Color(0xff018786),
-    surface: Colors.white38,
+    // secondary: Color(0xff46494c),
+    // secondaryVariant: Color(0xff018786),
+    secondary: Color(0xffcc4c33),
+    secondaryVariant: Color(0xfff0dfdb),
+    surface: Colors.white,
     background: Color(0xfff2f2f7),
     error: Color(0xffd91e36),
     onPrimary: Colors.white,
-    onSecondary: Color(0xff46494c),
-    onSurface: baseBlack,
+    onSecondary: Colors.white,
+    onSurface: Color(0xff46494c),
     onBackground: baseBlack,
     onError: Colors.white,
     brightness: Brightness.light,
@@ -51,9 +54,10 @@ class ChatThemeData {
   static const ColorScheme darkColorScheme = ColorScheme(
     primary: Color(0xFFbb99ff),
     primaryVariant: Color(0x5f527a),
-    secondary: Color(0xff46494c),
+    // secondary: Color(0xff46494c),
+    secondary: Color(0xffee99ff),
     secondaryVariant: Color(0xffee99ff),
-    surface: Colors.black38,
+    surface: baseBlack,
     // background: Color(0xff1f1c38),
     background: Color(0xff222639),
     error: Color(0xffcf6679),
