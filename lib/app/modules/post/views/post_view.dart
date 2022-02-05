@@ -24,7 +24,7 @@ class PostView extends GetView<PostController> {
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).colorScheme.secondary)),
               systemOverlayStyle:
-                  SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
+                  SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
             ),
             body: Obx(() {
               final isLoading = controller.isLoading.value;

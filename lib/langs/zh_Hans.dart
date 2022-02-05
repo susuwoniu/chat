@@ -77,7 +77,7 @@ const Map<String, String> zh_Hans = {
   "Send": "发送",
   "Succeeded!": "发送成功!",
   'A_verification_code_has_been_sent_to_your_phone.': '验证码已发送，请注意查收。',
-  'Logged_out': '已退出。',
+  'Logged_out.': '已退出。',
   "Resend": "重新获取验证码",
   "resend": '重新发送',
   "Submit": "提交",

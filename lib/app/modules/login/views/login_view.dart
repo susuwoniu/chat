@@ -123,7 +123,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         Radius.circular(25.0),
                                       )),
                                   child: Padding(
-                                      padding: const EdgeInsets.all(20.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20.0, vertical: 15),
                                       child: Form(
                                         child: Column(
                                             mainAxisAlignment:
@@ -196,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               ),
                                               Container(
                                                   margin:
-                                                      EdgeInsets.only(top: 35),
+                                                      EdgeInsets.only(top: 30),
                                                   child: SigninButton(
                                                       child: Text("next".tr,
                                                           style: TextStyle(

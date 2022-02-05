@@ -109,7 +109,7 @@ class SettingView extends GetView<SettingController> {
                   SettingsTile(
                       title: Container(
                           alignment: Alignment.center,
-                          child: Text('退出成功',
+                          child: Text('Log_out'.tr,
                               style:
                                   TextStyle(color: Colors.red, fontSize: 17))),
                       onPressed: (BuildContext context) async {
