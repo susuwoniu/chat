@@ -35,9 +35,9 @@ class RoomView extends GetView<RoomController> {
               final room = messageController.entities[roomId];
 
               if (room == null || room.isLoading || !room.isInitDbMessages) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
+                return Container(
+                    color: Theme.of(context).colorScheme.background,
+                    child: Loading());
               }
               final roomInfoId =
                   messageController.entities[roomId]!.room_info_id;
@@ -129,7 +129,9 @@ class RoomView extends GetView<RoomController> {
                       message: message, messageWidth: messageWidth);
                 },
                 emptyState: ((room.isLoading))
-                    ? Center(child: Loading())
+                    ? Container(
+                        color: Theme.of(context).colorScheme.background,
+                        child: Loading())
                     : SizedBox.shrink(),
                 onAttachmentPressed: () {
                   _handleAtachmentPressed(context);
@@ -250,7 +252,7 @@ class RoomView extends GetView<RoomController> {
 
   void _handleMessageTap(BuildContext context, types.Message message) async {
     if (message is types.FileMessage) {
-      await OpenFile.open(message.uri);
+      await OpenFile.open(message.uri, type: message.mimeType);
     }
   }
 

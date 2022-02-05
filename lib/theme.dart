@@ -23,7 +23,7 @@ class ChatThemeData {
       appBarTheme: AppBarTheme(
           elevation: 0,
           backgroundColor: colorScheme.background,
-          foregroundColor: colorScheme.onBackground),
+          foregroundColor: colorScheme.onSurface),
       bottomSheetTheme:
           BottomSheetThemeData(backgroundColor: Colors.transparent),
     );
@@ -36,7 +36,7 @@ class ChatThemeData {
     secondary: Color(0xff46494c),
     secondaryVariant: Color(0xff018786),
     surface: Colors.white,
-    background: Colors.white,
+    background: Color(0xfff2f2f7),
     error: Color(0xffd91e36),
     onPrimary: Colors.white,
     onSecondary: baseBlack,

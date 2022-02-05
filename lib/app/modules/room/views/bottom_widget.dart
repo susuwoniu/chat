@@ -300,7 +300,7 @@ class _InputState extends State<BottomWidget> {
                               },
                               icon: Icon(
                                 Icons.close,
-                                color: Colors.black.withOpacity(0.5),
+                                color: Theme.of(context).hintColor,
                               ),
                             )
                           ],
@@ -313,9 +313,9 @@ class _InputState extends State<BottomWidget> {
                   // color: Colors.red,
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      color: Colors.black.withOpacity(0.06),
-                    ),
+                        borderRadius: BorderRadius.circular(24),
+                        // color: Colors.black.withOpacity(0.06),
+                        color: Theme.of(context).colorScheme.surface),
                     padding: EdgeInsets.fromLTRB(
                       12,
                       12,

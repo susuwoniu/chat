@@ -65,8 +65,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
             behavior: HitTestBehavior.opaque,
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
             child: Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
+              color: Theme.of(context).colorScheme.background,
               child: ListView(children: <Widget>[
                 Container(
                     height: MediaQuery.of(context).size.height / 5.5,

@@ -30,6 +30,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
 
     final _content = _post.content;
     final _backgroundColor = _post.backgroundColor;
+    final _frontColor = _post.color;
 
     final String _createAt = formatter.format(DateTime.parse(_post.created_at));
 
@@ -37,10 +38,10 @@ class MySinglePostView extends GetView<MySinglePostController> {
         appBar: AppBar(
           title: Text(
             'SinglePost'.tr,
-            style: TextStyle(fontSize: 16, color: Colors.grey.shade800),
+            style: TextStyle(
+              fontSize: 16,
+            ),
           ),
-          systemOverlayStyle:
-              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           bottom: PreferredSize(
               child: Container(
                 height: 0.5,
@@ -66,21 +67,20 @@ class MySinglePostView extends GetView<MySinglePostController> {
                         Text(
                           _createAt,
                           style: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              fontSize: 15),
+                              color: Color(_frontColor), fontSize: 15),
                         ),
                         Row(children: [
                           isMe
                               ? Obx(() => Text(
                                     VisibilityMap[controller.visibility]!.tr,
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary),
+                                    style: TextStyle(color: Color(_frontColor)),
                                   ))
                               : SizedBox.shrink(),
                           _dotIcon(
-                              context: context, postId: _postId, isMe: isMe)
+                              color: Color(_frontColor),
+                              context: context,
+                              postId: _postId,
+                              isMe: isMe)
                         ])
                       ]),
                   Container(
@@ -88,7 +88,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                       alignment: Alignment.centerLeft,
                       child: Text(_content,
                           style: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimary,
+                              color: Color(_frontColor),
                               fontSize: 19.0,
                               height: 1.6))),
                 ])),
@@ -145,6 +145,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
       {required BuildContext context,
       required String postId,
       required bool isMe,
+      required Color color,
       String? authorId}) {
     final isVip = AuthProvider.to.account.value.vip;
     final is_can_promote = HomeController.to.postMap[postId]!.is_can_promote;
@@ -219,7 +220,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
         icon: Icon(
           Icons.more_vert_rounded,
           size: 26,
-          color: Theme.of(context).colorScheme.onPrimary,
+          color: color,
         ));
   }
 }

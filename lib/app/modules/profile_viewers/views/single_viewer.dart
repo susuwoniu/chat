@@ -37,6 +37,7 @@ class SingleViewer extends StatelessWidget {
         : viewerAccount.viewedCount.toString();
 
     return Container(
+        color: Theme.of(context).colorScheme.surface,
         margin: EdgeInsets.fromLTRB(12, 0, 15, 0),
         child: Column(children: [
           ListTile(

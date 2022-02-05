@@ -33,7 +33,9 @@ class SettingView extends GetView<SettingController> {
         ),
         body: Obx(() => SettingsList(
               darkTheme: SettingsThemeData(
-                  settingsSectionBackground: Theme.of(context).backgroundColor),
+                  settingsListBackground: Theme.of(context).backgroundColor,
+                  settingsSectionBackground:
+                      Theme.of(context).colorScheme.surface),
               sections: [
                 SettingsSection(title: Text('Account_Security'.tr), tiles: [
                   SettingsTile(
