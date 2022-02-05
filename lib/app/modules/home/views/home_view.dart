@@ -32,7 +32,7 @@ class HomeView extends GetView<HomeController> {
                 icon: Icon(
                   Icons.filter_list_rounded,
                   size: 36,
-                  color: Color(controller.currentFrontColor),
+                  color: Colors.white,
                 ),
                 onPressed: () {
                   showModalBottomSheet(
@@ -56,15 +56,6 @@ class HomeView extends GetView<HomeController> {
         actions: <Widget>[
           Row(
             children: [
-              // IconButton(
-              //     icon:
-              //         Text("🐱", style: Theme.of(context).textTheme.headline6),
-              //     onPressed: () {
-              //       Get.toNamed(
-              //         Routes.ADD_PROFILE_IMAGE,
-              //       );
-              //     }),
-
               Padding(
                 padding: EdgeInsets.only(right: 10),
                 child: IconButton(
@@ -236,9 +227,7 @@ class HomeView extends GetView<HomeController> {
                                                     })),
                                             SizedBox(width: 8),
                                             ActionButtons(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onPrimary,
+                                                color: Color(post.color),
                                                 onAdd: () {
                                                   if (isCreate) {
                                                     Get.toNamed(

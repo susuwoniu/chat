@@ -39,7 +39,7 @@ class MoreDots extends StatelessWidget {
                 decoration: BoxDecoration(
                     border: Border(
                   bottom: BorderSide(
-                    color: Colors.grey.shade300,
+                    color: Theme.of(context).dividerColor,
                   ),
                 )),
                 child: GestureDetector(

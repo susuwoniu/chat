@@ -13,6 +13,7 @@ class MessageView extends GetView<MessageController> {
   Widget build(BuildContext context) {
     final _chatProvider = ChatProvider.to;
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         systemOverlayStyle:
             SystemUiOverlayStyle(statusBarBrightness: Brightness.light), // 1
@@ -40,7 +41,7 @@ class MessageView extends GetView<MessageController> {
           slivers: [
             SliverToBoxAdapter(
                 child: Container(
-              color: Colors.black.withOpacity(0.06),
+              color: Theme.of(context).colorScheme.background,
               // child: Container(color: Colors.red, height: 50)
               child: (_chatProvider.connectionState ==
                               xmpp.ConnectionState.connecting ||
@@ -70,9 +71,13 @@ class MessageView extends GetView<MessageController> {
                             }
                           },
                           icon: Icon(Icons.refresh,
-                              color: Colors.black, size: 18),
+                              color: Theme.of(context).colorScheme.onBackground,
+                              size: 18),
                           label: Text("重试",
-                              style: TextStyle(color: Colors.black))))
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground))))
                   : SizedBox.shrink(),
             )),
             SliverList(

@@ -27,7 +27,7 @@ class SingleViewer extends StatelessWidget {
     final _gender = viewerAccount.account.gender;
 
     final _genderColor = _gender == 'unknown'
-        ? Colors.black
+        ? Theme.of(context).colorScheme.onBackground
         : _gender == 'female'
             ? Colors.pink.shade300
             : Colors.lightBlue;

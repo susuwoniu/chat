@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/me_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'profile_info_text.dart';
 import './age_widget.dart';
 import './circle_widget.dart';
 import 'nickname_widget.dart';
@@ -36,6 +35,7 @@ class MeView extends GetView<MeController> {
               () => controller.pagingController.refresh(),
             ),
         child: Scaffold(
+            backgroundColor: Theme.of(context).backgroundColor,
             extendBody: true,
             extendBodyBehindAppBar: true,
             appBar: _appbar(
@@ -152,7 +152,7 @@ class MeView extends GetView<MeController> {
                           style: TextStyle(
                               height: 1.5,
                               fontSize: 17,
-                              color: Theme.of(context).colorScheme.secondary),
+                              color: Theme.of(context).hintColor),
                         ))
                   ]);
                 }),
@@ -185,8 +185,7 @@ class MeView extends GetView<MeController> {
                         });
                       },
                       postId: id,
-                      content: post.content,
-                      backgroundColor: post.backgroundColor);
+                      post: post);
                 }),
               ),
               SliverToBoxAdapter(child: Container(height: 100))
@@ -202,6 +201,7 @@ class MeView extends GetView<MeController> {
     return AppBar(
         systemOverlayStyle:
             SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
+        backgroundColor: Colors.transparent,
         leading: Container(
             padding: EdgeInsets.only(left: 16),
             child: CircleWidget(

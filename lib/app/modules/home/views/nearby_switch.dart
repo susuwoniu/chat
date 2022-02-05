@@ -49,13 +49,13 @@ class _NearbySwitchState extends State<NearbySwitch> {
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: Theme.of(context).colorScheme.secondary),
+                color: Color(0xff46494c)),
           ),
         ]);
       },
       borderWidth: 0.0,
       borderColor: Colors.transparent,
-      colorBuilder: (value) => Theme.of(context).colorScheme.onPrimary,
+      colorBuilder: (value) => Colors.white,
       onChanged: (value) => setState(() {
         page = value;
         widget.onPressedTabSwitch(value);

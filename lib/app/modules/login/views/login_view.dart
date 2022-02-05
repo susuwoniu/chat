@@ -157,9 +157,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 autoValidateMode:
                                                     AutovalidateMode.disabled,
                                                 selectorTextStyle: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onBackground,
+                                                    color:
+                                                        ChatThemeData.baseBlack,
                                                     fontSize: 16,
                                                     fontWeight:
                                                         FontWeight.w500),
@@ -175,6 +174,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 textAlignVertical:
                                                     TextAlignVertical.top,
                                                 textStyle: (TextStyle(
+                                                  color:
+                                                      ChatThemeData.baseBlack,
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 17,
                                                 )),

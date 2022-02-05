@@ -20,13 +20,15 @@ class PostSquareView extends GetView<PostSquareController> {
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
     final backgroundColor = BACKGROUND_COLORS[backgroundColorIndex];
+    final frontColor = FRONT_COLORS[backgroundColorIndex];
+
     final postMap = controller.postMap;
     final height = AppBar().preferredSize.height;
     final safePadding = MediaQuery.of(context).padding.top;
 
     return RefreshIndicator(
         color: backgroundColor,
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+        // backgroundColor: Theme.of(context).colorScheme.onPrimary,
         onRefresh: () => Future.sync(
               () => controller.pagingController.refresh(),
             ),
@@ -36,8 +38,7 @@ class PostSquareView extends GetView<PostSquareController> {
               SliverAppBar(
                 systemOverlayStyle:
                     SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
-                iconTheme: IconThemeData(
-                    color: Theme.of(context).colorScheme.onPrimary),
+                iconTheme: IconThemeData(color: frontColor),
                 stretch: true,
                 pinned: true,
                 backgroundColor: backgroundColor,
@@ -46,8 +47,7 @@ class PostSquareView extends GetView<PostSquareController> {
                       padding: EdgeInsets.only(right: 5),
                       child: IconButton(
                         splashColor: Colors.transparent,
-                        icon: Icon(Icons.share_rounded,
-                            color: Theme.of(context).colorScheme.onPrimary),
+                        icon: Icon(Icons.share_rounded, color: frontColor),
                         onPressed: () async {
                           final FlutterShareMe flutterShareMe =
                               FlutterShareMe();
@@ -69,8 +69,7 @@ class PostSquareView extends GetView<PostSquareController> {
                             style: TextStyle(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.w500,
-                                color:
-                                    Theme.of(context).colorScheme.onPrimary)),
+                                color: frontColor)),
                         SizedBox(height: 20),
                         Obx(() {
                           final usedCount = controller.usedCount;
@@ -80,10 +79,8 @@ class PostSquareView extends GetView<PostSquareController> {
                                       ? '9999+' + ' Posts'.tr
                                       : usedCount.toString() + ' Posts'.tr
                                   : usedCount.toString() + ' Post'.tr,
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary));
+                              style:
+                                  TextStyle(fontSize: 16.0, color: frontColor));
                         }),
                       ])),
                 ),
@@ -108,8 +105,7 @@ class PostSquareView extends GetView<PostSquareController> {
                             Routes.POST_SQUARE_CARD_VIEW,
                           );
                         },
-                        content: post.content,
-                        backgroundColor: post.backgroundColor);
+                        post: post);
                   })),
             ]),
             Positioned(

@@ -18,16 +18,18 @@ class ChatThemeData {
     return ThemeData(
       brightness: brightness,
       primaryColor: colorScheme.primary,
+      backgroundColor: colorScheme.background,
       colorScheme: colorScheme,
       appBarTheme: AppBarTheme(
           elevation: 0,
-          backgroundColor: Colors.transparent,
+          backgroundColor: colorScheme.background,
           foregroundColor: colorScheme.onBackground),
       bottomSheetTheme:
           BottomSheetThemeData(backgroundColor: Colors.transparent),
     );
   }
 
+  static const Color baseBlack = Color(0xff121212);
   static const ColorScheme lightColorScheme = ColorScheme(
     primary: Color(0xFF7371fc),
     primaryVariant: Color(0xFFc19bff),
@@ -37,26 +39,27 @@ class ChatThemeData {
     background: Colors.white,
     error: Color(0xffd91e36),
     onPrimary: Colors.white,
-    onSecondary: Color(0xff121212),
-    onSurface: Color(0xff121212),
-    onBackground: Color(0xff121212),
+    onSecondary: baseBlack,
+    onSurface: baseBlack,
+    onBackground: baseBlack,
     onError: Colors.white,
     brightness: Brightness.light,
   );
 
   static const ColorScheme darkColorScheme = ColorScheme(
-    primary: Color(0xFFbb86fc),
-    primaryVariant: Color(0xFF3700bc),
-    secondary: Color(0xff03dac6),
-    secondaryVariant: Color(0xff03dac6),
-    surface: Color(0xff121212),
-    background: Color(0xff121212),
+    primary: Color(0xFFbb99ff),
+    primaryVariant: Color(0x5f527a),
+    secondary: Color(0xffee99ff),
+    secondaryVariant: Color(0xffee99ff),
+    surface: baseBlack,
+    // background: Color(0xff1f1c38),
+    background: Color(0xff222639),
     error: Color(0xffcf6679),
-    onPrimary: Color(0xff121212),
-    onSecondary: Color(0xff121212),
+    onPrimary: Colors.white,
+    onSecondary: Colors.white,
     onSurface: Colors.white,
     onBackground: Colors.white,
-    onError: Color(0xff121212),
+    onError: baseBlack,
     brightness: Brightness.dark,
   );
 }

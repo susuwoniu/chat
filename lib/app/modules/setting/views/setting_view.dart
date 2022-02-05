@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:chat/common.dart';
-
 import 'package:get/get.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:chat/app/routes/app_pages.dart';
@@ -33,6 +32,8 @@ class SettingView extends GetView<SettingController> {
           title: Text('SettingView'.tr, style: TextStyle(fontSize: 16)),
         ),
         body: Obx(() => SettingsList(
+              darkTheme: SettingsThemeData(
+                  settingsSectionBackground: Theme.of(context).backgroundColor),
               sections: [
                 SettingsSection(title: Text('Account_Security'.tr), tiles: [
                   SettingsTile(
@@ -106,7 +107,7 @@ class SettingView extends GetView<SettingController> {
                   SettingsTile(
                       title: Container(
                           alignment: Alignment.center,
-                          child: Text('Log_out'.tr,
+                          child: Text('退出成功',
                               style:
                                   TextStyle(color: Colors.red, fontSize: 17))),
                       onPressed: (BuildContext context) async {

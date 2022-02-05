@@ -56,14 +56,26 @@ class RoomView extends GetView<RoomController> {
                   : emptyMessages;
 
               return Chat(
-                theme: DefaultChatTheme(
-                    primaryColor: Theme.of(context).primaryColor,
-                    receivedMessageBodyTextStyle: TextStyle(
-                      color: TEXT_PRIMARY_COLOR,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      height: 1.5,
-                    )),
+                theme:
+                    Theme.of(context).colorScheme.brightness == Brightness.light
+                        ? DefaultChatTheme(
+                            primaryColor: Theme.of(context).primaryColor,
+                            receivedMessageBodyTextStyle: TextStyle(
+                              color: TEXT_PRIMARY_COLOR,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              height: 1.5,
+                            ))
+                        : DarkChatTheme(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.background,
+                            primaryColor: Theme.of(context).primaryColor,
+                            receivedMessageBodyTextStyle: TextStyle(
+                              color: TEXT_PRIMARY_COLOR,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              height: 1.5,
+                            )),
                 isLastPage: room.isLastPage,
                 messages: messages,
                 bubbleBuilder: (
@@ -236,13 +248,14 @@ class RoomView extends GetView<RoomController> {
     }
   }
 
-  void _handleMessageTap(types.Message message) async {
+  void _handleMessageTap(BuildContext context, types.Message message) async {
     if (message is types.FileMessage) {
       await OpenFile.open(message.uri);
     }
   }
 
-  void _handleMessageStatusTap(types.Message message) async {
+  void _handleMessageStatusTap(
+      BuildContext context, types.Message message) async {
     if (message.status == types.Status.error) {
       // retry message
       // await MessageController.to.cancelMessage(message);

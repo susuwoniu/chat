@@ -215,7 +215,7 @@ class _InputState extends State<BottomWidget> {
           child: Focus(
             autofocus: true,
             child: Padding(
-              padding: InheritedChatTheme.of(context).theme.inputPadding,
+              padding: InheritedChatTheme.of(context).theme.inputMargin,
               child: Column(children: [
                 widget.quoteMessage != null
                     ? Container(
@@ -235,11 +235,12 @@ class _InputState extends State<BottomWidget> {
                                     border: Border(
                                       top: BorderSide(
                                         width: 4.0,
-                                        color: Colors.black.withOpacity(0.24),
+                                        color: Theme.of(context).dividerColor,
                                       ),
                                       left: BorderSide(
                                         width: 4.0,
-                                        color: Colors.black.withOpacity(0.24),
+                                        color: Theme.of(context).dividerColor,
+                                        // color: Colors.black.withOpacity(0.24),
                                       ),
                                     ),
                                   ),
@@ -274,7 +275,8 @@ class _InputState extends State<BottomWidget> {
                             border: Border(
                                 top: BorderSide(
                           // width: 4.0,
-                          color: Colors.black.withOpacity(0.12),
+                          color: Theme.of(context).dividerColor,
+                          // color: Colors.black.withOpacity(0.12),
                         ))),
                         padding: EdgeInsets.only(left: 16),
                         child: Row(
@@ -283,7 +285,8 @@ class _InputState extends State<BottomWidget> {
                                 child: Text(
                               "回应 @${widget.replyTo}：",
                               style: TextStyle(
-                                  color: Colors.black.withOpacity(0.5),
+                                  color: Theme.of(context).hintColor,
+                                  // color: Colors.black.withOpacity(0.5),
                                   fontSize: 14),
                             )),
                             IconButton(
@@ -342,8 +345,8 @@ class _InputState extends State<BottomWidget> {
                                       .theme
                                       .inputTextStyle
                                       .copyWith(
-                                        color: Colors.black.withOpacity(0.24),
-                                      ),
+                                          // color: Colors.black.withOpacity(0.24),
+                                          ),
                                   hintText: "请输入消息...",
                                 ),
                             focusNode: _inputFocusNode,

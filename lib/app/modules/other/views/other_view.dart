@@ -160,8 +160,7 @@ class OtherView extends GetView<OtherController> {
                             });
                           },
                           postId: id,
-                          content: post.content,
-                          backgroundColor: post.backgroundColor);
+                          post: post);
                     })),
                 SliverToBoxAdapter(child: Container(height: 80))
               ])),

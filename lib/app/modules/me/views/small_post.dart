@@ -8,15 +8,14 @@ class SmallPost extends StatelessWidget {
   final String? type;
   final String postId;
   final String? accountId;
-  final String content;
-  final int backgroundColor;
+  final PostEntity post;
+
   final Function onTap;
   SmallPost({
     this.type = 'me',
     required this.postId,
     this.accountId,
-    required this.content,
-    required this.backgroundColor,
+    required this.post,
     required this.onTap,
   });
 
@@ -24,6 +23,9 @@ class SmallPost extends StatelessWidget {
   Widget build(BuildContext context) {
     final double paddingLeft = 13;
     final double paddingTop = 12;
+    final backgroundColor = post.backgroundColor;
+    final frontColor = post.color;
+    final content = post.content;
     return Container(
         child: GestureDetector(
             onTap: () {
@@ -45,7 +47,7 @@ class SmallPost extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: Color(frontColor),
                   )),
             )));
 
