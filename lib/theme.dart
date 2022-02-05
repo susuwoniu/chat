@@ -19,6 +19,7 @@ class ChatThemeData {
       brightness: brightness,
       primaryColor: colorScheme.primary,
       backgroundColor: colorScheme.background,
+      canvasColor: baseBlack,
       colorScheme: colorScheme,
       appBarTheme: AppBarTheme(
           elevation: 0,

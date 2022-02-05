@@ -116,9 +116,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   )),
                               Container(
                                   decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary,
+                                      color:
+                                          Theme.of(context).colorScheme.surface,
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(25.0),
                                       )),
@@ -144,9 +143,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       number.dialCode ?? '');
                                                 },
                                                 onSubmit: handleSubmit,
-                                                onInputValidated: (bool value) {
-                                                  print("validated?: $value");
-                                                },
                                                 selectorConfig: SelectorConfig(
                                                   selectorType:
                                                       PhoneInputSelectorType
@@ -158,8 +154,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 autoValidateMode:
                                                     AutovalidateMode.disabled,
                                                 selectorTextStyle: TextStyle(
-                                                    color:
-                                                        ChatThemeData.baseBlack,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onBackground,
                                                     fontSize: 16,
                                                     fontWeight:
                                                         FontWeight.w500),
@@ -175,8 +172,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 textAlignVertical:
                                                     TextAlignVertical.top,
                                                 textStyle: (TextStyle(
-                                                  color:
-                                                      ChatThemeData.baseBlack,
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 17,
                                                 )),
@@ -186,7 +181,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     .numberWithOptions(
                                                         signed: true,
                                                         decimal: true),
-                                                inputBorder: null,
                                                 hintText:
                                                     "what_s_your_phone_number"
                                                         .tr,
