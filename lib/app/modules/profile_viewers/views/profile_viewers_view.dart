@@ -10,6 +10,7 @@ class ProfileViewersView extends GetView<ProfileViewersController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
           title: Text('ProfileViewersView'.tr, style: TextStyle(fontSize: 16)),
           systemOverlayStyle:

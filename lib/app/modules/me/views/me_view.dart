@@ -31,6 +31,7 @@ class MeView extends GetView<MeController> {
     final phone = AuthProvider.to.account.value.phone_number;
 
     return RefreshIndicator(
+        backgroundColor: Theme.of(context).backgroundColor,
         onRefresh: () => Future.sync(
               () => controller.pagingController.refresh(),
             ),

@@ -1,5 +1,4 @@
 import 'package:chat/app/providers/auth_provider.dart';
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:chat/common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,9 +13,7 @@ import '../../me/views/small_post.dart';
 import '../../me/views/like_count.dart';
 import '../controllers/other_controller.dart';
 import '../../me/views/image_slider.dart';
-import 'package:chat/types/types.dart';
 import '../../home/views/more_dots.dart';
-
 import 'package:chat/app/common/block.dart';
 import 'package:chat/app/common/quote_with_link.dart';
 

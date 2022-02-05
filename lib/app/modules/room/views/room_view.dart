@@ -56,28 +56,29 @@ class RoomView extends GetView<RoomController> {
                   : emptyMessages;
 
               return Chat(
-                theme:
-                    Theme.of(context).colorScheme.brightness == Brightness.light
-                        ? DefaultChatTheme(
-                            primaryColor: Theme.of(context).primaryColor,
-                            messageInsetsVertical: 12,
-                            messageInsetsHorizontal: 14,
-                            receivedMessageBodyTextStyle: TextStyle(
-                              color: TEXT_PRIMARY_COLOR,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              height: 1.5,
-                            ))
-                        : DarkChatTheme(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.background,
-                            primaryColor: Theme.of(context).primaryColor,
-                            receivedMessageBodyTextStyle: TextStyle(
-                              color: TEXT_PRIMARY_COLOR,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              height: 1.5,
-                            )),
+                theme: Theme.of(context).colorScheme.brightness ==
+                        Brightness.light
+                    ? DefaultChatTheme(
+                        primaryColor: Theme.of(context).primaryColor,
+                        messageInsetsVertical: 12,
+                        messageInsetsHorizontal: 14,
+                        receivedMessageBodyTextStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          height: 1.5,
+                        ))
+                    : DarkChatTheme(
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        primaryColor: Theme.of(context).primaryColor,
+                        secondaryColor:
+                            Theme.of(context).colorScheme.background,
+                        receivedMessageBodyTextStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          height: 1.5,
+                        )),
                 isLastPage: room.isLastPage,
                 messages: messages,
                 bubbleBuilder: (

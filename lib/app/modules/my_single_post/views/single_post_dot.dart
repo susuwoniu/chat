@@ -107,7 +107,7 @@ class SinglePostDot extends StatelessWidget {
                               Theme.of(context).colorScheme.primaryVariant
                             ])
                       : null,
-                  color: isColorful ? null : Colors.grey.shade200,
+                  color: isColorful ? null : Colors.grey.shade300,
                   borderRadius: BorderRadius.circular(50)),
               child: Icon(icon,
                   size: 30,

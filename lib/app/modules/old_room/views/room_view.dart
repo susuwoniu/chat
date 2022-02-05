@@ -51,7 +51,7 @@ class RoomView extends GetView<RoomController> {
             decoration: Theme.of(context).platform == TargetPlatform.iOS
                 ? BoxDecoration(
                     border: Border(
-                      top: BorderSide(color: Colors.red),
+                      top: BorderSide(color: Colors.grey.shade200),
                     ),
                   )
                 : null),

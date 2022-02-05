@@ -24,7 +24,7 @@ class BottomSheetRow extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-                fontSize: 17, color: Theme.of(context).colorScheme.secondary),
+                fontSize: 17, color: Theme.of(context).colorScheme.onSurface),
           ),
         ));
   }

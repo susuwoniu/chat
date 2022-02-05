@@ -35,6 +35,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
     final String _createAt = formatter.format(DateTime.parse(_post.created_at));
 
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
           title: Text(
             'SinglePost'.tr,

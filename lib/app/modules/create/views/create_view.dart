@@ -25,10 +25,8 @@ class CreateView extends GetView<CreateController> {
     final fonts = [
       'OpenSans',
     ];
-    TextStyle _textStyle = TextStyle(
-      fontSize: 25,
-      color: controller.frontColor,
-    );
+    TextStyle _textStyle =
+        TextStyle(fontSize: 18, color: controller.frontColor, height: 1.6);
     String _text = postTemplate.content ?? '';
     TextAlign _textAlign = TextAlign.left;
     return Scaffold(
@@ -151,11 +149,10 @@ class CreateView extends GetView<CreateController> {
                     ])
                   ])),
             ]),
-            SizedBox(
-              height: 15,
-            ),
+            SizedBox(height: 15),
             Expanded(
                 child: TextEditor(
+              maxFontSize: 20,
               fonts: fonts,
               text: controller.postTemplateFormattedText,
               hintText: _text,
@@ -167,7 +164,7 @@ class CreateView extends GetView<CreateController> {
               backgroundColorPaletteColors: BACKGROUND_COLORS,
               paletteColors: FRONT_COLORS,
               defaultBackgroundColorIndex: controller.backgroundColorIndex,
-            ))
+            )),
           ])),
         ));
   }
