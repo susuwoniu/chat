@@ -26,9 +26,7 @@ class ChatBox extends StatelessWidget {
       child: Container(
         height: 48,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
-          color: Theme.of(context).colorScheme.background,
-        ),
+            borderRadius: BorderRadius.circular(24), color: Colors.white),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           TextButton(
               style: TextButton.styleFrom(

@@ -52,8 +52,8 @@ class ChatThemeData {
   );
 
   static const ColorScheme darkColorScheme = ColorScheme(
-    primary: Color(0xFFbb99ff),
-    primaryVariant: Color(0x5f527a),
+    primary: Color(0xFF7371fc),
+    primaryVariant: Color(0xFFc19bff),
     // secondary: Color(0xff46494c),
     secondary: Color(0xffee99ff),
     secondaryVariant: Color(0xffee99ff),

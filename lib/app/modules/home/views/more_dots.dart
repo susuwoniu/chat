@@ -49,7 +49,8 @@ class MoreDots extends StatelessWidget {
                   },
                   child: Text('Report'.tr,
                       style: TextStyle(
-                          fontSize: 17, color: ChatThemeData.baseBlack)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onBackground)),
                 )),
             GestureDetector(
               onTap: () async {
@@ -74,7 +75,7 @@ class MoreDots extends StatelessWidget {
                           bottomText ?? 'Share'.tr,
                           style: TextStyle(
                             fontSize: 17,
-                            color: ChatThemeData.baseBlack,
+                            color: Theme.of(context).colorScheme.onBackground,
                           ),
                         ),
                         Icon(

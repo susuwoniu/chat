@@ -1,3 +1,4 @@
+import 'package:chat/common.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/app/widgets/badge.dart';
 
@@ -37,9 +38,7 @@ mainBottomNavigationBar(BuildContext context,
                 icon: Icon(
                   Icons.home_rounded,
                   size: 36,
-                  color: index == 0
-                      ? Theme.of(context).colorScheme.background
-                      : null,
+                  color: index == 0 ? Colors.white : null,
                 ),
                 label: 'Home',
               ),
@@ -49,11 +48,13 @@ mainBottomNavigationBar(BuildContext context,
               BottomNavigationBarItem(
                 icon: Badge(
                     notificationCount: messageNotificationCount,
-                    iconData: Icons.chat_bubble_rounded),
+                    iconData: Icons.chat_bubble_rounded,
+                    color: index == 0 ? Color(0xff706F73) : null),
                 label: 'Message',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.face_rounded, size: 34),
+                icon: Icon(Icons.face_rounded,
+                    size: 34, color: index == 0 ? Color(0xff706F73) : null),
                 label: 'Me',
               )
             ],

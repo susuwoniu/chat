@@ -127,7 +127,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                             activeColor:
                                 Theme.of(context).colorScheme.onPrimary,
                             inactiveColor:
-                                Theme.of(context).colorScheme.onPrimary,
+                                Theme.of(context).colorScheme.primary,
                             labels: RangeLabels(
                               _currentAgeRangeValues.start.toInt().toString() +
                                   'years_old'.tr,
@@ -150,7 +150,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               height: 45,
                               current: selectedGender,
                               values: ['all', 'female', 'male'],
-                              iconOpacity: 0.9,
+                              iconOpacity: 0.7,
                               indicatorSize: Size.fromWidth(100),
                               indicatorType: IndicatorType.roundedRectangle,
                               iconAnimationType: AnimationType.onHover,
@@ -166,20 +166,20 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
-                                            color: ChatThemeData.baseBlack),
+                                            color:
+                                                ChatThemeData.secondaryBlack),
                                       ),
                                     ]);
                               },
                               borderWidth: 0.0,
                               borderColor: Colors.transparent,
-                              colorBuilder: (value) =>
-                                  Theme.of(context).colorScheme.surface,
+                              colorBuilder: (value) => Colors.white,
                               onChanged: (value) => setState(() {
                                 selectedGender = value;
                               }),
                             ),
                           ),
-                          SizedBox(width: 10),
+                          SizedBox(width: 15),
                         ]),
                         widget.isNearby
                             ? SizedBox(height: _paddingTop3)
@@ -211,6 +211,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                       ]),
                       SizedBox(height: _paddingTop4),
                       Row(children: [
+                        SizedBox(width: 15),
                         Expanded(
                             child: TextButton(
                                 child: Text('Reset'.tr,
@@ -227,54 +228,59 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                     UIUtils.toast('Successfully_reset'.tr);
                                   });
                                 })),
-                        SizedBox(width: 20),
+                        SizedBox(width: 80),
                         Expanded(
-                            child: ElevatedButton(
-                          onPressed: () {
-                            if (AuthProvider.to.account.value.vip) {
-                              if (widget.initialGender == selectedGender &&
-                                  widget.initialStartAge ==
-                                      _currentAgeRangeValues.start &&
-                                  widget.initialEndAge ==
-                                      _currentAgeRangeValues.end &&
-                                  widget.initialEndDistance ==
-                                      _currentEndDistance) {
-                                Navigator.pop(context);
-                              } else {
-                                widget.onSubmitted(
-                                    selectedGender: selectedGender,
-                                    startAge:
-                                        _currentAgeRangeValues.start.round(),
-                                    endAge: _currentAgeRangeValues.end.round(),
-                                    endDistance: _currentEndDistance.round());
-                                UIUtils.toast('Successfully_filtered'.tr);
-                                Navigator.pop(context);
-                              }
-                            } else {
-                              Navigator.pop(context);
-                              showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  enableDrag: false,
-                                  builder: (context) {
-                                    return VipSheet(context: context, index: 3);
-                                  });
-                            }
-                          },
-                          child: Text('OK'.tr,
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground)),
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 14),
-                            primary: Theme.of(context).colorScheme.background,
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(100), // <-- Radius
-                            ),
-                          ),
-                        )),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                if (AuthProvider.to.account.value.vip) {
+                                  if (widget.initialGender == selectedGender &&
+                                      widget.initialStartAge ==
+                                          _currentAgeRangeValues.start &&
+                                      widget.initialEndAge ==
+                                          _currentAgeRangeValues.end &&
+                                      widget.initialEndDistance ==
+                                          _currentEndDistance) {
+                                    Navigator.pop(context);
+                                  } else {
+                                    widget.onSubmitted(
+                                        selectedGender: selectedGender,
+                                        startAge: _currentAgeRangeValues.start
+                                            .round(),
+                                        endAge:
+                                            _currentAgeRangeValues.end.round(),
+                                        endDistance:
+                                            _currentEndDistance.round());
+                                    UIUtils.toast('Successfully_filtered'.tr);
+                                    Navigator.pop(context);
+                                  }
+                                } else {
+                                  Navigator.pop(context);
+                                  showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      enableDrag: false,
+                                      builder: (context) {
+                                        return VipSheet(
+                                            context: context, index: 3);
+                                      });
+                                }
+                              },
+                              child: Text('OK'.tr,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary)),
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(vertical: 14),
+                                primary: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(100), // <-- Radius
+                                ),
+                              )),
+                        ),
+                        SizedBox(width: 15),
                       ])
                     ]))
               ])),

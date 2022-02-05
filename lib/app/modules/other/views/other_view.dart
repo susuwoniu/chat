@@ -1,5 +1,6 @@
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
+import 'package:chat/common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/routes/app_pages.dart';
@@ -245,9 +246,12 @@ class OtherView extends GetView<OtherController> {
                           offset: Offset(0, 3) // changes position of shadow
                           )
                     ],
-                    color: Theme.of(context).colorScheme.surface,
+                    color: Theme.of(context).colorScheme.brightness ==
+                            Brightness.light
+                        ? Colors.white
+                        : Theme.of(context).colorScheme.background,
                   ),
-                  padding: EdgeInsets.fromLTRB(30, 13, 30, 25),
+                  padding: EdgeInsets.fromLTRB(35, 13, 35, 25),
                   child: Row(children: [
                     Obx(() {
                       final _account =
@@ -292,7 +296,7 @@ class OtherView extends GetView<OtherController> {
                         color: Color(0xFFfd79a8),
                       );
                     }),
-                    SizedBox(width: 30),
+                    SizedBox(width: 40),
                     _chatButton(
                         context: context,
                         text: 'Chat'.tr,
@@ -328,20 +332,23 @@ class OtherView extends GetView<OtherController> {
               decoration: BoxDecoration(
                   border: Border.all(
                       color: color == null
-                          ? Theme.of(context).colorScheme.secondary
+                          ? ChatThemeData.secondaryBlack
                           : isLiked
                               ? Colors.transparent
                               : color),
-                  color:
-                      isLiked ? color : Theme.of(context).colorScheme.onPrimary,
+                  color: color == null
+                      ? Colors.white
+                      : isLiked
+                          ? color
+                          : Colors.white,
                   borderRadius: BorderRadius.circular(20)),
               child: Text(
                 text.tr,
                 style: TextStyle(
                     color: color == null
-                        ? Theme.of(context).colorScheme.onBackground
+                        ? ChatThemeData.secondaryBlack
                         : isLiked
-                            ? Theme.of(context).colorScheme.onPrimary
+                            ? Colors.white
                             : color,
                     fontSize: 16,
                     fontWeight: FontWeight.w500),

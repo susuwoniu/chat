@@ -27,7 +27,7 @@ class SinglePostDot extends StatelessWidget {
         padding: EdgeInsets.only(bottom: 30),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onPrimary,
+          color: Theme.of(context).colorScheme.background,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(children: [
@@ -63,7 +63,7 @@ class SinglePostDot extends StatelessWidget {
           ]),
           Container(
             height: 10,
-            color: Colors.grey.shade100,
+            color: Theme.of(context).dividerColor,
           ),
           SizedBox(height: 20),
           GestureDetector(
@@ -100,7 +100,7 @@ class SinglePostDot extends StatelessWidget {
               decoration: BoxDecoration(
                   gradient: isColorful
                       ? LinearGradient(
-                          begin: Alignment.topRight,
+                          begin: Alignment.centerRight,
                           end: Alignment.centerLeft,
                           colors: [
                               Theme.of(context).colorScheme.primary,
@@ -116,8 +116,7 @@ class SinglePostDot extends StatelessWidget {
                       : Colors.grey.shade600),
             ),
             SizedBox(height: 14),
-            Text(text.tr,
-                style: TextStyle(fontSize: 15, color: Colors.grey.shade800)),
+            Text(text.tr, style: TextStyle(fontSize: 15)),
           ]),
         ));
   }
