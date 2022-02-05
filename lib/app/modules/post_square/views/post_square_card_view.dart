@@ -102,7 +102,7 @@ class PostSquareCardView extends GetView<PostSquareController> {
                         return Stack(children: <Widget>[
                           Container(
                               alignment: Alignment.topLeft,
-                              padding: EdgeInsets.fromLTRB(16, 6, 16, 100),
+                              padding: EdgeInsets.fromLTRB(16, 10, 16, 90),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +113,7 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                             id: postIndexes[index],
                                             style: TextStyle(
                                               color: Color(post.color),
-                                              fontSize: 26.0,
+                                              fontSize: 20.0,
                                               fontWeight: FontWeight.w500,
                                             ))),
                                     SizedBox(height: 15),

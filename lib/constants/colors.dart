@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 
 final FRONT_COLORS = [
   Colors.white,
-  Color(0xff424242),
+  Color(0xff46494c),
   Colors.white,
   Colors.white,
   Colors.white,
+  Color(0xff46494c),
   Colors.white,
   Colors.white,
+  Color(0xff46494c),
   Colors.white,
-  Color(0xff424242),
   Colors.white,
-  Colors.white,
-  Color(0xff424242),
+  Color(0xff46494c),
   Colors.white,
 ];
 final BACKGROUND_COLORS = [

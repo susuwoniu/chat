@@ -147,7 +147,7 @@ class HomeView extends GetView<HomeController> {
                         return Stack(children: <Widget>[
                           Container(
                               alignment: Alignment.topLeft,
-                              padding: EdgeInsets.fromLTRB(16, 5, 16, 90),
+                              padding: EdgeInsets.fromLTRB(16, 10, 16, 90),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,7 +157,7 @@ class HomeView extends GetView<HomeController> {
                                             textAlign: TextAlign.center,
                                             id: postIndexes[index],
                                             style: TextStyle(
-                                              fontSize: 26.0,
+                                              fontSize: 20.0,
                                               color: Color(post.color),
                                               fontWeight: FontWeight.w500,
                                             ))),

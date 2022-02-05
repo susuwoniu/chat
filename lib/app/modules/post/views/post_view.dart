@@ -17,6 +17,12 @@ class PostView extends GetView<PostController> {
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              title: Text("Select_a_question".tr,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).colorScheme.secondary)),
               systemOverlayStyle:
                   SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
             ),
@@ -44,17 +50,11 @@ class PostView extends GetView<PostController> {
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: 15),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        padding: EdgeInsets.only(left: _width * 0.075),
-                        child: Text("Select_a_question".tr,
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color:
-                                    Theme.of(context).colorScheme.secondary)),
-                      ),
-                      SizedBox(height: 10),
+                      // Container(
+                      //   alignment: Alignment.topLeft,
+                      //   padding: EdgeInsets.only(left: _width * 0.075),
+                      //   child:
+                      // SizedBox(height: 10),
                       TCard(
                         size: Size(_width * 0.95,
                             MediaQuery.of(context).size.height * 0.7),
