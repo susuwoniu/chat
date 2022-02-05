@@ -38,7 +38,7 @@ mainBottomNavigationBar(BuildContext context,
                   Icons.home_rounded,
                   size: 36,
                   color: index == 0
-                      ? Theme.of(context).colorScheme.onPrimary
+                      ? Theme.of(context).colorScheme.background
                       : null,
                 ),
                 label: 'Home',
