@@ -10,33 +10,42 @@ class AgePickerView extends GetView<AgePickerController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(),
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: SafeArea(
-      child: Center(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          SizedBox(height: 30),
-          Container(
-            padding: EdgeInsets.fromLTRB(20, 15, 0, 25),
-            alignment: Alignment.topLeft,
-            child: Text(
-              'I_was_born_in'.tr,
-              style: TextStyle(color: Colors.black54, fontSize: 18.0),
+          child: Container(
+            padding: EdgeInsets.only(
+              left: 16,
+              right: 16,
             ),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.fromLTRB(20, 15, 0, 25),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'I_was_born_in'.tr,
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground,
+                          fontSize: 18.0),
+                    ),
+                  ),
+                  YearPicker(
+                      isShowBar: false,
+                      onChanged: (year) {
+                        controller.setBirthYear(year.toString());
+                      }),
+                  SizedBox(height: 30),
+                  NextButton(onPressed: () async {
+                    try {
+                      await controller.updateAge();
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  })
+                ]),
           ),
-          YearPicker(
-              isShowBar: false,
-              onChanged: (year) {
-                controller.setBirthYear(year.toString());
-              }),
-          SizedBox(height: 30),
-          NextButton(onPressed: () async {
-            try {
-              await controller.updateAge();
-            } catch (e) {
-              UIUtils.showError(e);
-            }
-          })
-        ]),
-      ),
-    ));
+        ));
   }
 }

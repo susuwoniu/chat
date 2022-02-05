@@ -126,7 +126,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                             divisions: 8,
                             activeColor:
                                 Theme.of(context).colorScheme.onPrimary,
-                            inactiveColor: Theme.of(context).onPrimary,
+                            inactiveColor:
+                                Theme.of(context).colorScheme.onPrimary,
                             labels: RangeLabels(
                               _currentAgeRangeValues.start.toInt().toString() +
                                   'years_old'.tr,
