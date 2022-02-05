@@ -99,8 +99,9 @@ class MeView extends GetView<MeController> {
                                             name: _name, vip: _vip)),
                                     SizedBox(height: 10),
                                     AgeWidget(
-                                        gender: _account.gender,
-                                        age: _account.age.toString()),
+                                      gender: _account.gender,
+                                      age: _account.age.toString(),
+                                    ),
                                     SizedBox(height: 10),
                                     LikeCount(count: _likeCount, isMe: true),
                                   ])),

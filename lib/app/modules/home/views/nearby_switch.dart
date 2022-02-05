@@ -33,7 +33,7 @@ class _NearbySwitchState extends State<NearbySwitch> {
 
     return AnimatedToggleSwitch<String>.size(
       height: 37,
-      innerColor: Colors.white38,
+      innerColor: Theme.of(context).colorScheme.surface,
       current: page,
       values: ["home", 'nearby'],
       iconOpacity: 0.5,
@@ -49,13 +49,13 @@ class _NearbySwitchState extends State<NearbySwitch> {
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff46494c)),
+                color: Theme.of(context).colorScheme.onSecondary),
           ),
         ]);
       },
       borderWidth: 0.0,
       borderColor: Colors.transparent,
-      colorBuilder: (value) => Colors.white70,
+      colorBuilder: (value) => Theme.of(context).colorScheme.background,
       onChanged: (value) => setState(() {
         page = value;
         widget.onPressedTabSwitch(value);
