@@ -60,6 +60,8 @@ class RoomView extends GetView<RoomController> {
                     Theme.of(context).colorScheme.brightness == Brightness.light
                         ? DefaultChatTheme(
                             primaryColor: Theme.of(context).primaryColor,
+                            messageInsetsVertical: 12,
+                            messageInsetsHorizontal: 14,
                             receivedMessageBodyTextStyle: TextStyle(
                               color: TEXT_PRIMARY_COLOR,
                               fontSize: 16,
@@ -159,40 +161,38 @@ class RoomView extends GetView<RoomController> {
       builder: (BuildContext context) {
         return SafeArea(
           child: SizedBox(
-            height: 144,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    _handleImageSelection();
-                  },
-                  child: const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('Photo'),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    _handleFileSelection();
-                  },
-                  child: const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('File'),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('Cancel'),
-                  ),
-                ),
-              ],
-            ),
-          ),
+              height: 144,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _handleImageSelection();
+                      },
+                      child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('Photo'),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _handleFileSelection();
+                      },
+                      child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('File'),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('Cancel'),
+                      ),
+                    ),
+                  ])),
         );
       },
     );
@@ -269,6 +269,7 @@ class RoomView extends GetView<RoomController> {
     final _width = MediaQuery.of(context).size.width;
 
     return AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         systemOverlayStyle:
             SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
         title: Obx(() {

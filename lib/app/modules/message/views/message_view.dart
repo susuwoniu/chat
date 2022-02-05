@@ -13,8 +13,9 @@ class MessageView extends GetView<MessageController> {
   Widget build(BuildContext context) {
     final _chatProvider = ChatProvider.to;
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         systemOverlayStyle:
             SystemUiOverlayStyle(statusBarBrightness: Brightness.light), // 1
         bottom: PreferredSize(

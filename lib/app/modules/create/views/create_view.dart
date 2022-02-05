@@ -20,6 +20,8 @@ class CreateView extends GetView<CreateController> {
     final postTemplate =
         PostController.to.postTemplatesMap[controller.postTemplateId]!;
     final currentAccount = AuthProvider.to.account.value;
+    final isLight =
+        Theme.of(context).colorScheme.brightness == Brightness.light;
     final fonts = [
       'OpenSans',
     ];
@@ -30,9 +32,17 @@ class CreateView extends GetView<CreateController> {
     String _text = postTemplate.content ?? '';
     TextAlign _textAlign = TextAlign.left;
     return Scaffold(
+        backgroundColor: isLight
+            ? Theme.of(context).colorScheme.surface
+            : Theme.of(context).colorScheme.background,
         appBar: AppBar(
+            backgroundColor: isLight
+                ? Theme.of(context).colorScheme.surface
+                : Theme.of(context).colorScheme.background,
             title: Text('Create'.tr,
-                style: TextStyle(fontSize: 16, color: Colors.grey.shade800)),
+                style: TextStyle(
+                  fontSize: 16,
+                )),
             systemOverlayStyle:
                 SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
             bottom: PreferredSize(
@@ -101,13 +111,18 @@ class CreateView extends GetView<CreateController> {
                                       VisibilityMap[controller.visibility]!.tr +
                                           ' ',
                                       style: TextStyle(
-                                          color: Colors.black54, fontSize: 13)),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                          fontSize: 13)),
                                   Icon(
                                       controller.visibility == 'public'
                                           ? Icons.public
                                           : Icons.lock_outline_rounded,
                                       size: 16,
-                                      color: Colors.black54),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground),
                                 ])),
                           )
                         ]),

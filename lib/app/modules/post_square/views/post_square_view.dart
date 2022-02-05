@@ -28,7 +28,7 @@ class PostSquareView extends GetView<PostSquareController> {
 
     return RefreshIndicator(
         color: backgroundColor,
-        // backgroundColor: Theme.of(context).colorScheme.onPrimary,
+        backgroundColor: Colors.white,
         onRefresh: () => Future.sync(
               () => controller.pagingController.refresh(),
             ),
@@ -58,7 +58,7 @@ class PostSquareView extends GetView<PostSquareController> {
                         },
                       ))
                 ],
-                expandedHeight: _height * 0.25,
+                expandedHeight: 250,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
                       padding: EdgeInsets.fromLTRB(
@@ -66,9 +66,11 @@ class PostSquareView extends GetView<PostSquareController> {
                       width: _width,
                       child: Column(children: [
                         Text('# ' + _title,
+                            maxLines: 3,
                             style: TextStyle(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.w500,
+                                overflow: TextOverflow.ellipsis,
                                 color: frontColor)),
                         SizedBox(height: 20),
                         Obx(() {
@@ -79,12 +81,13 @@ class PostSquareView extends GetView<PostSquareController> {
                                       ? '9999+' + ' Posts'.tr
                                       : usedCount.toString() + ' Posts'.tr
                                   : usedCount.toString() + ' Post'.tr,
-                              style:
-                                  TextStyle(fontSize: 16.0, color: frontColor));
+                              style: TextStyle(
+                                  fontSize: 16.0, color: Colors.grey.shade700));
                         }),
                       ])),
                 ),
               ),
+              SliverToBoxAdapter(child: SizedBox(height: 15)),
               PagedSliverGrid<String?, String>(
                   showNewPageProgressIndicatorAsGridChild: false,
                   showNewPageErrorIndicatorAsGridChild: false,
@@ -109,13 +112,13 @@ class PostSquareView extends GetView<PostSquareController> {
                   })),
             ]),
             Positioned(
-                bottom: 30,
+                bottom: 35,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: EdgeInsets.symmetric(horizontal: 13, vertical: 7),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: Theme.of(context).colorScheme.primaryVariant),
+                      color: ChatThemeData.baseBlack),
                   child: GestureDetector(
                       onTap: () {
                         Get.toNamed(Routes.CREATE, arguments: {

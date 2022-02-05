@@ -69,7 +69,7 @@ class MeView extends GetView<MeController> {
                   }
                   return Column(children: [
                     Container(
-                        color: Colors.grey.shade200,
+                        color: Theme.of(context).colorScheme.background,
                         child: Stack(children: [
                           CarouselSlider(
                             items: _imgList

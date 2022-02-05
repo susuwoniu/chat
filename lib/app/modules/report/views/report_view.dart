@@ -27,6 +27,7 @@ class ReportView extends GetView<ReportController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text('ReportView'.tr, style: TextStyle(fontSize: 16)),
@@ -61,7 +62,7 @@ class ReportView extends GetView<ReportController> {
                           decoration: BoxDecoration(
                               border: Border(
                             bottom: BorderSide(
-                              color: Colors.grey.shade200,
+                              color: Theme.of(context).dividerColor,
                             ),
                           )),
                           child: Row(
@@ -90,16 +91,16 @@ class ReportView extends GetView<ReportController> {
                         contentPadding: EdgeInsets.symmetric(horizontal: 5),
                         hintText: 'Enter_report_description(Optional)'.tr,
                         enabledBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey.shade200, width: 1),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).dividerColor, width: 1),
                         ),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey.shade200, width: 1),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).dividerColor, width: 1),
                         ),
                         disabledBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey.shade200, width: 1),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).dividerColor, width: 1),
                         ),
                       ),
                     ),

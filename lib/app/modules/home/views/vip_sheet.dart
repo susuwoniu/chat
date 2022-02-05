@@ -170,7 +170,7 @@ class _VipSheetState extends State<VipSheet> {
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
       decoration: BoxDecoration(
-          color: Colors.grey.shade100,
+          color: Theme.of(context).colorScheme.background,
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8))),
     );
@@ -181,7 +181,7 @@ class _VipSheetState extends State<VipSheet> {
     final double height = MediaQuery.of(context).size.height;
 
     return Container(
-        color: Colors.grey.shade300,
+        color: Theme.of(context).colorScheme.surface,
         height: height * 0.2,
         width: width * 0.9,
         padding: EdgeInsets.symmetric(horizontal: 10),
@@ -230,7 +230,7 @@ class _VipSheetState extends State<VipSheet> {
                   : Colors.transparent,
               border: Border.all(
                   color: isSelected
-                      ? Theme.of(context).colorScheme.onPrimary
+                      ? Theme.of(context).colorScheme.primary
                       : ChatThemeData.secondaryBlack,
                   width: 2),
               borderRadius: BorderRadius.circular(8)),

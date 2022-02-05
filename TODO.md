@@ -3,7 +3,9 @@
 ## Todos
 
 - [x]  square跳转到room缺少content
-- [ ]  聊天气泡padding太大
+- [x]  聊天气泡padding太大
+- [ ]  room黑暗模式背景色
+- [ ]  edit info页
 - [ ]  编辑帖子权限
 - [ ]  帖子无访客bug
 - [x]  无限点赞bug

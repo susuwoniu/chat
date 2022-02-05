@@ -30,7 +30,7 @@ mainBottomNavigationBar(BuildContext context,
             showUnselectedLabels: false,
             backgroundColor: index == 0
                 ? Colors.transparent
-                : Theme.of(context).colorScheme.background,
+                : Theme.of(context).colorScheme.surface,
             onTap: onTap,
             items: [
               // _Paths.Main + [Empty]

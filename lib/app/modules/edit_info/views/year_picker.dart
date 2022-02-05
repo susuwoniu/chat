@@ -41,9 +41,10 @@ class _YearPickerState extends State<YearPicker> {
                   color: Theme.of(context).colorScheme.background,
                   border: Border(
                     top: BorderSide(
-                      color: Colors.grey.shade200,
+                      color: Theme.of(context).dividerColor,
                     ),
-                    bottom: BorderSide(color: Colors.grey.shade300, width: 0.5),
+                    bottom: BorderSide(
+                        color: Theme.of(context).dividerColor, width: 0.5),
                   )),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

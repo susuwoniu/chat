@@ -24,7 +24,7 @@ class ChatThemeData {
       colorScheme: colorScheme,
       appBarTheme: AppBarTheme(
           elevation: 0,
-          backgroundColor: colorScheme.background,
+          backgroundColor: colorScheme.surface,
           foregroundColor: colorScheme.onSurface),
       bottomSheetTheme:
           BottomSheetThemeData(backgroundColor: Colors.transparent),
@@ -55,7 +55,7 @@ class ChatThemeData {
     primary: Color(0xFF7371fc),
     primaryVariant: Color(0xFFc19bff),
     // secondary: Color(0xff46494c),
-    secondary: Color(0xffee99ff),
+    secondary: Color(0xFF7371fc),
     secondaryVariant: Color(0xffee99ff),
     surface: baseBlack,
     // background: Color(0xff1f1c38),

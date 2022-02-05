@@ -21,25 +21,25 @@ class ReportSheet extends StatelessWidget {
                 onPressed: () {
                   controller.setReportType('spam');
                 }),
-            Container(height: 1, color: Colors.grey.shade100),
+            Container(height: 1, color: Theme.of(context).dividerColor),
             BottomSheetRow(
                 text: 'Harassing'.tr,
                 onPressed: () {
                   controller.setReportType('offensive');
                 }),
-            Container(height: 1, color: Colors.grey.shade100),
+            Container(height: 1, color: Theme.of(context).dividerColor),
             BottomSheetRow(
                 text: 'Crime_and_illegal_activities'.tr,
                 onPressed: () {
                   controller.setReportType('illegal');
                 }),
-            Container(height: 1, color: Colors.grey.shade100),
+            Container(height: 1, color: Theme.of(context).dividerColor),
             BottomSheetRow(
                 text: 'Other'.tr,
                 onPressed: () {
                   controller.setReportType('complaint');
                 }),
-            Container(height: 8, color: Colors.grey.shade100),
+            Container(height: 8, color: Theme.of(context).dividerColor),
             BottomSheetRow(text: 'Cancel'.tr, onPressed: () {}),
           ]))
     ]);

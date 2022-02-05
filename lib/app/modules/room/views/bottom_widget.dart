@@ -309,7 +309,7 @@ class _InputState extends State<BottomWidget> {
                 Container(
                   // borderRadius:
                   //     InheritedChatTheme.of(context).theme.inputBorderRadius,
-                  // color: Colors.black.withOpacity(0.06),
+                  color: Theme.of(context).colorScheme.background,
                   // color: Colors.red,
                   child: Container(
                     decoration: BoxDecoration(
@@ -324,9 +324,9 @@ class _InputState extends State<BottomWidget> {
                     ),
                     margin: EdgeInsets.fromLTRB(
                       10 + _query.padding.left,
-                      10,
+                      12,
                       10 + _query.padding.right,
-                      _query.viewInsets.bottom + _query.padding.bottom + 10,
+                      _query.viewInsets.bottom + _query.padding.bottom + 12,
                     ),
                     child: Row(
                       children: [
