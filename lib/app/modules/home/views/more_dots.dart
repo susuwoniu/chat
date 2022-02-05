@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
+import 'package:chat/common.dart';
 
 class MoreDots extends StatelessWidget {
   final void Function() onPressedReport;
@@ -29,7 +30,7 @@ class MoreDots extends StatelessWidget {
           width: _width * 0.96,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.onPrimary,
+            color: Theme.of(context).colorScheme.background,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(children: [
@@ -49,7 +50,7 @@ class MoreDots extends StatelessWidget {
                   child: Text('Report'.tr,
                       style: TextStyle(
                           fontSize: 17,
-                          color: Theme.of(context).colorScheme.error)),
+                          color: Theme.of(context).colorScheme.secondary)),
                 )),
             GestureDetector(
               onTap: () async {
@@ -72,7 +73,10 @@ class MoreDots extends StatelessWidget {
                       children: [
                         Text(
                           bottomText ?? 'Share'.tr,
-                          style: TextStyle(fontSize: 17),
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                         ),
                         Icon(
                           bottomIcon ?? Icons.send_rounded,

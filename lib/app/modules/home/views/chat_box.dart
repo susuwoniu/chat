@@ -1,7 +1,6 @@
 import 'package:chat/app/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/common.dart';
-import 'package:chat/types/account.dart';
 
 class ChatBox extends StatelessWidget {
   final bool isLogin;
@@ -28,7 +27,7 @@ class ChatBox extends StatelessWidget {
         height: 48,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.background,
         ),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           TextButton(
@@ -52,7 +51,7 @@ class ChatBox extends StatelessWidget {
               child: Text("私聊回应 @$postAuthorName:",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
-                  style: TextStyle(color: Colors.black54, fontSize: 15))),
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 15))),
           SizedBox(width: 10)
         ]),
       ),

@@ -88,10 +88,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   right: 5,
                   top: 0,
                   child: IconButton(
-                      icon: Icon(Icons.cancel,
-                          color: Theme.of(context).colorScheme.background),
+                      icon: Icon(Icons.cancel),
                       iconSize: 32,
-                      color: Theme.of(context).colorScheme.background,
+                      color: Colors.white,
                       onPressed: () {
                         Navigator.pop(context);
                       }),
@@ -126,8 +125,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                             min: 18,
                             divisions: 8,
                             activeColor:
-                                Theme.of(context).colorScheme.background,
-                            inactiveColor: Theme.of(context).dividerColor,
+                                Theme.of(context).colorScheme.onPrimary,
+                            inactiveColor: Theme.of(context).onPrimary,
                             labels: RangeLabels(
                               _currentAgeRangeValues.start.toInt().toString() +
                                   'years_old'.tr,
@@ -150,7 +149,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               height: 45,
                               current: selectedGender,
                               values: ['all', 'female', 'male'],
-                              iconOpacity: 0.5,
+                              iconOpacity: 0.9,
                               indicatorSize: Size.fromWidth(100),
                               indicatorType: IndicatorType.roundedRectangle,
                               iconAnimationType: AnimationType.onHover,
@@ -166,19 +165,22 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
-                                            color: ChatThemeData.baseBlack),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary),
                                       ),
                                     ]);
                               },
                               borderWidth: 0.0,
                               borderColor: Colors.transparent,
                               colorBuilder: (value) =>
-                                  Theme.of(context).colorScheme.onPrimary,
+                                  Theme.of(context).colorScheme.surface,
                               onChanged: (value) => setState(() {
                                 selectedGender = value;
                               }),
                             ),
                           ),
+                          SizedBox(width: 10),
                         ]),
                         widget.isNearby
                             ? SizedBox(height: _paddingTop3)
