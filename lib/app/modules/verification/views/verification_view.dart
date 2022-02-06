@@ -54,8 +54,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          systemOverlayStyle:
-              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           title: Text(
             "Verification".tr,
             style: TextStyle(fontSize: 16),

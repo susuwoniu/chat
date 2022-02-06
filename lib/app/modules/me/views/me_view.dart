@@ -201,8 +201,6 @@ class MeView extends GetView<MeController> {
       IconData? iconRight,
       Function? rightTap}) {
     return AppBar(
-        systemOverlayStyle:
-            SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
         backgroundColor: Colors.transparent,
         leading: Container(
             padding: EdgeInsets.only(left: 16),

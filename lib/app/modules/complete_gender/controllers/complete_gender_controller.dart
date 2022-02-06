@@ -1,20 +1,12 @@
 import 'package:get/get.dart';
 
 class CompleteGenderController extends GetxController {
-  //TODO: Implement CompleteGenderController
-
   final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  final selectedGender = ''.obs;
 
-  @override
-  void onClose() {}
   void increment() => count.value++;
+  void setGender(String gender) {
+    selectedGender.value = gender;
+  }
 }

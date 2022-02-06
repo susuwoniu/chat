@@ -16,8 +16,6 @@ class MessageView extends GetView<MessageController> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        systemOverlayStyle:
-            SystemUiOverlayStyle(statusBarBrightness: Brightness.light), // 1
         bottom: PreferredSize(
             child: Container(
               height: 0.5,

@@ -15,8 +15,6 @@ class EditInfoView extends GetView<EditInfoController> {
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         appBar: AppBar(
           title: Text('EditInfoView'.tr, style: TextStyle(fontSize: 16)),
-          systemOverlayStyle:
-              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           bottom: PreferredSize(
               child: Container(
                 height: 0.5,

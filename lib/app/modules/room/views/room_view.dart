@@ -271,8 +271,6 @@ class RoomView extends GetView<RoomController> {
 
     return AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
-        systemOverlayStyle:
-            SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
         title: Obx(() {
           final roomInfoId =
               MessageController.to.entities[roomId]!.room_info_id;

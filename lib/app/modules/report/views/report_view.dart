@@ -31,8 +31,6 @@ class ReportView extends GetView<ReportController> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text('ReportView'.tr, style: TextStyle(fontSize: 16)),
-          systemOverlayStyle:
-              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           bottom: PreferredSize(
               child: Container(
                 height: 0.5,
