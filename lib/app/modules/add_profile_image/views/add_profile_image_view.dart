@@ -21,8 +21,10 @@ class AddProfileImageView extends GetView<AddProfileImageController> {
         NextButton(
           onPressed: () async {
             try {
-              await AccountProvider.to
+              final account = await AccountProvider.to
                   .postAccountInfoChange({'skip_optional_info': true});
+              // if next action to next action
+              AuthProvider.to.checkActions(account.actions);
             } catch (e) {
               UIUtils.showError(e);
             }

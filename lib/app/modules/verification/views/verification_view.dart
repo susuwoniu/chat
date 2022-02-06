@@ -209,6 +209,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                             errorController!.add(ErrorAnimationType
                                 .shake); // Triggering error shake animation
                             setState(() => hasError = true);
+                            return;
                           } else {
                             setState(
                               () {
@@ -222,7 +223,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                 controller.countryCode,
                                 controller.phoneNumber,
                                 controller.verificationCode.value,
-                                closePageCount: 1,
+                                closePageCount: 2,
                                 arguments: Get.arguments);
                           } catch (e) {
                             UIUtils.showError(e);

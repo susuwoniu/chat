@@ -55,8 +55,6 @@ class ProfileViewersController extends GetxController {
     isLoading.value = false;
   }
 
-  @override
-  void onClose() {}
   void increment() => count.value++;
   clearUnreadViewerCount() async {
     await APIProvider.to.patch("/notification/me/notification-inbox",

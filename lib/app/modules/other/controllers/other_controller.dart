@@ -71,6 +71,7 @@ class OtherController extends GetxController {
   @override
   void onClose() {
     // listScrollController.removeListener(() {});
+    super.onClose();
   }
 
   void increment() => count.value++;

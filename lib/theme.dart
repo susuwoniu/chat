@@ -24,8 +24,8 @@ class ChatThemeData {
       colorScheme: colorScheme,
       appBarTheme: AppBarTheme(
           elevation: 0,
-          backgroundColor: colorScheme.surface,
-          foregroundColor: colorScheme.onSurface),
+          backgroundColor: colorScheme.background,
+          foregroundColor: colorScheme.onBackground),
       bottomSheetTheme:
           BottomSheetThemeData(backgroundColor: Colors.transparent),
     );

@@ -120,7 +120,7 @@ class ReportView extends GetView<ReportController> {
                     ),
                     SizedBox(height: 20),
                     NextButton(
-                        text: 'Submit',
+                        text: 'Submit'.tr,
                         onPressed: () async {
                           if (controller.reportType.value != '') {
                             try {

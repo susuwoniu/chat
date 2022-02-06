@@ -35,15 +35,9 @@ class AccountProvider extends GetxService {
     // 不为空，则暂时不保存token到本地
 
     await AuthProvider.to.saveToken(token, persist: account.actions.isEmpty);
-    await AuthProvider.to.saveAccountToStore(account);
+    await AuthProvider.to.saveAccount(account);
     await AuthProvider.to.init();
-    if (closePageCount != null && closePageCount > 0) {
-      if (account.actions.isNotEmpty) {
-        // 如果需要跳actions页面则关闭当前登录页面
-        closePageCount++;
-      }
-      Get.close(closePageCount);
-    }
+
     // if not
     String? next, mode;
     if (arguments != null) {
@@ -56,7 +50,22 @@ class AccountProvider extends GetxService {
     } else if (enabledDefaultNexPage) {
       RouterProvider.to.setNextPage(NextPage.fromDefault());
     }
-    await AuthProvider.to.saveAccount(account);
+    // if (closePageCount != null && closePageCount > 0) {
+    //   if (account.actions.isNotEmpty) {
+    //     // 如果需要跳actions页面则关闭当前登录页面
+    //     closePageCount++;
+    //   }
+    //   Get.close(closePageCount);
+    // }
+    // Get.close(2);
+    if (closePageCount != null && closePageCount > 0) {
+      // todo
+      Get.close(closePageCount);
+    }
+    // check actions
+    AuthProvider.to.checkActions(
+      account.actions,
+    );
 
     // Get.offAndToNamed(AppRoutes.Application);
   }
@@ -79,10 +88,11 @@ class AccountProvider extends GetxService {
     // Get.offAndToNamed(AppRoutes.Application);
   }
 
-  Future<void> postAccountInfoChange(Map<String, dynamic> data,
+  Future<AccountEntity> postAccountInfoChange(Map<String, dynamic> data,
       {bool ignoreActions = false}) async {
     final body = await APIProvider().patch("/account/me", body: data);
     final account = AuthProvider.to.formatMainAccount(body);
     await AuthProvider.to.saveAccount(account, ignoreActions: ignoreActions);
+    return account;
   }
 }

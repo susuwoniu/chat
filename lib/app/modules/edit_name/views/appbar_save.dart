@@ -23,7 +23,7 @@ class AppBarSave extends StatelessWidget {
                   fontSize: 15,
                   color: isActived
                       ? Theme.of(context).colorScheme.onPrimary
-                      : Colors.black38)),
+                      : Theme.of(context).disabledColor)),
           padding: EdgeInsets.symmetric(vertical: 7, horizontal: 12),
           margin: EdgeInsets.only(right: 10),
           decoration: BoxDecoration(

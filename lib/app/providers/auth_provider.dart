@@ -93,8 +93,7 @@ class AuthProvider extends GetxService {
     // 保存access token
     tokenEntity = token;
     if (persist) {
-      await AccountStoreProvider.to.setExpiredObject(STORAGE_ACCOUNT_TOKEN_KEY,
-          token.toJson(), token.accessTokenExpiresAt);
+      await persistToken();
     }
   }
 
@@ -171,11 +170,7 @@ class AuthProvider extends GetxService {
         .putObject(STORAGE_ACCOUNT_KEY, account.toJson());
   }
 
-  Future<void> saveAccount(AccountEntity accountEntity,
-      {bool ignoreActions = false}) async {
-    await saveAccountToStore(accountEntity);
-
-    final nextAction = RouterProvider.to.nextAction;
+  checkActions(List<ActionEntity> actions) {
     //
     // AgreeCommunityRules,
     // AddAccountName,
@@ -194,64 +189,27 @@ class AuthProvider extends GetxService {
     // other unknow actions, we don't care.
     final List<ActionEntity> validActions = [];
 
-    if (accountEntity.actions.isNotEmpty) {
-      for (var element in accountEntity.actions) {
+    if (actions.isNotEmpty) {
+      for (var element in actions) {
         if (validActionsMap[element.type] != null &&
             validActionsMap[element.type] == true) {
           validActions.add(element);
         }
       }
     }
-
-    if (validActions.isNotEmpty && ignoreActions == false) {
-      if (isNeedCompleteActions == false) {
-        isNeedCompleteActions = true;
-      }
-      final actionType = validActions[0].type;
-      if (actionType == 'agree_community_rules') {
-        RouterProvider.to.setClosePageCountBeforeNextPage(
-            RouterProvider.to.closePageCountBeforeNextPage + 1);
-        Get.toNamed(Routes.RULE, arguments: {
-          "content": validActions[0].content,
-        });
-      } else if (actionType == 'add_account_birthday') {
-        RouterProvider.to.setClosePageCountBeforeNextPage(
-            RouterProvider.to.closePageCountBeforeNextPage + 1);
-
-        Get.toNamed(Routes.AGE_PICKER);
-      } else if (actionType == 'add_account_gender') {
-        RouterProvider.to.setClosePageCountBeforeNextPage(
-            RouterProvider.to.closePageCountBeforeNextPage + 1);
-
-        Get.toNamed(Routes.COMPLETE_GENDER);
-      } else if (actionType == 'add_account_name') {
-        RouterProvider.to.setClosePageCountBeforeNextPage(
-            RouterProvider.to.closePageCountBeforeNextPage + 1);
-
-        Get.toNamed(Routes.EDIT_NAME, arguments: {'action': actionType});
-      } else if (actionType == 'add_account_bio') {
-        RouterProvider.to.setClosePageCountBeforeNextPage(
-            RouterProvider.to.closePageCountBeforeNextPage + 1);
-
-        Get.toNamed(Routes.EDIT_BIO, arguments: {'action': actionType});
-      } else if (actionType == 'add_account_profile_image') {
-        RouterProvider.to.setClosePageCountBeforeNextPage(
-            RouterProvider.to.closePageCountBeforeNextPage + 1);
-
-        Get.toNamed(Routes.ADD_PROFILE_IMAGE,
-            arguments: {'action': actionType});
-      }
+    if (validActions.isNotEmpty) {
+      RouterProvider.to.toNextAction(
+        validActions[0],
+        isLastAction: validActions.length == 1,
+      );
     } else {
-      if (isNeedCompleteActions && nextAction != null) {
-        // 需要减去1页，因为这个需要保留一个登录页
-        RouterProvider.to.setClosePageCountBeforeNextPage(
-            RouterProvider.to.closePageCountBeforeNextPage - 1);
-        isNeedCompleteActions = false;
-      }
-      // now we can persistToken;
-      await persistToken();
-      RouterProvider.to.toNextPage();
+      RouterProvider.to.toNextPageOrHome();
     }
+  }
+
+  Future<void> saveAccount(AccountEntity accountEntity,
+      {bool ignoreActions = false}) async {
+    await saveAccountToStore(accountEntity);
   }
 
   Future<void> saveSimpleAccounts(

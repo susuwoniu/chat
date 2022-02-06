@@ -11,8 +11,12 @@ import '../modules/age_picker/bindings/age_picker_binding.dart';
 import '../modules/age_picker/views/age_picker_view.dart';
 import '../modules/block/bindings/block_binding.dart';
 import '../modules/block/views/block_view.dart';
+import '../modules/complete_bio/bindings/complete_bio_binding.dart';
+import '../modules/complete_bio/views/complete_bio_view.dart';
 import '../modules/complete_gender/bindings/complete_gender_binding.dart';
 import '../modules/complete_gender/views/complete_gender_view.dart';
+import '../modules/complete_name/bindings/complete_name_binding.dart';
+import '../modules/complete_name/views/complete_name_view.dart';
 import '../modules/create/bindings/create_binding.dart';
 import '../modules/create/views/create_view.dart';
 import '../modules/debug/bindings/debug_binding.dart';
@@ -313,6 +317,16 @@ class AppPages {
       name: _Paths.COMPLETE_GENDER,
       page: () => CompleteGenderView(),
       binding: CompleteGenderBinding(),
+    ),
+    GetPage(
+      name: _Paths.COMPLETE_NAME,
+      page: () => CompleteNameView(),
+      binding: CompleteNameBinding(),
+    ),
+    GetPage(
+      name: _Paths.COMPLETE_BIO,
+      page: () => CompleteBioView(),
+      binding: CompleteBioBinding(),
     ),
   ];
 }

@@ -147,5 +147,16 @@ const Map<String, String> zh_Hans = {
   'Unknown_place': '未知位置',
   'Nothing...': '没有留下简介',
   'Unknown': '未知',
-  'No_one_has_been_here.': '还没有人来过...'
+  'No_one_has_been_here.': '还没有人来过...',
+  "CompleteGender": "选择你的性别",
+  "Please_take_care": "请谨慎选择，提交后将永久无法修改",
+  "Submit_confirm": "提交后将永久无法修改哦，请确认是否提交？",
+  "Tips": "提示",
+  "Confirm": "确认",
+  "Give_yourself_a_nice_name": "给自己起一个好听的昵称吧～",
+  "nickname": "昵称",
+  "Give_yourself_a_nice_bio": "一个简单的自我介绍可以给别人一个更好的印象",
+  "GenderSelect": "设置性别",
+  "I_agree_rules": "我承诺遵守社区规则",
+  "Finish": "完成"
 };
