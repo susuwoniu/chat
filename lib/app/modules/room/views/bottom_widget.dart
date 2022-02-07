@@ -139,6 +139,7 @@ class _InputState extends State<BottomWidget> {
         margin: const EdgeInsets.only(right: 16),
         width: 24,
         child: IconButton(
+          splashColor: Colors.transparent,
           icon: Icon(
             Icons.photo_camera,
             // color: InheritedChatTheme.of(context).theme.inputTextColor,
@@ -159,6 +160,7 @@ class _InputState extends State<BottomWidget> {
         margin: const EdgeInsets.only(left: 0),
         width: 24,
         child: IconButton(
+          splashColor: Colors.transparent,
           icon: Icon(
             Icons.image,
             // color: InheritedChatTheme.of(context).theme.inputTextColor,
@@ -290,6 +292,7 @@ class _InputState extends State<BottomWidget> {
                                   fontSize: 14),
                             )),
                             IconButton(
+                              splashColor: Colors.transparent,
                               onPressed: () {
                                 if (_textController.text.trim() == '') {
                                   _sendButtonVisible = false;
@@ -373,6 +376,7 @@ class _InputState extends State<BottomWidget> {
                             margin: const EdgeInsets.only(left: 8),
                             width: 24,
                             child: IconButton(
+                              splashColor: Colors.transparent,
                               icon: Icon(
                                 Icons.send,
                                 // color: InheritedChatTheme.of(context)

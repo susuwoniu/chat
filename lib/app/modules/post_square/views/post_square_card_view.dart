@@ -24,6 +24,8 @@ class PostSquareCardView extends GetView<PostSquareController> {
         leading: IconButton(
             iconSize: 26,
             icon: Icon(Icons.arrow_back_ios_new),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             onPressed: () {
               Get.back();
             }),
@@ -36,6 +38,8 @@ class PostSquareCardView extends GetView<PostSquareController> {
                       icon: Icon(Icons.add,
                           color: Theme.of(context).colorScheme.onPrimary,
                           size: 36),
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                       onPressed: () {
                         Get.toNamed(
                           Routes.POST,

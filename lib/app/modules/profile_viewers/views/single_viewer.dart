@@ -1,11 +1,10 @@
 import 'package:chat/app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import '../controllers/profile_viewers_controller.dart';
-import '../../message/views/time_ago.dart';
 import 'package:get/get.dart';
-import '../../me/views/age_widget.dart';
 import '../../me/views/like_count.dart';
 import 'package:intl/intl.dart';
+import '../../me/views/vip_icon.dart';
 
 class SingleViewer extends StatelessWidget {
   final Function() onPressed;
@@ -43,12 +42,10 @@ class SingleViewer extends StatelessWidget {
                     onPressed();
                   }),
               Positioned(
-                bottom: -2,
-                right: -4,
-                child: viewerAccount.account.vip
-                    ? Icon(Icons.stars_rounded,
-                        color: Colors.pink.shade300, size: 28)
-                    : SizedBox.shrink(),
+                bottom: 0,
+                right: -6,
+                child:
+                    viewerAccount.account.vip ? VipIcon() : SizedBox.shrink(),
               )
             ]),
             title: Container(

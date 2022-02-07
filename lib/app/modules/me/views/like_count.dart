@@ -42,13 +42,13 @@ class LikeCount extends StatelessWidget {
             Icon(
               Icons.favorite_rounded,
               size: iconSize,
-              color: Colors.pink.shade300,
+              color: Theme.of(context).colorScheme.primary,
             ),
             SizedBox(width: 4),
             Text(count > 99999 ? '99999+' : count.toString(),
                 style: TextStyle(
                     fontSize: fontSize,
-                    color: Colors.pink.shade300,
+                    color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.bold))
           ]),
           decoration: BoxDecoration(

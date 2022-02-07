@@ -8,19 +8,26 @@ import 'package:chat/app/modules/message/views/unread_count.dart';
 class MeIcon extends StatelessWidget {
   final IconData icon;
   final String text;
-  final int? newViewers;
   final bool isMe;
-  final void Function()? onPressed;
+  final bool isLiked;
+  final Function? onPressedLike;
+  final Function? onPressedChat;
+
+  final void Function()? onPressedViewer;
+  final int? newViewers;
   final bool toViewers;
 
   MeIcon({
     Key? key,
     required this.icon,
     required this.text,
-    this.newViewers,
     this.isMe = false,
-    this.onPressed,
+    this.isLiked = false,
+    this.onPressedLike,
+    this.onPressedChat,
+    this.onPressedViewer,
     this.toViewers = false,
+    this.newViewers,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -41,7 +48,11 @@ class MeIcon extends StatelessWidget {
                       });
                 }
               } else if (toViewers) {
-                onPressed!();
+                onPressedViewer!();
+              } else if (onPressedChat != null) {
+                onPressedChat!();
+              } else if (onPressedLike != null) {
+                onPressedLike!(!isLiked);
               }
             },
             child: Stack(clipBehavior: Clip.none, children: [
@@ -51,14 +62,18 @@ class MeIcon extends StatelessWidget {
                       shape: BoxShape.circle,
                       border: Border.all(
                           width: 2.5,
-                          color: Theme.of(context).colorScheme.onSurface)),
+                          color: isLiked == true
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.onSurface)),
                   child: Icon(icon,
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: isLiked == true
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.onSurface,
                       size: 27)),
               newViewers == null
                   ? SizedBox.shrink()
                   : Positioned(
-                      right: -4,
+                      left: 28,
                       top: -6,
                       child: CountBubble(
                           count: newViewers!, isUnreadMessage: false))

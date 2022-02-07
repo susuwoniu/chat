@@ -29,6 +29,8 @@ class HomeView extends GetView<HomeController> {
         leading: Padding(
             padding: EdgeInsets.only(left: 4),
             child: IconButton(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 icon: Icon(
                   Icons.filter_list_rounded,
                   size: 36,
