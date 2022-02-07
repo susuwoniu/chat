@@ -4,12 +4,16 @@ import 'package:get/get.dart';
 class GenderSelectController extends GetxController {
   //TODO: Implement GenderSelectController
 
-  final selectedGender = ''.obs;
+  final selectedGender = "".obs;
 
   final count = 0.obs;
   @override
   void onInit() {
     RouterProvider.to.handleNextPageArguments(Get.arguments);
+    final currentValue = Get.arguments["current-value"] as String?;
+    if (currentValue != null) {
+      selectedGender.value = currentValue;
+    }
     super.onInit();
   }
 

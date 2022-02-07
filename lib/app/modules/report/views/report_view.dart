@@ -31,8 +31,6 @@ class ReportView extends GetView<ReportController> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text('ReportView'.tr, style: TextStyle(fontSize: 16)),
-          systemOverlayStyle:
-              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           bottom: PreferredSize(
               child: Container(
                 height: 0.5,
@@ -122,7 +120,7 @@ class ReportView extends GetView<ReportController> {
                     ),
                     SizedBox(height: 20),
                     NextButton(
-                        text: 'Submit',
+                        text: 'Submit'.tr,
                         onPressed: () async {
                           if (controller.reportType.value != '') {
                             try {

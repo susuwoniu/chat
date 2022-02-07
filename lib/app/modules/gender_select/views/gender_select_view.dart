@@ -14,11 +14,8 @@ class GenderSelectView extends GetView<GenderSelectController> {
     final _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
         appBar: AppBar(
-          title: Text('GenderSelect', style: TextStyle(fontSize: 16)),
-          systemOverlayStyle:
-              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
+          title: Text('GenderSelect'.tr, style: TextStyle(fontSize: 16)),
         ),
         body: SafeArea(
           child: Container(
@@ -31,9 +28,7 @@ class GenderSelectView extends GetView<GenderSelectController> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('I_am'.tr,
-                            style: TextStyle(
-                                color: Colors.black54, fontSize: 17.0)),
+                        Text('I_am'.tr, style: TextStyle(fontSize: 17.0)),
                         SizedBox(height: 5),
                         Obx(() => GenderPicker(
                               selectedGender: controller.selectedGender.value,
@@ -44,14 +39,17 @@ class GenderSelectView extends GetView<GenderSelectController> {
                   ),
                 ]),
                 SizedBox(height: _height * 0.05),
-                NextButton(onPressed: () async {
-                  try {
-                    await AccountProvider.to.postAccountInfoChange(
-                        {"gender": controller.selectedGender.value});
-                  } catch (e) {
-                    UIUtils.showError(e);
-                  }
-                })
+                NextButton(
+                    text: "Save".tr,
+                    onPressed: () async {
+                      try {
+                        await AccountProvider.to.postAccountInfoChange(
+                            {"gender": controller.selectedGender.value});
+                        RouterProvider.to.toNextPage();
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
+                    })
               ],
             ),
           ),

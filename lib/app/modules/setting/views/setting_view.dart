@@ -21,14 +21,6 @@ class SettingView extends GetView<SettingController> {
                 color: Theme.of(context).dividerColor,
               ),
               preferredSize: Size.fromHeight(0)),
-          // leading: IconButton(
-          //   icon: Icon(
-          //     Icons.arrow_back,
-          //   ),
-          //   onPressed: Get.popHistory,
-          // ),
-          systemOverlayStyle:
-              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           title: Text('SettingView'.tr, style: TextStyle(fontSize: 16)),
         ),
         body: Obx(() => SettingsList(

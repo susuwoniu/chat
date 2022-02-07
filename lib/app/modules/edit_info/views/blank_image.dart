@@ -28,16 +28,16 @@ class BlankImage extends StatelessWidget {
                 ? Container(
                     alignment: Alignment.center,
                     child: Icon(Icons.camera_alt_outlined,
-                        color: Colors.black38, size: 32),
+                        color: Theme.of(context).hintColor, size: 32),
                   )
                 : Text(''),
-            color: Theme.of(context).colorScheme.onPrimary,
+            color: Theme.of(context).dividerColor,
             radius: Radius.circular(8),
             dashPattern: [6, 6],
             borderType: BorderType.RRect,
           ),
           decoration: BoxDecoration(
-            color: Color(0xffe4e6ec),
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(8),
           ),
         ));

@@ -17,8 +17,6 @@ class RouterProvider extends GetxService {
   StreamSubscription? uriSub;
   NextPage? _nextPage;
   NextPage? get nextPage => _nextPage;
-  NextPage? _nextAction;
-  NextPage? get nextAction => _nextAction;
   int closePageCountBeforeNextPage = 0;
   // 第一次打开
   Future<void> handleInitialUri() async {
@@ -123,6 +121,50 @@ class RouterProvider extends GetxService {
 
     //this is the route that loads as startup page
     // Get.offAllNamed(Routes.ROOT);
+  }
+
+  void toNextAction(ActionEntity action, {required bool isLastAction}) {
+    final actionType = action.type;
+    if (actionType == 'agree_community_rules') {
+      Get.toNamed(Routes.RULE, arguments: {
+        "content": action.content,
+        "is-last-action": isLastAction,
+      });
+    } else if (actionType == 'add_account_birthday') {
+      Get.toNamed(Routes.AGE_PICKER, arguments: {
+        "is-last-action": isLastAction,
+      });
+    } else if (actionType == 'add_account_gender') {
+      Get.toNamed(Routes.COMPLETE_GENDER, arguments: {
+        "is-last-action": isLastAction,
+      });
+    } else if (actionType == 'add_account_name') {
+      Get.toNamed(Routes.COMPLETE_NAME, arguments: {
+        "is-last-action": isLastAction,
+      });
+    } else if (actionType == 'add_account_bio') {
+      Get.toNamed(Routes.COMPLETE_BIO, arguments: {
+        "is-last-action": isLastAction,
+      });
+    } else if (actionType == 'add_account_profile_image') {
+      Get.toNamed(Routes.ADD_PROFILE_IMAGE, arguments: {
+        "is-last-action": isLastAction,
+      });
+    } else {
+      if (_nextPage != null) {
+        toNextPage();
+      } else {
+        toHome();
+      }
+    }
+  }
+
+  void toNextPageOrHome() {
+    if (_nextPage != null) {
+      toNextPage();
+    } else {
+      toHome();
+    }
   }
 
   void toNextPage() {
@@ -235,10 +277,13 @@ class NextPage {
 }
 
 String camel(String s) => s[0].toLowerCase() + s.substring(1);
-argumentsToQueryParameters(Map<String, dynamic> arguments) {
+argumentsToQueryParameters(Map<String, dynamic>? arguments) {
   final queryParameters = <String, String>{};
-  arguments.forEach((key, value) {
-    queryParameters[key] = value.toString();
-  });
+  if (arguments != null) {
+    arguments.forEach((key, value) {
+      queryParameters[key] = value.toString();
+    });
+  }
+
   return queryParameters;
 }

@@ -13,8 +13,6 @@ class ProfileViewersView extends GetView<ProfileViewersController> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
           title: Text('ProfileViewersView'.tr, style: TextStyle(fontSize: 16)),
-          systemOverlayStyle:
-              SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
           bottom: PreferredSize(
               child: Container(
                 height: 0.5,

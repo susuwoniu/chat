@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../age_picker/views/next_button.dart';
+import 'package:get/get.dart';
 
 class SocialShare extends StatefulWidget {
   @override
@@ -64,7 +65,7 @@ class _SocialShareState extends State<SocialShare> {
                 _socialButton(
                     icon: Icons.local_police, text: 'wechat', onPressed: () {}),
               ])),
-          NextButton(text: 'Cancel', onPressed: () {}),
+          NextButton(text: 'Cancel'.tr, onPressed: () {}),
         ]),
       )
     ]);

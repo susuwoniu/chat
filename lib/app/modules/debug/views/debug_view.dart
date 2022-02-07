@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/providers/providers.dart';
-import 'package:chat/config/config.dart';
 import 'dart:convert';
 import 'package:clipboard/clipboard.dart';
 import 'package:get/get.dart';
@@ -141,7 +140,7 @@ class DebugView extends GetView<DebugController> {
                         RouterProvider.to.setNextPage(NextPage.back());
                         await AccountProvider.to.handleLogin(
                             countryCode, phone, '123456',
-                            enabledDefaultNexPage: false);
+                            closePageCount: 1, enabledDefaultNexPage: false);
                         UIUtils.hideLoading();
 
                         UIUtils.toast("登录成功");
@@ -199,6 +198,30 @@ class DebugView extends GetView<DebugController> {
                   onTap: () {
                     Get.toNamed(Routes.SETTING);
                     //to close the drawer
+                  },
+                ),
+                ListTile(
+                  title: Text('Age Settings'),
+                  onTap: () {
+                    Get.toNamed(Routes.AGE_PICKER);
+                  },
+                ),
+                ListTile(
+                  title: Text('Gender'),
+                  onTap: () {
+                    Get.toNamed(Routes.COMPLETE_GENDER);
+                  },
+                ),
+                ListTile(
+                  title: Text('Name'),
+                  onTap: () {
+                    Get.toNamed(Routes.COMPLETE_NAME);
+                  },
+                ),
+                ListTile(
+                  title: Text('Bio'),
+                  onTap: () {
+                    Get.toNamed(Routes.COMPLETE_BIO);
                   },
                 ),
                 ListTile(

@@ -12,7 +12,9 @@ class RuleView extends GetView<RuleController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.surface,
           title: Text('社区规则'),
           centerTitle: true,
         ),
@@ -28,11 +30,15 @@ class RuleView extends GetView<RuleController> {
                 },
               ),
               NextButton(
-                  text: '我承诺遵守社区规则',
+                  text: 'I_agree_rules'.tr,
                   onPressed: () async {
                     try {
-                      await AccountProvider.to.postAccountInfoChange(
-                          {"agree_community_rules": true});
+                      final account = await AccountProvider.to
+                          .postAccountInfoChange(
+                              {"agree_community_rules": true});
+
+                      // if next action to next action
+                      AuthProvider.to.checkActions(account.actions);
                     } catch (e) {
                       UIUtils.showError(e);
                     }

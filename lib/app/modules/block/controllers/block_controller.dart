@@ -41,8 +41,6 @@ class BlockController extends GetxController {
     isLoading.value = false;
   }
 
-  @override
-  void onClose() {}
   void increment() => count.value++;
 
   Future<List<String>> getBlockList({String? before, String? after}) async {
