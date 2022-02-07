@@ -18,13 +18,18 @@ class EditNameView extends GetView<EditNameController> {
             return AppBarSave(
                 isActived: _isActived,
                 onPressed: () async {
-                  try {
-                    await AccountProvider.to.postAccountInfoChange(
-                      {"name": controller.currentName.value},
-                    );
-                    RouterProvider.to.toNextPage();
-                  } catch (e) {
-                    UIUtils.showError(e);
+                  if (controller.currentName.value.length < 2) {
+                    UIUtils.showError(
+                        'please_enter_at_least_two_characters.'.tr);
+                  } else {
+                    try {
+                      await AccountProvider.to.postAccountInfoChange(
+                        {"name": controller.currentName.value},
+                      );
+                      RouterProvider.to.toNextPage();
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
                   }
                 });
           }),
@@ -32,7 +37,7 @@ class EditNameView extends GetView<EditNameController> {
       ),
       body: Obx(() {
         return InputWidget(
-            maxLength: 14,
+            maxLength: 9,
             maxLines: 1,
             initialContent: controller.initialContent,
             onChange: controller.onChangeTextValue);

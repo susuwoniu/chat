@@ -192,7 +192,6 @@ class MySinglePostView extends GetView<MySinglePostController> {
                             showModalBottomSheet(
                                 context: context,
                                 isScrollControlled: true,
-                                enableDrag: false,
                                 builder: (context) {
                                   return VipSheet(context: context, index: 2);
                                 });

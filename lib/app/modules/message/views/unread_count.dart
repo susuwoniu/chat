@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class CountBubble extends StatelessWidget {
   final int count;
-  final bool isUnread;
+  final bool isUnreadMessage;
 
   CountBubble({
     Key? key,
     required this.count,
-    this.isUnread = true,
+    this.isUnreadMessage = true,
   }) : super(key: key);
 
   @override
@@ -17,18 +17,18 @@ class CountBubble extends StatelessWidget {
 
     if (count >= 100) {
       //+99
-      text = isUnread ? '99+' : '+99';
+      text = isUnreadMessage ? '99+' : '+99';
     } else {
       //+22
-      text = isUnread ? countStr : "+" + countStr;
+      text = isUnreadMessage ? countStr : "+" + countStr;
     }
 
     return count > 0
         ? count < 10
             ? Container(
                 alignment: Alignment.center,
-                width: isUnread ? 20 : 22,
-                height: isUnread ? 20 : 22,
+                width: isUnreadMessage ? 20 : 22,
+                height: isUnreadMessage ? 20 : 22,
                 decoration: BoxDecoration(
                     color: Colors.red[400],
                     borderRadius: BorderRadius.circular(20)),

@@ -1,6 +1,7 @@
 import 'package:chat/app/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/common.dart';
+import 'package:get/get.dart';
 
 class ChatBox extends StatelessWidget {
   final bool isLogin;
@@ -46,10 +47,10 @@ class ChatBox extends StatelessWidget {
                 name: isLogin ? account.name : "--",
               )),
           Expanded(
-              child: Text("私聊回应 @$postAuthorName:",
+              child: Text("Reply".tr + "@$postAuthorName的碎碎念",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
-                  style: TextStyle(color: Colors.grey.shade600, fontSize: 15))),
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 14))),
           SizedBox(width: 10)
         ]),
       ),

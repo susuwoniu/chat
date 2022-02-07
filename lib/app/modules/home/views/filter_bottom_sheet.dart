@@ -109,7 +109,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         .colorScheme
                                         .onPrimary)),
                             SizedBox(width: 6),
-                            Icon(Icons.local_police,
+                            Icon(Icons.star_rounded,
                                 color: Theme.of(context).colorScheme.onPrimary,
                                 size: 25)
                           ]),
@@ -258,7 +258,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                   showModalBottomSheet(
                                       context: context,
                                       isScrollControlled: true,
-                                      enableDrag: false,
                                       builder: (context) {
                                         return VipSheet(
                                             context: context, index: 3);

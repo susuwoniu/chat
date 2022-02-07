@@ -80,7 +80,7 @@ class AccountEntity {
   final int? age;
   String? birthday;
   final String? bio;
-  final String? location;
+  final int post_count;
   final String? phone_number;
   String next_post_not_before;
   int? next_post_in_seconds;
@@ -98,9 +98,9 @@ class AccountEntity {
   AccountEntity(
       {this.profile_images = const [],
       this.bio,
-      this.location,
       this.age,
       this.birthday,
+      required this.post_count,
       this.avatar,
       this.actions = const [],
       this.phone_number,
@@ -118,6 +118,7 @@ class AccountEntity {
         gender: "Unknown",
         vip: false,
         likeCount: 0,
+        post_count: 0,
         next_post_not_before: '2014-10-14T16:32:41.018Z');
   }
 

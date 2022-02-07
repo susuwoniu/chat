@@ -46,11 +46,18 @@ class SingleBlock extends StatelessWidget {
                       Get.toNamed(Routes.OTHER, arguments: {"accountId": id});
                     }),
                 Positioned(
-                  bottom: -2,
-                  right: -4,
+                  bottom: 0,
+                  right: 0,
                   child: blockAccount.vip
-                      ? Icon(Icons.local_police,
-                          color: Colors.pink.shade300, size: 28)
+                      ? Container(
+                          padding: EdgeInsets.all(0.5),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: Icon(Icons.star_rounded,
+                              color: Theme.of(context).colorScheme.primary,
+                              size: 23))
                       : SizedBox.shrink(),
                 )
               ]),

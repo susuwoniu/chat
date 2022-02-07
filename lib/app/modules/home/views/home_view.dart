@@ -163,8 +163,7 @@ class HomeView extends GetView<HomeController> {
                                                 height: 1.6))),
                                     SizedBox(height: 4),
                                     TagWidget(
-                                        color:
-                                            Color(controller.currentFrontColor),
+                                        color: Color(post.color),
                                         text: post.post_template_title,
                                         onPressed: () {
                                           Get.toNamed(Routes.POST_SQUARE,
@@ -176,8 +175,7 @@ class HomeView extends GetView<HomeController> {
                                         }),
                                     SizedBox(height: 4),
                                     AuthorName(
-                                        color:
-                                            Color(controller.currentFrontColor),
+                                        color: Color(post.color),
                                         accountId: post.accountId,
                                         authorName: author.name,
                                         avatarUri: author.avatar,
@@ -238,7 +236,6 @@ class HomeView extends GetView<HomeController> {
                                                         context: context,
                                                         isScrollControlled:
                                                             true,
-                                                        enableDrag: false,
                                                         builder: (context) {
                                                           return VipSheet(
                                                               context: context,
@@ -286,7 +283,8 @@ class HomeView extends GetView<HomeController> {
                           });
                     } else {
                       return Container(
-                          padding: EdgeInsets.all(16), child: Text("未知错误"));
+                          padding: EdgeInsets.all(16),
+                          child: Text("unknow_error".tr));
                     }
                   })));
             },

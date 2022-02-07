@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:chat/app/providers/providers.dart';
 
 Widget Retry({
   String message = "出了点问题",
@@ -28,8 +29,11 @@ Widget Retry({
             mainAxisSize: MainAxisSize.min,
             children: [Icon(Icons.refresh), Text("刷新看看")],
           ),
-          onPressed: () {
+          onPressed: () async {
             onRetry();
+            await CacheProvider.to.clear();
+            await AccountStoreProvider.to.clear();
+            await KVProvider.to.clear();
           },
         ),
       ],

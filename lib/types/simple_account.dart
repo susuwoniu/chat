@@ -7,7 +7,6 @@ part 'simple_account.g.dart';
 class SimpleAccountEntity {
   int like_count;
   bool is_liked;
-  String? location;
   final String? avatar;
   final int? age;
   final String? bio;
@@ -23,7 +22,6 @@ class SimpleAccountEntity {
     this.age,
     this.bio,
     required this.is_liked,
-    this.location,
     required this.name,
     required this.like_count,
     required this.vip,
@@ -36,7 +34,6 @@ class SimpleAccountEntity {
         profile_images: account.profile_images,
         age: account.age,
         bio: account.bio,
-        location: account.location,
         is_liked: false,
         name: account.name,
         like_count: 0,
@@ -61,10 +58,6 @@ class SimpleAccountEntity {
     }
     if (json['is_blocked'] == null) {
       json['is_blocked'] = false;
-    }
-
-    if (json['location'] == null) {
-      json['location'] = '';
     }
     if (json['bio'] == null) {
       json['bio'] = '';

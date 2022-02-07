@@ -11,9 +11,6 @@ class CompleteNameView extends GetView<CompleteNameController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-      ),
       body: Container(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Column(children: [

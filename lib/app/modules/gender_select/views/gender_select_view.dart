@@ -19,7 +19,7 @@ class GenderSelectView extends GetView<GenderSelectController> {
         ),
         body: SafeArea(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: _width * 0.08),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
                 Column(children: [
@@ -38,7 +38,7 @@ class GenderSelectView extends GetView<GenderSelectController> {
                     ),
                   ),
                 ]),
-                SizedBox(height: _height * 0.05),
+                SizedBox(height: 10),
                 NextButton(
                     text: "Save".tr,
                     onPressed: () async {

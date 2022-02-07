@@ -26,7 +26,8 @@ class ProfileViewersBubble extends StatelessWidget {
               Positioned(
                   right: newViewersCount > 9 ? -31 : -21,
                   top: -14,
-                  child: CountBubble(count: newViewersCount, isUnread: false)),
+                  child: CountBubble(
+                      count: newViewersCount, isUnreadMessage: false)),
               Text(
                   totalViewersCount > 9999
                       ? '9999+'

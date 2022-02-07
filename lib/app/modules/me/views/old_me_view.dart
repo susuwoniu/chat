@@ -4,23 +4,23 @@ import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/types/account.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../me/controllers/me_controller.dart';
+import '../controllers/me_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import '../../me/views/age_widget.dart';
-import '../../me/views/circle_widget.dart';
-import '../../me/views/nickname_widget.dart';
-import '../../me/views/dots_widget.dart';
-import '../../me/views/like_count.dart';
-import '../../me/views/profile_viewers_bubble.dart';
-import '../../me/views/image_slider.dart';
+import './age_widget.dart';
+import './circle_widget.dart';
+import 'nickname_widget.dart';
+import 'dots_widget.dart';
+import 'like_count.dart';
+import 'profile_viewers_bubble.dart';
+import 'image_slider.dart';
 import '../../home/views/vip_sheet.dart';
-import '../../me/views/small_post.dart';
+import 'small_post.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../home/controllers/home_controller.dart';
-import '../../me/views/./create_post.dart';
+import './create_post.dart';
 import 'package:flutter/services.dart';
 
-class Test2View extends GetView<MeController> {
+class MeView extends GetView<MeController> {
   final CarouselController buttonCarouselController = CarouselController();
 
   @override
@@ -121,7 +121,6 @@ class Test2View extends GetView<MeController> {
                                       showModalBottomSheet(
                                           context: context,
                                           isScrollControlled: true,
-                                          enableDrag: false,
                                           builder: (context) {
                                             return VipSheet(
                                                 context: context, index: 1);

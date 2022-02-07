@@ -66,7 +66,7 @@ AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       bio: json['bio'] as String?,
-      location: json['location'] as String?,
+      post_count: json['post_count'] as int,
       age: json['age'] as int?,
       birthday: json['birthday'] as String?,
       avatar: json['avatar'] as String?,
@@ -91,7 +91,6 @@ Map<String, dynamic> _$AccountEntityToJson(AccountEntity instance) =>
       'age': instance.age,
       'birthday': instance.birthday,
       'bio': instance.bio,
-      'location': instance.location,
       'phone_number': instance.phone_number,
       'name': instance.name,
       'gender': instance.gender,
@@ -103,4 +102,5 @@ Map<String, dynamic> _$AccountEntityToJson(AccountEntity instance) =>
       'now': instance.now,
       'next_post_not_before': instance.next_post_not_before,
       'next_post_in_seconds': instance.next_post_in_seconds,
+      'post_count': instance.post_count
     };

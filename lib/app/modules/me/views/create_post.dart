@@ -57,7 +57,6 @@ class CreatePost extends StatelessWidget {
                 showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
-                    enableDrag: false,
                     builder: (context) {
                       return VipSheet(context: context, index: 4);
                     });

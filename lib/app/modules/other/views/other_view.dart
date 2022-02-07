@@ -119,7 +119,8 @@ class OtherView extends GetView<OtherController> {
                         ])),
                         Container(
                           alignment: Alignment.topLeft,
-                          padding: EdgeInsets.fromLTRB(16, 20, 25, 10),
+                          color: Colors.white,
+                          padding: EdgeInsets.fromLTRB(16, 15, 25, 10),
                           child: Obx(() {
                             final _account =
                                 AuthProvider.to.simpleAccountMap[accountId] ??

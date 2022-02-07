@@ -6,13 +6,13 @@ final FRONT_COLORS = [
   Colors.white,
   Colors.white,
   Colors.white,
-  Color(0xff46494c),
+  Color(0xff595959),
   Colors.white,
   Colors.white,
-  Color(0xff46494c),
+  Color(0xff595959),
   Colors.white,
   Colors.white,
-  Color(0xff46494c),
+  Color(0xff595959),
   Colors.white,
 ];
 final BACKGROUND_COLORS = [

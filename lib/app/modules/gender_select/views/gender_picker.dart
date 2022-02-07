@@ -23,26 +23,30 @@ class GenderPicker extends StatelessWidget {
           setGender(gender);
         },
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 20),
-          padding: EdgeInsets.only(bottom: 15, left: 20, right: 20),
+          margin: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+          padding: EdgeInsets.only(top: 10, bottom: 25, left: 20, right: 20),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               border: Border.all(
                   width: 4,
                   color: selectedGender == gender
-                      ? Colors.pink.shade300
+                      ? Theme.of(context).colorScheme.primary
                       : Theme.of(context).dividerColor)),
           child: Column(children: [
-            Text(
-              gender == "female" ? "👩" : "👨",
-              style: TextStyle(fontSize: 60),
-            ),
+            Icon(
+                gender == "female"
+                    ? Icons.female_outlined
+                    : Icons.male_outlined,
+                color: selectedGender == gender
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.onSurface,
+                size: 60),
             Text(gender == 'female' ? 'female'.tr : 'male'.tr,
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 15,
                     color: selectedGender == gender
-                        ? Colors.pink.shade300
+                        ? Theme.of(context).colorScheme.primary
                         : Theme.of(context).colorScheme.onSurface))
           ]),
         ));

@@ -32,7 +32,7 @@ class EditBioView extends GetView<EditBioController> {
       ),
       body: Obx(() {
         return InputWidget(
-            maxLength: 144,
+            maxLength: 50,
             maxLines: 10,
             minLines: 3,
             initialContent: controller.initialContent,
