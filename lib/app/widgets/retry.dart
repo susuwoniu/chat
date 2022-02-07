@@ -34,6 +34,7 @@ Widget Retry({
             await CacheProvider.to.clear();
             await AccountStoreProvider.to.clear();
             await KVProvider.to.clear();
+            await SimpleAccountMapCacheProvider.to.clear();
           },
         ),
       ],

@@ -32,6 +32,8 @@ class DebugView extends GetView<DebugController> {
                       await CacheProvider.to.clear();
                       await AccountStoreProvider.to.clear();
                       await KVProvider.to.clear();
+                      await SimpleAccountMapCacheProvider.to.clear();
+
                       UIUtils.toast("Clear All Success");
                     } catch (e) {
                       UIUtils.showError(e);
