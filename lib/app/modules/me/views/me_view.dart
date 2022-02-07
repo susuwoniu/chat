@@ -1,5 +1,5 @@
 import 'package:chat/app/modules/me/views/small_post.dart';
-import 'package:chat/app/modules/message/views/unread_count.dart';
+import 'package:chat/app/modules/me/views/vip_icon.dart';
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/widgets/widgets.dart';
@@ -7,20 +7,11 @@ import 'package:chat/types/account.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/me_controller.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import './age_widget.dart';
-import './circle_widget.dart';
-import 'nickname_widget.dart';
-import 'dots_widget.dart';
-import 'like_count.dart';
-import 'profile_viewers_bubble.dart';
-import 'image_slider.dart';
 import '../../home/views/vip_sheet.dart';
 import 'small_post.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../home/controllers/home_controller.dart';
 import './create_post.dart';
-import 'package:flutter/services.dart';
 import 'me_icon.dart';
 
 class MeView extends GetView<MeController> {
@@ -88,18 +79,27 @@ class MeView extends GetView<MeController> {
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          // color: Theme.of(context).colorScheme.primary,
-                          border: Border.all(
-                              width: 1, color: Theme.of(context).dividerColor)),
-                      padding: EdgeInsets.all(10),
-                      child: Avatar(
-                          elevation: 0,
-                          name: _account.name,
-                          uri: avatar,
-                          size: 50))
+                  Stack(clipBehavior: Clip.none, children: [
+                    Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                                width: 1,
+                                color: Theme.of(context).dividerColor)),
+                        padding: EdgeInsets.all(10),
+                        child: Avatar(
+                            elevation: 0,
+                            name: _account.name,
+                            uri: avatar,
+                            size: 50)),
+                    Positioned(
+                      bottom: 0,
+                      right: 8,
+                      child: _account.vip
+                          ? VipIcon(iconSize: 28)
+                          : SizedBox.shrink(),
+                    )
+                  ])
                 ]),
               ),
               Text(_account.name,

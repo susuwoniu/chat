@@ -7,7 +7,7 @@ import '../../age_picker/views/next_button.dart';
 import 'package:chat/common.dart';
 
 final List<Map<String, dynamic>> _cardList = [
-  {'icon': Icons.star_rounded, 'title': '会员标识', 'detail': '展示会员专属标识'},
+  {'icon': Icons.stars_rounded, 'title': '会员标识', 'detail': '展示会员专属标识'},
   {'icon': Icons.pets_outlined, 'title': '查看访客', 'detail': '查看主页访客'},
   {
     'icon': Icons.auto_fix_high_outlined,

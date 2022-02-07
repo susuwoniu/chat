@@ -46,7 +46,7 @@ class SingleViewer extends StatelessWidget {
                 bottom: -2,
                 right: -4,
                 child: viewerAccount.account.vip
-                    ? Icon(Icons.star_rounded,
+                    ? Icon(Icons.stars_rounded,
                         color: Colors.pink.shade300, size: 28)
                     : SizedBox.shrink(),
               )

@@ -1,26 +1,23 @@
-import 'package:chat/app/modules/me/views/small_post.dart';
 import 'package:chat/app/providers/auth_provider.dart';
-import 'package:chat/app/routes/app_pages.dart';
-import 'package:chat/types/account.dart';
+import 'package:chat/common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../me/controllers/me_controller.dart';
+import 'package:chat/app/routes/app_pages.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../me/views/age_widget.dart';
-import '../../me/views/circle_widget.dart';
+import '../../me/views/./circle_widget.dart';
 import '../../me/views/nickname_widget.dart';
 import '../../me/views/dots_widget.dart';
-import '../../me/views/like_count.dart';
-import '../../me/views/profile_viewers_bubble.dart';
-import '../../me/views/image_slider.dart';
-import '../../home/views/vip_sheet.dart';
 import '../../me/views/small_post.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import '../../home/controllers/home_controller.dart';
-import '../../me/views/./create_post.dart';
-import 'package:flutter/services.dart';
+import '../../me/views/like_count.dart';
+import '../../other/controllers/other_controller.dart';
+import '../../me/views/image_slider.dart';
+import '../../home/views/more_dots.dart';
+import 'package:chat/app/common/block.dart';
+import 'package:chat/app/common/quote_with_link.dart';
 
-class Test2View extends GetView<MeController> {
+class Test2View extends GetView<OtherController> {
   final CarouselController buttonCarouselController = CarouselController();
 
   @override
@@ -28,50 +25,35 @@ class Test2View extends GetView<MeController> {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     final double paddingLeft = width * 0.055;
-    final phone = AuthProvider.to.account.value.phone_number;
+    final postMap = controller.postMap;
+    final accountId = controller.accountId;
+    final _account = AuthProvider.to.simpleAccountMap[accountId] ??
+        SimpleAccountEntity.empty();
+    final _name = _account.name;
 
-    return RefreshIndicator(
-        backgroundColor: Theme.of(context).backgroundColor,
-        onRefresh: () => Future.sync(
-              () => controller.pagingController.refresh(),
-            ),
-        child: Scaffold(
-            backgroundColor: Theme.of(context).backgroundColor,
-            extendBody: true,
-            extendBodyBehindAppBar: true,
-            appBar: _appbar(
-                context: context,
-                iconLeft: Icons.settings_rounded,
-                leftTap: () {
-                  Get.toNamed(Routes.SETTING, arguments: {"phone": phone});
-                },
-                iconRight: Icons.create_rounded,
-                rightTap: () {
-                  Get.toNamed(Routes.EDIT_INFO);
-                }),
-            body: CustomScrollView(slivers: [
-              SliverToBoxAdapter(
-                child: Obx(() {
-                  final _account = AuthProvider.to.account.value;
-                  final _name = _account.name;
-                  final _vip = _account.vip;
-                  final _likeCount = _account.likeCount;
+    final _vip = _account.vip;
 
-                  final _bio =
-                      _account.bio == '' ? 'Nothing...'.tr : _account.bio!;
-
-                  // final _location = _account.location == ''
-                  //     ? 'Unknown_place'.tr
-                  //     : _account.location!;
-                  final _imgList = List.from(_account.profile_images);
-
-                  if (_imgList.isEmpty) {
-                    _imgList.add(ProfileImageEntity.empty());
-                  }
-                  return Column(children: [
-                    Container(
-                        color: Theme.of(context).colorScheme.background,
-                        child: Stack(children: [
+    final _imgList = List.from(_account.profile_images ?? []);
+    if (_imgList.isEmpty) {
+      _imgList.add(ProfileImageEntity.empty());
+    }
+    return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        body: Stack(clipBehavior: Clip.antiAliasWithSaveLayer, children: [
+          RefreshIndicator(
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              onRefresh: () => Future.sync(
+                    () => controller.pagingController.refresh(),
+                  ),
+              child: CustomScrollView(
+                  // controller: controller.listScrollController,
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Column(children: [
+                        Container(
+                            child: Stack(children: [
                           CarouselSlider(
                             items: _imgList
                                 .map((img) => ImageSlider(
@@ -83,7 +65,6 @@ class Test2View extends GetView<MeController> {
                             options: CarouselOptions(
                                 height: height * 0.5,
                                 viewportFraction: 1,
-                                initialPage: controller.current,
                                 onPageChanged: (index, reason) {
                                   controller.setCurrent(index);
                                 }),
@@ -100,40 +81,29 @@ class Test2View extends GetView<MeController> {
                                             name: _name, vip: _vip)),
                                     SizedBox(height: 10),
                                     AgeWidget(
-                                      gender: _account.gender,
-                                      age: _account.age.toString(),
-                                    ),
+                                        gender: AuthProvider
+                                            .to
+                                            .simpleAccountMap[accountId]!
+                                            .gender,
+                                        age: AuthProvider
+                                                    .to
+                                                    .simpleAccountMap[
+                                                        accountId]!
+                                                    .age ==
+                                                null
+                                            ? ' ???'
+                                            : _account.age.toString()),
                                     SizedBox(height: 10),
-                                    LikeCount(count: _likeCount, isMe: true),
+                                    Obx(() {
+                                      final _likeCount = AuthProvider
+                                          .to
+                                          .simpleAccountMap[accountId]!
+                                          .like_count;
+                                      return LikeCount(
+                                        count: _likeCount,
+                                      );
+                                    }),
                                   ])),
-                          Positioned(
-                              right: paddingLeft,
-                              bottom: height * 0.025,
-                              child: ProfileViewersBubble(
-                                  totalViewersCount:
-                                      controller.totalViewedCount.value,
-                                  newViewersCount:
-                                      controller.unreadViewedCount.value,
-                                  onPressed: () async {
-                                    if (_vip) {
-                                      Get.toNamed(Routes.PROFILE_VIEWERS);
-                                    } else {
-                                      showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          enableDrag: false,
-                                          builder: (context) {
-                                            return VipSheet(
-                                                context: context, index: 1);
-                                          });
-                                      try {
-                                        await controller
-                                            .clearUnreadViewerCount();
-                                      } catch (e) {
-                                        print(e);
-                                      }
-                                    }
-                                  })),
                           Positioned(
                               bottom: 6,
                               width: width,
@@ -142,87 +112,246 @@ class Test2View extends GetView<MeController> {
                                     current: controller.current,
                                     onTap:
                                         buttonCarouselController.animateToPage,
-                                    count: _account.profile_images.length),
+                                    count: _account.profile_images == null
+                                        ? 0
+                                        : _account.profile_images!.length),
                               )),
                         ])),
-                    Container(
-                        alignment: Alignment.topLeft,
-                        padding: EdgeInsets.fromLTRB(16, 15, 25, 10),
-                        child: Text(
-                          _bio,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              height: 1.5,
-                              fontSize: 17,
-                              color: Theme.of(context).hintColor),
-                        ))
-                  ]);
-                }),
-              ),
-              // SliverToBoxAdapter(child: CreatePost()),
-              PagedSliverGrid<String?, String>(
-                showNewPageProgressIndicatorAsGridChild: false,
-                showNewPageErrorIndicatorAsGridChild: false,
-                showNoMoreItemsIndicatorAsGridChild: false,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 0.8,
-                  crossAxisCount: 2,
-                ),
-                pagingController: controller.pagingController,
-                builderDelegate: PagedChildBuilderDelegate<String>(
-                    itemBuilder: (context, id, index) {
-                  final post = HomeController.to.postMap[id];
-                  if (index == 0) {
-                    return CreatePost(
-                      id: id,
-                    );
-                  }
-                  if (post == null) {
-                    return SizedBox.shrink();
-                  }
-                  return SmallPost(
-                      onTap: () {
-                        Get.toNamed(Routes.MY_SINGLE_POST, arguments: {
-                          'id': id,
-                        });
-                      },
-                      postId: id,
-                      post: post);
-                }),
-              ),
-              SliverToBoxAdapter(child: Container(height: 100))
-            ])));
-  }
+                        Container(
+                          alignment: Alignment.topLeft,
+                          color: Colors.white,
+                          padding: EdgeInsets.fromLTRB(16, 15, 25, 10),
+                          child: Obx(() {
+                            final _account =
+                                AuthProvider.to.simpleAccountMap[accountId] ??
+                                    SimpleAccountEntity.empty();
+                            final _bio = _account.bio == ''
+                                ? 'Nothing...'.tr
+                                : _account.bio!;
 
-  AppBar _appbar(
-      {required IconData iconLeft,
-      required Function leftTap,
-      required BuildContext context,
-      IconData? iconRight,
-      Function? rightTap}) {
-    return AppBar(
-        backgroundColor: Colors.transparent,
-        leading: Container(
-            padding: EdgeInsets.only(left: 16),
-            child: CircleWidget(
-              icon: Icon(iconLeft,
-                  color: Theme.of(context).colorScheme.onPrimary),
-              onPressed: () {
-                leftTap();
-              },
-            )),
-        actions: [
-          Container(
-              margin: EdgeInsets.only(right: 17),
+                            return Text(_bio,
+                                style: TextStyle(
+                                    height: 1.5,
+                                    fontSize: 17,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground));
+                          }),
+                        )
+                      ]),
+                    ),
+                    PagedSliverGrid<String?, String>(
+                        showNewPageProgressIndicatorAsGridChild: false,
+                        showNewPageErrorIndicatorAsGridChild: false,
+                        showNoMoreItemsIndicatorAsGridChild: false,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 0.8,
+                          crossAxisCount: 2,
+                        ),
+                        pagingController: controller.pagingController,
+                        builderDelegate: PagedChildBuilderDelegate<String>(
+                            itemBuilder: (context, id, index) {
+                          final post = postMap[id]!;
+                          return SmallPost(
+                              onTap: () {
+                                Get.toNamed(Routes.ROOM, arguments: {
+                                  "id": "$accountId@$imDomain",
+                                  "reduce": "false",
+                                  "quote": quoteWithLink(post.content, id),
+                                  "quote_background_color":
+                                      post.backgroundColor,
+                                });
+                              },
+                              postId: id,
+                              post: post);
+                        })),
+                    SliverToBoxAdapter(child: Container(height: 80))
+                  ])),
+          Positioned(
+              left: width * 0.04,
+              top: height * 0.06,
               child: CircleWidget(
-                icon: Icon(iconRight,
+                icon: Icon(Icons.arrow_back_rounded,
                     color: Theme.of(context).colorScheme.onPrimary),
                 onPressed: () {
-                  if (rightTap != null) {
-                    rightTap();
-                  }
+                  Get.back();
                 },
               )),
-        ]);
+          Positioned(
+              right: width * 0.04,
+              top: height * 0.06,
+              child: CircleWidget(
+                icon: Icon(Icons.more_horiz_rounded,
+                    color: Theme.of(context).colorScheme.onPrimary),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Obx(() {
+                          final _account =
+                              AuthProvider.to.simpleAccountMap[accountId] ??
+                                  SimpleAccountEntity.empty();
+                          final is_blocked = _account.is_blocked;
+
+                          return MoreDots(
+                              context: context,
+                              bottomIcon: Icons.face_retouching_off_rounded,
+                              bottomText:
+                                  is_blocked ? 'Unblock'.tr : 'Block'.tr,
+                              onPressedBlock: () async {
+                                controller.accountAction(
+                                    isLiked: false, increase: !is_blocked);
+                                try {
+                                  if (is_blocked) {
+                                    await toggleBlock(
+                                        id: accountId, toBlocked: false);
+                                    UIUtils.toast('Unblocked.'.tr);
+                                  } else {
+                                    await toggleBlock(
+                                        id: accountId, toBlocked: true);
+                                    UIUtils.toast('Blocked.'.tr);
+                                  }
+                                } catch (e) {
+                                  UIUtils.showError(e);
+                                  controller.accountAction(
+                                      isLiked: false, increase: is_blocked);
+                                }
+                              },
+                              onPressedReport: () {
+                                Navigator.pop(context);
+                                Get.toNamed(Routes.REPORT, arguments: {
+                                  "related_account_id": accountId
+                                });
+                              });
+                        });
+                      });
+                },
+              )),
+          Positioned(
+              bottom: 0,
+              child: Container(
+                  width: width,
+                  decoration: BoxDecoration(
+                    border: Border(
+                        top: BorderSide(
+                      color: Theme.of(context).dividerColor,
+                    )),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 3) // changes position of shadow
+                          )
+                    ],
+                    color: Theme.of(context).colorScheme.brightness ==
+                            Brightness.light
+                        ? Colors.white
+                        : Theme.of(context).colorScheme.background,
+                  ),
+                  padding: EdgeInsets.fromLTRB(35, 13, 35, 25),
+                  child: Row(children: [
+                    Obx(() {
+                      final _account =
+                          AuthProvider.to.simpleAccountMap[accountId] ??
+                              SimpleAccountEntity.empty();
+                      final _is_liked = _account.is_liked;
+
+                      return _chatButton(
+                        context: context,
+                        text: _is_liked ? 'Liked'.tr : 'Like'.tr,
+                        isLiked: _account.is_liked,
+                        onPressedLike: (bool increase) async {
+                          controller.accountAction(increase: increase);
+                          if (increase) {
+                            try {
+                              await controller.postLikeCount(accountId);
+                              UIUtils.toast('Liked!'.tr);
+                              final currentAccount =
+                                  AuthProvider.to.simpleAccountMap[accountId]!;
+                              currentAccount.like_count += 1;
+                              AuthProvider.to.simpleAccountMap[accountId] =
+                                  currentAccount;
+                            } catch (e) {
+                              UIUtils.showError(e);
+                              controller.accountAction(increase: false);
+                            }
+                          } else {
+                            try {
+                              await controller.cancelLikeCount(accountId);
+                              UIUtils.toast('Successfully_unliked.'.tr);
+                              final currentAccount =
+                                  AuthProvider.to.simpleAccountMap[accountId]!;
+                              currentAccount.like_count -= 1;
+                              AuthProvider.to.simpleAccountMap[accountId] =
+                                  currentAccount;
+                            } catch (e) {
+                              UIUtils.showError(e);
+                              controller.accountAction(increase: true);
+                            }
+                          }
+                        },
+                        color: Color(0xFFfd79a8),
+                      );
+                    }),
+                    SizedBox(width: 40),
+                    _chatButton(
+                        context: context,
+                        text: 'Chat'.tr,
+                        onPressedChat: () {
+                          Get.toNamed(Routes.ROOM, arguments: {
+                            'id': "$accountId@$imDomain",
+                          });
+                        },
+                        isLiked: _account.is_liked)
+                  ]))),
+        ]));
+  }
+
+  Widget _chatButton(
+      {required String text,
+      required BuildContext context,
+      Function? onPressedLike,
+      Function? onPressedChat,
+      Color? color,
+      required bool isLiked}) {
+    return Expanded(
+        child: GestureDetector(
+            onTap: () {
+              if (onPressedChat != null) {
+                onPressedChat();
+              } else if (onPressedLike != null) {
+                onPressedLike(!isLiked);
+              }
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 7),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      color: color == null
+                          ? ChatThemeData.secondaryBlack
+                          : isLiked
+                              ? Colors.transparent
+                              : color),
+                  color: color == null
+                      ? Colors.white
+                      : isLiked
+                          ? color
+                          : Colors.white,
+                  borderRadius: BorderRadius.circular(20)),
+              child: Text(
+                text.tr,
+                style: TextStyle(
+                    color: color == null
+                        ? ChatThemeData.secondaryBlack
+                        : isLiked
+                            ? Colors.white
+                            : color,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500),
+              ),
+            )));
   }
 }

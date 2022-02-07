@@ -6,6 +6,7 @@ import '../../me/views/age_widget.dart';
 import '../../me/views/like_count.dart';
 import 'package:intl/intl.dart';
 import 'package:chat/app/routes/app_pages.dart';
+import '../../me/views/vip_icon.dart';
 
 class SingleBlock extends StatelessWidget {
   final SimpleAccountEntity blockAccount;
@@ -47,18 +48,8 @@ class SingleBlock extends StatelessWidget {
                     }),
                 Positioned(
                   bottom: 0,
-                  right: 0,
-                  child: blockAccount.vip
-                      ? Container(
-                          padding: EdgeInsets.all(0.5),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                          ),
-                          child: Icon(Icons.star_rounded,
-                              color: Theme.of(context).colorScheme.primary,
-                              size: 23))
-                      : SizedBox.shrink(),
+                  right: -6,
+                  child: blockAccount.vip ? VipIcon() : SizedBox.shrink(),
                 )
               ]),
               title: Container(

@@ -109,7 +109,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         .colorScheme
                                         .onPrimary)),
                             SizedBox(width: 6),
-                            Icon(Icons.star_rounded,
+                            Icon(Icons.stars_rounded,
                                 color: Theme.of(context).colorScheme.onPrimary,
                                 size: 25)
                           ]),

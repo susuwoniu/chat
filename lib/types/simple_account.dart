@@ -13,6 +13,7 @@ class SimpleAccountEntity {
   final String name;
   final bool vip;
   final String gender;
+  final int post_count;
   bool is_blocked;
   List<ProfileImageEntity>? profile_images;
 
@@ -27,6 +28,7 @@ class SimpleAccountEntity {
     required this.vip,
     required this.gender,
     required this.is_blocked,
+    required this.post_count,
   });
   static SimpleAccountEntity fromAccount(AccountEntity account) {
     return SimpleAccountEntity(
@@ -39,7 +41,8 @@ class SimpleAccountEntity {
         like_count: 0,
         vip: account.vip,
         gender: account.gender,
-        is_blocked: false);
+        is_blocked: false,
+        post_count: account.post_count);
   }
 
   static SimpleAccountEntity empty() {
@@ -49,7 +52,8 @@ class SimpleAccountEntity {
         vip: false,
         like_count: 0,
         is_liked: false,
-        is_blocked: false);
+        is_blocked: false,
+        post_count: 0);
   }
 
   factory SimpleAccountEntity.fromJson(Map<String, dynamic> json) {
