@@ -147,7 +147,7 @@ class MeView extends GetView<MeController> {
                         ])),
                     Container(
                         alignment: Alignment.topLeft,
-                        padding: EdgeInsets.fromLTRB(16, 10, 25, 0),
+                        padding: EdgeInsets.fromLTRB(16, 20, 25, 10),
                         child: Text(
                           _bio,
                           textAlign: TextAlign.start,

@@ -38,11 +38,12 @@ class OtherView extends GetView<OtherController> {
       _imgList.add(ProfileImageEntity.empty());
     }
     return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         extendBody: true,
         extendBodyBehindAppBar: true,
         body: Stack(clipBehavior: Clip.antiAliasWithSaveLayer, children: [
           RefreshIndicator(
+              backgroundColor: Theme.of(context).colorScheme.surface,
               onRefresh: () => Future.sync(
                     () => controller.pagingController.refresh(),
                   ),
@@ -118,7 +119,7 @@ class OtherView extends GetView<OtherController> {
                         ])),
                         Container(
                           alignment: Alignment.topLeft,
-                          padding: EdgeInsets.fromLTRB(16, 15, 25, 0),
+                          padding: EdgeInsets.fromLTRB(16, 20, 25, 10),
                           child: Obx(() {
                             final _account =
                                 AuthProvider.to.simpleAccountMap[accountId] ??

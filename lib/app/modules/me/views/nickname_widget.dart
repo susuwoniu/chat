@@ -24,8 +24,8 @@ class NicknameWidget extends StatelessWidget {
       ),
       SizedBox(width: 6),
       vip
-          ? Icon(Icons.local_florist,
-              color: Theme.of(context).primaryColor, size: 32)
+          ? Icon(Icons.local_police_outlined,
+              color: Theme.of(context).colorScheme.onSecondary, size: 32)
           : SizedBox.shrink(),
     ]);
   }

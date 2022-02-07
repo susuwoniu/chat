@@ -24,13 +24,6 @@ class SingleViewer extends StatelessWidget {
   Widget build(BuildContext context) {
     final String updatedAt =
         formatter.format(DateTime.parse(viewerAccount.updatedAt.toString()));
-    final _gender = viewerAccount.account.gender;
-
-    final _genderColor = _gender == 'unknown'
-        ? Theme.of(context).colorScheme.onBackground
-        : _gender == 'female'
-            ? Colors.pink.shade300
-            : Colors.lightBlue;
 
     final times = viewerAccount.viewedCount > 9999
         ? '9999+'
@@ -53,7 +46,7 @@ class SingleViewer extends StatelessWidget {
                 bottom: -2,
                 right: -4,
                 child: viewerAccount.account.vip
-                    ? Icon(Icons.local_florist,
+                    ? Icon(Icons.local_police,
                         color: Colors.pink.shade300, size: 28)
                     : SizedBox.shrink(),
               )
@@ -69,7 +62,9 @@ class SingleViewer extends StatelessWidget {
                           Flexible(
                               child: Text(viewerAccount.account.name,
                                   style: TextStyle(
-                                    color: _genderColor,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                     fontSize: 15,
                                     overflow: TextOverflow.ellipsis,
                                   ))),
@@ -83,7 +78,7 @@ class SingleViewer extends StatelessWidget {
                       SizedBox(width: 15),
                       Text(times + "times".tr,
                           style: TextStyle(
-                              color: Theme.of(context).colorScheme.onBackground,
+                              color: Theme.of(context).colorScheme.onSurface,
                               fontSize: 16)),
                     ])),
             subtitle: Container(

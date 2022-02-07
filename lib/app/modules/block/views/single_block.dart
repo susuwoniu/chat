@@ -49,7 +49,7 @@ class SingleBlock extends StatelessWidget {
                   bottom: -2,
                   right: -4,
                   child: blockAccount.vip
-                      ? Icon(Icons.local_florist_outlined,
+                      ? Icon(Icons.local_police,
                           color: Colors.pink.shade300, size: 28)
                       : SizedBox.shrink(),
                 )

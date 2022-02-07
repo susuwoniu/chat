@@ -157,10 +157,10 @@ class HomeView extends GetView<HomeController> {
                                             textAlign: TextAlign.center,
                                             id: postIndexes[index],
                                             style: TextStyle(
-                                              fontSize: 20.0,
-                                              color: Color(post.color),
-                                              fontWeight: FontWeight.w500,
-                                            ))),
+                                                fontSize: 20.0,
+                                                color: Color(post.color),
+                                                fontWeight: FontWeight.w500,
+                                                height: 1.6))),
                                     SizedBox(height: 4),
                                     TagWidget(
                                         color:

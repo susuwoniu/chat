@@ -14,7 +14,7 @@ class LikeCount extends StatelessWidget {
   LikeCount(
       {Key? key,
       required this.count,
-      this.backgroundColor = Colors.black38,
+      this.backgroundColor = Colors.black54,
       this.isMe = false,
       this.fontSize = 17,
       this.iconSize = 17})

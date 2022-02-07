@@ -98,45 +98,49 @@ class MySinglePostView extends GetView<MySinglePostController> {
 
               final isLoading = post.isLoadingViewersList;
 
-              final List<Widget> list = post.views != null
-                  ? post.views!.isNotEmpty
-                      ? post.views!.map((e) {
-                          final account = AuthProvider.to.simpleAccountMap[e];
-                          return Container(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: _width * 0.04),
-                              child: ViewersList(
-                                  name: account!.name,
-                                  img: account.avatar,
-                                  likeCount: account.like_count,
-                                  viewerId: e));
-                        }).toList()
-                      : [
-                          Container(
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "no_one_has_seen...".tr,
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.grey),
-                                  ),
-                                  Icon(
-                                    Icons.lunch_dining_rounded,
-                                    color: Colors.yellow.shade700,
-                                    size: 22,
-                                  )
-                                ]),
-                          )
-                        ]
-                  : [];
+              if (isMe) {
+                final List<Widget> list = post.views != null
+                    ? post.views!.isNotEmpty
+                        ? post.views!.map((e) {
+                            final account = AuthProvider.to.simpleAccountMap[e];
+                            return Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: _width * 0.04),
+                                child: ViewersList(
+                                    name: account!.name,
+                                    img: account.avatar,
+                                    likeCount: account.like_count,
+                                    viewerId: e));
+                          }).toList()
+                        : [
+                            Container(
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "no_one_has_seen...".tr,
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.grey),
+                                    ),
+                                    Icon(
+                                      Icons.lunch_dining_rounded,
+                                      color: Colors.yellow.shade700,
+                                      size: 22,
+                                    )
+                                  ]),
+                            )
+                          ]
+                    : [];
 
-              final Widget loadingWidget =
-                  isLoading ? Container(child: Text("loading")) : Container();
+                final Widget loadingWidget =
+                    isLoading ? Container(child: Text("loading")) : Container();
 
-              list.add(loadingWidget);
+                list.add(loadingWidget);
 
-              return Column(children: list);
+                return Column(children: list);
+              } else {
+                return SizedBox.shrink();
+              }
             }),
           ]),
         ));
