@@ -94,6 +94,8 @@ class _VipSheetState extends State<VipSheet> {
                   right: 0,
                   top: 0,
                   child: IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
                     icon: Icon(Icons.close_outlined,
                         size: 26,
                         color: Theme.of(context).colorScheme.onPrimary),

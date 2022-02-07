@@ -13,6 +13,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../home/controllers/home_controller.dart';
 import './create_post.dart';
 import 'me_icon.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 class MeView extends GetView<MeController> {
   @override
@@ -27,6 +28,8 @@ class MeView extends GetView<MeController> {
         leading: IconButton(
             icon: Icon(Icons.settings_outlined),
             color: Theme.of(context).colorScheme.onSurface,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             onPressed: () {
               Get.toNamed(Routes.SETTING, arguments: {
                 "phone": AuthProvider.to.account.value.phone_number
@@ -36,6 +39,8 @@ class MeView extends GetView<MeController> {
           IconButton(
               icon: Icon(Icons.create_outlined),
               color: Theme.of(context).colorScheme.onSurface,
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               onPressed: () {
                 Get.toNamed(Routes.EDIT_INFO);
               })
@@ -102,24 +107,26 @@ class MeView extends GetView<MeController> {
                   ])
                 ]),
               ),
-              Text(_account.name,
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.onSurface)),
-              SizedBox(height: 8),
               Container(
                   padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(_account.bio ?? '',
+                  child: Text(_account.name,
                       style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey.shade500,
-                          height: 1.5))),
-              SizedBox(height: 11),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).colorScheme.onSurface))),
+              SizedBox(height: 8),
+              _account.bio == null || _account.bio == ''
+                  ? SizedBox.shrink()
+                  : Container(
+                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      child: Text(_account.bio!,
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade500,
+                              height: 1.5))),
             ]),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-              color: Theme.of(context).colorScheme.surface,
+              padding: EdgeInsets.fromLTRB(10, 22, 15, 10),
               child: Column(children: [
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   MeIcon(icon: Icons.icecream_outlined, text: postCount),
@@ -132,7 +139,7 @@ class MeView extends GetView<MeController> {
                       text: totalViewedCount,
                       newViewers: controller.unreadViewedCount.value,
                       toViewers: true,
-                      onPressed: () async {
+                      onPressedViewer: () async {
                         if (_account.vip) {
                           Get.toNamed(Routes.PROFILE_VIEWERS);
                         } else {

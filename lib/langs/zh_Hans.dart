@@ -106,6 +106,7 @@ const Map<String, String> zh_Hans = {
   'Last_visit: ': '最近访问: ',
   ' Visitors': '访客',
   ' Visitor': '访客',
+  'Chat_now': '私聊',
   "no_one_has_seen...": "还没有人看过这条帖子哦……",
   "visited_you": "访问了你",
   "times": "次",

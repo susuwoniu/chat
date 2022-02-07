@@ -4,8 +4,9 @@
 
 - [x]  square跳转到room缺少content
 - [x]  聊天气泡padding太大
-- [ ]  room黑暗模式背景色
+- [x]  room黑暗模式背景色
 - [ ]  edit info页
+- [ ]  card文本样式
 - [ ]  编辑帖子权限
 - [ ]  帖子无访客bug
 - [x]  无限点赞bug
