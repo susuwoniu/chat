@@ -2,6 +2,7 @@ import 'package:chat/common.dart';
 
 const Map<String, String> zh_Hans = {
   'EditInfoView': '编辑资料',
+  'Avatar': '头像',
   'MeView': '个人主页',
   'More': '查看全文',
   'ReportView': '报告问题',

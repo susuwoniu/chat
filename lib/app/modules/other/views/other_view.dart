@@ -103,143 +103,149 @@ class OtherView extends GetView<OtherController> {
             ),
           ],
         ),
-        body: CustomScrollView(slivers: [
-          SliverToBoxAdapter(
-              child: Column(children: [
-            Column(children: [
+        body: RefreshIndicator(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          onRefresh: () => Future.sync(
+            () => controller.pagingController.refresh(),
+          ),
+          child: CustomScrollView(slivers: [
+            SliverToBoxAdapter(
+                child: Column(children: [
+              Column(children: [
+                Container(
+                  padding: EdgeInsets.only(top: 20, bottom: 20),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Stack(clipBehavior: Clip.none, children: [
+                          Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                      width: 1,
+                                      color: Theme.of(context).dividerColor)),
+                              padding: EdgeInsets.all(10),
+                              child: Avatar(
+                                  elevation: 0,
+                                  name: _account.name,
+                                  uri: avatar,
+                                  size: 50)),
+                          Positioned(
+                            bottom: 5,
+                            right: 8,
+                            child: _account.vip
+                                ? VipIcon(iconSize: 28)
+                                : SizedBox.shrink(),
+                          )
+                        ])
+                      ]),
+                ),
+                Text(_account.name,
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).colorScheme.onSurface)),
+                _account.bio == null || _account.bio == ''
+                    ? SizedBox.shrink()
+                    : Container(
+                        padding: EdgeInsets.fromLTRB(30, 8, 30, 0),
+                        child: Text(_account.bio!,
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey.shade500,
+                                height: 1.5))),
+              ]),
               Container(
-                padding: EdgeInsets.only(top: 20, bottom: 20),
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Stack(clipBehavior: Clip.none, children: [
-                    Container(
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                width: 1,
-                                color: Theme.of(context).dividerColor)),
-                        padding: EdgeInsets.all(10),
-                        child: Avatar(
-                            elevation: 0,
-                            name: _account.name,
-                            uri: avatar,
-                            size: 50)),
-                    Positioned(
-                      bottom: 0,
-                      right: 8,
-                      child: _account.vip
-                          ? VipIcon(iconSize: 28)
-                          : SizedBox.shrink(),
-                    )
-                  ])
+                padding: EdgeInsets.fromLTRB(10, 22, 15, 10),
+                child: Column(children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    MeIcon(icon: Icons.icecream_outlined, text: postCount),
+                    Obx(() {
+                      final _account =
+                          AuthProvider.to.simpleAccountMap[accountId] ??
+                              SimpleAccountEntity.empty();
+                      final likeCount = _account.like_count > 0
+                          ? _account.like_count > 9999
+                              ? '9999+' + ' Hearts'.tr
+                              : _account.like_count.toString() + ' Hearts'.tr
+                          : '0' + ' Heart'.tr;
+                      return MeIcon(
+                        icon: Icons.favorite_border_outlined,
+                        text: likeCount,
+                        isLiked: _account.is_liked,
+                        onPressedLike: (bool increase) async {
+                          controller.accountAction(increase: increase);
+                          if (increase) {
+                            try {
+                              await controller.postLikeCount(accountId);
+                              UIUtils.toast('Liked!'.tr);
+                              final currentAccount =
+                                  AuthProvider.to.simpleAccountMap[accountId]!;
+                              currentAccount.like_count += 1;
+                              AuthProvider.to.simpleAccountMap[accountId] =
+                                  currentAccount;
+                            } catch (e) {
+                              UIUtils.showError(e);
+                              controller.accountAction(increase: false);
+                            }
+                          } else {
+                            try {
+                              await controller.cancelLikeCount(accountId);
+                              UIUtils.toast('Successfully_unliked.'.tr);
+                              final currentAccount =
+                                  AuthProvider.to.simpleAccountMap[accountId]!;
+                              currentAccount.like_count -= 1;
+                              AuthProvider.to.simpleAccountMap[accountId] =
+                                  currentAccount;
+                            } catch (e) {
+                              UIUtils.showError(e);
+                              controller.accountAction(increase: true);
+                            }
+                          }
+                        },
+                      );
+                    }),
+                    MeIcon(
+                        icon: Icons.mail_outlined,
+                        text: 'Chat_now'.tr,
+                        onPressedChat: () {
+                          Get.toNamed(Routes.ROOM, arguments: {
+                            'id': "$accountId@$imDomain",
+                          });
+                        }),
+                  ]),
                 ]),
               ),
-              Text(_account.name,
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.onSurface)),
-              SizedBox(height: 8),
-              _account.bio == null || _account.bio == ''
-                  ? SizedBox.shrink()
-                  : Container(
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: Text(_account.bio!,
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey.shade500,
-                              height: 1.5))),
-            ]),
-            Container(
-              padding: EdgeInsets.fromLTRB(10, 22, 15, 10),
-              child: Column(children: [
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  MeIcon(icon: Icons.icecream_outlined, text: postCount),
-                  Obx(() {
-                    final _account =
-                        AuthProvider.to.simpleAccountMap[accountId] ??
-                            SimpleAccountEntity.empty();
-                    final likeCount = _account.like_count > 0
-                        ? _account.like_count > 9999
-                            ? '9999+' + ' Hearts'.tr
-                            : _account.like_count.toString() + ' Hearts'.tr
-                        : '0' + ' Heart'.tr;
-                    return MeIcon(
-                      icon: Icons.favorite_border_outlined,
-                      text: likeCount,
-                      isLiked: _account.is_liked,
-                      onPressedLike: (bool increase) async {
-                        controller.accountAction(increase: increase);
-                        if (increase) {
-                          try {
-                            await controller.postLikeCount(accountId);
-                            UIUtils.toast('Liked!'.tr);
-                            final currentAccount =
-                                AuthProvider.to.simpleAccountMap[accountId]!;
-                            currentAccount.like_count += 1;
-                            AuthProvider.to.simpleAccountMap[accountId] =
-                                currentAccount;
-                          } catch (e) {
-                            UIUtils.showError(e);
-                            controller.accountAction(increase: false);
-                          }
-                        } else {
-                          try {
-                            await controller.cancelLikeCount(accountId);
-                            UIUtils.toast('Successfully_unliked.'.tr);
-                            final currentAccount =
-                                AuthProvider.to.simpleAccountMap[accountId]!;
-                            currentAccount.like_count -= 1;
-                            AuthProvider.to.simpleAccountMap[accountId] =
-                                currentAccount;
-                          } catch (e) {
-                            UIUtils.showError(e);
-                            controller.accountAction(increase: true);
-                          }
-                        }
-                      },
-                    );
-                  }),
-                  MeIcon(
-                      icon: Icons.mail_outlined,
-                      text: 'Chat_now'.tr,
-                      onPressedChat: () {
-                        Get.toNamed(Routes.ROOM, arguments: {
-                          'id': "$accountId@$imDomain",
-                        });
-                      }),
-                ]),
-              ]),
-            ),
-            SizedBox(height: 5),
-          ])),
-          PagedSliverGrid<String?, String>(
-            showNewPageProgressIndicatorAsGridChild: false,
-            showNewPageErrorIndicatorAsGridChild: false,
-            showNoMoreItemsIndicatorAsGridChild: false,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 0.8,
-              crossAxisCount: 2,
-            ),
-            pagingController: controller.pagingController,
-            builderDelegate: PagedChildBuilderDelegate<String>(
-                itemBuilder: (context, id, index) {
-              final post = postMap[id]!;
+              SizedBox(height: 5),
+            ])),
+            PagedSliverGrid<String?, String>(
+              showNewPageProgressIndicatorAsGridChild: false,
+              showNewPageErrorIndicatorAsGridChild: false,
+              showNoMoreItemsIndicatorAsGridChild: false,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 0.8,
+                crossAxisCount: 2,
+              ),
+              pagingController: controller.pagingController,
+              builderDelegate: PagedChildBuilderDelegate<String>(
+                  itemBuilder: (context, id, index) {
+                final post = postMap[id]!;
 
-              if (post == null) {
-                return SizedBox.shrink();
-              }
-              return SmallPost(
-                  onTap: () {
-                    Get.toNamed(Routes.MY_SINGLE_POST, arguments: {
-                      'id': id,
-                    });
-                  },
-                  postId: id,
-                  post: post);
-            }),
-          ),
-          SliverToBoxAdapter(child: Container(height: 100))
-        ]));
+                if (post == null) {
+                  return SizedBox.shrink();
+                }
+                return SmallPost(
+                    onTap: () {
+                      Get.toNamed(Routes.MY_SINGLE_POST, arguments: {
+                        'id': id,
+                      });
+                    },
+                    postId: id,
+                    post: post);
+              }),
+            ),
+            SliverToBoxAdapter(child: Container(height: 100))
+          ]),
+        ));
   }
 }

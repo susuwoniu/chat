@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class VipIcon extends StatelessWidget {
   final double? iconSize;
 
-  VipIcon({Key? key, this.iconSize = 24}) : super(key: key);
+  VipIcon({Key? key, this.iconSize = 23}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(

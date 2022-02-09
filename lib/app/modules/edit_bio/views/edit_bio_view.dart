@@ -12,6 +12,12 @@ class EditBioView extends GetView<EditBioController> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Bio".tr, style: TextStyle(fontSize: 16)),
+        bottom: PreferredSize(
+            child: Container(
+              height: 0.5,
+              color: Theme.of(context).dividerColor,
+            ),
+            preferredSize: Size.fromHeight(0)),
         actions: [
           Obx(() {
             final _isActived = controller.isActived.value;

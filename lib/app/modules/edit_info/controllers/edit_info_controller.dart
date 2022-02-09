@@ -83,8 +83,7 @@ class EditInfoController extends GetxController {
   }
 
   sendProfileImage(ProfileImageEntity img, {required int index}) async {
-    final slot =
-        await APIProvider.to.post("/account/me/profile-images/slot", body: {
+    final slot = await APIProvider.to.post("/account/me/avatar/slot", body: {
       "mime_type": img.mime_type,
       "size": img.size,
       "height": img.height,
@@ -100,19 +99,14 @@ class EditInfoController extends GetxController {
       newHeaders[key] = headers[key];
     }
     await upload(putUrl, img.url, headers: newHeaders, size: img.size);
-    final result =
-        await APIProvider.to.put('/account/me/profile-images/$index', body: {
-      "url": getUrl,
-      "width": img.width,
-      "height": img.height,
-      "size": img.size,
-      "mime_type": img.mime_type
+    final result = await APIProvider.to.patch('/account/me', body: {
+      "avatar": getUrl,
     });
 
-    final newImage = ProfileImageEntity.fromJson(result['data']['attributes']);
+    // final newImage = ProfileImageEntity.fromJson(result['data']['attributes']);
 
     // save the latest image info
-    await addImg(index, newImage);
+    // await addImg(index, newImage);
     // TODO hide loading
   }
 }
