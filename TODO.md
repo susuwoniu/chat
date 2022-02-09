@@ -27,6 +27,8 @@
 - [x]  点赞列表，拉黑列表
 - [x]  square背景色
 - [ ]  点赞列表查看用户为null
+- [ ]  message页面部分用户首次获取信息为null
+- [ ]  解除拉黑后列表更新
 - [ ]  post template 区分title content
 - [x]  square跳转到single post
 - [x]  square假删除

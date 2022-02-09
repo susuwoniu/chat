@@ -1,44 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:get/get.dart';
-import '../controllers/gender_select_controller.dart';
+import '../controllers/change_gender_controller.dart';
 import 'gender_picker.dart';
-import '../../age_picker/views/next_button.dart';
+import '../../complete_age/views/next_button.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:flutter/services.dart';
 
-class GenderSelectView extends GetView<GenderSelectController> {
+class ChangeGenderView extends GetView<ChangeGenderController> {
   @override
   Widget build(BuildContext context) {
-    final _width = MediaQuery.of(context).size.width;
-    final _height = MediaQuery.of(context).size.height;
-
     return Scaffold(
         appBar: AppBar(
-          title: Text('GenderSelect'.tr, style: TextStyle(fontSize: 16)),
+          title: Text('ChangeGender'.tr, style: TextStyle(fontSize: 16)),
         ),
         body: SafeArea(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
-                Column(children: [
-                  SizedBox(height: 10),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('I_am'.tr, style: TextStyle(fontSize: 17.0)),
-                        SizedBox(height: 5),
-                        Obx(() => GenderPicker(
-                              selectedGender: controller.selectedGender.value,
-                              setGender: controller.setGender,
-                            )),
-                      ],
-                    ),
-                  ),
-                ]),
+                SizedBox(height: 20),
+                Text('I_am'.tr, style: TextStyle(fontSize: 17.0)),
                 SizedBox(height: 10),
+                Obx(() => GenderPicker(
+                      selectedGender: controller.selectedGender.value,
+                      setGender: controller.setGender,
+                    )),
                 NextButton(
                     text: "Save".tr,
                     onPressed: () async {

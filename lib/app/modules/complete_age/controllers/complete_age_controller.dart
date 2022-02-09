@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
 
-class AgePickerController extends GetxController {
+class CompleteAgeController extends GetxController {
   final count = 0.obs;
   final birthYear = '1998'.obs;
 

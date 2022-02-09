@@ -183,7 +183,7 @@ class AuthProvider extends GetxService {
       "add_account_name": true,
       "add_account_bio": true,
       "add_account_birthday": true,
-      "add_account_profile_image": true,
+      "add_account_avatar": true,
       "add_account_gender": true
     };
     // other unknow actions, we don't care.

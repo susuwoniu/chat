@@ -12,9 +12,11 @@ class GenderPicker extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [_gender(context, "female"), _gender(context, "male")]);
+    return Container(
+        margin: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [_gender(context, "female"), _gender(context, "male")]));
   }
 
   Widget _gender(BuildContext context, String gender) {
@@ -23,7 +25,6 @@ class GenderPicker extends StatelessWidget {
           setGender(gender);
         },
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
           padding: EdgeInsets.only(top: 10, bottom: 25, left: 20, right: 20),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),

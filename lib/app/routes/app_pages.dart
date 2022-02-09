@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 import '../middleware/auth_middleware.dart';
 import '../modules/about/bindings/about_binding.dart';
 import '../modules/about/views/about_view.dart';
-import '../modules/add_profile_image/bindings/add_profile_image_binding.dart';
-import '../modules/add_profile_image/views/add_profile_image_view.dart';
-import '../modules/age_picker/bindings/age_picker_binding.dart';
-import '../modules/age_picker/views/age_picker_view.dart';
+import '../modules/complete_avatar/bindings/complete_avatar_binding.dart';
+import '../modules/complete_avatar/views/complete_avatar_view.dart';
+import '../modules/complete_age/bindings/complete_age_binding.dart';
+import '../modules/complete_age/views/complete_age_view.dart';
 import '../modules/block/bindings/block_binding.dart';
 import '../modules/block/views/block_view.dart';
 import '../modules/complete_bio/bindings/complete_bio_binding.dart';
@@ -29,8 +29,8 @@ import '../modules/edit_name/bindings/edit_name_binding.dart';
 import '../modules/edit_name/views/edit_name_view.dart';
 import '../modules/feedback/bindings/feedback_binding.dart';
 import '../modules/feedback/views/feedback_view.dart';
-import '../modules/gender_select/bindings/gender_select_binding.dart';
-import '../modules/gender_select/views/gender_select_view.dart';
+import '../modules/change_gender/bindings/change_gender_binding.dart';
+import '../modules/change_gender/views/change_gender_view.dart';
 import '../modules/liked_me/bindings/liked_me_binding.dart';
 import '../modules/liked_me/views/liked_me_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -194,9 +194,9 @@ class AppPages {
         //only enter this route when authed
         EnsureAuthMiddleware(),
       ],
-      name: _Paths.GENDER_SELECT,
-      page: () => GenderSelectView(),
-      binding: GenderSelectBinding(),
+      name: _Paths.CHANGE_GENDER,
+      page: () => ChangeGenderView(),
+      binding: ChangeGenderBinding(),
     ),
     GetPage(
       middlewares: [
@@ -212,18 +212,18 @@ class AppPages {
         //only enter this route when authed
         EnsureAuthMiddleware(),
       ],
-      name: _Paths.AGE_PICKER,
-      page: () => AgePickerView(),
-      binding: AgePickerBinding(),
+      name: _Paths.COMPLETE_AGE,
+      page: () => CompleteAgeView(),
+      binding: CompleteAgeBinding(),
     ),
     GetPage(
       middlewares: [
         //only enter this route when authed
         EnsureAuthMiddleware(),
       ],
-      name: _Paths.ADD_PROFILE_IMAGE,
-      page: () => AddProfileImageView(),
-      binding: AddProfileImageBinding(),
+      name: _Paths.COMPLETE_AVATAR,
+      page: () => CompleteAvatarView(),
+      binding: CompleteAvatarBinding(),
     ),
     GetPage(
       middlewares: [

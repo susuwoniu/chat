@@ -1,9 +1,9 @@
-import 'package:chat/app/modules/age_picker/views/next_button.dart';
+import 'package:chat/app/modules/complete_age/views/next_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../me/views/dots_widget.dart';
-import '../../age_picker/views/next_button.dart';
+import '../../complete_age/views/next_button.dart';
 import 'package:chat/common.dart';
 
 final List<Map<String, dynamic>> _cardList = [

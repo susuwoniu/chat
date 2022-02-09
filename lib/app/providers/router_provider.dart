@@ -131,7 +131,7 @@ class RouterProvider extends GetxService {
         "is-last-action": isLastAction,
       });
     } else if (actionType == 'add_account_birthday') {
-      Get.toNamed(Routes.AGE_PICKER, arguments: {
+      Get.toNamed(Routes.COMPLETE_AGE, arguments: {
         "is-last-action": isLastAction,
       });
     } else if (actionType == 'add_account_gender') {
@@ -146,8 +146,8 @@ class RouterProvider extends GetxService {
       Get.toNamed(Routes.COMPLETE_BIO, arguments: {
         "is-last-action": isLastAction,
       });
-    } else if (actionType == 'add_account_profile_image') {
-      Get.toNamed(Routes.ADD_PROFILE_IMAGE, arguments: {
+    } else if (actionType == 'add_account_avatar') {
+      Get.toNamed(Routes.COMPLETE_AVATAR, arguments: {
         "is-last-action": isLastAction,
       });
     } else {

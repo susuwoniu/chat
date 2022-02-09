@@ -1,4 +1,4 @@
-import 'package:chat/app/modules/age_picker/views/next_button.dart';
+import 'package:chat/app/modules/complete_age/views/next_button.dart';
 import 'package:chat/types/account.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

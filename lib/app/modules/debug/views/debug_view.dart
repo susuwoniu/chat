@@ -163,21 +163,21 @@ class DebugView extends GetView<DebugController> {
                 // ListTile(
                 //   title: Text('age'),
                 //   onTap: () {
-                //     Get.toNamed(Routes.AGE_PICKER);
+                //     Get.toNamed(Routes.COMPLETE_AGE);
                 //     //to close the drawer
                 //   },
                 // ),
                 // ListTile(
                 //   title: Text('gender'),
                 //   onTap: () {
-                //     Get.toNamed(Routes.GENDER_SELECT);
+                //     Get.toNamed(Routes.CHANGE_GENDER);
                 //     //to close the drawer
                 //   },
                 // ),
                 // ListTile(
                 //   title: Text('avatar'),
                 //   onTap: () {
-                //     Get.toNamed(Routes.ADD_PROFILE_IMAGE);
+                //
                 //     //to close the drawer
                 //   },
                 // ),
@@ -205,7 +205,7 @@ class DebugView extends GetView<DebugController> {
                 ListTile(
                   title: Text('Age Settings'),
                   onTap: () {
-                    Get.toNamed(Routes.AGE_PICKER);
+                    Get.toNamed(Routes.COMPLETE_AGE);
                   },
                 ),
                 ListTile(

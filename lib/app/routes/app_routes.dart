@@ -24,10 +24,10 @@ abstract class Routes {
   static const ANSWER = _Paths.ANSWER;
   static const EDIT_INFO = _Paths.EDIT_INFO;
   static const EDIT_NAME = _Paths.EDIT_NAME;
-  static const GENDER_SELECT = _Paths.GENDER_SELECT;
+  static const CHANGE_GENDER = _Paths.CHANGE_GENDER;
   static const MY_SINGLE_POST = _Paths.MY_SINGLE_POST;
-  static const AGE_PICKER = _Paths.AGE_PICKER;
-  static const ADD_PROFILE_IMAGE = _Paths.ADD_PROFILE_IMAGE;
+  static const COMPLETE_AGE = _Paths.COMPLETE_AGE;
+  static const COMPLETE_AVATAR = _Paths.COMPLETE_AVATAR;
   static const EDIT_BIO = _Paths.EDIT_BIO;
   static const POST_SQUARE = _Paths.POST_SQUARE;
   static const ABOUT = _Paths.ABOUT;
@@ -60,10 +60,8 @@ abstract class _Paths {
   static const ME = '/me';
   static const EDIT_INFO = '/edit-info';
   static const EDIT_NAME = '/edit-input';
-  static const GENDER_SELECT = '/gender-view';
+  static const CHANGE_GENDER = '/change-gender';
   static const MY_SINGLE_POST = '/post';
-  static const AGE_PICKER = '/age-picker';
-  static const ADD_PROFILE_IMAGE = '/add-profile-image';
   static const EDIT_BIO = '/edit-bio';
   static const POST_SQUARE = '/topic';
   static const POST_SQUARE_CARD_VIEW = '/topic-card';
@@ -80,4 +78,6 @@ abstract class _Paths {
   static const COMPLETE_GENDER = '/complete-gender';
   static const COMPLETE_NAME = '/complete-name';
   static const COMPLETE_BIO = '/complete-bio';
+  static const COMPLETE_AGE = '/complete-age';
+  static const COMPLETE_AVATAR = '/complete-avatar';
 }

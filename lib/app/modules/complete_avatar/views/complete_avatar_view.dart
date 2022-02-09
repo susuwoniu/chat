@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:chat/common.dart';
 import 'package:get/get.dart';
 
-import '../controllers/add_profile_image_controller.dart';
-import '../../age_picker/views/next_button.dart';
+import '../controllers/complete_avatar_controller.dart';
+import '../../complete_age/views/next_button.dart';
 
-class AddProfileImageView extends GetView<AddProfileImageController> {
+class CompleteAvatarView extends GetView<CompleteAvatarController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('AddProfileImageView', style: TextStyle(fontSize: 16)),
+        title: Text('CompleteAvatarView', style: TextStyle(fontSize: 16)),
       ),
       body: Column(children: [
         Text(
-          'AddProfileImageView is working',
+          'CompleteAvatarView is working',
           style: TextStyle(fontSize: 20),
         ),
         NextButton(

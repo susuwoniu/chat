@@ -1,9 +1,7 @@
 import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
 
-class AddProfileImageController extends GetxController {
-  //TODO: Implement AddProfileImageController
-
+class CompleteAvatarController extends GetxController {
   final count = 0.obs;
   @override
   void onInit() {

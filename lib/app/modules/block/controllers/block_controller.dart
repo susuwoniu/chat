@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:chat/common.dart';
@@ -26,6 +27,12 @@ class BlockController extends GetxController {
   void onInit() {
     pagingController.addPageRequestListener((lastPostId) {
       fetchPage(lastPostId: lastPostId);
+    });
+    ever(blockIdList, (_) {
+      pagingController.value = PagingState(
+        nextPageKey: lastCursor,
+        itemList: blockIdList,
+      );
     });
     super.onInit();
   }
@@ -73,6 +80,13 @@ class BlockController extends GetxController {
     bool replace = false,
     String? lastPostId,
   }) async {
+    if (isReachListEnd) {
+      pagingController.value = PagingState(
+        nextPageKey: null,
+        itemList: blockIdList,
+      );
+      return [];
+    }
     if (isLoading.value == false) {
       isLoading.value = true;
 
@@ -81,6 +95,12 @@ class BlockController extends GetxController {
         final result = await getBlockList(after: lastPostId);
         if (_isInitial.value == false) {
           _isInitial.value = true;
+          if (result.isEmpty) {
+            pagingController.value = PagingState(
+              nextPageKey: null,
+              itemList: [],
+            );
+          }
         }
         indexes = result;
         isLoading.value = false;
@@ -93,9 +113,6 @@ class BlockController extends GetxController {
       final isLastPage = indexes.isEmpty;
       if (isLastPage) {
         _isReachListEnd.value = true;
-        pagingController.appendLastPage(indexes);
-      } else {
-        pagingController.appendPage(indexes, lastCursor);
       }
 
       return indexes;

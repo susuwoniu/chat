@@ -65,7 +65,7 @@ class EditInfoView extends GetView<EditInfoController> {
                     title: _title("gender".tr),
                     trailing: _trail(_account.gender.tr),
                     onPressed: (BuildContext context) {
-                      Get.toNamed(Routes.GENDER_SELECT, arguments: {
+                      Get.toNamed(Routes.CHANGE_GENDER, arguments: {
                         "mode": "back",
                         "current-value": _account.gender
                       });

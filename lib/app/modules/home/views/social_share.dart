@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../age_picker/views/next_button.dart';
+import '../../complete_age/views/next_button.dart';
 import 'package:get/get.dart';
 
 class SocialShare extends StatefulWidget {

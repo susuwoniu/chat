@@ -38,14 +38,23 @@ class NextButton extends StatelessWidget {
           ),
           backgroundColor: Theme.of(context).colorScheme.surface,
           confirmTextColor: Theme.of(context).colorScheme.onSurface,
-          textConfirm: "Confirm".tr,
-          textCancel: "Cancel".tr,
+          cancel: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: TextButton(
+                  child: Text("Cancel".tr),
+                  onPressed: () {
+                    Get.back();
+                  })),
+          confirm: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: ElevatedButton(
+                  child: Text("Confirm".tr),
+                  onPressed: () {
+                    Get.back();
+                    onPressed();
+                  })),
           titlePadding: EdgeInsets.all(10),
           contentPadding: EdgeInsets.all(20),
-          onConfirm: () {
-            Get.back();
-            onPressed();
-          },
           radius: 10);
     } else {
       onPressed();

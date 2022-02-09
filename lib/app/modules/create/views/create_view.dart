@@ -52,7 +52,6 @@ class CreateView extends GetView<CreateController> {
                 padding: EdgeInsets.only(right: 16, top: 10, bottom: 10),
                 child: Obx(() => ElevatedButton(
                       child: Text("Send".tr),
-                      style: ButtonStyle(),
                       onPressed: controller.isComposing
                           ? () async {
                               _handleSubmitted();

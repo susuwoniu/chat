@@ -3,7 +3,7 @@ import 'package:chat/app/common/link.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import '../../age_picker/views/next_button.dart';
+import '../../complete_age/views/next_button.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/common.dart';
 import '../controllers/rule_controller.dart';
@@ -29,7 +29,7 @@ class RuleView extends GetView<RuleController> {
                 },
               ),
               NextButton(
-                  text: 'I_agree_rules'.tr,
+                  text: 'I_agree_rules.'.tr,
                   onPressed: () async {
                     try {
                       final account = await AccountProvider.to

@@ -1,8 +1,8 @@
 import 'package:chat/app/providers/providers.dart';
 import 'package:get/get.dart';
 
-class GenderSelectController extends GetxController {
-  //TODO: Implement GenderSelectController
+class ChangeGenderController extends GetxController {
+  //TODO: Implement ChangeGenderController
 
   final selectedGender = "".obs;
 

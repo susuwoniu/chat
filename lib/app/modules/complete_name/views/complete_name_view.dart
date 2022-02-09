@@ -4,31 +4,35 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/complete_name_controller.dart';
 import 'package:chat/app/modules/edit_name/views/input_widget.dart';
-import '../../age_picker/views/next_button.dart';
+import '../../complete_age/views/next_button.dart';
 
 class CompleteNameView extends GetView<CompleteNameController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: AppBar(
+        title: Text('CompleteName'.tr, style: TextStyle(fontSize: 16)),
+      ),
       body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(children: [
             SizedBox(height: 10),
             Container(
-                child: Text('Give_yourself_a_nice_name'.tr,
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(left: 15),
+                child: Text('Give_yourself_a_nice_name.'.tr,
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 17.0))),
-            SizedBox(height: 30),
+            SizedBox(height: 10),
             InputWidget(
-                hintText: "nickname".tr,
                 underline: true,
-                maxLength: 14,
+                maxLength: 12,
                 maxLines: 1,
                 initialContent: controller.initialContent,
                 onChange: controller.onChangeTextValue),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             Obx(() => NextButton(
                 text: controller.actionText,
                 disabled: !controller.isActived.value,
