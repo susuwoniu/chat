@@ -162,12 +162,15 @@ const Map<String, String> zh_Hans = {
   "Confirm": "确认",
   'Skip': '跳过',
   "Give_yourself_a_nice_name.": "取个好听的名字吧～",
-  "Give_yourself_a_nice_bio.": "一句话介绍自己。",
+  "Give_yourself_a_nice_bio.": "一句话介绍自己",
+  'CompleteAge': '选择年龄',
   "ChangeGender": "选择性别",
   "CompleteGender": "选择性别",
   "CompleteName": '编辑昵称',
   'CompleteBio': '编辑简介',
-  'CompleteAge': '选择年龄',
+  'CompleteAvatar': '上传头像',
   "I_agree_rules.": "我承诺遵守社区规则。",
+  'Please_choose_a_photo_that_best_represents_you.': '请选一张最能代表你的照片',
+  'Photo_can_be_edited_later.': '照片稍后可以修改',
   "Finish": "完成"
 };

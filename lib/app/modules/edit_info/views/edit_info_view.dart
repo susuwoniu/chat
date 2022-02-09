@@ -6,11 +6,8 @@ import 'package:chat/app/providers/providers.dart';
 import '../controllers/edit_info_controller.dart';
 import 'year_picker.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:chat/app/ui_utils/crop_image.dart';
-import 'package:mime_type/mime_type.dart';
-import 'dart:async';
-import 'dart:io';
+import 'package:chat/app/common/upload_img.dart';
+import 'package:chat/app/common/choose_img.dart';
 
 class EditInfoView extends GetView<EditInfoController> {
   @override
@@ -44,15 +41,22 @@ class EditInfoView extends GetView<EditInfoController> {
                         margin: EdgeInsets.symmetric(vertical: 15),
                         child: Avatar(
                             elevation: 0,
-                            name: _account.name,
-                            uri: AuthProvider
-                                    .to.account.value.profile_images.isEmpty
-                                ? null
-                                : AuthProvider
-                                    .to.account.value.profile_images[0].url,
+                            uri: AuthProvider.to.account.value.avatar,
                             size: 35)),
-                    onPressed: (BuildContext context) {
-                      _pickImage(0);
+                    onPressed: (BuildContext context) async {
+                      try {
+                        final imageFile = await chooseImage();
+                        if (imageFile != null) {
+                          final getUrl = await uploadImage(imageFile);
+                          if (getUrl != null) {
+                            await AccountProvider.to.postAccountInfoChange({
+                              "avatar": getUrl,
+                            });
+                          }
+                        }
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
                     }),
                 SettingsTile(
                     title: _title("Nickname".tr),
@@ -104,51 +108,6 @@ class EditInfoView extends GetView<EditInfoController> {
             ]);
       }),
     );
-  }
-
-  Future<void> _pickImage(int i) async {
-    try {
-      final pickedImage =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-      final imageFile = pickedImage != null ? File(pickedImage.path) : null;
-      if (imageFile != null) {
-        final file = await cropImage(imageFile.path);
-        if (file != null) {
-          UIUtils.showLoading();
-          final bytes = await file.readAsBytes();
-          var decodedImage = await decodeImageFromList(bytes);
-          final width = decodedImage.width.toDouble();
-          final height = decodedImage.height.toDouble();
-          final size = bytes.length;
-          final mimeType = mime(file.path);
-
-          if (mimeType != null) {
-            final img = ProfileImageEntity(
-                mime_type: mimeType,
-                url: file.path,
-                width: width,
-                height: height,
-                size: size,
-                order: i,
-                thumbtail: ThumbtailEntity(
-                    height: height,
-                    width: width,
-                    url: file.path,
-                    mime_type: mimeType));
-
-            // await EditInfoController.to.addImg(i, img);
-            await EditInfoController.to.sendProfileImage(img, index: i);
-            UIUtils.hideLoading();
-          } else {
-            UIUtils.hideLoading();
-
-            throw Exception('wrong image type');
-          }
-        }
-      }
-    } catch (e) {
-      UIUtils.showError(e);
-    }
   }
 
   Widget _title(String text) {

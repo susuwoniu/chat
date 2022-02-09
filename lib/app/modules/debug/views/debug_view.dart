@@ -174,13 +174,12 @@ class DebugView extends GetView<DebugController> {
                 //     //to close the drawer
                 //   },
                 // ),
-                // ListTile(
-                //   title: Text('avatar'),
-                //   onTap: () {
-                //
-                //     //to close the drawer
-                //   },
-                // ),
+                ListTile(
+                  title: Text('avatar'),
+                  onTap: () {
+                    Get.toNamed(Routes.COMPLETE_AVATAR);
+                  },
+                ),
                 ListTile(
                   title: Text('Message'),
                   onTap: () {

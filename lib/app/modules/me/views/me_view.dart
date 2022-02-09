@@ -60,7 +60,6 @@ class MeView extends GetView<MeController> {
           child: CustomScrollView(slivers: [
             SliverToBoxAdapter(child: Obx(() {
               final _account = AuthProvider.to.account.value;
-              final _imgList = List.from(_account.profile_images);
               final postCount = _account.post_count > 0
                   ? _account.post_count > 999
                       ? '999+' + ' Posts'.tr
@@ -78,10 +77,7 @@ class MeView extends GetView<MeController> {
                           ' Visitors'.tr
                   : '0' + ' Visitor'.tr;
 
-              if (_imgList.isEmpty) {
-                _imgList.add(ProfileImageEntity.empty());
-              }
-              final avatar = _imgList[0].url;
+              final avatar = _account.avatar;
 
               return Column(children: [
                 Column(children: [

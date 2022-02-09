@@ -4,7 +4,7 @@ import 'package:chat/utils/random.dart';
 import 'package:chat/common.dart';
 
 Widget Avatar(
-    {required String name,
+    {String? name,
     String? uri,
     Function? onTap,
     double? size,
@@ -15,17 +15,19 @@ Widget Avatar(
         '', //sets image path, it should be a URL string. default value is empty string, if path is empty it will display only initials
     child: child,
     radius: size ?? 24, // sets radius, default 50.0
-    backgroundColor: Colors.lightBlueAccent,
+    backgroundColor: name == null ? Color(0xfff2f2f7) : Colors.lightBlueAccent,
 
     // BACKGROUND_COLORS[get_random_index(BACKGROUND_COLORS
     //     .length)],
     // sets background color, default Theme.of(context).colorScheme.onPrimary
     borderWidth: 0, // sets border, default 0.0
-    initialsText: Text(
-      name.substring(0, 1),
-      style: TextStyle(
-          fontSize: size != null ? size - 8 : 15, color: Colors.white),
-    ), // sets initials text, set your own style, default Text('')
+    initialsText: name == null
+        ? Text('')
+        : Text(
+            name.substring(0, 1),
+            style: TextStyle(
+                fontSize: size != null ? size - 8 : 15, color: Colors.white),
+          ), // sets initials text, set your own style, default Text('')
     borderColor: Colors
         .transparent, // sets border color, default Theme.of(context).colorScheme.onPrimary
     elevation: elevation ??

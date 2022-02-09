@@ -23,11 +23,6 @@ class OtherView extends GetView<OtherController> {
     final accountId = controller.accountId;
     final _account = AuthProvider.to.simpleAccountMap[accountId] ??
         SimpleAccountEntity.empty();
-
-    final _imgList = List.from(_account.profile_images ?? []);
-    if (_imgList.isEmpty) {
-      _imgList.add(ProfileImageEntity.empty());
-    }
     final name = _account.name;
     final postCount = _account.post_count > 0
         ? _account.post_count > 999
@@ -35,10 +30,7 @@ class OtherView extends GetView<OtherController> {
             : _account.post_count.toString() + ' Posts'.tr
         : '0' + ' Post'.tr;
 
-    if (_imgList.isEmpty) {
-      _imgList.add(ProfileImageEntity.empty());
-    }
-    final avatar = _imgList[0].url;
+    final avatar = _account.avatar;
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         resizeToAvoidBottomInset: false,

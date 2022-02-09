@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:chat/utils/upload.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/types/types.dart';
 
@@ -59,18 +58,18 @@ class EditInfoController extends GetxController {
     await AuthProvider.to.saveAccount(newAccountEntity);
   }
 
-  Future<void> deleteImg(int i) async {
-    // TODO
-    final account = AuthProvider.to.account;
-    account.update((val) {
-      val!.profile_images.removeAt(i);
-    });
-    // save account
-    await AuthProvider.to.saveAccount(account.value);
-    // put new profiles
-    await APIProvider.to.put("/account/me/profile-images",
-        body: {"images": account.value.profile_images});
-  }
+  // Future<void> deleteImg(int i) async {
+  //   // TODO
+  //   final account = AuthProvider.to.account;
+  //   account.update((val) {
+  //     val!.profile_images.removeAt(i);
+  //   });
+  //   // save account
+  //   await AuthProvider.to.saveAccount(account.value);
+  //   // put new profiles
+  //   await APIProvider.to.put("/account/me/profile-images",
+  //       body: {"images": account.value.profile_images});
+  // }
 
   void changeLocation(int i) {}
   void changeBirth(String value) {
@@ -80,33 +79,5 @@ class EditInfoController extends GetxController {
   void setNewDate(DateTime picked) {
     final _picked = picked.toString().substring(0, 10);
     _datePicked.value = _picked;
-  }
-
-  sendProfileImage(ProfileImageEntity img, {required int index}) async {
-    final slot = await APIProvider.to.post("/account/me/avatar/slot", body: {
-      "mime_type": img.mime_type,
-      "size": img.size,
-      "height": img.height,
-      "width": img.width
-    });
-    // print(slot);
-    final putUrl = slot["meta"]["put_url"];
-    final getUrl = slot["meta"]["get_url"];
-    final headers = slot["meta"]["headers"] as Map;
-    final Map<String, String> newHeaders = {};
-
-    for (var key in headers.keys) {
-      newHeaders[key] = headers[key];
-    }
-    await upload(putUrl, img.url, headers: newHeaders, size: img.size);
-    final result = await APIProvider.to.patch('/account/me', body: {
-      "avatar": getUrl,
-    });
-
-    // final newImage = ProfileImageEntity.fromJson(result['data']['attributes']);
-
-    // save the latest image info
-    // await addImg(index, newImage);
-    // TODO hide loading
   }
 }
