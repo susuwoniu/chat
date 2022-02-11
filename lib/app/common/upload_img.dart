@@ -1,4 +1,3 @@
-import 'package:chat/app/ui_utils/crop_image.dart';
 import 'package:mime_type/mime_type.dart';
 import 'dart:async';
 import 'package:chat/common.dart';

@@ -6,13 +6,13 @@ import 'package:chat/app/routes/app_pages.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../me/views/small_post.dart';
-import '../../me/views/like_count.dart';
+import 'package:flutter/cupertino.dart';
 import '../controllers/other_controller.dart';
 import '../../home/views/more_dots.dart';
 import 'package:chat/app/common/block.dart';
-import 'package:chat/app/common/quote_with_link.dart';
 import '../../me/views/me_icon.dart';
 import '../../me/views/vip_icon.dart';
+import '../../me/views/open_avatar.dart';
 
 class OtherView extends GetView<OtherController> {
   final CarouselController buttonCarouselController = CarouselController();
@@ -119,6 +119,16 @@ class OtherView extends GetView<OtherController> {
                               padding: EdgeInsets.all(10),
                               child: Avatar(
                                   elevation: 0,
+                                  onTap: () {
+                                    if (avatar != null) {
+                                      showCupertinoModalPopup(
+                                          barrierColor: Colors.black87,
+                                          context: context,
+                                          builder: (context) {
+                                            return OpenAvatar(avatar: avatar);
+                                          });
+                                    }
+                                  },
                                   name: _account.name,
                                   uri: avatar,
                                   size: 50)),

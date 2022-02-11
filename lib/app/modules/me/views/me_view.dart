@@ -3,7 +3,7 @@ import 'package:chat/app/modules/me/views/vip_icon.dart';
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:chat/app/widgets/widgets.dart';
-import 'package:chat/types/account.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/me_controller.dart';
@@ -13,6 +13,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../home/controllers/home_controller.dart';
 import './create_post.dart';
 import 'me_icon.dart';
+import 'open_avatar.dart';
 
 class MeView extends GetView<MeController> {
   @override
@@ -96,6 +97,16 @@ class MeView extends GetView<MeController> {
                                 padding: EdgeInsets.all(10),
                                 child: Avatar(
                                     elevation: 0,
+                                    onTap: () {
+                                      if (avatar != null) {
+                                        showCupertinoModalPopup(
+                                            barrierColor: Colors.black87,
+                                            context: context,
+                                            builder: (context) {
+                                              return OpenAvatar(avatar: avatar);
+                                            });
+                                      }
+                                    },
                                     name: _account.name,
                                     uri: avatar,
                                     size: 50)),
