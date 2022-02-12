@@ -19,15 +19,15 @@ Map<String, dynamic> _$ActionEntityToJson(ActionEntity instance) =>
       'content': instance.content,
     };
 
-ThumbtailEntity _$ThumbtailEntityFromJson(Map<String, dynamic> json) =>
-    ThumbtailEntity(
+ThumbnailEntity _$ThumbnailEntityFromJson(Map<String, dynamic> json) =>
+    ThumbnailEntity(
       mime_type: json['mime_type'] as String,
       url: json['url'] as String,
       width: (json['width'] as num).toDouble(),
       height: (json['height'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$ThumbtailEntityToJson(ThumbtailEntity instance) =>
+Map<String, dynamic> _$ThumbnailEntityToJson(ThumbnailEntity instance) =>
     <String, dynamic>{
       'mime_type': instance.mime_type,
       'url': instance.url,
@@ -35,41 +35,40 @@ Map<String, dynamic> _$ThumbtailEntityToJson(ThumbtailEntity instance) =>
       'height': instance.height,
     };
 
-ProfileImageEntity _$ProfileImageEntityFromJson(Map<String, dynamic> json) =>
-    ProfileImageEntity(
+ImageEntity _$ImageEntityFromJson(Map<String, dynamic> json) => ImageEntity(
       mime_type: json['mime_type'] as String,
       url: json['url'] as String,
       width: (json['width'] as num).toDouble(),
       height: (json['height'] as num).toDouble(),
-      order: json['order'] as int,
       size: json['size'] as int,
-      thumbtail:
-          ThumbtailEntity.fromJson(json['thumbtail'] as Map<String, dynamic>),
+      thumbnail:
+          ThumbnailEntity.fromJson(json['thumbnail'] as Map<String, dynamic>),
+      large: ThumbnailEntity.fromJson(json['large'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$ProfileImageEntityToJson(ProfileImageEntity instance) =>
+Map<String, dynamic> _$ImageEntityToJson(ImageEntity instance) =>
     <String, dynamic>{
       'mime_type': instance.mime_type,
       'url': instance.url,
       'width': instance.width,
       'height': instance.height,
       'size': instance.size,
-      'order': instance.order,
-      'thumbtail': instance.thumbtail,
+      'thumbnail': instance.thumbnail,
+      "large": instance.large,
     };
 
 AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
     AccountEntity(
       profile_images: (json['profile_images'] as List<dynamic>?)
-              ?.map(
-                  (e) => ProfileImageEntity.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ImageEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
       bio: json['bio'] as String?,
       post_count: json['post_count'] as int,
       age: json['age'] as int?,
       birthday: json['birthday'] as String?,
-      avatar: json['avatar'] as String?,
+      avatar:
+          json['avatar'] != null ? ImageEntity.fromJson(json['avatar']) : null,
       actions: (json['actions'] as List<dynamic>?)
               ?.map((e) => ActionEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??

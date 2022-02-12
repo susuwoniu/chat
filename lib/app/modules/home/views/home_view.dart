@@ -180,7 +180,7 @@ class HomeView extends GetView<HomeController> {
                                         color: Color(post.color),
                                         accountId: post.accountId,
                                         authorName: author.name,
-                                        avatarUri: author.avatar,
+                                        avatarUri: author.avatar?.thumbnail.url,
                                         nameSize: 18,
                                         index: index),
                                     SizedBox(
@@ -286,7 +286,8 @@ class HomeView extends GetView<HomeController> {
                     } else {
                       return Container(
                           padding: EdgeInsets.all(16),
-                          child: Text("unknow_error".tr));
+                          child: Text("unknow_error".tr,
+                              style: TextStyle(color: Colors.white)));
                     }
                   })));
             },

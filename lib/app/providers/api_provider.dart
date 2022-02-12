@@ -175,9 +175,12 @@ class APIProvider {
         }
       }
       return responseBody;
-    } on ServiceException catch (_) {
+    } on ServiceException catch (e) {
       UIUtils.hideLoading();
       // await UIUtils.snackbar(e.title, e.detail);
+      if (e.code == 'unauthorized_error' || e.status == 401) {
+        await AuthProvider.to.cleanToken();
+      }
       rethrow;
     }
   }

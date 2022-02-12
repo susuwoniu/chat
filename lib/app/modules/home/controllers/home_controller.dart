@@ -169,6 +169,14 @@ class HomeController extends GetxController {
       } else if (after != null && before == null) {
         pageState[currentPage]!.homePostsLastCursor = result.endCursor;
       }
+
+      // set read page end
+      if (pageState[currentPage]!.isHomeInitial == false) {
+        if (result.indexes.length < 3) {
+          pageState[currentPage]!.isReachHomePostsEnd = true;
+        }
+      }
+
       // put accoutns to simple accounts
       await AuthProvider.to.saveSimpleAccounts(result.accountMap);
       patchPostCountView(result.indexes[0]).catchError((e) {
@@ -371,7 +379,8 @@ class HomeController extends GetxController {
         'STORAGE_${currentPage}_LAST_CURSOR_KEY',
         postMap[postId]!.cursor,
         getExpiresAt());
-    if (AuthProvider.to.accountId != postMap[postId]!.accountId) {
+    if (AuthProvider.to.isLogin &&
+        AuthProvider.to.accountId != postMap[postId]!.accountId) {
       await APIProvider.to.patch("/post/posts/$postId",
           body: {"viewed_count_action": "increase_one"});
     }

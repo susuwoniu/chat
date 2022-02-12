@@ -17,6 +17,8 @@ Future<void> main() async {
     defaultValue: AppConfig.DEV,
   );
   await Global.init();
+  await Global().runOnetimeTask();
+
   // run global timer task
   await Global().runGlobalTask();
 

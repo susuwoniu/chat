@@ -40,10 +40,10 @@ class EditInfoController extends GetxController {
 
   Future<void> addImg(
     int i,
-    ProfileImageEntity img,
+    ImageEntity img,
   ) async {
     final accountEntity = AuthProvider.to.account.value;
-    final List<ProfileImageEntity> imgList = [...accountEntity.profile_images];
+    final List<ImageEntity> imgList = [...accountEntity.profile_images];
     if (imgList.length > i) {
       imgList[i] = img;
     } else {

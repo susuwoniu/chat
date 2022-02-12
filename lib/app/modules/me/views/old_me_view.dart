@@ -66,7 +66,7 @@ class MeView extends GetView<MeController> {
                   final _imgList = List.from(_account.profile_images);
 
                   if (_imgList.isEmpty) {
-                    _imgList.add(ProfileImageEntity.empty());
+                    _imgList.add(ImageEntity.empty());
                   }
                   return Column(children: [
                     Container(

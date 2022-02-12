@@ -121,7 +121,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                               arguments: {"accountId": id});
                         },
                         name: account.name,
-                        img: account.avatar,
+                        img: account.avatar?.thumbnail.url,
                         likeCount: account.like_count,
                         viewerId: id,
                         isLast: index == controller.viewerIdList.length - 1,

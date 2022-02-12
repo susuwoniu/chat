@@ -8,11 +8,12 @@ class CompleteBioController extends GetxController {
   final String initialContent = AuthProvider.to.account.value.bio ?? "";
   final currentBio = (AuthProvider.to.account.value.bio ?? "").obs;
   final count = 0.obs;
-  final isLastAction = Get.arguments['is-last-action'];
+  var isLastAction = false;
   String actionText = "Next".tr;
   @override
   void onInit() {
-    if (isLastAction != null && isLastAction) {
+    if (Get.arguments != null && Get.arguments['is-last-action'] == "true") {
+      isLastAction = true;
       actionText = "Finish".tr;
     }
 

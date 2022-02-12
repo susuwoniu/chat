@@ -41,7 +41,8 @@ class SingleLike extends StatelessWidget {
               contentPadding: EdgeInsets.symmetric(vertical: 4),
               leading: Stack(clipBehavior: Clip.none, children: [
                 Avatar(
-                    name: blockAccount.avatar ?? blockAccount.name,
+                    name: blockAccount.name,
+                    uri: blockAccount.avatar?.thumbnail.url,
                     size: 28,
                     onTap: () {
                       Get.toNamed(Routes.OTHER, arguments: {"accountId": id});

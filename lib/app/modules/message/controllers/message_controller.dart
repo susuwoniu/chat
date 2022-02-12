@@ -363,10 +363,10 @@ class MessageController extends GetxController {
       roomId,
       message,
       getThumbnail: (file) {
-        final thumbtailUri = '${file.uri}/thumbnail';
-        print("thumbtailUri: $thumbtailUri");
+        final thumbnailUri = '${file.uri}/thumbnail';
+        print("thumbnailUri: $thumbnailUri");
         return xmpp.MessageThumbnail(
-          uri: thumbtailUri,
+          uri: thumbnailUri,
           mimeType: mimeType!,
           height: image.height.toDouble() * 300 / image.width.toDouble(),
           width: 300,

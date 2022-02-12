@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat/utils/string.dart';
 
 class SingleImage extends StatelessWidget {
-  final ProfileImageEntity img;
+  final ImageEntity img;
 
   SingleImage({
     Key? key,
@@ -19,7 +19,7 @@ class SingleImage extends StatelessWidget {
     final isNet = isUrl(img.url);
     ImageProvider _image;
     if (isNet) {
-      _image = CachedNetworkImageProvider(img.url);
+      _image = CachedNetworkImageProvider(img.thumbnail.url);
     } else {
       _image = FileImage(File(img.url));
     }

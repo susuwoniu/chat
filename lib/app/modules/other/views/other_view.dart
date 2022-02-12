@@ -125,12 +125,13 @@ class OtherView extends GetView<OtherController> {
                                           barrierColor: Colors.black87,
                                           context: context,
                                           builder: (context) {
-                                            return OpenAvatar(avatar: avatar);
+                                            return OpenAvatar(
+                                                avatar: avatar.url);
                                           });
                                     }
                                   },
                                   name: _account.name,
-                                  uri: avatar,
+                                  uri: avatar?.thumbnail.url,
                                   size: 50)),
                           Positioned(
                             bottom: 5,

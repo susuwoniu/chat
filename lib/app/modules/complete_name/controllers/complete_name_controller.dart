@@ -24,11 +24,12 @@ class CompleteNameController extends GetxController {
     }
   }
 
-  final isLastAction = Get.arguments['is-last-action'];
+  var isLastAction = false;
   String actionText = "Next".tr;
   @override
   void onInit() {
-    if (isLastAction != null && isLastAction) {
+    if (Get.arguments != null && Get.arguments['is-last-action'] == "true") {
+      isLastAction = true;
       actionText = "Finish".tr;
     }
     RouterProvider.to.setClosePageCountBeforeNextPage(

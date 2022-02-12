@@ -41,11 +41,13 @@ class EditInfoView extends GetView<EditInfoController> {
                         margin: EdgeInsets.symmetric(vertical: 15),
                         child: Avatar(
                             elevation: 0,
-                            uri: AuthProvider.to.account.value.avatar,
+                            uri: AuthProvider
+                                .to.account.value.avatar?.thumbnail.url,
                             size: 35)),
                     onPressed: (BuildContext context) async {
                       try {
-                        final imageFile = await chooseImage();
+                        final imageFile =
+                            await chooseImage(ratioX: 4, ratioY: 4);
                         if (imageFile != null) {
                           final getUrl = await uploadImage(imageFile);
                           if (getUrl != null) {

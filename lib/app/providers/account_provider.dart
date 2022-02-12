@@ -85,6 +85,8 @@ class AccountProvider extends GetxService {
     );
     final serverTime = DateTime.parse(result['data']['attributes']['now']);
     diffTime = DateTime.now().difference(serverTime).inMilliseconds;
+    final accountEntity = AccountEntity.fromJson(result["data"]["attributes"]);
+    await AuthProvider.to.saveAccount(accountEntity);
     // Get.offAndToNamed(AppRoutes.Application);
   }
 

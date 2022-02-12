@@ -116,7 +116,7 @@ class ReportView extends GetView<ReportController> {
                               onPressed: () {
                                 _uploadScreenshot();
                               })
-                          : SingleImage(img: controller.imgEntity)),
+                          : SingleImage(img: controller.imgEntity!)),
                     ),
                     SizedBox(height: 20),
                     NextButton(
@@ -158,23 +158,15 @@ class ReportView extends GetView<ReportController> {
         final mimeType = mime(imageFile.path);
 
         if (mimeType != null) {
-          final img = ProfileImageEntity(
-              mime_type: mimeType,
-              url: imageFile.path,
-              width: width,
-              height: height,
-              size: size,
-              order: 0,
-              thumbtail: ThumbtailEntity(
-                  height: height,
-                  width: width,
-                  url: imageFile.path,
-                  mime_type: mimeType));
-
-          controller.isShowBlank.value = false;
-          controller.setImgEntity(img);
           try {
-            await controller.uploadImg(img: controller.imgEntity);
+            final img = await controller.uploadImg(
+                path: pickedImage!.path,
+                mimeType: mimeType,
+                size: size,
+                width: width,
+                height: height);
+            controller.isShowBlank.value = false;
+            controller.setImgEntity(img);
           } catch (e) {
             UIUtils.showError(e);
           }
@@ -185,6 +177,8 @@ class ReportView extends GetView<ReportController> {
         }
       }
     } catch (e) {
+      UIUtils.hideLoading();
+
       UIUtils.showError(e);
     }
   }
