@@ -118,6 +118,7 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                             style: TextStyle(
                                               color: Color(post.color),
                                               fontSize: 20.0,
+                                              height: 1.6,
                                               fontWeight: FontWeight.w500,
                                             ))),
                                     SizedBox(height: 15),
@@ -127,7 +128,7 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                         authorName: author?.name ?? "--",
                                         nameSize: 18,
                                         avatarUri:
-                                            author?.avatar?.thumbtail.url,
+                                            author?.avatar?.thumbnail.url,
                                         index: index),
                                   ])),
                           Align(

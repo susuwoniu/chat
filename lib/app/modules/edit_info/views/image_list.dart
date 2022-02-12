@@ -111,7 +111,7 @@ class ImageList extends StatelessWidget {
             //     height: height,
             //     size: size,
             //     order: i,
-            //     thumbtail: ThumbtailEntity(
+            //     thumbnail: ThumbnailEntity(
             //         height: height,
             //         width: width,
             //         url: file.path,

@@ -14,21 +14,21 @@ class ActionEntity {
 }
 
 @JsonSerializable()
-class ThumbtailEntity {
+class ThumbnailEntity {
   final String mime_type;
   final String url;
   final double width;
   final double height;
 
-  ThumbtailEntity({
+  ThumbnailEntity({
     required this.mime_type,
     required this.url,
     required this.width,
     required this.height,
   });
-  factory ThumbtailEntity.fromJson(Map<String, dynamic> json) =>
-      _$ThumbtailEntityFromJson(json);
-  Map<String, dynamic> toJson() => _$ThumbtailEntityToJson(this);
+  factory ThumbnailEntity.fromJson(Map<String, dynamic> json) =>
+      _$ThumbnailEntityFromJson(json);
+  Map<String, dynamic> toJson() => _$ThumbnailEntityToJson(this);
 }
 
 @JsonSerializable()
@@ -38,17 +38,15 @@ class ImageEntity {
   final double width;
   final double height;
   final int size;
-  final int order;
-  ThumbtailEntity thumbtail;
-  ThumbtailEntity large;
+  ThumbnailEntity thumbnail;
+  ThumbnailEntity large;
   ImageEntity(
       {required this.mime_type,
       required this.url,
       required this.width,
       required this.height,
-      required this.order,
       required this.size,
-      required this.thumbtail,
+      required this.thumbnail,
       required this.large});
   static ImageEntity empty() {
     return ImageEntity(
@@ -58,14 +56,13 @@ class ImageEntity {
         width: 140,
         height: 140,
         size: 45,
-        order: 0,
-        thumbtail: ThumbtailEntity(
+        thumbnail: ThumbnailEntity(
             height: 140,
             width: 140,
             url:
                 "http://p1.music.126.net/jcKLW8e0n4dqVywaBvGqrA==/109951166712826330.jpg?param=140y140",
             mime_type: "image/jpg"),
-        large: ThumbtailEntity(
+        large: ThumbnailEntity(
             height: 140,
             width: 140,
             url:

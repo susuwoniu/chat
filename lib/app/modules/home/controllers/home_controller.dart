@@ -169,6 +169,14 @@ class HomeController extends GetxController {
       } else if (after != null && before == null) {
         pageState[currentPage]!.homePostsLastCursor = result.endCursor;
       }
+
+      // set read page end
+      if (pageState[currentPage]!.isHomeInitial == false) {
+        if (result.indexes.length < 3) {
+          pageState[currentPage]!.isReachHomePostsEnd = true;
+        }
+      }
+
       // put accoutns to simple accounts
       await AuthProvider.to.saveSimpleAccounts(result.accountMap);
       patchPostCountView(result.indexes[0]).catchError((e) {
@@ -371,54 +379,11 @@ class HomeController extends GetxController {
         'STORAGE_${currentPage}_LAST_CURSOR_KEY',
         postMap[postId]!.cursor,
         getExpiresAt());
-    if (AuthProvider.to.accountId == postMap[postId]!.accountId) {
+    if (AuthProvider.to.isLogin &&
+        AuthProvider.to.accountId != postMap[postId]!.accountId) {
       await APIProvider.to.patch("/post/posts/$postId",
           body: {"viewed_count_action": "increase_one"});
     }
-  }
-
-  Future<void> getRawVisitorList(String postId, {String? after}) async {
-    var post = postMap[postId];
-    if (post != null) {
-      post.isLoadingViewersList = true;
-      postMap[postId] = post;
-    }
-    Map<String, dynamic> query = {};
-    if (after != null) {
-      query["after"] = after;
-    }
-    final body =
-        await APIProvider.to.get("/post/posts/$postId/views", query: query);
-
-    final Map<String, SimpleAccountEntity> newAccountMap = {};
-    final List<String> newIndexes = [];
-
-    // String? newEndCursor;
-    for (var i = 0; i < body["data"].length; i++) {
-      final item = body["data"][i];
-      final viewerId = item["attributes"]["viewed_by"];
-      newIndexes.add(viewerId);
-    }
-    if (body["included"] != null) {
-      for (var v in body["included"]) {
-        if (v["type"] == "accounts") {
-          newAccountMap[v["id"]] =
-              SimpleAccountEntity.fromJson(v["attributes"]);
-        }
-      }
-    }
-    AuthProvider.to.saveSimpleAccounts(newAccountMap);
-
-    if (post != null) {
-      post.views = newIndexes;
-      post.isLoadingViewersList = false;
-      postMap[postId] = post;
-    }
-    // if (body["meta"]["page_info"]["end"] != null) {
-    //   newEndCursor = body["meta"]["page_info"]["end"];
-    // }
-    // return PostsResult(
-    //     postMap: newPostMap, indexes: newIndexes, endCursor: newEndCursor);
   }
 
   void onSubmittedFilter({

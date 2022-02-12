@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 class LikeCount extends StatelessWidget {
   final int count;
   final Color? backgroundColor;
-  final double? fontSize;
-  final double? iconSize;
+  final double fontSize;
+  final double iconSize;
   final bool isMe;
 
   LikeCount(
@@ -37,7 +37,8 @@ class LikeCount extends StatelessWidget {
           }
         },
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          padding:
+              EdgeInsets.symmetric(horizontal: 8, vertical: fontSize * 0.1),
           child: Row(children: [
             Icon(
               Icons.favorite_rounded,

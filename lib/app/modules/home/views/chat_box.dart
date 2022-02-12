@@ -40,7 +40,7 @@ class ChatBox extends StatelessWidget {
               child: Avatar(
                 elevation: 0,
                 size: 18,
-                uri: account.avatar?.thumbtail.url,
+                uri: account.avatar?.thumbnail.url,
                 child: isLogin
                     ? null
                     : const Image(image: AssetImage('assets/avatar.png')),

@@ -131,7 +131,7 @@ class OtherView extends GetView<OtherController> {
                                     }
                                   },
                                   name: _account.name,
-                                  uri: avatar?.thumbtail.url,
+                                  uri: avatar?.thumbnail.url,
                                   size: 50)),
                           Positioned(
                             bottom: 5,

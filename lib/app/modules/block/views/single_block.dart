@@ -35,14 +35,14 @@ class SingleBlock extends StatelessWidget {
             ? Colors.pink.shade300
             : Colors.lightBlue;
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 12),
+        margin: EdgeInsets.symmetric(horizontal: 13),
         child: Column(children: [
           ListTile(
               contentPadding: EdgeInsets.symmetric(vertical: 3),
               leading: Stack(clipBehavior: Clip.none, children: [
                 Avatar(
                     name: blockAccount.name,
-                    uri: blockAccount.avatar?.thumbtail.url,
+                    uri: blockAccount.avatar?.thumbnail.url,
                     size: 28,
                     onTap: () {
                       Get.toNamed(Routes.OTHER, arguments: {"accountId": id});
@@ -64,9 +64,12 @@ class SingleBlock extends StatelessWidget {
                             Flexible(
                                 child: Text(blockAccount.name,
                                     style: TextStyle(
-                                      fontSize: 15,
-                                      overflow: TextOverflow.ellipsis,
-                                    ))),
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 15,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                        fontWeight: FontWeight.w500))),
                           ]),
                         ),
                       ])),

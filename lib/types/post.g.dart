@@ -15,7 +15,6 @@ PostEntity _$PostEntityFromJson(Map<String, dynamic> json) => PostEntity(
       post_template_id: json['post_template_id'] as String,
       views:
           (json['views'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      isLoadingViewersList: json['isLoadingViewersList'] as bool? ?? false,
       post_template_title: json['post_template_title'] as String,
       visibility: json['visibility'] as String,
       created_at: json['created_at'] as String,
@@ -31,7 +30,6 @@ Map<String, dynamic> _$PostEntityToJson(PostEntity instance) =>
       'cursor': instance.cursor,
       'post_template_id': instance.post_template_id,
       'views': instance.views,
-      'isLoadingViewersList': instance.isLoadingViewersList,
       'post_template_title': instance.post_template_title,
       'created_at': instance.created_at,
       'visibility': instance.visibility,

@@ -39,24 +39,30 @@ class ReportController extends GetxController {
     imgEntity = img;
   }
 
-  uploadImg({ImageEntity? img}) async {
-    if (img != null) {
-      final slot = await APIProvider.to.post("/file/image/slot", body: {
-        "mime_type": img.mime_type,
-        "size": img.size,
-        "height": img.height,
-        "width": img.width
-      });
-      // print(slot);
-      final putUrl = slot["meta"]["put_url"];
-      final headers = slot["meta"]["headers"] as Map;
-      final Map<String, String> newHeaders = {};
+  Future<ImageEntity> uploadImg(
+      {required String path,
+      required String mimeType,
+      required double width,
+      required double height,
+      required int size}) async {
+    final slot = await APIProvider.to.post("/file/image/slot", body: {
+      "mime_type": mimeType,
+      "size": size,
+      "height": height,
+      "width": width
+    });
+    // print(slot);
+    final image = ImageEntity.fromJson(slot["meta"]["image"]);
 
-      for (var key in headers.keys) {
-        newHeaders[key] = headers[key];
-      }
-      await upload(putUrl, img.url, headers: newHeaders, size: img.size);
+    final putUrl = slot["meta"]["put_url"];
+    final headers = slot["meta"]["headers"] as Map;
+    final Map<String, String> newHeaders = {};
+
+    for (var key in headers.keys) {
+      newHeaders[key] = headers[key];
     }
+    await upload(putUrl, path, headers: newHeaders, size: size);
+    return image;
   }
 
   onPressReport({String? content}) async {

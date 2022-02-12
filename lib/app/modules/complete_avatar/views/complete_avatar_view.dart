@@ -50,55 +50,61 @@ class CompleteAvatarView extends GetView<CompleteAvatarController> {
               return controller.avatar.value != null
                   ? Container(
                       child: Avatar(
-                          uri: controller.avatar.value!.thumbtail.url,
+                          uri: controller.avatar.value!.thumbnail.url,
                           size: 59))
-                  : Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Color(0xfff2f2f7)),
-                      padding: EdgeInsets.all(35),
-                      child: IconButton(
-                        padding: EdgeInsets.all(0),
-                        iconSize: 30,
-                        icon: Icon(
-                          Icons.add_photo_alternate_outlined,
-                          color: Theme.of(context).hintColor,
+                  : GestureDetector(
+                      onTap: handleImageUpload,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, color: Color(0xfff2f2f7)),
+                        padding: EdgeInsets.all(35),
+                        child: IconButton(
+                          padding: EdgeInsets.all(0),
+                          iconSize: 30,
+                          icon: Icon(
+                            Icons.add_photo_alternate_outlined,
+                            color: Theme.of(context).hintColor,
+                          ),
+                          onPressed: handleImageUpload,
                         ),
-                        onPressed: () async {
-                          try {
-                            final imageFile = await chooseImage();
-                            if (imageFile != null) {
-                              final image = await uploadImage(imageFile);
-                              if (image != null) {
-                                controller.avatar.value = image;
-                              }
-                            }
-                          } catch (e) {
-                            UIUtils.showError(e);
-                          }
-                        },
-                      ),
-                    );
+                      ));
             }),
             SizedBox(height: 20),
             Text("Photo_can_be_edited_later.".tr,
                 style: TextStyle(color: Theme.of(context).hintColor)),
             SizedBox(height: 25),
-            NextButton(
-              text: 'Finish'.tr,
-              onPressed: () async {
-                try {
-                  final account =
-                      await AccountProvider.to.postAccountInfoChange({
-                    "avatar": controller.avatar.value,
-                  });
-                  // if next action to next action
-                  AuthProvider.to.checkActions(account.actions);
-                } catch (e) {
-                  UIUtils.showError(e);
-                }
-              },
-            ),
+            Obx(() => NextButton(
+                  disabled: controller.avatar.value == null,
+                  text: controller.actionText,
+                  onPressed: () async {
+                    try {
+                      final account =
+                          await AccountProvider.to.postAccountInfoChange({
+                        "avatar": controller.avatar.value,
+                      });
+                      // if next action to next action
+                      AuthProvider.to.checkActions(account.actions);
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  },
+                )),
           ]),
         ));
+  }
+
+  handleImageUpload() async {
+    try {
+      final imageFile = await chooseImage(ratioX: 4, ratioY: 4);
+
+      if (imageFile != null) {
+        final image = await uploadImage(imageFile);
+        if (image != null) {
+          controller.avatar.value = image;
+        }
+      }
+    } catch (e) {
+      UIUtils.showError(e);
+    }
   }
 }

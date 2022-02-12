@@ -71,7 +71,7 @@ class CreateView extends GetView<CreateController> {
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Avatar(
                       name: currentAccount.name,
-                      uri: currentAccount.avatar?.thumbtail.url)),
+                      uri: currentAccount.avatar?.thumbnail.url)),
               Expanded(
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

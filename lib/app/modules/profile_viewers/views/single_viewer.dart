@@ -29,14 +29,15 @@ class SingleViewer extends StatelessWidget {
         : viewerAccount.viewedCount.toString();
 
     return Container(
+        margin: EdgeInsets.symmetric(horizontal: 13),
         color: Theme.of(context).colorScheme.surface,
         child: Column(children: [
           ListTile(
-            contentPadding: EdgeInsets.fromLTRB(12, 4, 15, 4),
+            contentPadding: EdgeInsets.symmetric(vertical: 3),
             leading: Stack(clipBehavior: Clip.none, children: [
               Avatar(
                   name: viewerAccount.account.name,
-                  uri: viewerAccount.account.avatar?.thumbtail.url,
+                  uri: viewerAccount.account.avatar?.thumbnail.url,
                   size: 28,
                   onTap: () {
                     onPressed();
@@ -59,24 +60,27 @@ class SingleViewer extends StatelessWidget {
                           Flexible(
                               child: Text(viewerAccount.account.name,
                                   style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                    fontWeight: FontWeight.w500,
                                     fontSize: 15,
                                     overflow: TextOverflow.ellipsis,
                                   ))),
+                          SizedBox(width: 6),
                           LikeCount(
                               count: viewerAccount.account.like_count,
-                              iconSize: 14,
+                              backgroundColor: Colors.black12,
                               fontSize: 14,
-                              backgroundColor: Colors.transparent),
+                              iconSize: 13),
                         ]),
                       ),
                       SizedBox(width: 15),
                       Text(times + "times".tr,
                           style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              fontSize: 16)),
+                            color: Theme.of(context).hintColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          )),
                     ])),
             subtitle: Container(
                 padding: EdgeInsets.symmetric(vertical: 3),
@@ -85,8 +89,7 @@ class SingleViewer extends StatelessWidget {
                     children: [
                       Text("Last_visit: ".tr + updatedAt,
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Theme.of(context).hintColor)),
+                              fontSize: 13, color: Colors.grey.shade500)),
                     ])),
           ),
           !isLast ? Divider(height: 1) : SizedBox.shrink()

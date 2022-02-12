@@ -7,8 +7,9 @@ import 'package:chat/app/providers/providers.dart';
 import 'dart:io';
 
 Future<ImageEntity?> uploadImage(File file) async {
+  UIUtils.showLoading();
+
   try {
-    UIUtils.showLoading();
     final bytes = await file.readAsBytes();
     var decodedImage = await decodeImageFromList(bytes);
     final width = decodedImage.width.toDouble();
@@ -46,6 +47,8 @@ Future<ImageEntity?> uploadImage(File file) async {
       throw Exception('wrong image type');
     }
   } catch (e) {
+    UIUtils.hideLoading();
+
     UIUtils.showError(e);
   }
 }

@@ -210,7 +210,8 @@ class DebugView extends GetView<DebugController> {
                 ListTile(
                   title: Text('Gender'),
                   onTap: () {
-                    Get.toNamed(Routes.COMPLETE_GENDER);
+                    Get.toNamed(Routes.COMPLETE_GENDER,
+                        arguments: {'is-last-action': "false"});
                   },
                 ),
                 ListTile(

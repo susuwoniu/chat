@@ -24,7 +24,9 @@ class LikedMeView extends GetView<LikedMeController> {
                 preferredSize: Size.fromHeight(0)),
             title: Text('Who_Liked_Me'.tr, style: TextStyle(fontSize: 16)),
             centerTitle: true),
-        body: RefreshIndicator(
+        body: SafeArea(
+            child: RefreshIndicator(
+          backgroundColor: Theme.of(context).colorScheme.surface,
           onRefresh: () => Future.sync(
             () => controller.pagingController.refresh(),
           ),
@@ -45,6 +47,6 @@ class LikedMeView extends GetView<LikedMeController> {
                     isLast: index == controller.likedIdList.length - 1,
                     blockAccount: controller.likedMap[id]!);
               })),
-        ));
+        )));
   }
 }

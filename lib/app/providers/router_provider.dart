@@ -128,27 +128,27 @@ class RouterProvider extends GetxService {
     if (actionType == 'agree_community_rules') {
       Get.toNamed(Routes.RULE, arguments: {
         "content": action.content,
-        "is-last-action": isLastAction,
+        "is-last-action": isLastAction.toString(),
       });
     } else if (actionType == 'add_account_birthday') {
       Get.toNamed(Routes.COMPLETE_AGE, arguments: {
-        "is-last-action": isLastAction,
+        "is-last-action": isLastAction.toString(),
       });
     } else if (actionType == 'add_account_gender') {
       Get.toNamed(Routes.COMPLETE_GENDER, arguments: {
-        "is-last-action": isLastAction,
+        "is-last-action": isLastAction.toString(),
       });
     } else if (actionType == 'add_account_name') {
       Get.toNamed(Routes.COMPLETE_NAME, arguments: {
-        "is-last-action": isLastAction,
+        "is-last-action": isLastAction.toString(),
       });
     } else if (actionType == 'add_account_bio') {
       Get.toNamed(Routes.COMPLETE_BIO, arguments: {
-        "is-last-action": isLastAction,
+        "is-last-action": isLastAction.toString(),
       });
     } else if (actionType == 'add_account_avatar') {
       Get.toNamed(Routes.COMPLETE_AVATAR, arguments: {
-        "is-last-action": isLastAction,
+        "is-last-action": isLastAction.toString(),
       });
     } else {
       if (_nextPage != null) {

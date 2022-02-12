@@ -129,7 +129,7 @@ class PostSquareView extends GetView<PostSquareController> {
                         Avatar(
                             name: AuthProvider.to.account.value.name,
                             uri: AuthProvider
-                                .to.account.value.avatar?.thumbtail.url,
+                                .to.account.value.avatar?.thumbnail.url,
                             size: 16),
                         SizedBox(width: 8),
                         Text('Join_topic'.tr,

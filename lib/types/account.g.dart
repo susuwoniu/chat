@@ -19,15 +19,15 @@ Map<String, dynamic> _$ActionEntityToJson(ActionEntity instance) =>
       'content': instance.content,
     };
 
-ThumbtailEntity _$ThumbtailEntityFromJson(Map<String, dynamic> json) =>
-    ThumbtailEntity(
+ThumbnailEntity _$ThumbnailEntityFromJson(Map<String, dynamic> json) =>
+    ThumbnailEntity(
       mime_type: json['mime_type'] as String,
       url: json['url'] as String,
       width: (json['width'] as num).toDouble(),
       height: (json['height'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$ThumbtailEntityToJson(ThumbtailEntity instance) =>
+Map<String, dynamic> _$ThumbnailEntityToJson(ThumbnailEntity instance) =>
     <String, dynamic>{
       'mime_type': instance.mime_type,
       'url': instance.url,
@@ -40,11 +40,10 @@ ImageEntity _$ImageEntityFromJson(Map<String, dynamic> json) => ImageEntity(
       url: json['url'] as String,
       width: (json['width'] as num).toDouble(),
       height: (json['height'] as num).toDouble(),
-      order: json['order'] as int,
       size: json['size'] as int,
-      thumbtail:
-          ThumbtailEntity.fromJson(json['thumbtail'] as Map<String, dynamic>),
-      large: ThumbtailEntity.fromJson(json['large'] as Map<String, dynamic>),
+      thumbnail:
+          ThumbnailEntity.fromJson(json['thumbnail'] as Map<String, dynamic>),
+      large: ThumbnailEntity.fromJson(json['large'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ImageEntityToJson(ImageEntity instance) =>
@@ -54,8 +53,7 @@ Map<String, dynamic> _$ImageEntityToJson(ImageEntity instance) =>
       'width': instance.width,
       'height': instance.height,
       'size': instance.size,
-      'order': instance.order,
-      'thumbtail': instance.thumbtail,
+      'thumbnail': instance.thumbnail,
       "large": instance.large,
     };
 

@@ -19,7 +19,7 @@ class SingleImage extends StatelessWidget {
     final isNet = isUrl(img.url);
     ImageProvider _image;
     if (isNet) {
-      _image = CachedNetworkImageProvider(img.url);
+      _image = CachedNetworkImageProvider(img.thumbnail.url);
     } else {
       _image = FileImage(File(img.url));
     }

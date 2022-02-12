@@ -4,19 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/my_single_post_controller.dart';
 import '../../home/controllers/home_controller.dart';
-import 'viewers_list.dart';
+import 'post_single_viewer.dart';
 import 'package:intl/intl.dart';
 import 'single_post_dot.dart';
 import '../../home/views/vip_sheet.dart';
-import 'package:flutter/services.dart';
 import '../../home/views/more_dots.dart';
 import 'package:chat/app/routes/app_pages.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 final VisibilityMap = {'public': 'Public', 'private': 'Private'};
 
 class MySinglePostView extends GetView<MySinglePostController> {
   final _postId = (Get.arguments['id']);
   final DateFormat formatter = DateFormat('yyyy-MM-dd  HH:mm');
+  final PagingController<String?, String> pagingController =
+      PagingController(firstPageKey: null);
 
   @override
   Widget build(BuildContext context) {
@@ -51,97 +53,79 @@ class MySinglePostView extends GetView<MySinglePostController> {
               preferredSize: Size.fromHeight(0)),
         ),
         body: SafeArea(
-          child: ListView(children: [
-            Container(
-                margin: EdgeInsets.fromLTRB(12, 20, 12, 20),
-                padding: EdgeInsets.fromLTRB(16, 5, 0, 25),
-                constraints: BoxConstraints(minHeight: _height * 0.4),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Color(_backgroundColor),
-                ),
-                width: _width * 0.9,
-                child: Column(children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          _createAt,
-                          style: TextStyle(
-                              color: Color(_frontColor), fontSize: 15),
-                        ),
-                        Row(children: [
-                          isMe
-                              ? Obx(() => Text(
-                                    VisibilityMap[controller.visibility]!.tr,
-                                    style: TextStyle(color: Color(_frontColor)),
-                                  ))
-                              : SizedBox.shrink(),
-                          _dotIcon(
-                              color: Color(_frontColor),
-                              context: context,
-                              postId: _postId,
-                              isMe: isMe)
-                        ])
-                      ]),
-                  Container(
-                      padding: EdgeInsets.only(right: 16),
-                      alignment: Alignment.centerLeft,
-                      child: Text(_content,
-                          style: TextStyle(
-                              color: Color(_frontColor),
-                              fontSize: 19.0,
-                              height: 1.6))),
-                ])),
-            Obx(() {
-              final post = _homeController.postMap[_postId]!;
-
-              final isLoading = post.isLoadingViewersList;
-
-              if (isMe) {
-                final List<Widget> list = post.views != null
-                    ? post.views!.isNotEmpty
-                        ? post.views!.map((e) {
-                            final account = AuthProvider.to.simpleAccountMap[e];
-                            return Container(
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: _width * 0.04),
-                                child: ViewersList(
-                                    name: account!.name,
-                                    img: account.avatar?.thumbtail.url,
-                                    likeCount: account.like_count,
-                                    viewerId: e));
-                          }).toList()
-                        : [
-                            Container(
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "no_one_has_seen...".tr,
-                                      style: TextStyle(
-                                          fontSize: 18, color: Colors.grey),
-                                    ),
-                                    Icon(
-                                      Icons.lunch_dining_rounded,
-                                      color: Colors.yellow.shade700,
-                                      size: 22,
-                                    )
-                                  ]),
-                            )
-                          ]
-                    : [];
-
-                final Widget loadingWidget =
-                    isLoading ? Container(child: Text("loading")) : Container();
-
-                list.add(loadingWidget);
-
-                return Column(children: list);
-              } else {
-                return SizedBox.shrink();
-              }
-            }),
+          child: CustomScrollView(slivers: [
+            SliverToBoxAdapter(
+              child: Column(children: [
+                Container(
+                  margin: EdgeInsets.fromLTRB(12, 20, 12, 10),
+                  padding: EdgeInsets.fromLTRB(16, 5, 0, 25),
+                  constraints: BoxConstraints(minHeight: _height * 0.4),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(_backgroundColor),
+                  ),
+                  width: _width * 0.9,
+                  child: Column(children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            _createAt,
+                            style: TextStyle(
+                                color: Color(_frontColor), fontSize: 15),
+                          ),
+                          Row(children: [
+                            isMe
+                                ? Obx(() => Text(
+                                      VisibilityMap[controller.visibility]!.tr,
+                                      style:
+                                          TextStyle(color: Color(_frontColor)),
+                                    ))
+                                : SizedBox.shrink(),
+                            _dotIcon(
+                                color: Color(_frontColor),
+                                context: context,
+                                postId: _postId,
+                                isMe: isMe)
+                          ])
+                        ]),
+                    Container(
+                        padding: EdgeInsets.only(right: 16),
+                        alignment: Alignment.centerLeft,
+                        child: Text(_content,
+                            style: TextStyle(
+                                color: Color(_frontColor),
+                                fontSize: 19.0,
+                                height: 1.6))),
+                  ]),
+                )
+              ]),
+            ),
+            isMe
+                ? PagedSliverList<String?, String>(
+                    pagingController: controller.pagingController,
+                    builderDelegate: PagedChildBuilderDelegate<String>(
+                        itemBuilder: (context, id, index) {
+                      final account = controller.viewerIdMap[id];
+                      if (account == null) {
+                        return SizedBox.shrink();
+                      }
+                      return PostSingleViewer(
+                        onPressed: () {
+                          Get.toNamed(Routes.OTHER,
+                              arguments: {"accountId": id});
+                        },
+                        name: account.name,
+                        img: account.avatar?.thumbnail.url,
+                        likeCount: account.like_count,
+                        viewerId: id,
+                        isLast: index == controller.viewerIdList.length - 1,
+                        isVip: account.vip,
+                      );
+                    }),
+                  )
+                : SliverToBoxAdapter(child: SizedBox.shrink()),
+            // SliverToBoxAdapter(child: Container(height: 100))
           ]),
         ));
   }
