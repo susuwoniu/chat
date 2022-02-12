@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:async';
 import 'package:chat/utils/string.dart';
+import 'package:characters/characters.dart';
 
 // For the testing purposes, you should probably use https://pub.dev/packages/uuid
 String randomString() {
@@ -68,7 +69,7 @@ class RoomController extends GetxController {
 
     if (quote != null && ChatProvider.to.currentChatAccount.value != null) {
       if (reduce == 'true' && quote.length > 144) {
-        quote = quote.substring(0, 144);
+        quote = quote.take(144).join();
         quote += "...";
       }
       var backgroundColor = Get.arguments["quote_background_color"];

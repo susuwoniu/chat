@@ -173,5 +173,6 @@ const Map<String, String> zh_Hans = {
   'Please_choose_a_photo_that_best_represents_you.': '请选一张最能代表你的照片',
   'Photo_can_be_edited_later.': '照片稍后可以修改',
   "Finish": "完成",
-  'viewed_your_post': '看过你的碎碎念'
+  'viewed_your_post': '看过你的碎碎念',
+  "no_one_seen_your_post": "还没有人看过这条碎碎念～",
 };

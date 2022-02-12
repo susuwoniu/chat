@@ -11,12 +11,10 @@ class MySinglePostController extends GetxController {
   final PagingController<String?, String> pagingController =
       PagingController(firstPageKey: null);
 
-  final _postId = Get.arguments['id'];
-  final isMe = HomeController.to.postMap[Get.arguments['id']]!.accountId ==
-      AuthProvider.to.accountId;
-
-  final _visibility =
-      HomeController.to.postMap[Get.arguments['id']]!.visibility.obs;
+  final postId = Get.arguments['id']!;
+  final _isMe = false.obs;
+  bool get isMe => _isMe.value;
+  final _visibility = "public".obs;
   String get visibility => _visibility.value;
 
   final isLoading = false.obs;
@@ -37,7 +35,14 @@ class MySinglePostController extends GetxController {
   @override
   void onInit() {
     pagingController.addPageRequestListener((lastPostId) {
-      fetchPage(lastPostId: lastPostId);
+      if (AuthProvider.to.isLogin) {
+        fetchPage(lastPostId: lastPostId);
+      } else {
+        pagingController.value = PagingState(
+          nextPageKey: null,
+          itemList: [],
+        );
+      }
     });
     ever(viewerIdList, (_) {
       pagingController.value = PagingState(
@@ -50,22 +55,31 @@ class MySinglePostController extends GetxController {
 
   @override
   void onReady() async {
+    super.onReady();
+
     try {
       isLoading.value = true;
 
-      if (!isMe) {
-        await APIProvider.to.patch("/post/posts/$_postId",
+      if (postId != null && HomeController.to.postMap[postId] != null) {
+        // do nothing
+      } else {
+        // get post
+        final result = await APIProvider.to.get('/post/posts/$postId');
+        HomeController.to.postMap[postId] =
+            PostEntity.fromJson(result['data']['attributes']);
+      }
+      _isMe.value = HomeController.to.postMap[postId]!.accountId ==
+          AuthProvider.to.accountId;
+      _visibility.value = HomeController.to.postMap[postId]!.visibility;
+      if (AuthProvider.to.isLogin && !isMe) {
+        await APIProvider.to.patch("/post/posts/$postId",
             body: {"viewed_count_action": "increase_one"});
       }
     } catch (e) {
       UIUtils.showError(e);
     }
     isLoading.value = false;
-
-    super.onReady();
   }
-
-  void increment() => count.value++;
 
   Future<List<String>> fetchPage({
     bool replace = false,
@@ -83,7 +97,7 @@ class MySinglePostController extends GetxController {
 
       List<String> indexes = [];
       try {
-        final result = await getRawVisitorList(_postId, after: lastPostId);
+        final result = await getRawVisitorList(postId, after: lastPostId);
         if (_isInitial.value == false) {
           _isInitial.value = true;
           if (result.isEmpty) {

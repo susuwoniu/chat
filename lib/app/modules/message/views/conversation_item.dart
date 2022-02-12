@@ -36,7 +36,7 @@ Widget conversationItemView(
               RouterProvider.to.toMe();
               return;
             }
-            Get.toNamed(Routes.OTHER, arguments: {"accountId": id});
+            Get.toNamed(Routes.OTHER, arguments: {"id": id});
           }),
       title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Expanded(

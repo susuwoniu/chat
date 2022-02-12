@@ -1,5 +1,4 @@
 import 'package:chat/app/providers/auth_provider.dart';
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/my_single_post_controller.dart';
@@ -11,30 +10,18 @@ import '../../home/views/vip_sheet.dart';
 import '../../home/views/more_dots.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:chat/common.dart';
 
 final VisibilityMap = {'public': 'Public', 'private': 'Private'};
 
-class MySinglePostView extends GetView<MySinglePostController> {
-  final _postId = (Get.arguments['id']);
+// todo use getBuilder, for dynamic path
+class MySinglePostView extends StatelessWidget {
   final DateFormat formatter = DateFormat('yyyy-MM-dd  HH:mm');
-  final PagingController<String?, String> pagingController =
-      PagingController(firstPageKey: null);
 
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
-    final _homeController = HomeController.to;
-
-    final _post = HomeController.to.postMap[_postId]!;
-    final authorId = _post.accountId;
-    final isMe = authorId == AuthProvider.to.accountId;
-
-    final _content = _post.content;
-    final _backgroundColor = _post.backgroundColor;
-    final _frontColor = _post.color;
-
-    final String _createAt = formatter.format(DateTime.parse(_post.created_at));
 
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -53,82 +40,110 @@ class MySinglePostView extends GetView<MySinglePostController> {
               preferredSize: Size.fromHeight(0)),
         ),
         body: SafeArea(
-            child: RefreshIndicator(
-          backgroundColor: Theme.of(context).colorScheme.surface,
-          onRefresh: () => Future.sync(
-            () => controller.pagingController.refresh(),
-          ),
-          child: CustomScrollView(slivers: [
-            SliverToBoxAdapter(
-              child: Column(children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(12, 20, 12, 10),
-                  padding: EdgeInsets.fromLTRB(16, 5, 0, 25),
-                  constraints: BoxConstraints(minHeight: _height * 0.4),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(_backgroundColor),
+          child: GetBuilder<MySinglePostController>(
+              init: MySinglePostController(),
+              tag: Get.arguments['id'],
+              // You can initialize your controller here the first time. Don't use init in your other GetBuilders of same controller
+              builder: (controller) {
+                return RefreshIndicator(
+                  backgroundColor: Theme.of(context).colorScheme.surface,
+                  onRefresh: () => Future.sync(
+                    () => controller.pagingController.refresh(),
                   ),
-                  width: _width * 0.9,
-                  child: Column(children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            _createAt,
-                            style: TextStyle(
-                                color: Color(_frontColor), fontSize: 15),
-                          ),
-                          Row(children: [
-                            isMe
-                                ? Obx(() => Text(
-                                      VisibilityMap[controller.visibility]!.tr,
-                                      style:
-                                          TextStyle(color: Color(_frontColor)),
-                                    ))
-                                : SizedBox.shrink(),
-                            _dotIcon(
-                                color: Color(_frontColor),
-                                context: context,
-                                postId: _postId,
-                                isMe: isMe)
-                          ])
-                        ]),
-                    Container(
-                        padding: EdgeInsets.only(right: 16),
-                        alignment: Alignment.centerLeft,
-                        child: Text(_content,
-                            style: TextStyle(
-                                color: Color(_frontColor),
-                                fontSize: 19.0,
-                                height: 1.6))),
-                  ]),
-                )
-              ]),
-            ),
-            isMe
-                ? PagedSliverList<String?, String>(
-                    pagingController: controller.pagingController,
-                    builderDelegate: PagedChildBuilderDelegate<String>(
-                        itemBuilder: (context, id, index) {
-                      final account = controller.viewerIdMap[id];
-                      if (account == null) {
-                        return SizedBox.shrink();
+                  child: CustomScrollView(slivers: [
+                    SliverToBoxAdapter(child: Obx(() {
+                      final _post =
+                          HomeController.to.postMap[controller.postId];
+                      if (_post == null) {
+                        return Container(child: Loading());
                       }
-                      return PostSingleViewer(
-                        name: account.name,
-                        img: account.avatar?.thumbnail.url,
-                        likeCount: account.like_count,
-                        id: id,
-                        isLast: index == controller.viewerIdList.length - 1,
-                        isVip: account.vip,
-                      );
-                    }),
-                  )
-                : SliverToBoxAdapter(child: SizedBox.shrink()),
-            // SliverToBoxAdapter(child: Container(height: 100))
-          ]),
-        )));
+                      final authorId = _post.accountId;
+                      final isMe = authorId == AuthProvider.to.accountId;
+
+                      final _content = _post.content;
+                      final _backgroundColor = _post.backgroundColor;
+                      final _frontColor = _post.color;
+
+                      final String _createAt =
+                          formatter.format(DateTime.parse(_post.created_at));
+                      return Column(children: [
+                        Container(
+                          margin: EdgeInsets.fromLTRB(12, 20, 12, 10),
+                          padding: EdgeInsets.fromLTRB(16, 5, 0, 25),
+                          constraints: BoxConstraints(minHeight: _height * 0.4),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color(_backgroundColor),
+                          ),
+                          width: _width * 0.9,
+                          child: Column(children: [
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    _createAt,
+                                    style: TextStyle(
+                                        color: Color(_frontColor),
+                                        fontSize: 15),
+                                  ),
+                                  Row(children: [
+                                    isMe
+                                        ? Obx(() => Text(
+                                              VisibilityMap[
+                                                      controller.visibility]!
+                                                  .tr,
+                                              style: TextStyle(
+                                                  color: Color(_frontColor)),
+                                            ))
+                                        : SizedBox.shrink(),
+                                    _dotIcon(
+                                        color: Color(_frontColor),
+                                        context: context,
+                                        postId: controller.postId,
+                                        onDeletePost: controller.onDeletePost,
+                                        postChange: controller.postChange,
+                                        isMe: isMe)
+                                  ])
+                                ]),
+                            Container(
+                                padding: EdgeInsets.only(right: 16),
+                                alignment: Alignment.centerLeft,
+                                child: Text(_content,
+                                    style: TextStyle(
+                                        color: Color(_frontColor),
+                                        fontSize: 19.0,
+                                        height: 1.6))),
+                          ]),
+                        )
+                      ]);
+                    })),
+                    PagedSliverList<String?, String>(
+                      pagingController: controller.pagingController,
+                      builderDelegate: PagedChildBuilderDelegate<String>(
+                          noItemsFoundIndicatorBuilder: (BuildContext context) {
+                        return AuthProvider.to.isLogin
+                            ? Empty(message: "no_one_seen_your_post".tr)
+                            : SizedBox.shrink();
+                      }, itemBuilder: (context, id, index) {
+                        final account = controller.viewerIdMap[id];
+                        if (account == null) {
+                          return SizedBox.shrink();
+                        }
+                        return PostSingleViewer(
+                          name: account.name,
+                          img: account.avatar?.thumbnail.url,
+                          likeCount: account.like_count,
+                          id: id,
+                          isLast: index == controller.viewerIdList.length - 1,
+                          isVip: account.vip,
+                        );
+                      }),
+                    )
+                  ]),
+                );
+              }),
+        ));
   }
 
   Widget _dotIcon(
@@ -136,6 +151,8 @@ class MySinglePostView extends GetView<MySinglePostController> {
       required String postId,
       required bool isMe,
       required Color color,
+      required Function postChange,
+      required Function onDeletePost,
       String? authorId}) {
     final isVip = AuthProvider.to.account.value.vip;
     final is_can_promote = HomeController.to.postMap[postId]!.is_can_promote;
@@ -152,8 +169,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                         onPressedVisibility: (String visibility) async {
                           try {
                             UIUtils.showLoading();
-                            await controller.postChange(
-                                type: visibility, postId: postId);
+                            await postChange(type: visibility, postId: postId);
                           } catch (e) {
                             UIUtils.showError(e);
                           }
@@ -166,8 +182,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                           if (isVip && is_can_promote) {
                             try {
                               UIUtils.showLoading();
-                              await controller.postChange(
-                                  type: 'promote', postId: postId);
+                              await postChange(type: 'promote', postId: postId);
                               UIUtils.toast('Successfully_polished'.tr);
                             } catch (e) {
                               UIUtils.showError(e);
@@ -185,7 +200,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                         onPressedDelete: () async {
                           try {
                             UIUtils.showLoading();
-                            await controller.onDeletePost(postId);
+                            await onDeletePost(postId);
                             UIUtils.toast('Successfully_deleted'.tr);
                             Get.back();
                           } catch (e) {

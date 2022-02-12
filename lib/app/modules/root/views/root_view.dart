@@ -16,7 +16,7 @@ class RootView extends GetView<RootController> {
         if (isLoading) {
           return Center(child: CircularProgressIndicator());
         } else if (isInit) {
-          return Text("ready");
+          return Text("");
         } else if (error != null) {
           return Retry(onRetry: () {}, message: error);
         } else {

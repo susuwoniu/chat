@@ -5,7 +5,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:chat/app/providers/providers.dart';
 
 class OtherController extends GetxController {
-  //TODO: Implement OtherController
   static OtherController get to => Get.find();
   final PagingController<String?, String> pagingController =
       PagingController(firstPageKey: null);
@@ -16,7 +15,7 @@ class OtherController extends GetxController {
   final isLoadingPosts = false.obs;
   final myPostsIndexes = RxList<String>([]);
   final postMap = RxMap<String, PostEntity>({});
-  final accountId = Get.arguments['accountId'];
+  final accountId = Get.arguments['id'];
 
   // final ScrollController listScrollController = ScrollController();
 
@@ -30,21 +29,15 @@ class OtherController extends GetxController {
 
   @override
   void onReady() async {
-    // listScrollController.addListener(() {
-    //   final position = listScrollController.offset;
-    //   if (position > 350) {
-    //     isShowAppBar.value = true;
-    //     return;
-    //   } else {
-    //     isShowAppBar.value = false;
-    //     return;
-    //   }
-    // });
     super.onReady();
     try {
       await HomeController.to.getOtherAccount(id: accountId, force: true);
-      await APIProvider.to.patch('/account/accounts/$accountId',
-          body: {'viewed_count_action': 'increase_one'});
+      super.update();
+      // if login
+      if (AuthProvider.to.isLogin) {
+        await APIProvider.to.patch('/account/accounts/$accountId',
+            body: {'viewed_count_action': 'increase_one'});
+      }
     } catch (e) {
       UIUtils.showError(e);
     }

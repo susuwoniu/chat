@@ -295,7 +295,7 @@ class RoomView extends GetView<RoomController> {
                             return;
                           }
                           Get.toNamed(Routes.OTHER,
-                              arguments: {"accountId": roomInfoId});
+                              arguments: {"id": roomInfoId});
                         }),
                   ),
                   SizedBox(width: 10),

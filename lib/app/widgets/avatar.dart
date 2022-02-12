@@ -1,7 +1,6 @@
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:chat/utils/random.dart';
-import 'package:chat/common.dart';
+import 'package:characters/characters.dart';
 
 Widget Avatar(
     {String? name,
@@ -21,13 +20,14 @@ Widget Avatar(
     //     .length)],
     // sets background color, default Theme.of(context).colorScheme.onPrimary
     borderWidth: 0, // sets border, default 0.0
-    initialsText: name == null
-        ? Text('')
-        : Text(
-            name.substring(0, 1),
+    initialsText: name != null && name.characters.isNotEmpty
+        ? Text(
+            name.characters.take(1).join(),
             style: TextStyle(
                 fontSize: size != null ? size - 8 : 15, color: Colors.white),
-          ), // sets initials text, set your own style, default Text('')
+          )
+        : const Text(
+            ''), // sets initials text, set your own style, default Text('')
     borderColor: Colors
         .transparent, // sets border color, default Theme.of(context).colorScheme.onPrimary
     elevation: elevation ??

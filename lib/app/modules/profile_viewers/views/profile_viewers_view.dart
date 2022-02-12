@@ -4,7 +4,6 @@ import 'package:chat/app/routes/app_pages.dart';
 import '../controllers/profile_viewers_controller.dart';
 import 'single_viewer.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:flutter/services.dart';
 
 class ProfileViewersView extends GetView<ProfileViewersController> {
   @override
@@ -32,8 +31,7 @@ class ProfileViewersView extends GetView<ProfileViewersController> {
                       itemBuilder: (context, id, index) {
                     return SingleViewer(
                         onPressed: () {
-                          Get.toNamed(Routes.OTHER,
-                              arguments: {"accountId": id});
+                          Get.toNamed(Routes.OTHER, arguments: {"id": id});
                         },
                         isLast:
                             index == controller.profileViewerIdList.length - 1,

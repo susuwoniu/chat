@@ -34,7 +34,7 @@ Widget MaxText(String text, BuildContext context,
                   padding: EdgeInsets.only(right: 16),
                   child: GestureDetector(
                     onTap: () => Get.toNamed(Routes.MY_SINGLE_POST,
-                        arguments: {"id": id}),
+                        arguments: {"id": id}, preventDuplicates: false),
                     child: Text("More".tr + " >>",
                         style: TextStyle(
                           color: style == null

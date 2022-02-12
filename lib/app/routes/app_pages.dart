@@ -199,10 +199,6 @@ class AppPages {
       binding: ChangeGenderBinding(),
     ),
     GetPage(
-      middlewares: [
-        //only enter this route when authed
-        EnsureAuthMiddleware(),
-      ],
       name: _Paths.MY_SINGLE_POST,
       page: () => MySinglePostView(),
       binding: MySinglePostBinding(),

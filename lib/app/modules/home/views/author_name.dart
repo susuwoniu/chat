@@ -35,7 +35,7 @@ class AuthorName extends StatelessWidget {
             if (AuthProvider.to.accountId == accountId) {
               RouterProvider.to.toMe();
             } else {
-              Get.toNamed(Routes.OTHER, arguments: {"accountId": accountId});
+              Get.toNamed(Routes.OTHER, arguments: {"id": accountId});
             }
           }),
       SizedBox(width: 15),

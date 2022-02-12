@@ -8,6 +8,7 @@ import 'package:flutter_chat_ui/src/widgets/inherited_chat_theme.dart';
 import 'package:flutter_chat_ui/src/widgets/inherited_user.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:chat/app/common/link.dart';
+import 'package:characters/characters.dart';
 
 /// A class that represents text message widget with optional link preview
 class TextMessage extends StatelessWidget {
@@ -128,7 +129,7 @@ class TextMessage extends StatelessWidget {
     var finalText = message.text;
     if (maxTextLength != null) {
       if (message.text.length > maxTextLength!) {
-        finalText = message.text.substring(0, maxTextLength) + "...";
+        finalText = message.text.characters.take(maxTextLength!).join() + "...";
       }
     }
 

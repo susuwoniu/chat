@@ -45,7 +45,7 @@ class PostSingleViewer extends StatelessWidget {
                       uri: img,
                       size: iconSize,
                       onTap: () {
-                        Get.toNamed(Routes.OTHER, arguments: {"accountId": id});
+                        Get.toNamed(Routes.OTHER, arguments: {"id": id});
                       }),
                   Positioned(
                     bottom: 0,

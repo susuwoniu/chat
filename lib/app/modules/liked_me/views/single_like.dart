@@ -45,7 +45,7 @@ class SingleLike extends StatelessWidget {
                     uri: blockAccount.avatar?.thumbnail.url,
                     size: 28,
                     onTap: () {
-                      Get.toNamed(Routes.OTHER, arguments: {"accountId": id});
+                      Get.toNamed(Routes.OTHER, arguments: {"id": id});
                     }),
                 Positioned(
                   bottom: 0,
