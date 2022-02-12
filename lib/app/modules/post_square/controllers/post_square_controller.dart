@@ -130,7 +130,7 @@ class PostSquareController extends GetxController {
   Future<void> patchPostCountView(String postId) async {
     // change last cursor
 
-    if (AuthProvider.to.accountId == postMap[postId]!.accountId) {
+    if (AuthProvider.to.accountId != postMap[postId]!.accountId) {
       await APIProvider.to.patch("/post/posts/$postId",
           body: {"viewed_count_action": "increase_one"});
     }

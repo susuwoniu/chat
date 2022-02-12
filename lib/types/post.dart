@@ -15,7 +15,6 @@ class PostEntity {
   final String cursor;
   final String post_template_id;
   List<String>? views;
-  bool isLoadingViewersList;
   final String post_template_title;
   final String created_at;
   final String visibility;
@@ -30,7 +29,6 @@ class PostEntity {
     required this.post_template_id,
     required this.post_template_title,
     this.views,
-    this.isLoadingViewersList = false,
     required this.created_at,
     required this.visibility,
     required this.is_can_promote,

@@ -118,6 +118,7 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                             style: TextStyle(
                                               color: Color(post.color),
                                               fontSize: 20.0,
+                                              height: 1.6,
                                               fontWeight: FontWeight.w500,
                                             ))),
                                     SizedBox(height: 15),

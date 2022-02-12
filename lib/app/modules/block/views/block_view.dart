@@ -24,7 +24,9 @@ class BlockView extends GetView<BlockController> {
               preferredSize: Size.fromHeight(0)),
           title: Text('Blocked_Users'.tr, style: TextStyle(fontSize: 16)),
         ),
-        body: RefreshIndicator(
+        body: SafeArea(
+            child: RefreshIndicator(
+          backgroundColor: Theme.of(context).colorScheme.surface,
           onRefresh: () => Future.sync(
             () => controller.pagingController.refresh(),
           ),
@@ -44,6 +46,6 @@ class BlockView extends GetView<BlockController> {
                     isLast: index == controller.blockIdList.length - 1,
                     blockAccount: controller.blockMap[id]!);
               })),
-        ));
+        )));
   }
 }
