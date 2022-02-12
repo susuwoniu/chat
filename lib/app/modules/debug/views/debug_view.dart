@@ -11,7 +11,7 @@ import 'package:chat/common.dart';
 
 class DebugView extends GetView<DebugController> {
   final String countryCode = "+86";
-  final String phone = "17955690860";
+  final String phone = "17655892830";
 
   @override
   Widget build(BuildContext context) {
@@ -187,13 +187,7 @@ class DebugView extends GetView<DebugController> {
                     //to close the drawer
                   },
                 ),
-                ListTile(
-                  title: Text('Me'),
-                  onTap: () {
-                    RouterProvider.to.toMe();
-                    //to close the drawer
-                  },
-                ),
+
                 ListTile(
                   title: Text('Settings'),
                   onTap: () {

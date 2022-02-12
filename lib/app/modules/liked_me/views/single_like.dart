@@ -78,14 +78,14 @@ class SingleLike extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                            margin: EdgeInsets.only(right: 10),
+                            margin: EdgeInsets.only(right: 12),
                             child: AgeWidget(
                               age: blockAccount.age.toString(),
                               gender: blockAccount.gender,
                               background: _genderColor,
                               color: Theme.of(context).colorScheme.onPrimary,
                               iconSize: 14,
-                              fontSize: 13,
+                              fontSize: 12,
                             )),
                         LikeCount(
                           count: blockAccount.like_count,

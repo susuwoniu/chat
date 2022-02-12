@@ -111,6 +111,7 @@ class MessageView extends GetView<MessageController> {
               },
               childCount: controller.indexes.length,
             )),
+            SliverToBoxAdapter(child: Container(height: 110))
           ],
         ),
       ),

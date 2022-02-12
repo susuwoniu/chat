@@ -116,14 +116,10 @@ class MySinglePostView extends GetView<MySinglePostController> {
                         return SizedBox.shrink();
                       }
                       return PostSingleViewer(
-                        onPressed: () {
-                          Get.toNamed(Routes.OTHER,
-                              arguments: {"accountId": id});
-                        },
                         name: account.name,
                         img: account.avatar?.thumbnail.url,
                         likeCount: account.like_count,
-                        viewerId: id,
+                        id: id,
                         isLast: index == controller.viewerIdList.length - 1,
                         isVip: account.vip,
                       );

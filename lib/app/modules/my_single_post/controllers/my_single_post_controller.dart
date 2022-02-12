@@ -1,21 +1,16 @@
 import 'package:chat/app/providers/api_provider.dart';
 import 'package:get/get.dart';
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import '../../home/controllers/home_controller.dart';
-import 'package:chat/types/types.dart';
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:chat/app/common/get_id_result.dart';
 import 'package:chat/common.dart';
 
 class MySinglePostController extends GetxController {
-  //TODO: Implement MySinglePostController
   static MySinglePostController get to => Get.find();
 
   final PagingController<String?, String> pagingController =
       PagingController(firstPageKey: null);
 
-  final _homeController = HomeController.to;
   final _postId = Get.arguments['id'];
   final isMe = HomeController.to.postMap[Get.arguments['id']]!.accountId ==
       AuthProvider.to.accountId;

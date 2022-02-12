@@ -10,40 +10,43 @@ class EditBioView extends GetView<EditBioController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Bio".tr, style: TextStyle(fontSize: 16)),
-        bottom: PreferredSize(
-            child: Container(
-              height: 0.5,
-              color: Theme.of(context).dividerColor,
-            ),
-            preferredSize: Size.fromHeight(0)),
-        actions: [
-          Obx(() {
-            final _isActived = controller.isActived.value;
-            return AppBarSave(
-                isActived: _isActived,
-                onPressed: () async {
-                  try {
-                    await AccountProvider.to.postAccountInfoChange(
-                      {"bio": controller.currentBio.value},
-                    );
-                    RouterProvider.to.toNextPage();
-                  } catch (e) {
-                    UIUtils.showError(e);
-                  }
-                });
+        appBar: AppBar(
+          title: Text("Bio".tr, style: TextStyle(fontSize: 16)),
+          bottom: PreferredSize(
+              child: Container(
+                height: 0.5,
+                color: Theme.of(context).dividerColor,
+              ),
+              preferredSize: Size.fromHeight(0)),
+          actions: [
+            Obx(() {
+              final _isActived = controller.isActived.value;
+              return AppBarSave(
+                  isActived: _isActived,
+                  onPressed: () async {
+                    try {
+                      await AccountProvider.to.postAccountInfoChange(
+                        {"bio": controller.currentBio.value},
+                      );
+                      RouterProvider.to.toNextPage();
+                    } catch (e) {
+                      UIUtils.showError(e);
+                    }
+                  });
+            }),
+          ],
+        ),
+        body: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: Obx(() {
+            return InputWidget(
+                maxLength: 50,
+                maxLines: 10,
+                minLines: 3,
+                initialContent: controller.initialContent,
+                onChange: controller.onChangeTextValue);
           }),
-        ],
-      ),
-      body: Obx(() {
-        return InputWidget(
-            maxLength: 50,
-            maxLines: 10,
-            minLines: 3,
-            initialContent: controller.initialContent,
-            onChange: controller.onChangeTextValue);
-      }),
-    );
+        ));
   }
 }

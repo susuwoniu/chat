@@ -1,18 +1,15 @@
 import 'package:chat/app/modules/complete_age/views/next_button.dart';
-import 'package:chat/types/account.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/report_controller.dart';
 import '../../edit_info/views/blank_image.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:chat/types/types.dart';
 import 'package:mime_type/mime_type.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'report_sheet.dart';
 import '../../edit_info/views/single_image.dart';
-import 'package:flutter/services.dart';
 
 const Map<String, String> Type = {
   "spam": "Fraud",

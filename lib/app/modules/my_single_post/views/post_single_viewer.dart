@@ -3,34 +3,34 @@ import 'package:flutter/material.dart';
 import '../../me/views/like_count.dart';
 import 'package:get/get.dart';
 import '../../me/views/vip_icon.dart';
+import 'package:chat/app/routes/app_pages.dart';
 
 class PostSingleViewer extends StatelessWidget {
   final String? img;
   final String name;
-  final String viewerId;
+  final String id;
   final int likeCount;
   final bool isLast;
   final bool isVip;
-  final Function() onPressed;
+  final Function()? onPressedUnblock;
+
   final bool isBlock;
   final double margin;
   final double iconSize;
-  final double fontSize;
 
-  PostSingleViewer(
-      {Key? key,
-      this.img,
-      required this.onPressed,
-      required this.name,
-      required this.viewerId,
-      required this.likeCount,
-      required this.isLast,
-      this.isVip = false,
-      this.isBlock = false,
-      this.margin = 21,
-      this.iconSize = 25,
-      this.fontSize = 14})
-      : super(key: key);
+  PostSingleViewer({
+    Key? key,
+    this.img,
+    required this.name,
+    required this.id,
+    required this.likeCount,
+    required this.isLast,
+    this.onPressedUnblock,
+    this.isVip = false,
+    this.isBlock = false,
+    this.margin = 21,
+    this.iconSize = 25,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,7 +45,7 @@ class PostSingleViewer extends StatelessWidget {
                       uri: img,
                       size: iconSize,
                       onTap: () {
-                        onPressed();
+                        Get.toNamed(Routes.OTHER, arguments: {"accountId": id});
                       }),
                   Positioned(
                     bottom: 0,
@@ -74,7 +74,7 @@ class PostSingleViewer extends StatelessWidget {
                                 name,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                    fontSize: fontSize,
+                                    fontSize: 15,
                                     color:
                                         Theme.of(context).colorScheme.onSurface,
                                     fontWeight: FontWeight.w500),
@@ -117,7 +117,9 @@ class PostSingleViewer extends StatelessWidget {
                                   color: Colors.black54, fontSize: 13),
                             ),
                             onPressed: () {
-                              onPressed();
+                              if (isBlock) {
+                                onPressedUnblock!();
+                              }
                             }))
                     : SizedBox.shrink(),
               ])),

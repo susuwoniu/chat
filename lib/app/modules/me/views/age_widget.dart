@@ -4,9 +4,9 @@ import 'package:chat/common.dart';
 class AgeWidget extends StatelessWidget {
   final String age;
   final String gender;
-  final double? iconSize;
-  final double? fontSize;
-  final Color? background;
+  final double iconSize;
+  final double fontSize;
+  final Color background;
   final Color? color;
   AgeWidget({
     Key? key,
@@ -31,15 +31,15 @@ class AgeWidget extends StatelessWidget {
           Icon(
             _genderIcon,
             color: color ?? ChatThemeData.secondaryBlack,
-            size: iconSize!,
+            size: iconSize,
           ),
           Text(age,
               style: TextStyle(
-                  fontSize: fontSize!,
+                  fontSize: fontSize,
                   color: color ?? ChatThemeData.secondaryBlack,
                   fontWeight: FontWeight.bold))
         ]),
         decoration: BoxDecoration(
-            color: background!, borderRadius: BorderRadius.circular(5)));
+            color: background, borderRadius: BorderRadius.circular(5)));
   }
 }

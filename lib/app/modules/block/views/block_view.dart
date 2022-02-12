@@ -25,38 +25,39 @@ class BlockView extends GetView<BlockController> {
           title: Text('Blocked_Users'.tr, style: TextStyle(fontSize: 16)),
         ),
         body: SafeArea(
-            child: RefreshIndicator(
-          backgroundColor: Theme.of(context).colorScheme.surface,
-          onRefresh: () => Future.sync(
-            () => controller.pagingController.refresh(),
+          child: RefreshIndicator(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            onRefresh: () => Future.sync(
+              () => controller.pagingController.refresh(),
+            ),
+            child: PagedListView(
+                pagingController: controller.pagingController,
+                builderDelegate: PagedChildBuilderDelegate<String>(
+                    itemBuilder: (context, id, index) {
+                  final account = controller.blockMap[id];
+                  if (account == null) {
+                    return SizedBox.shrink();
+                  }
+                  return Obx(() => PostSingleViewer(
+                      onPressedUnblock: () async {
+                        try {
+                          await toggleBlock(id: id, toBlocked: false);
+                          controller.blockIdList.remove(id);
+                        } catch (e) {
+                          UIUtils.showError(e);
+                        }
+                      },
+                      isBlock: true,
+                      isLast: index == controller.blockIdList.length - 1,
+                      name: account.name,
+                      img: account.avatar?.thumbnail.url,
+                      likeCount: account.like_count,
+                      id: id,
+                      isVip: account.vip,
+                      margin: 15,
+                      iconSize: 28));
+                })),
           ),
-          child: PagedListView(
-              pagingController: controller.pagingController,
-              builderDelegate: PagedChildBuilderDelegate<String>(
-                  itemBuilder: (context, id, index) {
-                final account = controller.blockMap[id];
-                if (account == null) {
-                  return SizedBox.shrink();
-                }
-                return PostSingleViewer(
-                    onPressed: () async {
-                      try {
-                        await toggleBlock(id: id, toBlocked: false);
-                      } catch (e) {
-                        UIUtils.showError(e);
-                      }
-                    },
-                    isBlock: true,
-                    isLast: index == controller.blockIdList.length - 1,
-                    name: account.name,
-                    img: account.avatar,
-                    likeCount: account.like_count,
-                    viewerId: id,
-                    isVip: account.vip,
-                    margin: 15,
-                    iconSize: 28,
-                    fontSize: 15);
-              })),
-        )));
+        ));
   }
 }

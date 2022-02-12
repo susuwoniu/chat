@@ -10,6 +10,7 @@ class EditNameView extends GetView<EditNameController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text("Name".tr, style: TextStyle(fontSize: 16)),
         bottom: PreferredSize(
