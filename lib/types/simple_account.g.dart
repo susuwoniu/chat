@@ -9,11 +9,11 @@ part of 'simple_account.dart';
 SimpleAccountEntity _$SimpleAccountEntityFromJson(Map<String, dynamic> json) =>
     SimpleAccountEntity(
       profile_images: (json['profile_images'] as List<dynamic>?)
-              ?.map(
-                  (e) => ProfileImageEntity.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ImageEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      avatar: json['avatar'] as String?,
+      avatar:
+          json['avatar'] != null ? ImageEntity.fromJson(json['avatar']) : null,
       age: json['age'] as int?,
       bio: json['bio'] as String?,
       name: json['name'] as String,

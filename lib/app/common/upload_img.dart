@@ -6,7 +6,7 @@ import 'package:chat/utils/upload.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'dart:io';
 
-Future<String?> uploadImage(File file) async {
+Future<ImageEntity?> uploadImage(File file) async {
   try {
     UIUtils.showLoading();
     final bytes = await file.readAsBytes();
@@ -17,38 +17,26 @@ Future<String?> uploadImage(File file) async {
     final mimeType = mime(file.path);
 
     if (mimeType != null) {
-      final img = ProfileImageEntity(
-          mime_type: mimeType,
-          url: file.path,
-          width: width,
-          height: height,
-          size: size,
-          order: 0,
-          thumbtail: ThumbtailEntity(
-              height: height,
-              width: width,
-              url: file.path,
-              mime_type: mimeType));
       final slot = await APIProvider.to.post("/account/me/avatar/slot", body: {
-        "mime_type": img.mime_type,
-        "size": img.size,
-        "height": img.height,
-        "width": img.width
+        "mime_type": mimeType,
+        "size": size,
+        "height": height,
+        "width": width
       });
       // print(slot);
       final putUrl = slot["meta"]["put_url"];
-      final getUrl = slot["meta"]["get_url"];
       final headers = slot["meta"]["headers"] as Map;
       final Map<String, String> newHeaders = {};
-
+      final image = ImageEntity.fromJson(slot["meta"]["image"]);
       for (var key in headers.keys) {
         newHeaders[key] = headers[key];
       }
-      await upload(putUrl, img.url, headers: newHeaders, size: img.size);
+
+      await upload(putUrl, file.path, headers: newHeaders, size: size);
       UIUtils.hideLoading();
 
-      return getUrl;
-      // final newImage = ProfileImageEntity.fromJson(result['data']['attributes']);
+      return image;
+      // final newImage = ImageEntity.fromJson(result['data']['attributes']);
 
       // save the latest image info
       // await addImg(index, newImage);

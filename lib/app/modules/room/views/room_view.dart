@@ -287,7 +287,7 @@ class RoomView extends GetView<RoomController> {
                     child: Avatar(
                         elevation: 0,
                         size: 20,
-                        uri: roomAccount?.avatar,
+                        uri: roomAccount?.avatar?.thumbtail.url,
                         name: roomAccount?.name ?? jidToName(room!.id),
                         onTap: () {
                           if (roomInfoId == AuthProvider.to.accountId) {

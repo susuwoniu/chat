@@ -128,7 +128,8 @@ class PostSquareView extends GetView<PostSquareController> {
                       child: Row(children: [
                         Avatar(
                             name: AuthProvider.to.account.value.name,
-                            uri: AuthProvider.to.account.value.avatar,
+                            uri: AuthProvider
+                                .to.account.value.avatar?.thumbtail.url,
                             size: 16),
                         SizedBox(width: 8),
                         Text('Join_topic'.tr,

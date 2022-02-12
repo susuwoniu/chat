@@ -24,7 +24,12 @@ class SimpleAccountMapCacheProvider extends StoreProvider {
     for (var key in keys) {
       final value = super.getObject(key);
       if (value != null) {
-        accountMap[key] = SimpleAccountEntity.fromJson(value);
+        try {
+          accountMap[key] = SimpleAccountEntity.fromJson(value);
+        } catch (e) {
+          super.clear();
+          return {};
+        }
       }
     }
     return accountMap;

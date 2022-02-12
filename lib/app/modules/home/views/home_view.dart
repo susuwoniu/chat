@@ -180,7 +180,7 @@ class HomeView extends GetView<HomeController> {
                                         color: Color(post.color),
                                         accountId: post.accountId,
                                         authorName: author.name,
-                                        avatarUri: author.avatar,
+                                        avatarUri: author.avatar?.thumbtail.url,
                                         nameSize: 18,
                                         index: index),
                                     SizedBox(

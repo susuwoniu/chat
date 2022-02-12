@@ -108,7 +108,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                                     horizontal: _width * 0.04),
                                 child: ViewersList(
                                     name: account!.name,
-                                    img: account.avatar,
+                                    img: account.avatar?.thumbtail.url,
                                     likeCount: account.like_count,
                                     viewerId: e));
                           }).toList()

@@ -41,7 +41,8 @@ class EditInfoView extends GetView<EditInfoController> {
                         margin: EdgeInsets.symmetric(vertical: 15),
                         child: Avatar(
                             elevation: 0,
-                            uri: AuthProvider.to.account.value.avatar,
+                            uri: AuthProvider
+                                .to.account.value.avatar?.thumbtail.url,
                             size: 35)),
                     onPressed: (BuildContext context) async {
                       try {

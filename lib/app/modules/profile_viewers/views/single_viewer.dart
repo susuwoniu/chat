@@ -35,8 +35,8 @@ class SingleViewer extends StatelessWidget {
             contentPadding: EdgeInsets.fromLTRB(12, 4, 15, 4),
             leading: Stack(clipBehavior: Clip.none, children: [
               Avatar(
-                  name: viewerAccount.account.avatar ??
-                      viewerAccount.account.name,
+                  name: viewerAccount.account.name,
+                  uri: viewerAccount.account.avatar?.thumbtail.url,
                   size: 28,
                   onTap: () {
                     onPressed();

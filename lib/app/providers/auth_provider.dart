@@ -62,7 +62,12 @@ class AuthProvider extends GetxService {
     }
     final _accountObj = AccountStoreProvider.to.getObject(STORAGE_ACCOUNT_KEY);
     if (_accountObj != null) {
-      account(AccountEntity.fromJson(_accountObj));
+      try {
+        account(AccountEntity.fromJson(_accountObj));
+      } catch (e) {
+        await cleanToken();
+        return;
+      }
     }
     final _simpleAccountMap = SimpleAccountMapCacheProvider.to.getAll();
     if (_simpleAccountMap.keys.isNotEmpty) {
@@ -116,21 +121,7 @@ class AuthProvider extends GetxService {
 
   AccountEntity formatMainAccount(dynamic body) {
     final accountEntity = AccountEntity.fromJson(body["data"]["attributes"]);
-    var included = [];
-    if (body["included"] != null) {
-      included = body["included"] as List;
-    }
 
-    final List<ProfileImageEntity> profileImageList = [];
-
-    for (var v in included) {
-      if (v["type"] == "profile-images") {
-        profileImageList.insert(v["attributes"]["order"],
-            ProfileImageEntity.fromJson(v["attributes"]));
-      }
-    }
-
-    accountEntity.profile_images = profileImageList;
     return accountEntity;
   }
 
@@ -140,25 +131,14 @@ class AuthProvider extends GetxService {
     if (body["included"] != null) {
       included = body["included"] as List;
     }
-    List<ProfileImageEntity> profileImageList = [];
 
     for (var v in included) {
-      if (v["type"] == "profile-images") {
-        final profileImageEntity = ProfileImageEntity.fromJson(v["attributes"]);
-        // final order = v["attributes"]["order"];
-        profileImageList.add(profileImageEntity);
-        // profileImageList.insert(v["attributes"]["order"],
-        //     ProfileImageEntity.fromJson(v["attributes"]));
-      } else if (v["type"] == "full-accounts") {
+      if (v["type"] == "full-accounts") {
         accountEntity = AccountEntity.fromJson(v["attributes"]);
       }
     }
-    // sort
 
-    profileImageList.sort((a, b) => a.order.compareTo(b.order));
-
-    accountEntity!.profile_images = profileImageList;
-    return accountEntity;
+    return accountEntity!;
   }
 
   Future<void> saveAccountToStore(AccountEntity accountEntity) async {

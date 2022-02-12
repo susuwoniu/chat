@@ -12,15 +12,7 @@ class ReportController extends GetxController {
   final reportType = ''.obs;
   final imgList = RxList([]);
   final isShowBlank = true.obs;
-  ProfileImageEntity imgEntity = ProfileImageEntity(
-      mime_type: "image/jpg",
-      url: '',
-      width: 140,
-      height: 140,
-      size: 45,
-      order: 0,
-      thumbtail: ThumbtailEntity(
-          height: 140, width: 140, url: '', mime_type: "image/jpg"));
+  ImageEntity? imgEntity;
 
   @override
   void onInit() {
@@ -43,14 +35,13 @@ class ReportController extends GetxController {
     reportType.value = type;
   }
 
-  void setImgEntity(ProfileImageEntity img) {
+  void setImgEntity(ImageEntity img) {
     imgEntity = img;
   }
 
-  uploadImg({ProfileImageEntity? img}) async {
+  uploadImg({ImageEntity? img}) async {
     if (img != null) {
-      final slot =
-          await APIProvider.to.post("/account/me/profile-images/slot", body: {
+      final slot = await APIProvider.to.post("/file/image/slot", body: {
         "mime_type": img.mime_type,
         "size": img.size,
         "height": img.height,
@@ -58,7 +49,6 @@ class ReportController extends GetxController {
       });
       // print(slot);
       final putUrl = slot["meta"]["put_url"];
-      final getUrl = slot["meta"]["get_url"];
       final headers = slot["meta"]["headers"] as Map;
       final Map<String, String> newHeaders = {};
 
@@ -74,8 +64,8 @@ class ReportController extends GetxController {
     body['type'] = reportType.value;
     body['related_post_id'] = _related_post_id;
     body['related_account_id'] = _related_account_id;
-    if (imgEntity.url != '') {
-      body['images'] = imgEntity.url;
+    if (imgEntity != null) {
+      body['images'] = [imgEntity!.toJson()];
     }
     if (content != '') {
       body['content'] = content;

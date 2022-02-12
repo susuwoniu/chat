@@ -8,7 +8,7 @@ import 'dart:io';
 
 @immutable
 class ImageSlider extends StatelessWidget {
-  final ProfileImageEntity img;
+  final ImageEntity img;
   final double height;
   final double width;
 

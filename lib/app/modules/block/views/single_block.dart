@@ -41,7 +41,8 @@ class SingleBlock extends StatelessWidget {
               contentPadding: EdgeInsets.symmetric(vertical: 3),
               leading: Stack(clipBehavior: Clip.none, children: [
                 Avatar(
-                    name: blockAccount.avatar ?? blockAccount.name,
+                    name: blockAccount.name,
+                    uri: blockAccount.avatar?.thumbtail.url,
                     size: 28,
                     onTap: () {
                       Get.toNamed(Routes.OTHER, arguments: {"accountId": id});

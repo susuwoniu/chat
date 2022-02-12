@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat/utils/string.dart';
 
 class SingleImage extends StatelessWidget {
-  final ProfileImageEntity img;
+  final ImageEntity img;
 
   SingleImage({
     Key? key,

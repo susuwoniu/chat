@@ -35,8 +35,7 @@ Map<String, dynamic> _$ThumbtailEntityToJson(ThumbtailEntity instance) =>
       'height': instance.height,
     };
 
-ProfileImageEntity _$ProfileImageEntityFromJson(Map<String, dynamic> json) =>
-    ProfileImageEntity(
+ImageEntity _$ImageEntityFromJson(Map<String, dynamic> json) => ImageEntity(
       mime_type: json['mime_type'] as String,
       url: json['url'] as String,
       width: (json['width'] as num).toDouble(),
@@ -45,9 +44,10 @@ ProfileImageEntity _$ProfileImageEntityFromJson(Map<String, dynamic> json) =>
       size: json['size'] as int,
       thumbtail:
           ThumbtailEntity.fromJson(json['thumbtail'] as Map<String, dynamic>),
+      large: ThumbtailEntity.fromJson(json['large'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$ProfileImageEntityToJson(ProfileImageEntity instance) =>
+Map<String, dynamic> _$ImageEntityToJson(ImageEntity instance) =>
     <String, dynamic>{
       'mime_type': instance.mime_type,
       'url': instance.url,
@@ -56,20 +56,21 @@ Map<String, dynamic> _$ProfileImageEntityToJson(ProfileImageEntity instance) =>
       'size': instance.size,
       'order': instance.order,
       'thumbtail': instance.thumbtail,
+      "large": instance.large,
     };
 
 AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
     AccountEntity(
       profile_images: (json['profile_images'] as List<dynamic>?)
-              ?.map(
-                  (e) => ProfileImageEntity.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ImageEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
       bio: json['bio'] as String?,
       post_count: json['post_count'] as int,
       age: json['age'] as int?,
       birthday: json['birthday'] as String?,
-      avatar: json['avatar'] as String?,
+      avatar:
+          json['avatar'] != null ? ImageEntity.fromJson(json['avatar']) : null,
       actions: (json['actions'] as List<dynamic>?)
               ?.map((e) => ActionEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??

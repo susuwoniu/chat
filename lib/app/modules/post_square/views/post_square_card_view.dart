@@ -126,7 +126,8 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                         accountId: post.accountId,
                                         authorName: author?.name ?? "--",
                                         nameSize: 18,
-                                        avatarUri: author?.avatar,
+                                        avatarUri:
+                                            author?.avatar?.thumbtail.url,
                                         index: index),
                                   ])),
                           Align(

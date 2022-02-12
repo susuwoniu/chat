@@ -73,6 +73,14 @@ class Global {
     }
   }
 
+  runOnetimeTask() async {
+    print("run onetime task ...");
+    // update me
+    if (AuthProvider.to.isLogin) {
+      await AccountProvider.to.getMe();
+    }
+  }
+
   Timer? _globalTaskTimer;
   runGlobalTask() async {
     // check refresh token

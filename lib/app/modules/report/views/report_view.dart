@@ -116,7 +116,7 @@ class ReportView extends GetView<ReportController> {
                               onPressed: () {
                                 _uploadScreenshot();
                               })
-                          : SingleImage(img: controller.imgEntity)),
+                          : SizedBox()),
                     ),
                     SizedBox(height: 20),
                     NextButton(
@@ -158,26 +158,26 @@ class ReportView extends GetView<ReportController> {
         final mimeType = mime(imageFile.path);
 
         if (mimeType != null) {
-          final img = ProfileImageEntity(
-              mime_type: mimeType,
-              url: imageFile.path,
-              width: width,
-              height: height,
-              size: size,
-              order: 0,
-              thumbtail: ThumbtailEntity(
-                  height: height,
-                  width: width,
-                  url: imageFile.path,
-                  mime_type: mimeType));
+          // final img = ImageEntity(
+          //     mime_type: mimeType,
+          //     url: imageFile.path,
+          //     width: width,
+          //     height: height,
+          //     size: size,
+          //     order: 0,
+          //     thumbtail: ThumbtailEntity(
+          //         height: height,
+          //         width: width,
+          //         url: imageFile.path,
+          //         mime_type: mimeType));
 
-          controller.isShowBlank.value = false;
-          controller.setImgEntity(img);
-          try {
-            await controller.uploadImg(img: controller.imgEntity);
-          } catch (e) {
-            UIUtils.showError(e);
-          }
+          // controller.isShowBlank.value = false;
+          // controller.setImgEntity(img);
+          // try {
+          //   await controller.uploadImg(img: controller.imgEntity);
+          // } catch (e) {
+          //   UIUtils.showError(e);
+          // }
           UIUtils.hideLoading();
         } else {
           UIUtils.hideLoading();

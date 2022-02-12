@@ -47,9 +47,11 @@ class CompleteAvatarView extends GetView<CompleteAvatarController> {
                     fontSize: 17)),
             SizedBox(height: 20),
             Obx(() {
-              return controller.isShowPhoto.value
+              return controller.avatar.value != null
                   ? Container(
-                      child: Avatar(uri: controller.avatarUrl.value, size: 59))
+                      child: Avatar(
+                          uri: controller.avatar.value!.thumbtail.url,
+                          size: 59))
                   : Container(
                       decoration: BoxDecoration(
                           shape: BoxShape.circle, color: Color(0xfff2f2f7)),
@@ -65,10 +67,9 @@ class CompleteAvatarView extends GetView<CompleteAvatarController> {
                           try {
                             final imageFile = await chooseImage();
                             if (imageFile != null) {
-                              final getUrl = await uploadImage(imageFile);
-                              if (getUrl != null) {
-                                controller.avatarUrl.value = getUrl;
-                                controller.isShowPhoto.value = true;
+                              final image = await uploadImage(imageFile);
+                              if (image != null) {
+                                controller.avatar.value = image;
                               }
                             }
                           } catch (e) {
@@ -88,7 +89,7 @@ class CompleteAvatarView extends GetView<CompleteAvatarController> {
                 try {
                   final account =
                       await AccountProvider.to.postAccountInfoChange({
-                    "avatar": controller.avatarUrl.value,
+                    "avatar": controller.avatar.value,
                   });
                   // if next action to next action
                   AuthProvider.to.checkActions(account.actions);

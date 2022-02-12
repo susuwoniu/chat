@@ -32,7 +32,7 @@ class ThumbtailEntity {
 }
 
 @JsonSerializable()
-class ProfileImageEntity {
+class ImageEntity {
   final String mime_type;
   String url;
   final double width;
@@ -40,18 +40,18 @@ class ProfileImageEntity {
   final int size;
   final int order;
   ThumbtailEntity thumbtail;
-
-  ProfileImageEntity({
-    required this.mime_type,
-    required this.url,
-    required this.width,
-    required this.height,
-    required this.order,
-    required this.size,
-    required this.thumbtail,
-  });
-  static ProfileImageEntity empty() {
-    return ProfileImageEntity(
+  ThumbtailEntity large;
+  ImageEntity(
+      {required this.mime_type,
+      required this.url,
+      required this.width,
+      required this.height,
+      required this.order,
+      required this.size,
+      required this.thumbtail,
+      required this.large});
+  static ImageEntity empty() {
+    return ImageEntity(
         mime_type: "image/jpg",
         url:
             "http://p1.music.126.net/jcKLW8e0n4dqVywaBvGqrA==/109951166712826330.jpg?param=140y140",
@@ -64,19 +64,25 @@ class ProfileImageEntity {
             width: 140,
             url:
                 "http://p1.music.126.net/jcKLW8e0n4dqVywaBvGqrA==/109951166712826330.jpg?param=140y140",
+            mime_type: "image/jpg"),
+        large: ThumbtailEntity(
+            height: 140,
+            width: 140,
+            url:
+                "http://p1.music.126.net/jcKLW8e0n4dqVywaBvGqrA==/109951166712826330.jpg?param=140y140",
             mime_type: "image/jpg"));
   }
 
-  factory ProfileImageEntity.fromJson(Map<String, dynamic> json) =>
-      _$ProfileImageEntityFromJson(json);
-  Map<String, dynamic> toJson() => _$ProfileImageEntityToJson(this);
+  factory ImageEntity.fromJson(Map<String, dynamic> json) =>
+      _$ImageEntityFromJson(json);
+  Map<String, dynamic> toJson() => _$ImageEntityToJson(this);
 }
 
 @JsonSerializable()
 class AccountEntity {
   /// The generated code assumes these values exist in JSON.
 
-  final String? avatar;
+  final ImageEntity? avatar;
   final int? age;
   String? birthday;
   final String? bio;
@@ -93,7 +99,7 @@ class AccountEntity {
   final String? now;
   bool? is_can_post;
   final List<ActionEntity> actions;
-  List<ProfileImageEntity> profile_images = [];
+  List<ImageEntity> profile_images = [];
 
   AccountEntity(
       {this.profile_images = const [],

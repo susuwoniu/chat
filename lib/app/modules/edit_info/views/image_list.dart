@@ -104,18 +104,18 @@ class ImageList extends StatelessWidget {
           final mimeType = mime(file.path);
 
           if (mimeType != null) {
-            final img = ProfileImageEntity(
-                mime_type: mimeType,
-                url: file.path,
-                width: width,
-                height: height,
-                size: size,
-                order: i,
-                thumbtail: ThumbtailEntity(
-                    height: height,
-                    width: width,
-                    url: file.path,
-                    mime_type: mimeType));
+            // final img = ImageEntity(
+            //     mime_type: mimeType,
+            //     url: file.path,
+            //     width: width,
+            //     height: height,
+            //     size: size,
+            //     order: i,
+            //     thumbtail: ThumbtailEntity(
+            //         height: height,
+            //         width: width,
+            //         url: file.path,
+            //         mime_type: mimeType));
 
             // await EditInfoController.to.addImg(i, img);
             // await EditInfoController.to.sendProfileImage(img, index: i);

@@ -7,7 +7,7 @@ part 'simple_account.g.dart';
 class SimpleAccountEntity {
   int like_count;
   bool is_liked;
-  final String? avatar;
+  final ImageEntity? avatar;
   final int? age;
   final String? bio;
   final String name;
@@ -15,7 +15,7 @@ class SimpleAccountEntity {
   final String gender;
   final int post_count;
   bool is_blocked;
-  List<ProfileImageEntity>? profile_images;
+  List<ImageEntity>? profile_images;
 
   SimpleAccountEntity({
     this.profile_images,

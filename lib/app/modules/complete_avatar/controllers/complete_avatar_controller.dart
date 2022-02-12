@@ -1,11 +1,11 @@
+import 'package:chat/types/account.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
 
 class CompleteAvatarController extends GetxController {
   static CompleteAvatarController get to => Get.find();
 
-  final isShowPhoto = false.obs;
-  final avatarUrl = ''.obs;
+  final Rxn<ImageEntity> avatar = Rxn();
 
   final count = 0.obs;
   @override

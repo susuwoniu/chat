@@ -90,7 +90,7 @@ class MessageView extends GetView<MessageController> {
                     roomInfo =
                         AuthProvider.to.simpleAccountMap[room.room_info_id];
                     name = roomInfo?.name ?? name;
-                    avatar = roomInfo?.avatar;
+                    avatar = roomInfo?.avatar?.thumbtail.url;
                   }
 
                   return conversationItemView(
