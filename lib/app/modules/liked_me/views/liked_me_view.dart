@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/liked_me_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import '../../block/views/single_block.dart';
+import './single_like.dart';
 import 'package:chat/app/common/block.dart';
 
 // TODO use constans or config
@@ -34,7 +34,7 @@ class LikedMeView extends GetView<LikedMeController> {
               pagingController: controller.pagingController,
               builderDelegate: PagedChildBuilderDelegate<String>(
                   itemBuilder: (context, id, index) {
-                return SingleBlock(
+                return SingleLike(
                     onPressedUnblock: () async {
                       try {
                         await toggleBlock(id: id, toBlocked: false);

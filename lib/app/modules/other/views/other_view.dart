@@ -150,7 +150,7 @@ class OtherView extends GetView<OtherController> {
                 _account.bio == null || _account.bio == ''
                     ? SizedBox.shrink()
                     : Container(
-                        padding: EdgeInsets.fromLTRB(30, 8, 30, 0),
+                        padding: EdgeInsets.fromLTRB(30, 12, 30, 0),
                         child: Text(_account.bio!,
                             style: TextStyle(
                                 fontSize: 14,

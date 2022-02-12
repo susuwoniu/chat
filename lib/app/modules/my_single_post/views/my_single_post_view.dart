@@ -53,6 +53,11 @@ class MySinglePostView extends GetView<MySinglePostController> {
               preferredSize: Size.fromHeight(0)),
         ),
         body: SafeArea(
+            child: RefreshIndicator(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          onRefresh: () => Future.sync(
+            () => controller.pagingController.refresh(),
+          ),
           child: CustomScrollView(slivers: [
             SliverToBoxAdapter(
               child: Column(children: [
@@ -127,7 +132,7 @@ class MySinglePostView extends GetView<MySinglePostController> {
                 : SliverToBoxAdapter(child: SizedBox.shrink()),
             // SliverToBoxAdapter(child: Container(height: 100))
           ]),
-        ));
+        )));
   }
 
   Widget _dotIcon(

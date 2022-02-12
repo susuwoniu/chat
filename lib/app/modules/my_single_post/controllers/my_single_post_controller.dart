@@ -5,6 +5,8 @@ import '../../home/controllers/home_controller.dart';
 import 'package:chat/types/types.dart';
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:chat/app/common/get_id_result.dart';
+import 'package:chat/common.dart';
 
 class MySinglePostController extends GetxController {
   //TODO: Implement MySinglePostController
@@ -104,7 +106,7 @@ class MySinglePostController extends GetxController {
         return indexes;
       }
 
-      final isLastPage = indexes.isEmpty;
+      final isLastPage = indexes.length < DEFAULT_PAGE_SIZE;
       if (isLastPage) {
         _isReachListEnd.value = true;
       }
@@ -148,9 +150,6 @@ class MySinglePostController extends GetxController {
       lastCursor = result["meta"]["page_info"]["end"];
     }
     return [];
-
-    // return PostsResult(
-    //     postMap: newPostMap, indexes: newIndexes, endCursor: newEndCursor);
   }
 
   onDeletePost(id) async {

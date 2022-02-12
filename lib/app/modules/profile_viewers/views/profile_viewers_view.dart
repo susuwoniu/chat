@@ -21,20 +21,24 @@ class ProfileViewersView extends GetView<ProfileViewersController> {
               preferredSize: Size.fromHeight(0)),
         ),
         body: RefreshIndicator(
-          onRefresh: () => Future.sync(
-            () {},
-          ),
-          child: PagedListView(
-              pagingController: controller.pagingController,
-              builderDelegate: PagedChildBuilderDelegate<String>(
-                  itemBuilder: (context, id, index) {
-                return SingleViewer(
-                    onPressed: () {
-                      Get.toNamed(Routes.OTHER, arguments: {"accountId": id});
-                    },
-                    isLast: index == controller.profileViewerIdList.length - 1,
-                    viewerAccount: controller.profileViewerMap[id]!);
-              })),
-        ));
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            onRefresh: () => Future.sync(
+                  () {},
+                ),
+            child: SafeArea(
+              child: PagedListView(
+                  pagingController: controller.pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<String>(
+                      itemBuilder: (context, id, index) {
+                    return SingleViewer(
+                        onPressed: () {
+                          Get.toNamed(Routes.OTHER,
+                              arguments: {"accountId": id});
+                        },
+                        isLast:
+                            index == controller.profileViewerIdList.length - 1,
+                        viewerAccount: controller.profileViewerMap[id]!);
+                  })),
+            )));
   }
 }

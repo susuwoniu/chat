@@ -8,14 +8,14 @@ import 'package:intl/intl.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import '../../me/views/vip_icon.dart';
 
-class SingleBlock extends StatelessWidget {
+class SingleLike extends StatelessWidget {
   final SimpleAccountEntity blockAccount;
   final bool isLast;
   final Function onPressedUnblock;
   final String id;
   final bool isBlock;
 
-  SingleBlock(
+  SingleLike(
       {Key? key,
       required this.blockAccount,
       required this.id,
@@ -38,7 +38,7 @@ class SingleBlock extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 13),
         child: Column(children: [
           ListTile(
-              contentPadding: EdgeInsets.symmetric(vertical: 3),
+              contentPadding: EdgeInsets.symmetric(vertical: 4),
               leading: Stack(clipBehavior: Clip.none, children: [
                 Avatar(
                     name: blockAccount.avatar ?? blockAccount.name,
@@ -55,7 +55,6 @@ class SingleBlock extends StatelessWidget {
               title: Container(
                   padding: EdgeInsets.symmetric(vertical: 3),
                   child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
@@ -77,15 +76,16 @@ class SingleBlock extends StatelessWidget {
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        AgeWidget(
-                          age: blockAccount.age.toString(),
-                          gender: blockAccount.gender,
-                          background: _genderColor,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          iconSize: 14,
-                          fontSize: 13,
-                        ),
-                        SizedBox(width: 10),
+                        Container(
+                            margin: EdgeInsets.only(right: 10),
+                            child: AgeWidget(
+                              age: blockAccount.age.toString(),
+                              gender: blockAccount.gender,
+                              background: _genderColor,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              iconSize: 14,
+                              fontSize: 13,
+                            )),
                         LikeCount(
                           count: blockAccount.like_count,
                           iconSize: 14,

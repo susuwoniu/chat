@@ -12,6 +12,10 @@ class PostSingleViewer extends StatelessWidget {
   final bool isLast;
   final bool isVip;
   final Function() onPressed;
+  final bool isBlock;
+  final double margin;
+  final double iconSize;
+  final double fontSize;
 
   PostSingleViewer(
       {Key? key,
@@ -21,18 +25,28 @@ class PostSingleViewer extends StatelessWidget {
       required this.viewerId,
       required this.likeCount,
       required this.isLast,
-      this.isVip = false})
+      this.isVip = false,
+      this.isBlock = false,
+      this.margin = 21,
+      this.iconSize = 25,
+      this.fontSize = 14})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 21),
+        margin: EdgeInsets.symmetric(horizontal: margin),
         child: Column(children: [
           Container(
-              padding: EdgeInsets.symmetric(vertical: 13),
+              padding: EdgeInsets.symmetric(vertical: 15),
               child: Row(children: [
                 Stack(clipBehavior: Clip.none, children: [
-                  Avatar(name: name, uri: img, size: 25),
+                  Avatar(
+                      name: name,
+                      uri: img,
+                      size: iconSize,
+                      onTap: () {
+                        onPressed();
+                      }),
                   Positioned(
                     bottom: 0,
                     right: -6,
@@ -60,7 +74,7 @@ class PostSingleViewer extends StatelessWidget {
                                 name,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: fontSize,
                                     color:
                                         Theme.of(context).colorScheme.onSurface,
                                     fontWeight: FontWeight.w500),
@@ -68,20 +82,44 @@ class PostSingleViewer extends StatelessWidget {
                               SizedBox(
                                 width: 8,
                               ),
-                              LikeCount(
-                                  count: likeCount,
-                                  backgroundColor: Colors.black12,
-                                  fontSize: 14,
-                                  iconSize: 13)
+                              isBlock
+                                  ? SizedBox.shrink()
+                                  : LikeCount(
+                                      count: likeCount,
+                                      backgroundColor: Colors.black12,
+                                      fontSize: 13,
+                                      iconSize: 12)
                             ]),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Text('viewed_your_post'.tr,
-                            style: TextStyle(
-                                color: Colors.grey.shade400, fontSize: 13))
+                        isBlock
+                            ? SizedBox.shrink()
+                            : Container(
+                                margin: EdgeInsets.only(top: 6),
+                                child: Text('viewed_your_post'.tr,
+                                    style: TextStyle(
+                                        color: Colors.grey.shade400,
+                                        fontSize: 13)))
                       ]),
-                )
+                ),
+                isBlock
+                    ? Container(
+                        margin: EdgeInsets.only(left: 6),
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                                padding: MaterialStateProperty.all(
+                                    EdgeInsets.symmetric(
+                                        horizontal: 6, vertical: 0)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Colors.grey.shade300),
+                                splashFactory: NoSplash.splashFactory),
+                            child: Text(
+                              'Unblock'.tr,
+                              style: TextStyle(
+                                  color: Colors.black54, fontSize: 13),
+                            ),
+                            onPressed: () {
+                              onPressed();
+                            }))
+                    : SizedBox.shrink(),
               ])),
           !isLast ? Divider(height: 1) : SizedBox.shrink()
         ]));

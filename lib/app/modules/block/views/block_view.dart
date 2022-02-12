@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/block_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'single_block.dart';
 import 'package:chat/app/common/block.dart';
+import '../../my_single_post/views/post_single_viewer.dart';
 
 // TODO use constans or config
 class BlockView extends GetView<BlockController> {
@@ -34,17 +34,28 @@ class BlockView extends GetView<BlockController> {
               pagingController: controller.pagingController,
               builderDelegate: PagedChildBuilderDelegate<String>(
                   itemBuilder: (context, id, index) {
-                return SingleBlock(
-                    onPressedUnblock: () async {
+                final account = controller.blockMap[id];
+                if (account == null) {
+                  return SizedBox.shrink();
+                }
+                return PostSingleViewer(
+                    onPressed: () async {
                       try {
                         await toggleBlock(id: id, toBlocked: false);
                       } catch (e) {
                         UIUtils.showError(e);
                       }
                     },
-                    id: id,
+                    isBlock: true,
                     isLast: index == controller.blockIdList.length - 1,
-                    blockAccount: controller.blockMap[id]!);
+                    name: account.name,
+                    img: account.avatar,
+                    likeCount: account.like_count,
+                    viewerId: id,
+                    isVip: account.vip,
+                    margin: 15,
+                    iconSize: 28,
+                    fontSize: 15);
               })),
         )));
   }
