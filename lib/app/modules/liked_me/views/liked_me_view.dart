@@ -47,7 +47,7 @@ class LikedMeView extends GetView<LikedMeController> {
                     isBlock: false,
                     id: id,
                     isLast: index == controller.likedIdList.length - 1,
-                    blockAccount: controller.likedMap[id]!);
+                    account: controller.likedMap[id]!);
               })),
         )));
   }

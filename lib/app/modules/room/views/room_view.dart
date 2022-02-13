@@ -24,7 +24,14 @@ class RoomView extends GetView<RoomController> {
     final messageController = MessageController.to;
     final roomId = controller.roomId;
 
+    // final animationController = AnimationController(
+    //     duration: Duration(
+    //       milliseconds: 1000,
+    //     ),
+    //     vsync: this);
+
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: roomAppBar(
           context: context,
           roomId: roomId,
@@ -54,52 +61,103 @@ class RoomView extends GetView<RoomController> {
                           (id) => messageController.messageEntities[id]!)
                       .toList()
                   : emptyMessages;
+              final _query = MediaQuery.of(context);
 
-              return Chat(
-                theme: Theme.of(context).colorScheme.brightness ==
-                        Brightness.light
-                    ? DefaultChatTheme(
-                        primaryColor: Theme.of(context).primaryColor,
-                        messageInsetsVertical: 12,
-                        messageInsetsHorizontal: 14,
-                        receivedMessageBodyTextStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          height: 1.5,
-                        ))
-                    : DarkChatTheme(
-                        backgroundColor: Theme.of(context).colorScheme.surface,
-                        primaryColor: Theme.of(context).primaryColor,
-                        secondaryColor:
-                            Theme.of(context).colorScheme.background,
-                        receivedMessageBodyTextStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          height: 1.5,
-                        )),
-                isLastPage: room.isLastPage,
-                messages: messages,
-                bubbleBuilder: (
-                  Widget child, {
-                  required types.Message message,
-                  required bool nextMessageInGroup,
-                }) {
-                  return BubbleWidget(child,
-                      message: message, nextMessageInGroup: nextMessageInGroup);
-                },
-                customBottomWidget: BottomWidget(
-                    onCancelQuote: controller.handleCancelPreview,
-                    quoteMessage: controller.previewMessage,
-                    replyTo: controller.previewMessage != null
-                        ? toAccount?.name
-                        : null,
-                    onAttachmentPressed: () {
-                      _handleImageSelection();
+              return AnimatedPadding(
+                  padding: EdgeInsets.only(
+                      bottom: _query.viewInsets.bottom +
+                          _query.padding.bottom +
+                          12),
+                  duration: const Duration(milliseconds: 280),
+                  curve: Curves.easeInOut,
+                  child: Chat(
+                    theme: Theme.of(context).colorScheme.brightness ==
+                            Brightness.light
+                        ? DefaultChatTheme(
+                            primaryColor: Theme.of(context).primaryColor,
+                            messageInsetsVertical: 12,
+                            messageInsetsHorizontal: 14,
+                            receivedMessageBodyTextStyle: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              height: 1.5,
+                            ))
+                        : DarkChatTheme(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.surface,
+                            primaryColor: Theme.of(context).primaryColor,
+                            secondaryColor:
+                                Theme.of(context).colorScheme.background,
+                            receivedMessageBodyTextStyle: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              height: 1.5,
+                            )),
+                    isLastPage: room.isLastPage,
+                    messages: messages,
+                    bubbleBuilder: (
+                      Widget child, {
+                      required types.Message message,
+                      required bool nextMessageInGroup,
+                    }) {
+                      return BubbleWidget(child,
+                          message: message,
+                          nextMessageInGroup: nextMessageInGroup);
                     },
-                    onCameraPressed: () {
-                      _handleCameraSelection();
+                    customBottomWidget: BottomWidget(
+                        onCancelQuote: controller.handleCancelPreview,
+                        quoteMessage: controller.previewMessage,
+                        replyTo: controller.previewMessage != null
+                            ? toAccount?.name
+                            : null,
+                        onAttachmentPressed: () {
+                          _handleImageSelection();
+                        },
+                        onCameraPressed: () {
+                          _handleCameraSelection();
+                        },
+                        onSendPressed: (types.PartialText message) async {
+                          try {
+                            await controller.handleSendPressed(message);
+                          } catch (e) {
+                            UIUtils.showError(e);
+                          }
+                        },
+                        sendButtonVisibilityMode:
+                            SendButtonVisibilityMode.editing),
+                    textMessageBuilder: (
+                      types.TextMessage message, {
+                      required int messageWidth,
+                      required bool showName,
+                    }) {
+                      return TextMessage(
+                        message: message,
+                        showName: showName,
+                        usePreviewData: false,
+                        emojiEnlargementBehavior:
+                            EmojiEnlargementBehavior.multi,
+                        hideBackgroundOnEmojiMessages: true,
+                        onPreviewDataFetched: (types.Message message,
+                            types.PreviewData previewData) {
+                          messageController.handlePreviewDataFetched(
+                              message.id, previewData);
+                        },
+                      );
+                    },
+                    imageMessageBuilder: (message,
+                        {required int messageWidth}) {
+                      return ImageMessage(
+                          message: message, messageWidth: messageWidth);
+                    },
+                    emptyState: ((room.isLoading))
+                        ? Container(
+                            color: Theme.of(context).colorScheme.background,
+                            child: Loading())
+                        : SizedBox.shrink(),
+                    onAttachmentPressed: () {
+                      _handleAtachmentPressed(context);
                     },
                     onSendPressed: (types.PartialText message) async {
                       try {
@@ -108,49 +166,11 @@ class RoomView extends GetView<RoomController> {
                         UIUtils.showError(e);
                       }
                     },
-                    sendButtonVisibilityMode: SendButtonVisibilityMode.editing),
-                textMessageBuilder: (
-                  types.TextMessage message, {
-                  required int messageWidth,
-                  required bool showName,
-                }) {
-                  return TextMessage(
-                    message: message,
-                    showName: showName,
-                    usePreviewData: false,
-                    emojiEnlargementBehavior: EmojiEnlargementBehavior.multi,
-                    hideBackgroundOnEmojiMessages: true,
-                    onPreviewDataFetched:
-                        (types.Message message, types.PreviewData previewData) {
-                      messageController.handlePreviewDataFetched(
-                          message.id, previewData);
-                    },
-                  );
-                },
-                imageMessageBuilder: (message, {required int messageWidth}) {
-                  return ImageMessage(
-                      message: message, messageWidth: messageWidth);
-                },
-                emptyState: ((room.isLoading))
-                    ? Container(
-                        color: Theme.of(context).colorScheme.background,
-                        child: Loading())
-                    : SizedBox.shrink(),
-                onAttachmentPressed: () {
-                  _handleAtachmentPressed(context);
-                },
-                onSendPressed: (types.PartialText message) async {
-                  try {
-                    await controller.handleSendPressed(message);
-                  } catch (e) {
-                    UIUtils.showError(e);
-                  }
-                },
-                onMessageTap: _handleMessageTap,
-                onMessageStatusTap: _handleMessageStatusTap,
-                onEndReached: controller.handleEndReached,
-                user: ChatProvider.to.currentChatAccount.value!,
-              );
+                    onMessageTap: _handleMessageTap,
+                    onMessageStatusTap: _handleMessageStatusTap,
+                    onEndReached: controller.handleEndReached,
+                    user: ChatProvider.to.currentChatAccount.value!,
+                  ));
             }),
           )
         ]));
@@ -162,38 +182,39 @@ class RoomView extends GetView<RoomController> {
       builder: (BuildContext context) {
         return SafeArea(
           child: SizedBox(
-              height: 144,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        _handleImageSelection();
-                      },
-                      child: const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('Photo'),
-                      ),
+            height: 144,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _handleImageSelection();
+                    },
+                    child: const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Photo'),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        _handleFileSelection();
-                      },
-                      child: const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('File'),
-                      ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _handleFileSelection();
+                    },
+                    child: const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('File'),
                     ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('Cancel'),
-                      ),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Cancel'),
                     ),
-                  ])),
+                  ),
+                ]),
+          ),
         );
       },
     );

@@ -9,7 +9,7 @@ import 'package:chat/app/routes/app_pages.dart';
 import '../../me/views/vip_icon.dart';
 
 class SingleLike extends StatelessWidget {
-  final SimpleAccountEntity blockAccount;
+  final SimpleAccountEntity account;
   final bool isLast;
   final Function onPressedUnblock;
   final String id;
@@ -17,7 +17,7 @@ class SingleLike extends StatelessWidget {
 
   SingleLike(
       {Key? key,
-      required this.blockAccount,
+      required this.account,
       required this.id,
       required this.isLast,
       required this.onPressedUnblock,
@@ -27,7 +27,7 @@ class SingleLike extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _gender = blockAccount.gender;
+    final _gender = account.gender;
 
     final _genderColor = _gender == 'unknown'
         ? Colors.black26
@@ -41,8 +41,8 @@ class SingleLike extends StatelessWidget {
               contentPadding: EdgeInsets.symmetric(vertical: 4),
               leading: Stack(clipBehavior: Clip.none, children: [
                 Avatar(
-                    name: blockAccount.name,
-                    uri: blockAccount.avatar?.thumbnail.url,
+                    name: account.name,
+                    uri: account.avatar?.thumbnail.url,
                     size: 28,
                     onTap: () {
                       Get.toNamed(Routes.OTHER, arguments: {"id": id});
@@ -50,7 +50,7 @@ class SingleLike extends StatelessWidget {
                 Positioned(
                   bottom: 0,
                   right: -6,
-                  child: blockAccount.vip ? VipIcon() : SizedBox.shrink(),
+                  child: account.vip ? VipIcon() : SizedBox.shrink(),
                 )
               ]),
               title: Container(
@@ -61,7 +61,7 @@ class SingleLike extends StatelessWidget {
                         Expanded(
                           child: Row(children: [
                             Flexible(
-                                child: Text(blockAccount.name,
+                                child: Text(account.name,
                                     style: TextStyle(
                                         overflow: TextOverflow.ellipsis,
                                         fontSize: 15,
@@ -80,15 +80,15 @@ class SingleLike extends StatelessWidget {
                         Container(
                             margin: EdgeInsets.only(right: 12),
                             child: AgeWidget(
-                              age: blockAccount.age.toString(),
-                              gender: blockAccount.gender,
+                              age: account.age.toString(),
+                              gender: account.gender,
                               background: _genderColor,
                               color: Theme.of(context).colorScheme.onPrimary,
                               iconSize: 14,
                               fontSize: 12,
                             )),
                         LikeCount(
-                          count: blockAccount.like_count,
+                          count: account.like_count,
                           iconSize: 14,
                           fontSize: 14,
                           backgroundColor: Colors.black12,

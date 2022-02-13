@@ -49,10 +49,10 @@ class PostSingleViewer extends StatelessWidget {
                       }),
                   Positioned(
                     bottom: 0,
-                    right: -6,
+                    right: -4,
                     child: isVip
                         ? VipIcon(
-                            iconSize: 22,
+                            iconSize: 20,
                           )
                         : SizedBox.shrink(),
                   )

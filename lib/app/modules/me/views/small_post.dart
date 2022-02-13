@@ -42,7 +42,7 @@ class SmallPost extends StatelessWidget {
               ),
               child: AutoSizeText(content,
                   maxLines: 8,
-                  minFontSize: 16,
+                  minFontSize: 18,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 20,

@@ -16,6 +16,8 @@ String randomString() {
 }
 
 class RoomController extends GetxController {
+  static RoomController get to => Get.find();
+
   late String _roomId;
   String get roomId => _roomId;
 
@@ -29,6 +31,7 @@ class RoomController extends GetxController {
     if (pageArguments["id"] != null && pageArguments["id"] is String) {
       _roomId = pageArguments["id"];
     }
+
     init();
 
     final messageController = MessageController.to;
@@ -167,4 +170,6 @@ class RoomController extends GetxController {
       rethrow;
     }
   }
+
+  onScroll() {}
 }

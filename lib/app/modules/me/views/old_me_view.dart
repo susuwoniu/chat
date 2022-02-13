@@ -171,11 +171,11 @@ class MeView extends GetView<MeController> {
                 builderDelegate: PagedChildBuilderDelegate<String>(
                     itemBuilder: (context, id, index) {
                   final post = HomeController.to.postMap[id];
-                  if (index == 0) {
-                    return CreatePost(
-                      id: id,
-                    );
-                  }
+                  // if (index == 0) {
+                  //   return CreatePost(
+                  //     id: id,
+                  //   );
+                  // }
                   if (post == null) {
                     return SizedBox.shrink();
                   }
