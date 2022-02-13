@@ -1,5 +1,6 @@
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
+import 'package:chat/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/complete_name_controller.dart';
@@ -28,7 +29,7 @@ class CompleteNameView extends GetView<CompleteNameController> {
             SizedBox(height: 10),
             InputWidget(
                 underline: true,
-                maxLength: 12,
+                maxLength: MAX_NAME_LENGTH,
                 maxLines: 1,
                 initialContent: controller.initialContent,
                 onChange: controller.onChangeTextValue),

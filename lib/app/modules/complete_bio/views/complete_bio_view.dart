@@ -1,10 +1,10 @@
 import 'package:chat/app/providers/providers.dart';
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/complete_bio_controller.dart';
 import 'package:chat/app/modules/edit_name/views/input_widget.dart';
 import '../../complete_age/views/next_button.dart';
+import 'package:chat/common.dart';
 
 class CompleteBioView extends GetView<CompleteBioController> {
   @override
@@ -51,7 +51,7 @@ class CompleteBioView extends GetView<CompleteBioController> {
             SizedBox(height: 30),
             InputWidget(
                 fillColor: Theme.of(context).colorScheme.background,
-                maxLength: 50,
+                maxLength: MAX_BIO_LENGTH,
                 maxLines: 10,
                 minLines: 3,
                 initialContent: controller.initialContent,

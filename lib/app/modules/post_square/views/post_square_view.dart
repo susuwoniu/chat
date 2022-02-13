@@ -126,6 +126,7 @@ class PostSquareView extends GetView<PostSquareController> {
                       onTap: () {
                         Get.toNamed(Routes.CREATE, arguments: {
                           "id": _id.toString(),
+                          "background-color-index": backgroundColorIndex,
                         });
                       },
                       child: Row(children: [

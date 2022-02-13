@@ -37,53 +37,53 @@ class MeIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+        child: GestureDetector(
+      onTap: () {
+        if (isMe) {
+          if (AuthProvider.to.account.value.vip) {
+            Get.toNamed(Routes.LIKEDME);
+          } else {
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) {
+                  return VipSheet(context: context, index: 1);
+                });
+          }
+        } else if (toViewers) {
+          onPressedViewer!();
+        } else if (onPressedChat != null) {
+          onPressedChat!();
+        } else if (onPressedLike != null) {
+          onPressedLike!(!isLiked);
+        } else if (onPressedCreate != null) {
+          onPressedCreate!();
+        }
+      },
       child: Column(children: [
-        GestureDetector(
-            onTap: () {
-              if (isMe) {
-                if (AuthProvider.to.account.value.vip) {
-                  Get.toNamed(Routes.LIKEDME);
-                } else {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (context) {
-                        return VipSheet(context: context, index: 1);
-                      });
-                }
-              } else if (toViewers) {
-                onPressedViewer!();
-              } else if (onPressedChat != null) {
-                onPressedChat!();
-              } else if (onPressedLike != null) {
-                onPressedLike!(!isLiked);
-              } else if (onPressedCreate != null) {
-                onPressedCreate!();
-              }
-            },
-            child: Stack(clipBehavior: Clip.none, children: [
-              Container(
-                  padding: EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                          width: 2.5,
-                          color: isLiked == true
-                              ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).colorScheme.onSurface)),
-                  child: Icon(icon,
+        Stack(clipBehavior: Clip.none, children: [
+          Container(
+              padding: EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      width: 2.5,
                       color: isLiked == true
                           ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context).colorScheme.onSurface,
-                      size: 27)),
-              newViewers == null
-                  ? SizedBox.shrink()
-                  : Positioned(
-                      left: 28,
-                      top: -6,
-                      child: CountBubble(
-                          count: newViewers!, isUnreadMessage: false))
-            ])),
+                          : Theme.of(context).colorScheme.onSurface)),
+              child: Icon(icon,
+                  color: isLiked == true
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.onSurface,
+                  size: 27)),
+          newViewers == null
+              ? SizedBox.shrink()
+              : Positioned(
+                  left: 28,
+                  top: -6,
+                  child:
+                      CountBubble(count: newViewers!, isUnreadMessage: false))
+        ]),
         SizedBox(height: 10),
         time == null
             ? Text(
@@ -106,7 +106,7 @@ class MeIcon extends StatelessWidget {
                 },
               )
       ]),
-    );
+    ));
   }
 
   getCountDown(double time) {

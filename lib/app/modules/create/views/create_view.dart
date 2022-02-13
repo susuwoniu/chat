@@ -9,7 +9,6 @@ import 'package:chat/app/ui_utils/location.dart';
 import '../controllers/create_controller.dart';
 import 'package:location/location.dart';
 import '../../my_single_post/views/visibility_sheet.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 
 final VisibilityMap = {'public': 'Public', 'private': 'Private'};
@@ -52,19 +51,17 @@ class CreateView extends GetView<CreateController> {
                 padding: EdgeInsets.only(right: 16, top: 10, bottom: 10),
                 child: Obx(() => ElevatedButton(
                       child: Text("Send".tr),
-                      onPressed: controller.isComposing
-                          ? () async {
-                              _handleSubmitted();
-                            }
-                          : null,
+                      onPressed:
+                          controller.isComposing && !controller.isSubmitting
+                              ? () async {
+                                  _handleSubmitted();
+                                }
+                              : null,
                     )),
               )
             ]),
-        body: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: SafeArea(
-              child: Column(children: [
+        body: Column(
+          children: [
             SizedBox(height: 15),
             Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
               Container(
@@ -163,7 +160,7 @@ class CreateView extends GetView<CreateController> {
               paletteColors: FRONT_COLORS,
               defaultBackgroundColorIndex: controller.backgroundColorIndex,
             )),
-          ])),
+          ],
         ));
   }
 
@@ -172,6 +169,7 @@ class CreateView extends GetView<CreateController> {
       return;
     }
     controller.setIsSubmitting(true);
+    UIUtils.showLoading();
 
     try {
       // check permission
@@ -183,8 +181,6 @@ class CreateView extends GetView<CreateController> {
           // donothing
         }
       }
-
-      UIUtils.showLoading();
 
       await controller.postAnswer(location: _locationData);
       controller.setIsSubmitting(false);

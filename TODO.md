@@ -2,22 +2,24 @@
 
 ## Todos
 
+- [ ] 编辑头像需要有拍照的选项，bottomsheet
 - [x]  square跳转到room缺少content
 - [x]  聊天气泡padding太大
 - [x]  room黑暗模式背景色
 - [x]  edit info页
 - [x]  card文本样式
-- [ ]  me缓存问题
+- [x]  me缓存问题
 - [ ]  post跳转create底部溢出
 - [ ]  room键盘弹出动画
 - [x]  删除后帖子-1
-- [ ]  编辑帖子权限
+- [x]  编辑帖子权限
 - [x]  帖子无访客bug
 - [x]  无限点赞bug
 - [x]  首页名字溢出
 - [x]  other聊天按钮bug
+- [ ] 发帖流程优化，判断是否会员，才决定是否弹会员弹窗
 - [x]  other资料首次进入为null
-- [ ]  发帖页无template内容时，dismiss键盘后很难再次弹出键盘
+- [x]  发帖页无template内容时，dismiss键盘后很难再次弹出键盘
 - [x]  谁看过我没有按照最后访问时间排序
 - [ ]  广场发帖后home&nearby内容为null
 - [ ]  square list 单条数据有时不存在
@@ -45,7 +47,7 @@
 - [x]  验证码返回上一页，无法删除手机号
 - [x]  登录页没有导航 
 - [ ]  vip无限发帖
-- [ ]  xmpp 增加query all超时判断，错误判断
+- [x]  xmpp 增加query all超时判断，错误判断
 - [x]  send message id use uuid
 - [ ]  默认信息条数20/50
 - [x]  user3的问题
@@ -58,7 +60,7 @@
 - [x]  发送帖子页面，模版优化
 - [x]  消息页面引用样式？markdown？
 - [x]  settings页面
-- [ ]  完善注册页面
+- [x]  完善注册页面
 - [ ]  路由
 - [ ]  权限问题？要不要优化，告知用户我们要权限干什么。
 - [x]  聊天列表，姓名溢出，当名字过长的时候，比如默认名字
@@ -130,6 +132,7 @@
 - [ ] 验证用户token过期后，能否正确续期token
 - [ ] server校验用户名字，用户名字不可重复，校验用户不可是敏感字，品牌字
 - [ ] 设计logo，名字，root页体现，root去掉调试
+- [ ] app官网，以及web的详情页。
 
 ## 上线前Check
 

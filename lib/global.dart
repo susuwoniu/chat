@@ -77,7 +77,11 @@ class Global {
     print("run onetime task ...");
     // update me
     if (AuthProvider.to.isLogin) {
-      await AccountProvider.to.getMe();
+      try {
+        await AccountProvider.to.getMe();
+      } catch (e) {
+        Log.error("Can not get me at global run one time task $e");
+      }
     }
   }
 
@@ -96,7 +100,7 @@ class Global {
       }
     }
     _globalTaskTimer = Timer(const Duration(minutes: 1), () async {
-      await runGlobalTask();
+      runGlobalTask();
     });
   }
 

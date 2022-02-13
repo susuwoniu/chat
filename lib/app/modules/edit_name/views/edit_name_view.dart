@@ -1,5 +1,5 @@
 import 'package:chat/app/providers/providers.dart';
-import 'package:chat/app/ui_utils/ui_utils.dart';
+import 'package:chat/common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/edit_name_controller.dart';
@@ -44,7 +44,7 @@ class EditNameView extends GetView<EditNameController> {
       ),
       body: Obx(() {
         return InputWidget(
-            maxLength: 12,
+            maxLength: MAX_NAME_LENGTH,
             maxLines: 1,
             initialContent: controller.initialContent,
             onChange: controller.onChangeTextValue);

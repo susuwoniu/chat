@@ -1,4 +1,4 @@
-import 'package:chat/app/ui_utils/ui_utils.dart';
+import 'package:chat/common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../edit_name/views/appbar_save.dart';
@@ -41,7 +41,7 @@ class EditBioView extends GetView<EditBioController> {
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: Obx(() {
             return InputWidget(
-                maxLength: 50,
+                maxLength: MAX_BIO_LENGTH,
                 maxLines: 10,
                 minLines: 3,
                 initialContent: controller.initialContent,
