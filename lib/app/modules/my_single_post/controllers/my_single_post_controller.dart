@@ -19,8 +19,15 @@ class MySinglePostController extends GetxController {
 
   final isLoading = false.obs;
 
+  final isLoadingList = false.obs;
+
   final _isInitial = false.obs;
   bool get isInitial => _isInitial.value;
+
+  var toFetchFirstPage = false;
+
+  final _isListInitial = false.obs;
+  bool get isListInitial => _isListInitial.value;
 
   final _isReachListEnd = false.obs;
   bool get isReachListEnd => _isReachListEnd.value;
@@ -35,7 +42,11 @@ class MySinglePostController extends GetxController {
   @override
   void onInit() {
     pagingController.addPageRequestListener((lastPostId) {
-      if (AuthProvider.to.isLogin) {
+      if (!isInitial) {
+        toFetchFirstPage = true;
+        return;
+      }
+      if (AuthProvider.to.isLogin && isMe) {
         fetchPage(lastPostId: lastPostId);
       } else {
         pagingController.value = PagingState(
@@ -71,6 +82,17 @@ class MySinglePostController extends GetxController {
       _isMe.value = HomeController.to.postMap[postId]!.accountId ==
           AuthProvider.to.accountId;
       _visibility.value = HomeController.to.postMap[postId]!.visibility;
+      _isInitial.value = true;
+      if (toFetchFirstPage) {
+        if (AuthProvider.to.isLogin && isMe) {
+          fetchPage(lastPostId: null);
+        } else {
+          pagingController.value = PagingState(
+            nextPageKey: null,
+            itemList: [],
+          );
+        }
+      }
       if (AuthProvider.to.isLogin && !isMe) {
         await APIProvider.to.patch("/post/posts/$postId",
             body: {"viewed_count_action": "increase_one"});
@@ -79,6 +101,7 @@ class MySinglePostController extends GetxController {
       UIUtils.showError(e);
     }
     isLoading.value = false;
+    super.update();
   }
 
   Future<List<String>> fetchPage({
@@ -92,14 +115,14 @@ class MySinglePostController extends GetxController {
       );
       return [];
     }
-    if (isLoading.value == false) {
-      isLoading.value = true;
+    if (isLoadingList.value == false) {
+      isLoadingList.value = true;
 
       List<String> indexes = [];
       try {
         final result = await getRawVisitorList(postId, after: lastPostId);
-        if (_isInitial.value == false) {
-          _isInitial.value = true;
+        if (_isListInitial.value == false) {
+          _isListInitial.value = true;
           if (result.isEmpty) {
             pagingController.value = PagingState(
               nextPageKey: null,
@@ -108,9 +131,9 @@ class MySinglePostController extends GetxController {
           }
         }
         indexes = result;
-        isLoading.value = false;
+        isLoadingList.value = false;
       } catch (e) {
-        isLoading.value = false;
+        isLoadingList.value = false;
         UIUtils.showError(e);
         return indexes;
       }
@@ -166,6 +189,12 @@ class MySinglePostController extends GetxController {
     HomeController.to.myPostsIndexes.remove(id);
     HomeController.to.pageState['home']!.postIndexes.remove(id);
     HomeController.to.pageState['nearby']!.postIndexes.remove(id);
+    final _account = AuthProvider.to.account;
+    _account.update((value) {
+      if (value != null) {
+        value.post_count = _account.value.post_count - 1;
+      }
+    });
   }
 
   postChange({required String type, required String postId}) async {

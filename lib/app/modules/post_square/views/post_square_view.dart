@@ -9,6 +9,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:flutter/services.dart';
+import 'package:chat/common.dart';
 
 class PostSquareView extends GetView<PostSquareController> {
   final _title = Get.arguments['title'];
@@ -98,7 +99,9 @@ class PostSquareView extends GetView<PostSquareController> {
                   ),
                   pagingController: controller.pagingController,
                   builderDelegate: PagedChildBuilderDelegate<String>(
-                      itemBuilder: (context, id, index) {
+                      noItemsFoundIndicatorBuilder: (BuildContext context) {
+                    return Empty();
+                  }, itemBuilder: (context, id, index) {
                     final post = postMap[id]!;
                     return SmallPost(
                         postId: id,

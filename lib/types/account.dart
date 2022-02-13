@@ -83,7 +83,7 @@ class AccountEntity {
   final int? age;
   String? birthday;
   final String? bio;
-  final int post_count;
+  int post_count;
   final String? phone_number;
   String next_post_not_before;
   int? next_post_in_seconds;

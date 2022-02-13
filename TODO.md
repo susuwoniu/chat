@@ -8,8 +8,11 @@
 - [x]  edit info页
 - [x]  card文本样式
 - [ ]  me缓存问题
+- [ ]  post跳转create底部溢出
+- [ ]  room键盘弹出动画
+- [x]  删除后帖子-1
 - [ ]  编辑帖子权限
-- [ ]  帖子无访客bug
+- [x]  帖子无访客bug
 - [x]  无限点赞bug
 - [x]  首页名字溢出
 - [x]  other聊天按钮bug
@@ -27,8 +30,8 @@
 - [x]  点赞列表，拉黑列表
 - [x]  square背景色
 - [ ]  点赞列表查看用户为null
-- [ ]  message页面部分用户首次获取信息为null
-- [ ]  解除拉黑后列表更新
+- [x]  message页面部分用户首次获取信息为null
+- [x]  解除拉黑后列表更新
 - [ ]  post template 区分title content
 - [x]  square跳转到single post
 - [x]  square假删除

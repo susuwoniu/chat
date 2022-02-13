@@ -19,64 +19,69 @@ Widget conversationItemView(
     String? avatar,
     int likeCount = 0,
     void Function(int index)? onTap}) {
-  return Column(children: [
-    ListTile(
-      onTap: () {
-        if (onTap != null) {
-          onTap(index);
-        }
-      },
-      contentPadding: EdgeInsets.fromLTRB(10, 1, 13, 2),
-      leading: Avatar(
-          name: name,
-          uri: avatar,
-          size: 27,
+  return Container(
+      margin: EdgeInsets.symmetric(horizontal: 13),
+      child: Column(children: [
+        ListTile(
           onTap: () {
-            if (id == AuthProvider.to.accountId) {
-              RouterProvider.to.toMe();
-              return;
+            if (onTap != null) {
+              onTap(index);
             }
-            Get.toNamed(Routes.OTHER, arguments: {"id": id});
-          }),
-      title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Expanded(
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-              Flexible(
-                  child: Container(
-                      child: Text(name,
-                          style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            fontSize: 16,
-                            color: Theme.of(context).colorScheme.onBackground,
-                          )))),
-              LikeCount(
-                count: likeCount,
-                iconSize: 16,
-                fontSize: 14,
-                backgroundColor: Colors.transparent,
-              ),
-              SizedBox(width: 20),
-            ])),
-        TimeAgo(updatedAt: updatedAt),
-      ]),
-      subtitle: Container(
-          padding: EdgeInsets.symmetric(vertical: 6),
-          child:
+          },
+          contentPadding: EdgeInsets.fromLTRB(0, 3, 0, 3),
+          leading: Avatar(
+              name: name,
+              uri: avatar,
+              size: 28,
+              onTap: () {
+                if (id == AuthProvider.to.accountId) {
+                  RouterProvider.to.toMe();
+                  return;
+                }
+                Get.toNamed(Routes.OTHER, arguments: {"id": id});
+              }),
+          title:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Expanded(
-                child: Text(preview,
-                    maxLines: 1,
-                    style: TextStyle(
-                        fontSize: 14,
-                        overflow: TextOverflow.ellipsis,
-                        color: Colors.grey.shade600))),
-            SizedBox(width: 15),
-            CountBubble(count: unreadCount),
-          ])),
-    ),
-    !isLast ? Divider(height: 1) : SizedBox.shrink()
-  ]);
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                  Flexible(
+                      child: Container(
+                          child: Text(name,
+                              style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 15.5,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              )))),
+                  // SizedBox(width: 6),
+                  // LikeCount(
+                  //     count: likeCount,
+                  //     backgroundColor: Colors.black12,
+                  //     fontSize: 14,
+                  //     iconSize: 13),
+                  SizedBox(width: 20),
+                ])),
+            TimeAgo(updatedAt: updatedAt),
+          ]),
+          subtitle: Container(
+              padding: EdgeInsets.symmetric(vertical: 6),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        child: Text(preview,
+                            maxLines: 1,
+                            style: TextStyle(
+                                fontSize: 14.5,
+                                overflow: TextOverflow.ellipsis,
+                                color: Colors.grey.shade500))),
+                    SizedBox(width: 15),
+                    CountBubble(count: unreadCount),
+                  ])),
+        ),
+        !isLast ? Divider(height: 1) : SizedBox.shrink()
+      ]));
 }

@@ -11,9 +11,9 @@ import '../../home/views/vip_sheet.dart';
 import 'small_post.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../home/controllers/home_controller.dart';
-import './create_post.dart';
 import 'me_icon.dart';
 import 'open_avatar.dart';
+import 'package:chat/app/providers/account_provider.dart';
 
 class MeView extends GetView<MeController> {
   @override
@@ -68,9 +68,9 @@ class MeView extends GetView<MeController> {
                   : '0' + ' Post'.tr;
               final likeCount = _account.likeCount > 0
                   ? _account.likeCount > 9999
-                      ? '9999+' + ' Hearts'.tr
-                      : _account.likeCount.toString() + ' Hearts'.tr
-                  : '0' + ' Heart'.tr;
+                      ? '9999+' + ' hearts'.tr
+                      : _account.likeCount.toString() + ' hearts'.tr
+                  : '0' + ' heart'.tr;
               final totalViewedCount = controller.totalViewedCount.value > 0
                   ? controller.totalViewedCount.value > 9999
                       ? '9999+' + ' Visitors'.tr
@@ -148,28 +148,50 @@ class MeView extends GetView<MeController> {
                           icon: Icons.favorite_border_outlined,
                           text: likeCount,
                           isMe: true),
-                      MeIcon(
-                          icon: Icons.pets_outlined,
-                          text: totalViewedCount,
-                          newViewers: controller.unreadViewedCount.value,
-                          toViewers: true,
-                          onPressedViewer: () async {
-                            if (_account.vip) {
-                              Get.toNamed(Routes.PROFILE_VIEWERS);
-                            } else {
-                              showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  builder: (context) {
-                                    return VipSheet(context: context, index: 1);
-                                  });
-                              try {
-                                await controller.clearUnreadViewerCount();
-                              } catch (e) {
-                                print(e);
+
+                      Obx(() => MeIcon(
+                          icon: getTimeStop() > 0
+                              ? Icons.timer_outlined
+                              : Icons.add_outlined,
+                          onPressedCreate: () {
+                            if (getTimeStop() > 0) {
+                              if (!AuthProvider.to.account.value.vip) {
+                                showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (context) {
+                                      return VipSheet(
+                                          context: context, index: 4);
+                                    });
                               }
+                            } else {
+                              Get.toNamed(Routes.POST);
                             }
-                          }),
+                          },
+                          time:
+                              getTimeStop() > 0 ? getTimeStop().toInt() : null))
+                      // MeIcon(
+                      //     icon: Icons.pets_outlined,
+                      //     text: totalViewedCount,
+                      //     newViewers: controller.unreadViewedCount.value,
+                      //     toViewers: true,
+                      //     onPressedViewer: () async {
+                      //       if (_account.vip) {
+                      //         Get.toNamed(Routes.PROFILE_VIEWERS);
+                      //       } else {
+                      //         showModalBottomSheet(
+                      //             context: context,
+                      //             isScrollControlled: true,
+                      //             builder: (context) {
+                      //               return VipSheet(context: context, index: 1);
+                      //             });
+                      //         try {
+                      //           await controller.clearUnreadViewerCount();
+                      //         } catch (e) {
+                      //           print(e);
+                      //         }
+                      //       }
+                      //     }),
                     ]),
                   ]),
                 ),
@@ -181,18 +203,18 @@ class MeView extends GetView<MeController> {
               showNewPageErrorIndicatorAsGridChild: false,
               showNoMoreItemsIndicatorAsGridChild: false,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 0.8,
-                crossAxisCount: 2,
+                childAspectRatio: 1.2,
+                crossAxisCount: 1,
               ),
               pagingController: controller.pagingController,
               builderDelegate: PagedChildBuilderDelegate<String>(
                   itemBuilder: (context, id, index) {
                 final post = HomeController.to.postMap[id];
-                if (index == 0) {
-                  return CreatePost(
-                    id: id,
-                  );
-                }
+                // if (index == 0) {
+                //   return CreatePost(
+                //     id: id,
+                //   );
+                // }
                 if (post == null) {
                   return SizedBox.shrink();
                 }
@@ -212,5 +234,18 @@ class MeView extends GetView<MeController> {
             SliverToBoxAdapter(child: Container(height: 100))
           ]),
         ));
+  }
+
+  getTimeStop() {
+    final clientNow = DateTime.now().millisecondsSinceEpoch;
+
+    final serverNow = clientNow - AccountProvider.to.diffTime;
+
+    final next =
+        DateTime.parse(AuthProvider.to.account.value.next_post_not_before)
+            .millisecondsSinceEpoch;
+    final nextCreateTime = (next - serverNow) / 1000;
+
+    return nextCreateTime.toInt();
   }
 }

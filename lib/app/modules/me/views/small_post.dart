@@ -50,13 +50,5 @@ class SmallPost extends StatelessWidget {
                     color: Color(frontColor),
                   )),
             )));
-
-    // SizedBox(
-    //     width: double.infinity,
-    //     child: Wrap(
-    //         alignment: WrapAlignment.spaceBetween,
-    //         children: _myPostsList),
-    //   );
-    // });
   }
 }

@@ -12,6 +12,6 @@ class TimeAgo extends StatelessWidget {
   Widget build(BuildContext context) {
     final time = getTime(updatedAt);
     return Text(time,
-        style: TextStyle(fontSize: 13, color: Colors.grey.shade500));
+        style: TextStyle(fontSize: 13, color: Colors.grey.shade400));
   }
 }

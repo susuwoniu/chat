@@ -20,7 +20,6 @@ class MySinglePostView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -43,7 +42,6 @@ class MySinglePostView extends StatelessWidget {
           child: GetBuilder<MySinglePostController>(
               init: MySinglePostController(),
               tag: Get.arguments['id'],
-              // You can initialize your controller here the first time. Don't use init in your other GetBuilders of same controller
               builder: (controller) {
                 return RefreshIndicator(
                   backgroundColor: Theme.of(context).colorScheme.surface,
@@ -75,7 +73,6 @@ class MySinglePostView extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             color: Color(_backgroundColor),
                           ),
-                          width: _width * 0.9,
                           child: Column(children: [
                             Row(
                                 mainAxisAlignment:
@@ -122,8 +119,8 @@ class MySinglePostView extends StatelessWidget {
                       pagingController: controller.pagingController,
                       builderDelegate: PagedChildBuilderDelegate<String>(
                           noItemsFoundIndicatorBuilder: (BuildContext context) {
-                        return AuthProvider.to.isLogin
-                            ? Empty(message: "no_one_seen_your_post".tr)
+                        return AuthProvider.to.isLogin && controller.isMe
+                            ? Empty(message: "no_one_has_seen_this_post...".tr)
                             : SizedBox.shrink();
                       }, itemBuilder: (context, id, index) {
                         final account = controller.viewerIdMap[id];
@@ -183,7 +180,7 @@ class MySinglePostView extends StatelessWidget {
                             try {
                               UIUtils.showLoading();
                               await postChange(type: 'promote', postId: postId);
-                              UIUtils.toast('Successfully_polished'.tr);
+                              UIUtils.toast('Successfully_polished.'.tr);
                             } catch (e) {
                               UIUtils.showError(e);
                             }
@@ -201,7 +198,7 @@ class MySinglePostView extends StatelessWidget {
                           try {
                             UIUtils.showLoading();
                             await onDeletePost(postId);
-                            UIUtils.toast('Successfully_deleted'.tr);
+                            UIUtils.toast('Successfully_deleted.'.tr);
                             Get.back();
                           } catch (e) {
                             UIUtils.showError(e);

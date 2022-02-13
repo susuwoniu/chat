@@ -3,7 +3,6 @@ import 'package:chat/common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/routes/app_pages.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../me/views/small_post.dart';
 import 'package:flutter/cupertino.dart';
@@ -247,12 +246,14 @@ class OtherView extends StatelessWidget {
                     showNoMoreItemsIndicatorAsGridChild: false,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 0.8,
-                      crossAxisCount: 2,
+                      childAspectRatio: 1.2,
+                      crossAxisCount: 1,
                     ),
                     pagingController: controller.pagingController,
                     builderDelegate: PagedChildBuilderDelegate<String>(
-                        itemBuilder: (context, id, index) {
+                        noItemsFoundIndicatorBuilder: (BuildContext context) {
+                      return Empty(message: "This_user_left_nothing...".tr);
+                    }, itemBuilder: (context, id, index) {
                       final post = postMap[id]!;
 
                       if (post == null) {

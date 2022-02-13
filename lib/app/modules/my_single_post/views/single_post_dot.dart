@@ -19,9 +19,6 @@ class SinglePostDot extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // final _height = MediaQuery.of(context).size.height;
-    // final _width = MediaQuery.of(context).size.width;
-
     return Wrap(alignment: WrapAlignment.center, children: [
       Container(
         padding: EdgeInsets.only(bottom: 30),
@@ -34,7 +31,7 @@ class SinglePostDot extends StatelessWidget {
           Row(children: [
             _buttons(
                 context: context,
-                icon: Icons.lock_outline_rounded,
+                icon: Icons.visibility_outlined,
                 text: 'Visibility',
                 onPressed: () {
                   Navigator.pop(context);
@@ -116,7 +113,10 @@ class SinglePostDot extends StatelessWidget {
                       : Colors.grey.shade600),
             ),
             SizedBox(height: 14),
-            Text(text.tr, style: TextStyle(fontSize: 15)),
+            Text(text.tr,
+                style: TextStyle(
+                    fontSize: 15,
+                    color: Theme.of(context).colorScheme.onSurface)),
           ]),
         ));
   }

@@ -1,10 +1,10 @@
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/block_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:chat/app/common/block.dart';
 import '../../my_single_post/views/post_single_viewer.dart';
+import 'package:chat/common.dart';
 
 // TODO use constans or config
 class BlockView extends GetView<BlockController> {
@@ -33,7 +33,9 @@ class BlockView extends GetView<BlockController> {
             child: PagedListView(
                 pagingController: controller.pagingController,
                 builderDelegate: PagedChildBuilderDelegate<String>(
-                    itemBuilder: (context, id, index) {
+                    noItemsFoundIndicatorBuilder: (BuildContext context) {
+                  return Empty();
+                }, itemBuilder: (context, id, index) {
                   final account = controller.blockMap[id];
                   if (account == null) {
                     return SizedBox.shrink();

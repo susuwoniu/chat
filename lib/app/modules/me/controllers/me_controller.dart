@@ -1,5 +1,4 @@
 import 'package:chat/app/providers/api_provider.dart';
-import 'package:chat/app/providers/account_provider.dart';
 import 'package:get/get.dart';
 import '../../home/controllers/home_controller.dart';
 import 'package:chat/common.dart';

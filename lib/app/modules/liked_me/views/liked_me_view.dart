@@ -1,10 +1,10 @@
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/liked_me_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import './single_like.dart';
 import 'package:chat/app/common/block.dart';
+import 'package:chat/common.dart';
 
 // TODO use constans or config
 class LikedMeView extends GetView<LikedMeController> {
@@ -33,7 +33,9 @@ class LikedMeView extends GetView<LikedMeController> {
           child: PagedListView(
               pagingController: controller.pagingController,
               builderDelegate: PagedChildBuilderDelegate<String>(
-                  itemBuilder: (context, id, index) {
+                  noItemsFoundIndicatorBuilder: (BuildContext context) {
+                return Empty();
+              }, itemBuilder: (context, id, index) {
                 return SingleLike(
                     onPressedUnblock: () async {
                       try {

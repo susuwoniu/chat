@@ -4,6 +4,7 @@ import 'package:chat/app/routes/app_pages.dart';
 import '../../home/views/vip_sheet.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/modules/message/views/unread_count.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 class MeIcon extends StatelessWidget {
   final IconData icon;
@@ -12,28 +13,31 @@ class MeIcon extends StatelessWidget {
   final bool isLiked;
   final Function? onPressedLike;
   final Function? onPressedChat;
+  final Function? onPressedCreate;
 
   final void Function()? onPressedViewer;
   final int? newViewers;
   final bool toViewers;
+  final int? time;
 
   MeIcon({
     Key? key,
     required this.icon,
-    required this.text,
+    this.text = "",
     this.isMe = false,
     this.isLiked = false,
     this.onPressedLike,
     this.onPressedChat,
     this.onPressedViewer,
+    this.onPressedCreate,
     this.toViewers = false,
     this.newViewers,
+    this.time,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: Column(
-      children: [
+      child: Column(children: [
         GestureDetector(
             onTap: () {
               if (isMe) {
@@ -53,6 +57,8 @@ class MeIcon extends StatelessWidget {
                 onPressedChat!();
               } else if (onPressedLike != null) {
                 onPressedLike!(!isLiked);
+              } else if (onPressedCreate != null) {
+                onPressedCreate!();
               }
             },
             child: Stack(clipBehavior: Clip.none, children: [
@@ -79,11 +85,50 @@ class MeIcon extends StatelessWidget {
                           count: newViewers!, isUnreadMessage: false))
             ])),
         SizedBox(height: 10),
-        Text(
-          text,
-          style: TextStyle(color: Color(0xff686A6D)),
-        )
-      ],
-    ));
+        time == null
+            ? Text(
+                text == "" ? 'Create_Post'.tr : text,
+                style: TextStyle(color: Color(0xff686A6D)),
+              )
+            : Countdown(
+                seconds: time!.toInt(),
+                build: (BuildContext context, double time) {
+                  return Text(getCountDown(time),
+                      style: TextStyle(color: Color(0xff686A6D)));
+                },
+                interval: Duration(milliseconds: 1000),
+                onFinished: () {
+                  AuthProvider.to.account.update((value) {
+                    if (value != null) {
+                      value.is_can_post = true;
+                    }
+                  });
+                },
+              )
+      ]),
+    );
+  }
+
+  getCountDown(double time) {
+    int h, m, s;
+
+    h = time ~/ 3600;
+
+    m = ((time - h * 3600)) ~/ 60;
+
+    s = time.toInt() - (h * 3600) - (m * 60);
+    // String hourLeft =
+    //     h.toString().length < 2 ? "0" + h.toString() : h.toString();
+
+    String minuteLeft =
+        m.toString().length < 2 ? "0" + m.toString() : m.toString();
+
+    String secondsLeft =
+        s.toString().length < 2 ? "0" + s.toString() : s.toString();
+
+    // String result = "$hourLeft:$minuteLeft:$secondsLeft";
+    String result = "$minuteLeft:$secondsLeft";
+
+    return result;
   }
 }

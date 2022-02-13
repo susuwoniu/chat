@@ -83,7 +83,13 @@ class CreateController extends GetxController {
 
     homeController.postMap[result['data']['id']] =
         PostEntity.fromJson(result['data']["attributes"]);
-    homeController.myPostsIndexes.insert(1, result['data']['id']);
+    homeController.myPostsIndexes.insert(0, result['data']['id']);
+    final _account = AuthProvider.to.account;
+    _account.update((value) {
+      if (value != null) {
+        value.post_count = _account.value.post_count + 1;
+      }
+    });
     final homeCurrentTab = homeController.currentPage;
     if (homeCurrentTab == 'nearby') {
       await homeController.onPressedTabSwitch("home");
