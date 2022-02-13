@@ -22,6 +22,8 @@ class ChatThemeData {
       scaffoldBackgroundColor: colorScheme.background,
       canvasColor: baseBlack,
       colorScheme: colorScheme,
+      textSelectionTheme:
+          TextSelectionThemeData(selectionColor: colorScheme.primaryVariant),
       appBarTheme: AppBarTheme(
           elevation: 0,
           backgroundColor: colorScheme.surface,
