@@ -21,13 +21,13 @@ class VisibilitySheet extends StatelessWidget {
         ),
         child: Column(children: [
           BottomSheetRow(
-              text: 'Public'.tr,
+              text: 'Visible_to_public'.tr,
               onPressed: () {
                 onPressedVisibility('public');
               }),
           Container(height: 1, color: Colors.grey.shade100),
           BottomSheetRow(
-              text: 'Private'.tr,
+              text: 'Visible_to_yourself'.tr,
               onPressed: () {
                 onPressedVisibility('private');
               }),

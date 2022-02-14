@@ -32,13 +32,19 @@ class SettingView extends GetView<SettingController> {
                 SettingsSection(title: Text('Account_Security'.tr), tiles: [
                   SettingsTile(
                     title: Text('Phone'.tr),
-                    value: Text(_account.phone_number ?? ""),
+                    value: Text(
+                      _account.phone_number ?? "",
+                      style: TextStyle(fontSize: 15, color: Colors.black54),
+                    ),
                   ),
                 ]),
                 SettingsSection(title: Text('General'.tr), tiles: [
                   SettingsTile(
                     title: Text('Language'.tr),
-                    value: Text('English'),
+                    value: Text(
+                      'English',
+                      style: TextStyle(fontSize: 15, color: Colors.black54),
+                    ),
                     // leading: Icon(Icons.language),
                     onPressed: (BuildContext context) {
                       Get.bottomSheet(
@@ -62,7 +68,6 @@ class SettingView extends GetView<SettingController> {
                   SettingsTile.switchTile(
                     initialValue: ConfigProvider.to.nightMode.value,
                     title: Text('Night-mode'.tr),
-                    // leading: Icon(Icons.mode_night),
                     onToggle: (bool value) {
                       print("value $value");
                       ConfigProvider.to.toggleNightMode(value);

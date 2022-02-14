@@ -11,37 +11,41 @@ import '../../home/views/more_dots.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:chat/common.dart';
-
-final VisibilityMap = {'public': 'Public', 'private': 'Private'};
+import '../../home/views/chat_box.dart';
+import 'package:chat/app/common/quote_with_link.dart';
 
 // todo use getBuilder, for dynamic path
 class MySinglePostView extends StatelessWidget {
   final DateFormat formatter = DateFormat('yyyy-MM-dd  HH:mm');
+  final imDomain = AppConfig().config.imDomain;
+  final postId = Get.arguments['id']!;
 
   @override
   Widget build(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
-
+    final _width = MediaQuery.of(context).size.width;
+    final isLogin = AuthProvider.to.isLogin;
+    final account = AuthProvider.to.account.value;
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        appBar: AppBar(
-          title: Text(
-            'SinglePost'.tr,
-            style: TextStyle(
-              fontSize: 16,
-            ),
-          ),
-          bottom: PreferredSize(
-              child: Container(
-                height: 0.5,
-                color: Theme.of(context).dividerColor,
-              ),
-              preferredSize: Size.fromHeight(0)),
-        ),
+        // appBar: AppBar(
+        //   title: Text(
+        //     'SinglePost'.tr,
+        //     style: TextStyle(
+        //       fontSize: 16,
+        //     ),
+        //   ),
+        //   bottom: PreferredSize(
+        //       child: Container(
+        //         height: 0.5,
+        //         color: Theme.of(context).dividerColor,
+        //       ),
+        //       preferredSize: Size.fromHeight(0)),
+        // ),
         body: SafeArea(
           child: GetBuilder<MySinglePostController>(
               init: MySinglePostController(),
-              tag: Get.arguments['id'],
+              tag: postId,
               builder: (controller) {
                 return RefreshIndicator(
                   backgroundColor: Theme.of(context).colorScheme.surface,
@@ -64,56 +68,110 @@ class MySinglePostView extends StatelessWidget {
 
                       final String _createAt =
                           formatter.format(DateTime.parse(_post.created_at));
-                      return Column(children: [
-                        Container(
-                          margin: EdgeInsets.fromLTRB(12, 20, 12, 10),
-                          padding: EdgeInsets.fromLTRB(16, 5, 0, 25),
+                      return Container(
+                          margin: EdgeInsets.fromLTRB(13, 20, 13, 10),
+                          padding: EdgeInsets.fromLTRB(0, 5, 0, 13),
                           constraints: BoxConstraints(minHeight: _height * 0.4),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Color(_backgroundColor),
                           ),
-                          child: Column(children: [
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    _createAt,
-                                    style: TextStyle(
+                          child: Stack(children: [
+                            Column(children: [
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    IconButton(
+                                        padding: EdgeInsets.all(0),
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        icon: Icon(
+                                          Icons.arrow_back_outlined,
+                                          size: 26,
+                                          color: Color(_frontColor),
+                                        )),
+                                    // Text(
+                                    //   _createAt,
+                                    //   style: TextStyle(
+                                    //       color: Color(_frontColor),
+                                    //       fontSize: 15),
+                                    // ),
+                                    Row(children: [
+                                      // isMe
+                                      //     ? Obx(() => Text(
+                                      //           VisibilityMap[
+                                      //                   controller.visibility]!
+                                      //               .tr,
+                                      //           style: TextStyle(
+                                      //               color: Color(_frontColor)),
+                                      //         ))
+                                      //     : SizedBox.shrink(),
+                                      _dotIcon(
+                                          visibility: controller.visibility,
+                                          color: Color(_frontColor),
+                                          context: context,
+                                          postId: controller.postId,
+                                          onDeletePost: controller.onDeletePost,
+                                          postChange: controller.postChange,
+                                          isMe: isMe)
+                                    ])
+                                  ]),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.only(bottom: isMe ? 40 : 70),
+                                  child: Container(
+                                      padding:
+                                          EdgeInsets.only(right: 16, left: 16),
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(_content,
+                                          style: TextStyle(
+                                              color: Color(_frontColor),
+                                              fontSize: 18.0,
+                                              height: 1.6)))),
+                            ]),
+                            isMe
+                                ? Positioned(
+                                    bottom: 0,
+                                    left: 16,
+                                    child: Row(children: [
+                                      Icon(
+                                        Icons.mood_outlined,
+                                        size: 22,
                                         color: Color(_frontColor),
-                                        fontSize: 15),
+                                      ),
+                                      SizedBox(width: 4),
+                                      Text(
+                                        _post.viewed_count.toString(),
+                                        style: TextStyle(
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(_frontColor)),
+                                      )
+                                    ]))
+                                : Positioned(
+                                    bottom: 5,
+                                    right: 16,
+                                    left: 16,
+                                    child: ChatBox(
+                                        postAuthorName: authorId,
+                                        account: account,
+                                        isLogin: isLogin,
+                                        postId: postId,
+                                        onPressed: () {
+                                          Get.toNamed(Routes.ROOM, arguments: {
+                                            "id":
+                                                "${_post.accountId}@$imDomain",
+                                            "quote_background_color":
+                                                _post.backgroundColor,
+                                            "reduce": "false",
+                                            "quote":
+                                                quoteWithLink(_content, postId)
+                                          });
+                                        }),
                                   ),
-                                  Row(children: [
-                                    isMe
-                                        ? Obx(() => Text(
-                                              VisibilityMap[
-                                                      controller.visibility]!
-                                                  .tr,
-                                              style: TextStyle(
-                                                  color: Color(_frontColor)),
-                                            ))
-                                        : SizedBox.shrink(),
-                                    _dotIcon(
-                                        color: Color(_frontColor),
-                                        context: context,
-                                        postId: controller.postId,
-                                        onDeletePost: controller.onDeletePost,
-                                        postChange: controller.postChange,
-                                        isMe: isMe)
-                                  ])
-                                ]),
-                            Container(
-                                padding: EdgeInsets.only(right: 16),
-                                alignment: Alignment.centerLeft,
-                                child: Text(_content,
-                                    style: TextStyle(
-                                        color: Color(_frontColor),
-                                        fontSize: 19.0,
-                                        height: 1.6))),
-                          ]),
-                        )
-                      ]);
+                          ]));
                     })),
                     PagedSliverList<String?, String>(
                       pagingController: controller.pagingController,
@@ -150,12 +208,14 @@ class MySinglePostView extends StatelessWidget {
       required Color color,
       required Function postChange,
       required Function onDeletePost,
+      required String visibility,
       String? authorId}) {
     final isVip = AuthProvider.to.account.value.vip;
     final is_can_promote = HomeController.to.postMap[postId]!.is_can_promote;
 
     return IconButton(
         padding: EdgeInsets.all(0),
+        splashColor: Colors.transparent,
         onPressed: () {
           showModalBottomSheet(
               context: context,
@@ -163,6 +223,7 @@ class MySinglePostView extends StatelessWidget {
                 return isMe
                     ? SinglePostDot(
                         postId: postId,
+                        visibility: visibility,
                         onPressedVisibility: (String visibility) async {
                           try {
                             UIUtils.showLoading();
@@ -220,7 +281,7 @@ class MySinglePostView extends StatelessWidget {
         },
         icon: Icon(
           Icons.more_vert_rounded,
-          size: 26,
+          size: 27,
           color: color,
         ));
   }

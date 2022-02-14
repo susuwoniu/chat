@@ -4,11 +4,14 @@ import 'package:get/get.dart';
 import 'visibility_sheet.dart';
 import '../../home/controllers/home_controller.dart';
 
+final VisibilityMap = {'public': 'Public', 'private': 'Private'};
+
 class SinglePostDot extends StatelessWidget {
   final Function(String visibility) onPressedVisibility;
   final Function onPressedDelete;
   final Function onPressedPolish;
   final String postId;
+  final String visibility;
 
   SinglePostDot({
     Key? key,
@@ -16,23 +19,30 @@ class SinglePostDot extends StatelessWidget {
     required this.onPressedVisibility,
     required this.onPressedPolish,
     required this.onPressedDelete,
+    required this.visibility,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _height = MediaQuery.of(context).size.height;
+    final _width = MediaQuery.of(context).size.width;
     return Wrap(alignment: WrapAlignment.center, children: [
       Container(
-        padding: EdgeInsets.only(bottom: 30),
+        margin: EdgeInsets.only(bottom: _height * 0.18),
+        width: _width * 0.96,
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.background,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(children: [
           Row(children: [
             _buttons(
                 context: context,
-                icon: Icons.visibility_outlined,
-                text: 'Visibility',
+                icon: visibility == 'public'
+                    ? Icons.visibility_outlined
+                    : Icons.lock_outline,
+                text: VisibilityMap[visibility]!.tr,
                 onPressed: () {
                   Navigator.pop(context);
                   showModalBottomSheet(
@@ -42,6 +52,7 @@ class SinglePostDot extends StatelessWidget {
                             onPressedVisibility: onPressedVisibility);
                       });
                 }),
+            SizedBox(width: 20),
             Obx(() {
               final is_can_promote =
                   HomeController.to.postMap[postId]!.is_can_promote;
@@ -52,22 +63,28 @@ class SinglePostDot extends StatelessWidget {
                   onPressed: onPressedPolish,
                   is_can_promote: is_can_promote);
             }),
+            SizedBox(width: 20),
             _buttons(
                 context: context,
-                icon: Icons.delete_forever_rounded,
+                icon: Icons.delete_outline,
                 text: 'Delete',
                 onPressed: onPressedDelete)
           ]),
-          Container(
-            height: 10,
-            color: Theme.of(context).dividerColor,
-          ),
-          SizedBox(height: 20),
-          GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: Text('Cancel'.tr, style: TextStyle(fontSize: 16))),
+          Row(children: [
+            Expanded(
+                child: GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.background,
+                            borderRadius: BorderRadius.circular(10)),
+                        child:
+                            Text('Cancel'.tr, style: TextStyle(fontSize: 16)))))
+          ]),
         ]),
       ),
     ]);
@@ -85,15 +102,14 @@ class SinglePostDot extends StatelessWidget {
     if (text == 'Polish') {
       isColorful = !AuthProvider.to.account.value.vip || _is_can_promote;
     }
-    return Container(
-        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+    return Expanded(
         child: GestureDetector(
-          onTap: () {
-            onPressed();
-          },
-          child: Column(children: [
-            Container(
-              padding: EdgeInsets.all(10),
+            onTap: () {
+              onPressed();
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              margin: EdgeInsets.only(bottom: 15),
               decoration: BoxDecoration(
                   gradient: isColorful
                       ? LinearGradient(
@@ -104,20 +120,18 @@ class SinglePostDot extends StatelessWidget {
                               Theme.of(context).colorScheme.primaryVariant
                             ])
                       : null,
-                  color: isColorful ? null : Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(50)),
-              child: Icon(icon,
-                  size: 30,
-                  color: isColorful
-                      ? Theme.of(context).colorScheme.onPrimary
-                      : Colors.grey.shade600),
-            ),
-            SizedBox(height: 14),
-            Text(text.tr,
-                style: TextStyle(
-                    fontSize: 15,
-                    color: Theme.of(context).colorScheme.onSurface)),
-          ]),
-        ));
+                  color: isColorful ? null : Color(0xfff2f2f7),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Column(children: [
+                Icon(icon,
+                    size: 30,
+                    color: isColorful ? Colors.white : Color(0xff46494c)),
+                SizedBox(height: 5),
+                Text(text.tr,
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: isColorful ? Colors.white : Color(0xff46494c))),
+              ]),
+            )));
   }
 }

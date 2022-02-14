@@ -19,6 +19,7 @@ PostEntity _$PostEntityFromJson(Map<String, dynamic> json) => PostEntity(
       visibility: json['visibility'] as String,
       created_at: json['created_at'] as String,
       is_can_promote: json['is_can_promote'] as bool,
+      viewed_count: json['viewed_count'] as int,
     );
 
 Map<String, dynamic> _$PostEntityToJson(PostEntity instance) =>
@@ -34,4 +35,5 @@ Map<String, dynamic> _$PostEntityToJson(PostEntity instance) =>
       'created_at': instance.created_at,
       'visibility': instance.visibility,
       'is_can_promote': instance.is_can_promote,
+      'viewed_count': instance.viewed_count
     };

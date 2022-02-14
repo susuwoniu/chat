@@ -19,6 +19,7 @@ class PostEntity {
   final String created_at;
   final String visibility;
   bool is_can_promote;
+  int viewed_count;
 
   PostEntity({
     required this.content,
@@ -28,6 +29,7 @@ class PostEntity {
     required this.cursor,
     required this.post_template_id,
     required this.post_template_title,
+    required this.viewed_count,
     this.views,
     required this.created_at,
     required this.visibility,
