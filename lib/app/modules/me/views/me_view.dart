@@ -14,6 +14,7 @@ import '../../home/controllers/home_controller.dart';
 import 'me_icon.dart';
 import 'open_avatar.dart';
 import 'package:chat/app/providers/account_provider.dart';
+import 'create_post.dart';
 
 class MeView extends GetView<MeController> {
   @override
@@ -148,50 +149,55 @@ class MeView extends GetView<MeController> {
                           icon: Icons.favorite_border_outlined,
                           text: likeCount,
                           isMe: true),
+                      MeIcon(
+                        icon: Icons.star_border_rounded,
+                        text: postCount,
+                        iconSize: 32,
+                      ),
 
-                      Obx(() => MeIcon(
-                          icon: getTimeStop() > 0
-                              ? Icons.timer_outlined
-                              : Icons.add_outlined,
-                          onPressedCreate: () {
-                            if (getTimeStop() > 0) {
-                              if (!AuthProvider.to.account.value.vip) {
-                                showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    builder: (context) {
-                                      return VipSheet(
-                                          context: context, index: 4);
-                                    });
-                              }
-                            } else {
-                              Get.toNamed(Routes.POST);
-                            }
-                          },
-                          time:
-                              getTimeStop() > 0 ? getTimeStop().toInt() : null))
+                      // Obx(() => MeIcon(
+                      //     icon: getTimeStop() > 0
+                      //         ? Icons.timer_outlined
+                      //         : Icons.add_outlined,
+                      //     onPressedCreate: () {
+                      //       if (getTimeStop() > 0) {
+                      //         if (!AuthProvider.to.account.value.vip) {
+                      //           showModalBottomSheet(
+                      //               context: context,
+                      //               isScrollControlled: true,
+                      //               builder: (context) {
+                      //                 return VipSheet(
+                      //                     context: context, index: 4);
+                      //               });
+                      //         }
+                      //       } else {
+                      //         Get.toNamed(Routes.POST);
+                      //       }
+                      //     },
+                      //     time:
+                      //         getTimeStop() > 0 ? getTimeStop().toInt() : null)),
                       // MeIcon(
                       //     icon: Icons.pets_outlined,
                       //     text: totalViewedCount,
                       //     newViewers: controller.unreadViewedCount.value,
                       //     toViewers: true,
                       //     onPressedViewer: () async {
-                      //       if (_account.vip) {
-                      //         Get.toNamed(Routes.PROFILE_VIEWERS);
-                      //       } else {
-                      //         showModalBottomSheet(
-                      //             context: context,
-                      //             isScrollControlled: true,
-                      //             builder: (context) {
-                      //               return VipSheet(context: context, index: 1);
-                      //             });
-                      //         try {
-                      //           await controller.clearUnreadViewerCount();
-                      //         } catch (e) {
-                      //           print(e);
-                      //         }
-                      //       }
-                      //     }),
+                      // if (_account.vip) {
+                      //   Get.toNamed(Routes.PROFILE_VIEWERS);
+                      // } else {
+                      //   showModalBottomSheet(
+                      //       context: context,
+                      //       isScrollControlled: true,
+                      //       builder: (context) {
+                      //         return VipSheet(context: context, index: 1);
+                      //       });
+                      // try {
+                      //   await controller.clearUnreadViewerCount();
+                      // } catch (e) {
+                      //   print(e);
+                      // }
+                      // }
+                      // }),
                     ]),
                   ]),
                 ),
@@ -210,11 +216,11 @@ class MeView extends GetView<MeController> {
               builderDelegate: PagedChildBuilderDelegate<String>(
                   itemBuilder: (context, id, index) {
                 final post = HomeController.to.postMap[id];
-                // if (index == 0) {
-                //   return CreatePost(
-                //     id: id,
-                //   );
-                // }
+                if (index == 0) {
+                  return CreatePost(
+                    id: id,
+                  );
+                }
                 if (post == null) {
                   return SizedBox.shrink();
                 }

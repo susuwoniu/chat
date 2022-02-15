@@ -83,7 +83,7 @@ class CreateController extends GetxController {
 
     homeController.postMap[result['data']['id']] =
         PostEntity.fromJson(result['data']["attributes"]);
-    homeController.myPostsIndexes.insert(0, result['data']['id']);
+    homeController.myPostsIndexes.insert(1, result['data']['id']);
     final _account = AuthProvider.to.account;
     _account.update((value) {
       if (value != null) {

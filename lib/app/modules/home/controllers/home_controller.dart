@@ -69,7 +69,7 @@ class HomeController extends GetxController {
   String get currentPage => _currentPage.value;
 
   final isMeInitial = false.obs;
-  final myPostsIndexes = RxList<String>([]);
+  final myPostsIndexes = RxList<String>(['create']);
   final isLoadingMyPosts = false.obs;
 
   final postMap = RxMap<String, PostEntity>({});

@@ -8,6 +8,7 @@ import 'package:timer_count_down/timer_count_down.dart';
 
 class MeIcon extends StatelessWidget {
   final IconData icon;
+  final double iconSize;
   final String text;
   final bool isMe;
   final bool isLiked;
@@ -23,6 +24,7 @@ class MeIcon extends StatelessWidget {
   MeIcon({
     Key? key,
     required this.icon,
+    this.iconSize = 27,
     this.text = "",
     this.isMe = false,
     this.isLiked = false,
@@ -63,7 +65,9 @@ class MeIcon extends StatelessWidget {
       child: Column(children: [
         Stack(clipBehavior: Clip.none, children: [
           Container(
-              padding: EdgeInsets.all(6),
+              width: 44,
+              height: 44,
+              // padding: EdgeInsets.all(6),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
@@ -75,36 +79,35 @@ class MeIcon extends StatelessWidget {
                   color: isLiked == true
                       ? Theme.of(context).colorScheme.primary
                       : Theme.of(context).colorScheme.onSurface,
-                  size: 27)),
-          newViewers == null
-              ? SizedBox.shrink()
-              : Positioned(
-                  left: 28,
-                  top: -6,
-                  child:
-                      CountBubble(count: newViewers!, isUnreadMessage: false))
+                  size: iconSize)),
+          // newViewers == null
+          //     ? SizedBox.shrink()
+          //     : Positioned(
+          //         left: 28,
+          //         top: -6,
+          //         child:
+          //             CountBubble(count: newViewers!, isUnreadMessage: false))
         ]),
         SizedBox(height: 10),
-        time == null
-            ? Text(
-                text == "" ? 'Create_Post'.tr : text,
-                style: TextStyle(color: Color(0xff686A6D)),
-              )
-            : Countdown(
-                seconds: time!.toInt(),
-                build: (BuildContext context, double time) {
-                  return Text(getCountDown(time),
-                      style: TextStyle(color: Color(0xff686A6D)));
-                },
-                interval: Duration(milliseconds: 1000),
-                onFinished: () {
-                  AuthProvider.to.account.update((value) {
-                    if (value != null) {
-                      value.is_can_post = true;
-                    }
-                  });
-                },
-              )
+        Text(
+          text == "" ? 'Create_Post'.tr : text,
+          style: TextStyle(color: Color(0xff686A6D)),
+        ),
+        //  Countdown(
+        //     seconds: time!.toInt(),
+        //     build: (BuildContext context, double time) {
+        //       return Text(getCountDown(time),
+        //           style: TextStyle(color: Color(0xff686A6D)));
+        //     },
+        //     interval: Duration(milliseconds: 1000),
+        //     onFinished: () {
+        //       AuthProvider.to.account.update((value) {
+        //         if (value != null) {
+        //           value.is_can_post = true;
+        //         }
+        //       });
+        //     },
+        //   )
       ]),
     ));
   }

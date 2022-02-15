@@ -86,19 +86,33 @@ class MySinglePostView extends StatelessWidget {
                                           //       color: Color(_frontColor),
                                           //       fontSize: 15),
                                           // ),
-                                          Obx(() => Row(children: [
-                                                _dotIcon(
-                                                    visibility:
-                                                        controller.visibility,
-                                                    color: Color(_frontColor),
-                                                    context: context,
-                                                    postId: controller.postId,
-                                                    onDeletePost:
-                                                        controller.onDeletePost,
-                                                    postChange:
-                                                        controller.postChange,
-                                                    isMe: isMe)
-                                              ]))
+                                          Row(children: [
+                                            isMe
+                                                ? SizedBox.shrink()
+                                                : IconButton(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    padding: EdgeInsets.all(0),
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    onPressed: () {},
+                                                    icon: Icon(
+                                                      Icons.star_border_rounded,
+                                                      size: 26,
+                                                      color: Color(_frontColor),
+                                                    )),
+                                            Obx(() => _dotIcon(
+                                                visibility:
+                                                    controller.visibility,
+                                                color: Color(_frontColor),
+                                                context: context,
+                                                postId: controller.postId,
+                                                onDeletePost:
+                                                    controller.onDeletePost,
+                                                postChange:
+                                                    controller.postChange,
+                                                isMe: isMe))
+                                          ]),
                                         ]),
                                     Container(
                                         padding: EdgeInsets.symmetric(
@@ -234,13 +248,19 @@ class MySinglePostView extends StatelessWidget {
                         onPressedPolish: () async {
                           Navigator.pop(context);
 
-                          if (isVip && is_can_promote) {
-                            try {
-                              UIUtils.showLoading();
-                              await postChange(type: 'promote', postId: postId);
-                              UIUtils.toast('Successfully_polished.'.tr);
-                            } catch (e) {
-                              UIUtils.showError(e);
+                          if (isVip) {
+                            if (is_can_promote) {
+                              try {
+                                UIUtils.showLoading();
+                                await postChange(
+                                    type: 'promote', postId: postId);
+                                UIUtils.toast('Successfully_polished.'.tr);
+                              } catch (e) {
+                                UIUtils.showError(e);
+                              }
+                            } else {
+                              UIUtils.showError(
+                                  "It_can't_be_polished_any_more.".tr);
                             }
                             UIUtils.hideLoading();
                           } else {

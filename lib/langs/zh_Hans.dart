@@ -106,8 +106,8 @@ const Map<String, String> zh_Hans = {
   "other": "其他",
   "Find_Friends": "完成",
   'Last_visit: ': '最近访问: ',
-  ' Visitors': '访客',
-  ' Visitor': '访客',
+  ' Visitors': '人路过',
+  ' Visitor': '人路过',
   'Chat_now': '私聊Ta',
   "visited_you": "访问了你",
   "times": "次",
@@ -181,5 +181,6 @@ const Map<String, String> zh_Hans = {
   "no_one_has_seen_this_post...": "还没有人看过这条状态～",
   'This_user_left_nothing...': 'ta什么也没说...',
   'Confirm_to_delete?': '确认删除聊天记录吗？',
-  'Pin': '置顶'
+  'Pin': '置顶',
+  "It_can't_be_polished_any_more.": '擦亮次数已用完～'
 };
