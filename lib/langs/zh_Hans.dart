@@ -32,6 +32,7 @@ const Map<String, String> zh_Hans = {
   'Unblocked.': '已解除拉黑该用户',
   'Liked!': '已按赞～',
   'Successfully_unliked.': '已取消赞',
+  'Successfully.': '设置成功～',
   'Thank_you_for_reporting!': '感谢报告，我们会尽快处理。',
   'Please_choose_a_report_type.': '请选择报告类型。',
   'About': "关于",
@@ -177,6 +178,8 @@ const Map<String, String> zh_Hans = {
   'Photo_can_be_edited_later.': '照片稍后可以修改',
   "Finish": "完成",
   'viewed_your_post': '看过你的状态',
-  "no_one_has_seen_this_post": "还没有人看过这条状态～",
-  'This_user_left_nothing...': 'ta什么也没说...'
+  "no_one_has_seen_this_post...": "还没有人看过这条状态～",
+  'This_user_left_nothing...': 'ta什么也没说...',
+  'Confirm_to_delete?': '确认删除聊天记录吗？',
+  'Pin': '置顶'
 };

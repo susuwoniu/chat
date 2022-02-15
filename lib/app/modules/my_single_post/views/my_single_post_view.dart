@@ -13,35 +13,34 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:chat/common.dart';
 import '../../home/views/chat_box.dart';
 import 'package:chat/app/common/quote_with_link.dart';
+import '../../home/views/tag_widget.dart';
 
 // todo use getBuilder, for dynamic path
 class MySinglePostView extends StatelessWidget {
   final DateFormat formatter = DateFormat('yyyy-MM-dd  HH:mm');
   final imDomain = AppConfig().config.imDomain;
-  final postId = Get.arguments['id']!;
+  final postId = Get.arguments['id'];
 
   @override
   Widget build(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
-    final _width = MediaQuery.of(context).size.width;
     final isLogin = AuthProvider.to.isLogin;
     final account = AuthProvider.to.account.value;
+    final _post = HomeController.to.postMap[postId];
+    final authorId = _post!.accountId;
+
+    final author = AuthProvider.to.simpleAccountMap[authorId]?.name;
+
+    final isMe = authorId == AuthProvider.to.accountId;
+
+    final _content = _post.content;
+    final _backgroundColor = _post.backgroundColor;
+    final _frontColor = _post.color;
+    // final String _createAt =
+    //     formatter.format(DateTime.parse(_post.created_at));
+
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        // appBar: AppBar(
-        //   title: Text(
-        //     'SinglePost'.tr,
-        //     style: TextStyle(
-        //       fontSize: 16,
-        //     ),
-        //   ),
-        //   bottom: PreferredSize(
-        //       child: Container(
-        //         height: 0.5,
-        //         color: Theme.of(context).dividerColor,
-        //       ),
-        //       preferredSize: Size.fromHeight(0)),
-        // ),
         body: SafeArea(
           child: GetBuilder<MySinglePostController>(
               init: MySinglePostController(),
@@ -53,126 +52,123 @@ class MySinglePostView extends StatelessWidget {
                     () => controller.pagingController.refresh(),
                   ),
                   child: CustomScrollView(slivers: [
-                    SliverToBoxAdapter(child: Obx(() {
-                      final _post =
-                          HomeController.to.postMap[controller.postId];
-                      if (_post == null) {
-                        return Container(child: Loading());
-                      }
-                      final authorId = _post.accountId;
-                      final isMe = authorId == AuthProvider.to.accountId;
-
-                      final _content = _post.content;
-                      final _backgroundColor = _post.backgroundColor;
-                      final _frontColor = _post.color;
-
-                      final String _createAt =
-                          formatter.format(DateTime.parse(_post.created_at));
-                      return Container(
-                          margin: EdgeInsets.fromLTRB(13, 20, 13, 10),
-                          padding: EdgeInsets.fromLTRB(0, 5, 0, 13),
-                          constraints: BoxConstraints(minHeight: _height * 0.4),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color(_backgroundColor),
-                          ),
-                          child: Stack(children: [
-                            Column(children: [
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                    SliverToBoxAdapter(
+                        child: Container(
+                            margin: EdgeInsets.fromLTRB(13, 20, 13, 10),
+                            padding: EdgeInsets.fromLTRB(0, 5, 0, 13),
+                            constraints:
+                                BoxConstraints(minHeight: _height * 0.4),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Color(_backgroundColor),
+                            ),
+                            child: Stack(children: [
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    IconButton(
-                                        padding: EdgeInsets.all(0),
-                                        onPressed: () {
-                                          Get.back();
-                                        },
-                                        icon: Icon(
-                                          Icons.arrow_back_outlined,
-                                          size: 26,
-                                          color: Color(_frontColor),
-                                        )),
-                                    // Text(
-                                    //   _createAt,
-                                    //   style: TextStyle(
-                                    //       color: Color(_frontColor),
-                                    //       fontSize: 15),
-                                    // ),
-                                    Row(children: [
-                                      // isMe
-                                      //     ? Obx(() => Text(
-                                      //           VisibilityMap[
-                                      //                   controller.visibility]!
-                                      //               .tr,
-                                      //           style: TextStyle(
-                                      //               color: Color(_frontColor)),
-                                      //         ))
-                                      //     : SizedBox.shrink(),
-                                      _dotIcon(
-                                          visibility: controller.visibility,
-                                          color: Color(_frontColor),
-                                          context: context,
-                                          postId: controller.postId,
-                                          onDeletePost: controller.onDeletePost,
-                                          postChange: controller.postChange,
-                                          isMe: isMe)
-                                    ])
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          IconButton(
+                                              padding: EdgeInsets.all(0),
+                                              onPressed: () {
+                                                Get.back();
+                                              },
+                                              icon: Icon(
+                                                Icons.arrow_back_outlined,
+                                                size: 26,
+                                                color: Color(_frontColor),
+                                              )),
+                                          // Text(
+                                          //   _createAt,
+                                          //   style: TextStyle(
+                                          //       color: Color(_frontColor),
+                                          //       fontSize: 15),
+                                          // ),
+                                          Obx(() => Row(children: [
+                                                _dotIcon(
+                                                    visibility:
+                                                        controller.visibility,
+                                                    color: Color(_frontColor),
+                                                    context: context,
+                                                    postId: controller.postId,
+                                                    onDeletePost:
+                                                        controller.onDeletePost,
+                                                    postChange:
+                                                        controller.postChange,
+                                                    isMe: isMe)
+                                              ]))
+                                        ]),
+                                    Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(_content,
+                                            style: TextStyle(
+                                                color: Color(_frontColor),
+                                                fontSize: 18.0,
+                                                height: 1.6))),
+                                    Container(
+                                        margin: EdgeInsets.only(
+                                            bottom: isMe ? 26 : 66,
+                                            left: 16,
+                                            right: 16),
+                                        child: TagWidget(
+                                            color: Color(_post.color),
+                                            text: _post.post_template_title,
+                                            onPressed: () {
+                                              Get.toNamed(Routes.POST_SQUARE,
+                                                  arguments: {
+                                                    "id":
+                                                        _post.post_template_id,
+                                                    "title": _post
+                                                        .post_template_title
+                                                  });
+                                            })),
                                   ]),
-                              Padding(
-                                  padding:
-                                      EdgeInsets.only(bottom: isMe ? 40 : 70),
-                                  child: Container(
-                                      padding:
-                                          EdgeInsets.only(right: 16, left: 16),
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(_content,
+                              isMe
+                                  ? Positioned(
+                                      bottom: 0,
+                                      left: 16,
+                                      child: Row(children: [
+                                        Icon(
+                                          Icons.pets_outlined,
+                                          size: 22,
+                                          color: Color(_frontColor),
+                                        ),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          _post.viewed_count.toString(),
                                           style: TextStyle(
-                                              color: Color(_frontColor),
-                                              fontSize: 18.0,
-                                              height: 1.6)))),
-                            ]),
-                            isMe
-                                ? Positioned(
-                                    bottom: 0,
-                                    left: 16,
-                                    child: Row(children: [
-                                      Icon(
-                                        Icons.mood_outlined,
-                                        size: 22,
-                                        color: Color(_frontColor),
-                                      ),
-                                      SizedBox(width: 4),
-                                      Text(
-                                        _post.viewed_count.toString(),
-                                        style: TextStyle(
-                                            fontSize: 19,
-                                            fontWeight: FontWeight.w500,
-                                            color: Color(_frontColor)),
-                                      )
-                                    ]))
-                                : Positioned(
-                                    bottom: 5,
-                                    right: 16,
-                                    left: 16,
-                                    child: ChatBox(
-                                        postAuthorName: authorId,
-                                        account: account,
-                                        isLogin: isLogin,
-                                        postId: postId,
-                                        onPressed: () {
-                                          Get.toNamed(Routes.ROOM, arguments: {
-                                            "id":
-                                                "${_post.accountId}@$imDomain",
-                                            "quote_background_color":
-                                                _post.backgroundColor,
-                                            "reduce": "false",
-                                            "quote":
-                                                quoteWithLink(_content, postId)
-                                          });
-                                        }),
-                                  ),
-                          ]));
-                    })),
+                                              fontSize: 23,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(_frontColor)),
+                                        )
+                                      ]))
+                                  : Positioned(
+                                      bottom: 5,
+                                      right: 16,
+                                      left: 16,
+                                      child: ChatBox(
+                                          postAuthorName: author ?? '--',
+                                          account: account,
+                                          isLogin: isLogin,
+                                          postId: postId,
+                                          onPressed: () {
+                                            Get.toNamed(Routes.ROOM,
+                                                arguments: {
+                                                  "id":
+                                                      "${_post.accountId}@$imDomain",
+                                                  "quote_background_color":
+                                                      _post.backgroundColor,
+                                                  "reduce": "false",
+                                                  "quote": quoteWithLink(
+                                                      _content, postId)
+                                                });
+                                          }),
+                                    ),
+                            ]))),
                     PagedSliverList<String?, String>(
                       pagingController: controller.pagingController,
                       builderDelegate: PagedChildBuilderDelegate<String>(
@@ -228,6 +224,7 @@ class MySinglePostView extends StatelessWidget {
                           try {
                             UIUtils.showLoading();
                             await postChange(type: visibility, postId: postId);
+                            UIUtils.toast('Successfully.'.tr);
                           } catch (e) {
                             UIUtils.showError(e);
                           }

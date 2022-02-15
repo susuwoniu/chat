@@ -246,8 +246,8 @@ class OtherView extends StatelessWidget {
                     showNoMoreItemsIndicatorAsGridChild: false,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 1.4,
-                      crossAxisCount: 1,
+                      childAspectRatio: 0.75,
+                      crossAxisCount: 2,
                     ),
                     pagingController: controller.pagingController,
                     builderDelegate: PagedChildBuilderDelegate<String>(

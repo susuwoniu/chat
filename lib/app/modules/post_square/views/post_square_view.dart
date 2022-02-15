@@ -59,11 +59,11 @@ class PostSquareView extends GetView<PostSquareController> {
                         },
                       ))
                 ],
-                expandedHeight: 250,
+                expandedHeight: (safePadding + height) * 2,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
                       padding: EdgeInsets.fromLTRB(
-                          20, safePadding + height + 20, 20, 0),
+                          25, safePadding + height + 10, 25, 0),
                       width: _width,
                       child: Column(children: [
                         Text('# ' + _title,
@@ -82,8 +82,8 @@ class PostSquareView extends GetView<PostSquareController> {
                                       ? '9999+' + ' Posts'.tr
                                       : usedCount.toString() + ' Posts'.tr
                                   : usedCount.toString() + ' Post'.tr,
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.grey.shade700));
+                              style:
+                                  TextStyle(fontSize: 16.0, color: frontColor));
                         }),
                       ])),
                 ),

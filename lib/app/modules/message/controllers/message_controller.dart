@@ -626,6 +626,11 @@ class MessageController extends GetxController {
     _roomsStateStreamController.close();
   }
 
+  void onDismiss(int index) {
+    // ToDo
+    indexes.removeAt(index);
+  }
+
   void dipose() {
     cancelSubscription();
     // 清空房间

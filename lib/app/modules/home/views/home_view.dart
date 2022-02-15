@@ -163,7 +163,6 @@ class HomeView extends GetView<HomeController> {
                                                 color: Color(post.color),
                                                 fontWeight: FontWeight.w500,
                                                 height: 1.6))),
-                                    SizedBox(height: 4),
                                     TagWidget(
                                         color: Color(post.color),
                                         text: post.post_template_title,
@@ -175,7 +174,6 @@ class HomeView extends GetView<HomeController> {
                                                     post.post_template_title
                                               });
                                         }),
-                                    SizedBox(height: 4),
                                     AuthorName(
                                         color: Color(post.color),
                                         accountId: post.accountId,

@@ -10,7 +10,11 @@
 - [x]  card文本样式
 - [x]  me缓存问题
 - [ ]  post跳转create底部溢出
-- [ ]  room键盘弹出动画
+- [ ]  擦亮功能次数上限
+- [ ]  直接在广场页加入话题无时间限制
+- [ ]  退出登陆后message页全部显示userId
+- [ ]  vip过期时间
+- [x]  room键盘弹出动画
 - [x]  删除后帖子-1
 - [x]  编辑帖子权限
 - [x]  帖子无访客bug
@@ -31,7 +35,7 @@
 - [x]  拉黑
 - [x]  点赞列表，拉黑列表
 - [x]  square背景色
-- [ ]  点赞列表查看用户为null
+- [x]  点赞列表查看用户为null
 - [x]  message页面部分用户首次获取信息为null
 - [x]  解除拉黑后列表更新
 - [ ]  post template 区分title content
