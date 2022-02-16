@@ -56,7 +56,7 @@ class MySinglePostView extends StatelessWidget {
                     SliverToBoxAdapter(
                         child: Container(
                             margin: EdgeInsets.fromLTRB(13, 20, 13, 10),
-                            padding: EdgeInsets.fromLTRB(0, 5, 0, 13),
+                            padding: EdgeInsets.fromLTRB(0, 5, 0, 25),
                             constraints:
                                 BoxConstraints(minHeight: _height * 0.4),
                             decoration: BoxDecoration(
@@ -127,7 +127,7 @@ class MySinglePostView extends StatelessWidget {
                                                 height: 1.6))),
                                     Container(
                                         margin: EdgeInsets.only(
-                                            bottom: isMe ? 40 : 66,
+                                            bottom: isMe ? 40 : 72,
                                             left: 16,
                                             right: 16),
                                         child: TagWidget(

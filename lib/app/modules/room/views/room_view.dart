@@ -16,7 +16,6 @@ import './text_message.dart';
 import './bottom_widget.dart';
 import './bubble_widget.dart';
 import '../../me/views/like_count.dart';
-import 'package:flutter/services.dart';
 
 class RoomView extends GetView<RoomController> {
   @override

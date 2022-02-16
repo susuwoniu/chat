@@ -38,7 +38,7 @@ class AuthorName extends StatelessWidget {
               Get.toNamed(Routes.OTHER, arguments: {"id": accountId});
             }
           }),
-      SizedBox(width: nameSize - 5),
+      SizedBox(width: avatarSize - 7),
       Expanded(
           child: Text(
         authorName,
