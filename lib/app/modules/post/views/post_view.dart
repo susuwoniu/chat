@@ -14,6 +14,7 @@ class PostView extends GetView<PostController> {
     final _width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -46,11 +47,6 @@ class PostView extends GetView<PostController> {
               child: Column(
                 children: <Widget>[
                   SizedBox(height: 15),
-                  // Container(
-                  //   alignment: Alignment.topLeft,
-                  //   padding: EdgeInsets.only(left: _width * 0.075),
-                  //   child:
-                  // SizedBox(height: 10),
                   TCard(
                     size: Size(_width * 0.95,
                         MediaQuery.of(context).size.height * 0.7),
@@ -81,7 +77,6 @@ class PostView extends GetView<PostController> {
                               child: Templates(
                                   color: frontColor,
                                   question: _item!.content ?? _item.title,
-                                  enabled: false,
                                   id: PostController
                                       .to.postTemplatesIndexes[index]),
                             ));

@@ -41,6 +41,7 @@ class MySinglePostView extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: GetBuilder<MySinglePostController>(
               init: MySinglePostController(),
@@ -76,8 +77,9 @@ class MySinglePostView extends StatelessWidget {
                                                 Get.back();
                                               },
                                               icon: Icon(
-                                                Icons.arrow_back_outlined,
-                                                size: 26,
+                                                Icons
+                                                    .arrow_back_ios_new_outlined,
+                                                size: 23,
                                                 color: Color(_frontColor),
                                               )),
                                           // Text(
@@ -116,7 +118,7 @@ class MySinglePostView extends StatelessWidget {
                                         ]),
                                     Container(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 16),
+                                            horizontal: 16, vertical: 6),
                                         alignment: Alignment.centerLeft,
                                         child: Text(_content,
                                             style: TextStyle(
@@ -125,7 +127,7 @@ class MySinglePostView extends StatelessWidget {
                                                 height: 1.6))),
                                     Container(
                                         margin: EdgeInsets.only(
-                                            bottom: isMe ? 26 : 66,
+                                            bottom: isMe ? 40 : 66,
                                             left: 16,
                                             right: 16),
                                         child: TagWidget(
@@ -222,6 +224,7 @@ class MySinglePostView extends StatelessWidget {
       String? authorId}) {
     final isVip = AuthProvider.to.account.value.vip;
     final is_can_promote = HomeController.to.postMap[postId]!.is_can_promote;
+    final controller = MySinglePostController.to;
 
     return IconButton(
         padding: EdgeInsets.all(0),
@@ -237,6 +240,7 @@ class MySinglePostView extends StatelessWidget {
                         onPressedVisibility: (String visibility) async {
                           try {
                             UIUtils.showLoading();
+
                             await postChange(type: visibility, postId: postId);
                             UIUtils.toast('Successfully.'.tr);
                           } catch (e) {

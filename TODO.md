@@ -3,16 +3,18 @@
 ## Todos
 
 - [ ] 编辑头像需要有拍照的选项，bottomsheet
+- [ ] square帖子总数bug
 - [x]  square跳转到room缺少content
 - [x]  聊天气泡padding太大
 - [x]  room黑暗模式背景色
 - [x]  edit info页
 - [x]  card文本样式
 - [x]  me缓存问题
-- [ ]  post跳转create底部溢出
+- [x]  post跳转create底部溢出
 - [x]  擦亮功能次数上限
-- [ ]  直接在广场页加入话题无时间限制
+- [x]  直接在广场页加入话题无时间限制
 - [ ]  退出登陆后message页全部显示userId
+- [ ]  帖子公开私密状态优化
 - [ ]  vip过期时间
 - [x]  room键盘弹出动画
 - [x]  删除后帖子-1
@@ -21,7 +23,7 @@
 - [x]  无限点赞bug
 - [x]  首页名字溢出
 - [x]  other聊天按钮bug
-- [ ] 发帖流程优化，判断是否会员，才决定是否弹会员弹窗
+- [ ]  发帖流程优化，判断是否会员，才决定是否弹会员弹窗
 - [x]  other资料首次进入为null
 - [x]  发帖页无template内容时，dismiss键盘后很难再次弹出键盘
 - [x]  谁看过我没有按照最后访问时间排序
@@ -108,10 +110,9 @@
 - [x] nearby 显示km数
 - [ ] 聊天输入框太靠近键盘
 - [ ] 图片预览优化，相机拍照很难看，size width
-- [ ] 文字编辑器，字体太大
-- [ ] 文字背景，去掉黄色
-- [ ] Edit info手机
-- [ ] private，在列表里有lock的图标
+- [x] 文字编辑器，字体太大
+- [x] 文字背景，去掉黄色
+- [x] private，在列表里有lock的图标
 - [x] emoji 太大的问题
 - [x] me页面底部被tab遮挡
 - [ ] me页面删除帖子，首页出错
@@ -120,7 +121,7 @@
 - [x] 谁看过我页面，标题汉化，空状态优化
 - [x] okkk去掉
 - [ ] 删除帖子后请求下一页出错
-- [ ] gender为null的时候，主页图标出错
+- [x] gender为null的时候，主页图标出错
 - [ ] 筛选的时候不记录skip id
 - [x] text editor, bottom padding
 - [ ] Single post 应该判断是否缓存里有，如果没有的话，要主动请求帖子数据。比如广场页面进入，

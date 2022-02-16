@@ -19,6 +19,7 @@ class RoomView extends GetView<RoomController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: roomAppBar(context, 'usename'),
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
             child: Column(

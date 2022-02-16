@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import '../../home/views/vip_sheet.dart';
 import 'package:timer_count_down/timer_count_down.dart';
-import 'package:chat/app/providers/account_provider.dart';
+import 'package:chat/app/common/get_time_stop.dart';
 
 class CreatePost extends StatelessWidget {
   final String? id;
@@ -106,18 +106,5 @@ class CreatePost extends StatelessWidget {
     String result = "$hourLeft:$minuteLeft:$secondsLeft";
 
     return result;
-  }
-
-  getTimeStop() {
-    final clientNow = DateTime.now().millisecondsSinceEpoch;
-
-    final serverNow = clientNow - AccountProvider.to.diffTime;
-
-    final next =
-        DateTime.parse(AuthProvider.to.account.value.next_post_not_before)
-            .millisecondsSinceEpoch;
-    final nextCreateTime = (next - serverNow) / 1000;
-
-    return nextCreateTime.toInt();
   }
 }

@@ -40,9 +40,6 @@ class _YearPickerState extends State<YearPicker> {
               decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surface,
                   border: Border(
-                    top: BorderSide(
-                      color: Theme.of(context).dividerColor,
-                    ),
                     bottom: BorderSide(
                         color: Theme.of(context).dividerColor, width: 0.5),
                   )),
@@ -57,7 +54,7 @@ class _YearPickerState extends State<YearPicker> {
                       child: Icon(
                         Icons.close_rounded,
                         color: Theme.of(context).colorScheme.onBackground,
-                        size: 28,
+                        size: 26,
                       )),
                   TextButton(
                       onPressed: () {

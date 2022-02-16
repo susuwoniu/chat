@@ -241,17 +241,4 @@ class MeView extends GetView<MeController> {
           ]),
         ));
   }
-
-  getTimeStop() {
-    final clientNow = DateTime.now().millisecondsSinceEpoch;
-
-    final serverNow = clientNow - AccountProvider.to.diffTime;
-
-    final next =
-        DateTime.parse(AuthProvider.to.account.value.next_post_not_before)
-            .millisecondsSinceEpoch;
-    final nextCreateTime = (next - serverNow) / 1000;
-
-    return nextCreateTime.toInt();
-  }
 }

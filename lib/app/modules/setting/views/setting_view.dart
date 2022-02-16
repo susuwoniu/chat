@@ -5,7 +5,6 @@ import 'package:settings_ui/settings_ui.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import '../controllers/setting_controller.dart';
 import 'package:chat/app/providers/providers.dart';
-import 'package:flutter/services.dart';
 
 class SettingView extends GetView<SettingController> {
   @override
@@ -13,6 +12,7 @@ class SettingView extends GetView<SettingController> {
     final _account = AuthProvider.to.account.value;
 
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           automaticallyImplyLeading: true,
           bottom: PreferredSize(

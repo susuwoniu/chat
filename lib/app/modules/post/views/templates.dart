@@ -4,18 +4,14 @@ class Templates extends StatelessWidget {
   final String question;
   final String id;
   final Function(String text)? onChanged;
-  final bool autofocus;
-  final bool enabled;
   final Color color;
-  Templates(
-      {Key? key,
-      required this.question,
-      required this.color,
-      required this.id,
-      this.onChanged,
-      this.autofocus = false,
-      this.enabled = true})
-      : super(key: key);
+  Templates({
+    Key? key,
+    required this.question,
+    required this.color,
+    required this.id,
+    this.onChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

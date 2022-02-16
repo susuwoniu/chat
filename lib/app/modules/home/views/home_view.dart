@@ -91,6 +91,7 @@ class HomeView extends GetView<HomeController> {
         ]);
 
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         extendBody: true,
         extendBodyBehindAppBar: true,
         appBar: appBar,

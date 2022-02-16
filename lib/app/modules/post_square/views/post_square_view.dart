@@ -10,6 +10,7 @@ import 'package:chat/app/routes/app_pages.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:flutter/services.dart';
 import 'package:chat/common.dart';
+import 'package:chat/app/common/get_time_stop.dart';
 
 class PostSquareView extends GetView<PostSquareController> {
   final _title = Get.arguments['title'];
@@ -34,6 +35,7 @@ class PostSquareView extends GetView<PostSquareController> {
               () => controller.pagingController.refresh(),
             ),
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Stack(alignment: AlignmentDirectional.topCenter, children: [
             CustomScrollView(slivers: [
               SliverAppBar(
@@ -103,13 +105,18 @@ class PostSquareView extends GetView<PostSquareController> {
                     return Empty();
                   }, itemBuilder: (context, id, index) {
                     final post = postMap[id]!;
+                    final author =
+                        AuthProvider.to.simpleAccountMap[post.accountId]!;
                     return SmallPost(
                         postId: id,
+                        type: 'square',
+                        name: author.name,
+                        uri: author.avatar?.thumbnail.url,
+                        index: index,
                         onTap: () {
                           controller.setIndex(index: index);
-                          Get.toNamed(
-                            Routes.POST_SQUARE_CARD_VIEW,
-                          );
+                          Get.toNamed(Routes.POST_SQUARE_CARD_VIEW,
+                              arguments: {'color': post.color});
                         },
                         post: post);
                   })),
@@ -124,10 +131,14 @@ class PostSquareView extends GetView<PostSquareController> {
                       color: ChatThemeData.baseBlack),
                   child: GestureDetector(
                       onTap: () {
-                        Get.toNamed(Routes.CREATE, arguments: {
-                          "id": _id.toString(),
-                          "background-color-index": backgroundColorIndex,
-                        });
+                        if (getTimeStop() > 0) {
+                          UIUtils.showError("It's_not_time_to_post_yet".tr);
+                        } else {
+                          Get.toNamed(Routes.CREATE, arguments: {
+                            "id": _id.toString(),
+                            "background-color-index": backgroundColorIndex,
+                          });
+                        }
                       },
                       child: Row(children: [
                         Avatar(

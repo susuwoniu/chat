@@ -182,5 +182,6 @@ const Map<String, String> zh_Hans = {
   'This_user_left_nothing...': 'ta什么也没说...',
   'Confirm_to_delete?': '确认删除聊天记录吗？',
   'Pin': '置顶',
-  "It_can't_be_polished_any_more.": '擦亮次数已用完～'
+  "It_can't_be_polished_any_more.": '擦亮次数已用完～',
+  "It's_not_time_to_post_yet": '还没到发帖时间哦～',
 };

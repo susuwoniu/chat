@@ -17,13 +17,18 @@ class PostSquareCardView extends GetView<PostSquareController> {
   @override
   Widget build(BuildContext context) {
     final imDomain = AppConfig().config.imDomain;
+    final color = Get.arguments['color'];
+
     final appBar = AppBar(
         iconTheme:
             IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
         backgroundColor: Colors.transparent,
         leading: IconButton(
             iconSize: 26,
-            icon: Icon(Icons.arrow_back_ios_new),
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              color: Color(color),
+            ),
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onPressed: () {
@@ -35,9 +40,7 @@ class PostSquareCardView extends GetView<PostSquareController> {
               Padding(
                   padding: EdgeInsets.only(right: 10),
                   child: IconButton(
-                      icon: Icon(Icons.add,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          size: 36),
+                      icon: Icon(Icons.add, color: Color(color), size: 36),
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onPressed: () {
@@ -50,6 +53,7 @@ class PostSquareCardView extends GetView<PostSquareController> {
         ]);
 
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         extendBody: true,
         extendBodyBehindAppBar: true,
         appBar: appBar,

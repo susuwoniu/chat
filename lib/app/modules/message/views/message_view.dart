@@ -17,6 +17,7 @@ class MessageView extends GetView<MessageController> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.surface,
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
             bottom: PreferredSize(
                 child: Container(
