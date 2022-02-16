@@ -12,7 +12,7 @@ class SmallPost extends StatelessWidget {
   final PostEntity post;
   final String? name;
   final String? uri;
-  final int index;
+  final int? index;
 
   final Function onTap;
   SmallPost(
@@ -21,7 +21,7 @@ class SmallPost extends StatelessWidget {
       this.accountId,
       required this.post,
       required this.onTap,
-      required this.index,
+      this.index,
       this.name,
       this.uri});
 
@@ -48,12 +48,12 @@ class SmallPost extends StatelessWidget {
               type == 'square'
                   ? AuthorName(
                       color: Color(post.color),
-                      avatarSize: 16,
+                      avatarSize: 14,
                       nameSize: 14,
                       accountId: post.accountId,
                       authorName: name ?? '',
                       avatarUri: uri,
-                      index: index)
+                      index: index!)
                   : SizedBox.shrink(),
               Container(
                   padding: EdgeInsets.only(top: 8),
