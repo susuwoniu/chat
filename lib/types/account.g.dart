@@ -54,7 +54,7 @@ Map<String, dynamic> _$ImageEntityToJson(ImageEntity instance) =>
       'height': instance.height,
       'size': instance.size,
       'thumbnail': instance.thumbnail,
-      "large": instance.large,
+      'large': instance.large,
     };
 
 AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
@@ -64,25 +64,26 @@ AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       bio: json['bio'] as String?,
-      post_count: json['post_count'] as int,
       age: json['age'] as int?,
       birthday: json['birthday'] as String?,
-      avatar:
-          json['avatar'] != null ? ImageEntity.fromJson(json['avatar']) : null,
+      favorite_count: json['favorite_count'] as int? ?? 0,
+      post_count: json['post_count'] as int,
+      avatar: json['avatar'] == null
+          ? null
+          : ImageEntity.fromJson(json['avatar'] as Map<String, dynamic>),
       actions: (json['actions'] as List<dynamic>?)
               ?.map((e) => ActionEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
       phone_number: json['phone_number'] as String?,
+      next_post_not_before: json['next_post_not_before'] as String,
+      next_post_in_seconds: json['next_post_in_seconds'] as int?,
       name: json['name'] as String,
       gender: json['gender'] as String,
       vip: json['vip'] as bool,
-      likeCount: json['like_count'] as int,
-      favorite_count: json['favorite_count'] as int,
-      is_can_post: json['is_can_post'] as bool?,
       now: json['now'] as String?,
-      next_post_not_before: json['next_post_not_before'] as String,
-      next_post_in_seconds: json['next_post_in_seconds'] as int?,
+      is_can_post: json['is_can_post'] as bool?,
+      likeCount: json['like_count'] as int,
     );
 
 Map<String, dynamic> _$AccountEntityToJson(AccountEntity instance) =>
@@ -91,17 +92,17 @@ Map<String, dynamic> _$AccountEntityToJson(AccountEntity instance) =>
       'age': instance.age,
       'birthday': instance.birthday,
       'bio': instance.bio,
+      'post_count': instance.post_count,
       'phone_number': instance.phone_number,
+      'next_post_not_before': instance.next_post_not_before,
+      'next_post_in_seconds': instance.next_post_in_seconds,
+      'favorite_count': instance.favorite_count,
       'name': instance.name,
       'gender': instance.gender,
       'like_count': instance.likeCount,
-      'favorite_count': instance.favorite_count,
       'vip': instance.vip,
+      'now': instance.now,
+      'is_can_post': instance.is_can_post,
       'actions': instance.actions,
       'profile_images': instance.profile_images,
-      'is_can_post': instance.is_can_post,
-      'now': instance.now,
-      'next_post_not_before': instance.next_post_not_before,
-      'next_post_in_seconds': instance.next_post_in_seconds,
-      'post_count': instance.post_count
     };

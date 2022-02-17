@@ -22,6 +22,7 @@ abstract class Routes {
   static const ENSURE_AUTH_PAGES = [TEST3];
   static const VERIFICATION = _Paths.VERIFICATION;
   static const ANSWER = _Paths.ANSWER;
+  static const STAR = _Paths.STAR;
   static const EDIT_INFO = _Paths.EDIT_INFO;
   static const EDIT_NAME = _Paths.EDIT_NAME;
   static const CHANGE_GENDER = _Paths.CHANGE_GENDER;
@@ -73,6 +74,7 @@ abstract class _Paths {
   static const CREATE = '/create';
   static const REPORT = '/report';
   static const LIKEDME = '/liked-me';
+  static const STAR = '/star';
   static const BLOCK = '/block';
   static const RULE = '/rule';
   static const COMPLETE_GENDER = '/complete-gender';

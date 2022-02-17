@@ -9,3 +9,4 @@ export 'message.dart';
 export 'client.dart';
 export 'room.dart';
 export 'simple_account.dart';
+export 'favorite.dart';

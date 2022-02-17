@@ -9,7 +9,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:flutter/services.dart';
-import 'package:chat/common.dart';
 import 'package:chat/app/common/get_time_stop.dart';
 
 class PostSquareView extends GetView<PostSquareController> {

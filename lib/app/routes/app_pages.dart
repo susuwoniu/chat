@@ -52,6 +52,8 @@ import '../modules/post_square/views/post_square_card_view.dart';
 import '../modules/post_square/views/post_square_view.dart';
 import '../modules/profile_viewers/bindings/profile_viewers_binding.dart';
 import '../modules/profile_viewers/views/profile_viewers_view.dart';
+import '../modules/star/bindings/star_binding.dart';
+import '../modules/star/views/star_view.dart';
 import '../modules/report/bindings/report_binding.dart';
 import '../modules/report/views/report_view.dart';
 import '../modules/room/bindings/room_binding.dart';
@@ -262,6 +264,11 @@ class AppPages {
       name: _Paths.PROFILE_VIEWERS,
       page: () => ProfileViewersView(),
       binding: ProfileViewersBinding(),
+    ),
+    GetPage(
+      name: _Paths.STAR,
+      page: () => StarView(),
+      binding: StarBinding(),
     ),
     GetPage(
       name: _Paths.OTHER,

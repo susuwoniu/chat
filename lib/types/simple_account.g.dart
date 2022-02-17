@@ -9,16 +9,16 @@ part of 'simple_account.dart';
 SimpleAccountEntity _$SimpleAccountEntityFromJson(Map<String, dynamic> json) =>
     SimpleAccountEntity(
       profile_images: (json['profile_images'] as List<dynamic>?)
-              ?.map((e) => ImageEntity.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
-      avatar:
-          json['avatar'] != null ? ImageEntity.fromJson(json['avatar']) : null,
+          ?.map((e) => ImageEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      avatar: json['avatar'] == null
+          ? null
+          : ImageEntity.fromJson(json['avatar'] as Map<String, dynamic>),
       age: json['age'] as int?,
       bio: json['bio'] as String?,
+      is_liked: json['is_liked'] as bool,
       name: json['name'] as String,
       like_count: json['like_count'] as int,
-      is_liked: json['is_liked'] as bool,
       vip: json['vip'] as bool,
       gender: json['gender'] as String,
       is_blocked: json['is_blocked'] as bool,
@@ -28,15 +28,15 @@ SimpleAccountEntity _$SimpleAccountEntityFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$SimpleAccountEntityToJson(
         SimpleAccountEntity instance) =>
     <String, dynamic>{
+      'like_count': instance.like_count,
+      'is_liked': instance.is_liked,
       'avatar': instance.avatar,
       'age': instance.age,
       'bio': instance.bio,
       'name': instance.name,
-      'like_count': instance.like_count,
-      'is_liked': instance.is_liked,
       'vip': instance.vip,
       'gender': instance.gender,
-      'profile_images': instance.profile_images,
+      'post_count': instance.post_count,
       'is_blocked': instance.is_blocked,
-      'post_count': instance.post_count
+      'profile_images': instance.profile_images,
     };

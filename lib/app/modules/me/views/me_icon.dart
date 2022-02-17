@@ -15,11 +15,10 @@ class MeIcon extends StatelessWidget {
   final Function? onPressedLike;
   final Function? onPressedChat;
   final Function? onPressedStar;
-
-  final void Function()? onPressedViewer;
-  final int? newViewers;
-  final bool toViewers;
-  final int? time;
+  // final void Function()? onPressedViewer;
+  // final int? newViewers;
+  // final bool toViewers;
+  // final int? time;
 
   MeIcon({
     Key? key,
@@ -30,11 +29,11 @@ class MeIcon extends StatelessWidget {
     this.isLiked = false,
     this.onPressedLike,
     this.onPressedChat,
-    this.onPressedViewer,
     this.onPressedStar,
-    this.toViewers = false,
-    this.newViewers,
-    this.time,
+    // this.onPressedViewer,
+    // this.toViewers = false,
+    // this.newViewers,
+    // this.time,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -52,15 +51,16 @@ class MeIcon extends StatelessWidget {
                   return VipSheet(context: context, index: 1);
                 });
           }
-        } else if (toViewers) {
-          onPressedViewer!();
-        } else if (onPressedChat != null) {
-          onPressedChat!();
         } else if (onPressedLike != null) {
           onPressedLike!(!isLiked);
         } else if (onPressedStar != null) {
           onPressedStar!();
+        } else if (onPressedChat != null) {
+          onPressedChat!();
         }
+        // else if (toViewers) {
+        //   onPressedViewer!();
+        // }
       },
       child: Column(children: [
         Stack(clipBehavior: Clip.none, children: [
