@@ -87,6 +87,7 @@ class AccountEntity {
   final String? phone_number;
   String next_post_not_before;
   int? next_post_in_seconds;
+  int favorite_count;
 
   final String name;
   final String gender;
@@ -103,6 +104,7 @@ class AccountEntity {
       this.bio,
       this.age,
       this.birthday,
+      this.favorite_count = 0,
       required this.post_count,
       this.avatar,
       this.actions = const [],

@@ -72,6 +72,11 @@ class MeView extends GetView<MeController> {
                       ? '9999+' + ' hearts'.tr
                       : _account.likeCount.toString() + ' hearts'.tr
                   : '0' + ' heart'.tr;
+              final favorite_count = _account.favorite_count > 0
+                  ? _account.favorite_count > 99
+                      ? '99+' + ' Marks'.tr
+                      : _account.favorite_count.toString() + ' Marks'.tr
+                  : '0' + ' Mark'.tr;
               final totalViewedCount = controller.totalViewedCount.value > 0
                   ? controller.totalViewedCount.value > 9999
                       ? '9999+' + ' Visitors'.tr
@@ -151,31 +156,10 @@ class MeView extends GetView<MeController> {
                           isMe: true),
                       MeIcon(
                         icon: Icons.star_border_rounded,
-                        text: postCount,
+                        text: favorite_count,
                         iconSize: 32,
                       ),
 
-                      // Obx(() => MeIcon(
-                      //     icon: getTimeStop() > 0
-                      //         ? Icons.timer_outlined
-                      //         : Icons.add_outlined,
-                      //     onPressedCreate: () {
-                      //       if (getTimeStop() > 0) {
-                      //         if (!AuthProvider.to.account.value.vip) {
-                      //           showModalBottomSheet(
-                      //               context: context,
-                      //               isScrollControlled: true,
-                      //               builder: (context) {
-                      //                 return VipSheet(
-                      //                     context: context, index: 4);
-                      //               });
-                      //         }
-                      //       } else {
-                      //         Get.toNamed(Routes.POST);
-                      //       }
-                      //     },
-                      //     time:
-                      //         getTimeStop() > 0 ? getTimeStop().toInt() : null)),
                       // MeIcon(
                       //     icon: Icons.pets_outlined,
                       //     text: totalViewedCount,

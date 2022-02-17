@@ -7,7 +7,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../me/views/small_post.dart';
 import 'package:flutter/cupertino.dart';
 import '../controllers/other_controller.dart';
-import '../../home/views/more_dots.dart';
+import 'other_dots.dart';
 import 'package:chat/app/common/block.dart';
 import '../../me/views/me_icon.dart';
 import '../../me/views/vip_icon.dart';
@@ -64,8 +64,7 @@ class OtherView extends StatelessWidget {
                                       SimpleAccountEntity.empty();
                               final is_blocked = _account.is_blocked;
 
-                              return MoreDots(
-                                  context: context,
+                              return OtherDots(
                                   bottomIcon: Icons.face_retouching_off_rounded,
                                   bottomText:
                                       is_blocked ? 'Unblock'.tr : 'Block'.tr,

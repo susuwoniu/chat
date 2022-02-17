@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 // import './single_line_markdown_body.dart';
 import 'package:get/get.dart';
 import 'package:chat/app/routes/app_pages.dart';
+import 'package:chat/app/providers/auth_provider.dart';
 
 // 外层不能套Container
 // 只能放在Column的直接子元素中
@@ -33,8 +34,10 @@ Widget MaxText(String text, BuildContext context,
               Container(
                   padding: EdgeInsets.only(right: 16),
                   child: GestureDetector(
-                    onTap: () => Get.toNamed(Routes.MY_SINGLE_POST,
-                        arguments: {"id": id}, preventDuplicates: false),
+                    onTap: () {
+                      Get.toNamed(Routes.MY_SINGLE_POST,
+                          arguments: {"id": id}, preventDuplicates: false);
+                    },
                     child: Text("More".tr + " >>",
                         style: TextStyle(
                           color: style == null

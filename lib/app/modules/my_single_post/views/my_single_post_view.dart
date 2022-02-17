@@ -7,7 +7,7 @@ import 'post_single_viewer.dart';
 import 'package:intl/intl.dart';
 import 'single_post_dot.dart';
 import '../../home/views/vip_sheet.dart';
-import '../../home/views/more_dots.dart';
+import '../../other/views/other_dots.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:chat/common.dart';
@@ -19,7 +19,7 @@ import '../../home/views/tag_widget.dart';
 class MySinglePostView extends StatelessWidget {
   final DateFormat formatter = DateFormat('yyyy-MM-dd  HH:mm');
   final imDomain = AppConfig().config.imDomain;
-  final postId = Get.arguments['id'];
+  final postId = MySinglePostController.to.postId;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class MySinglePostView extends StatelessWidget {
 
     final author = AuthProvider.to.simpleAccountMap[authorId]?.name;
 
-    final isMe = authorId == AuthProvider.to.accountId;
+    final isMe = isLogin && authorId == AuthProvider.to.accountId;
 
     final _content = _post.content;
     final _backgroundColor = _post.backgroundColor;
@@ -91,18 +91,24 @@ class MySinglePostView extends StatelessWidget {
                                           Row(children: [
                                             isMe
                                                 ? SizedBox.shrink()
-                                                : IconButton(
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    padding: EdgeInsets.all(0),
-                                                    splashColor:
-                                                        Colors.transparent,
-                                                    onPressed: () {},
-                                                    icon: Icon(
-                                                      Icons.star_border_rounded,
-                                                      size: 26,
-                                                      color: Color(_frontColor),
-                                                    )),
+                                                : Obx(() {
+                                                    final is_favorite =
+                                                        HomeController
+                                                                .to
+                                                                .postMap[postId]
+                                                                ?.is_favorite ??
+                                                            false;
+
+                                                    return _star(
+                                                        id: postId,
+                                                        primaryColor:
+                                                            Theme.of(context)
+                                                                .colorScheme
+                                                                .primary,
+                                                        color:
+                                                            Color(_frontColor),
+                                                        isStar: is_favorite);
+                                                  }),
                                             Obx(() => _dotIcon(
                                                 visibility:
                                                     controller.visibility,
@@ -189,7 +195,7 @@ class MySinglePostView extends StatelessWidget {
                       pagingController: controller.pagingController,
                       builderDelegate: PagedChildBuilderDelegate<String>(
                           noItemsFoundIndicatorBuilder: (BuildContext context) {
-                        return AuthProvider.to.isLogin && controller.isMe
+                        return AuthProvider.to.isLogin && isMe
                             ? Empty(message: "no_one_has_seen_this_post...".tr)
                             : SizedBox.shrink();
                       }, itemBuilder: (context, id, index) {
@@ -224,7 +230,6 @@ class MySinglePostView extends StatelessWidget {
       String? authorId}) {
     final isVip = AuthProvider.to.account.value.vip;
     final is_can_promote = HomeController.to.postMap[postId]!.is_can_promote;
-    final controller = MySinglePostController.to;
 
     return IconButton(
         padding: EdgeInsets.all(0),
@@ -240,9 +245,8 @@ class MySinglePostView extends StatelessWidget {
                         onPressedVisibility: (String visibility) async {
                           try {
                             UIUtils.showLoading();
-
                             await postChange(type: visibility, postId: postId);
-                            UIUtils.toast('Successfully.'.tr);
+                            UIUtils.toast('Succeeded!'.tr);
                           } catch (e) {
                             UIUtils.showError(e);
                           }
@@ -289,19 +293,52 @@ class MySinglePostView extends StatelessWidget {
                           Navigator.pop(context);
                         },
                       )
-                    : MoreDots(
-                        context: context,
-                        onPressedReport: () {
-                          Navigator.pop(context);
-                          Get.toNamed(Routes.REPORT, arguments: {
-                            "related_post_id": postId,
-                            "related_account_id": authorId
-                          });
+                    : OtherDots(onPressedReport: () {
+                        Navigator.pop(context);
+                        Get.toNamed(Routes.REPORT, arguments: {
+                          "related_post_id": postId,
+                          "related_account_id": authorId
                         });
+                      });
               });
         },
         icon: Icon(
           Icons.more_vert_rounded,
+          size: 27,
+          color: color,
+        ));
+  }
+
+  Widget _star(
+      {required bool isStar,
+      required String id,
+      required Color color,
+      required Color primaryColor}) {
+    return IconButton(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(2),
+        splashColor: Colors.transparent,
+        onPressed: () async {
+          if (isStar) {
+            try {
+              await HomeController.to.patchPostCountView(
+                  postId: id, isPostStar: true, increase: false);
+              UIUtils.toast("Unmarked.".tr);
+            } catch (e) {
+              UIUtils.showError(e);
+            }
+          } else {
+            try {
+              await HomeController.to.patchPostCountView(
+                  postId: id, isPostStar: true, increase: true);
+              UIUtils.toast("Marked.".tr);
+            } catch (e) {
+              UIUtils.showError(e);
+            }
+          }
+        },
+        icon: Icon(
+          isStar ? Icons.star_rounded : Icons.star_border_rounded,
           size: 27,
           color: color,
         ));

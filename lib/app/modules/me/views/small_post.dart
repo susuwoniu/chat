@@ -59,7 +59,7 @@ class SmallPost extends StatelessWidget {
                   padding: EdgeInsets.only(top: 8),
                   alignment: Alignment.centerLeft,
                   child: AutoSizeText(content,
-                      maxLines: 7,
+                      maxLines: type == 'square' ? 7 : 9,
                       minFontSize: 16,
                       maxFontSize: 16,
                       overflow: TextOverflow.ellipsis,

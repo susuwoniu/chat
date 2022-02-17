@@ -32,7 +32,6 @@ const Map<String, String> zh_Hans = {
   'Unblocked.': '已解除拉黑该用户',
   'Liked!': '已按赞～',
   'Successfully_unliked.': '已取消赞',
-  'Successfully.': '设置成功～',
   'Thank_you_for_reporting!': '感谢报告，我们会尽快处理。',
   'Please_choose_a_report_type.': '请选择报告类型。',
   'About': "关于",
@@ -184,4 +183,8 @@ const Map<String, String> zh_Hans = {
   'Pin': '置顶',
   "It_can't_be_polished_any_more.": '擦亮次数已用完～',
   "It's_not_time_to_post_yet": '还没到发帖时间哦～',
+  'Unmarked.': '取消收藏了～',
+  'Marked.': '收藏了～',
+  'Marked': '已收藏',
+  'Mark': "收藏",
 };

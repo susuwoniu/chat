@@ -1,3 +1,4 @@
+import 'package:chat/app/modules/home/views/dot_widget.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktoklikescroller/tiktoklikescroller.dart';
@@ -11,7 +12,6 @@ import 'chat_box.dart';
 import 'tag_widget.dart';
 import 'author_name.dart';
 import './action_buttons.dart';
-import 'more_dots.dart';
 import 'nearby_switch.dart';
 import 'vip_sheet.dart';
 import 'package:chat/app/common/quote_with_link.dart';
@@ -253,8 +253,7 @@ class HomeView extends GetView<HomeController> {
                                                   showModalBottomSheet(
                                                       context: context,
                                                       builder: (context) {
-                                                        return MoreDots(
-                                                            context: context,
+                                                        return DotWidget(
                                                             onPressedReport:
                                                                 () {
                                                               Navigator.pop(
@@ -268,7 +267,9 @@ class HomeView extends GetView<HomeController> {
                                                                     "related_account_id":
                                                                         post.accountId
                                                                   });
-                                                            });
+                                                            },
+                                                            postId: postIndexes[
+                                                                index]);
                                                       });
                                                 })
                                           ]),

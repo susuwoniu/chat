@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
-import 'package:chat/common.dart';
 
-class MoreDots extends StatelessWidget {
+class OtherDots extends StatelessWidget {
   final void Function() onPressedReport;
   final void Function()? onPressedBlock;
-
-  final BuildContext context;
   final String? bottomText;
   final IconData? bottomIcon;
 
-  MoreDots(
+  OtherDots(
       {Key? key,
       required this.onPressedReport,
       this.onPressedBlock,
-      required this.context,
       this.bottomText,
       this.bottomIcon})
       : super(key: key);

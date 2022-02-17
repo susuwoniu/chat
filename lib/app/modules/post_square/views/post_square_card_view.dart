@@ -1,4 +1,3 @@
-import 'package:chat/app/modules/home/views/social_share.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktoklikescroller/tiktoklikescroller.dart';
@@ -10,7 +9,7 @@ import 'package:chat/common.dart';
 import 'package:chat/app/modules/home/views/chat_box.dart';
 import 'package:chat/app/modules/home/views/author_name.dart';
 import 'package:chat/app/modules/home/views/action_buttons.dart';
-import 'package:chat/app/modules/home/views/more_dots.dart';
+import 'package:chat/app/modules/home/views/dot_widget.dart';
 import 'package:chat/app/common/quote_with_link.dart';
 
 class PostSquareCardView extends GetView<PostSquareController> {
@@ -189,8 +188,7 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                                   showModalBottomSheet(
                                                       context: context,
                                                       builder: (context) {
-                                                        return MoreDots(
-                                                            context: context,
+                                                        return DotWidget(
                                                             onPressedReport:
                                                                 () {
                                                               Navigator.pop(
@@ -204,7 +202,9 @@ class PostSquareCardView extends GetView<PostSquareController> {
                                                                     "related_account_id":
                                                                         post.accountId
                                                                   });
-                                                            });
+                                                            },
+                                                            postId: postIndexes[
+                                                                index]);
                                                       });
                                                 })
                                           ]),

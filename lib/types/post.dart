@@ -20,6 +20,7 @@ class PostEntity {
   final String visibility;
   bool is_can_promote;
   int viewed_count;
+  bool? is_favorite;
 
   PostEntity({
     required this.content,
@@ -34,6 +35,7 @@ class PostEntity {
     required this.created_at,
     required this.visibility,
     required this.is_can_promote,
+    this.is_favorite,
   });
 
   /// Connect the generated [_$PostEntityFromJson] function to the `fromJson`

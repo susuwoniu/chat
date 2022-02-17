@@ -179,7 +179,7 @@ class HomeController extends GetxController {
 
       // put accoutns to simple accounts
       await AuthProvider.to.saveSimpleAccounts(result.accountMap);
-      patchPostCountView(result.indexes[0]).catchError((e) {
+      patchPostCountView(postId: result.indexes[0]).catchError((e) {
         report(e);
       });
       // save current first cursor
@@ -292,7 +292,7 @@ class HomeController extends GetxController {
         _currentBackgroundColor.value = post.backgroundColor;
         _currentFrontColor.value = post.color;
 
-        patchPostCountView(pageState[currentPage]!.postIndexes[index])
+        patchPostCountView(postId: pageState[currentPage]!.postIndexes[index])
             .catchError((e) {
           report(e);
         });
@@ -373,16 +373,26 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> patchPostCountView(String postId) async {
+  Future<void> patchPostCountView(
+      {required String postId, isPostStar = false, bool? increase}) async {
     // change last cursor
-    await CacheProvider.to.setExpiredString(
-        'STORAGE_${currentPage}_LAST_CURSOR_KEY',
-        postMap[postId]!.cursor,
-        getExpiresAt());
+
     if (AuthProvider.to.isLogin &&
         AuthProvider.to.accountId != postMap[postId]!.accountId) {
-      await APIProvider.to.patch("/post/posts/$postId",
-          body: {"viewed_count_action": "increase_one"});
+      if (isPostStar) {
+        await APIProvider.to.patch("/post/posts/$postId", body: {
+          "favorite_count_action": increase! ? 'increase_one' : 'decrease_one'
+        });
+        postMap[postId]!.is_favorite = increase;
+        HomeController.to.postMap[postId] = postMap[postId]!;
+      } else {
+        await CacheProvider.to.setExpiredString(
+            'STORAGE_${currentPage}_LAST_CURSOR_KEY',
+            postMap[postId]!.cursor,
+            getExpiresAt());
+        await APIProvider.to.patch("/post/posts/$postId",
+            body: {"viewed_count_action": "increase_one"});
+      }
     }
   }
 

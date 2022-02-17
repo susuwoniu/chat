@@ -14,7 +14,7 @@ class MeIcon extends StatelessWidget {
   final bool isLiked;
   final Function? onPressedLike;
   final Function? onPressedChat;
-  final Function? onPressedCreate;
+  final Function? onPressedStar;
 
   final void Function()? onPressedViewer;
   final int? newViewers;
@@ -31,7 +31,7 @@ class MeIcon extends StatelessWidget {
     this.onPressedLike,
     this.onPressedChat,
     this.onPressedViewer,
-    this.onPressedCreate,
+    this.onPressedStar,
     this.toViewers = false,
     this.newViewers,
     this.time,
@@ -58,8 +58,8 @@ class MeIcon extends StatelessWidget {
           onPressedChat!();
         } else if (onPressedLike != null) {
           onPressedLike!(!isLiked);
-        } else if (onPressedCreate != null) {
-          onPressedCreate!();
+        } else if (onPressedStar != null) {
+          onPressedStar!();
         }
       },
       child: Column(children: [

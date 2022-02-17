@@ -3,6 +3,7 @@ import 'package:chat/app/providers/providers.dart';
 import 'package:chat/common.dart';
 import '../../post/controllers/post_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import '../../home/controllers/home_controller.dart';
 
 class PostSquareController extends GetxController {
   static PostSquareController get to => Get.find();
@@ -108,7 +109,9 @@ class PostSquareController extends GetxController {
     } else {
       final post = postMap[postIndexes[index]];
       if (post != null) {
-        patchPostCountView(postIndexes[index]).catchError((e) {
+        HomeController.to
+            .patchPostCountView(postId: postIndexes[index])
+            .catchError((e) {
           report(e);
         });
       }
@@ -130,7 +133,8 @@ class PostSquareController extends GetxController {
   Future<void> patchPostCountView(String postId) async {
     // change last cursor
 
-    if (AuthProvider.to.accountId != postMap[postId]!.accountId) {
+    if (AuthProvider.to.isLogin &&
+        AuthProvider.to.accountId != postMap[postId]!.accountId) {
       await APIProvider.to.patch("/post/posts/$postId",
           body: {"viewed_count_action": "increase_one"});
     }

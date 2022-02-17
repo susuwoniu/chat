@@ -13,7 +13,6 @@ import '../../me/views/small_post.dart';
 import '../../me/views/like_count.dart';
 import '../../other/controllers/other_controller.dart';
 import '../../me/views/image_slider.dart';
-import '../../home/views/more_dots.dart';
 import 'package:chat/app/common/block.dart';
 import 'package:chat/app/common/quote_with_link.dart';
 
@@ -182,52 +181,9 @@ class Test2View extends GetView<OtherController> {
               right: width * 0.04,
               top: height * 0.06,
               child: CircleWidget(
-                icon: Icon(Icons.more_horiz_rounded,
-                    color: Theme.of(context).colorScheme.onPrimary),
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return Obx(() {
-                          final _account =
-                              AuthProvider.to.simpleAccountMap[accountId] ??
-                                  SimpleAccountEntity.empty();
-                          final is_blocked = _account.is_blocked;
-
-                          return MoreDots(
-                              context: context,
-                              bottomIcon: Icons.face_retouching_off_rounded,
-                              bottomText:
-                                  is_blocked ? 'Unblock'.tr : 'Block'.tr,
-                              onPressedBlock: () async {
-                                controller.accountAction(
-                                    isLiked: false, increase: !is_blocked);
-                                try {
-                                  if (is_blocked) {
-                                    await toggleBlock(
-                                        id: accountId, toBlocked: false);
-                                    UIUtils.toast('Unblocked.'.tr);
-                                  } else {
-                                    await toggleBlock(
-                                        id: accountId, toBlocked: true);
-                                    UIUtils.toast('Blocked.'.tr);
-                                  }
-                                } catch (e) {
-                                  UIUtils.showError(e);
-                                  controller.accountAction(
-                                      isLiked: false, increase: is_blocked);
-                                }
-                              },
-                              onPressedReport: () {
-                                Navigator.pop(context);
-                                Get.toNamed(Routes.REPORT, arguments: {
-                                  "related_account_id": accountId
-                                });
-                              });
-                        });
-                      });
-                },
-              )),
+                  icon: Icon(Icons.more_horiz_rounded,
+                      color: Theme.of(context).colorScheme.onPrimary),
+                  onPressed: () {})),
           Positioned(
               bottom: 0,
               child: Container(
