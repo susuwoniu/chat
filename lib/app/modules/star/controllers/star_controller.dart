@@ -1,6 +1,5 @@
 import 'package:chat/app/providers/providers.dart';
 import 'package:get/get.dart';
-import '../../home/controllers/home_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:chat/common.dart';
 
@@ -53,14 +52,14 @@ class StarController extends GetxController {
         }
         indexes = result.indexes;
         favoriteMap.addAll(result.favoriteMap);
-        // postMap.addAll(result.postMap);
-        // AuthProvider.to.simpleAccountMap.addAll(result.accountMap);
-        // postIndexes.addAll(indexes);
+        postMap.addAll(result.postMap);
+        AuthProvider.to.simpleAccountMap.addAll(result.accountMap);
+        postIndexes.addAll(indexes);
 
         if (indexes.isNotEmpty) {
           lastCursor = result.endCursor;
         }
-        final isLastPage = indexes.length < DEFAULT_PAGE_SIZE;
+        final isLastPage = indexes.isEmpty;
         if (isLastPage) {
           _isReachListEnd.value = true;
           pagingController.appendLastPage(indexes);

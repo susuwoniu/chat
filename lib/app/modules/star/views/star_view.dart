@@ -10,24 +10,25 @@ import '../../me/views/small_post.dart';
 class StarView extends GetView<StarController> {
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).colorScheme.surface,
-        onRefresh: () => Future.sync(
-              () {},
-            ),
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: Text('StarView'.tr, style: TextStyle(fontSize: 16)),
+          bottom: PreferredSize(
+              child: Container(
+                height: 0.5,
+                color: Theme.of(context).dividerColor,
+              ),
+              preferredSize: Size.fromHeight(0)),
+        ),
+        body: RefreshIndicator(
           backgroundColor: Theme.of(context).colorScheme.surface,
-          appBar: AppBar(
-            title: Text('StarView'.tr, style: TextStyle(fontSize: 16)),
-            bottom: PreferredSize(
-                child: Container(
-                  height: 0.5,
-                  color: Theme.of(context).dividerColor,
-                ),
-                preferredSize: Size.fromHeight(0)),
+          onRefresh: () => Future.sync(
+            () => controller.pagingController.refresh(),
           ),
-          body: CustomScrollView(slivers: [
+          child: CustomScrollView(slivers: [
+            SliverToBoxAdapter(), // Bug fix: https://github.com/flutter/flutter/issues/55170,
             PagedSliverGrid<String?, String>(
                 showNewPageProgressIndicatorAsGridChild: false,
                 showNewPageErrorIndicatorAsGridChild: false,
@@ -41,21 +42,20 @@ class StarView extends GetView<StarController> {
                     noItemsFoundIndicatorBuilder: (BuildContext context) {
                   return Empty();
                 }, itemBuilder: (context, id, index) {
-                  // final favorite = controller.favoriteMap[id]!;
-                  // final post = controller.postMap[favorite.post_id]!;
-                  // final author =
-                  //     AuthProvider.to.simpleAccountMap[post.accountId]!;
-                  return Text('ss');
-                  // return SmallPost(
-                  //     postId: id,
-                  //     name: author.name,
-                  //     uri: author.avatar?.thumbnail.url,
-                  //     index: index,
-                  //     onTap: () {
-                  //       // Get.toNamed(Routes.POST_SQUARE_CARD_VIEW,
-                  //       //     arguments: {'color': post.color});
-                  //     },
-                  //     post: post);
+                  final favorite = controller.favoriteMap[id]!;
+                  final post = controller.postMap[favorite.post_id]!;
+                  final author =
+                      AuthProvider.to.simpleAccountMap[post.accountId]!;
+                  return SmallPost(
+                      postId: id,
+                      name: author.name,
+                      uri: author.avatar?.thumbnail.url,
+                      index: index,
+                      onTap: () {
+                        // Get.toNamed(Routes.POST_SQUARE_CARD_VIEW,
+                        //     arguments: {'color': post.color});
+                      },
+                      post: post);
                 })),
           ]),
         ));

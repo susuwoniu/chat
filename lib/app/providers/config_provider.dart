@@ -19,7 +19,7 @@ class ConfigProvider extends GetxService {
   ];
   final nightMode = false.obs;
   // 跳过看过的帖子
-  final skipViewedPost = true.obs;
+  final skipViewedPost = false.obs;
   final _listAtNearby = false.obs;
   bool get listAtNearby => _listAtNearby.value;
   @override
