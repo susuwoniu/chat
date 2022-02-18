@@ -108,7 +108,7 @@ class PostSquareView extends GetView<PostSquareController> {
                         AuthProvider.to.simpleAccountMap[post.accountId]!;
                     return SmallPost(
                         postId: id,
-                        type: 'square',
+                        type: 'needName',
                         name: author.name,
                         uri: author.avatar?.thumbnail.url,
                         index: index,

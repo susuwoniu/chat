@@ -45,7 +45,7 @@ class SmallPost extends StatelessWidget {
               color: Color(backgroundColor),
             ),
             child: Column(children: [
-              type == 'square'
+              type == 'needName'
                   ? AuthorName(
                       color: Color(post.color),
                       avatarSize: 14,
@@ -59,7 +59,7 @@ class SmallPost extends StatelessWidget {
                   padding: EdgeInsets.only(top: 8),
                   alignment: Alignment.centerLeft,
                   child: AutoSizeText(content,
-                      maxLines: type == 'square' ? 7 : 9,
+                      maxLines: type == 'needName' ? 7 : 9,
                       minFontSize: 16,
                       maxFontSize: 16,
                       overflow: TextOverflow.ellipsis,

@@ -28,7 +28,9 @@ class StarView extends GetView<StarController> {
             () => controller.pagingController.refresh(),
           ),
           child: CustomScrollView(slivers: [
-            SliverToBoxAdapter(), // Bug fix: https://github.com/flutter/flutter/issues/55170,
+            SliverToBoxAdapter(
+              child: SizedBox(height: 12),
+            ), // Bug fix: https://github.com/flutter/flutter/issues/55170,
             PagedSliverGrid<String?, String>(
                 showNewPageProgressIndicatorAsGridChild: false,
                 showNewPageErrorIndicatorAsGridChild: false,
@@ -47,13 +49,14 @@ class StarView extends GetView<StarController> {
                   final author =
                       AuthProvider.to.simpleAccountMap[post.accountId]!;
                   return SmallPost(
-                      postId: id,
+                      type: 'needName',
+                      postId: favorite.post_id,
                       name: author.name,
                       uri: author.avatar?.thumbnail.url,
                       index: index,
                       onTap: () {
-                        // Get.toNamed(Routes.POST_SQUARE_CARD_VIEW,
-                        //     arguments: {'color': post.color});
+                        Get.toNamed(Routes.MY_SINGLE_POST,
+                            arguments: {"id": favorite.post_id});
                       },
                       post: post);
                 })),
