@@ -187,5 +187,7 @@ const Map<String, String> zh_Hans = {
   'Marked.': '收藏了～',
   'Marked': '已收藏',
   'Mark': "收藏",
+  ' Mark': '条收藏',
+  ' Marks': '条收藏',
   'StarView': '我的收藏'
 };

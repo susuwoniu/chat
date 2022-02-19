@@ -35,6 +35,8 @@ abstract class Routes {
   static const FEEDBACK = _Paths.FEEDBACK;
   static const PROFILE_VIEWERS = _Paths.PROFILE_VIEWERS;
   static const OTHER = _Paths.OTHER;
+  static const EXPLORE = _Paths.EXPLORE;
+
   static const CREATE = _Paths.CREATE;
   static const POST_SQUARE_CARD_VIEW = _Paths.POST_SQUARE_CARD_VIEW;
   static const RULE = _Paths.RULE;
@@ -71,6 +73,8 @@ abstract class _Paths {
   static const FEEDBACK = '/feedback';
   static const PROFILE_VIEWERS = '/profile-viewers';
   static const OTHER = '/other';
+  static const EXPLORE = '/explore';
+
   static const CREATE = '/create';
   static const REPORT = '/report';
   static const LIKEDME = '/liked-me';

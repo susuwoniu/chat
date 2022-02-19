@@ -89,26 +89,22 @@ class MySinglePostView extends StatelessWidget {
                                           //       fontSize: 15),
                                           // ),
                                           Row(children: [
-                                            isMe
-                                                ? SizedBox.shrink()
-                                                : Obx(() {
-                                                    final is_favorite =
-                                                        HomeController
-                                                                .to
-                                                                .postMap[postId]
-                                                                ?.is_favorite ??
-                                                            false;
+                                            Obx(() {
+                                              final is_favorite = HomeController
+                                                      .to
+                                                      .postMap[postId]
+                                                      ?.is_favorite ??
+                                                  false;
 
-                                                    return _star(
-                                                        id: postId,
-                                                        primaryColor:
-                                                            Theme.of(context)
-                                                                .colorScheme
-                                                                .primary,
-                                                        color:
-                                                            Color(_frontColor),
-                                                        isStar: is_favorite);
-                                                  }),
+                                              return _star(
+                                                  id: postId,
+                                                  primaryColor:
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .primary,
+                                                  color: Color(_frontColor),
+                                                  isStar: is_favorite);
+                                            }),
                                             Obx(() => _dotIcon(
                                                 visibility:
                                                     controller.visibility,

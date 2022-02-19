@@ -37,6 +37,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/main/bindings/main_binding.dart';
 import '../modules/main/views/main_view.dart';
+import '../modules/explore/bindings/explore_binding.dart';
+import '../modules/explore/views/explore_view.dart';
 import '../modules/me/bindings/me_binding.dart';
 import '../modules/me/views/me_view.dart';
 import '../modules/my_single_post/bindings/my_single_post_binding.dart';
@@ -283,6 +285,11 @@ class AppPages {
       name: _Paths.CREATE,
       page: () => CreateView(),
       binding: CreateBinding(),
+    ),
+    GetPage(
+      name: _Paths.EXPLORE,
+      page: () => ExploreView(),
+      binding: ExploreBinding(),
     ),
     GetPage(
       middlewares: [

@@ -377,8 +377,7 @@ class HomeController extends GetxController {
       {required String postId, isPostStar = false, bool? increase}) async {
     // change last cursor
 
-    if (AuthProvider.to.isLogin &&
-        AuthProvider.to.accountId != postMap[postId]!.accountId) {
+    if (AuthProvider.to.isLogin) {
       if (isPostStar) {
         await APIProvider.to.patch("/post/posts/$postId", body: {
           "favorite_count_action": increase! ? 'increase_one' : 'decrease_one'

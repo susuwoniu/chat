@@ -2,7 +2,7 @@
 
 ## Todos
 
-- [ ] 编辑头像需要有拍照的选项，bottomsheet
+- [x] 编辑头像需要有拍照的选项，bottomsheet
 - [ ] 未登录从square card view后退后页面为null
 - [ ] square帖子总数bug
 - [x]  square跳转到room缺少content
@@ -109,14 +109,14 @@
 - [ ] 聊天消息的markdown
 - [x] tab，未读总数
 - [x] nearby 显示km数
-- [ ] 聊天输入框太靠近键盘
+- [x] 聊天输入框太靠近键盘
 - [ ] 图片预览优化，相机拍照很难看，size width
 - [x] 文字编辑器，字体太大
 - [x] 文字背景，去掉黄色
 - [x] private，在列表里有lock的图标
 - [x] emoji 太大的问题
 - [x] me页面底部被tab遮挡
-- [ ] me页面删除帖子，首页出错
+- [x] me页面删除帖子，首页出错
 - [ ] 每次重启还是要刷新下me的信息，防止会员信息不同步
 - [x] 验证码submit 汉化
 - [x] 谁看过我页面，标题汉化，空状态优化
@@ -125,7 +125,7 @@
 - [x] gender为null的时候，主页图标出错
 - [ ] 筛选的时候不记录skip id
 - [x] text editor, bottom padding
-- [ ] Single post 应该判断是否缓存里有，如果没有的话，要主动请求帖子数据。比如广场页面进入，
+- [x] Single post 应该判断是否缓存里有，如果没有的话，要主动请求帖子数据。比如广场页面进入，
 - [ ] 发布问题应该返回随机的顺序，+优先级的帖子
 - [ ] 登录页面，增加 继续则表示您同意我们的服务协议和隐私政策
 - [ ] 服务协议 http 页面

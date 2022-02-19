@@ -254,10 +254,6 @@ class OtherView extends StatelessWidget {
                       return Empty(message: "This_user_left_nothing...".tr);
                     }, itemBuilder: (context, id, index) {
                       final post = postMap[id]!;
-
-                      if (post == null) {
-                        return SizedBox.shrink();
-                      }
                       return SmallPost(
                           onTap: () {
                             Get.toNamed(Routes.MY_SINGLE_POST,
