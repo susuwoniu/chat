@@ -53,6 +53,20 @@ class FavoriteResult {
   });
 }
 
+class PostTemplatesResult {
+  final Map<String, PostTemplatesEntity> postTemplatesMap;
+  final List<String> postTemplatesIndexes;
+  final String? startCursor;
+  final String? endCursor;
+
+  PostTemplatesResult({
+    this.postTemplatesMap = const {},
+    this.postTemplatesIndexes = const [],
+    this.endCursor,
+    this.startCursor,
+  });
+}
+
 Future<PostsResult> getApiPosts(
     {String? after,
     String? before,
@@ -198,4 +212,48 @@ Future<FavoriteResult> getFavoritePosts({
       endCursor: newEndCursor,
       startCursor: newStartCursor,
       accountMap: newAccountMap);
+}
+
+Future<PostTemplatesResult> getRawPostTemplates(
+    {String? after, String? before}) async {
+  Map<String, dynamic> query = {
+    // "featured": "true",
+    "limit": DEFAULT_PAGE_SIZE.toString(),
+  };
+  if (after != null) {
+    query["after"] = after;
+  }
+  if (before != null) {
+    query["before"] = before;
+  }
+
+  // todo featured
+  final body = await APIProvider.to.get("/post/post-templates", query: query);
+  if (body["data"].length == 0) {
+    return PostTemplatesResult();
+  }
+  String? newEndCursor;
+  String? newStartCursor;
+  if (body["meta"]["page_info"]["end"] != null) {
+    newEndCursor = body["meta"]["page_info"]["end"];
+  }
+  if (body["meta"]["page_info"]["start"] != null) {
+    newStartCursor = body["meta"]["page_info"]["start"];
+  }
+
+  final Map<String, PostTemplatesEntity> newMap = {};
+  final List<String> newIndexes = [];
+  for (var i = 0; i < body["data"].length; i++) {
+    final item = body["data"][i];
+    final id = item["id"];
+    final attributes = item["attributes"];
+    newMap[id] = PostTemplatesEntity.fromJson(attributes);
+    newIndexes.add(id);
+  }
+
+  return PostTemplatesResult(
+      endCursor: newEndCursor,
+      startCursor: newStartCursor,
+      postTemplatesMap: newMap,
+      postTemplatesIndexes: newIndexes);
 }

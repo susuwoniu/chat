@@ -70,57 +70,31 @@ class PostController extends GetxController {
   }
 
   Future<void> getPosts({String? after, String? before}) async {
-    // todo
-    Map<String, dynamic> query = {
-      // "featured": "true",
-      "limit": DEFAULT_PAGE_SIZE.toString(),
-    };
-    if (after != null) {
-      query["after"] = after;
-    }
-    if (before != null) {
-      query["before"] = before;
-    }
     isDataEmpty.value = false; // init set empty null
     postTemplatesIndexes.clear();
     // todo featured
     isReachEnd.value = false;
-    final body = await APIProvider.to.get("/post/post-templates", query: query);
-    if (body["data"].length == 0) {
+    final result = await getRawPostTemplates(after: after, before: before);
+    if (result.postTemplatesIndexes.isEmpty) {
       if (isInit.value == false) {
         isDataEmpty.value = true;
       }
       isReachEnd.value = true;
       return;
     }
-    String? newEndCursor;
-    String? newStartCursor;
-    if (body["meta"]["page_info"]["end"] != null) {
-      newEndCursor = body["meta"]["page_info"]["end"];
-    }
-    if (body["meta"]["page_info"]["start"] != null) {
-      newStartCursor = body["meta"]["page_info"]["start"];
-    }
+
     if (after == null && before == null) {
-      firstCursor = newStartCursor!;
-      lastCursor = newEndCursor!;
+      firstCursor = result.startCursor!;
+      lastCursor = result.endCursor!;
     } else if (after != null && before == null) {
-      lastCursor = newEndCursor!;
+      lastCursor = result.endCursor!;
     } else if (before != null && after == null) {
-      firstCursor = newStartCursor!;
+      firstCursor = result.startCursor!;
     }
-    final Map<String, PostTemplatesEntity> newMap = {};
-    final List<String> newIndexes = [];
-    for (var i = 0; i < body["data"].length; i++) {
-      final item = body["data"][i];
-      final id = item["id"];
-      final attributes = item["attributes"];
-      newMap[id] = PostTemplatesEntity.fromJson(attributes);
-      newIndexes.add(id);
-    }
-    if (newIndexes.isNotEmpty) {
-      postTemplatesMap.addAll(newMap);
-      postTemplatesIndexes.addAll(newIndexes);
+
+    if (result.postTemplatesIndexes.isNotEmpty) {
+      postTemplatesMap.addAll(postTemplatesMap);
+      postTemplatesIndexes.addAll(postTemplatesIndexes);
     }
   }
 }

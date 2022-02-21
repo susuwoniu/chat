@@ -77,7 +77,7 @@ const Map<String, String> zh_Hans = {
   "please_fill_up_all_the_cells_properly": "请输入短信验证码",
   "we_have_sent_the_code_to_your_phone": "我们已发送验证码到你的手机：",
   "didn_t_receive_the_code": "没有收到验证码?",
-  " secends": "秒后",
+  " secends": " 秒后",
   "Send": "发送",
   "Succeeded!": "发送成功!",
   'A_verification_code_has_been_sent_to_your_phone.': '验证码已发送，请注意查收。',
@@ -192,4 +192,5 @@ const Map<String, String> zh_Hans = {
   'StarView': '我的收藏',
   'In_chronological_order': '按时间排序',
   'By_hot_degree': '按人气排序',
+  'ExploreView': '探索话题'
 };
