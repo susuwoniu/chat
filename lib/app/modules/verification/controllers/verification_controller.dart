@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/common.dart';
+import 'package:chat/app/common/get_device_id.dart';
 
 class VerificationController extends GetxController {
   //TODO: Implement VerificationController
@@ -13,7 +14,7 @@ class VerificationController extends GetxController {
   final isShowCount = true.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
   }
 
@@ -24,7 +25,10 @@ class VerificationController extends GetxController {
 
   // 发送验证码
   handleSendCode() async {
-    await AccountProvider.to.handleSendCode(countryCode, phoneNumber);
+    final deviceId = await getDeviceId() ?? '';
+
+    await AccountProvider.to.handleSendCode(
+        countryCode: countryCode, phoneNumber: phoneNumber, deviceId: deviceId);
   }
 
   setVerificationCode(String code) {

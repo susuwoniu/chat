@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/common.dart';
+import 'package:chat/app/common/get_device_id.dart';
 
 class LoginController extends GetxController {
   static LoginController get to => Get.find();
@@ -20,8 +21,12 @@ class LoginController extends GetxController {
 
   // 发送验证码
   handleSendCode() async {
-    await AccountProvider.to
-        .handleSendCode(countryCode.value, phoneNumber.value);
+    final deviceId = await getDeviceId() ?? '';
+
+    await AccountProvider.to.handleSendCode(
+        countryCode: countryCode.value,
+        phoneNumber: phoneNumber.value,
+        deviceId: deviceId);
   }
 
   setPhoneNumber(String _phoneNumber, String _countryCode) {

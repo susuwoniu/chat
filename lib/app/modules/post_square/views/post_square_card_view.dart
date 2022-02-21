@@ -19,8 +19,7 @@ class PostSquareCardView extends GetView<PostSquareController> {
     final color = Get.arguments['color'];
 
     final appBar = AppBar(
-        iconTheme:
-            IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
+        iconTheme: IconThemeData(),
         backgroundColor: Colors.transparent,
         leading: IconButton(
             iconSize: 26,

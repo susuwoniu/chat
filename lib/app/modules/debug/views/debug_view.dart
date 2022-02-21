@@ -118,8 +118,10 @@ class DebugView extends GetView<DebugController> {
                     ),
                     onTap: () async {
                       try {
-                        await AccountProvider.to
-                            .handleSendCode(countryCode, phone);
+                        await AccountProvider.to.handleSendCode(
+                            countryCode: countryCode,
+                            phoneNumber: phone,
+                            deviceId: '555');
                         UIUtils.toast("发送成功");
                       } catch (e) {
                         UIUtils.showError(e);
@@ -141,8 +143,12 @@ class DebugView extends GetView<DebugController> {
                       try {
                         RouterProvider.to.setNextPage(NextPage.back());
                         await AccountProvider.to.handleLogin(
-                            countryCode, phone, '123456',
-                            closePageCount: 1, enabledDefaultNexPage: false);
+                            countryCode: countryCode,
+                            phoneNumber: phone,
+                            deviceId: '555',
+                            verificationCode: '123456',
+                            closePageCount: 1,
+                            enabledDefaultNexPage: false);
                         UIUtils.hideLoading();
 
                         UIUtils.toast("登录成功");

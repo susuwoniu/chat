@@ -9,6 +9,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/services.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:timer_count_down/timer_count_down.dart';
+import 'package:chat/app/common/get_device_id.dart';
 
 class VerificationView extends GetView<VerificationController> {
   @override
@@ -219,11 +220,14 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                             );
                             controller.setVerificationCode(currentText);
                           }
+                          final deviceId = await getDeviceId() ?? '';
                           try {
                             await AccountProvider.to.handleLogin(
-                                controller.countryCode,
-                                controller.phoneNumber,
-                                controller.verificationCode.value,
+                                deviceId: deviceId,
+                                countryCode: controller.countryCode,
+                                phoneNumber: controller.phoneNumber,
+                                verificationCode:
+                                    controller.verificationCode.value,
                                 closePageCount: 2,
                                 arguments: Get.arguments);
                           } catch (e) {

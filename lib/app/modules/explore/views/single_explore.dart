@@ -25,24 +25,30 @@ class SingleExplore extends StatelessWidget {
         child: Row(children: [
           Expanded(
               child: Container(
-            margin: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             padding: EdgeInsets.all(12),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(8),
               color: Theme.of(context).colorScheme.primary,
             ),
-            child: Container(
-                alignment: Alignment.centerLeft,
-                child: AutoSizeText(postTemplate.title,
-                    maxLines: 1,
-                    minFontSize: 17,
-                    maxFontSize: 17,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ))),
+            child: Row(children: [
+              Text('# ',
+                  style: TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  )),
+              AutoSizeText(postTemplate.title,
+                  maxLines: 1,
+                  minFontSize: 16,
+                  maxFontSize: 16,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  )),
+            ]),
           )),
         ]));
   }

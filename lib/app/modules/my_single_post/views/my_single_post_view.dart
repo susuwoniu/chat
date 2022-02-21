@@ -19,7 +19,7 @@ import '../../home/views/tag_widget.dart';
 class MySinglePostView extends StatelessWidget {
   final DateFormat formatter = DateFormat('yyyy-MM-dd  HH:mm');
   final imDomain = AppConfig().config.imDomain;
-  final postId = MySinglePostController.to.postId;
+  final postId = Get.arguments['id'] ?? MySinglePostController.to.id.value;
 
   @override
   Widget build(BuildContext context) {

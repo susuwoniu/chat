@@ -4,26 +4,22 @@ import '../controllers/login_controller.dart';
 import 'package:chat/common.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'dart:async';
-
 import 'package:flare_flutter/flare_actor.dart';
 import 'signin_button.dart';
 import 'bear_log_in_controller.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-
 import 'input_helper.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
-    return MyHomePage(title: 'Login Page');
+    return MyHomePage();
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
+  MyHomePage({Key? key}) : super(key: key);
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -37,6 +33,9 @@ class _MyHomePageState extends State<MyHomePage> {
       TextEditingController(text: LoginController.to.phoneNumber.value);
   late bear_log_in_Controller _bear_log_inController;
   final FocusNode _focusNode = FocusNode();
+
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
   @override
   initState() {
     textEditingController.addListener(() {
