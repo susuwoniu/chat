@@ -8,17 +8,11 @@ class LikedMeController extends GetxController {
   final PagingController<String?, String> pagingController =
       PagingController(firstPageKey: null);
 
-  final isLoading = false.obs;
-
   final _isInitial = false.obs;
   bool get isInitial => _isInitial.value;
 
-  final _isReachListEnd = false.obs;
-  bool get isReachListEnd => _isReachListEnd.value;
-
   String? lastCursor;
 
-  final count = 0.obs;
   final likedIdList = RxList<String>([]);
   final likedMap = RxMap<String, SimpleAccountEntity>({});
 
@@ -29,19 +23,6 @@ class LikedMeController extends GetxController {
     });
     super.onInit();
   }
-
-  @override
-  void onReady() async {
-    super.onReady();
-    try {
-      isLoading.value = true;
-    } catch (e) {
-      UIUtils.showError(e);
-    }
-    isLoading.value = false;
-  }
-
-  void increment() => count.value++;
 
   Future<List<String>> getLikedList({String? before, String? after}) async {
     Map<String, dynamic> query = {};
@@ -73,34 +54,25 @@ class LikedMeController extends GetxController {
     bool replace = false,
     String? lastPostId,
   }) async {
-    if (isLoading.value == false) {
-      isLoading.value = true;
-
-      List<String> indexes = [];
-      try {
-        final result = await getLikedList(after: lastPostId);
-        if (_isInitial.value == false) {
-          _isInitial.value = true;
-        }
-        indexes = result;
-        isLoading.value = false;
-      } catch (e) {
-        isLoading.value = false;
-        UIUtils.showError(e);
-        return indexes;
+    List<String> indexes = [];
+    try {
+      final result = await getLikedList(after: lastPostId);
+      if (_isInitial.value == false) {
+        _isInitial.value = true;
       }
-
-      final isLastPage = indexes.isEmpty;
-      if (isLastPage) {
-        _isReachListEnd.value = true;
-        pagingController.appendLastPage(indexes);
-      } else {
-        pagingController.appendPage(indexes, lastCursor);
-      }
-
+      indexes = result;
+    } catch (e) {
+      UIUtils.showError(e);
       return indexes;
-    } else {
-      return [];
     }
+
+    final isLastPage = indexes.isEmpty;
+    if (isLastPage) {
+      pagingController.appendLastPage(indexes);
+    } else {
+      pagingController.appendPage(indexes, lastCursor);
+    }
+
+    return indexes;
   }
 }

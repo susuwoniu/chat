@@ -4,8 +4,9 @@
 
 - [x]  编辑头像需要有拍照的选项，bottomsheet
 - [ ]  从square card返回my single为null(不必现)
-- [ ]  postview bug
+- [ ]  post view bug
 - [ ]  未登录从square card view后退后页面为null
+- [x]  收藏帖子状态bug
 - [ ]  square帖子总数bug
 - [x]  square跳转到room缺少content
 - [x]  聊天气泡padding太大

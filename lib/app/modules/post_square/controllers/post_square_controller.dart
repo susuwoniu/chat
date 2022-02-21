@@ -104,7 +104,6 @@ class PostSquareController extends GetxController {
       final isLastPage = indexes.length < DEFAULT_PAGE_SIZE;
       if (isLastPage) {
         _isReachHomePostsEnd.value = true;
-        // pagingController.appendLastPage(indexes);
       }
       if (indexes.isNotEmpty) {
         homePostsLastCursor = indexes.last;

@@ -8,17 +8,11 @@ class StarController extends GetxController {
   final PagingController<String?, String> pagingController =
       PagingController(firstPageKey: null);
 
-  final isLoading = false.obs;
-
   final _isInitial = false.obs;
   bool get isInitial => _isInitial.value;
 
-  final _isReachListEnd = false.obs;
-  bool get isReachListEnd => _isReachListEnd.value;
-
   String? lastCursor;
 
-  final count = 0.obs;
   final postIndexes = RxList<String>([]);
   final favoriteMap = RxMap<String, FavoriteEntity>({});
   final postMap = RxMap<String, PostEntity>({});
@@ -31,53 +25,38 @@ class StarController extends GetxController {
     super.onInit();
   }
 
-  @override
-  onReady() {
-    super.onReady();
-  }
-
   Future<List<String>> fetchPage({
     bool replace = false,
     String? lastPostId,
   }) async {
-    if (isLoading.value == false) {
-      isLoading.value = true;
+    List<String> indexes = [];
 
-      List<String> indexes = [];
-
-      try {
-        final result = await getFavoritePosts(after: lastPostId);
-        if (_isInitial.value == false) {
-          _isInitial.value = true;
-        }
-        indexes = result.indexes;
-        favoriteMap.addAll(result.favoriteMap);
-        postMap.addAll(result.postMap);
-        AuthProvider.to.simpleAccountMap.addAll(result.accountMap);
-        postIndexes.addAll(indexes);
-
-        if (indexes.isNotEmpty) {
-          lastCursor = result.endCursor;
-        }
-        final isLastPage = indexes.isEmpty;
-        if (isLastPage) {
-          _isReachListEnd.value = true;
-          pagingController.appendLastPage(indexes);
-        } else {
-          final nextPageKey = result.endCursor;
-          pagingController.appendPage(indexes, nextPageKey);
-        }
-        isLoading.value = false;
-      } catch (e) {
-        isLoading.value = false;
-
-        UIUtils.showError(e);
-        return indexes;
+    try {
+      final result = await getFavoritePosts(after: lastPostId);
+      if (_isInitial.value == false) {
+        _isInitial.value = true;
       }
+      indexes = result.indexes;
+      favoriteMap.addAll(result.favoriteMap);
+      postMap.addAll(result.postMap);
+      AuthProvider.to.simpleAccountMap.addAll(result.accountMap);
+      postIndexes.addAll(indexes);
 
+      if (indexes.isNotEmpty) {
+        lastCursor = result.endCursor;
+      }
+      final isLastPage = indexes.isEmpty;
+      if (isLastPage) {
+        pagingController.appendLastPage(indexes);
+      } else {
+        final nextPageKey = result.endCursor;
+        pagingController.appendPage(indexes, nextPageKey);
+      }
+    } catch (e) {
+      UIUtils.showError(e);
       return indexes;
-    } else {
-      return [];
     }
+
+    return indexes;
   }
 }
