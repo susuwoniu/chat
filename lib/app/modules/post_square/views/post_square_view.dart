@@ -40,24 +40,61 @@ class PostSquareView extends GetView<PostSquareController> {
               SliverAppBar(
                 systemOverlayStyle:
                     SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
-                iconTheme: IconThemeData(color: frontColor),
+                iconTheme: IconThemeData(color: Colors.white),
                 stretch: true,
                 pinned: true,
                 backgroundColor: backgroundColor,
                 actions: [
-                  Padding(
-                      padding: EdgeInsets.only(right: 5),
-                      child: IconButton(
-                        splashColor: Colors.transparent,
-                        icon: Icon(Icons.share_rounded, color: frontColor),
-                        onPressed: () async {
-                          final FlutterShareMe flutterShareMe =
-                              FlutterShareMe();
-                          // TODO right share url
-                          final response =
-                              await flutterShareMe.shareToSystem(msg: "test");
-                          print(response);
+                  Container(
+                      padding: EdgeInsets.only(right: 15),
+                      child: DropdownButton<String>(
+                        dropdownColor: Colors.white,
+                        icon:
+                            Icon(Icons.swap_vert_outlined, color: Colors.white),
+                        iconSize: 28,
+                        elevation: 0,
+                        borderRadius: BorderRadius.circular(12),
+                        underline: Container(
+                          height: 0,
+                        ),
+                        onChanged: (String? newValue) {
+                          if (newValue != null) {
+                            controller.setListOrder(newValue);
+                          }
                         },
+                        items: <String>[
+                          'In_chronological_order',
+                          'By_hot_degree'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                              value: value,
+                              child: Obx(
+                                () => Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                          child: Text(
+                                        value.tr,
+                                        style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 15,
+                                            fontWeight:
+                                                controller.listOrder.value ==
+                                                        value
+                                                    ? FontWeight.bold
+                                                    : FontWeight.normal),
+                                      )),
+                                      controller.listOrder.value == value
+                                          ? Icon(
+                                              Icons.check_outlined,
+                                              size: 20,
+                                              color: Color(0xFF7371fc),
+                                            )
+                                          : SizedBox.shrink(),
+                                    ]),
+                              ));
+                        }).toList(),
                       ))
                 ],
                 expandedHeight: (safePadding + height) * 2,

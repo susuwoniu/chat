@@ -12,6 +12,7 @@ class PostSquareController extends GetxController {
       PagingController(firstPageKey: null);
 
   final _id = Get.arguments['id'];
+
   final _usedCount = 0.obs;
   int get usedCount => _usedCount.value;
   final _isInitial = false.obs;
@@ -30,10 +31,18 @@ class PostSquareController extends GetxController {
   bool get isDataEmpty => _isDataEmpty.value;
   String? homePostsLastCursor;
 
+  RxString listOrder = 'In_chronological_order'.obs;
+
   @override
   void onInit() {
     pagingController.addPageRequestListener((lastPostId) {
       fetchPage(lastPostId: lastPostId);
+    });
+    ever(postIndexes, (_) {
+      pagingController.value = PagingState(
+        nextPageKey: homePostsLastCursor,
+        itemList: postIndexes,
+      );
     });
     super.onInit();
   }
@@ -51,7 +60,21 @@ class PostSquareController extends GetxController {
   Future<List<String>> fetchPage({
     bool replace = false,
     String? lastPostId,
+    String? sort,
   }) async {
+    if (replace) {
+      postIndexes.clear();
+      _isInitial.value = false;
+      _isReachHomePostsEnd.value = false;
+      _isDataEmpty.value = false;
+    }
+    if (isReachHomePostsEnd) {
+      pagingController.value = PagingState(
+        nextPageKey: null,
+        itemList: postIndexes,
+      );
+      return [];
+    }
     if (_isLoadingPosts.value == false) {
       _isLoadingPosts.value = true;
 
@@ -59,13 +82,17 @@ class PostSquareController extends GetxController {
 
       try {
         final result = await getApiPosts(
-            after: lastPostId, url: "/post/posts", postTemplateId: _id);
+            after: lastPostId,
+            url: "/post/posts",
+            sort: sort,
+            postTemplateId: _id);
         if (_isInitial.value == false) {
           _isInitial.value = true;
         }
         indexes = result.indexes;
         postMap.addAll(result.postMap);
         postIndexes.addAll(indexes);
+        AuthProvider.to.simpleAccountMap.addAll(result.accountMap);
         _isLoadingPosts.value = false;
       } catch (e) {
         _isLoadingPosts.value = false;
@@ -77,10 +104,7 @@ class PostSquareController extends GetxController {
       final isLastPage = indexes.length < DEFAULT_PAGE_SIZE;
       if (isLastPage) {
         _isReachHomePostsEnd.value = true;
-        pagingController.appendLastPage(indexes);
-      } else {
-        final nextPageKey = indexes.last;
-        pagingController.appendPage(indexes, nextPageKey);
+        // pagingController.appendLastPage(indexes);
       }
       if (indexes.isNotEmpty) {
         homePostsLastCursor = indexes.last;
@@ -99,6 +123,21 @@ class PostSquareController extends GetxController {
     }).catchError((e) {
       UIUtils.showError(e);
     });
+  }
+
+  void setListOrder(String order) async {
+    final sort = order == 'By_hot_degree' ? 'favorite_count' : null;
+
+    if (order != listOrder.value) {
+      listOrder.value = order;
+      fetchPage(sort: sort, replace: true, lastPostId: null).then((data) {
+        if (data.isNotEmpty) {
+          setIndex(index: 0);
+        }
+      }).catchError((e) {
+        UIUtils.showError(e);
+      });
+    }
   }
 
   void setIndex({required int index}) {

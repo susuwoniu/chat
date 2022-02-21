@@ -57,6 +57,7 @@ Future<PostsResult> getApiPosts(
     {String? after,
     String? before,
     String? selectedGender,
+    String? sort,
     int? startAge,
     int? endAge,
     String? postTemplateId,
@@ -71,6 +72,9 @@ Future<PostsResult> getApiPosts(
   };
   if (after != null) {
     query["after"] = after;
+  }
+  if (sort != null) {
+    query["sort"] = sort;
   }
   if (before != null) {
     query["before"] = before;
