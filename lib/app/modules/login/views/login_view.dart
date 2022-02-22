@@ -225,8 +225,9 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       await _controller.handleSendCode();
       UIUtils.toast('验证码发送成功');
+      final currentArguments = Get.arguments ?? {};
       Get.toNamed(Routes.VERIFICATION, arguments: {
-        ...Get.arguments,
+        ...currentArguments,
         "countryCode": _controller.countryCode.value,
         "phoneNumber": _controller.phoneNumber.value
       });

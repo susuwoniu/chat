@@ -1,4 +1,5 @@
 import 'package:chat/app/providers/providers.dart';
+import 'package:chat/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../home/controllers/home_controller.dart';
@@ -32,6 +33,7 @@ class DotWidget extends StatelessWidget {
         child: Column(children: [
           Row(children: [
             Obx(() {
+              final isFavorite = HomeController.to.postMap[postId]?.is_favorite;
               final isStar =
                   HomeController.to.postMap[postId]?.is_favorite ?? false;
               return _buttons(
@@ -40,22 +42,37 @@ class DotWidget extends StatelessWidget {
                   iconSize: 32,
                   onPressed: () async {
                     Navigator.pop(context);
-                    if (isStar) {
-                      try {
-                        await HomeController.to.patchPostCountView(
-                            postId: postId, isPostStar: true, increase: false);
-                        UIUtils.toast("Unmarked.".tr);
-                      } catch (e) {
-                        UIUtils.showError(e);
+                    // if login
+                    if (AuthProvider.to.isLogin) {
+                      if (isStar) {
+                        try {
+                          await HomeController.to.patchPostCountView(
+                              postId: postId,
+                              isPostStar: true,
+                              increase: false,
+                              current: isFavorite);
+                          UIUtils.toast("Unmarked.".tr);
+                        } catch (e) {
+                          UIUtils.showError(e);
+                        }
+                      } else {
+                        try {
+                          await HomeController.to.patchPostCountView(
+                              postId: postId,
+                              isPostStar: true,
+                              increase: true,
+                              current: isFavorite);
+                          UIUtils.toast("Marked.".tr);
+                        } catch (e) {
+                          UIUtils.showError(e);
+                        }
                       }
                     } else {
-                      try {
-                        await HomeController.to.patchPostCountView(
-                            postId: postId, isPostStar: true, increase: true);
-                        UIUtils.toast("Marked.".tr);
-                      } catch (e) {
-                        UIUtils.showError(e);
-                      }
+                      // to login
+
+                      Get.toNamed(
+                        Routes.LOGIN,
+                      );
                     }
                   });
             }),

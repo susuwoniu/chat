@@ -27,7 +27,7 @@ class AccountProvider extends GetxService {
       required String phoneNumber,
       required String verificationCode,
       int? closePageCount,
-      bool enabledDefaultNexPage = true,
+      bool enabledDefaultNexPage = false,
       dynamic arguments}) async {
     final body = await APIProvider().post(
         "/account/phone-sessions/$countryCode/$phoneNumber/$verificationCode",
