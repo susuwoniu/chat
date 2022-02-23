@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:chat/common.dart';
 import '../auth_provider.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:chat/app/common/get_device_id.dart';
 
 class ChatProvider extends GetxService {
   static ChatProvider get to => Get.find();
@@ -63,11 +64,13 @@ class ChatProvider extends GetxService {
       // disable current
       dipose();
       try {
+        // get device id
+        final deviceId = await getDeviceId();
         await ChatProvider.to.login(
             AuthProvider.to.accountId!,
             AppConfig().config.imDomain,
             AuthProvider.to.imAccessToken!,
-            "flutter");
+            deviceId ?? "flutter");
       } catch (e) {
         print(e);
         rethrow;
