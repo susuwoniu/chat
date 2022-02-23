@@ -19,7 +19,9 @@ class BottomNavigationBarController extends GetxController {
   @override
   void onInit() {
     print("onInit main");
-    pageController = PageController(initialPage: page);
+    pageController = PageController(
+      initialPage: page,
+    );
     changePageFromArguments(Get.arguments);
     super.onInit();
   }

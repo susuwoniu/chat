@@ -374,16 +374,30 @@ class HomeController extends GetxController {
   }
 
   Future<void> patchPostCountView(
-      {required String postId, isPostStar = false, bool? increase}) async {
+      {required String postId,
+      isPostStar = false,
+      bool? increase,
+      bool? current = false}) async {
     // change last cursor
 
     if (AuthProvider.to.isLogin) {
       if (isPostStar) {
-        await APIProvider.to.patch("/post/posts/$postId", body: {
-          "favorite_count_action": increase! ? 'increase_one' : 'decrease_one'
-        });
-        postMap[postId]!.is_favorite = increase;
-        HomeController.to.postMap[postId] = postMap[postId]!;
+        if (increase == true && current == null) {
+          // get latest post
+          final result = await APIProvider.to.get('/post/posts/$postId');
+          HomeController.to.postMap[postId] =
+              PostEntity.fromJson(result['data']['attributes']);
+          current = HomeController.to.postMap[postId]!.is_favorite;
+        }
+        if (increase == current) {
+          return;
+        } else {
+          await APIProvider.to.patch("/post/posts/$postId", body: {
+            "favorite_count_action": increase! ? 'increase_one' : 'decrease_one'
+          });
+          postMap[postId]!.is_favorite = increase;
+          HomeController.to.postMap[postId] = postMap[postId]!;
+        }
       } else {
         await CacheProvider.to.setExpiredString(
             'STORAGE_${currentPage}_LAST_CURSOR_KEY',

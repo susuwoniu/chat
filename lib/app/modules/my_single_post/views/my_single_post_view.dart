@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/my_single_post_controller.dart';
 import '../../home/controllers/home_controller.dart';
-import '../../star/controllers/star_controller.dart';
 import 'post_single_viewer.dart';
 import 'package:intl/intl.dart';
 import 'single_post_dot.dart';
@@ -91,19 +90,10 @@ class MySinglePostView extends StatelessWidget {
                                           // ),
                                           Row(children: [
                                             Obx(() {
-                                              final is_favorite;
-                                              if (isLogin) {
-                                                is_favorite = HomeController
-                                                        .to
-                                                        .postMap[postId]
-                                                        ?.is_favorite ??
-                                                    StarController
-                                                        .to
-                                                        .postMap[postId]
-                                                        ?.is_favorite;
-                                              } else {
-                                                is_favorite = false;
-                                              }
+                                              final is_favorite = HomeController
+                                                  .to
+                                                  .postMap[postId]
+                                                  ?.is_favorite;
 
                                               return _star(
                                                   id: postId,
@@ -112,7 +102,7 @@ class MySinglePostView extends StatelessWidget {
                                                           .colorScheme
                                                           .primary,
                                                   color: Color(_frontColor),
-                                                  isStar: is_favorite!);
+                                                  isStar: is_favorite ?? false);
                                             }),
                                             Obx(() => _dotIcon(
                                                 visibility:

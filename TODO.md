@@ -2,6 +2,7 @@
 
 ## Todos
 
+- [ ] 详情页需要能刷新
 - [x]  编辑头像需要有拍照的选项，bottomsheet
 - [ ]  从square card返回my single为null(不必现)
 - [ ]  post view bug
