@@ -6,7 +6,8 @@ import 'package:chat/app/providers/providers.dart';
 
 import 'dart:async';
 
-class MySinglePostController extends GetxController {
+class MySinglePostController extends GetxController
+    with StateMixin<PostEntity> {
   static MySinglePostController get to => Get.find();
 
   final PagingController<String?, String> pagingController =
@@ -86,6 +87,8 @@ class MySinglePostController extends GetxController {
           AuthProvider.to.accountId;
       _visibility.value = HomeController.to.postMap[postId]!.visibility;
       _isInitial.value = true;
+      super.change(HomeController.to.postMap[postId],
+          status: RxStatus.success());
       if (toFetchFirstPage) {
         if (AuthProvider.to.isLogin && isMe) {
           fetchPage(lastPostId: null);
@@ -101,6 +104,7 @@ class MySinglePostController extends GetxController {
             body: {"viewed_count_action": "increase_one"});
       }
     } catch (e) {
+      super.change(null, status: RxStatus.error(e.toString()));
       UIUtils.showError(e);
     }
     isLoading.value = false;
