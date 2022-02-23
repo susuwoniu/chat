@@ -92,8 +92,8 @@ class PostController extends GetxController {
     }
 
     if (result.postTemplatesIndexes.isNotEmpty) {
-      postTemplatesMap.addAll(postTemplatesMap);
-      postTemplatesIndexes.addAll(postTemplatesIndexes);
+      postTemplatesMap.addAll(result.postTemplatesMap);
+      postTemplatesIndexes.addAll(result.postTemplatesIndexes);
     }
   }
 }

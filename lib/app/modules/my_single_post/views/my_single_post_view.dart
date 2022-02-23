@@ -307,22 +307,28 @@ class MySinglePostView extends StatelessWidget {
         padding: EdgeInsets.all(2),
         splashColor: Colors.transparent,
         onPressed: () async {
-          if (isStar) {
-            try {
-              await HomeController.to.patchPostCountView(
-                  postId: id, isPostStar: true, increase: false);
-              UIUtils.toast("Unmarked.".tr);
-            } catch (e) {
-              UIUtils.showError(e);
+          if (AuthProvider.to.isLogin) {
+            if (isStar) {
+              try {
+                await HomeController.to.patchPostCountView(
+                    postId: id, isPostStar: true, increase: false);
+                UIUtils.toast("Unmarked.".tr);
+              } catch (e) {
+                UIUtils.showError(e);
+              }
+            } else {
+              try {
+                await HomeController.to.patchPostCountView(
+                    postId: id, isPostStar: true, increase: true);
+                UIUtils.toast("Marked.".tr);
+              } catch (e) {
+                UIUtils.showError(e);
+              }
             }
           } else {
-            try {
-              await HomeController.to.patchPostCountView(
-                  postId: id, isPostStar: true, increase: true);
-              UIUtils.toast("Marked.".tr);
-            } catch (e) {
-              UIUtils.showError(e);
-            }
+            Get.toNamed(
+              Routes.LOGIN,
+            );
           }
         },
         icon: Icon(
