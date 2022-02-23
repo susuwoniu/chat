@@ -155,11 +155,12 @@ class PostSquareView extends GetView<PostSquareController> {
                         },
                         post: post);
                   })),
+              SliverToBoxAdapter(child: SizedBox(height: 60)),
             ]),
             Positioned(
                 bottom: 35,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 13, vertical: 7),
+                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),

@@ -91,14 +91,19 @@ class MySinglePostView extends StatelessWidget {
                                           // ),
                                           Row(children: [
                                             Obx(() {
-                                              final is_favorite = HomeController
-                                                      .to
-                                                      .postMap[postId]
-                                                      ?.is_favorite ??
-                                                  StarController
-                                                      .to
-                                                      .postMap[postId]
-                                                      ?.is_favorite;
+                                              final is_favorite;
+                                              if (isLogin) {
+                                                is_favorite = HomeController
+                                                        .to
+                                                        .postMap[postId]
+                                                        ?.is_favorite ??
+                                                    StarController
+                                                        .to
+                                                        .postMap[postId]
+                                                        ?.is_favorite;
+                                              } else {
+                                                is_favorite = false;
+                                              }
 
                                               return _star(
                                                   id: postId,

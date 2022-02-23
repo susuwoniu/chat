@@ -135,6 +135,7 @@ const Map<String, String> zh_Hans = {
   "Share": "分享",
   "Join_topic": "加入话题",
   "Choose_report_type": "选择报告类型",
+  'You_have_been_blocked.': '无法查看该用户主页。',
   "Enter_report_description(Optional)": "详细的描述有助于我们更快做出判断。（可选）",
   'Screenshot_of_Evidence(Optional)': '图片证据（可选）',
   'Fraud': '骗子，广告',

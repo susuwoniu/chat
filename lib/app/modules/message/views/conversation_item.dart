@@ -100,12 +100,12 @@ class ConversationItemView extends StatelessWidget {
                                           .colorScheme
                                           .onSurface,
                                     )))),
-                        // SizedBox(width: 6),
-                        // LikeCount(
-                        //     count: likeCount,
-                        //     backgroundColor: Colors.black12,
-                        //     fontSize: 13,
-                        //     iconSize: 12),
+                        SizedBox(width: 6),
+                        LikeCount(
+                            count: likeCount,
+                            backgroundColor: Colors.black12,
+                            fontSize: 13,
+                            iconSize: 12),
                         SizedBox(width: 10),
                       ])),
                   TimeAgo(updatedAt: updatedAt),

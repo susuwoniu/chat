@@ -8,6 +8,7 @@
 - [ ]  未登录从square card view后退后页面为null
 - [x]  收藏帖子状态bug
 - [ ]  square帖子总数bug
+- [ ]  被拉黑之后不能访问主页bug
 - [x]  square跳转到room缺少content
 - [x]  聊天气泡padding太大
 - [x]  room黑暗模式背景色

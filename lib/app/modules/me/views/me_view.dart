@@ -2,7 +2,6 @@ import 'package:chat/app/modules/me/views/small_post.dart';
 import 'package:chat/app/modules/me/views/vip_icon.dart';
 import 'package:chat/app/providers/auth_provider.dart';
 import 'package:chat/app/routes/app_pages.dart';
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:chat/app/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

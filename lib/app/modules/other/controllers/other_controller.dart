@@ -16,6 +16,7 @@ class OtherController extends GetxController {
   final myPostsIndexes = RxList<String>([]);
   final postMap = RxMap<String, PostEntity>({});
   final accountId = Get.arguments['id'];
+  var isBlocked = false.obs;
 
   // final ScrollController listScrollController = ScrollController();
 
@@ -35,6 +36,9 @@ class OtherController extends GetxController {
       super.update();
       // if login
       if (AuthProvider.to.isLogin) {
+        isBlocked.value =
+            AuthProvider.to.simpleAccountMap[Get.arguments['id']]?.is_blocked ??
+                false;
         await APIProvider.to.patch('/account/accounts/$accountId',
             body: {'viewed_count_action': 'increase_one'});
       }
