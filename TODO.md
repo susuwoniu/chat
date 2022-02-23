@@ -1,5 +1,13 @@
 # Todo
 
+
+[line1
+
+line2
+](https://google.com)
+
+<a href="#"><p>line1</p><p>line2</p></a>
+
 ## Todos
 
 - [x]  编辑头像需要有拍照的选项，bottomsheet
@@ -145,6 +153,8 @@
 - [ ] server校验用户名字，用户名字不可重复，校验用户不可是敏感字，品牌字
 - [ ] 设计logo，名字，root页体现，root去掉调试
 - [ ] app官网，以及web的详情页。
+- [ ] 同步消息状态问题，多设备，现在是显示发送失败
+- [ ] 拉黑不生效问题
 
 ## 上线前Check
 

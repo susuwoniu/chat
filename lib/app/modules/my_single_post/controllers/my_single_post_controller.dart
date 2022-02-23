@@ -13,8 +13,8 @@ class MySinglePostController extends GetxController
   final PagingController<String?, String> pagingController =
       PagingController(firstPageKey: null);
 
-  final postId = Get.arguments['id'];
-  final id = ''.obs;
+  late String postId;
+  // final id = ''.obs;
   final _isMe = false.obs;
   bool get isMe => _isMe.value;
   final _visibility = "public".obs;
@@ -41,9 +41,11 @@ class MySinglePostController extends GetxController
   final viewerIdMap = RxMap<String, SimpleAccountEntity>({});
 
   final count = 0.obs;
-
+  late bool isShowReply;
   @override
   void onInit() {
+    postId = Get.arguments['id'];
+    isShowReply = Get.arguments['is_show_reply'] == 'false' ? false : true;
     pagingController.addPageRequestListener((lastPostId) {
       if (!isInitial) {
         toFetchFirstPage = true;
@@ -76,7 +78,6 @@ class MySinglePostController extends GetxController
 
       if (postId != null && HomeController.to.postMap[postId] != null) {
         // do nothing
-        id.value = postId;
       } else {
         // get post
         final result = await APIProvider.to.get('/post/posts/$postId');

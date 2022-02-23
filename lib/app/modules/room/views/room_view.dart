@@ -17,162 +17,184 @@ import './bottom_widget.dart';
 import './bubble_widget.dart';
 import '../../me/views/like_count.dart';
 
-class RoomView extends GetView<RoomController> {
+class RoomView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final messageController = MessageController.to;
-    final roomId = controller.roomId;
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: roomAppBar(
-          context: context,
-          roomId: roomId,
-        ),
-        body: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
-            Flexible(
-              child: Obx(() {
-                final room = messageController.entities[roomId];
+    return GetBuilder<RoomController>(
+        init: RoomController(),
+        tag: Get.arguments['id'],
+        builder: (controller) {
+          final roomId = controller.roomId;
 
-                if (room == null || room.isLoading || !room.isInitDbMessages) {
-                  return Container(
-                      color: Theme.of(context).colorScheme.background,
-                      child: Loading());
-                }
-                final roomInfoId =
-                    messageController.entities[roomId]!.room_info_id;
-                final toAccount = roomInfoId != null
-                    ? AuthProvider.to.simpleAccountMap[roomInfoId]
-                    : null;
-                final roomMessageIndexes =
-                    messageController.roomMessageIndexesMap[roomId];
+          return Scaffold(
+              resizeToAvoidBottomInset: false,
+              appBar: roomAppBar(
+                context: context,
+                roomId: roomId,
+              ),
+              body: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  Flexible(
+                    child: Obx(() {
+                      final room = messageController.entities[roomId];
 
-                final List<types.Message> emptyMessages = [];
-                final messages = roomMessageIndexes != null
-                    ? roomMessageIndexes
-                        .map<types.Message>(
-                            (id) => messageController.messageEntities[id]!)
-                        .toList()
-                    : emptyMessages;
-                final _query = MediaQuery.of(context);
+                      if (room == null ||
+                          room.isLoading ||
+                          !room.isInitDbMessages) {
+                        return Container(
+                            color: Theme.of(context).colorScheme.background,
+                            child: Loading());
+                      }
+                      final roomInfoId =
+                          messageController.entities[roomId]!.room_info_id;
+                      final toAccount = roomInfoId != null
+                          ? AuthProvider.to.simpleAccountMap[roomInfoId]
+                          : null;
+                      final roomMessageIndexes =
+                          messageController.roomMessageIndexesMap[roomId];
 
-                return AnimatedPadding(
-                    padding: EdgeInsets.only(
-                        bottom: _query.viewInsets.bottom +
-                            _query.padding.bottom +
-                            12),
-                    duration: const Duration(milliseconds: 280),
-                    curve: Curves.easeInOut,
-                    child: Chat(
-                      theme: Theme.of(context).colorScheme.brightness ==
-                              Brightness.light
-                          ? DefaultChatTheme(
-                              primaryColor: Theme.of(context).primaryColor,
-                              messageInsetsVertical: 12,
-                              messageInsetsHorizontal: 14,
-                              receivedMessageBodyTextStyle: TextStyle(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                height: 1.5,
-                              ))
-                          : DarkChatTheme(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.surface,
-                              primaryColor: Theme.of(context).primaryColor,
-                              secondaryColor:
-                                  Theme.of(context).colorScheme.background,
-                              receivedMessageBodyTextStyle: TextStyle(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                height: 1.5,
-                              )),
-                      isLastPage: room.isLastPage,
-                      messages: messages,
-                      bubbleBuilder: (
-                        Widget child, {
-                        required types.Message message,
-                        required bool nextMessageInGroup,
-                      }) {
-                        return BubbleWidget(child,
-                            message: message,
-                            nextMessageInGroup: nextMessageInGroup);
-                      },
-                      customBottomWidget: BottomWidget(
-                          onCancelQuote: controller.handleCancelPreview,
-                          quoteMessage: controller.previewMessage,
-                          replyTo: controller.previewMessage != null
-                              ? toAccount?.name
-                              : null,
-                          onAttachmentPressed: () {
-                            _handleImageSelection();
-                          },
-                          onCameraPressed: () {
-                            _handleCameraSelection();
-                          },
-                          onSendPressed: (types.PartialText message) async {
-                            try {
-                              await controller.handleSendPressed(message);
-                            } catch (e) {
-                              UIUtils.showError(e);
-                            }
-                          },
-                          sendButtonVisibilityMode:
-                              SendButtonVisibilityMode.editing),
-                      textMessageBuilder: (
-                        types.TextMessage message, {
-                        required int messageWidth,
-                        required bool showName,
-                      }) {
-                        return TextMessage(
-                          message: message,
-                          showName: showName,
-                          usePreviewData: false,
-                          emojiEnlargementBehavior:
-                              EmojiEnlargementBehavior.multi,
-                          hideBackgroundOnEmojiMessages: true,
-                          onPreviewDataFetched: (types.Message message,
-                              types.PreviewData previewData) {
-                            messageController.handlePreviewDataFetched(
-                                message.id, previewData);
-                          },
-                        );
-                      },
-                      imageMessageBuilder: (message,
-                          {required int messageWidth}) {
-                        return ImageMessage(
-                            message: message, messageWidth: messageWidth);
-                      },
-                      emptyState: ((room.isLoading))
-                          ? Container(
-                              color: Theme.of(context).colorScheme.background,
-                              child: Loading())
-                          : SizedBox.shrink(),
-                      onAttachmentPressed: () {
-                        _handleAtachmentPressed(context);
-                      },
-                      onSendPressed: (types.PartialText message) async {
-                        try {
-                          await controller.handleSendPressed(message);
-                        } catch (e) {
-                          UIUtils.showError(e);
-                        }
-                      },
-                      onMessageTap: _handleMessageTap,
-                      onMessageStatusTap: _handleMessageStatusTap,
-                      onEndReached: controller.handleEndReached,
-                      user: ChatProvider.to.currentChatAccount.value!,
-                    ));
-              }),
-            )
-          ]),
-        ));
+                      final List<types.Message> emptyMessages = [];
+                      final messages = roomMessageIndexes != null
+                          ? roomMessageIndexes
+                              .map<types.Message>((id) =>
+                                  messageController.messageEntities[id]!)
+                              .toList()
+                          : emptyMessages;
+                      final _query = MediaQuery.of(context);
+
+                      return AnimatedPadding(
+                          padding: EdgeInsets.only(
+                              bottom: _query.viewInsets.bottom +
+                                  _query.padding.bottom +
+                                  12),
+                          duration: const Duration(milliseconds: 280),
+                          curve: Curves.easeInOut,
+                          child: Chat(
+                            theme: Theme.of(context).colorScheme.brightness ==
+                                    Brightness.light
+                                ? DefaultChatTheme(
+                                    primaryColor:
+                                        Theme.of(context).primaryColor,
+                                    messageInsetsVertical: 12,
+                                    messageInsetsHorizontal: 14,
+                                    receivedMessageBodyTextStyle: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.5,
+                                    ))
+                                : DarkChatTheme(
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.surface,
+                                    primaryColor:
+                                        Theme.of(context).primaryColor,
+                                    secondaryColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    receivedMessageBodyTextStyle: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.5,
+                                    )),
+                            isLastPage: room.isLastPage,
+                            messages: messages,
+                            bubbleBuilder: (
+                              Widget child, {
+                              required types.Message message,
+                              required bool nextMessageInGroup,
+                            }) {
+                              return BubbleWidget(child,
+                                  message: message,
+                                  nextMessageInGroup: nextMessageInGroup);
+                            },
+                            customBottomWidget: BottomWidget(
+                                onCancelQuote: controller.handleCancelPreview,
+                                quoteMessage: controller.previewMessage,
+                                replyTo: controller.previewMessage != null
+                                    ? toAccount?.name
+                                    : null,
+                                onAttachmentPressed: () {
+                                  _handleImageSelection(controller.roomId);
+                                },
+                                onCameraPressed: () {
+                                  _handleCameraSelection(controller.roomId);
+                                },
+                                onSendPressed:
+                                    (types.PartialText message) async {
+                                  try {
+                                    await controller.handleSendPressed(message);
+                                  } catch (e) {
+                                    UIUtils.showError(e);
+                                  }
+                                },
+                                sendButtonVisibilityMode:
+                                    SendButtonVisibilityMode.editing),
+                            textMessageBuilder: (
+                              types.TextMessage message, {
+                              required int messageWidth,
+                              required bool showName,
+                            }) {
+                              return TextMessage(
+                                message: message,
+                                showName: showName,
+                                usePreviewData: false,
+                                emojiEnlargementBehavior:
+                                    EmojiEnlargementBehavior.multi,
+                                hideBackgroundOnEmojiMessages: true,
+                                onPreviewDataFetched: (types.Message message,
+                                    types.PreviewData previewData) {
+                                  messageController.handlePreviewDataFetched(
+                                      message.id, previewData);
+                                },
+                              );
+                            },
+                            imageMessageBuilder: (message,
+                                {required int messageWidth}) {
+                              return ImageMessage(
+                                  message: message, messageWidth: messageWidth);
+                            },
+                            emptyState: ((room.isLoading))
+                                ? Container(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    child: Loading())
+                                : SizedBox.shrink(),
+                            onAttachmentPressed: () {
+                              _handleAtachmentPressed(
+                                  context, controller.roomId);
+                            },
+                            onSendPressed: (types.PartialText message) async {
+                              try {
+                                await controller.handleSendPressed(message);
+                              } catch (e) {
+                                UIUtils.showError(e);
+                              }
+                            },
+                            onMessageTap: _handleMessageTap,
+                            onMessageStatusTap: (context, message) {
+                              _handleMessageStatusTap(
+                                  context, message, controller.roomId);
+                            },
+                            onEndReached: controller.handleEndReached,
+                            user: ChatProvider.to.currentChatAccount.value!,
+                          ));
+                    }),
+                  )
+                ]),
+              ));
+        });
   }
 
-  void _handleAtachmentPressed(BuildContext context) {
+  void _handleAtachmentPressed(BuildContext context, String roomId) {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -185,7 +207,7 @@ class RoomView extends GetView<RoomController> {
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      _handleImageSelection();
+                      _handleImageSelection(roomId);
                     },
                     child: const Align(
                       alignment: Alignment.centerLeft,
@@ -195,7 +217,7 @@ class RoomView extends GetView<RoomController> {
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      _handleFileSelection();
+                      _handleFileSelection(roomId);
                     },
                     child: const Align(
                       alignment: Alignment.centerLeft,
@@ -216,7 +238,7 @@ class RoomView extends GetView<RoomController> {
     );
   }
 
-  void _handleFileSelection() async {
+  void _handleFileSelection(String roomId) async {
     final messageController = MessageController.to;
 
     try {
@@ -225,14 +247,14 @@ class RoomView extends GetView<RoomController> {
       );
 
       if (result != null && result.files.single.path != null) {
-        await messageController.sendFileMessage(controller.roomId, result);
+        await messageController.sendFileMessage(roomId, result);
       }
     } catch (e) {
       UIUtils.showError(e);
     }
   }
 
-  void _handleImageSelection() async {
+  void _handleImageSelection(String roomId) async {
     final messageController = MessageController.to;
 
     try {
@@ -243,14 +265,14 @@ class RoomView extends GetView<RoomController> {
       );
 
       if (result != null) {
-        await messageController.sendImageMessage(controller.roomId, result);
+        await messageController.sendImageMessage(roomId, result);
       }
     } catch (e) {
       UIUtils.showError(e);
     }
   }
 
-  void _handleCameraSelection() async {
+  void _handleCameraSelection(String roomId) async {
     final messageController = MessageController.to;
 
     try {
@@ -261,7 +283,7 @@ class RoomView extends GetView<RoomController> {
       );
 
       if (result != null) {
-        await messageController.sendImageMessage(controller.roomId, result);
+        await messageController.sendImageMessage(roomId, result);
       }
     } catch (e) {
       UIUtils.showError(e);
@@ -275,11 +297,11 @@ class RoomView extends GetView<RoomController> {
   }
 
   void _handleMessageStatusTap(
-      BuildContext context, types.Message message) async {
+      BuildContext context, types.Message message, String roomId) async {
     if (message.status == types.Status.error) {
       // retry message
       // await MessageController.to.cancelMessage(message);
-      await MessageController.to.resendMessage(controller.roomId, message);
+      await MessageController.to.resendMessage(roomId, message);
     }
   }
 

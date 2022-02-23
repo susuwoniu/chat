@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:async';
 import 'package:chat/utils/string.dart';
-import 'package:characters/characters.dart';
 
 // For the testing purposes, you should probably use https://pub.dev/packages/uuid
 String randomString() {
@@ -18,8 +17,7 @@ String randomString() {
 class RoomController extends GetxController {
   static RoomController get to => Get.find();
 
-  late String _roomId;
-  String get roomId => _roomId;
+  late String roomId;
 
   final Rxn<types.TextMessage> _previewMessage = Rxn();
   types.TextMessage? get previewMessage => _previewMessage.value;
@@ -29,7 +27,7 @@ class RoomController extends GetxController {
   void onInit() {
     final pageArguments = Get.arguments;
     if (pageArguments["id"] != null && pageArguments["id"] is String) {
-      _roomId = pageArguments["id"];
+      roomId = pageArguments["id"];
     }
 
     init();
@@ -55,14 +53,14 @@ class RoomController extends GetxController {
     final messageController = MessageController.to;
     // is room exists
 
-    if (messageController.entities[_roomId] == null) {
-      messageController.entities[_roomId] = Room(
-        _roomId,
+    if (messageController.entities[roomId] == null) {
+      messageController.entities[roomId] = Room(
+        roomId,
         updatedAt: DateTime.now(),
-        room_info_id: jidToAccountId(_roomId),
+        room_info_id: jidToAccountId(roomId),
       );
     }
-    messageController.setCurrentRoomId(_roomId);
+    messageController.setCurrentRoomId(roomId);
     initQuote();
   }
 
@@ -98,24 +96,24 @@ class RoomController extends GetxController {
     if (!messageController.isInitRooms) {
       return;
     }
-    if (messageController.entities[_roomId]!.isLoading == true) {
+    if (messageController.entities[roomId]!.isLoading == true) {
       return;
     }
     final room = messageController.getCurrentRoom();
     if (room != null && !room.isInitDbMessages) {
       try {
-        messageController.entities[_roomId]!.isLoading = true;
+        messageController.entities[roomId]!.isLoading = true;
 
-        await MessageController.to.getRoomEarlierMessage(_roomId);
+        await MessageController.to.getRoomEarlierMessage(roomId);
 
-        messageController.entities[_roomId]!.isLoading = false;
+        messageController.entities[roomId]!.isLoading = false;
       } catch (e) {
-        messageController.entities[_roomId]!.isLoading = false;
+        messageController.entities[roomId]!.isLoading = false;
 
         print(e);
       }
     }
-    messageController.markRoomAsRead(_roomId);
+    messageController.markRoomAsRead(roomId);
   }
 
   @override
@@ -140,7 +138,7 @@ class RoomController extends GetxController {
 
   Future<void> handleEndReached() async {
     final messageController = MessageController.to;
-    await messageController.getRoomEarlierMessage(_roomId);
+    await messageController.getRoomEarlierMessage(roomId);
   }
 
   void handleCancelPreview() {
@@ -153,18 +151,18 @@ class RoomController extends GetxController {
     try {
       if (_previewMessage.value != null) {
         // messageController.sendTextMessage(
-        //     _roomId,
+        //     roomId,
         //     types.PartialText(
         //       text: _previewMessage.value!.text,
         //     ));
 
         messageController.sendTextMessage(
-            _roomId,
+            roomId,
             types.PartialText(
                 text: _previewMessage.value!.text + "\n\n" + message.text));
         _previewMessage.value = null;
       } else {
-        messageController.sendTextMessage(_roomId, message);
+        messageController.sendTextMessage(roomId, message);
       }
     } catch (e) {
       rethrow;

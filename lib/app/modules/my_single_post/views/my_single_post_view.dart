@@ -19,17 +19,12 @@ import '../../home/views/tag_widget.dart';
 class MySinglePostView extends StatelessWidget {
   final DateFormat formatter = DateFormat('yyyy-MM-dd  HH:mm');
   final imDomain = AppConfig().config.imDomain;
-  final postId = Get.arguments['id'] ?? MySinglePostController.to.id.value;
 
   @override
   Widget build(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
     final isLogin = AuthProvider.to.isLogin;
     final account = AuthProvider.to.account.value;
-
-    // final String _createAt =
-    //     formatter.format(DateTime.parse(_post.created_at));
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       resizeToAvoidBottomInset: false,
@@ -38,7 +33,7 @@ class MySinglePostView extends StatelessWidget {
           foregroundColor: Theme.of(context).colorScheme.onBackground),
       body: GetBuilder<MySinglePostController>(
           init: MySinglePostController(),
-          tag: postId,
+          tag: Get.arguments['id'],
           builder: (controller) {
             return RefreshIndicator(
                 backgroundColor: Theme.of(context).colorScheme.surface,
@@ -46,6 +41,8 @@ class MySinglePostView extends StatelessWidget {
                       () => controller.pagingController.refresh(),
                     ),
                 child: controller.obx((state) {
+                  final postId = controller.postId;
+
                   final _post = HomeController.to.postMap[postId];
                   final authorId = _post!.accountId;
 
@@ -168,28 +165,30 @@ class MySinglePostView extends StatelessWidget {
                                               color: Color(_frontColor)),
                                         )
                                       ]))
-                                  : Positioned(
-                                      bottom: 5,
-                                      right: 16,
-                                      left: 16,
-                                      child: ChatBox(
-                                          postAuthorName: author ?? '--',
-                                          account: account,
-                                          isLogin: isLogin,
-                                          postId: postId,
-                                          onPressed: () {
-                                            Get.toNamed(Routes.ROOM,
-                                                arguments: {
-                                                  "id":
-                                                      "${_post.accountId}@$imDomain",
-                                                  "quote_background_color":
-                                                      _post.backgroundColor,
-                                                  "reduce": "false",
-                                                  "quote": quoteWithLink(
-                                                      _content, postId)
-                                                });
-                                          }),
-                                    ),
+                                  : controller.isShowReply
+                                      ? Positioned(
+                                          bottom: 5,
+                                          right: 16,
+                                          left: 16,
+                                          child: ChatBox(
+                                              postAuthorName: author ?? '--',
+                                              account: account,
+                                              isLogin: isLogin,
+                                              postId: postId,
+                                              onPressed: () {
+                                                Get.toNamed(Routes.ROOM,
+                                                    arguments: {
+                                                      "id":
+                                                          "${_post.accountId}@$imDomain",
+                                                      "quote_background_color":
+                                                          _post.backgroundColor,
+                                                      "reduce": "false",
+                                                      "quote": quoteWithLink(
+                                                          _content, postId)
+                                                    });
+                                              }),
+                                        )
+                                      : SizedBox.shrink(),
                             ]))),
                     PagedSliverList<String?, String>(
                       pagingController: controller.pagingController,

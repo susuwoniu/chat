@@ -3,10 +3,13 @@ import 'package:characters/characters.dart';
 
 quoteWithLink(String quote, String id) {
   final maxLength = 100;
-  if (quote.length > maxLength) {
-    quote = quote.characters.take(maxLength).join();
-    quote = quote + '...';
+  // remove line
+  var quoteWithoutLine = quote.replaceAll(('\n'), ' ');
+  if (quoteWithoutLine.length > maxLength) {
+    quoteWithoutLine = quoteWithoutLine.characters.take(maxLength).join();
+    quoteWithoutLine = quoteWithoutLine + '...';
   }
-  quote = "[$quote]($MAIN_HOST/post?id=$id)";
-  return quote;
+  quoteWithoutLine =
+      "[$quoteWithoutLine]($MAIN_HOST/post?id=$id&is_show_reply=false)";
+  return quoteWithoutLine;
 }

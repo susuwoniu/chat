@@ -23,6 +23,9 @@ class ReportView extends GetView<ReportController> {
 
   @override
   Widget build(BuildContext context) {
+    final String? _related_post_id = Get.arguments['related_post_id'];
+    final String? _related_account_id = Get.arguments['related_account_id'];
+    final tag = _related_post_id ?? "" + (_related_account_id ?? "");
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         resizeToAvoidBottomInset: false,
@@ -35,109 +38,121 @@ class ReportView extends GetView<ReportController> {
               ),
               preferredSize: Size.fromHeight(0)),
         ),
-        body: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 12),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 10),
-                    GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return ReportSheet();
-                              });
-                        },
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(5, 0, 0, 8),
-                          decoration: BoxDecoration(
-                              border: Border(
-                            bottom: BorderSide(
-                              color: Theme.of(context).dividerColor,
+        body: GetBuilder<ReportController>(
+            init: ReportController(),
+            tag: tag,
+            builder: (controller) {
+              return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 12),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 10),
+                          GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return ReportSheet();
+                                    });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(5, 0, 0, 8),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                  bottom: BorderSide(
+                                    color: Theme.of(context).dividerColor,
+                                  ),
+                                )),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Obx(() => Text(
+                                            controller.reportType.value == ''
+                                                ? 'Choose_report_type'.tr
+                                                : Type[controller
+                                                        .reportType.value]!
+                                                    .tr,
+                                            style: TextStyle(fontSize: 17),
+                                          )),
+                                      Icon(
+                                        Icons.chevron_right_rounded,
+                                        size: 40,
+                                      )
+                                    ]),
+                              )),
+                          SizedBox(height: 15),
+                          TextField(
+                            controller: _textController,
+                            maxLines: 5,
+                            keyboardType: TextInputType.multiline,
+                            style: TextStyle(fontSize: 16, height: 1.6),
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 5),
+                              hintText: 'Enter_report_description(Optional)'.tr,
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).dividerColor,
+                                    width: 1),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).dividerColor,
+                                    width: 1),
+                              ),
+                              disabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).dividerColor,
+                                    width: 1),
+                              ),
                             ),
-                          )),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Obx(() => Text(
-                                      controller.reportType.value == ''
-                                          ? 'Choose_report_type'.tr
-                                          : Type[controller.reportType.value]!
-                                              .tr,
-                                      style: TextStyle(fontSize: 17),
-                                    )),
-                                Icon(
-                                  Icons.chevron_right_rounded,
-                                  size: 40,
-                                )
-                              ]),
-                        )),
-                    SizedBox(height: 15),
-                    TextField(
-                      controller: _textController,
-                      maxLines: 5,
-                      keyboardType: TextInputType.multiline,
-                      style: TextStyle(fontSize: 16, height: 1.6),
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 5),
-                        hintText: 'Enter_report_description(Optional)'.tr,
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).dividerColor, width: 1),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).dividerColor, width: 1),
-                        ),
-                        disabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).dividerColor, width: 1),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        child: Text('Screenshot_of_Evidence(Optional)'.tr,
-                            style: TextStyle(fontSize: 16))),
-                    SizedBox(height: 15),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: Obx(() => controller.isShowBlank.value
-                          ? BlankImage(
-                              page: 'report',
-                              onPressed: () {
-                                _uploadScreenshot();
+                          ),
+                          SizedBox(height: 20),
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              child: Text('Screenshot_of_Evidence(Optional)'.tr,
+                                  style: TextStyle(fontSize: 16))),
+                          SizedBox(height: 15),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5),
+                            child: Obx(() => controller.isShowBlank.value
+                                ? BlankImage(
+                                    page: 'report',
+                                    onPressed: () {
+                                      _uploadScreenshot();
+                                    })
+                                : SingleImage(img: controller.imgEntity!)),
+                          ),
+                          SizedBox(height: 20),
+                          NextButton(
+                              text: 'Submit'.tr,
+                              onPressed: () async {
+                                if (controller.reportType.value != '') {
+                                  try {
+                                    await controller.onPressReport(
+                                        content: _textController.text.isEmpty
+                                            ? ''
+                                            : _textController.text);
+                                    UIUtils.toast(
+                                        'Thank_you_for_reporting!'.tr);
+                                    _textController.clear();
+                                    Get.back();
+                                  } catch (e) {
+                                    UIUtils.showError(e);
+                                  }
+                                } else {
+                                  UIUtils.showError(
+                                      'Please_choose_a_report_type.'.tr);
+                                }
                               })
-                          : SingleImage(img: controller.imgEntity!)),
-                    ),
-                    SizedBox(height: 20),
-                    NextButton(
-                        text: 'Submit'.tr,
-                        onPressed: () async {
-                          if (controller.reportType.value != '') {
-                            try {
-                              await controller.onPressReport(
-                                  content: _textController.text.isEmpty
-                                      ? ''
-                                      : _textController.text);
-                              UIUtils.toast('Thank_you_for_reporting!'.tr);
-                              _textController.clear();
-                              Get.back();
-                            } catch (e) {
-                              UIUtils.showError(e);
-                            }
-                          } else {
-                            UIUtils.showError(
-                                'Please_choose_a_report_type.'.tr);
-                          }
-                        })
-                  ]),
-            )));
+                        ]),
+                  ));
+            }));
   }
 
   Future<void> _uploadScreenshot() async {
