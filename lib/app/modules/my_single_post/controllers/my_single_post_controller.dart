@@ -1,9 +1,7 @@
-import 'package:chat/app/providers/api_provider.dart';
 import 'package:get/get.dart';
 import '../../home/controllers/home_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:chat/common.dart';
-import 'package:flutter/services.dart';
 import 'package:chat/app/providers/providers.dart';
 
 import 'dart:async';
@@ -45,8 +43,6 @@ class MySinglePostController extends GetxController {
 
   @override
   void onInit() {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-
     pagingController.addPageRequestListener((lastPostId) {
       if (!isInitial) {
         toFetchFirstPage = true;

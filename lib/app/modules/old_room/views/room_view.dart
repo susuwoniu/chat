@@ -11,7 +11,6 @@ class RoomView extends GetView<RoomController> {
   // MODIFIED
   final _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
-  final FocusNode _blankNode = FocusNode();
   final _controller = RoomController.to;
   final ItemScrollController _scrollController = ItemScrollController();
 
