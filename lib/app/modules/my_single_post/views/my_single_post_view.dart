@@ -42,6 +42,9 @@ class MySinglePostView extends StatelessWidget {
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         resizeToAvoidBottomInset: false,
+        // appBar: AppBar(
+        //     leading: null,
+        //     foregroundColor: Theme.of(context).colorScheme.onBackground),
         body: SafeArea(
           child: GetBuilder<MySinglePostController>(
               init: MySinglePostController(),

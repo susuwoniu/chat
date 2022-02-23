@@ -13,7 +13,7 @@ Widget MaxText(String text, BuildContext context,
   return Flexible(
     child: LayoutBuilder(builder: (context, constraints) {
       final double minFontsize = 20;
-      final maxLines = (constraints.maxHeight / minFontsize / 1.8).floor();
+      final maxLines = (constraints.maxHeight / minFontsize / 1.82).floor();
       return AutoSizeText(
         text,
         style: style,

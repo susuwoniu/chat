@@ -54,7 +54,7 @@ class CreateController extends GetxController {
     Color theBackgroundColor,
     String text,
   ) {
-    answer = text;
+    answer = text.trim();
     backgroundColor = theBackgroundColor;
     frontColor = style.color ?? Colors.white;
     _isComposing.value = answer.isNotEmpty;

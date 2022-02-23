@@ -7,6 +7,8 @@
 - [ ]  从square card返回my single为null(不必现)
 - [ ]  post view bug
 - [ ]  未登录从square card view后退后页面为null
+- [ ]  room bug
+- [ ]  single post appbar theme
 - [x]  收藏帖子状态bug
 - [ ]  square帖子总数bug
 - [ ]  被拉黑之后不能访问主页bug

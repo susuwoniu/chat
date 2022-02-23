@@ -1,4 +1,3 @@
-import 'package:chat/app/modules/other/controllers/other_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/common.dart';
 import 'package:get/get.dart';
@@ -286,7 +285,6 @@ class RoomView extends GetView<RoomController> {
 
   AppBar roomAppBar({required BuildContext context, required String roomId}) {
     final _width = MediaQuery.of(context).size.width;
-    final _controller = OtherController.to;
 
     return AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -330,36 +328,6 @@ class RoomView extends GetView<RoomController> {
                       ? roomAccount!.like_count
                       : 0,
                   backgroundColor: Colors.transparent,
-                  onTap: () async {
-                    _controller.accountAction(increase: !roomAccount!.is_liked);
-                    if (!roomAccount.is_liked) {
-                      try {
-                        await _controller.postLikeCount(roomInfoId!);
-                        UIUtils.toast('Liked!'.tr);
-                        final currentAccount =
-                            AuthProvider.to.simpleAccountMap[roomInfoId]!;
-                        currentAccount.like_count += 1;
-                        AuthProvider.to.simpleAccountMap[roomInfoId] =
-                            currentAccount;
-                      } catch (e) {
-                        UIUtils.showError(e);
-                        _controller.accountAction(increase: false);
-                      }
-                    } else {
-                      try {
-                        await _controller.cancelLikeCount(roomInfoId!);
-                        UIUtils.toast('Successfully_unliked.'.tr);
-                        final currentAccount =
-                            AuthProvider.to.simpleAccountMap[roomInfoId]!;
-                        currentAccount.like_count -= 1;
-                        AuthProvider.to.simpleAccountMap[roomInfoId] =
-                            currentAccount;
-                      } catch (e) {
-                        UIUtils.showError(e);
-                        _controller.accountAction(increase: true);
-                      }
-                    }
-                  },
                 ),
               ]);
         }),
