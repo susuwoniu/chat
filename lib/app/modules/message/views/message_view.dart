@@ -25,19 +25,22 @@ class MessageView extends GetView<MessageController> {
                   color: Theme.of(context).dividerColor,
                 ),
                 preferredSize: Size.fromHeight(0)),
-            // actions: [
-            //   IconButton(
-            //     splashColor: Colors.transparent,
-            //     icon: Icon(Icons.add_circle_outline_outlined, size: 26),
-            //     onPressed: () {
-            //     },
-            //   )
-            // ],
+            actions: [
+              IconButton(
+                splashColor: Colors.transparent,
+                icon: Icon(Icons.close, size: 26),
+                onPressed: () {
+                  _chatProvider.closeConnection();
+                },
+              )
+            ],
             title: Obx(() => Text(
                   controller.isLoadingRooms || !controller.isInitRooms
                       ? "Loading...".tr
-                      : _chatProvider.connectionState ==
-                              xmpp.ConnectionState.connected
+                      : (_chatProvider.connectionState ==
+                                  xmpp.ConnectionState.connected ||
+                              _chatProvider.connectionState ==
+                                  xmpp.ConnectionState.resumed)
                           ? "Chats".tr
                           : "Network_error".tr,
                   style: TextStyle(

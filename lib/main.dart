@@ -18,7 +18,7 @@ Future<void> main() async {
   );
   await Global.init();
   Global().runOnetimeTask();
-
+  // TODO
   // run global timer task
   Global().runGlobalTask();
 

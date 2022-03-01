@@ -58,6 +58,13 @@ class ChatProvider extends GetxService {
     }
   }
 
+  void closeConnection() {
+    if (_connection != null) {
+      _connection!.close();
+      // _connection!.handleCloseState();
+    }
+  }
+
   Future<void> connect() async {
     // init im login
     if (AuthProvider.to.isLogin) {
@@ -129,13 +136,9 @@ class ChatProvider extends GetxService {
           _roomManager!.connectionUpdated.listen((event) {
         rawConnectionState.value = event.id;
       });
-    }
-
-    if (_connection!.state == xmpp.XmppConnectionState.ForcefullyClosed ||
-        _connection!.state == xmpp.XmppConnectionState.Closed) {
-      _connection!.reconnect();
-    } else {
       _connection!.connect();
+    } else {
+      _connection!.reconnect();
     }
     _isInitingConnection = false;
   }
