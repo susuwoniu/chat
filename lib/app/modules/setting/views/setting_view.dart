@@ -34,7 +34,9 @@ class SettingView extends GetView<SettingController> {
                     title: Text('Phone'.tr),
                     value: Text(
                       _account.phone_number ?? "",
-                      style: TextStyle(fontSize: 15, color: Colors.black54),
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
                     ),
                   ),
                 ]),
@@ -43,7 +45,9 @@ class SettingView extends GetView<SettingController> {
                     title: Text('Language'.tr),
                     value: Text(
                       'English',
-                      style: TextStyle(fontSize: 15, color: Colors.black54),
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
                     ),
                     // leading: Icon(Icons.language),
                     onPressed: (BuildContext context) {

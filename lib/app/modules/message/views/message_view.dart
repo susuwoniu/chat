@@ -6,7 +6,6 @@ import './conversation_item.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/types/types.dart';
 import 'package:xmpp_stone/xmpp_stone.dart' as xmpp;
-import 'package:flutter/services.dart';
 
 class MessageView extends GetView<MessageController> {
   @override
@@ -26,13 +25,13 @@ class MessageView extends GetView<MessageController> {
                 ),
                 preferredSize: Size.fromHeight(0)),
             actions: [
-              IconButton(
-                splashColor: Colors.transparent,
-                icon: Icon(Icons.close, size: 26),
-                onPressed: () {
-                  _chatProvider.closeConnection();
-                },
-              )
+              // IconButton(
+              //   splashColor: Colors.transparent,
+              //   icon: Icon(Icons.close, size: 26),
+              //   onPressed: () {
+              //     _chatProvider.closeConnection();
+              //   },
+              // )
             ],
             title: Obx(() => Text(
                   controller.isLoadingRooms || !controller.isInitRooms

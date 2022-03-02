@@ -299,7 +299,7 @@ class MessageController extends GetxController {
       message,
     ));
     try {
-      roomManager.sendMessage(roomId, message);
+      await roomManager.sendMessage(roomId, message);
     } catch (e) {
       rethrow;
     }
