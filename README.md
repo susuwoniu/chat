@@ -25,6 +25,13 @@ A new Flutter project.
 - Icons <https://fonts.google.com/icons?selected=Material+Icons>
 ## Tips
 
+### build debug android
+
+```bash
+flutter build apk --debug
+adb push build/app/outputs/flutter-apk/app-debug.apk /sdcard/Download
+```
+
 ### 获取权限 
 
 ```dart

@@ -4,6 +4,10 @@
 
 ## Todos
 
+- [ ] android 推送
+- [ ] android 话题页title溢出
+- [ ] 话题页点击加入话题，提示没有跳转vip，vip页面最好展示下次发帖时间
+- [ ] 会员也有限制时间，所以不能弹出vip窗口，应该显示下次发帖时间的提示，做一个状态弹窗吧，下方加一个加入会员的提示
 - [x]  编辑头像需要有拍照的选项，bottomsheet
 - [ ]  从square card返回my single为null(不必现)
 - [x]  post view bug
