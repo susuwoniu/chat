@@ -35,8 +35,8 @@ class Global {
     await dotenv.load(fileName: ".env");
     // check must env variables
     const String env = String.fromEnvironment(
-      'env',
-      defaultValue: AppConfig.DEV,
+      'ENV',
+      defaultValue: AppConfig.PROD,
     );
 
     AppConfig().initConfig(env);

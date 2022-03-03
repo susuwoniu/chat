@@ -96,7 +96,7 @@ class PostSquareView extends GetView<PostSquareController> {
                         }).toList(),
                       ))
                 ],
-                expandedHeight: (safePadding + height) * 2,
+                expandedHeight: 200,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
                       padding: EdgeInsets.fromLTRB(
@@ -106,7 +106,7 @@ class PostSquareView extends GetView<PostSquareController> {
                         Text('# ' + _title,
                             maxLines: 3,
                             style: TextStyle(
-                                fontSize: 24.0,
+                                fontSize: 20.0,
                                 fontWeight: FontWeight.w500,
                                 overflow: TextOverflow.ellipsis,
                                 color: frontColor)),

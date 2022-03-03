@@ -122,8 +122,11 @@ class ChatProvider extends GetxService {
       currentChatAccount(types.User(id: _currentAccount!.userAtDomain));
       _roomManager = xmpp.RoomManager.getInstance(_connection!);
       if (AppConfig.to.isDev) {
+        print("isDev: ${AppConfig.to.isDev}");
         xmpp.Log.logXmpp = true;
         xmpp.Log.logLevel = xmpp.LogLevel.DEBUG;
+      } else {
+        print("isProd");
       }
 
       try {

@@ -57,7 +57,7 @@ class MeView extends GetView<MeController> {
         body: RefreshIndicator(
           backgroundColor: Theme.of(context).colorScheme.surface,
           onRefresh: () => Future.sync(
-            () => controller.pagingController.refresh(),
+            () => controller.refreshData(),
           ),
           child: CustomScrollView(slivers: [
             SliverToBoxAdapter(child: Obx(() {

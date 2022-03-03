@@ -136,9 +136,7 @@ class MessageView extends GetView<MessageController> {
                       }
 
                       return ConversationItemView(
-                          onTap: (index) {
-                            controller.toRoom(index);
-                          },
+                          onTap: controller.toRoom,
                           onDismiss: controller.onDismiss,
                           isLast: index == controller.entities.length - 1,
                           context: context,

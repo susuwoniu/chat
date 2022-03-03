@@ -14,6 +14,8 @@ class Log {
       Logger.level = Level.debug;
     } else {
       Logger.level = Level.warning;
+
+      // Logger.level = Level.warning;
     }
     _instance = Logger();
   }
