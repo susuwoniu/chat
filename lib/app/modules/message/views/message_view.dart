@@ -25,17 +25,20 @@ class MessageView extends GetView<MessageController> {
                 ),
                 preferredSize: Size.fromHeight(0)),
             actions: [
-              // IconButton(
-              //   splashColor: Colors.transparent,
-              //   icon: Icon(Icons.close, size: 26),
-              //   onPressed: () {
-              //     _chatProvider.closeConnection();
-              //   },
-              // )
+              IconButton(
+                splashColor: Colors.transparent,
+                icon: Icon(Icons.close, size: 26),
+                onPressed: () {
+                  _chatProvider.closeConnection();
+                },
+              )
             ],
             title: Obx(() => Text(
-                  controller.isLoadingRooms || !controller.isInitRooms
-                      ? "Loading...".tr
+                  (controller.isLoadingRooms &&
+                              _chatProvider.connectionState ==
+                                  xmpp.ConnectionState.connecting) ||
+                          !controller.isInitRooms
+                      ? "Connecting...".tr
                       : (_chatProvider.connectionState ==
                                   xmpp.ConnectionState.connected ||
                               _chatProvider.connectionState ==
@@ -80,11 +83,8 @@ class MessageView extends GetView<MessageController> {
                   color: Theme.of(context).colorScheme.background,
                   // child: Container(color: Colors.red, height: 50)
                   child: (_chatProvider.connectionState ==
-                                  xmpp.ConnectionState.connecting ||
-                              _chatProvider.connectionState ==
-                                  xmpp.ConnectionState.disconnected) &&
-                          controller.isInitRooms &&
-                          !controller.isLoadingRooms
+                              xmpp.ConnectionState.disconnected) &&
+                          controller.isInitRooms
                       ? SizedBox(
                           width: double.infinity,
                           child: ElevatedButton.icon(
@@ -101,7 +101,7 @@ class MessageView extends GetView<MessageController> {
                                 controller.setIsLoading(true);
                                 try {
                                   await _chatProvider.reconnect();
-                                  controller.setIsLoading(false);
+                                  // controller.setIsLoading(false);
                                 } catch (e) {
                                   UIUtils.showError(e);
                                   controller.setIsLoading(false);

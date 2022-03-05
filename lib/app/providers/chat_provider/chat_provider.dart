@@ -60,8 +60,9 @@ class ChatProvider extends GetxService {
 
   void closeConnection() {
     if (_connection != null) {
-      _connection!.close();
-      // _connection!.handleCloseState();
+      // _connection!.close();
+      _connection!.handleCloseState();
+      _connection!.closeSocket();
     }
   }
 
@@ -127,6 +128,9 @@ class ChatProvider extends GetxService {
         xmpp.Log.logLevel = xmpp.LogLevel.DEBUG;
       } else {
         print("isProd");
+        // TODO
+        xmpp.Log.logXmpp = true;
+        xmpp.Log.logLevel = xmpp.LogLevel.DEBUG;
       }
 
       try {

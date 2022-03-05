@@ -16,6 +16,7 @@ const Map<String, String> zh_Hans = {
   'Room': '房间',
   'Loading': '加载中',
   'Loading...': '加载中...',
+  'Connecting...': "连接中...",
   'Network_error': '连接失败',
   'Chats': '聊天',
   'Chat': '聊天',
