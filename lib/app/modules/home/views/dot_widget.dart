@@ -68,8 +68,6 @@ class DotWidget extends StatelessWidget {
                         }
                       }
                     } else {
-                      // to login
-
                       Get.toNamed(
                         Routes.LOGIN,
                       );
@@ -94,6 +92,24 @@ class DotWidget extends StatelessWidget {
                 text: 'Report',
                 onPressed: onPressedReport)
           ]),
+          Row(children: [
+            Expanded(
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Get.toNamed(Routes.MY_SINGLE_POST,
+                          arguments: {"id": postId}, preventDuplicates: false);
+                    },
+                    child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 18),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.background,
+                            borderRadius: BorderRadius.circular(10)),
+                        child:
+                            Text('More'.tr, style: TextStyle(fontSize: 16)))))
+          ]),
+          SizedBox(height: 20),
           Row(children: [
             Expanded(
                 child: GestureDetector(
@@ -127,7 +143,7 @@ class DotWidget extends StatelessWidget {
             },
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 10),
-              margin: EdgeInsets.only(bottom: 15),
+              margin: EdgeInsets.only(bottom: 8),
               decoration: BoxDecoration(
                   color: Color(0xfff2f2f7),
                   borderRadius: BorderRadius.circular(10)),

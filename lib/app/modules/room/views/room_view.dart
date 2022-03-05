@@ -70,8 +70,8 @@ class RoomView extends StatelessWidget {
                               bottom: _query.viewInsets.bottom +
                                   _query.padding.bottom +
                                   12),
-                          duration: const Duration(milliseconds: 280),
-                          curve: Curves.easeInOut,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.linearToEaseOut,
                           child: Chat(
                             theme: Theme.of(context).colorScheme.brightness ==
                                     Brightness.light
@@ -341,9 +341,9 @@ class RoomView extends StatelessWidget {
                   room != null && room.isLoading
                       ? Text("Loading".tr, style: TextStyle(fontSize: 16))
                       : Container(
-                          width: _width * 0.45,
+                          width: _width * 0.5,
                           child: Text(roomAccount?.name ?? jidToName(room!.id),
-                              style: TextStyle(fontSize: 16))),
+                              style: TextStyle(fontSize: 15))),
                 ]),
                 LikeCount(
                   count: roomAccount?.like_count != null

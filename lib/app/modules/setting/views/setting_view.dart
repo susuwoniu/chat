@@ -39,32 +39,28 @@ class SettingView extends GetView<SettingController> {
                   ),
                 ]),
                 SettingsSection(title: Text('General'.tr), tiles: [
-                  SettingsTile(
-                    title: Text('Language'.tr),
-                    value: Text(
-                      'English',
-                      style: TextStyle(fontSize: 15, color: Colors.black54),
-                    ),
-                    // leading: Icon(Icons.language),
-                    onPressed: (BuildContext context) {
-                      Get.bottomSheet(
-                          Container(
-                            child: Wrap(
-                              children: <Widget>[
-                                ListTile(
-                                    title: Text('simplified-chinese'.tr),
-                                    onTap: () {}),
-                                ListTile(
-                                  title: Text('English'.tr),
-                                  onTap: () {},
-                                ),
-                              ],
-                            ),
-                          ),
-                          ignoreSafeArea: false,
-                          backgroundColor: context.theme.backgroundColor);
-                    },
-                  ),
+                  // SettingsTile(
+                  //   title: Text('Language'.tr),
+                  //   value: Text(
+                  //     'English',
+                  //     style: TextStyle(fontSize: 15, color: Colors.black54),
+                  //   ),
+                  //   // leading: Icon(Icons.language),
+                  //   onPressed: (BuildContext context) {
+                  //     Get.bottomSheet(
+                  //         Padding(
+                  //             padding: EdgeInsets.only(bottom: 30),
+                  //             child: Wrap(children: <Widget>[
+                  //               ListTile(
+                  //                   title: Text('simplified-chinese'.tr),
+                  //                   onTap: () {}),
+                  //               ListTile(
+                  //                   title: Text('English'.tr), onTap: () {}),
+                  //             ])),
+                  //         ignoreSafeArea: false,
+                  //         backgroundColor: context.theme.backgroundColor);
+                  //   },
+                  // ),
                   SettingsTile.switchTile(
                     initialValue: ConfigProvider.to.nightMode.value,
                     title: Text('Night-mode'.tr),
