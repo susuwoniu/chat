@@ -5,8 +5,9 @@ import 'dart:convert';
 
 class StoreProvider {
   late GetStorage _prefs;
-  initStore(String namespace) {
+  Future<void> initStore(String namespace) async {
     _prefs = GetStorage(namespace);
+    await GetStorage.init(namespace);
   }
 
   Future<void> setString(String key, String value) async {
@@ -31,7 +32,7 @@ class StoreProvider {
 
   /// get int.
   int getInt(String key, {int defValue = 0}) {
-    return _prefs.read(key) ?? defValue;
+    return _prefs.read<int>(key) ?? defValue;
   }
 
   Future<void> remove(String key) async {

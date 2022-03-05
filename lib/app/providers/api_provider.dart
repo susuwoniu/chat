@@ -92,9 +92,10 @@ class APIProvider {
     Map<String, dynamic>? query,
     Map<String, String>? headers,
   }) async {
-    Log.debug("request start: $method $path ");
+    // TODO
+    Log.warn("request start: $method $path ");
     if (query != null) {
-      Log.debug("query: $query");
+      Log.warn("query: $query");
     }
     final response = await client.request(path, method,
         body: body, query: query, headers: headers);

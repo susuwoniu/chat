@@ -43,6 +43,7 @@ class RootController extends GetxController {
 
       //  router
     } catch (e) {
+      Log.error(e);
       _error.value = e.toString();
       _isLoading.value = false;
     }

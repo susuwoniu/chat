@@ -42,9 +42,9 @@ class Global {
     AppConfig().initConfig(env);
     Log().initLog(env);
     await GetStorage.init();
-    await CacheProvider.to.init();
-    await SimpleAccountMapCacheProvider.to.init();
-    await AccountStoreProvider.to.init();
+    await CacheProvider.to.initial();
+    await SimpleAccountMapCacheProvider.to.initial();
+    await AccountStoreProvider.to.initial();
     await KVProvider.to.init();
     await Global.initGetx();
     Timeline.finishSync();
