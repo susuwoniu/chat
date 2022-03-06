@@ -31,7 +31,7 @@ class OtherDots extends StatelessWidget {
           ),
           child: Column(children: [
             Container(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                padding: EdgeInsets.symmetric(vertical: 18, horizontal: 20),
                 width: _width,
                 decoration: BoxDecoration(
                     border: Border(

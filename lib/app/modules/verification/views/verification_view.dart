@@ -163,9 +163,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                     ),
                                     onPressed: null,
                                     child: Text(
-                                        time.round().toString() +
-                                            " secends".tr +
-                                            "resend".tr,
+                                        time.round().toString() + " secends".tr,
                                         style: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 15,
@@ -183,7 +181,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                   await controller.handleSendCode();
                                   controller.setShowCount(true);
                                   UIUtils.toast(
-                                      'A_verification_code_has_been_sent_to_your_phone.'
+                                      'A_verification_code_has_been_sent_to_your_phone'
                                           .tr);
                                 } catch (e) {
                                   UIUtils.showError(e);

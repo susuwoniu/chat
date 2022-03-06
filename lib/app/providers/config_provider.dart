@@ -12,7 +12,7 @@ class ConfigProvider extends GetxService {
   PackageInfo? _platform;
   String get version => _platform?.version ?? '-';
   bool get isRelease => bool.fromEnvironment("dart.vm.product");
-  Locale locale = Locale('en', 'US');
+  Rx<Locale> locale = Rx(Locale('zh', 'CN'));
   List<Locale> languages = [
     Locale('en', 'US'),
     Locale('zh', 'CN'),
@@ -69,11 +69,11 @@ class ConfigProvider extends GetxService {
       return element.languageCode == langCode;
     });
     if (index < 0) return;
-    locale = languages[index];
+    locale.value = languages[index];
   }
 
   void onLocaleUpdate(Locale value) {
-    locale = value;
+    locale.value = value;
     Get.updateLocale(value);
     KVProvider.to.setString(STORAGE_LANGUAGE_CODE, value.languageCode);
   }

@@ -22,7 +22,7 @@ class BlockView extends GetView<BlockController> {
                 color: Theme.of(context).dividerColor,
               ),
               preferredSize: Size.fromHeight(0)),
-          title: Text('Blocked_Users'.tr, style: TextStyle(fontSize: 16)),
+          title: Text('Blocked_List'.tr, style: TextStyle(fontSize: 16)),
         ),
         body: SafeArea(
           child: RefreshIndicator(

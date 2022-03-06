@@ -5,6 +5,9 @@ import 'package:settings_ui/settings_ui.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import '../controllers/setting_controller.dart';
 import 'package:chat/app/providers/providers.dart';
+import '../../home_setting/views/lan_row.dart';
+
+final LanMap = {'en': 'English', 'zh': 'Simplified-Chinese'.tr};
 
 class SettingView extends GetView<SettingController> {
   @override
@@ -44,29 +47,34 @@ class SettingView extends GetView<SettingController> {
                   SettingsTile(
                     title: Text('Language'.tr),
                     value: Text(
-                      'English',
+                      LanMap[ConfigProvider.to.locale.value.languageCode]!,
                       style: TextStyle(
                         fontSize: 15,
                       ),
                     ),
                     // leading: Icon(Icons.language),
                     onPressed: (BuildContext context) {
-                      Get.bottomSheet(
-                          Container(
-                            child: Wrap(
-                              children: <Widget>[
-                                ListTile(
-                                    title: Text('simplified-chinese'.tr),
-                                    onTap: () {}),
-                                ListTile(
-                                  title: Text('English'.tr),
-                                  onTap: () {},
-                                )
-                              ],
-                            ),
-                          ),
-                          ignoreSafeArea: false,
-                          backgroundColor: context.theme.backgroundColor);
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Wrap(
+                                alignment: WrapAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(bottom: 30),
+                                    decoration: BoxDecoration(
+                                      color:
+                                          Theme.of(context).colorScheme.surface,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(children: [
+                                      LanRow(lanCode: 'zh', context: context),
+                                      Divider(height: 1),
+                                      LanRow(lanCode: 'en', context: context),
+                                    ]),
+                                  ),
+                                ]);
+                          });
                     },
                   ),
                   SettingsTile.switchTile(
@@ -80,7 +88,7 @@ class SettingView extends GetView<SettingController> {
                 ]),
                 SettingsSection(title: Text('Privacy'.tr), tiles: [
                   SettingsTile(
-                    title: Text('Blocked_Users'.tr),
+                    title: Text('Blocked_List'.tr),
                     onPressed: (BuildContext context) {
                       Get.toNamed(Routes.BLOCK);
                     },
@@ -110,10 +118,7 @@ class SettingView extends GetView<SettingController> {
                   SettingsTile(
                       title: Container(
                           alignment: Alignment.center,
-                          child: Text(
-                              AuthProvider.to.isLogin
-                                  ? 'Log_out'.tr
-                                  : 'Login'.tr,
+                          child: Text('Log_out'.tr,
                               style:
                                   TextStyle(color: Colors.red, fontSize: 17))),
                       onPressed: (BuildContext context) async {
@@ -121,7 +126,7 @@ class SettingView extends GetView<SettingController> {
                           UIUtils.showLoading();
                           await AccountProvider.to.handleLogout();
                           UIUtils.hideLoading();
-                          UIUtils.toast("Logged_out.".tr);
+                          UIUtils.toast("Logged_out".tr);
                           RouterProvider.to.restart(context);
                         } catch (e) {
                           UIUtils.hideLoading();

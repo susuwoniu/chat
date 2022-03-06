@@ -5,6 +5,7 @@
 ## Todos
 
 - [x] 某些情况会把登录态消失，需要重现定位错误
+- [ ] report type error
 - [ ] android 推送
 - [x] android 话题页title溢出
 - [ ] 话题页点击加入话题，提示没有跳转vip，vip页面最好展示下次发帖时间

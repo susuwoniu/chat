@@ -59,7 +59,7 @@ Future<void> main() async {
       ],
       navigatorObservers: [AppPages.observer],
       supportedLocales: ConfigProvider.to.languages,
-      locale: ConfigProvider.to.locale,
+      locale: ConfigProvider.to.locale.value,
       fallbackLocale: TranslationService.fallbackLocale,
     ),
   ));

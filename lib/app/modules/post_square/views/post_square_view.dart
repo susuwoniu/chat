@@ -17,7 +17,6 @@ class PostSquareView extends GetView<PostSquareController> {
 
   @override
   Widget build(BuildContext context) {
-    final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
     final backgroundColor = BACKGROUND_COLORS[backgroundColorIndex];
     final frontColor = FRONT_COLORS[backgroundColorIndex];

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:chat/common.dart';
 import 'package:get/get.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import '../controllers/home_setting_controller.dart';
 import 'package:chat/app/providers/providers.dart';
+import './lan_row.dart';
+
+final LanMap = {'en': 'English', 'zh': 'Simplified-Chinese'.tr};
 
 class HomeSettingView extends GetView<HomeSettingController> {
   @override
   Widget build(BuildContext context) {
-    final _account = AuthProvider.to.account.value;
-
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -29,33 +29,38 @@ class HomeSettingView extends GetView<HomeSettingController> {
                   settingsSectionBackground:
                       Theme.of(context).colorScheme.surface),
               sections: [
-                SettingsSection(title: Text('General'.tr), tiles: [
+                SettingsSection(tiles: [
                   SettingsTile(
                     title: Text('Language'.tr),
                     value: Text(
-                      'English',
+                      LanMap[ConfigProvider.to.locale.value.languageCode]!,
                       style: TextStyle(
                         fontSize: 15,
                       ),
                     ),
                     // leading: Icon(Icons.language),
                     onPressed: (BuildContext context) {
-                      Get.bottomSheet(
-                          Container(
-                            child: Wrap(
-                              children: <Widget>[
-                                ListTile(
-                                    title: Text('simplified-chinese'.tr),
-                                    onTap: () {}),
-                                ListTile(
-                                  title: Text('English'.tr),
-                                  onTap: () {},
-                                )
-                              ],
-                            ),
-                          ),
-                          ignoreSafeArea: false,
-                          backgroundColor: context.theme.backgroundColor);
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Wrap(
+                                alignment: WrapAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(bottom: 30),
+                                    decoration: BoxDecoration(
+                                      color:
+                                          Theme.of(context).colorScheme.surface,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(children: [
+                                      LanRow(lanCode: 'zh', context: context),
+                                      Divider(height: 1),
+                                      LanRow(lanCode: 'en', context: context),
+                                    ]),
+                                  ),
+                                ]);
+                          });
                     },
                   ),
                   SettingsTile.switchTile(

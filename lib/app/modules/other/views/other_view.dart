@@ -75,11 +75,11 @@ class OtherView extends StatelessWidget {
                                       if (is_blocked) {
                                         await toggleBlock(
                                             id: accountId, toBlocked: false);
-                                        UIUtils.toast('Unblocked.'.tr);
+                                        UIUtils.toast('Unblocked'.tr);
                                       } else {
                                         await toggleBlock(
                                             id: accountId, toBlocked: true);
-                                        UIUtils.toast('Blocked.'.tr);
+                                        UIUtils.toast('Blocked'.tr);
                                       }
                                     } catch (e) {
                                       UIUtils.showError(e);
@@ -102,7 +102,7 @@ class OtherView extends StatelessWidget {
               body: controller.isBlocked.value
                   ? Center(
                       child: Text(
-                      'You_have_been_blocked.'.tr,
+                      'You_have_been_blocked'.tr,
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurface,
                           fontSize: 16),
@@ -222,7 +222,7 @@ class OtherView extends StatelessWidget {
                                               await controller
                                                   .cancelLikeCount(accountId);
                                               UIUtils.toast(
-                                                  'Successfully_unliked.'.tr);
+                                                  'Successfully_unliked'.tr);
                                               final currentAccount =
                                                   AuthProvider
                                                           .to.simpleAccountMap[

@@ -41,7 +41,7 @@ class CompleteAvatarView extends GetView<CompleteAvatarController> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
             SizedBox(height: 15),
-            Text("Please_choose_a_photo_that_best_represents_you.".tr,
+            Text("Please_choose_a_photo_that_best_represents_you".tr,
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 17)),
@@ -70,7 +70,7 @@ class CompleteAvatarView extends GetView<CompleteAvatarController> {
                       ));
             }),
             SizedBox(height: 20),
-            Text("Photo_can_be_edited_later.".tr,
+            Text("Photo_can_be_edited_later".tr,
                 style: TextStyle(color: Theme.of(context).hintColor)),
             SizedBox(height: 25),
             Obx(() => NextButton(

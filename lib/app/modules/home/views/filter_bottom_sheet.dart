@@ -73,7 +73,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       builder: (context) {
         return Wrap(children: [
           Container(
-              padding: EdgeInsets.only(bottom: 50),
+              padding: EdgeInsets.only(bottom: 45),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -110,7 +110,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                       }),
                 ),
                 Container(
-                    padding: EdgeInsets.only(left: 16, right: 16),
+                    padding: EdgeInsets.only(left: 16, right: 16, top: 5),
                     child: Column(children: [
                       SizedBox(height: 30),
                       Row(
@@ -239,7 +239,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         RangeValues(18, 98);
                                     selectedGender = 'all';
                                     _currentEndDistance = 100;
-                                    UIUtils.toast('Successfully_reset'.tr);
                                   });
                                 })),
                         SizedBox(width: 80),

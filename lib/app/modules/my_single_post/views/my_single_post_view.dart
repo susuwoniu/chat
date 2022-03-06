@@ -262,13 +262,13 @@ class MySinglePostView extends StatelessWidget {
                                 UIUtils.showLoading();
                                 await postChange(
                                     type: 'promote', postId: postId);
-                                UIUtils.toast('Successfully_polished.'.tr);
+                                UIUtils.toast('Successfully_polished'.tr);
                               } catch (e) {
                                 UIUtils.showError(e);
                               }
                             } else {
                               UIUtils.showError(
-                                  "It_can't_be_polished_any_more.".tr);
+                                  "It_can't_be_polished_any_more".tr);
                             }
                             UIUtils.hideLoading();
                           } else {
@@ -284,7 +284,7 @@ class MySinglePostView extends StatelessWidget {
                           try {
                             UIUtils.showLoading();
                             await onDeletePost(postId);
-                            UIUtils.toast('Successfully_deleted.'.tr);
+                            UIUtils.toast('Successfully_deleted'.tr);
                             Get.back();
                           } catch (e) {
                             UIUtils.showError(e);
@@ -324,7 +324,6 @@ class MySinglePostView extends StatelessWidget {
               try {
                 await HomeController.to.patchPostCountView(
                     postId: id, isPostStar: true, increase: false);
-                UIUtils.toast("Unmarked.".tr);
               } catch (e) {
                 UIUtils.showError(e);
               }
