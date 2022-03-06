@@ -17,7 +17,7 @@ const Map<String, String> zh_Hans = {
   'Loading': '加载中',
   'Loading...': '加载中...',
   'Connecting...': "连接中...",
-  'Network_error': '连接失败',
+  'Network_error': '连接断开',
   'Chats': '聊天',
   'Chat': '聊天',
   'Home': "首页",

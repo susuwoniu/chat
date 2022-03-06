@@ -34,7 +34,7 @@ class MessageView extends GetView<MessageController> {
               )
             ],
             title: Obx(() => Text(
-                  (controller.isLoadingRooms &&
+                  (controller.isLoadingRooms ||
                               _chatProvider.connectionState ==
                                   xmpp.ConnectionState.connecting) ||
                           !controller.isInitRooms
@@ -98,13 +98,10 @@ class MessageView extends GetView<MessageController> {
                                           .colorScheme
                                           .onBackground)),
                               onPressed: () async {
-                                controller.setIsLoading(true);
                                 try {
                                   await _chatProvider.reconnect();
-                                  // controller.setIsLoading(false);
                                 } catch (e) {
                                   UIUtils.showError(e);
-                                  controller.setIsLoading(false);
                                 }
                               },
                               icon: Icon(Icons.refresh,
