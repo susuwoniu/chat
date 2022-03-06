@@ -1,8 +1,10 @@
 import 'package:chat/app/providers/api_provider.dart';
+import 'package:chat/app/providers/account_provider.dart';
 import 'package:get/get.dart';
 import '../../home/controllers/home_controller.dart';
 import 'package:chat/common.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'dart:async';
 
 class MeController extends GetxController {
   static MeController get to => Get.find();
@@ -40,6 +42,15 @@ class MeController extends GetxController {
     } catch (e) {
       UIUtils.showError(e);
     }
+  }
+
+  Future<void> refreshData() async {
+    pagingController.refresh();
+    await Future.wait<void>([
+      AccountProvider.to.getMe(),
+      getViewedCount(),
+    ]);
+    return;
   }
 
   clearUnreadViewerCount() async {

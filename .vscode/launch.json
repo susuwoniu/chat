@@ -9,6 +9,16 @@
       "request": "launch",
       "type": "dart"
     },
+   
+    {
+      "name": "prod",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "args": [
+        "--dart-define", "env=prod"
+      ]
+    },
     {
       "name": "local",
       "request": "launch",
@@ -18,14 +28,5 @@
         "--dart-define", "env=local"
       ]
     },
-    {
-      "name": "prod",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "debug",
-      "args": [
-        "--dart-define", "env=prod"
-      ]
-    }
   ]
 }

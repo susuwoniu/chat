@@ -415,6 +415,12 @@ class DebugView extends GetView<DebugController> {
                   },
                 ),
                 ListTile(
+                    title: Text("Archive"),
+                    onTap: () async {
+                      await ChatProvider.to.roomManager!
+                          .markAsArchive("mac@xmpp.scuinfo.com");
+                    }),
+                ListTile(
                   title: Text(
                     '打印服务端最新5条数据库消息',
                   ),

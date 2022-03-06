@@ -6,7 +6,6 @@ import './conversation_item.dart';
 import 'package:chat/app/providers/providers.dart';
 import 'package:chat/types/types.dart';
 import 'package:xmpp_stone/xmpp_stone.dart' as xmpp;
-import 'package:flutter/services.dart';
 
 class MessageView extends GetView<MessageController> {
   @override
@@ -25,19 +24,22 @@ class MessageView extends GetView<MessageController> {
                   color: Theme.of(context).dividerColor,
                 ),
                 preferredSize: Size.fromHeight(0)),
-            // actions: [
-            //   IconButton(
-            //     splashColor: Colors.transparent,
-            //     icon: Icon(Icons.add_circle_outline_outlined, size: 26),
-            //     onPressed: () {
-            //     },
-            //   )
-            // ],
+            actions: [
+              // IconButton(
+              //   splashColor: Colors.transparent,
+              //   icon: Icon(Icons.close, size: 26),
+              //   onPressed: () {
+              //     _chatProvider.closeConnection();
+              //   },
+              // )
+            ],
             title: Obx(() => Text(
                   controller.isLoadingRooms || !controller.isInitRooms
                       ? "Loading...".tr
-                      : _chatProvider.connectionState ==
-                              xmpp.ConnectionState.connected
+                      : (_chatProvider.connectionState ==
+                                  xmpp.ConnectionState.connected ||
+                              _chatProvider.connectionState ==
+                                  xmpp.ConnectionState.resumed)
                           ? "Chats".tr
                           : "Network_error".tr,
                   style: TextStyle(
@@ -134,9 +136,7 @@ class MessageView extends GetView<MessageController> {
                       }
 
                       return ConversationItemView(
-                          onTap: (index) {
-                            controller.toRoom(index);
-                          },
+                          onTap: controller.toRoom,
                           onDismiss: controller.onDismiss,
                           isLast: index == controller.entities.length - 1,
                           context: context,

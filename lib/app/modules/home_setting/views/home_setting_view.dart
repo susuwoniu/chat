@@ -3,10 +3,10 @@ import 'package:chat/common.dart';
 import 'package:get/get.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:chat/app/routes/app_pages.dart';
-import '../controllers/setting_controller.dart';
+import '../controllers/home_setting_controller.dart';
 import 'package:chat/app/providers/providers.dart';
 
-class SettingView extends GetView<SettingController> {
+class HomeSettingView extends GetView<HomeSettingController> {
   @override
   Widget build(BuildContext context) {
     final _account = AuthProvider.to.account.value;
@@ -29,17 +29,6 @@ class SettingView extends GetView<SettingController> {
                   settingsSectionBackground:
                       Theme.of(context).colorScheme.surface),
               sections: [
-                SettingsSection(title: Text('Account_Security'.tr), tiles: [
-                  SettingsTile(
-                    title: Text('Phone'.tr),
-                    value: Text(
-                      _account.phone_number ?? "",
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ]),
                 SettingsSection(title: Text('General'.tr), tiles: [
                   SettingsTile(
                     title: Text('Language'.tr),
@@ -78,14 +67,6 @@ class SettingView extends GetView<SettingController> {
                     },
                   ),
                 ]),
-                SettingsSection(title: Text('Privacy'.tr), tiles: [
-                  SettingsTile(
-                    title: Text('Blocked_Users'.tr),
-                    onPressed: (BuildContext context) {
-                      Get.toNamed(Routes.BLOCK);
-                    },
-                  ),
-                ]),
                 SettingsSection(tiles: [
                   SettingsTile(
                     title: Text('Clear_Cache'.tr),
@@ -110,23 +91,11 @@ class SettingView extends GetView<SettingController> {
                   SettingsTile(
                       title: Container(
                           alignment: Alignment.center,
-                          child: Text(
-                              AuthProvider.to.isLogin
-                                  ? 'Log_out'.tr
-                                  : 'Login'.tr,
+                          child: Text('Login'.tr,
                               style:
                                   TextStyle(color: Colors.red, fontSize: 17))),
                       onPressed: (BuildContext context) async {
-                        try {
-                          UIUtils.showLoading();
-                          await AccountProvider.to.handleLogout();
-                          UIUtils.hideLoading();
-                          UIUtils.toast("Logged_out.".tr);
-                          RouterProvider.to.restart(context);
-                        } catch (e) {
-                          UIUtils.hideLoading();
-                          UIUtils.showError(e);
-                        }
+                        Get.toNamed(Routes.LOGIN);
                       }),
                 ]),
               ],

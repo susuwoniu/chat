@@ -66,6 +66,8 @@ import '../modules/rule/bindings/rule_binding.dart';
 import '../modules/rule/views/rule_view.dart';
 import '../modules/setting/bindings/setting_binding.dart';
 import '../modules/setting/views/setting_view.dart';
+import '../modules/home_setting/bindings/home_setting_binding.dart';
+import '../modules/home_setting/views/home_setting_view.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/test1/bindings/test1_binding.dart';
 import '../modules/test1/views/test1_view.dart';
@@ -127,6 +129,11 @@ class AppPages {
       name: _Paths.SETTING,
       page: () => SettingView(),
       binding: SettingBinding(),
+    ),
+    GetPage(
+      name: _Paths.HOMESETTING,
+      page: () => HomeSettingView(),
+      binding: HomeSettingBinding(),
     ),
     GetPage(
       middlewares: [

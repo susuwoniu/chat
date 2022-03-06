@@ -299,7 +299,7 @@ class MessageController extends GetxController {
       message,
     ));
     try {
-      roomManager.sendMessage(roomId, message);
+      await roomManager.sendMessage(roomId, message);
     } catch (e) {
       rethrow;
     }
@@ -627,8 +627,16 @@ class MessageController extends GetxController {
   }
 
   void onDismiss(int index) {
+    final roomId = indexes[index];
+    // delete message
     // ToDo
+    roomMessageIndexesMap.remove(roomId);
     indexes.removeAt(index);
+
+    //
+    ChatProvider.to.roomManager?.markAsArchive(roomId);
+
+    // clear database, and clear delete server
   }
 
   void dipose() {

@@ -25,6 +25,13 @@ A new Flutter project.
 - Icons <https://fonts.google.com/icons?selected=Material+Icons>
 ## Tips
 
+### build debug android
+
+```bash
+flutter build apk --debug
+adb push build/app/outputs/flutter-apk/app-debug.apk /sdcard/Download
+```
+
 ### 获取权限 
 
 ```dart
@@ -70,6 +77,24 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Sqlite Test
+
+<https://sqliteonline.com/>
+
+```sql
+create TABLE messages (id integer primary key autoincrement,deleted_at INTEGER NOT NULL DEFAULT 0,client_id INTEGER NOT NULL,type text NOT NULL);
+
+CREATE UNIQUE INDEX message_client_unique_id_index
+ON messages (client_id,deleted_at);
+
+
+INSERT into messages (client_id,type) VALUES (3,'t');
+
+select * from messages;
+
+update messages set deleted_at=2 where type='t';
+```
 
 ## 参考
 - https://github.com/believeInJha/Bear_Log_In

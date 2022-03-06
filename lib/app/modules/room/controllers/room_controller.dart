@@ -150,17 +150,12 @@ class RoomController extends GetxController {
     // check is has preview message
     try {
       if (_previewMessage.value != null) {
-        // messageController.sendTextMessage(
-        //     roomId,
-        //     types.PartialText(
-        //       text: _previewMessage.value!.text,
-        //     ));
+        final quoteText = _previewMessage.value!.text;
+        _previewMessage.value = null;
 
         messageController.sendTextMessage(
-            roomId,
-            types.PartialText(
-                text: _previewMessage.value!.text + "\n\n" + message.text));
-        _previewMessage.value = null;
+            roomId, types.PartialText(text: quoteText + "\n\n" + message.text));
+        super.update();
       } else {
         messageController.sendTextMessage(roomId, message);
       }
@@ -168,6 +163,4 @@ class RoomController extends GetxController {
       rethrow;
     }
   }
-
-  onScroll() {}
 }

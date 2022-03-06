@@ -58,6 +58,13 @@ class ChatProvider extends GetxService {
     }
   }
 
+  void closeConnection() {
+    if (_connection != null) {
+      _connection!.close();
+      // _connection!.handleCloseState();
+    }
+  }
+
   Future<void> connect() async {
     // init im login
     if (AuthProvider.to.isLogin) {
@@ -115,8 +122,11 @@ class ChatProvider extends GetxService {
       currentChatAccount(types.User(id: _currentAccount!.userAtDomain));
       _roomManager = xmpp.RoomManager.getInstance(_connection!);
       if (AppConfig.to.isDev) {
+        print("isDev: ${AppConfig.to.isDev}");
         xmpp.Log.logXmpp = true;
         xmpp.Log.logLevel = xmpp.LogLevel.DEBUG;
+      } else {
+        print("isProd");
       }
 
       try {
@@ -129,13 +139,9 @@ class ChatProvider extends GetxService {
           _roomManager!.connectionUpdated.listen((event) {
         rawConnectionState.value = event.id;
       });
-    }
-
-    if (_connection!.state == xmpp.XmppConnectionState.ForcefullyClosed ||
-        _connection!.state == xmpp.XmppConnectionState.Closed) {
-      _connection!.reconnect();
-    } else {
       _connection!.connect();
+    } else {
+      _connection!.reconnect();
     }
     _isInitingConnection = false;
   }
