@@ -36,7 +36,7 @@ class CreateView extends GetView<CreateController> {
             backgroundColor: isLight
                 ? Theme.of(context).colorScheme.surface
                 : Theme.of(context).colorScheme.background,
-            title: Text('Create'.tr,
+            title: Text('Create_Post'.tr,
                 style: TextStyle(
                   fontSize: 16,
                 )),

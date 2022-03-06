@@ -1,4 +1,3 @@
-import 'package:chat/common.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:get/get.dart';
@@ -33,12 +32,12 @@ class _NearbySwitchState extends State<NearbySwitch> {
     final _width = MediaQuery.of(context).size.width;
 
     return AnimatedToggleSwitch<String>.size(
-      height: 37,
+      height: 38,
       innerColor: Colors.white38,
       current: page,
       values: ["home", 'nearby'],
       iconOpacity: 0.5,
-      indicatorSize: Size.fromWidth(_width * 0.21),
+      indicatorSize: Size.fromWidth(_width * 0.23),
       indicatorType: IndicatorType.roundedRectangle,
       iconAnimationType: AnimationType.onHover,
       indicatorAnimationType: AnimationType.onHover,

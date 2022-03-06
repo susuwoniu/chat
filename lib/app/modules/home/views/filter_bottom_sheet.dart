@@ -4,6 +4,7 @@ import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:chat/common.dart';
 import 'vip_sheet.dart';
 import 'package:get/get.dart';
+import 'package:chat/app/routes/app_pages.dart';
 
 final genderMap = {'all': 'All', 'male': 'Male', 'female': 'Female'};
 
@@ -67,17 +68,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final _height = MediaQuery.of(context).size.height;
-    final _width = MediaQuery.of(context).size.width;
-    final _paddingTop4 = _height * 0.04;
-    final _paddingTop3 = _height * 0.03;
-
     return BottomSheet(
       onClosing: () {},
       builder: (context) {
         return Wrap(children: [
           Container(
-              padding: EdgeInsets.only(bottom: _height * 0.05),
+              padding: EdgeInsets.only(bottom: 45),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -85,8 +81,26 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               ),
               child: Stack(children: [
                 Positioned(
+                  left: 5,
+                  top: 3,
+                  child: IconButton(
+                      icon: Icon(Icons.settings_outlined),
+                      iconSize: 28,
+                      color: Colors.white,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        if (AuthProvider.to.isLogin) {
+                          Get.toNamed(Routes.SETTING, arguments: {
+                            "phone": AuthProvider.to.account.value.phone_number
+                          });
+                        } else {
+                          Get.toNamed(Routes.HOMESETTING);
+                        }
+                      }),
+                ),
+                Positioned(
                   right: 5,
-                  top: 0,
+                  top: 3,
                   child: IconButton(
                       icon: Icon(Icons.cancel),
                       iconSize: 32,
@@ -96,9 +110,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                       }),
                 ),
                 Container(
-                    padding: EdgeInsets.only(left: 16, right: 16),
+                    padding: EdgeInsets.only(left: 16, right: 16, top: 5),
                     child: Column(children: [
-                      SizedBox(height: _paddingTop3),
+                      SizedBox(height: 30),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -141,7 +155,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                             },
                           )),
                         ]),
-                        SizedBox(height: _paddingTop3),
+                        SizedBox(height: 22),
                         Row(children: [
                           _title('gender'),
                           SizedBox(width: 20),
@@ -182,7 +196,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           SizedBox(width: 15),
                         ]),
                         widget.isNearby
-                            ? SizedBox(height: _paddingTop3)
+                            ? SizedBox(height: 22)
                             : SizedBox.shrink(),
                         widget.isNearby
                             ? Row(children: [
@@ -209,7 +223,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               ])
                             : SizedBox.shrink(),
                       ]),
-                      SizedBox(height: _paddingTop4),
+                      SizedBox(height: 22),
                       Row(children: [
                         SizedBox(width: 15),
                         Expanded(
@@ -225,7 +239,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         RangeValues(18, 98);
                                     selectedGender = 'all';
                                     _currentEndDistance = 100;
-                                    UIUtils.toast('Successfully_reset'.tr);
                                   });
                                 })),
                         SizedBox(width: 80),

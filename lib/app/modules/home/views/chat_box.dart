@@ -47,7 +47,7 @@ class ChatBox extends StatelessWidget {
                 name: isLogin ? account.name : "--",
               )),
           Expanded(
-              child: Text("Reply".tr + "@$postAuthorName的状态",
+              child: Text("Reply".tr + "@$postAuthorName" + "s_post".tr,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(color: Colors.grey.shade600, fontSize: 14))),

@@ -147,7 +147,7 @@ class ReportView extends GetView<ReportController> {
                                   }
                                 } else {
                                   UIUtils.showError(
-                                      'Please_choose_a_report_type.'.tr);
+                                      'Please_choose_a_report_type'.tr);
                                 }
                               })
                         ]),

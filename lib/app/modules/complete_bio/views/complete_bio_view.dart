@@ -44,7 +44,7 @@ class CompleteBioView extends GetView<CompleteBioController> {
             Container(
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(left: 10),
-                child: Text('Give_yourself_a_nice_bio.'.tr,
+                child: Text('Give_yourself_a_nice_bio'.tr,
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 17.0))),

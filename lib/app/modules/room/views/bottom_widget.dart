@@ -6,6 +6,7 @@ import 'package:flutter_chat_ui/src/widgets/attachment_button.dart';
 import 'package:flutter_chat_ui/src/widgets/inherited_chat_theme.dart';
 import 'package:flutter_chat_ui/src/widgets/inherited_l10n.dart';
 import 'package:flutter_chat_ui/src/widgets/send_button.dart';
+import 'package:get/get.dart';
 import './text_message.dart';
 import 'dart:math';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart'
@@ -350,7 +351,7 @@ class _InputState extends State<BottomWidget> {
                                       .copyWith(
                                           // color: Colors.black.withOpacity(0.24),
                                           ),
-                                  hintText: "请输入消息...",
+                                  hintText: "Message".tr,
                                 ),
                             focusNode: _inputFocusNode,
                             keyboardType: TextInputType.multiline,

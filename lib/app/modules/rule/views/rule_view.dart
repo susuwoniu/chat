@@ -29,7 +29,7 @@ class RuleView extends GetView<RuleController> {
                 },
               ),
               NextButton(
-                  text: 'I_agree_rules.'.tr,
+                  text: 'I_agree_rules'.tr,
                   onPressed: () async {
                     try {
                       final account = await AccountProvider.to

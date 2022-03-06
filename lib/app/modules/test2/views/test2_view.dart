@@ -236,7 +236,7 @@ class Test2View extends GetView<OtherController> {
                           } else {
                             try {
                               await controller.cancelLikeCount(accountId);
-                              UIUtils.toast('Successfully_unliked.'.tr);
+                              UIUtils.toast('Successfully_unliked'.tr);
                               final currentAccount =
                                   AuthProvider.to.simpleAccountMap[accountId]!;
                               currentAccount.like_count -= 1;

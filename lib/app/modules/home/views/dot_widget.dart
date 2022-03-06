@@ -51,7 +51,6 @@ class DotWidget extends StatelessWidget {
                               isPostStar: true,
                               increase: false,
                               current: isFavorite);
-                          UIUtils.toast("Unmarked.".tr);
                         } catch (e) {
                           UIUtils.showError(e);
                         }
@@ -68,8 +67,6 @@ class DotWidget extends StatelessWidget {
                         }
                       }
                     } else {
-                      // to login
-
                       Get.toNamed(
                         Routes.LOGIN,
                       );
@@ -94,6 +91,25 @@ class DotWidget extends StatelessWidget {
                 text: 'Report',
                 onPressed: onPressedReport)
           ]),
+          SizedBox(height: 10),
+          Row(children: [
+            Expanded(
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Get.toNamed(Routes.MY_SINGLE_POST,
+                          arguments: {"id": postId}, preventDuplicates: false);
+                    },
+                    child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.background,
+                            borderRadius: BorderRadius.circular(10)),
+                        child:
+                            Text('More'.tr, style: TextStyle(fontSize: 16)))))
+          ]),
+          SizedBox(height: 20),
           Row(children: [
             Expanded(
                 child: GestureDetector(
@@ -101,7 +117,7 @@ class DotWidget extends StatelessWidget {
                       Get.back();
                     },
                     child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 15),
+                        padding: EdgeInsets.symmetric(vertical: 16),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.background,
@@ -126,17 +142,21 @@ class DotWidget extends StatelessWidget {
               onPressed();
             },
             child: Container(
+              alignment: Alignment.center,
               padding: EdgeInsets.symmetric(vertical: 10),
-              margin: EdgeInsets.only(bottom: 15),
+              margin: EdgeInsets.only(bottom: 8),
               decoration: BoxDecoration(
                   color: Color(0xfff2f2f7),
                   borderRadius: BorderRadius.circular(10)),
-              child: Column(children: [
-                Icon(icon, size: iconSize, color: Color(0xff46494c)),
-                SizedBox(height: 8),
-                Text(text.tr,
-                    style: TextStyle(fontSize: 14, color: Color(0xff46494c))),
-              ]),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(icon, size: iconSize, color: Color(0xff46494c)),
+                    SizedBox(height: 8),
+                    Text(text.tr,
+                        style:
+                            TextStyle(fontSize: 14, color: Color(0xff46494c))),
+                  ]),
             )));
   }
 }

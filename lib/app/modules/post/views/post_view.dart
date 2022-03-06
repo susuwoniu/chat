@@ -18,7 +18,7 @@ class PostView extends GetView<PostController> {
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text("Select_a_question".tr,
+          title: Text("Choose_a_Topic".tr,
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,

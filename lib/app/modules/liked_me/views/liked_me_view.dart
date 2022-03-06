@@ -23,7 +23,7 @@ class LikedMeView extends GetView<LikedMeController> {
                   color: Theme.of(context).dividerColor,
                 ),
                 preferredSize: Size.fromHeight(0)),
-            title: Text('Who_Liked_Me'.tr, style: TextStyle(fontSize: 16)),
+            title: Text('Who_Likes_Me'.tr, style: TextStyle(fontSize: 16)),
             centerTitle: true),
         body: SafeArea(
             child: RefreshIndicator(

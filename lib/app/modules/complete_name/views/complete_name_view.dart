@@ -22,7 +22,7 @@ class CompleteNameView extends GetView<CompleteNameController> {
             Container(
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(left: 15),
-                child: Text('Give_yourself_a_nice_name.'.tr,
+                child: Text('Give_yourself_a_nice_name'.tr,
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 17.0))),

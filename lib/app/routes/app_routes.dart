@@ -16,6 +16,8 @@ abstract class Routes {
   static const BLOCK = _Paths.BLOCK;
   static const LIKEDME = _Paths.LIKEDME;
   static const SETTING = _Paths.SETTING;
+  static const HOMESETTING = _Paths.HOMESETTING;
+
   static const ROOM = _Paths.ROOM;
   static const TEST3 = _Paths.TEST3;
   static const DEBUG = _Paths.DEBUG;
@@ -55,6 +57,8 @@ abstract class _Paths {
   static const TEST2 = '/test2';
   static const LOGIN = "/login";
   static const SETTING = '/setting';
+  static const HOMESETTING = '/home-setting';
+
   static const ROOM = '/room';
   static const TEST3 = '/test3';
   static const DEBUG = '/debug';
