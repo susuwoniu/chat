@@ -23,6 +23,8 @@ A new Flutter project.
 - XMPP
   - https://esl.github.io/MongooseDocs/latest/user-guide/Supported-standards/
 - Icons <https://fonts.google.com/icons?selected=Material+Icons>
+- [极光推送](https://pub.dev/packages/jpush_flutter)
+  - [Mongooes IM push](https://esl.github.io/MongooseDocs/latest/tutorials/push-notifications/Push-notifications-client-side/#enabling-push-notifications)
 ## Tips
 
 ### build debug android

@@ -5,6 +5,7 @@ import 'package:chat/common.dart';
 import '../auth_provider.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:chat/app/common/get_device_id.dart';
+import '../push_provider.dart';
 
 class ChatProvider extends GetxService {
   static ChatProvider get to => Get.find();
@@ -86,6 +87,13 @@ class ChatProvider extends GetxService {
     }
   }
 
+  Future<void> logout() async {
+    // get jpush id
+    final id = await PushProvider.to.jpush.getRegistrationID();
+    final _pushManager = xmpp.PushManager.getInstance(_connection!);
+    await _pushManager.disablePush(deviceId: id);
+  }
+
   dipose() {
     if (_connectionStateSubscription != null) {
       _connectionStateSubscription!.cancel();
@@ -141,6 +149,15 @@ class ChatProvider extends GetxService {
       }
       _connectionStateSubscription =
           _roomManager!.connectionUpdated.listen((event) {
+        // if connected, then register push
+        if (event.id == xmpp.ConnectionState.connected) {
+          // get jpush id
+          PushProvider.to.jpush.getRegistrationID().then((id) {
+            final _pushManager = xmpp.PushManager.getInstance(_connection!);
+            _pushManager.initPush(service: 'jiguang', deviceId: id);
+          });
+        }
+
         rawConnectionState.value = event.id;
       });
       _connection!.connect();
@@ -148,11 +165,5 @@ class ChatProvider extends GetxService {
       _connection!.reconnect();
     }
     _isInitingConnection = false;
-  }
-
-  void logout() {
-    if (_connection != null) {
-      _connection!.dispose();
-    }
   }
 }

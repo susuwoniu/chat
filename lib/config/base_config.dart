@@ -5,4 +5,5 @@ abstract class BaseConfig {
   String get clientId;
   String get clientSecret;
   String get version;
+  String get jiguangAppKey;
 }

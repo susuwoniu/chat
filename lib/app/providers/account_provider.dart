@@ -79,10 +79,10 @@ class AccountProvider extends GetxService {
 
   Future<void> handleLogout() async {
     // remove xmpp session
-    await ChatProvider.to.dipose();
+    await ChatProvider.to.logout();
     await APIProvider().delete("/account/sessions");
     await AuthProvider.to.cleanToken();
-    // await ImProvider.to.logout();
+    await ChatProvider.to.dipose();
   }
 
   // 执行登录操作

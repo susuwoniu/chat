@@ -1,3 +1,4 @@
+import 'package:chat/app/providers/push_provider.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +14,6 @@ import 'dart:async';
 /// 全局静态数据
 class Global {
   /// 初始化
-
   static Future init() async {
     Timeline.startSync('global init function');
 
@@ -47,12 +47,14 @@ class Global {
     await AccountStoreProvider.to.initial();
     await KVProvider.to.init();
     await Global.initGetx();
+
     Timeline.finishSync();
     print('global init finish');
   }
 
   static Future<void> initGetx() async {
     Get.put<RouterProvider>(RouterProvider());
+    Get.put<PushProvider>(PushProvider());
     Get.put<AccountProvider>(AccountProvider());
     Get.put<ConfigProvider>(ConfigProvider());
     Get.put<AuthProvider>(AuthProvider());
