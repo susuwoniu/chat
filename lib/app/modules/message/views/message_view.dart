@@ -18,6 +18,7 @@ class MessageView extends GetView<MessageController> {
             backgroundColor: Theme.of(context).colorScheme.surface,
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
+              centerTitle: true,
               bottom: PreferredSize(
                   child: Container(
                     height: 0.5,

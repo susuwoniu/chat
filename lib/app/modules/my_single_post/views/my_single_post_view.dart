@@ -29,6 +29,7 @@ class MySinglePostView extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+          centerTitle: true,
           toolbarHeight: 0,
           foregroundColor: Theme.of(context).colorScheme.onBackground),
       body: GetBuilder<MySinglePostController>(

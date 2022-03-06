@@ -245,36 +245,42 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         Expanded(
                           child: ElevatedButton(
                               onPressed: () {
-                                if (AuthProvider.to.account.value.vip) {
-                                  if (widget.initialGender == selectedGender &&
-                                      widget.initialStartAge ==
-                                          _currentAgeRangeValues.start &&
-                                      widget.initialEndAge ==
-                                          _currentAgeRangeValues.end &&
-                                      widget.initialEndDistance ==
-                                          _currentEndDistance) {
-                                    Navigator.pop(context);
+                                if (AuthProvider.to.isLogin) {
+                                  if (AuthProvider.to.account.value.vip) {
+                                    if (widget.initialGender ==
+                                            selectedGender &&
+                                        widget.initialStartAge ==
+                                            _currentAgeRangeValues.start &&
+                                        widget.initialEndAge ==
+                                            _currentAgeRangeValues.end &&
+                                        widget.initialEndDistance ==
+                                            _currentEndDistance) {
+                                      Navigator.pop(context);
+                                    } else {
+                                      widget.onSubmitted(
+                                          selectedGender: selectedGender,
+                                          startAge: _currentAgeRangeValues.start
+                                              .round(),
+                                          endAge: _currentAgeRangeValues.end
+                                              .round(),
+                                          endDistance:
+                                              _currentEndDistance.round());
+                                      UIUtils.toast('Successfully_filtered'.tr);
+                                      Navigator.pop(context);
+                                    }
                                   } else {
-                                    widget.onSubmitted(
-                                        selectedGender: selectedGender,
-                                        startAge: _currentAgeRangeValues.start
-                                            .round(),
-                                        endAge:
-                                            _currentAgeRangeValues.end.round(),
-                                        endDistance:
-                                            _currentEndDistance.round());
-                                    UIUtils.toast('Successfully_filtered'.tr);
                                     Navigator.pop(context);
+                                    showModalBottomSheet(
+                                        context: context,
+                                        isScrollControlled: true,
+                                        builder: (context) {
+                                          return VipSheet(
+                                              context: context, index: 3);
+                                        });
                                   }
                                 } else {
                                   Navigator.pop(context);
-                                  showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      builder: (context) {
-                                        return VipSheet(
-                                            context: context, index: 3);
-                                      });
+                                  Get.toNamed(Routes.LOGIN);
                                 }
                               },
                               child: Text('OK'.tr,

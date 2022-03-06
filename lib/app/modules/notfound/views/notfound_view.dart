@@ -9,6 +9,7 @@ class NotfoundView extends GetView<NotfoundController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('NotfoundView'),
       ),
       body: Center(

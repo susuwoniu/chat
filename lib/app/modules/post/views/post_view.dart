@@ -17,6 +17,7 @@ class PostView extends GetView<PostController> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.transparent,
           title: Text("Choose_a_Topic".tr,
               style: TextStyle(

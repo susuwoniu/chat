@@ -14,6 +14,7 @@ class HomeSettingView extends GetView<HomeSettingController> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          centerTitle: true,
           automaticallyImplyLeading: true,
           bottom: PreferredSize(
               child: Container(

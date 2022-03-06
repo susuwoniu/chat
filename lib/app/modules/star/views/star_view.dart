@@ -14,6 +14,7 @@ class StarView extends GetView<StarController> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
+          centerTitle: true,
           title: Text('StarView'.tr, style: TextStyle(fontSize: 16)),
           bottom: PreferredSize(
               child: Container(

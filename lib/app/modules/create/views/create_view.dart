@@ -33,6 +33,7 @@ class CreateView extends GetView<CreateController> {
             ? Theme.of(context).colorScheme.surface
             : Theme.of(context).colorScheme.background,
         appBar: AppBar(
+            centerTitle: true,
             backgroundColor: isLight
                 ? Theme.of(context).colorScheme.surface
                 : Theme.of(context).colorScheme.background,

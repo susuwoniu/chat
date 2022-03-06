@@ -12,6 +12,7 @@ class ExploreView extends GetView<ExploreController> {
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
+          centerTitle: true,
           title: Text(
             'ExploreView'.tr,
             style: TextStyle(fontSize: 16),

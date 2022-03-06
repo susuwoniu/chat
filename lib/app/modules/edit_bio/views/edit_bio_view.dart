@@ -11,6 +11,7 @@ class EditBioView extends GetView<EditBioController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text("Bio".tr, style: TextStyle(fontSize: 16)),
           bottom: PreferredSize(
               child: Container(

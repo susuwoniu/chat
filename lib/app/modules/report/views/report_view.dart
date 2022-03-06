@@ -30,6 +30,7 @@ class ReportView extends GetView<ReportController> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          centerTitle: true,
           title: Text('ReportView'.tr, style: TextStyle(fontSize: 16)),
           bottom: PreferredSize(
               child: Container(

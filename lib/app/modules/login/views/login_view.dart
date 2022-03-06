@@ -67,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           title: Text(

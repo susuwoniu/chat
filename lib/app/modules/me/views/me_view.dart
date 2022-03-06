@@ -23,6 +23,7 @@ class MeView extends GetView<MeController> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          centerTitle: true,
           title: Text('MeView'.tr,
               style: TextStyle(
                   fontSize: 15,

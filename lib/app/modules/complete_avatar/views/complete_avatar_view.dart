@@ -13,6 +13,7 @@ class CompleteAvatarView extends GetView<CompleteAvatarController> {
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
+            centerTitle: true,
             title: Text('CompleteAvatar'.tr, style: TextStyle(fontSize: 16)),
             actions: [
               Padding(

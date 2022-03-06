@@ -6,6 +6,10 @@
 
 - [x] 某些情况会把登录态消失，需要重现定位错误
 - [ ] report type error
+- [ ] single post view收藏失效
+- [ ] 卡片间距
+- [ ] 反馈页面
+- [ ] 未登录——single post-收藏-返回 null
 - [ ] android 推送
 - [x] android 话题页title溢出
 - [ ] 话题页点击加入话题，提示没有跳转vip，vip页面最好展示下次发帖时间

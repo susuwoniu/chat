@@ -12,6 +12,7 @@ class ChangeGenderView extends GetView<ChangeGenderController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text('ChangeGender'.tr, style: TextStyle(fontSize: 16)),
         ),
         body: SafeArea(

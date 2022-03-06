@@ -12,6 +12,7 @@ class EditNameView extends GetView<EditNameController> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        centerTitle: true,
         title: Text("Name".tr, style: TextStyle(fontSize: 16)),
         bottom: PreferredSize(
             child: Container(

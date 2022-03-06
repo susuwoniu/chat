@@ -56,6 +56,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          centerTitle: true,
           title: Text(
             "Verification".tr,
             style: TextStyle(fontSize: 16),

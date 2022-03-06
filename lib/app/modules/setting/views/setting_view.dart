@@ -17,6 +17,7 @@ class SettingView extends GetView<SettingController> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          centerTitle: true,
           automaticallyImplyLeading: true,
           bottom: PreferredSize(
               child: Container(

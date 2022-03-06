@@ -10,6 +10,7 @@ class FeedbackView extends GetView<FeedbackController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('FeedbackView', style: TextStyle(fontSize: 16)),
       ),
       body: Center(

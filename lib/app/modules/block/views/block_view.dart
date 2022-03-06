@@ -16,6 +16,7 @@ class BlockView extends GetView<BlockController> {
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
+          centerTitle: true,
           bottom: PreferredSize(
               child: Container(
                 height: 0.5,

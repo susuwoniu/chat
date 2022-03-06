@@ -12,6 +12,7 @@ class CompleteAgeView extends GetView<CompleteAgeController> {
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
+            centerTitle: true,
             title: Text('CompleteAge'.tr, style: TextStyle(fontSize: 16))),
         body: SafeArea(
           child: Container(

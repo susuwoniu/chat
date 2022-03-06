@@ -98,6 +98,7 @@ const Map<String, String> en_US = {
   "location": "location",
   "tags": "tags",
   "birth": "birth",
+  'Birth': 'Birth',
   "Save": "Save",
   "Please_choose_your_gender_and_age": "Please choose your gender and age:",
   "I_am": "I am:",

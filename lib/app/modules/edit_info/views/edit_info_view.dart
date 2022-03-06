@@ -14,6 +14,7 @@ class EditInfoView extends GetView<EditInfoController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('EditInfoView'.tr, style: TextStyle(fontSize: 16)),
         bottom: PreferredSize(
             child: Container(
@@ -68,7 +69,7 @@ class EditInfoView extends GetView<EditInfoController> {
                           arguments: {"mode": "back"});
                     }),
                 SettingsTile(
-                    title: _title("gender".tr),
+                    title: _title("Gender".tr),
                     trailing: _trail(_account.gender.tr),
                     onPressed: (BuildContext context) {
                       Get.toNamed(Routes.CHANGE_GENDER, arguments: {
@@ -83,7 +84,7 @@ class EditInfoView extends GetView<EditInfoController> {
                       Get.toNamed(Routes.EDIT_BIO, arguments: {"mode": "back"});
                     }),
                 SettingsTile(
-                    title: _title("birth".tr),
+                    title: _title("Birth".tr),
                     trailing: _trail(_birthday.substring(0, 4)),
                     onPressed: (BuildContext context) {
                       showModalBottomSheet<void>(
