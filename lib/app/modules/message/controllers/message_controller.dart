@@ -187,8 +187,10 @@ class MessageController extends GetxController {
         var totalUnreadCount = 0;
         final rooms = await ChatProvider.to.roomManager!.getAllRooms();
         // get room name, avatar
+        final List<String> roomInfoIds = [];
         for (var room in rooms) {
-          entities[room.id] = Room.fromXmppRoom(room);
+          final newRoom = Room.fromXmppRoom(room);
+          entities[room.id] = newRoom;
           if (roomMessageIndexesMap[room.id] == null) {
             roomMessageIndexesMap[room.id] = [];
           }
@@ -197,8 +199,12 @@ class MessageController extends GetxController {
             indexes.add(room.id);
           }
           totalUnreadCount += entities[room.id]!.clientUnreadCount;
+          if (newRoom.room_info_id != null) {
+            roomInfoIds.add(newRoom.room_info_id);
+          }
         }
-
+        // get room info
+        await fetchAccounts(roomInfoIds);
         _isLoadingRooms.value = false;
         _isInitRooms.value = true;
         _roomsStateStreamController.add(RoomsState.inited);
@@ -217,19 +223,27 @@ class MessageController extends GetxController {
     }
   }
 
-  Future<void> fetchAccounts(List<String> jids) async {
-    if (jids.isNotEmpty) {
-      // TODO check cache
-      final result = await getRawAccountsByIds(jids
-          .where((jid) => jidToAccountId(jid) != null)
-          .map((jid) => jidToAccountId(jid)!)
-          .toList());
+  Future<void> fetchAccounts(List<String> accountIds) async {
+    if (accountIds.isNotEmpty) {
+      final List<String> accountIdsToFetch = [];
+      final Map<String, SimpleAccountEntity> accountMap = {};
+      for (var id in accountIds) {
+        if (AuthProvider.to.simpleAccountMap[id] != null) {
+          accountMap[id] = AuthProvider.to.simpleAccountMap[id]!;
+        } else {
+          accountIdsToFetch.add(id);
+        }
+      }
+
+      var result = [];
+      if (accountIdsToFetch.isNotEmpty) {
+        result = await getRawAccountsByIds(accountIdsToFetch);
+      }
       // save account
-      final Map<String, SimpleAccountEntity> accountMap = {
-        for (var v in result)
-          v["id"]: SimpleAccountEntity.fromJson(v["attributes"])
-      };
-      await AuthProvider.to.saveSimpleAccounts(accountMap);
+      for (var v in result) {
+        accountMap[v["id"]] = SimpleAccountEntity.fromJson(v["attributes"]);
+      }
+      await AuthProvider.to.saveSimpleAccounts(accountMap, persist: true);
       // todo save to auth provider
     }
   }

@@ -8,7 +8,7 @@ class CacheProvider extends StoreProvider {
   factory CacheProvider() => _instance;
 
   CacheProvider._internal();
-  Future<void> init() async {
-    super.initStore("cache_store");
+  Future<void> initial() async {
+    await super.initStore("cache_store");
   }
 }

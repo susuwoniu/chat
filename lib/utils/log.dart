@@ -13,7 +13,7 @@ class Log {
     if (env == 'dev' || env == 'local' || env == 'test') {
       Logger.level = Level.debug;
     } else {
-      Logger.level = Level.warning;
+      Logger.level = Level.debug;
 
       // Logger.level = Level.warning;
     }

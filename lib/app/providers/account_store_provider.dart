@@ -6,7 +6,7 @@ class AccountStoreProvider extends StoreProvider {
   static AccountStoreProvider get to => _instance;
   factory AccountStoreProvider() => _instance;
   AccountStoreProvider._internal();
-  Future<void> init() async {
-    super.initStore("account_store");
+  Future<void> initial() async {
+    await super.initStore("account_store");
   }
 }

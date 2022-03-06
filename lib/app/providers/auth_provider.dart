@@ -6,7 +6,6 @@ import 'package:chat/app/providers/router_provider.dart';
 
 import 'package:chat/common.dart';
 import 'dart:async';
-import 'package:chat/app/routes/app_pages.dart';
 
 class AuthProvider extends GetxService {
   static AuthProvider get to => Get.find();
@@ -75,7 +74,6 @@ class AuthProvider extends GetxService {
     }
     //todo refresh token to access token
     if (accessToken != null && imAccessToken != null && accountId != null) {
-      // await ImProvider.to.login(_accountId!, _imAccessToken!);
       _isLogin.value = true;
       _authUpdatedStreamController.add(AuthStatus.loginSuccess);
     } else {
