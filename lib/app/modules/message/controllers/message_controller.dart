@@ -223,6 +223,21 @@ class MessageController extends GetxController {
     }
   }
 
+  Future<void> refreshMessages() async {
+    if (ChatProvider.to.roomManager != null) {
+      // is disconnected
+      if (ChatProvider.to.rawConnectionState.value ==
+          xmpp.ConnectionState.disconnected) {
+        ChatProvider.to.reconnect();
+      } else if (ChatProvider.to.rawConnectionState.value ==
+              xmpp.ConnectionState.connected ||
+          ChatProvider.to.rawConnectionState.value ==
+              xmpp.ConnectionState.resumed) {
+        await ChatProvider.to.roomManager!.syncServerRooms();
+      }
+    }
+  }
+
   Future<void> fetchAccounts(List<String> accountIds) async {
     if (accountIds.isNotEmpty) {
       final List<String> accountIdsToFetch = [];
