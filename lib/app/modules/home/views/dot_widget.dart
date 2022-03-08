@@ -42,34 +42,25 @@ class DotWidget extends StatelessWidget {
                   iconSize: 32,
                   onPressed: () async {
                     Navigator.pop(context);
-                    // if login
-                    if (AuthProvider.to.isLogin) {
-                      if (isStar) {
-                        try {
-                          await HomeController.to.patchPostCountView(
-                              postId: postId,
-                              isPostStar: true,
-                              increase: false,
-                              current: isFavorite);
-                        } catch (e) {
-                          UIUtils.showError(e);
-                        }
-                      } else {
-                        try {
-                          await HomeController.to.patchPostCountView(
-                              postId: postId,
-                              isPostStar: true,
-                              increase: true,
-                              current: isFavorite);
-                          UIUtils.toast("Marked.".tr);
-                        } catch (e) {
-                          UIUtils.showError(e);
-                        }
+                    if (isStar) {
+                      try {
+                        await HomeController.to.patchFavorite(
+                            postId: postId,
+                            increase: false,
+                            current: isFavorite);
+                      } catch (e) {
+                        UIUtils.showError(e);
                       }
                     } else {
-                      Get.toNamed(
-                        Routes.LOGIN,
-                      );
+                      try {
+                        await HomeController.to.patchFavorite(
+                            postId: postId,
+                            increase: true,
+                            current: isFavorite);
+                        UIUtils.toast("Marked.".tr);
+                      } catch (e) {
+                        UIUtils.showError(e);
+                      }
                     }
                   });
             }),

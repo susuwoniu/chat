@@ -78,12 +78,12 @@ class MeView extends GetView<MeController> {
                       ? '99+' + ' Marks'.tr
                       : _account.favorite_count.toString() + ' Marks'.tr
                   : '0' + ' Mark'.tr;
-              final totalViewedCount = controller.totalViewedCount.value > 0
-                  ? controller.totalViewedCount.value > 9999
-                      ? '9999+' + ' Visitors'.tr
-                      : controller.totalViewedCount.value.toString() +
-                          ' Visitors'.tr
-                  : '0' + ' Visitor'.tr;
+              // final totalViewedCount = controller.totalViewedCount.value > 0
+              //     ? controller.totalViewedCount.value > 9999
+              //         ? '9999+' + ' Visitors'.tr
+              //         : controller.totalViewedCount.value.toString() +
+              //             ' Visitors'.tr
+              //     : '0' + ' Visitor'.tr;
 
               final avatar = _account.avatar;
 

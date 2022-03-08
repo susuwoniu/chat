@@ -4,6 +4,7 @@ import 'package:chat/app/providers/providers.dart';
 import 'package:chat/common.dart';
 import 'package:chat/app/modules/main/controllers/bottom_navigation_bar_controller.dart';
 import 'package:chat/app/ui_utils/location.dart';
+import 'package:chat/app/routes/app_pages.dart';
 
 class PageState {
   bool isHomeInitial;
@@ -373,39 +374,41 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> patchPostCountView(
-      {required String postId,
-      isPostStar = false,
-      bool? increase,
-      bool? current = false}) async {
-    // change last cursor
-
+  Future<void> patchFavorite(
+      {required String postId, required bool increase, bool? current}) async {
     if (AuthProvider.to.isLogin) {
-      if (isPostStar) {
-        if (increase == true && current == null) {
-          // get latest post
-          final result = await APIProvider.to.get('/post/posts/$postId');
-          HomeController.to.postMap[postId] =
-              PostEntity.fromJson(result['data']['attributes']);
-          current = HomeController.to.postMap[postId]!.is_favorite;
-        }
-        if (increase == current) {
-          return;
-        } else {
-          await APIProvider.to.patch("/post/posts/$postId", body: {
-            "favorite_count_action": increase! ? 'increase_one' : 'decrease_one'
-          });
-          postMap[postId]!.is_favorite = increase;
-          HomeController.to.postMap[postId] = postMap[postId]!;
-        }
-      } else {
-        await CacheProvider.to.setExpiredString(
-            'STORAGE_${currentPage}_LAST_CURSOR_KEY',
-            postMap[postId]!.cursor,
-            getExpiresAt());
-        await APIProvider.to.patch("/post/posts/$postId",
-            body: {"viewed_count_action": "increase_one"});
+      final action = increase ? 'increase_one' : 'decrease_one';
+
+      await APIProvider.to.patch("/post/posts/$postId",
+          body: {"favorite_count_action": action});
+
+      postMap[postId]!.is_favorite = increase;
+      HomeController.to.postMap[postId] = postMap[postId]!;
+      if (increase == current) {
+        return;
       }
+    } else {
+      Get.toNamed(
+        Routes.LOGIN,
+      );
+    }
+  }
+
+  Future<void> patchPostCountView({
+    required String postId,
+  }) async {
+    // change last cursor
+    if (AuthProvider.to.isLogin) {
+      await CacheProvider.to.setExpiredString(
+          'STORAGE_${currentPage}_LAST_CURSOR_KEY',
+          postMap[postId]!.cursor,
+          getExpiresAt());
+      await APIProvider.to.patch("/post/posts/$postId",
+          body: {"viewed_count_action": "increase_one"});
+    } else {
+      Get.toNamed(
+        Routes.LOGIN,
+      );
     }
   }
 
