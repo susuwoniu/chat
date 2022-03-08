@@ -78,11 +78,16 @@ class ReportView extends GetView<ReportController> {
                                                 : Type[controller
                                                         .reportType.value]!
                                                     .tr,
-                                            style: TextStyle(fontSize: 17),
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500),
                                           )),
                                       Icon(
                                         Icons.chevron_right_rounded,
-                                        size: 40,
+                                        size: 36,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
                                       )
                                     ]),
                               )),
@@ -92,9 +97,10 @@ class ReportView extends GetView<ReportController> {
                             maxLines: 5,
                             keyboardType: TextInputType.multiline,
                             style: TextStyle(fontSize: 16, height: 1.6),
+                            maxLength: 300,
                             decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 5),
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 15),
                               hintText: 'Enter_report_description(Optional)'.tr,
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -113,11 +119,13 @@ class ReportView extends GetView<ReportController> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: 10),
                           Padding(
                               padding: EdgeInsets.symmetric(horizontal: 5),
                               child: Text('Screenshot_of_Evidence(Optional)'.tr,
-                                  style: TextStyle(fontSize: 16))),
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500))),
                           SizedBox(height: 15),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 5),

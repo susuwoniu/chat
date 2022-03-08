@@ -194,5 +194,12 @@ const Map<String, String> zh_Hans = {
   'StarView': '我的收藏',
   'In_chronological_order': '按时间排序',
   'By_hot_degree': '按人气排序',
-  'ExploreView': '探索话题'
+  'ExploreView': '探索话题',
+  'FeedbackView': '反馈问题',
+  'Screenshot_for_troubleshooting(Optional)': '问题截图（可选）',
+  'Please_describe_your_issue_using_at_least_10_characters_so_that_we_can_help_troubleshoot_your_issue_more_quickly':
+      '请您使用至少10个字描述在使用过程中遇到的问题，我们会尽快解决～',
+  'Please_describe_your_issue_using_at_least_10_characters': '请至少输入10个字～',
+  'mobile_email_contact': '手机/邮箱',
+  'Optional': '可选',
 };

@@ -1,5 +1,14 @@
 const Map<String, String> en_US = {
   'EditInfoView': 'Edit Info',
+  'FeedbackView': 'Feedback',
+  'Screenshot_for_troubleshooting(Optional)':
+      'Screenshot for troubleshooting(Optional)',
+  'Please_describe_your_issue_using_at_least_10_characters_so_that_we_can_help_troubleshoot_your_issue_more_quickly':
+      'Please describe your issue using at least 10 characters so that we can help troubleshoot your issue more quickly',
+  'Please_describe_your_issue_using_at_least_10_characters':
+      'Please using at least 10 characters',
+  'mobile_email_contact': 'Mobile/Email Contact',
+  'Optional': 'Optional',
   'Avatar': 'Avatar',
   'MeView': 'My Profile',
   'More': 'More',

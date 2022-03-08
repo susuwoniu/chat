@@ -6,7 +6,7 @@
 
 - [x] 某些情况会把登录态消失，需要重现定位错误
 - [ ] report type error
-- [ ] single post view收藏失效
+- [x] single post view收藏失效
 - [ ] 卡片间距
 - [ ] 反馈页面
 - [ ] 未登录——single post-收藏-返回 null

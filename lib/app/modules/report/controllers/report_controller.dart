@@ -1,5 +1,4 @@
 import 'package:chat/app/providers/api_provider.dart';
-import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:get/get.dart';
 import 'package:chat/utils/upload.dart';
 import 'package:chat/types/types.dart';
