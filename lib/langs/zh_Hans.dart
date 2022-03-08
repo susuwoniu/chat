@@ -115,8 +115,6 @@ const Map<String, String> zh_Hans = {
   " Post": "则状态",
   ' Hearts': '个赞',
   ' Heart': '个赞',
-  ' hearts': '人赞我',
-  ' heart': '人赞我',
   "Public": "公开中",
   "Private": "私密中",
   'Visible_to_yourself': '设为自己可见',

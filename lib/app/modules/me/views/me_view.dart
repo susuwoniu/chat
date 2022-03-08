@@ -70,9 +70,9 @@ class MeView extends GetView<MeController> {
                   : '0' + ' Post'.tr;
               final likeCount = _account.likeCount > 0
                   ? _account.likeCount > 9999
-                      ? '9999+' + ' hearts'.tr
-                      : _account.likeCount.toString() + ' hearts'.tr
-                  : '0' + ' heart'.tr;
+                      ? '9999+' + ' Hearts'.tr
+                      : _account.likeCount.toString() + ' Hearts'.tr
+                  : '0' + ' Heart'.tr;
               final favorite_count = _account.favorite_count > 0
                   ? _account.favorite_count > 99
                       ? '99+' + ' Marks'.tr

@@ -33,20 +33,10 @@ class CreateView extends GetView<CreateController> {
             ? Theme.of(context).colorScheme.surface
             : Theme.of(context).colorScheme.background,
         appBar: AppBar(
-            centerTitle: true,
+            // centerTitle: true,
             backgroundColor: isLight
                 ? Theme.of(context).colorScheme.surface
                 : Theme.of(context).colorScheme.background,
-            title: Text('Create_Post'.tr,
-                style: TextStyle(
-                  fontSize: 16,
-                )),
-            bottom: PreferredSize(
-                child: Container(
-                  height: 0.5,
-                  color: Theme.of(context).dividerColor,
-                ),
-                preferredSize: Size.fromHeight(0)),
             actions: [
               Container(
                 padding: EdgeInsets.only(right: 16, top: 10, bottom: 10),
@@ -63,7 +53,7 @@ class CreateView extends GetView<CreateController> {
             ]),
         body: Column(
           children: [
-            SizedBox(height: 15),
+            SizedBox(height: 5),
             Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
               Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
