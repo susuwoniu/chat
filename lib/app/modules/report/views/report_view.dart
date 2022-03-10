@@ -33,8 +33,8 @@ class ReportView extends GetView<ReportController> {
 
   @override
   Widget build(BuildContext context) {
-    final String? _related_post_id = Get.arguments['related_post_id'];
-    final String? _related_account_id = Get.arguments['related_account_id'];
+    final String? _related_post_id = controller.related_post_id;
+    final String? _related_account_id = controller.related_account_id;
     final tag = _related_post_id ?? "" + (_related_account_id ?? "");
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -63,12 +63,12 @@ class ReportView extends GetView<ReportController> {
                         children: [
                           SizedBox(height: 10),
                           GestureDetector(
-                              onTap: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return _reportSheet(context);
-                                    });
+                              onTap: () async {
+                                final index = await Get.bottomSheet(
+                                    _reportSheet(context));
+                                if (index < 4) {
+                                  controller.setReportType(_typeTitle[index]);
+                                }
                               },
                               child: Container(
                                 padding: EdgeInsets.fromLTRB(5, 0, 0, 8),
@@ -228,10 +228,7 @@ class ReportView extends GetView<ReportController> {
             return ListTile(
                 title: BottomSheetRow(text: _type[index].tr),
                 onTap: () {
-                  Navigator.pop(context);
-                  if (index < 4) {
-                    controller.setReportType(_typeTitle[index]);
-                  }
+                  Get.back(result: index);
                 });
           },
           separatorBuilder: (BuildContext context, int index) =>
