@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../report/views/bottom_sheet_row.dart';
 import 'package:get/get.dart';
+import '../../report/views/bottom_sheet_row.dart';
+
+const _title = ['public', 'private', 'cancel'];
+const _list = ['Visible_to_public', 'Visible_to_yourself', 'Cancel'];
 
 class VisibilitySheet extends StatelessWidget {
   final Function(String visibility) onPressedVisibility;
@@ -11,30 +14,24 @@ class VisibilitySheet extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Wrap(alignment: WrapAlignment.center, children: [
-      Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.only(bottom: 10),
+    return Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onPrimary,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Column(children: [
-          BottomSheetRow(
-              text: 'Visible_to_public'.tr,
-              onPressed: () {
-                onPressedVisibility('public');
-              }),
-          Container(height: 1, color: Colors.grey.shade100),
-          BottomSheetRow(
-              text: 'Visible_to_yourself'.tr,
-              onPressed: () {
-                onPressedVisibility('private');
-              }),
-          Container(height: 8, color: Colors.grey.shade100),
-          BottomSheetRow(text: 'Cancel'.tr, onPressed: () {}),
-        ]),
-      )
-    ]);
+        child: ListView.separated(
+          shrinkWrap: true,
+          itemCount: _title.length,
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                  onPressedVisibility(_title[index]);
+                },
+                child: BottomSheetRow(text: _list[index].tr));
+          },
+          separatorBuilder: (BuildContext context, int index) =>
+              Divider(height: 1),
+        ));
   }
 }

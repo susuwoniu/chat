@@ -231,15 +231,7 @@ class ReportView extends GetView<ReportController> {
                   controller.setReportType(_typeTitle[index]);
                 }
               },
-              child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 18),
-                  alignment: Alignment.center,
-                  child: Text(
-                    _type[index].tr,
-                    style: TextStyle(
-                        fontSize: 17,
-                        color: Theme.of(context).colorScheme.onSurface),
-                  )),
+              child: BottomSheetRow(text: _type[index].tr),
             );
           },
           separatorBuilder: (BuildContext context, int index) =>
