@@ -24,8 +24,9 @@ class CreatePost extends StatelessWidget {
         style: TextStyle(
             color: Colors.black54, fontSize: 16, fontWeight: FontWeight.w500));
 
-    final _lockText = Wrap(alignment: WrapAlignment.center, children: [
-      Text('Unlocks_at: '.tr,
+    final _lockText =
+        Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+      Text('unlocks_at'.tr,
           style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500)),
       SizedBox(height: 6),
       Countdown(

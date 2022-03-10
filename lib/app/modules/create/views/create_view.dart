@@ -84,10 +84,13 @@ class CreateView extends GetView<CreateController> {
                               showModalBottomSheet(
                                   context: context,
                                   builder: (context) {
-                                    return VisibilitySheet(onPressedVisibility:
-                                        (String visibility) {
-                                      controller.setIsVisibility(visibility);
-                                    });
+                                    return VisibilitySheet(
+                                        current: controller.visibility,
+                                        onPressedVisibility:
+                                            (String visibility) {
+                                          controller
+                                              .setIsVisibility(visibility);
+                                        });
                                   });
                             },
                             child: Obx(() => Row(children: [
@@ -177,7 +180,7 @@ class CreateView extends GetView<CreateController> {
       controller.setIsSubmitting(false);
 
       UIUtils.hideLoading();
-      UIUtils.toast("Succeeded!".tr);
+      UIUtils.toast("succeeded".tr);
       RouterProvider.to.toHome();
       AuthProvider.to.account.update((value) {
         if (value != null) {

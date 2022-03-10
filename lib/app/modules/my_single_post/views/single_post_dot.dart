@@ -45,11 +45,13 @@ class SinglePostDot extends StatelessWidget {
                 text: VisibilityMap[visibility]!.tr,
                 onPressed: () {
                   Navigator.pop(context);
+
                   showModalBottomSheet(
                       context: context,
                       builder: (context) {
                         return VisibilitySheet(
-                            onPressedVisibility: onPressedVisibility);
+                            onPressedVisibility: onPressedVisibility,
+                            current: visibility);
                       });
                 }),
             SizedBox(width: 20),

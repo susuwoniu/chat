@@ -247,7 +247,7 @@ class MySinglePostView extends StatelessWidget {
                           try {
                             UIUtils.showLoading();
                             await postChange(type: visibility, postId: postId);
-                            UIUtils.toast('Succeeded!'.tr);
+                            UIUtils.toast(visibility);
                           } catch (e) {
                             UIUtils.showError(e);
                           }
