@@ -5,8 +5,8 @@ import 'package:chat/types/types.dart';
 
 class ReportController extends GetxController {
   static ReportController get to => Get.find();
-  final _related_post_id = Get.arguments['related_post_id'];
-  final _related_account_id = Get.arguments['related_account_id'];
+  final related_post_id = Get.arguments['related_post_id'];
+  final related_account_id = Get.arguments['related_account_id'];
   final count = 0.obs;
   final reportType = ''.obs;
   final imgList = RxList([]);
@@ -67,8 +67,8 @@ class ReportController extends GetxController {
   onPressReport({String? content}) async {
     final body = {};
     body['type'] = reportType.value;
-    body['related_post_id'] = _related_post_id;
-    body['related_account_id'] = _related_account_id;
+    body['related_post_id'] = related_post_id;
+    body['related_account_id'] = related_account_id;
     if (imgEntity != null) {
       body['images'] = [imgEntity!.toJson()];
     }
