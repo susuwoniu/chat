@@ -8,15 +8,25 @@ import 'package:mime_type/mime_type.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:chat/app/ui_utils/ui_utils.dart';
-import 'report_sheet.dart';
 import '../../edit_info/views/single_image.dart';
+import 'bottom_sheet_row.dart';
 
-const Map<String, String> Type = {
+const Map<String, String> _reportType = {
   "spam": "Fraud",
   "offensive": "Harassing",
   "illegal": "Crime_and_illegal_activities",
-  "complaint": "Other"
+  "complaint": "Other",
+  'cancel': 'Cancel'
 };
+
+const _typeTitle = ["spam", "offensive", "illegal", "complaint", 'cancel'];
+const _type = [
+  "Fraud",
+  "Harassing",
+  "Crime_and_illegal_activities",
+  "Other",
+  'Cancel'
+];
 
 class ReportView extends GetView<ReportController> {
   final _textController = TextEditingController();
@@ -57,7 +67,7 @@ class ReportView extends GetView<ReportController> {
                                 showModalBottomSheet(
                                     context: context,
                                     builder: (context) {
-                                      return ReportSheet();
+                                      return _reportSheet(context);
                                     });
                               },
                               child: Container(
@@ -75,7 +85,7 @@ class ReportView extends GetView<ReportController> {
                                       Obx(() => Text(
                                             controller.reportType.value == ''
                                                 ? 'Choose_report_type'.tr
-                                                : Type[controller
+                                                : _reportType[controller
                                                         .reportType.value]!
                                                     .tr,
                                             style: TextStyle(
@@ -202,5 +212,38 @@ class ReportView extends GetView<ReportController> {
 
       UIUtils.showError(e);
     }
+  }
+
+  Widget _reportSheet(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: ListView.separated(
+          shrinkWrap: true,
+          itemCount: _type.length,
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+                if (index < 4) {
+                  controller.setReportType(_typeTitle[index]);
+                }
+              },
+              child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 18),
+                  alignment: Alignment.center,
+                  child: Text(
+                    _type[index].tr,
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Theme.of(context).colorScheme.onSurface),
+                  )),
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) =>
+              Divider(height: 1),
+        ));
   }
 }

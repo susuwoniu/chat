@@ -8,6 +8,7 @@ const Map<String, String> en_US = {
   'Please_describe_your_issue_using_at_least_10_characters':
       'Please using at least 10 characters',
   'mobile_email_contact': 'Mobile/Email Contact',
+  'Thank_you_for_feedback': 'Thank you for feedback~',
   'Optional': 'Optional',
   'Avatar': 'Avatar',
   'MeView': 'My Profile',

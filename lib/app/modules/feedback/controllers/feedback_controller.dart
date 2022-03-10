@@ -33,6 +33,7 @@ class FeedbackController extends GetxController {
 
   onPressFeedback({required String content}) async {
     final body = {};
+    body['type'] = 'feedback';
 
     if (imgEntity != null) {
       body['images'] = [imgEntity!.toJson()];

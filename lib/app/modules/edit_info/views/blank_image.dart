@@ -12,16 +12,12 @@ class BlankImage extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _width = MediaQuery.of(context).size.width;
-    final _imgWidth = _width * 0.27;
-    final _margin = _width * 0.03;
-
     return GestureDetector(
         onTap: onPressed,
         child: Container(
-          margin: EdgeInsets.fromLTRB(0, 0, _margin, _margin * 1.1),
-          height: _width * 0.37,
-          width: _imgWidth,
+          margin: EdgeInsets.fromLTRB(2, 0, 22, 15),
+          height: 146,
+          width: 110,
           child: DottedBorder(
             strokeWidth: 4,
             child: page != null
