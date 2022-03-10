@@ -20,6 +20,7 @@ class VisibilitySheet extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: ListView.separated(
+          physics: const ClampingScrollPhysics(),
           shrinkWrap: true,
           itemCount: _title.length,
           itemBuilder: (BuildContext context, int index) {

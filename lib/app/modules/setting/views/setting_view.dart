@@ -13,6 +13,7 @@ class SettingView extends GetView<SettingController> {
   @override
   Widget build(BuildContext context) {
     final _account = AuthProvider.to.account.value;
+    final currentLanCode = ConfigProvider.to.locale.value.languageCode;
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -46,38 +47,23 @@ class SettingView extends GetView<SettingController> {
                 ]),
                 SettingsSection(title: Text('General'.tr), tiles: [
                   SettingsTile(
-                    title: Text('Language'.tr),
-                    value: Text(
-                      LanMap[ConfigProvider.to.locale.value.languageCode]!,
-                      style: TextStyle(
-                        fontSize: 15,
+                      title: Text('Language'.tr),
+                      value: Text(
+                        LanMap[ConfigProvider.to.locale.value.languageCode]!,
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
                       ),
-                    ),
-                    // leading: Icon(Icons.language),
-                    onPressed: (BuildContext context) {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return Wrap(
-                                alignment: WrapAlignment.center,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(bottom: 30),
-                                    decoration: BoxDecoration(
-                                      color:
-                                          Theme.of(context).colorScheme.surface,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Column(children: [
-                                      LanRow(lanCode: 'zh', context: context),
-                                      Divider(height: 1),
-                                      LanRow(lanCode: 'en', context: context),
-                                    ]),
-                                  ),
-                                ]);
-                          });
-                    },
-                  ),
+                      // leading: Icon(Icons.language),
+                      onPressed: (BuildContext context) {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return LanRow(
+                                current: currentLanCode,
+                              );
+                            });
+                      }),
                   SettingsTile.switchTile(
                     initialValue: ConfigProvider.to.nightMode.value,
                     title: Text('Night-mode'.tr),

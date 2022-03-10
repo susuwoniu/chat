@@ -221,6 +221,7 @@ class ReportView extends GetView<ReportController> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: ListView.separated(
+          physics: const ClampingScrollPhysics(),
           shrinkWrap: true,
           itemCount: _type.length,
           itemBuilder: (BuildContext context, int index) {

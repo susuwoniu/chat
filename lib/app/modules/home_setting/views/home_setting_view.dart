@@ -9,6 +9,8 @@ import './lan_row.dart';
 final LanMap = {'en': 'English', 'zh': 'Simplified-Chinese'.tr};
 
 class HomeSettingView extends GetView<HomeSettingController> {
+  final currentLanCode = ConfigProvider.to.locale.value.languageCode;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,23 +46,9 @@ class HomeSettingView extends GetView<HomeSettingController> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return Wrap(
-                                alignment: WrapAlignment.center,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(bottom: 30),
-                                    decoration: BoxDecoration(
-                                      color:
-                                          Theme.of(context).colorScheme.surface,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Column(children: [
-                                      LanRow(lanCode: 'zh', context: context),
-                                      Divider(height: 1),
-                                      LanRow(lanCode: 'en', context: context),
-                                    ]),
-                                  ),
-                                ]);
+                            return LanRow(
+                              current: currentLanCode,
+                            );
                           });
                     },
                   ),
