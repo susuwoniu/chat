@@ -23,12 +23,12 @@ class VisibilitySheet extends StatelessWidget {
           shrinkWrap: true,
           itemCount: _title.length,
           itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
+            return ListTile(
+                title: BottomSheetRow(text: _list[index].tr),
                 onTap: () {
                   Navigator.pop(context);
                   onPressedVisibility(_title[index]);
-                },
-                child: BottomSheetRow(text: _list[index].tr));
+                });
           },
           separatorBuilder: (BuildContext context, int index) =>
               Divider(height: 1),

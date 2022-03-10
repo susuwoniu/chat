@@ -224,15 +224,14 @@ class ReportView extends GetView<ReportController> {
           shrinkWrap: true,
           itemCount: _type.length,
           itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-                if (index < 4) {
-                  controller.setReportType(_typeTitle[index]);
-                }
-              },
-              child: BottomSheetRow(text: _type[index].tr),
-            );
+            return ListTile(
+                title: BottomSheetRow(text: _type[index].tr),
+                onTap: () {
+                  Navigator.pop(context);
+                  if (index < 4) {
+                    controller.setReportType(_typeTitle[index]);
+                  }
+                });
           },
           separatorBuilder: (BuildContext context, int index) =>
               Divider(height: 1),
