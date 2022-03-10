@@ -30,25 +30,17 @@ class OtherDots extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(children: [
-            Container(
-                padding: EdgeInsets.symmetric(vertical: 18, horizontal: 20),
-                width: _width,
-                decoration: BoxDecoration(
-                    border: Border(
-                  bottom: BorderSide(
-                    color: Theme.of(context).dividerColor,
-                  ),
-                )),
-                child: GestureDetector(
-                  onTap: () {
-                    onPressedReport();
-                  },
-                  child: Text('Report'.tr,
-                      style: TextStyle(
-                          fontSize: 17,
-                          color: Theme.of(context).colorScheme.onBackground)),
-                )),
-            GestureDetector(
+            ListTile(
+              onTap: () {
+                onPressedReport();
+              },
+              title: Text('Report'.tr,
+                  style: TextStyle(
+                      fontSize: 17,
+                      color: Theme.of(context).colorScheme.onBackground)),
+            ),
+            Divider(height: 1),
+            ListTile(
               onTap: () async {
                 Navigator.pop(context);
                 if (bottomText != null) {
@@ -61,28 +53,21 @@ class OtherDots extends StatelessWidget {
                   print(response);
                 }
               },
-              child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-                  color: Colors.transparent,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          bottomText ?? 'Share'.tr,
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: Theme.of(context).colorScheme.onBackground,
-                          ),
-                        ),
-                        Icon(
-                          bottomIcon ?? Icons.send_rounded,
-                          color: bottomText == null
-                              ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).colorScheme.onBackground,
-                          size: 30,
-                        ),
-                      ])),
-            )
+              title: Text(
+                bottomText ?? 'Share'.tr,
+                style: TextStyle(
+                  fontSize: 17,
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+              ),
+              trailing: Icon(
+                bottomIcon ?? Icons.send_rounded,
+                color: bottomText == null
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.onBackground,
+                size: 30,
+              ),
+            ),
           ])),
     ]);
   }

@@ -89,9 +89,9 @@ class ChatProvider extends GetxService {
 
   Future<void> logout() async {
     // get jpush id
-    final id = await PushProvider.to.jpush.getRegistrationID();
-    final _pushManager = xmpp.PushManager.getInstance(_connection!);
-    await _pushManager.disablePush(deviceId: id);
+    // final id = await PushProvider.to.jpush.getRegistrationID();
+    // final _pushManager = xmpp.PushManager.getInstance(_connection!);
+    // await _pushManager.disablePush(deviceId: id);
   }
 
   dipose() {

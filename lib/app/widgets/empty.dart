@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Widget Empty({
-  String message = "这里什么也没有～",
+  String message = "there_is_nothing_here",
 }) {
   return Container(
     margin: EdgeInsets.only(top: 50),
@@ -13,7 +14,7 @@ Widget Empty({
           height: 20,
         ),
         Text(
-          message,
+          message.tr,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,

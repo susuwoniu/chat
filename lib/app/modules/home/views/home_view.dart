@@ -129,14 +129,14 @@ class HomeView extends GetView<HomeController> {
                     } else if (index == postIndexes.length && isEmpty) {
                       return Center(
                           child: Retry(
-                              message: "当前没有更多帖子啦～",
+                              message: "no_more_now".tr,
                               onRetry: () async {
                                 controller.refreshHomePosts();
                               }));
                     } else if (index == postIndexes.length && isReachEnd) {
                       return Center(
                           child: Retry(
-                              message: "没有更多帖子了～",
+                              message: "no_more".tr,
                               onRetry: () async {
                                 controller.refreshHomePosts();
                               }));

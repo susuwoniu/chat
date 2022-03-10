@@ -42,59 +42,7 @@ class PostSquareView extends GetView<PostSquareController> {
                 stretch: true,
                 pinned: true,
                 backgroundColor: backgroundColor,
-                actions: [
-                  Container(
-                      padding: EdgeInsets.only(right: 15),
-                      child: DropdownButton<String>(
-                        dropdownColor: Colors.white,
-                        icon:
-                            Icon(Icons.swap_vert_outlined, color: Colors.white),
-                        iconSize: 28,
-                        elevation: 0,
-                        borderRadius: BorderRadius.circular(12),
-                        underline: Container(
-                          height: 0,
-                        ),
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            controller.setListOrder(newValue);
-                          }
-                        },
-                        items: <String>[
-                          'In_chronological_order',
-                          'By_hot_degree'
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                              value: value,
-                              child: Obx(
-                                () => Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                          child: Text(
-                                        value.tr,
-                                        style: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 15,
-                                            fontWeight:
-                                                controller.listOrder.value ==
-                                                        value
-                                                    ? FontWeight.bold
-                                                    : FontWeight.normal),
-                                      )),
-                                      controller.listOrder.value == value
-                                          ? Icon(
-                                              Icons.check_outlined,
-                                              size: 20,
-                                              color: Color(0xFF7371fc),
-                                            )
-                                          : SizedBox.shrink(),
-                                    ]),
-                              ));
-                        }).toList(),
-                      ))
-                ],
+                actions: [_dropButton()],
                 expandedHeight: 200,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
@@ -158,38 +106,86 @@ class PostSquareView extends GetView<PostSquareController> {
             ]),
             Positioned(
                 bottom: 35,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: ChatThemeData.baseBlack),
-                  child: GestureDetector(
-                      onTap: () {
-                        if (getTimeStop() > 0) {
-                          UIUtils.showError("It's_not_time_to_post_yet".tr);
-                        } else {
-                          Get.toNamed(Routes.CREATE, arguments: {
-                            "id": _id.toString(),
-                            "background-color-index": backgroundColorIndex,
-                          });
-                        }
-                      },
-                      child: Row(children: [
-                        Avatar(
-                            name: AuthProvider.to.account.value.name,
-                            uri: AuthProvider
-                                .to.account.value.avatar?.thumbnail.url,
-                            size: 16),
-                        SizedBox(width: 8),
-                        Text('Join_topic'.tr,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              fontSize: 15,
-                            )),
-                      ])),
-                )),
+                child: _join(Theme.of(context).colorScheme.onPrimary))
           ]),
         ));
+  }
+
+  Widget _dropButton() {
+    return Container(
+        margin: EdgeInsets.only(right: 15),
+        child: DropdownButton<String>(
+          dropdownColor: Colors.white,
+          icon: Icon(Icons.swap_vert_outlined, color: Colors.white),
+          iconSize: 28,
+          elevation: 0,
+          borderRadius: BorderRadius.circular(12),
+          underline: Container(
+            height: 0,
+          ),
+          onChanged: (String? newValue) {
+            if (newValue != null) {
+              controller.setListOrder(newValue);
+            }
+          },
+          items: <String>['In_chronological_order', 'By_hot_degree']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+                value: value,
+                child: Obx(
+                  () => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(value.tr,
+                            style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 15,
+                                fontWeight: controller.listOrder.value == value
+                                    ? FontWeight.bold
+                                    : FontWeight.normal)),
+                        controller.listOrder.value == value
+                            ? Icon(
+                                Icons.check_outlined,
+                                size: 20,
+                                color: Color(0xFF7371fc),
+                              )
+                            : SizedBox.shrink(),
+                      ]),
+                ));
+          }).toList(),
+        ));
+  }
+
+  Widget _join(Color color) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: ChatThemeData.baseBlack),
+      child: GestureDetector(
+          onTap: () {
+            if (getTimeStop() > 0) {
+              UIUtils.showError("It's_not_time_to_post_yet".tr);
+            } else {
+              Get.toNamed(Routes.CREATE, arguments: {
+                "id": _id.toString(),
+                "background-color-index": backgroundColorIndex,
+              });
+            }
+          },
+          child: Row(children: [
+            Avatar(
+                name: AuthProvider.to.account.value.name,
+                uri: AuthProvider.to.account.value.avatar?.thumbnail.url,
+                size: 16),
+            SizedBox(width: 8),
+            Text('Join_topic'.tr,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 15,
+                )),
+          ])),
+    );
   }
 }

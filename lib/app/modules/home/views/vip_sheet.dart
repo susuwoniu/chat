@@ -7,17 +7,41 @@ import '../../complete_age/views/next_button.dart';
 import 'package:chat/common.dart';
 
 final List<Map<String, dynamic>> _cardList = [
-  {'icon': Icons.stars_rounded, 'title': '会员标识', 'detail': '展示会员专属标识'},
-  {'icon': Icons.pets_outlined, 'title': '查看访客', 'detail': '查看主页访客'},
+  {
+    'icon': Icons.star_rounded,
+    'title': 'special_icon'.tr,
+    'detail': 'display_member_specific_logo'.tr
+  },
+  {
+    'icon': Icons.pets_outlined,
+    'title': 'view_likes'.tr,
+    'detail': 'see_who_liked_me'.tr
+  },
   {
     'icon': Icons.auto_fix_high_outlined,
-    'title': '擦亮状态',
-    'detail': '擦亮后可增加曝光量'
+    'title': 'Polish'.tr,
+    'detail': 'your_post_will_be_pushed_to_the_latest_home_page'.tr
   },
-  // {'icon': Icons.theater_comedy_rounded, 'title': '匿名访问', 'detail': '适度隐藏自己'},
-  {'icon': Icons.filter_list_rounded, 'title': '设置筛选', 'detail': '筛选性别/年龄/距离'},
-  {'icon': Icons.timer_off_rounded, 'title': '无限发帖', 'detail': '解锁发帖无时间限制模式'},
-  {'icon': Icons.more_horiz_rounded, 'title': '更多特权', 'detail': '更多会员功能敬请期待...'}
+  {
+    'icon': Icons.filter_list_rounded,
+    'title': 'Filter'.tr,
+    'detail': 'choose_persons_you_are_interested_in'.tr
+  },
+  {
+    'icon': Icons.timer_off_rounded,
+    'title': 'unlimited_posts'.tr,
+    'detail': 'get_unlimited_posts'.tr
+  },
+  {
+    'icon': Icons.star_outlined,
+    'title': 'unlimited_favorites'.tr,
+    'detail': 'get_unlimited_favorites'.tr
+  },
+  {
+    'icon': Icons.more_horiz_rounded,
+    'title': 'more_features'.tr,
+    'detail': 'we_will_develop_more_membership_features'.tr
+  }
 ];
 
 class VipSheet extends StatefulWidget {
