@@ -17,6 +17,8 @@ class OtherController extends GetxController {
   final postMap = RxMap<String, PostEntity>({});
   final accountId = Get.arguments['id'];
   var isBlocked = false.obs;
+  String? _nextPageKey;
+  final isLast = false.obs;
 
   // final ScrollController listScrollController = ScrollController();
 
@@ -57,11 +59,12 @@ class OtherController extends GetxController {
     }
 
     final isLastPage = indexes.length < DEFAULT_PAGE_SIZE;
+    isLast.value = isLastPage;
+
     if (isLastPage) {
       pagingController.appendLastPage(indexes);
     } else {
-      final nextPageKey = indexes.last;
-      pagingController.appendPage(indexes, nextPageKey);
+      pagingController.appendPage(indexes, _nextPageKey);
     }
   }
 
@@ -83,6 +86,7 @@ class OtherController extends GetxController {
         await getApiPosts(after: after, url: "/post/accounts/$id/posts");
     postMap.addAll(result.postMap);
     myPostsIndexes.addAll(result.indexes);
+    _nextPageKey = result.endCursor;
 
     isLoadingPosts.value = false;
     if (isInitial.value == false) {

@@ -17,7 +17,7 @@ class MeController extends GetxController {
   final unreadViewedCount = 0.obs;
   final isLoadingImages = true.obs;
   String? _nextPageKey;
-  bool _isLastPage = false;
+  final isLast = false.obs;
 
   @override
   void onInit() {
@@ -36,32 +36,25 @@ class MeController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-
-    try {
-      await getViewedCount();
-    } catch (e) {
-      UIUtils.showError(e);
-    }
   }
 
   Future<void> refreshData() async {
     pagingController.refresh();
     await Future.wait<void>([
       AccountProvider.to.getMe(),
-      getViewedCount(),
     ]);
     return;
   }
 
-  clearUnreadViewerCount() async {
-    await APIProvider.to.patch("/notification/me/notification-inbox",
-        body: {"type": "profile_viewed", "unread_count_action": "clear"});
-    MeController.to.unreadViewedCount.value = 0;
-  }
+  // clearUnreadViewerCount() async {
+  //   await APIProvider.to.patch("/notification/me/notification-inbox",
+  //       body: {"type": "profile_viewed", "unread_count_action": "clear"});
+  //   MeController.to.unreadViewedCount.value = 0;
+  // }
 
   Future<void> fetchPage(String? lastPostId) async {
     List<String> indexes = [];
-    if (_isLastPage) {
+    if (isLast.value) {
       pagingController.value = PagingState(
         nextPageKey: null,
         itemList: HomeController.to.myPostsIndexes,
@@ -75,7 +68,7 @@ class MeController extends GetxController {
     }
 
     final isLastPage = indexes.length < DEFAULT_PAGE_SIZE;
-    _isLastPage = isLastPage;
+    isLast.value = isLastPage;
     _nextPageKey = indexes.last;
 
     if (isLastPage) {
@@ -97,11 +90,11 @@ class MeController extends GetxController {
     _current.value = i;
   }
 
-  getViewedCount() async {
-    final result =
-        await APIProvider.to.get("/notification/me/notification-inbox");
-    unreadViewedCount.value = result['meta']['profile_viewed']['unread_count'];
-    totalViewedCount.value = result['meta']['profile_viewed']['total_count'];
-    print(result);
-  }
+  // getViewedCount() async {
+  //   final result =
+  //       await APIProvider.to.get("/notification/me/notification-inbox");
+  //   unreadViewedCount.value = result['meta']['profile_viewed']['unread_count'];
+  //   totalViewedCount.value = result['meta']['profile_viewed']['total_count'];
+  //   print(result);
+  // }
 }

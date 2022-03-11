@@ -264,7 +264,16 @@ class OtherView extends StatelessWidget {
                           post: post);
                     }),
                   ),
-                  SliverToBoxAdapter(child: Container(height: 100))
+                  SliverToBoxAdapter(
+                      child: Container(
+                    alignment: Alignment.topCenter,
+                    padding: EdgeInsets.only(top: 12),
+                    height: 70,
+                    child: Obx(() => Text(
+                          controller.isLast.value ? 'no_more_now'.tr : '',
+                          style: TextStyle(color: Theme.of(context).hintColor),
+                        )),
+                  ))
                 ]),
               ));
         });

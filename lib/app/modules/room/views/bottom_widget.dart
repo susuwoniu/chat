@@ -116,14 +116,14 @@ class _InputState extends State<BottomWidget> {
   }
 
   Widget _leftWidget() {
-    if (_sendButtonVisible) {
-      return SizedBox(
-        width: 6,
-      );
-    }
+    // if (_sendButtonVisible) {
+    //   return SizedBox(
+    //     width: 6,
+    //   );
+    // }
     if (widget.isAttachmentUploading == true) {
       return Container(
-        height: 24,
+        height: 26,
         margin: const EdgeInsets.only(right: 16),
         width: 24,
         child: CircularProgressIndicator(
@@ -138,11 +138,13 @@ class _InputState extends State<BottomWidget> {
       return Container(
         height: 24,
         margin: const EdgeInsets.only(right: 16),
+        padding: const EdgeInsets.only(top: 2),
         width: 24,
         child: IconButton(
           splashColor: Colors.transparent,
           icon: Icon(
             Icons.photo_camera,
+            size: 26,
             // color: InheritedChatTheme.of(context).theme.inputTextColor,
           ),
           onPressed: widget.onCameraPressed,
@@ -157,13 +159,14 @@ class _InputState extends State<BottomWidget> {
   Widget _rightWidget() {
     return Row(children: [
       Container(
-        height: 24,
-        margin: const EdgeInsets.only(left: 0),
+        height: 26,
+        margin: const EdgeInsets.only(left: 4),
         width: 24,
         child: IconButton(
           splashColor: Colors.transparent,
           icon: Icon(
             Icons.image,
+            size: 26,
             // color: InheritedChatTheme.of(context).theme.inputTextColor,
           ),
           onPressed: widget.onAttachmentPressed,
@@ -320,12 +323,7 @@ class _InputState extends State<BottomWidget> {
                         borderRadius: BorderRadius.circular(24),
                         // color: Colors.black.withOpacity(0.06),
                         color: Theme.of(context).colorScheme.surface),
-                    padding: EdgeInsets.fromLTRB(
-                      12,
-                      9,
-                      12,
-                      9,
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 11),
                     margin: EdgeInsets.fromLTRB(
                       10 + _query.padding.left,
                       12,
@@ -338,6 +336,10 @@ class _InputState extends State<BottomWidget> {
                         Expanded(
                           child: TextField(
                             controller: _textController,
+                            textInputAction: TextInputAction.send,
+                            onSubmitted: (text) {
+                              _handleSendPressed();
+                            },
                             // cursorColor: InheritedChatTheme.of(context)
                             //     .theme
                             //     .inputTextCursorColor,
@@ -370,27 +372,28 @@ class _InputState extends State<BottomWidget> {
                             textCapitalization: TextCapitalization.sentences,
                           ),
                         ),
+                        // Visibility(
+                        //   visible: _sendButtonVisible,
+                        //   child: Container(
+                        //     margin: const EdgeInsets.only(left: 8),
+                        //     width: 24,
+                        //     height: 24,
+                        //     child: IconButton(
+                        //       splashColor: Colors.transparent,
+                        //       icon: Icon(Icons.send,
+                        //           size: 24,
+                        //           color: Theme.of(context).colorScheme.primary),
+                        //       onPressed: _handleSendPressed,
+                        //       padding: EdgeInsets.all(0),
+                        //       tooltip: InheritedL10n.of(context)
+                        //           .l10n
+                        //           .sendButtonAccessibilityLabel,
+                        //     ),
+                        //   ),
+                        // ),
+
                         Visibility(
-                          visible: _sendButtonVisible,
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 8),
-                            width: 30,
-                            height: 30,
-                            child: IconButton(
-                              splashColor: Colors.transparent,
-                              icon: Icon(Icons.send,
-                                  size: 30,
-                                  color: Theme.of(context).colorScheme.primary),
-                              onPressed: _handleSendPressed,
-                              padding: EdgeInsets.all(0),
-                              tooltip: InheritedL10n.of(context)
-                                  .l10n
-                                  .sendButtonAccessibilityLabel,
-                            ),
-                          ),
-                        ),
-                        Visibility(
-                            visible: !_sendButtonVisible,
+                            // visible: !_sendButtonVisible,
                             child: _rightWidget()),
                       ],
                     ),

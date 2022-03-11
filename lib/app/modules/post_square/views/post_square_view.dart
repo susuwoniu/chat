@@ -102,7 +102,16 @@ class PostSquareView extends GetView<PostSquareController> {
                         },
                         post: post);
                   })),
-              SliverToBoxAdapter(child: SizedBox(height: 60)),
+              SliverToBoxAdapter(
+                  child: Container(
+                alignment: Alignment.topCenter,
+                padding: EdgeInsets.only(top: 12),
+                height: 80,
+                child: Obx(() => Text(
+                      controller.isReachHomePostsEnd ? 'no_more_now'.tr : '',
+                      style: TextStyle(color: Theme.of(context).hintColor),
+                    )),
+              ))
             ]),
             Positioned(
                 bottom: 35,
