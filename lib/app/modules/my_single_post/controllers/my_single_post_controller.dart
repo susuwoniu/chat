@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import '../../home/controllers/home_controller.dart';
+import '../../me/controllers/me_controller.dart';
+
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:chat/common.dart';
 import 'package:chat/app/providers/providers.dart';
@@ -194,7 +196,7 @@ class MySinglePostController extends GetxController
 
   onDeletePost(id) async {
     await APIProvider.to.delete('/post/posts/$id');
-    HomeController.to.myPostsIndexes.remove(id);
+    MeController.to.myPostsIndexes.remove(id);
     HomeController.to.pageState['home']!.postIndexes.remove(id);
     HomeController.to.pageState['nearby']!.postIndexes.remove(id);
     final _account = AuthProvider.to.account;

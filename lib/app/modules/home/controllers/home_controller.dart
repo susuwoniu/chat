@@ -69,10 +69,6 @@ class HomeController extends GetxController {
   final _currentFrontColor = FRONT_COLORS[0].value.obs;
   String get currentPage => _currentPage.value;
 
-  final isMeInitial = false.obs;
-  final myPostsIndexes = RxList<String>(['create']);
-  final isLoadingMyPosts = false.obs;
-
   final postMap = RxMap<String, PostEntity>({});
 
   final Rx<PostsFilter> postsFilter = PostsFilter.empty().obs;
@@ -264,20 +260,6 @@ class HomeController extends GetxController {
     // save to store
     await CacheProvider.to.putObjectList(
         "STORAGE_${currentPage}_SKIPS_KEY", pageState[currentPage]!.skips);
-  }
-
-  Future<List<String>> getMePosts({String? after}) async {
-    isLoadingMyPosts.value = true;
-    final result = await getApiPosts(after: after, url: "/post/me/posts");
-    postMap.addAll(result.postMap);
-    myPostsIndexes.addAll(result.indexes);
-    await AuthProvider.to.saveSimpleAccounts(result.accountMap);
-
-    isLoadingMyPosts.value = false;
-    if (isMeInitial.value == false) {
-      isMeInitial.value = true;
-    }
-    return result.indexes;
   }
 
   insertEntity() async {}

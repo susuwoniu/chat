@@ -89,10 +89,12 @@ class PostSquareController extends GetxController {
         if (_isInitial.value == false) {
           _isInitial.value = true;
         }
+
+        homePostsLastCursor = result.endCursor;
+        AuthProvider.to.simpleAccountMap.addAll(result.accountMap);
         indexes = result.indexes;
         postMap.addAll(result.postMap);
         postIndexes.addAll(indexes);
-        AuthProvider.to.simpleAccountMap.addAll(result.accountMap);
         _isLoadingPosts.value = false;
       } catch (e) {
         _isLoadingPosts.value = false;
@@ -101,13 +103,11 @@ class PostSquareController extends GetxController {
         return indexes;
       }
 
-      final isLastPage = indexes.length < DEFAULT_PAGE_SIZE;
+      final isLastPage = indexes.isEmpty;
       if (isLastPage) {
         _isReachHomePostsEnd.value = true;
       }
-      if (indexes.isNotEmpty) {
-        homePostsLastCursor = indexes.last;
-      }
+
       return indexes;
     } else {
       return [];

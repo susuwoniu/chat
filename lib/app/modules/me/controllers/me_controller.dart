@@ -1,5 +1,4 @@
-import 'package:chat/app/providers/api_provider.dart';
-import 'package:chat/app/providers/account_provider.dart';
+import 'package:chat/app/providers/providers.dart';
 import 'package:get/get.dart';
 import '../../home/controllers/home_controller.dart';
 import 'package:chat/common.dart';
@@ -18,16 +17,19 @@ class MeController extends GetxController {
   final isLoadingImages = true.obs;
   String? _nextPageKey;
   final isLast = false.obs;
+  final myPostsIndexes = RxList<String>(['create']);
+  final isMeInitial = false.obs;
+  final isLoadingMyPosts = false.obs;
 
   @override
   void onInit() {
     pagingController.addPageRequestListener((lastPostId) {
       fetchPage(lastPostId);
     });
-    ever(HomeController.to.myPostsIndexes, (_) {
+    ever(myPostsIndexes, (_) {
       pagingController.value = PagingState(
         nextPageKey: _nextPageKey,
-        itemList: HomeController.to.myPostsIndexes,
+        itemList: myPostsIndexes,
       );
     });
     super.onInit();
@@ -53,30 +55,37 @@ class MeController extends GetxController {
   // }
 
   Future<void> fetchPage(String? lastPostId) async {
-    List<String> indexes = [];
     if (isLast.value) {
       pagingController.value = PagingState(
         nextPageKey: null,
-        itemList: HomeController.to.myPostsIndexes,
+        itemList: myPostsIndexes,
       );
       return;
     }
     try {
-      indexes = await HomeController.to.getMePosts(after: lastPostId);
+      await getMePosts(after: lastPostId);
     } catch (e) {
       UIUtils.showError(e);
     }
+  }
 
-    final isLastPage = indexes.length < DEFAULT_PAGE_SIZE;
-    isLast.value = isLastPage;
-    _nextPageKey = indexes.last;
-
-    if (isLastPage) {
-      pagingController.value = PagingState(
-        nextPageKey: null,
-        itemList: HomeController.to.myPostsIndexes,
-      );
+  Future<List<String>> getMePosts({String? after}) async {
+    isLoadingMyPosts.value = true;
+    final result = await getApiPosts(after: after, url: "/post/me/posts");
+    final isLastPage = result.indexes.isEmpty;
+    if (result.indexes.isNotEmpty) {
+      _nextPageKey = result.endCursor;
     }
+    isLast.value = isLastPage;
+    HomeController.to.postMap.addAll(result.postMap);
+    myPostsIndexes.addAll(result.indexes);
+    await AuthProvider.to.saveSimpleAccounts(result.accountMap);
+
+    isLoadingMyPosts.value = false;
+    if (isMeInitial.value == false) {
+      isMeInitial.value = true;
+    }
+    return result.indexes;
   }
 
   @override
