@@ -53,12 +53,12 @@ class Global {
   }
 
   static Future<void> initGetx() async {
-    Get.put<RouterProvider>(RouterProvider());
-    Get.put<PushProvider>(PushProvider());
-    Get.put<AccountProvider>(AccountProvider());
-    Get.put<ConfigProvider>(ConfigProvider());
-    Get.put<AuthProvider>(AuthProvider());
-    Get.put<ChatProvider>(ChatProvider());
+    await Get.put<RouterProvider>(RouterProvider());
+    await Get.put<PushProvider>(PushProvider());
+    await Get.put<AccountProvider>(AccountProvider());
+    await Get.put<ConfigProvider>(ConfigProvider());
+    await Get.put<AuthProvider>(AuthProvider());
+    await Get.put<ChatProvider>(ChatProvider());
   }
 
   static void setSystemUi() {

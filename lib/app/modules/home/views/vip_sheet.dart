@@ -10,7 +10,7 @@ final List<Map<String, dynamic>> _cardList = [
   {
     'icon': Icons.star_rounded,
     'title': 'special_icon'.tr,
-    'detail': 'display_member_specific_logo'.tr
+    'detail': 'display-specific_logo'.tr
   },
   {
     'icon': Icons.pets_outlined,
@@ -20,7 +20,7 @@ final List<Map<String, dynamic>> _cardList = [
   {
     'icon': Icons.auto_fix_high_outlined,
     'title': 'Polish'.tr,
-    'detail': 'your_post_will_be_pushed_to_the_latest_home_page'.tr
+    'detail': 'your_post_will_be_pushed_to_the_latest'.tr
   },
   {
     'icon': Icons.filter_list_rounded,

@@ -69,7 +69,7 @@ class RoomView extends StatelessWidget {
                           padding: EdgeInsets.only(
                               bottom: _query.viewInsets.bottom +
                                   _query.padding.bottom +
-                                  12),
+                                  9),
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.linearToEaseOut,
                           child: Chat(

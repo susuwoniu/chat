@@ -167,18 +167,18 @@ const Map<String, String> en_US = {
   'unlocks_at': 'Unlocks at:',
   'To_Purchase': 'To Purchase',
   'special_icon': 'Special Icon',
-  'display_member_specific_logo': 'Display member-specific logo',
+  'display-specific_logo': 'Display member-specific logo',
   'view_likes': 'View Likes',
   'see_who_liked_me': 'See who liked me',
   'choose_persons_you_are_interested_in':
       'Choose persons you are interested in',
-  'your_post_will_be_pushed_to_the_latest_home_page':
-      'Your post will be pushed to the latest home page after polishing',
+  'your_post_will_be_pushed_to_the_latest':
+      'Your post will be pushed to the latest',
   'unlimited_posts': 'Unlimited Posts',
   'get_unlimited_posts': 'Get unlimited posts',
   'unlimited_favorites': 'Unlimited favorites',
-  'get_unlimited_favorites': 'Get Unlimited favorites',
-  'more_features': 'More features',
+  'get_unlimited_favorites': 'Get unlimited favorites',
+  'more_features': 'More Features',
   'we_will_develop_more_membership_features':
       'We will develop more membership features~',
   '1_week': '1 week',

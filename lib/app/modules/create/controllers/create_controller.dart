@@ -79,6 +79,8 @@ class CreateController extends GetxController {
         value.next_post_not_before = result['meta']["next_post_not_before"];
       }
     });
+    await AuthProvider.to.saveAccountToStore(AuthProvider.to.account.value);
+
     final homeController = HomeController.to;
 
     homeController.postMap[result['data']['id']] =

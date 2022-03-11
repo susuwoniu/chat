@@ -322,9 +322,9 @@ class _InputState extends State<BottomWidget> {
                         color: Theme.of(context).colorScheme.surface),
                     padding: EdgeInsets.fromLTRB(
                       12,
+                      9,
                       12,
-                      12,
-                      12,
+                      9,
                     ),
                     margin: EdgeInsets.fromLTRB(
                       10 + _query.padding.left,
@@ -373,19 +373,16 @@ class _InputState extends State<BottomWidget> {
                         Visibility(
                           visible: _sendButtonVisible,
                           child: Container(
-                            height: 24,
                             margin: const EdgeInsets.only(left: 8),
-                            width: 24,
+                            width: 30,
+                            height: 30,
                             child: IconButton(
                               splashColor: Colors.transparent,
-                              icon: Icon(
-                                Icons.send,
-                                // color: InheritedChatTheme.of(context)
-                                //     .theme
-                                //     .inputTextColor,
-                              ),
+                              icon: Icon(Icons.send,
+                                  size: 30,
+                                  color: Theme.of(context).colorScheme.primary),
                               onPressed: _handleSendPressed,
-                              padding: EdgeInsets.zero,
+                              padding: EdgeInsets.all(0),
                               tooltip: InheritedL10n.of(context)
                                   .l10n
                                   .sendButtonAccessibilityLabel,
