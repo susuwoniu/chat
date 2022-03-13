@@ -7,6 +7,7 @@ import '../../home/controllers/home_controller.dart';
 
 class PostSquareController extends GetxController {
   static PostSquareController get to => Get.find();
+  final count = 0.obs;
 
   final PagingController<String?, String> pagingController =
       PagingController(firstPageKey: null);
@@ -62,6 +63,8 @@ class PostSquareController extends GetxController {
     String? lastPostId,
     String? sort,
   }) async {
+    count.value++;
+
     if (replace) {
       postIndexes.clear();
       _isInitial.value = false;
@@ -86,6 +89,7 @@ class PostSquareController extends GetxController {
             url: "/post/posts",
             sort: sort,
             postTemplateId: _id);
+
         if (_isInitial.value == false) {
           _isInitial.value = true;
         }
@@ -117,6 +121,7 @@ class PostSquareController extends GetxController {
   void refreshHomePosts() {
     fetchPage(replace: true).then((data) {
       if (data.isNotEmpty) {
+        count.value = 0;
         setIndex(index: 0);
       }
     }).catchError((e) {
@@ -126,6 +131,7 @@ class PostSquareController extends GetxController {
 
   void setListOrder(String order) async {
     final sort = order == 'By_hot_degree' ? 'favorite_count' : null;
+    count.value = 0;
 
     if (order != listOrder.value) {
       listOrder.value = order;

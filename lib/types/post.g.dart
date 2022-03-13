@@ -21,6 +21,7 @@ PostEntity _$PostEntityFromJson(Map<String, dynamic> json) => PostEntity(
       visibility: json['visibility'] as String,
       is_can_promote: json['is_can_promote'] as bool,
       is_favorite: json['is_favorite'] as bool?,
+      distance: json['distance'] as double?,
     );
 
 Map<String, dynamic> _$PostEntityToJson(PostEntity instance) =>
@@ -38,4 +39,5 @@ Map<String, dynamic> _$PostEntityToJson(PostEntity instance) =>
       'is_can_promote': instance.is_can_promote,
       'viewed_count': instance.viewed_count,
       'is_favorite': instance.is_favorite,
+      'distance': instance.distance,
     };

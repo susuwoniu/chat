@@ -5,11 +5,14 @@ import 'package:chat/common.dart';
 
 class StarController extends GetxController {
   static StarController get to => Get.find();
+  final count = 0.obs;
   final PagingController<String?, String> pagingController =
       PagingController(firstPageKey: null);
 
   final _isInitial = false.obs;
   bool get isInitial => _isInitial.value;
+
+  final isLast = false.obs;
 
   String? lastCursor;
 
@@ -33,6 +36,7 @@ class StarController extends GetxController {
 
     try {
       final result = await getFavoritePosts(after: lastPostId);
+      count.value++;
       if (_isInitial.value == false) {
         _isInitial.value = true;
       }
@@ -46,6 +50,7 @@ class StarController extends GetxController {
         lastCursor = result.endCursor;
       }
       final isLastPage = indexes.isEmpty;
+      isLast.value = isLastPage;
       if (isLastPage) {
         pagingController.appendLastPage(indexes);
       } else {

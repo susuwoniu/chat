@@ -150,6 +150,7 @@ const Map<String, String> zh_Hans = {
   'Create_Post': '发表状态',
   'Create': '发表状态',
   'unlocks_at': '解锁时间:',
+  'km': '公里',
   'To_Purchase': '订阅',
   'there_is_nothing_here': '这里什么也没有...',
   'special_icon': '会员标识',

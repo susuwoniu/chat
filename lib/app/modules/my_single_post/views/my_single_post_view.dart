@@ -213,7 +213,20 @@ class MySinglePostView extends StatelessWidget {
                         );
                       }),
                     ),
-                    SliverToBoxAdapter(child: SizedBox(height: 20))
+                    SliverToBoxAdapter(
+                        child: Container(
+                      alignment: Alignment.topCenter,
+                      padding: EdgeInsets.only(top: 12),
+                      height: 30,
+                      child: Obx(() => Text(
+                            controller.count.value > 1 &&
+                                    controller.isReachListEnd
+                                ? 'no_more_now'.tr
+                                : '',
+                            style:
+                                TextStyle(color: Theme.of(context).hintColor),
+                          )),
+                    ))
                   ]);
                 }));
           }),

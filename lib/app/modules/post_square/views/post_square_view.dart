@@ -108,7 +108,10 @@ class PostSquareView extends GetView<PostSquareController> {
                 padding: EdgeInsets.only(top: 12),
                 height: 80,
                 child: Obx(() => Text(
-                      controller.isReachHomePostsEnd ? 'no_more_now'.tr : '',
+                      controller.count.value > 2 &&
+                              controller.isReachHomePostsEnd
+                          ? 'no_more_now'.tr
+                          : '',
                       style: TextStyle(color: Theme.of(context).hintColor),
                     )),
               ))

@@ -131,6 +131,7 @@ class MySinglePostController extends GetxController
       List<String> indexes = [];
       try {
         final result = await getRawVisitorList(postId, after: lastPostId);
+        count.value++;
         if (_isListInitial.value == false) {
           _isListInitial.value = true;
           if (result.isEmpty) {

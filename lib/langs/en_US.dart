@@ -147,6 +147,7 @@ const Map<String, String> en_US = {
   "Male": "Male",
   "Report": "Report",
   "Share": "Share",
+  'km': ' KM',
   "Join_topic": "Join Topic",
   "Choose_report_type": "Choose Report Type",
   'You_have_been_blocked': 'You have been blocked.',
