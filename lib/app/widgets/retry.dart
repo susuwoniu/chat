@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:chat/app/providers/providers.dart';
+import 'package:get/get.dart';
 
 Widget Retry({
-  String message = "出了点问题",
+  String message = "something_went_wrong",
   required Function onRetry,
 }) {
   return Container(
@@ -14,7 +14,7 @@ Widget Retry({
           height: 20,
         ),
         Text(
-          message,
+          message.tr,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w500,
@@ -27,7 +27,13 @@ Widget Retry({
         ElevatedButton(
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: [Icon(Icons.refresh), Text("刷新看看")],
+            children: [
+              Icon(Icons.refresh),
+              SizedBox(
+                width: 4,
+              ),
+              Text("refresh".tr)
+            ],
           ),
           onPressed: () async {
             onRetry();

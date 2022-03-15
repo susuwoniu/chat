@@ -36,7 +36,6 @@ class StarController extends GetxController {
 
     try {
       final result = await getFavoritePosts(after: lastPostId);
-      count.value++;
       if (_isInitial.value == false) {
         _isInitial.value = true;
       }

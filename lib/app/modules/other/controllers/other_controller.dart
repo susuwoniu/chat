@@ -54,7 +54,6 @@ class OtherController extends GetxController {
 
     try {
       indexes = await getAccountsPosts(id: accountId, after: lastPostId);
-      count.value++;
     } catch (e) {
       UIUtils.showError(e);
     }

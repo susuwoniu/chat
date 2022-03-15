@@ -219,10 +219,7 @@ class MySinglePostView extends StatelessWidget {
                       padding: EdgeInsets.only(top: 12),
                       height: 30,
                       child: Obx(() => Text(
-                            controller.count.value > 1 &&
-                                    controller.isReachListEnd
-                                ? 'no_more_now'.tr
-                                : '',
+                            controller.isReachListEnd ? 'no_more_now'.tr : '',
                             style:
                                 TextStyle(color: Theme.of(context).hintColor),
                           )),
@@ -245,10 +242,8 @@ class MySinglePostView extends StatelessWidget {
     final isVip = AuthProvider.to.account.value.vip;
     final is_can_promote = HomeController.to.postMap[postId]!.is_can_promote;
 
-    return IconButton(
-        padding: EdgeInsets.all(0),
-        splashColor: Colors.transparent,
-        onPressed: () {
+    return GestureDetector(
+        onTap: () {
           showModalBottomSheet(
               context: context,
               builder: (context) {
@@ -316,11 +311,14 @@ class MySinglePostView extends StatelessWidget {
                       });
               });
         },
-        icon: Icon(
-          Icons.more_vert_rounded,
-          size: 27,
-          color: color,
-        ));
+        child: Container(
+            margin: EdgeInsets.only(left: 10),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+            child: Icon(
+              Icons.more_vert_rounded,
+              size: 28,
+              color: color,
+            )));
   }
 
   Widget _star(
@@ -328,11 +326,8 @@ class MySinglePostView extends StatelessWidget {
       required String id,
       required Color color,
       required Color primaryColor}) {
-    return IconButton(
-        alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(2),
-        splashColor: Colors.transparent,
-        onPressed: () async {
+    return GestureDetector(
+        onTap: () async {
           if (isStar) {
             try {
               await HomeController.to
@@ -349,10 +344,12 @@ class MySinglePostView extends StatelessWidget {
             }
           }
         },
-        icon: Icon(
-          isStar ? Icons.star_rounded : Icons.star_border_rounded,
-          size: 27,
-          color: color,
-        ));
+        child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+            child: Icon(
+              isStar ? Icons.star_rounded : Icons.star_border_rounded,
+              size: 28,
+              color: color,
+            )));
   }
 }

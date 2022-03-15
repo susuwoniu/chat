@@ -6,6 +6,7 @@ import 'package:chat/app/routes/app_pages.dart';
 import '../controllers/setting_controller.dart';
 import 'package:chat/app/providers/providers.dart';
 import '../../home_setting/views/lan_row.dart';
+import '../../home_setting/views/section_widget.dart';
 
 final LanMap = {'en': 'English', 'zh': 'Simplified-Chinese'.tr};
 
@@ -34,73 +35,72 @@ class SettingView extends GetView<SettingController> {
                   settingsSectionBackground:
                       Theme.of(context).colorScheme.surface),
               sections: [
-                SettingsSection(title: Text('Account_Security'.tr), tiles: [
-                  SettingsTile(
-                    title: Text('Phone'.tr),
-                    value: Text(
-                      _account.phone_number ?? "",
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ]),
-                SettingsSection(title: Text('General'.tr), tiles: [
-                  SettingsTile(
-                      title: Text('Language'.tr),
-                      value: Text(
-                        LanMap[ConfigProvider.to.locale.value.languageCode]!,
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      ),
-                      // leading: Icon(Icons.language),
-                      onPressed: (BuildContext context) {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return LanRow(
-                                current: currentLanCode,
-                              );
-                            });
-                      }),
-                  SettingsTile.switchTile(
-                    initialValue: ConfigProvider.to.nightMode.value,
-                    title: Text('Night-mode'.tr),
-                    onToggle: (bool value) {
-                      print("value $value");
-                      ConfigProvider.to.toggleNightMode(value);
-                    },
-                  ),
-                ]),
-                SettingsSection(title: Text('Privacy'.tr), tiles: [
-                  SettingsTile(
-                    title: Text('Blocked_List'.tr),
-                    onPressed: (BuildContext context) {
-                      Get.toNamed(Routes.BLOCK);
-                    },
-                  ),
-                ]),
-                SettingsSection(tiles: [
-                  SettingsTile(
-                    title: Text('Clear_Cache'.tr),
-                    onPressed: (BuildContext context) {
-                      CacheProvider.to.clear();
-                    },
-                  ),
-                  SettingsTile(
-                    title: Text('Help&Feedback'.tr),
-                    onPressed: (BuildContext context) {
-                      Get.toNamed(Routes.FEEDBACK);
-                    },
-                  ),
-                  SettingsTile(
-                    title: Text('About'.tr),
-                    onPressed: (BuildContext context) {
-                      Get.toNamed(Routes.ABOUT);
-                    },
-                  ),
-                ]),
+                SettingsSection(
+                    margin: EdgeInsetsDirectional.only(
+                        top: 0, start: 16, end: 16, bottom: 5),
+                    title: Text('Account_Security'.tr),
+                    tiles: [
+                      SettingsTile(
+                          title: Text('Phone'.tr),
+                          value: Text(_account.phone_number ?? "",
+                              style: TextStyle(
+                                fontSize: 15,
+                              ))),
+                    ]),
+                SettingsSection(
+                    margin: EdgeInsetsDirectional.only(
+                        top: 15, start: 16, end: 16, bottom: 0),
+                    title: Text('General'.tr),
+                    tiles: [
+                      SettingsTile(
+                          title: Text('Language'.tr),
+                          value: Text(
+                              LanMap[
+                                  ConfigProvider.to.locale.value.languageCode]!,
+                              style: TextStyle(
+                                fontSize: 15,
+                              )),
+                          // leading: Icon(Icons.language),
+                          onPressed: (BuildContext context) {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return LanRow(
+                                    current: currentLanCode,
+                                  );
+                                });
+                          }),
+                      SettingsTile.switchTile(
+                          initialValue: ConfigProvider.to.nightMode.value,
+                          activeSwitchColor:
+                              Theme.of(context).colorScheme.primary,
+                          title: Text('Night-mode'.tr),
+                          onToggle: (bool value) {
+                            print("value $value");
+                            ConfigProvider.to.toggleNightMode(value);
+                          }),
+                      SettingsTile.switchTile(
+                          initialValue: ConfigProvider.to.nightMode.value,
+                          activeSwitchColor:
+                              Theme.of(context).colorScheme.primary,
+                          title: Text('receive_push_notification'.tr),
+                          onToggle: (bool value) {
+                            print("value $value");
+                            ConfigProvider.to.toggleNightMode(value);
+                          }),
+                    ]),
+                SectionWidget(),
+                SettingsSection(
+                    margin: EdgeInsetsDirectional.only(
+                        top: 15, start: 16, end: 16, bottom: 5),
+                    title: Text('pravicy'.tr),
+                    tiles: [
+                      SettingsTile(
+                          title: Text('Blocked_List'.tr),
+                          onPressed: (BuildContext context) {
+                            Get.toNamed(Routes.BLOCK);
+                          }),
+                    ]),
                 SettingsSection(tiles: [
                   SettingsTile(
                       title: Container(

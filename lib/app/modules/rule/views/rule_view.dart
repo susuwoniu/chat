@@ -14,7 +14,7 @@ class RuleView extends GetView<RuleController> {
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
-          title: Text('社区规则'),
+          title: Text('user_agreement'.tr),
           centerTitle: true,
         ),
         body: Container(

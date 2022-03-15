@@ -63,8 +63,6 @@ class PostSquareController extends GetxController {
     String? lastPostId,
     String? sort,
   }) async {
-    count.value++;
-
     if (replace) {
       postIndexes.clear();
       _isInitial.value = false;

@@ -72,7 +72,6 @@ class MeController extends GetxController {
   Future<List<String>> getMePosts({String? after}) async {
     isLoadingMyPosts.value = true;
     final result = await getApiPosts(after: after, url: "/post/me/posts");
-    count.value++;
     final isLastPage = result.indexes.isEmpty;
     if (result.indexes.isNotEmpty) {
       _nextPageKey = result.endCursor;

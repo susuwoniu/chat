@@ -1,10 +1,8 @@
-import 'package:chat/app/providers/providers.dart';
 import 'package:chat/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../home/controllers/home_controller.dart';
 import 'package:chat/common.dart';
-import 'package:flutter_share_me/flutter_share_me.dart';
 
 class DotWidget extends StatelessWidget {
   final void Function() onPressedReport;
@@ -32,6 +30,16 @@ class DotWidget extends StatelessWidget {
         ),
         child: Column(children: [
           Row(children: [
+            _buttons(
+                icon: Icons.read_more_outlined,
+                text: 'More'.tr,
+                onPressed: () {
+                  Navigator.pop(context);
+                  Get.toNamed(Routes.MY_SINGLE_POST,
+                      arguments: {"id": postId}, preventDuplicates: false);
+                }),
+            SizedBox(width: 18),
+
             Obx(() {
               final isFavorite = HomeController.to.postMap[postId]?.is_favorite;
               final isStar =
@@ -39,7 +47,6 @@ class DotWidget extends StatelessWidget {
               return _buttons(
                   icon: isStar ? Icons.star_rounded : Icons.star_border_rounded,
                   text: isStar ? 'Marked' : 'Mark',
-                  iconSize: 32,
                   onPressed: () async {
                     Navigator.pop(context);
                     if (isStar) {
@@ -64,43 +71,42 @@ class DotWidget extends StatelessWidget {
                     }
                   });
             }),
-            SizedBox(width: 18),
-            _buttons(
-                icon: Icons.ios_share_outlined,
-                text: 'Share',
-                onPressed: () async {
-                  Navigator.pop(context);
-                  final FlutterShareMe flutterShareMe = FlutterShareMe();
-                  // TODO right share url
-                  final response =
-                      await flutterShareMe.shareToSystem(msg: "test");
-                  print(response);
-                }),
+            // _buttons(
+            //     icon: Icons.ios_share_outlined,
+            //     text: 'Share',
+            //     onPressed: () async {
+            //       Navigator.pop(context);
+            //       final FlutterShareMe flutterShareMe = FlutterShareMe();
+            //       // TODO right share url
+            //       final response =
+            //           await flutterShareMe.shareToSystem(msg: "test");
+            //       print(response);
+            //     }),
             SizedBox(width: 18),
             _buttons(
                 icon: Icons.feedback_outlined,
+                iconSize: 27,
                 text: 'Report',
                 onPressed: onPressedReport)
           ]),
           SizedBox(height: 10),
-          Row(children: [
-            Expanded(
-                child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                      Get.toNamed(Routes.MY_SINGLE_POST,
-                          arguments: {"id": postId}, preventDuplicates: false);
-                    },
-                    child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.background,
-                            borderRadius: BorderRadius.circular(10)),
-                        child:
-                            Text('More'.tr, style: TextStyle(fontSize: 16)))))
-          ]),
-          SizedBox(height: 20),
+          // Row(children: [
+          //   Expanded(
+          //       child: GestureDetector(
+          //           onTap: () {
+          //             Navigator.pop(context);
+          //             Get.toNamed(Routes.MY_SINGLE_POST,
+          //                 arguments: {"id": postId}, preventDuplicates: false);
+          //           },
+          //           child: Container(
+          //               padding: EdgeInsets.symmetric(vertical: 16),
+          //               alignment: Alignment.center,
+          //               decoration: BoxDecoration(
+          //                   color: Theme.of(context).colorScheme.background,
+          //                   borderRadius: BorderRadius.circular(10)),
+          //               child:
+          //                   Text('More'.tr, style: TextStyle(fontSize: 16)))))
+          // ]),
           Row(children: [
             Expanded(
                 child: GestureDetector(
@@ -125,7 +131,7 @@ class DotWidget extends StatelessWidget {
     required IconData icon,
     required String text,
     required Function onPressed,
-    double iconSize = 28,
+    double iconSize = 32,
   }) {
     return Expanded(
         child: GestureDetector(

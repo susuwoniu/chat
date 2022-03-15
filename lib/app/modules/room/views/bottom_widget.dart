@@ -116,11 +116,11 @@ class _InputState extends State<BottomWidget> {
   }
 
   Widget _leftWidget() {
-    // if (_sendButtonVisible) {
-    //   return SizedBox(
-    //     width: 6,
-    //   );
-    // }
+    if (_sendButtonVisible) {
+      return SizedBox(
+        width: 6,
+      );
+    }
     if (widget.isAttachmentUploading == true) {
       return Container(
         height: 26,
@@ -372,28 +372,27 @@ class _InputState extends State<BottomWidget> {
                             textCapitalization: TextCapitalization.sentences,
                           ),
                         ),
-                        // Visibility(
-                        //   visible: _sendButtonVisible,
-                        //   child: Container(
-                        //     margin: const EdgeInsets.only(left: 8),
-                        //     width: 24,
-                        //     height: 24,
-                        //     child: IconButton(
-                        //       splashColor: Colors.transparent,
-                        //       icon: Icon(Icons.send,
-                        //           size: 24,
-                        //           color: Theme.of(context).colorScheme.primary),
-                        //       onPressed: _handleSendPressed,
-                        //       padding: EdgeInsets.all(0),
-                        //       tooltip: InheritedL10n.of(context)
-                        //           .l10n
-                        //           .sendButtonAccessibilityLabel,
-                        //     ),
-                        //   ),
-                        // ),
-
                         Visibility(
-                            // visible: !_sendButtonVisible,
+                          visible: _sendButtonVisible,
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 8),
+                            width: 24,
+                            height: 24,
+                            child: IconButton(
+                              splashColor: Colors.transparent,
+                              icon: Icon(Icons.send,
+                                  size: 24,
+                                  color: Theme.of(context).colorScheme.primary),
+                              onPressed: _handleSendPressed,
+                              padding: EdgeInsets.all(0),
+                              tooltip: InheritedL10n.of(context)
+                                  .l10n
+                                  .sendButtonAccessibilityLabel,
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                            visible: !_sendButtonVisible,
                             child: _rightWidget()),
                       ],
                     ),
