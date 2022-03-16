@@ -61,6 +61,16 @@ class StarView extends GetView<StarController> {
                       },
                       post: post);
                 })),
+            SliverToBoxAdapter(
+                child: Container(
+              alignment: Alignment.topCenter,
+              padding: EdgeInsets.only(top: 12),
+              height: 60,
+              child: Obx(() => Text(
+                    controller.isLast.value ? 'no_more_now'.tr : '',
+                    style: TextStyle(color: Theme.of(context).hintColor),
+                  )),
+            ))
           ]),
         ));
   }

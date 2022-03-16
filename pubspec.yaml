@@ -12,6 +12,7 @@ dependencies:
     git:
       url: git@github.com:OpenFlutter/flutter_share_me.git
   animated_toggle_switch: ^0.2.1
+  in_app_review: ^2.0.4
   device_info_plus: ^3.2.2
   carousel_slider: ^4.0.0
   image_cropper: ^1.4.1

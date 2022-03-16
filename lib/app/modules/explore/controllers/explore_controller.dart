@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:chat/common.dart';
-import '../../post/controllers/post_controller.dart';
 
 class ExploreController extends GetxController {
   //TODO: Implement AboutController
@@ -9,6 +8,7 @@ class ExploreController extends GetxController {
   final PagingController<String?, String> pagingController =
       PagingController(firstPageKey: null);
   var postTemplatesMap = RxMap<String, PostTemplatesEntity>({});
+  final isLast = false.obs;
 
   @override
   void onInit() {
@@ -27,6 +27,8 @@ class ExploreController extends GetxController {
       postTemplatesMap.addAll(result.postTemplatesMap);
       indexes = result.postTemplatesIndexes;
       final isLastPage = indexes.isEmpty;
+      isLast.value = isLastPage;
+
       if (isLastPage) {
         pagingController.appendLastPage(indexes);
       } else {

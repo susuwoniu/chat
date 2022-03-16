@@ -164,6 +164,27 @@ class HomeView extends GetView<HomeController> {
                                                 color: Color(post.color),
                                                 fontWeight: FontWeight.w500,
                                                 height: 1.6))),
+                                    post.distance == null ||
+                                            currentPage == 'home'
+                                        ? SizedBox.shrink()
+                                        : Container(
+                                            padding: EdgeInsets.only(top: 7),
+                                            child: Row(children: [
+                                              Icon(
+                                                Icons.location_on_outlined,
+                                                size: 20,
+                                                color: Color(post.color),
+                                              ),
+                                              SizedBox(width: 3),
+                                              Text(
+                                                  (post.distance! ~/ 1000 + 1)
+                                                          .toString() +
+                                                      'km'.tr,
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      color:
+                                                          Color(post.color))),
+                                            ])),
                                     TagWidget(
                                         color: Color(post.color),
                                         text: post.post_template_title,

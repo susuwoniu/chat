@@ -1,3 +1,4 @@
+import 'package:chat/app/providers/push_provider.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 import 'package:flutter/material.dart' hide ConnectionState;
@@ -12,6 +13,7 @@ import 'package:mime_type/mime_type.dart';
 import 'package:file_picker/file_picker.dart';
 import '../../home/controllers/home_controller.dart';
 import 'package:chat/utils/string.dart';
+import 'package:jpush_flutter/jpush_flutter.dart';
 
 class Room extends xmpp.Room {
   bool isLoading = false;
@@ -587,6 +589,41 @@ class MessageController extends GetxController {
       // 添加unreadCount
       room.clientUnreadCount++;
       roomChanged = true;
+      // add local notification
+      // TODO ios test
+
+      print('current: ${Get.currentRoute}');
+      final currentRoute = Get.currentRoute;
+      final currentPageIndex = BottomNavigationBarController.to.page;
+      if (currentRoute != "/app" || currentPageIndex != 1) {
+        // 如果当前不是聊天页面，就添加本地通知
+
+        var name = jidToName(room.id);
+        if (room.room_info_id != null) {
+          final roomInfo = AuthProvider.to.simpleAccountMap[room.room_info_id];
+          name = roomInfo?.name ?? name;
+        }
+        final fireDate = DateTime.now();
+
+        final localNotification = LocalNotification(
+            id: message.dbId,
+            title: name,
+            content: room.preview,
+            buildId: 1,
+            fireTime: fireDate,
+            badge: 1, // 该参数只有在 iOS 有效
+            extra: {
+              "url": "$APP_LINK/room?id=${room.id}"
+            } // 设置 extras ，extras 需要是 Map<String, String>
+            );
+
+        PushProvider.to.jpush
+            .sendLocalNotification(localNotification)
+            .then((_) {})
+            .catchError((e) {
+          print("send local notification error: $e");
+        });
+      }
     }
     // 服务端未读数量，如果是对方发送的信息，每次都应该+1
     if (message.fromId != ChatProvider.to.currentAccount!.userAtDomain) {

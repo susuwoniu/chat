@@ -5,6 +5,9 @@ import 'package:chat/app/routes/app_pages.dart';
 import '../controllers/home_setting_controller.dart';
 import 'package:chat/app/providers/providers.dart';
 import './lan_row.dart';
+import 'package:chat/app/common/link.dart';
+import 'package:chat/common.dart';
+import 'section_widget.dart';
 
 final LanMap = {'en': 'English', 'zh': 'Simplified-Chinese'.tr};
 
@@ -54,6 +57,7 @@ class HomeSettingView extends GetView<HomeSettingController> {
                   ),
                   SettingsTile.switchTile(
                     initialValue: ConfigProvider.to.nightMode.value,
+                    activeSwitchColor: Theme.of(context).colorScheme.primary,
                     title: Text('Night-mode'.tr),
                     onToggle: (bool value) {
                       print("value $value");
@@ -61,26 +65,7 @@ class HomeSettingView extends GetView<HomeSettingController> {
                     },
                   ),
                 ]),
-                SettingsSection(tiles: [
-                  SettingsTile(
-                    title: Text('Clear_Cache'.tr),
-                    onPressed: (BuildContext context) {
-                      CacheProvider.to.clear();
-                    },
-                  ),
-                  SettingsTile(
-                    title: Text('Help&Feedback'.tr),
-                    onPressed: (BuildContext context) {
-                      Get.toNamed(Routes.FEEDBACK);
-                    },
-                  ),
-                  SettingsTile(
-                    title: Text('About'.tr),
-                    onPressed: (BuildContext context) {
-                      Get.toNamed(Routes.ABOUT);
-                    },
-                  ),
-                ]),
+                SectionWidget(),
                 SettingsSection(tiles: [
                   SettingsTile(
                       title: Container(

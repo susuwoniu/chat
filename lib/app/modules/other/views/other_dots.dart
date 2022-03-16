@@ -54,7 +54,7 @@ class OtherDots extends StatelessWidget {
                 }
               },
               title: Text(
-                bottomText ?? 'Share'.tr,
+                bottomText ?? 'share'.tr,
                 style: TextStyle(
                   fontSize: 17,
                   color: Theme.of(context).colorScheme.onBackground,
