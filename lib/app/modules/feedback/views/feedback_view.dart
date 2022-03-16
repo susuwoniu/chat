@@ -137,8 +137,10 @@ class FeedbackView extends GetView<FeedbackController> {
                           } else {
                             try {
                               await controller.onPressFeedback(
+                                  note: _contactController.text,
                                   content: _textController.text);
                               UIUtils.toast('Thank_you_for_feedback'.tr);
+                              _contactController.clear();
                               _textController.clear();
                               Get.back();
                             } catch (e) {
