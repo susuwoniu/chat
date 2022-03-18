@@ -84,11 +84,12 @@ class EditInfoView extends GetView<EditInfoController> {
                       Get.toNamed(Routes.EDIT_BIO, arguments: {"mode": "back"});
                     }),
                 SettingsTile(
-                    title: _title("Birth".tr),
+                    title: _title("birth".tr),
                     trailing: _trail(_birthday.substring(0, 4)),
                     onPressed: (BuildContext context) {
                       showModalBottomSheet<void>(
                           context: context,
+                          enableDrag: false,
                           builder: (BuildContext context) {
                             return YearPicker(
                               onSelect: (year) async {

@@ -34,11 +34,12 @@ class AccountProvider extends GetxService {
     final bodyJson = {"timezone_in_seconds": 28800, "device_id": deviceId};
 
     var deviceToken = "";
-    try {
-      deviceToken = await PushProvider.to.jpush.getRegistrationID();
-    } catch (e) {
-      print('get device token error: $e');
-    }
+    // ToDo
+    // try {
+    //   deviceToken = await PushProvider.to.jpush.getRegistrationID();
+    // } catch (e) {
+    //   print('get device token error: $e');
+    // }
     if (deviceToken != "") {
       bodyJson["push_service_type"] = 'jiguang';
       bodyJson["device_token"] = deviceToken;
@@ -97,11 +98,11 @@ class AccountProvider extends GetxService {
     // get device
     final bodyJson = {};
     var deviceToken = "";
-    try {
-      deviceToken = await PushProvider.to.jpush.getRegistrationID();
-    } catch (e) {
-      print('get device token error: $e');
-    }
+    // try {
+    //   deviceToken = await PushProvider.to.jpush.getRegistrationID();
+    // } catch (e) {
+    //   print('get device token error: $e');
+    // }
     if (deviceToken != "") {
       bodyJson["push_service_type"] = 'jiguang';
       bodyJson["device_token"] = deviceToken;

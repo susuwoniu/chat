@@ -118,7 +118,7 @@
 - [x] 点赞用户的主页
 - [x] 擦亮功能
 - [x] 附近km筛选
-- [ ] 附近千米显示
+- [x] 附近千米显示
 - [ ] universal link
 - [ ] 当接口返回格式非json时，body作为错误内容
 - [x] device id get

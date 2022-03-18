@@ -18,12 +18,15 @@ class LogonWidget extends AbstractSettingsSection {
         image: AssetImage('assets/f.png'),
         width: 50,
       ),
-      SizedBox(height: 20),
+      SizedBox(height: 14),
       Text(
         'old_school'.tr,
-        style: TextStyle(color: Colors.grey.shade700, fontSize: 16),
+        style: TextStyle(
+            color: Colors.grey.shade700,
+            fontSize: 16,
+            fontWeight: FontWeight.w500),
       ),
-      SizedBox(height: 10),
+      SizedBox(height: 7),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text('ver'.tr, style: TextStyle(color: Colors.grey.shade500)),
         SizedBox(width: 5),

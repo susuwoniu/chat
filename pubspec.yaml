@@ -13,6 +13,7 @@ dependencies:
       url: git@github.com:OpenFlutter/flutter_share_me.git
   animated_toggle_switch: ^0.2.1
   in_app_review: ^2.0.4
+  flutter_launcher_icons: ^0.9.2
   device_info_plus: ^3.2.2
   carousel_slider: ^4.0.0
   image_cropper: ^1.4.1
@@ -106,3 +107,10 @@ flutter:
   assets:
     - .env
     - assets/
+
+flutter_icons:
+  image_path: "assets/f.png"
+  android: "launcher_icon"
+  ios: true
+  # optionally, as transparency is not allowed on app store
+  remove_alpha_ios: true
