@@ -219,7 +219,7 @@ class MySinglePostView extends StatelessWidget {
                       padding: EdgeInsets.only(top: 12),
                       height: 30,
                       child: Obx(() => Text(
-                            controller.isReachListEnd ? 'no_more_now'.tr : '',
+                            controller.isReachListEnd ? 'no_more'.tr : '',
                             style:
                                 TextStyle(color: Theme.of(context).hintColor),
                           )),

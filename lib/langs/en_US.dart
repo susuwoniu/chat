@@ -37,6 +37,8 @@ const Map<String, String> en_US = {
   'Login': 'Login',
   'Account_Security': "Account",
   'Phone': "Phone",
+  'old_school': '和我交朋友',
+  'ver': 'Ver',
   'Successfully_filtered': 'Filtered',
   'Successfully_polished': 'Polished~',
   'Successfully_deleted': 'Deleted.',

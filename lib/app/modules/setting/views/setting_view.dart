@@ -8,6 +8,7 @@ import '../controllers/setting_controller.dart';
 import 'package:chat/app/providers/providers.dart';
 import '../../home_setting/views/lan_row.dart';
 import '../../home_setting/views/section_widget.dart';
+import '../../home_setting/views/logo_widget.dart';
 
 final LanMap = {'en': 'English', 'zh': 'Simplified-Chinese'.tr};
 
@@ -118,6 +119,7 @@ class SettingView extends GetView<SettingController> {
                         }
                       }),
                 ]),
+                LogonWidget(),
               ],
             )));
   }

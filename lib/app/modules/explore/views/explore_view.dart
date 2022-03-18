@@ -65,7 +65,7 @@ class ExploreView extends GetView<ExploreController> {
               padding: EdgeInsets.only(top: 12),
               height: 30,
               child: Obx(() => Text(
-                    controller.isLast.value ? 'no_more_now'.tr : '',
+                    controller.isLast.value ? 'no_more'.tr : '',
                     style: TextStyle(color: Theme.of(context).hintColor),
                   )),
             ))
