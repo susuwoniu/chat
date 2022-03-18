@@ -31,7 +31,7 @@ class FeedbackController extends GetxController {
 
   void increment() => count.value++;
 
-  onPressFeedback({required String content}) async {
+  Future<void> onPressFeedback({required String content, String? note}) async {
     final body = {};
     body['type'] = 'feedback';
 
@@ -39,6 +39,9 @@ class FeedbackController extends GetxController {
       body['images'] = [imgEntity!.toJson()];
     }
     body['content'] = content;
+    if (note != null) {
+      body['note'] = note;
+    }
 
     await APIProvider.to.post('/report/reports', body: body);
   }

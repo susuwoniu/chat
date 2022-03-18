@@ -5,6 +5,7 @@ import './api_provider.dart';
 import 'package:chat/types/types.dart';
 import './auth_provider.dart';
 import './router_provider.dart';
+import './push_provider.dart';
 
 class AccountProvider extends GetxService {
   static AccountProvider get to => Get.find();
@@ -29,9 +30,22 @@ class AccountProvider extends GetxService {
       int? closePageCount,
       bool enabledDefaultNexPage = false,
       dynamic arguments}) async {
+    // try to get device token
+    final bodyJson = {"timezone_in_seconds": 28800, "device_id": deviceId};
+
+    var deviceToken = "";
+    try {
+      deviceToken = await PushProvider.to.jpush.getRegistrationID();
+    } catch (e) {
+      print('get device token error: $e');
+    }
+    if (deviceToken != "") {
+      bodyJson["push_service_type"] = 'jiguang';
+      bodyJson["device_token"] = deviceToken;
+    }
     final body = await APIProvider().post(
         "/account/phone-sessions/$countryCode/$phoneNumber/$verificationCode",
-        body: {"timezone_in_seconds": 28800, "device_id": deviceId},
+        body: bodyJson,
         options: ApiOptions(
             withSignature: true,
             checkDataAttributes: true,
@@ -80,7 +94,19 @@ class AccountProvider extends GetxService {
   Future<void> handleLogout() async {
     // remove xmpp session
     await ChatProvider.to.logout();
-    await APIProvider().delete("/account/sessions");
+    // get device
+    final bodyJson = {};
+    var deviceToken = "";
+    try {
+      deviceToken = await PushProvider.to.jpush.getRegistrationID();
+    } catch (e) {
+      print('get device token error: $e');
+    }
+    if (deviceToken != "") {
+      bodyJson["push_service_type"] = 'jiguang';
+      bodyJson["device_token"] = deviceToken;
+    }
+    await APIProvider().delete("/account/sessions", body: bodyJson);
     await AuthProvider.to.cleanToken();
     await ChatProvider.to.dipose();
   }

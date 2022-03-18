@@ -222,5 +222,6 @@ const Map<String, String> zh_Hans = {
   'Please_describe_your_issue_using_at_least_10_characters': '请至少输入10个字～',
   'mobile_email_contact': '手机/邮箱',
   'Optional': '可选',
-  'Thank_you_for_feedback': '感谢反馈～'
+  'Thank_you_for_feedback': '感谢反馈～',
+  "push_notification_settings": "推送设置"
 };

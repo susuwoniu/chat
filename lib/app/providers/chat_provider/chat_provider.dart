@@ -59,11 +59,17 @@ class ChatProvider extends GetxService {
     }
   }
 
+  Future<void> clearAllNotifications() async {
+    if (_connection != null) {
+      _connection!.reconnect();
+    }
+  }
+
   void closeConnection() {
     if (_connection != null) {
-      // _connection!.close();
-      _connection!.handleCloseState();
-      _connection!.closeSocket();
+      _connection!.close();
+      // _connection!.handleCloseState();
+      // _connection!.closeSocket();
     }
   }
 
@@ -154,7 +160,11 @@ class ChatProvider extends GetxService {
           // get jpush id
           PushProvider.to.jpush.getRegistrationID().then((id) {
             final _pushManager = xmpp.PushManager.getInstance(_connection!);
-            _pushManager.initPush(service: 'jiguang', deviceId: id);
+            final push_service = GetPlatform.isIOS ? 'apns' : 'fcm';
+            _pushManager.initPush(
+                service: push_service,
+                deviceId: id,
+                mode: AppConfig.to.isDev ? 'dev' : 'prod');
           });
         }
 

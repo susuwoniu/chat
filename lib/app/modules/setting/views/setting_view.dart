@@ -1,3 +1,4 @@
+import 'package:chat/app/providers/push_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/common.dart';
 import 'package:get/get.dart';
@@ -79,14 +80,10 @@ class SettingView extends GetView<SettingController> {
                             print("value $value");
                             ConfigProvider.to.toggleNightMode(value);
                           }),
-                      SettingsTile.switchTile(
-                          initialValue: ConfigProvider.to.nightMode.value,
-                          activeSwitchColor:
-                              Theme.of(context).colorScheme.primary,
-                          title: Text('receive_push_notification'.tr),
-                          onToggle: (bool value) {
-                            print("value $value");
-                            ConfigProvider.to.toggleNightMode(value);
+                      SettingsTile(
+                          title: Text('push_notification_settings'.tr),
+                          onPressed: (BuildContext context) {
+                            PushProvider.to.jpush.openSettingsForNotification();
                           }),
                     ]),
                 SectionWidget(),
