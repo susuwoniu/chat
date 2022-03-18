@@ -186,21 +186,7 @@ class DebugView extends GetView<DebugController> {
                     Get.toNamed(Routes.COMPLETE_AVATAR);
                   },
                 ),
-                ListTile(
-                  title: Text('Message'),
-                  onTap: () {
-                    RouterProvider.to.toMessage();
-                    //to close the drawer
-                  },
-                ),
 
-                ListTile(
-                  title: Text('Settings'),
-                  onTap: () {
-                    Get.toNamed(Routes.SETTING);
-                    //to close the drawer
-                  },
-                ),
                 ListTile(
                   title: Text('Age Settings'),
                   onTap: () {

@@ -128,7 +128,7 @@ const Map<String, String> zh_Hans = {
   'Unbound_phone': '未绑定手机号',
   "OK": "提交",
   "Reset": "重置",
-  "All": "所有",
+  "All": "不限",
   "Female": "女性",
   "Male": "男性",
   "Report": "报告",

@@ -228,7 +228,7 @@ class MeView extends GetView<MeController> {
                 child: Container(
               alignment: Alignment.topCenter,
               padding: EdgeInsets.only(top: 12),
-              height: 100,
+              height: 150,
               child: Obx(() => Text(
                     controller.isLast.value ? 'no_more_now'.tr : '',
                     style: TextStyle(color: Theme.of(context).hintColor),

@@ -166,23 +166,22 @@ class PostSquareView extends GetView<PostSquareController> {
   }
 
   Widget _join(Color color) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: ChatThemeData.baseBlack),
-      child: GestureDetector(
-          onTap: () {
-            if (getTimeStop() > 0) {
-              UIUtils.showError("It's_not_time_to_post_yet".tr);
-            } else {
-              Get.toNamed(Routes.CREATE, arguments: {
-                "id": _id.toString(),
-                "background-color-index": backgroundColorIndex,
-              });
-            }
-          },
+    return GestureDetector(
+      onTap: () {
+        if (getTimeStop() > 0) {
+          UIUtils.showError("It's_not_time_to_post_yet".tr);
+        } else {
+          Get.toNamed(Routes.CREATE, arguments: {
+            "id": _id.toString(),
+            "background-color-index": backgroundColorIndex,
+          });
+        }
+      },
+      child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: ChatThemeData.baseBlack),
           child: Row(children: [
             Avatar(
                 name: AuthProvider.to.account.value.name,
