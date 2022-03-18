@@ -5,12 +5,16 @@ import 'package:get/get.dart';
 import '../middleware/auth_middleware.dart';
 import '../modules/about/bindings/about_binding.dart';
 import '../modules/about/views/about_view.dart';
-import '../modules/complete_avatar/bindings/complete_avatar_binding.dart';
-import '../modules/complete_avatar/views/complete_avatar_view.dart';
-import '../modules/complete_age/bindings/complete_age_binding.dart';
-import '../modules/complete_age/views/complete_age_view.dart';
+import '../modules/advance/bindings/advance_binding.dart';
+import '../modules/advance/views/advance_view.dart';
 import '../modules/block/bindings/block_binding.dart';
 import '../modules/block/views/block_view.dart';
+import '../modules/change_gender/bindings/change_gender_binding.dart';
+import '../modules/change_gender/views/change_gender_view.dart';
+import '../modules/complete_age/bindings/complete_age_binding.dart';
+import '../modules/complete_age/views/complete_age_view.dart';
+import '../modules/complete_avatar/bindings/complete_avatar_binding.dart';
+import '../modules/complete_avatar/views/complete_avatar_view.dart';
 import '../modules/complete_bio/bindings/complete_bio_binding.dart';
 import '../modules/complete_bio/views/complete_bio_view.dart';
 import '../modules/complete_gender/bindings/complete_gender_binding.dart';
@@ -27,18 +31,18 @@ import '../modules/edit_info/bindings/edit_info_binding.dart';
 import '../modules/edit_info/views/edit_info_view.dart';
 import '../modules/edit_name/bindings/edit_name_binding.dart';
 import '../modules/edit_name/views/edit_name_view.dart';
+import '../modules/explore/bindings/explore_binding.dart';
+import '../modules/explore/views/explore_view.dart';
 import '../modules/feedback/bindings/feedback_binding.dart';
 import '../modules/feedback/views/feedback_view.dart';
-import '../modules/change_gender/bindings/change_gender_binding.dart';
-import '../modules/change_gender/views/change_gender_view.dart';
+import '../modules/home_setting/bindings/home_setting_binding.dart';
+import '../modules/home_setting/views/home_setting_view.dart';
 import '../modules/liked_me/bindings/liked_me_binding.dart';
 import '../modules/liked_me/views/liked_me_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/main/bindings/main_binding.dart';
 import '../modules/main/views/main_view.dart';
-import '../modules/explore/bindings/explore_binding.dart';
-import '../modules/explore/views/explore_view.dart';
 import '../modules/me/bindings/me_binding.dart';
 import '../modules/me/views/me_view.dart';
 import '../modules/my_single_post/bindings/my_single_post_binding.dart';
@@ -54,8 +58,6 @@ import '../modules/post_square/views/post_square_card_view.dart';
 import '../modules/post_square/views/post_square_view.dart';
 import '../modules/profile_viewers/bindings/profile_viewers_binding.dart';
 import '../modules/profile_viewers/views/profile_viewers_view.dart';
-import '../modules/star/bindings/star_binding.dart';
-import '../modules/star/views/star_view.dart';
 import '../modules/report/bindings/report_binding.dart';
 import '../modules/report/views/report_view.dart';
 import '../modules/room/bindings/room_binding.dart';
@@ -66,9 +68,9 @@ import '../modules/rule/bindings/rule_binding.dart';
 import '../modules/rule/views/rule_view.dart';
 import '../modules/setting/bindings/setting_binding.dart';
 import '../modules/setting/views/setting_view.dart';
-import '../modules/home_setting/bindings/home_setting_binding.dart';
-import '../modules/home_setting/views/home_setting_view.dart';
 import '../modules/splash/views/splash_view.dart';
+import '../modules/star/bindings/star_binding.dart';
+import '../modules/star/views/star_view.dart';
 import '../modules/test1/bindings/test1_binding.dart';
 import '../modules/test1/views/test1_view.dart';
 import '../modules/test2/bindings/test2_binding.dart';
@@ -344,6 +346,11 @@ class AppPages {
       name: _Paths.COMPLETE_BIO,
       page: () => CompleteBioView(),
       binding: CompleteBioBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADVANCE,
+      page: () => AdvanceView(),
+      binding: AdvanceBinding(),
     ),
   ];
 }

@@ -45,6 +45,7 @@ abstract class Routes {
   static const COMPLETE_GENDER = _Paths.COMPLETE_GENDER;
   static const COMPLETE_NAME = _Paths.COMPLETE_NAME;
   static const COMPLETE_BIO = _Paths.COMPLETE_BIO;
+  static const ADVANCE = _Paths.ADVANCE;
 }
 
 abstract class _Paths {
@@ -90,4 +91,5 @@ abstract class _Paths {
   static const COMPLETE_BIO = '/complete-bio';
   static const COMPLETE_AGE = '/complete-age';
   static const COMPLETE_AVATAR = '/complete-avatar';
+  static const ADVANCE = '/advance';
 }

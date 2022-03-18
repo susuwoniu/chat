@@ -62,6 +62,18 @@ class PushProvider extends GetxService {
   }
 
   @override
+  void onReady() async {
+    super.onReady();
+    // clear all notifications
+    try {
+      await PushProvider.to.jpush.getRegistrationID();
+      await PushProvider.to.jpush.clearAllNotifications();
+    } catch (e) {
+      print('get device token error: $e');
+    }
+  }
+
+  @override
   void onClose() {
     super.onClose();
   }

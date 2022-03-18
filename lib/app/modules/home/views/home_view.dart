@@ -114,7 +114,7 @@ class HomeView extends GetView<HomeController> {
           return TikTokStyleFullPageScroller(
             contentSize: postIndexes.length + 1,
             cardIndex: currentPageState.currentIndex,
-            swipePositionThreshold: 0.2,
+            swipePositionThreshold: 0.15,
             swipeVelocityThreshold: 2000,
             animationDuration: const Duration(milliseconds: 300),
             onScrollEvent: _handleCallbackEvent,

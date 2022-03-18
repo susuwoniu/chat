@@ -66,6 +66,7 @@ class MeController extends GetxController {
       await getMePosts(after: lastPostId);
     } catch (e) {
       UIUtils.showError(e);
+      pagingController.value = PagingState(error: e);
     }
   }
 
