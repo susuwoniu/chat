@@ -118,6 +118,12 @@ class RoomController extends GetxController {
 
   @override
   void onReady() async {
+    // clear all notifications
+    try {
+      PushProvider.to.jpush.clearAllNotifications();
+    } catch (e) {
+      print("clear notifications error: $e");
+    }
     await initRoom();
     super.onReady();
   }

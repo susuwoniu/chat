@@ -25,6 +25,8 @@ class ChatProvider extends GetxService {
   xmpp.Jid? get currentAccount => _currentAccount;
   xmpp.RoomManager? _roomManager;
   xmpp.RoomManager? get roomManager => _roomManager;
+  xmpp.PushManager? _pushManager;
+  xmpp.PushManager? get pushManager => _pushManager;
   xmpp.StreamManagementModule? streamManager;
   late StreamSubscription<AuthStatus> _authStatusSubscription;
   StreamSubscription<xmpp.Event<xmpp.ConnectionState, String>>?
@@ -109,6 +111,7 @@ class ChatProvider extends GetxService {
     _connection = null;
     _currentAccount = null;
     _roomManager = null;
+    _pushManager = null;
   }
 
   @override
@@ -136,6 +139,8 @@ class ChatProvider extends GetxService {
       _currentAccount = _connection!.fullJid;
       currentChatAccount(types.User(id: _currentAccount!.userAtDomain));
       _roomManager = xmpp.RoomManager.getInstance(_connection!);
+      _pushManager = xmpp.PushManager.getInstance(_connection!);
+
       if (AppConfig.to.isDev) {
         print("isDev: ${AppConfig.to.isDev}");
         xmpp.Log.logXmpp = true;
@@ -159,9 +164,8 @@ class ChatProvider extends GetxService {
         if (event.id == xmpp.ConnectionState.connected) {
           // get jpush id
           PushProvider.to.jpush.getRegistrationID().then((id) {
-            final _pushManager = xmpp.PushManager.getInstance(_connection!);
             final push_service = GetPlatform.isIOS ? 'apns' : 'fcm';
-            _pushManager.initPush(
+            _pushManager?.initPush(
                 service: push_service,
                 deviceId: id,
                 mode: AppConfig.to.isDev ? 'dev' : 'prod');

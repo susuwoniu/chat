@@ -132,13 +132,20 @@ class HomeController extends GetxController {
       latitude = location.latitude;
       distance = 50000;
     }
+
+    List<Skip> theSkips = [];
+
+    if (ConfigProvider.to.skipViewedPost.value) {
+      theSkips = pageState[currentPage]!.skips;
+    }
+
     final result = await getApiPosts(
         longitude: longitude,
         latitude: latitude,
         distance: distance,
         after: after,
         before: before,
-        skips: pageState[currentPage]!.skips,
+        skips: theSkips,
         url: "/post/posts",
         startAge: startAge,
         endAge: endAge,
@@ -306,7 +313,8 @@ class HomeController extends GetxController {
         // maybe loading newest posts
 
         // put current array to _skips array
-        if (pageState[currentPage]!.homePostsFirstCursor != null &&
+        if (ConfigProvider.to.skipViewedPost.value &&
+            pageState[currentPage]!.homePostsFirstCursor != null &&
             pageState[currentPage]!.homePostsLastCursor != null) {
           pageState[currentPage]!.skips.insert(
               0,

@@ -85,6 +85,11 @@ class SettingView extends GetView<SettingController> {
                           onPressed: (BuildContext context) {
                             PushProvider.to.jpush.openSettingsForNotification();
                           }),
+                      SettingsTile(
+                          title: Text('experimental_feature'.tr),
+                          onPressed: (BuildContext context) {
+                            Get.toNamed(Routes.ADVANCE);
+                          }),
                     ]),
                 SectionWidget(),
                 SettingsSection(

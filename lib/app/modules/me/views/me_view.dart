@@ -7,13 +7,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/me_controller.dart';
-import '../../home/views/vip_sheet.dart';
 import 'small_post.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../home/controllers/home_controller.dart';
 import 'me_icon.dart';
 import 'open_avatar.dart';
-import 'package:chat/app/providers/account_provider.dart';
 import 'create_post.dart';
 
 class MeView extends GetView<MeController> {

@@ -28,7 +28,7 @@ class ConfigProvider extends GetxService {
     Log.debug("isFirstOpen: $isFirstOpen");
     nightMode.value = KVProvider.to.getBool(NIGHT_MODE_KEY);
     skipViewedPost.value =
-        KVProvider.to.getBool(SKIP_VIEWED_POST_KEY, defaultValue: true);
+        KVProvider.to.getBool(SKIP_VIEWED_POST_KEY, defaultValue: false);
     _listAtNearby.value = KVProvider.to.getBool(LIST_AT_NEAR_BY_KEY);
 
     super.onInit();

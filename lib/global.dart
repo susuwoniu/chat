@@ -74,6 +74,7 @@ class Global {
 
   runOnetimeTask() async {
     print("run onetime task ...");
+
     // update me
     if (AuthProvider.to.isLogin) {
       try {

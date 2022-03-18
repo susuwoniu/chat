@@ -223,5 +223,11 @@ const Map<String, String> zh_Hans = {
   'mobile_email_contact': '手机/邮箱',
   'Optional': '可选',
   'Thank_you_for_feedback': '感谢反馈～',
-  "push_notification_settings": "推送设置"
+  "push_notification_settings": "推送设置",
+  "experimental_feature": "实验性功能",
+  "Skip Viewed Posts?": "是否跳过已看过的帖子？",
+  "Disable Chat Notification": "禁用聊天通知",
+  "Enable Chat Notification": "启用聊天通知",
+  "Copy Account ID": "复制账户ID",
+  "Clear all Notifications": "清除所有通知栏信息"
 };
