@@ -25,6 +25,7 @@ A new Flutter project.
 - Icons <https://fonts.google.com/icons?selected=Material+Icons>
 - [极光推送](https://pub.dev/packages/jpush_flutter)
   - [Mongooes IM push](https://esl.github.io/MongooseDocs/latest/tutorials/push-notifications/Push-notifications-client-side/#enabling-push-notifications)
+  - <https://pub.dev/packages/flutter_local_notifications>
 ## Tips
 
 ### build debug android

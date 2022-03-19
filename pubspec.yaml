@@ -109,8 +109,8 @@ flutter:
     - assets/
 
 flutter_icons:
-  image_path: "assets/f.png"
-  android: "launcher_icon"
+  image_path: "assets/icon-1024x1024.png"
   ios: true
+  android: true
   # optionally, as transparency is not allowed on app store
   remove_alpha_ios: true
