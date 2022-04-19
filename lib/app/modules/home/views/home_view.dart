@@ -20,10 +20,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final imDomain = AppConfig().config.imDomain;
-    final isCreate = AuthProvider.to.account.value.next_post_not_before == null
-        ? true
-        : DateTime.now().isAfter(
-            DateTime.parse(AuthProvider.to.account.value.next_post_not_before));
+
     final appBar = AppBar(
         backgroundColor: Colors.transparent,
         leading: Padding(
@@ -249,6 +246,14 @@ class HomeView extends GetView<HomeController> {
                                             ActionButtons(
                                                 color: Color(post.color),
                                                 onAdd: () {
+                                                  final isCreate = DateTime
+                                                          .now()
+                                                      .isAfter(DateTime.parse(
+                                                          AuthProvider
+                                                              .to
+                                                              .account
+                                                              .value
+                                                              .next_post_not_before));
                                                   if (isCreate) {
                                                     Get.toNamed(
                                                       Routes.POST,

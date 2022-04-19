@@ -166,7 +166,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               values: ['all', 'female', 'male'],
                               iconOpacity: 0.7,
                               indicatorSize: Size.fromWidth(100),
-                              indicatorType: IndicatorType.roundedRectangle,
+                              // indicatorType: IndicatorType.roundedRectangle,
                               iconAnimationType: AnimationType.onHover,
                               indicatorAnimationType: AnimationType.onHover,
                               animationDuration:

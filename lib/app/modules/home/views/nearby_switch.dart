@@ -38,7 +38,7 @@ class _NearbySwitchState extends State<NearbySwitch> {
       values: ["home", 'nearby'],
       iconOpacity: 0.5,
       indicatorSize: Size.fromWidth(_width * 0.23),
-      indicatorType: IndicatorType.roundedRectangle,
+      // indicatorType: IndicatorType.roundedRectangle,
       iconAnimationType: AnimationType.onHover,
       indicatorAnimationType: AnimationType.onHover,
       animationDuration: const Duration(milliseconds: 300),

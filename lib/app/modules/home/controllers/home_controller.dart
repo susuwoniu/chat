@@ -130,7 +130,7 @@ class HomeController extends GetxController {
       final location = await getLocation();
       longitude = location.longitude;
       latitude = location.latitude;
-      distance = 50000;
+      distance = 30000;
     }
 
     List<Skip> theSkips = [];
@@ -352,13 +352,20 @@ class HomeController extends GetxController {
   void refreshHomePosts() {
     if (isLoadingHomePosts.value == false) {
       isLoadingHomePosts.value = true;
+      pageState[currentPage]!.isHomeInitial = false;
+      pageState[currentPage]!.homeInitError = '';
+      pageState[currentPage] = pageState[currentPage]!;
+      setIndex(index: 0);
+
       getHomePosts(replace: true).then((data) {
+        pageState[currentPage]!.isHomeInitial = true;
         isLoadingHomePosts.value = false;
-        if (data.isNotEmpty) {
-          setIndex(index: 0);
-        }
       }).catchError((e) {
+        pageState[currentPage]!.isHomeInitial = true;
         isLoadingHomePosts.value = false;
+        pageState[currentPage]!.homeInitError = e.toString();
+        pageState[currentPage] = pageState[currentPage]!;
+
         UIUtils.showError(e);
       });
     }
