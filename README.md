@@ -26,6 +26,7 @@ A new Flutter project.
 - [极光推送](https://pub.dev/packages/jpush_flutter)
   - [Mongooes IM push](https://esl.github.io/MongooseDocs/latest/tutorials/push-notifications/Push-notifications-client-side/#enabling-push-notifications)
   - <https://pub.dev/packages/flutter_local_notifications>
+- [APP Icon](https://appicon.co/)
 ## Tips
 
 ### build debug android
@@ -33,6 +34,14 @@ A new Flutter project.
 ```bash
 flutter build apk --debug
 adb push build/app/outputs/flutter-apk/app-debug.apk /sdcard/Download
+```
+
+### 生成logo
+
+See <https://pub.dev/packages/flutter_launcher_icons>
+
+```bash
+flutter pub run flutter_launcher_icons:main
 ```
 
 ### 获取权限 

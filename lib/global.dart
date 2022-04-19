@@ -1,4 +1,3 @@
-import 'package:chat/app/providers/push_provider.dart';
 import 'package:chat/app/ui_utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -50,12 +49,12 @@ class Global {
   }
 
   static Future<void> initGetx() async {
-    await Get.put<RouterProvider>(RouterProvider());
-    await Get.put<PushProvider>(PushProvider());
-    await Get.put<AccountProvider>(AccountProvider());
-    await Get.put<ConfigProvider>(ConfigProvider());
-    await Get.put<AuthProvider>(AuthProvider());
-    await Get.put<ChatProvider>(ChatProvider());
+    Get.put<RouterProvider>(RouterProvider());
+    Get.put<PushProvider>(PushProvider());
+    Get.put<AccountProvider>(AccountProvider());
+    Get.put<ConfigProvider>(ConfigProvider());
+    Get.put<AuthProvider>(AuthProvider());
+    Get.put<ChatProvider>(ChatProvider());
   }
 
   static void setSystemUi() {

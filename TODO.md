@@ -175,6 +175,8 @@
 
 ## 上线前Check
 
+- local notifications <https://pub.dev/packages/flutter_local_notifications#release-build-configuration>
+
 ## 二期功能
 
 - [ ] 生成截图 

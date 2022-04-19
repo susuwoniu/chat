@@ -13,7 +13,6 @@ dependencies:
       url: git@github.com:OpenFlutter/flutter_share_me.git
   animated_toggle_switch: ^0.2.1
   in_app_review: ^2.0.4
-  flutter_launcher_icons: ^0.9.2
   device_info_plus: ^3.2.2
   carousel_slider: ^4.0.0
   image_cropper: ^1.4.1
@@ -61,6 +60,7 @@ dependencies:
   logger: ^1.1.0
   flutter_easyloading: ^3.0.3
   flutter_secure_storage: ^5.0.0-beta.5
+  flutter_local_notifications: ^9.4.0
   flutter_dotenv: ^5.0.2
   cached_network_image: ^3.2.0
   date_format: ^2.0.4
@@ -101,6 +101,7 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^2.0.0
   json_serializable: ^6.0.0
+  flutter_launcher_icons: ^0.9.2
 
 flutter:
   uses-material-design: true
@@ -111,6 +112,6 @@ flutter:
 flutter_icons:
   image_path: "assets/icon-1024x1024.png"
   ios: true
-  android: true
+  android: "app_icon"
   # optionally, as transparency is not allowed on app store
   remove_alpha_ios: true

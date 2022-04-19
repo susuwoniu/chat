@@ -1,4 +1,5 @@
-import 'package:chat/app/providers/push_provider.dart';
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'dart:async';
 import 'package:flutter/material.dart' hide ConnectionState;
@@ -14,6 +15,7 @@ import 'package:file_picker/file_picker.dart';
 import '../../home/controllers/home_controller.dart';
 import 'package:chat/utils/string.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class Room extends xmpp.Room {
   bool isLoading = false;
@@ -603,26 +605,40 @@ class MessageController extends GetxController {
           final roomInfo = AuthProvider.to.simpleAccountMap[room.room_info_id];
           name = roomInfo?.name ?? name;
         }
-        final fireDate = DateTime.now();
+        FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+            FlutterLocalNotificationsPlugin();
+        const AndroidNotificationDetails androidPlatformChannelSpecifics =
+            AndroidNotificationDetails(
+          'local_message_channel',
+          'Message',
+          channelDescription: 'Message',
+          importance: Importance.max,
+          priority: Priority.high,
+        );
+        const NotificationDetails platformChannelSpecifics =
+            NotificationDetails(android: androidPlatformChannelSpecifics);
+        await flutterLocalNotificationsPlugin.show(
+            message.dbId!, name, room.preview, platformChannelSpecifics,
+            payload: jsonEncode({"url": "$APP_LINK/room?id=${room.id}"}));
 
-        final localNotification = LocalNotification(
-            id: message.dbId,
-            title: name,
-            content: room.preview,
-            buildId: 1,
-            fireTime: fireDate,
-            badge: 1, // 该参数只有在 iOS 有效
-            extra: {
-              "url": "$APP_LINK/room?id=${room.id}"
-            } // 设置 extras ，extras 需要是 Map<String, String>
-            );
+        // final localNotification = LocalNotification(
+        //     id: message.dbId,
+        //     title: name,
+        //     content: room.preview,
+        //     buildId: 1,
+        //     fireTime: fireDate,
+        //     badge: 1, // 该参数只有在 iOS 有效
+        //     extra: {
+        //       "url": "$APP_LINK/room?id=${room.id}"
+        //     } // 设置 extras ，extras 需要是 Map<String, String>
+        //     );
 
-        PushProvider.to.jpush
-            .sendLocalNotification(localNotification)
-            .then((_) {})
-            .catchError((e) {
-          print("send local notification error: $e");
-        });
+        // PushProvider.to.jpush
+        //     .sendLocalNotification(localNotification)
+        //     .then((_) {})
+        //     .catchError((e) {
+        //   print("send local notification error: $e");
+        // });
       }
     }
     // 服务端未读数量，如果是对方发送的信息，每次都应该+1

@@ -15,7 +15,7 @@ class LogonWidget extends AbstractSettingsSection {
     return Column(children: [
       SizedBox(height: 10),
       Image(
-        image: AssetImage('assets/f.png'),
+        image: AssetImage('assets/app_icon.png'),
         width: 50,
       ),
       SizedBox(height: 14),
