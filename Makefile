@@ -1,4 +1,4 @@
-.Phony: start deps json get
+.Phony: start deps json get android
 local:
 	flutter run --dart-define=env=local
 start:
@@ -14,3 +14,6 @@ json:
 
 get:
 	flutter pub get
+
+android:
+	flutter build apk --prod
